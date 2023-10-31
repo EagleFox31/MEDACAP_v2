@@ -229,7 +229,7 @@ if ( isset( $error ) ) {
             <select name='type' onchange='selectif()' aria-label='Select a Country' data-control='select2'
                 data-placeholder='Sélectionnez votre sexe...' class='form-select form-select-solid fw-bold'>
                 <option>Sélectionnez le type de
-                    questionnaire...</option>
+                    question...</option>
                 <option value='Declaratif'>
                     Declaratif
                 </option>
