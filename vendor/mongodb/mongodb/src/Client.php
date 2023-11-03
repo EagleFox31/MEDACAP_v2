@@ -1,73 +1,28 @@
 <?php
-/*
- * Copyright 2015-2017 MongoDB, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 namespace MongoDB;
 
-use MongoDB\Driver\ClientEncryption;
-use MongoDB\Driver\Exception\InvalidArgumentException as DriverInvalidArgumentException;
-use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Driver\Command;
+use MongoDB\Driver\Cursor;
 use MongoDB\Driver\Manager;
-use MongoDB\Driver\ReadConcern;
 use MongoDB\Driver\ReadPreference;
-use MongoDB\Driver\Session;
 use MongoDB\Driver\WriteConcern;
 use MongoDB\Exception\InvalidArgumentException;
-use MongoDB\Exception\UnexpectedValueException;
-use MongoDB\Exception\UnsupportedException;
-use MongoDB\Model\BSONArray;
-use MongoDB\Model\BSONDocument;
 use MongoDB\Model\DatabaseInfoIterator;
 use MongoDB\Operation\DropDatabase;
 use MongoDB\Operation\ListDatabases;
-use MongoDB\Operation\Watch;
-use function is_array;
 
 class Client
 {
-    /** @var array */
     private static $defaultTypeMap = [
-        'array' => BSONArray::class,
-        'document' => BSONDocument::class,
-        'root' => BSONDocument::class,
+        'array' => 'MongoDB\Model\BSONArray',
+        'document' => 'MongoDB\Model\BSONDocument',
+        'root' => 'MongoDB\Model\BSONDocument',
     ];
 
-    /** @var integer */
-    private static $wireVersionForReadConcern = 4;
-
-    /** @var integer */
-    private static $wireVersionForWritableCommandWriteConcern = 5;
-
-    /** @var Manager */
     private $manager;
-
-    /** @var ReadConcern */
-    private $readConcern;
-
-    /** @var ReadPreference */
-    private $readPreference;
-
-    /** @var string */
     private $uri;
-
-    /** @var array */
     private $typeMap;
-
-    /** @var WriteConcern */
-    private $writeConcern;
 
     /**
      * Constructs a new Client instance.
@@ -88,42 +43,26 @@ class Client
      * @param string $uri           MongoDB connection string
      * @param array  $uriOptions    Additional connection string options
      * @param array  $driverOptions Driver-specific options
-     * @throws InvalidArgumentException for parameter/option parsing errors
-     * @throws DriverInvalidArgumentException for parameter/option parsing errors in the driver
-     * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
+     * @throws InvalidArgumentException
      */
-    public function __construct($uri = 'mongodb://127.0.0.1/', array $uriOptions = [], array $driverOptions = [])
+    public function __construct($uri = 'mongodb://localhost:27017', array $uriOptions = [], array $driverOptions = [])
     {
         $driverOptions += ['typeMap' => self::$defaultTypeMap];
 
-        if (! is_array($driverOptions['typeMap'])) {
+        if (isset($driverOptions['typeMap']) && ! is_array($driverOptions['typeMap'])) {
             throw InvalidArgumentException::invalidType('"typeMap" driver option', $driverOptions['typeMap'], 'array');
         }
 
-        if (isset($driverOptions['autoEncryption']['keyVaultClient'])) {
-            if ($driverOptions['autoEncryption']['keyVaultClient'] instanceof self) {
-                $driverOptions['autoEncryption']['keyVaultClient'] = $driverOptions['autoEncryption']['keyVaultClient']->manager;
-            } elseif (! $driverOptions['autoEncryption']['keyVaultClient'] instanceof Manager) {
-                throw InvalidArgumentException::invalidType('"keyVaultClient" autoEncryption option', $driverOptions['autoEncryption']['keyVaultClient'], [self::class, Manager::class]);
-            }
-        }
-
+        $this->manager = new Manager($uri, $uriOptions, $driverOptions);
         $this->uri = (string) $uri;
         $this->typeMap = isset($driverOptions['typeMap']) ? $driverOptions['typeMap'] : null;
-
-        unset($driverOptions['typeMap']);
-
-        $this->manager = new Manager($uri, $uriOptions, $driverOptions);
-        $this->readConcern = $this->manager->getReadConcern();
-        $this->readPreference = $this->manager->getReadPreference();
-        $this->writeConcern = $this->manager->getWriteConcern();
     }
 
     /**
      * Return internal properties for debugging purposes.
      *
      * @see http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.debuginfo
-     * @return array
+     * @param array
      */
     public function __debugInfo()
     {
@@ -131,14 +70,13 @@ class Client
             'manager' => $this->manager,
             'uri' => $this->uri,
             'typeMap' => $this->typeMap,
-            'writeConcern' => $this->writeConcern,
         ];
     }
 
     /**
      * Select a database.
      *
-     * Note: databases whose names contain special characters (e.g. "-") may
+     * Note: collections whose names contain special characters (e.g. "-") may
      * be selected with complex syntax (e.g. $client->{"that-database"}) or
      * {@link selectDatabase()}.
      *
@@ -155,31 +93,11 @@ class Client
     /**
      * Return the connection string (i.e. URI).
      *
-     * @return string
+     * @param string
      */
     public function __toString()
     {
         return $this->uri;
-    }
-
-    /**
-     * Returns a ClientEncryption instance for explicit encryption and decryption
-     *
-     * @param array $options Encryption options
-     *
-     * @return ClientEncryption
-     */
-    public function createClientEncryption(array $options)
-    {
-        if (isset($options['keyVaultClient'])) {
-            if ($options['keyVaultClient'] instanceof self) {
-                $options['keyVaultClient'] = $options['keyVaultClient']->manager;
-            } elseif (! $options['keyVaultClient'] instanceof Manager) {
-                throw InvalidArgumentException::invalidType('"keyVaultClient" option', $options['keyVaultClient'], [self::class, Manager::class]);
-            }
-        }
-
-        return $this->manager->createClientEncryption($options);
     }
 
     /**
@@ -189,93 +107,29 @@ class Client
      * @param string $databaseName Database name
      * @param array  $options      Additional options
      * @return array|object Command result document
-     * @throws UnsupportedException if options are unsupported on the selected server
-     * @throws InvalidArgumentException for parameter/option parsing errors
-     * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
      */
     public function dropDatabase($databaseName, array $options = [])
     {
-        if (! isset($options['typeMap'])) {
+        if ( ! isset($options['typeMap'])) {
             $options['typeMap'] = $this->typeMap;
         }
 
-        $server = select_server($this->manager, $options);
-
-        if (! isset($options['writeConcern']) && server_supports_feature($server, self::$wireVersionForWritableCommandWriteConcern) && ! is_in_transaction($options)) {
-            $options['writeConcern'] = $this->writeConcern;
-        }
-
         $operation = new DropDatabase($databaseName, $options);
+        $server = $this->manager->selectServer(new ReadPreference(ReadPreference::RP_PRIMARY));
 
         return $operation->execute($server);
-    }
-
-    /**
-     * Return the Manager.
-     *
-     * @return Manager
-     */
-    public function getManager()
-    {
-        return $this->manager;
-    }
-
-    /**
-     * Return the read concern for this client.
-     *
-     * @see http://php.net/manual/en/mongodb-driver-readconcern.isdefault.php
-     * @return ReadConcern
-     */
-    public function getReadConcern()
-    {
-        return $this->readConcern;
-    }
-
-    /**
-     * Return the read preference for this client.
-     *
-     * @return ReadPreference
-     */
-    public function getReadPreference()
-    {
-        return $this->readPreference;
-    }
-
-    /**
-     * Return the type map for this client.
-     *
-     * @return array
-     */
-    public function getTypeMap()
-    {
-        return $this->typeMap;
-    }
-
-    /**
-     * Return the write concern for this client.
-     *
-     * @see http://php.net/manual/en/mongodb-driver-writeconcern.isdefault.php
-     * @return WriteConcern
-     */
-    public function getWriteConcern()
-    {
-        return $this->writeConcern;
     }
 
     /**
      * List databases.
      *
      * @see ListDatabases::__construct() for supported options
-     * @param array $options
      * @return DatabaseInfoIterator
-     * @throws UnexpectedValueException if the command response was malformed
-     * @throws InvalidArgumentException for parameter/option parsing errors
-     * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
      */
     public function listDatabases(array $options = [])
     {
         $operation = new ListDatabases($options);
-        $server = select_server($this->manager, $options);
+        $server = $this->manager->selectServer(new ReadPreference(ReadPreference::RP_PRIMARY));
 
         return $operation->execute($server);
     }
@@ -288,7 +142,6 @@ class Client
      * @param string $collectionName Name of the collection to select
      * @param array  $options        Collection constructor options
      * @return Collection
-     * @throws InvalidArgumentException for parameter/option parsing errors
      */
     public function selectCollection($databaseName, $collectionName, array $options = [])
     {
@@ -304,54 +157,11 @@ class Client
      * @param string $databaseName Name of the database to select
      * @param array  $options      Database constructor options
      * @return Database
-     * @throws InvalidArgumentException for parameter/option parsing errors
      */
     public function selectDatabase($databaseName, array $options = [])
     {
         $options += ['typeMap' => $this->typeMap];
 
         return new Database($this->manager, $databaseName, $options);
-    }
-
-    /**
-     * Start a new client session.
-     *
-     * @see http://php.net/manual/en/mongodb-driver-manager.startsession.php
-     * @param array $options Session options
-     * @return Session
-     */
-    public function startSession(array $options = [])
-    {
-        return $this->manager->startSession($options);
-    }
-
-    /**
-     * Create a change stream for watching changes to the cluster.
-     *
-     * @see Watch::__construct() for supported options
-     * @param array $pipeline List of pipeline operations
-     * @param array $options  Command options
-     * @return ChangeStream
-     * @throws InvalidArgumentException for parameter/option parsing errors
-     */
-    public function watch(array $pipeline = [], array $options = [])
-    {
-        if (! isset($options['readPreference']) && ! is_in_transaction($options)) {
-            $options['readPreference'] = $this->readPreference;
-        }
-
-        $server = select_server($this->manager, $options);
-
-        if (! isset($options['readConcern']) && server_supports_feature($server, self::$wireVersionForReadConcern) && ! is_in_transaction($options)) {
-            $options['readConcern'] = $this->readConcern;
-        }
-
-        if (! isset($options['typeMap'])) {
-            $options['typeMap'] = $this->typeMap;
-        }
-
-        $operation = new Watch($this->manager, null, null, $pipeline, $options);
-
-        return $operation->execute($server);
     }
 }

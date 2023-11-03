@@ -2,17 +2,16 @@
 
 namespace MongoDB\Tests\Operation;
 
-use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Operation\DropCollection;
 
 class DropCollectionTest extends TestCase
 {
     /**
+     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorOptions
      */
     public function testConstructorOptionTypeChecks(array $options)
     {
-        $this->expectException(InvalidArgumentException::class);
         new DropCollection($this->getDatabaseName(), $this->getCollectionName(), $options);
     }
 
@@ -20,16 +19,8 @@ class DropCollectionTest extends TestCase
     {
         $options = [];
 
-        foreach ($this->getInvalidSessionValues() as $value) {
-            $options[][] = ['session' => $value];
-        }
-
         foreach ($this->getInvalidArrayValues() as $value) {
             $options[][] = ['typeMap' => $value];
-        }
-
-        foreach ($this->getInvalidWriteConcernValues() as $value) {
-            $options[][] = ['writeConcern' => $value];
         }
 
         return $options;

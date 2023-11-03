@@ -96,9 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="subject" name="email" val va value=""
+                                    <input type="text" class="form-control" id="subject" name="username"
                                         placeholder="Subject" value="<?= htmlspecialchars($POST[" username"] ?? "" )?>">
-                                    <label for="subject">Identifiant</label>
+                                    <label for="subject">Username</label>
                                 </div>
                             </div>
                             <div class="col-12">

@@ -1,8 +1,7 @@
 <?php
 
-namespace MongoDB\Tests\Model;
+namespace MongoDB\Tests;
 
-use MongoDB\Exception\BadMethodCallException;
 use MongoDB\Model\CollectionInfo;
 use MongoDB\Tests\TestCase;
 
@@ -50,29 +49,5 @@ class CollectionInfoTest extends TestCase
 
         $info = new CollectionInfo($expectedInfo);
         $this->assertSame($expectedInfo, $info->__debugInfo());
-    }
-
-    public function testImplementsArrayAccess()
-    {
-        $info = new CollectionInfo(['name' => 'foo']);
-        $this->assertInstanceOf('ArrayAccess', $info);
-        $this->assertArrayHasKey('name', $info);
-        $this->assertSame('foo', $info['name']);
-    }
-
-    public function testOffsetSetCannotBeCalled()
-    {
-        $info = new CollectionInfo(['name' => 'foo', 'options' => ['capped' => true, 'size' => 1048576]]);
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage(CollectionInfo::class . ' is immutable');
-        $info['options'] = ['capped' => false];
-    }
-
-    public function testOffsetUnsetCannotBeCalled()
-    {
-        $info = new CollectionInfo(['name' => 'foo', 'options' => ['capped' => true, 'size' => 1048576]]);
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage(CollectionInfo::class . ' is immutable');
-        unset($info['options']);
     }
 }

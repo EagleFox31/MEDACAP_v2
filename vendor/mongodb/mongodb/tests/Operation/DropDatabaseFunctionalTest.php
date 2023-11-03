@@ -6,29 +6,9 @@ use MongoDB\Driver\Server;
 use MongoDB\Operation\DropDatabase;
 use MongoDB\Operation\InsertOne;
 use MongoDB\Operation\ListDatabases;
-use MongoDB\Tests\CommandObserver;
-use function sprintf;
-use function version_compare;
 
 class DropDatabaseFunctionalTest extends FunctionalTestCase
 {
-    public function testDefaultWriteConcernIsOmitted()
-    {
-        (new CommandObserver())->observe(
-            function () {
-                $operation = new DropDatabase(
-                    $this->getDatabaseName(),
-                    ['writeConcern' => $this->createDefaultWriteConcern()]
-                );
-
-                $operation->execute($this->getPrimaryServer());
-            },
-            function (array $event) {
-                $this->assertObjectNotHasAttribute('writeConcern', $event['started']->getCommand());
-            }
-        );
-    }
-
     public function testDropExistingDatabase()
     {
         $server = $this->getPrimaryServer();
@@ -57,27 +37,6 @@ class DropDatabaseFunctionalTest extends FunctionalTestCase
 
         $operation = new DropDatabase($this->getDatabaseName());
         $operation->execute($server);
-    }
-
-    public function testSessionOption()
-    {
-        if (version_compare($this->getServerVersion(), '3.6.0', '<')) {
-            $this->markTestSkipped('Sessions are not supported');
-        }
-
-        (new CommandObserver())->observe(
-            function () {
-                $operation = new DropDatabase(
-                    $this->getDatabaseName(),
-                    ['session' => $this->createSession()]
-                );
-
-                $operation->execute($this->getPrimaryServer());
-            },
-            function (array $event) {
-                $this->assertObjectHasAttribute('lsid', $event['started']->getCommand());
-            }
-        );
     }
 
     /**

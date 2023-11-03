@@ -44,12 +44,15 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             $error_msg = 'Ce questionnaire existe déjà.';
         } else {
             $quiz = [
+                'users' => [],
+                'questions' => [],
                 'label' => ucfirst( $label ),
                 'description' => ucfirst( $description ),
                 'type' => $type,
                 'speciality' => ucfirst( $speciality ),
                 'level' => ucfirst( $level ),
-                'number' => $number,
+                'number' => +$number,
+                'total' => 0,
                 'active' => true
             ];
         
@@ -99,6 +102,7 @@ include_once 'partials/header.php'
     <?php 
     }
     ?>
+
     <form method="POST"><br>
         <!--begin::Input group-->
         <div class="row fv-row mb-7">

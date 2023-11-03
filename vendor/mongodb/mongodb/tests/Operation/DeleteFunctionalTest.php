@@ -1,31 +1,14 @@
 <?php
 
-namespace MongoDB\Tests\Operation;
+namespace MongoDB\Tests\Collection;
 
-use MongoDB\Collection;
 use MongoDB\DeleteResult;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\WriteConcern;
-use MongoDB\Exception\BadMethodCallException;
 use MongoDB\Operation\Delete;
-use MongoDB\Tests\CommandObserver;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
-use function version_compare;
 
 class DeleteFunctionalTest extends FunctionalTestCase
 {
-    use SetUpTearDownTrait;
-
-    /** @var Collection */
-    private $collection;
-
-    private function doSetUp()
-    {
-        parent::setUp();
-
-        $this->collection = new Collection($this->manager, $this->getDatabaseName(), $this->getCollectionName());
-    }
-
     public function testDeleteOne()
     {
         $this->createFixtures(3);
@@ -35,7 +18,7 @@ class DeleteFunctionalTest extends FunctionalTestCase
         $operation = new Delete($this->getDatabaseName(), $this->getCollectionName(), $filter, 1);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf(DeleteResult::class, $result);
+        $this->assertInstanceOf('MongoDB\DeleteResult', $result);
         $this->assertSame(1, $result->getDeletedCount());
 
         $expected = [
@@ -55,7 +38,7 @@ class DeleteFunctionalTest extends FunctionalTestCase
         $operation = new Delete($this->getDatabaseName(), $this->getCollectionName(), $filter, 0);
         $result = $operation->execute($this->getPrimaryServer());
 
-        $this->assertInstanceOf(DeleteResult::class, $result);
+        $this->assertInstanceOf('MongoDB\DeleteResult', $result);
         $this->assertSame(2, $result->getDeletedCount());
 
         $expected = [
@@ -63,30 +46,6 @@ class DeleteFunctionalTest extends FunctionalTestCase
         ];
 
         $this->assertSameDocuments($expected, $this->collection->find());
-    }
-
-    public function testSessionOption()
-    {
-        if (version_compare($this->getServerVersion(), '3.6.0', '<')) {
-            $this->markTestSkipped('Sessions are not supported');
-        }
-
-        (new CommandObserver())->observe(
-            function () {
-                $operation = new Delete(
-                    $this->getDatabaseName(),
-                    $this->getCollectionName(),
-                    [],
-                    0,
-                    ['session' => $this->createSession()]
-                );
-
-                $operation->execute($this->getPrimaryServer());
-            },
-            function (array $event) {
-                $this->assertObjectHasAttribute('lsid', $event['started']->getCommand());
-            }
-        );
     }
 
     public function testUnacknowledgedWriteConcern()
@@ -104,11 +63,11 @@ class DeleteFunctionalTest extends FunctionalTestCase
 
     /**
      * @depends testUnacknowledgedWriteConcern
+     * @expectedException MongoDB\Exception\BadMethodCallException
+     * @expectedExceptionMessageRegExp /[\w:\\]+ should not be called for an unacknowledged write result/
      */
     public function testUnacknowledgedWriteConcernAccessesDeletedCount(DeleteResult $result)
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessageRegExp('/[\w:\\\\]+ should not be called for an unacknowledged write result/');
         $result->getDeletedCount();
     }
 

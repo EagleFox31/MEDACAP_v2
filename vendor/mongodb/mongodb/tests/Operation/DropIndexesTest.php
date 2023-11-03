@@ -2,23 +2,24 @@
 
 namespace MongoDB\Tests\Operation;
 
-use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Operation\DropIndexes;
 
 class DropIndexesTest extends TestCase
 {
+    /**
+     * @expectedException MongoDB\Exception\InvalidArgumentException
+     */
     public function testDropIndexShouldNotAllowEmptyIndexName()
     {
-        $this->expectException(InvalidArgumentException::class);
         new DropIndexes($this->getDatabaseName(), $this->getCollectionName(), '');
     }
 
     /**
+     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorOptions
      */
     public function testConstructorOptionTypeChecks(array $options)
     {
-        $this->expectException(InvalidArgumentException::class);
         new DropIndexes($this->getDatabaseName(), $this->getCollectionName(), '*', $options);
     }
 
@@ -26,20 +27,8 @@ class DropIndexesTest extends TestCase
     {
         $options = [];
 
-        foreach ($this->getInvalidIntegerValues() as $value) {
-            $options[][] = ['maxTimeMS' => $value];
-        }
-
-        foreach ($this->getInvalidSessionValues() as $value) {
-            $options[][] = ['session' => $value];
-        }
-
         foreach ($this->getInvalidArrayValues() as $value) {
             $options[][] = ['typeMap' => $value];
-        }
-
-        foreach ($this->getInvalidWriteConcernValues() as $value) {
-            $options[][] = ['writeConcern' => $value];
         }
 
         return $options;

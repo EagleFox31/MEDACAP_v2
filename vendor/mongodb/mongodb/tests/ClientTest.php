@@ -3,11 +3,9 @@
 namespace MongoDB\Tests;
 
 use MongoDB\Client;
-use MongoDB\Driver\ClientEncryption;
 use MongoDB\Driver\ReadConcern;
 use MongoDB\Driver\ReadPreference;
 use MongoDB\Driver\WriteConcern;
-use MongoDB\Exception\InvalidArgumentException;
 
 /**
  * Unit tests for the Client class.
@@ -18,54 +16,40 @@ class ClientTest extends TestCase
     {
         $client = new Client();
 
-        $this->assertEquals('mongodb://127.0.0.1/', (string) $client);
+        $this->assertEquals('mongodb://localhost:27017', (string) $client);
     }
 
     /**
-     * @doesNotPerformAssertions
-     */
-    public function testConstructorAutoEncryptionOpts()
-    {
-        $autoEncryptionOpts = [
-            'keyVaultClient' => new Client(static::getUri()),
-            'keyVaultNamespace' => 'default.keys',
-            'kmsProviders' => ['aws' => ['accessKeyId' => 'abc', 'secretAccessKey' => 'def']],
-        ];
-
-        new Client(static::getUri(), [], ['autoEncryption' => $autoEncryptionOpts]);
-    }
-
-    /**
+     * @expectedException MongoDB\Exception\InvalidArgumentException
      * @dataProvider provideInvalidConstructorDriverOptions
      */
     public function testConstructorDriverOptionTypeChecks(array $driverOptions)
     {
-        $this->expectException(InvalidArgumentException::class);
-        new Client(static::getUri(), [], $driverOptions);
+        new Client($this->getUri(), [], $driverOptions);
     }
 
     public function provideInvalidConstructorDriverOptions()
     {
         $options = [];
 
-        foreach ($this->getInvalidArrayValues(true) as $value) {
+        foreach ($this->getInvalidArrayValues() as $value) {
             $options[][] = ['typeMap' => $value];
         }
-
-        $options[][] = ['autoEncryption' => ['keyVaultClient' => 'foo']];
 
         return $options;
     }
 
     public function testToString()
     {
-        $client = new Client(static::getUri());
+        $client = new Client($this->getUri());
 
-        $this->assertSame(static::getUri(), (string) $client);
+        $this->assertSame($this->getUri(), (string) $client);
     }
 
     public function testSelectCollectionInheritsOptions()
     {
+        $this->markTestSkipped('Depends on https://jira.mongodb.org/browse/PHPC-523');
+
         $uriOptions = [
             'readConcernLevel' => ReadConcern::LOCAL,
             'readPreference' => 'secondaryPreferred',
@@ -76,17 +60,17 @@ class ClientTest extends TestCase
             'typeMap' => ['root' => 'array'],
         ];
 
-        $client = new Client(static::getUri(), $uriOptions, $driverOptions);
+        $client = new Client($this->getUri(), $uriOptions, $driverOptions);
         $collection = $client->selectCollection($this->getDatabaseName(), $this->getCollectionName());
         $debug = $collection->__debugInfo();
 
-        $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadConcern', $debug['readConcern']);
         $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
-        $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadPreference', $debug['readPreference']);
         $this->assertSame(ReadPreference::RP_SECONDARY_PREFERRED, $debug['readPreference']->getMode());
-        $this->assertIsArray($debug['typeMap']);
+        $this->assertInternalType('array', $debug['typeMap']);
         $this->assertSame(['root' => 'array'], $debug['typeMap']);
-        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\WriteConcern', $debug['writeConcern']);
         $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
     }
 
@@ -99,17 +83,17 @@ class ClientTest extends TestCase
             'writeConcern' => new WriteConcern(WriteConcern::MAJORITY),
         ];
 
-        $client = new Client(static::getUri());
+        $client = new Client($this->getUri());
         $collection = $client->selectCollection($this->getDatabaseName(), $this->getCollectionName(), $collectionOptions);
         $debug = $collection->__debugInfo();
 
-        $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadConcern', $debug['readConcern']);
         $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
-        $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadPreference', $debug['readPreference']);
         $this->assertSame(ReadPreference::RP_SECONDARY_PREFERRED, $debug['readPreference']->getMode());
-        $this->assertIsArray($debug['typeMap']);
+        $this->assertInternalType('array', $debug['typeMap']);
         $this->assertSame(['root' => 'array'], $debug['typeMap']);
-        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\WriteConcern', $debug['writeConcern']);
         $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
     }
 
@@ -117,17 +101,19 @@ class ClientTest extends TestCase
     {
         $uriOptions = ['w' => WriteConcern::MAJORITY];
 
-        $client = new Client(static::getUri(), $uriOptions);
+        $client = new Client($this->getUri(), $uriOptions);
         $database = $client->{$this->getDatabaseName()};
         $debug = $database->__debugInfo();
 
         $this->assertSame($this->getDatabaseName(), $debug['databaseName']);
-        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\WriteConcern', $debug['writeConcern']);
         $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
     }
 
     public function testSelectDatabaseInheritsOptions()
     {
+        $this->markTestSkipped('Depends on https://jira.mongodb.org/browse/PHPC-523');
+
         $uriOptions = [
             'readConcernLevel' => ReadConcern::LOCAL,
             'readPreference' => 'secondaryPreferred',
@@ -138,17 +124,17 @@ class ClientTest extends TestCase
             'typeMap' => ['root' => 'array'],
         ];
 
-        $client = new Client(static::getUri(), $uriOptions, $driverOptions);
+        $client = new Client($this->getUri(), $uriOptions, $driverOptions);
         $database = $client->selectDatabase($this->getDatabaseName());
         $debug = $database->__debugInfo();
 
-        $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadConcern', $debug['readConcern']);
         $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
-        $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadPreference', $debug['readPreference']);
         $this->assertSame(ReadPreference::RP_SECONDARY_PREFERRED, $debug['readPreference']->getMode());
-        $this->assertIsArray($debug['typeMap']);
+        $this->assertInternalType('array', $debug['typeMap']);
         $this->assertSame(['root' => 'array'], $debug['typeMap']);
-        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\WriteConcern', $debug['writeConcern']);
         $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
     }
 
@@ -161,68 +147,17 @@ class ClientTest extends TestCase
             'writeConcern' => new WriteConcern(WriteConcern::MAJORITY),
         ];
 
-        $client = new Client(static::getUri());
+        $client = new Client($this->getUri());
         $database = $client->selectDatabase($this->getDatabaseName(), $databaseOptions);
         $debug = $database->__debugInfo();
 
-        $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadConcern', $debug['readConcern']);
         $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
-        $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);
+        $this->assertInstanceOf('MongoDB\Driver\ReadPreference', $debug['readPreference']);
         $this->assertSame(ReadPreference::RP_SECONDARY_PREFERRED, $debug['readPreference']->getMode());
-        $this->assertIsArray($debug['typeMap']);
+        $this->assertInternalType('array', $debug['typeMap']);
         $this->assertSame(['root' => 'array'], $debug['typeMap']);
-        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
+        $this->assertInstanceOf('MongoDB\Driver\WriteConcern', $debug['writeConcern']);
         $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
-    }
-
-    public function testCreateClientEncryption()
-    {
-        $client = new Client(static::getUri());
-
-        $options = [
-            'keyVaultNamespace' => 'default.keys',
-            'kmsProviders' => ['aws' => ['accessKeyId' => 'abc', 'secretAccessKey' => 'def']],
-        ];
-
-        $clientEncryption = $client->createClientEncryption($options);
-        $this->assertInstanceOf(ClientEncryption::class, $clientEncryption);
-    }
-
-    public function testCreateClientEncryptionWithKeyVaultClient()
-    {
-        $client = new Client(static::getUri());
-
-        $options = [
-            'keyVaultClient' => $client,
-            'keyVaultNamespace' => 'default.keys',
-            'kmsProviders' => ['aws' => ['accessKeyId' => 'abc', 'secretAccessKey' => 'def']],
-        ];
-
-        $clientEncryption = $client->createClientEncryption($options);
-        $this->assertInstanceOf(ClientEncryption::class, $clientEncryption);
-    }
-
-    public function testCreateClientEncryptionWithManager()
-    {
-        $client = new Client(static::getUri());
-
-        $options = [
-            'keyVaultClient' => $client->getManager(),
-            'keyVaultNamespace' => 'default.keys',
-            'kmsProviders' => ['aws' => ['accessKeyId' => 'abc', 'secretAccessKey' => 'def']],
-        ];
-
-        $clientEncryption = $client->createClientEncryption($options);
-        $this->assertInstanceOf(ClientEncryption::class, $clientEncryption);
-    }
-
-    public function testCreateClientEncryptionWithInvalidKeyVaultClient()
-    {
-        $client = new Client(static::getUri());
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected "keyVaultClient" option to have type "MongoDB\Client" or "MongoDB\Driver\Manager" but found "string"');
-
-        $client->createClientEncryption(['keyVaultClient' => 'foo']);
     }
 }

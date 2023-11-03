@@ -1,33 +1,12 @@
 <?php
-/*
- * Copyright 2015-2017 MongoDB, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 namespace MongoDB\Operation;
 
 use MongoDB\DeleteResult;
 use MongoDB\Driver\BulkWrite as Bulk;
-use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
 use MongoDB\Driver\Server;
-use MongoDB\Driver\Session;
 use MongoDB\Driver\WriteConcern;
 use MongoDB\Exception\InvalidArgumentException;
-use MongoDB\Exception\UnsupportedException;
-use function is_array;
-use function is_object;
-use function MongoDB\server_supports_feature;
 
 /**
  * Operation for the delete command.
@@ -38,39 +17,18 @@ use function MongoDB\server_supports_feature;
  * @internal
  * @see http://docs.mongodb.org/manual/reference/command/delete/
  */
-class Delete implements Executable, Explainable
+class Delete implements Executable
 {
-    /** @var integer */
-    private static $wireVersionForCollation = 5;
-
-    /** @var string */
     private $databaseName;
-
-    /** @var string */
     private $collectionName;
-
-    /** @var array|object */
     private $filter;
-
-    /** @var integer */
     private $limit;
-
-    /** @var array */
     private $options;
 
     /**
      * Constructs a delete command.
      *
      * Supported options:
-     *
-     *  * collation (document): Collation specification.
-     *
-     *    This is not supported for server versions < 3.4 and will result in an
-     *    exception at execution time if used.
-     *
-     *  * session (MongoDB\Driver\Session): Client session.
-     *
-     *    Sessions are not supported for server versions < 3.6.
      *
      *  * writeConcern (MongoDB\Driver\WriteConcern): Write concern.
      *
@@ -81,11 +39,11 @@ class Delete implements Executable, Explainable
      *                                     delete. Must be 0 or 1, for all or a
      *                                     single document, respectively.
      * @param array        $options        Command options
-     * @throws InvalidArgumentException for parameter/option parsing errors
+     * @throws InvalidArgumentException
      */
     public function __construct($databaseName, $collectionName, $filter, $limit, array $options = [])
     {
-        if (! is_array($filter) && ! is_object($filter)) {
+        if ( ! is_array($filter) && ! is_object($filter)) {
             throw InvalidArgumentException::invalidType('$filter', $filter, 'array or object');
         }
 
@@ -93,20 +51,8 @@ class Delete implements Executable, Explainable
             throw new InvalidArgumentException('$limit must be 0 or 1');
         }
 
-        if (isset($options['collation']) && ! is_array($options['collation']) && ! is_object($options['collation'])) {
-            throw InvalidArgumentException::invalidType('"collation" option', $options['collation'], 'array or object');
-        }
-
-        if (isset($options['session']) && ! $options['session'] instanceof Session) {
-            throw InvalidArgumentException::invalidType('"session" option', $options['session'], Session::class);
-        }
-
         if (isset($options['writeConcern']) && ! $options['writeConcern'] instanceof WriteConcern) {
-            throw InvalidArgumentException::invalidType('"writeConcern" option', $options['writeConcern'], WriteConcern::class);
-        }
-
-        if (isset($options['writeConcern']) && $options['writeConcern']->isDefault()) {
-            unset($options['writeConcern']);
+            throw InvalidArgumentException::invalidType('"writeConcern" option', $options['writeConcern'], 'MongoDB\Driver\WriteConcern');
         }
 
         $this->databaseName = (string) $databaseName;
@@ -122,75 +68,15 @@ class Delete implements Executable, Explainable
      * @see Executable::execute()
      * @param Server $server
      * @return DeleteResult
-     * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
      */
     public function execute(Server $server)
     {
-        if (isset($this->options['collation']) && ! server_supports_feature($server, self::$wireVersionForCollation)) {
-            throw UnsupportedException::collationNotSupported();
-        }
-
-        $inTransaction = isset($this->options['session']) && $this->options['session']->isInTransaction();
-        if ($inTransaction && isset($this->options['writeConcern'])) {
-            throw UnsupportedException::writeConcernNotSupportedInTransaction();
-        }
-
         $bulk = new Bulk();
-        $bulk->delete($this->filter, $this->createDeleteOptions());
+        $bulk->delete($this->filter, ['limit' => $this->limit]);
 
-        $writeResult = $server->executeBulkWrite($this->databaseName . '.' . $this->collectionName, $bulk, $this->createExecuteOptions());
+        $writeConcern = isset($this->options['writeConcern']) ? $this->options['writeConcern'] : null;
+        $writeResult = $server->executeBulkWrite($this->databaseName . '.' . $this->collectionName, $bulk, $writeConcern);
 
         return new DeleteResult($writeResult);
-    }
-
-    public function getCommandDocument(Server $server)
-    {
-        $cmd = ['delete' => $this->collectionName, 'deletes' => [['q' => $this->filter] + $this->createDeleteOptions()]];
-
-        if (isset($this->options['writeConcern'])) {
-            $cmd['writeConcern'] = $this->options['writeConcern'];
-        }
-
-        return $cmd;
-    }
-
-    /**
-     * Create options for the delete command.
-     *
-     * Note that these options are different from the bulk write options, which
-     * are created in createExecuteOptions().
-     *
-     * @return array
-     */
-    private function createDeleteOptions()
-    {
-        $deleteOptions = ['limit' => $this->limit];
-
-        if (isset($this->options['collation'])) {
-            $deleteOptions['collation'] = (object) $this->options['collation'];
-        }
-
-        return $deleteOptions;
-    }
-
-    /**
-     * Create options for executing the bulk write.
-     *
-     * @see http://php.net/manual/en/mongodb-driver-server.executebulkwrite.php
-     * @return array
-     */
-    private function createExecuteOptions()
-    {
-        $options = [];
-
-        if (isset($this->options['session'])) {
-            $options['session'] = $this->options['session'];
-        }
-
-        if (isset($this->options['writeConcern'])) {
-            $options['writeConcern'] = $this->options['writeConcern'];
-        }
-
-        return $options;
     }
 }

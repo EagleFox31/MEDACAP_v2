@@ -1,16 +1,16 @@
 <?php
 
+require_once '../vendor/autoload.php';
+
+// Create connection
+$conn = new MongoDB\Client('mongodb://localhost:27017');
+
+// Connecting in database
+$academy = $conn->academy;
+
+// Connecting in collections
+$users = $academy->users;
 if ( isset( $_POST[ 'submit' ] ) ) {
-    require_once '../vendor/autoload.php';
-    
-    // Create connection
-    $conn = new MongoDB\Client('mongodb://localhost:27017');
-    
-    // Connecting in database
-    $academy = $conn->academy;
-    
-    // Connecting in collections
-    $users = $academy->users;
     
     $firstName = $_POST[ 'firstName' ];
     $lastName = $_POST[ 'lastName' ];
@@ -32,13 +32,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
     $level = $_POST[ 'level' ];
     $manager = $_POST[ 'manager' ];
-    $password = password_hash( $password, PASSWORD_DEFAULT );
+    $password = $_POST[ 'password' ];
     
     
     $member =  $users->findOne(["username" => $username]);
     if($member && $member->active == false){
-        $collection->updateOne(
-            [ '_id' => new ObjectId( $member->_id ) ],
+        $users->updateOne(
+            [ '_id' => new MongoDB\BSON\ObjectId( $member->_id ) ],
             ['$set' => ['active' => true]]
         );
         $success_msg = "Utilisateur ajouté avec succès";
@@ -78,9 +78,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $password_error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
     }
     
+    $password_hash = password_hash( $password, PASSWORD_DEFAULT );
+    
     if ( $profile == 'Technicien' ) {
     
         $person = [
+            'users' => [],
             'username' => $username,
             'matricule' => $matricule,
             'firstName' => ucfirst( $firstName ),
@@ -99,20 +102,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'department' => ucfirst( $department ),
             'subRole' => ucfirst( $subRole ),
             'mainRole' => ucfirst( $mainRole ),
+            'password' => $password_hash,
             'active' => true
         ];
     
         $user = $users->insertOne( $person );
         
         if ($manager) {
-             $users->updateOne(["_id" => new MongoDB\BSON\ObjectId($manager)], ['$push' => ["users" => $users->_id]]);
-             $user["manager"] = $manager;
+             $users->updateOne(["_id" => new MongoDB\BSON\ObjectId($manager)], ['$push' => ["users" => new MongoDB\BSON\ObjectId($user->_id)]]);
+             $user["manager"] = new MongoDB\BSON\ObjectId($manager);
     
              $users->updateOne(["_id" => new MongoDB\BSON\ObjectId($users->_id)], ['$set' => $user]);
     
              $allocation = [
-                 "manager" => $manager,
-                 "user" => $users->_id,
+                 "manager" => new MongoDB\BSON\ObjectId($manager),
+                 "user" => new MongoDB\BSON\ObjectId($user->_id),
                  "type" => "Technicien dans manager",
             ];
             $result = $allocations->insertOne($allocation);
@@ -120,6 +124,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $success_msg = "Technicien ajouté avec succès";
     } else {
         $person = [
+            'users' => [],
             'username' => $username,
             'matricule' => $matricule,
             'firstName' => ucfirst( $firstName ),
@@ -138,6 +143,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'department' => ucfirst( $department ),
             'subRole' => ucfirst( $subRole ),
             'mainRole' => ucfirst( $mainRole ),
+            'password' => $password_hash,
             'active' => true
         ];
     
@@ -953,12 +959,19 @@ include_once 'partials/header.php'
                     data-placeholder="Sélectionnez votre manager..." class="form-select form-select-solid fw-bold">
                     <option value="">Sélectionnez votre
                         manager...</option>
-                    //<?php
-                    //$managers = $users->find(["profile" => 'Manager']);
-                    // foreach ($managers as $key => $manager) { 
-                    //    echo '<option value='.$manager['_id'].'>'.$manager['firstName'].' '.$manager['lastName'].'</option>';
-                    // }
-                    // ?>
+                    <?php
+                    $manager = $users->find([
+                        '$and' => [
+                            [ 'profile' => "Manager" ],
+                            [ 'active' => true ],
+                        ]
+                    ]);
+                    foreach ($manager as $manager) {
+                    ?>
+                    <option value='<?php echo $manager->_id ?>'>
+                        <?php echo $manager->firstName ?> <?php echo $manager->lastName ?>
+                    </option>
+                    <?php } ?>
                 </select>
             </div>
             <!--end::Scroll-->

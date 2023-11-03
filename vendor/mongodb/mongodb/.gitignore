@@ -1,15 +1,9 @@
-# Composer
+*.swp
+!.gitignore
 composer.phar
 composer.lock
-vendor/
-
-# PHPUnit
-phpunit.phar
+/vendor/
+php.ini
 phpunit.xml
-.phpunit.result.cache
-
-# phpcs
-.phpcs-cache
-phpcs.xml
-
-mongocryptd.pid
+apigen.phar
+site
