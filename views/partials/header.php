@@ -106,6 +106,7 @@
         <!--begin::Page-->
         <div class="page d-flex flex-row flex-column-fluid">
             <!--begin::Aside-->
+            <?php if ($_SESSION["profile"] == "Super Admin" || $_SESSION["profile"] == "Admin") {?>
             <div id="kt_aside" class="aside aside-default  aside-hoverable " data-kt-drawer="true"
                 data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}"
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
@@ -114,8 +115,8 @@
                 <div class="aside-logo flex-column-auto px-10 pt-9 pb-5" id="kt_aside_logo">
                     <!--begin::Logo-->
                     <a href="/dashboard">
-                        <img alt="Logo" src="/images/logo.png" class="h-50px logo-default" />
-                        <img alt="Logo" src="/images/logo.png" class="h-50px logo-minimize" />
+                        <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-default" />
+                        <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-minimize" />
                     </a>
                     <!--end::Logo-->
                 </div>
@@ -134,7 +135,7 @@
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="/dashboard"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./dashboard.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-element-11 fs-2">
                                                 <span class="path1"></span>
@@ -165,7 +166,7 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="/ajoute-utilisateur"><span
+                                            <!--begin:Menu link--><a class="menu-link" href="./createUser.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Ajouter
@@ -180,8 +181,8 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="/importer-utilisateur"><span class="menu-bullet"><span
+                                            <!--begin:Menu link--><a class="menu-link" href="./importeUser.php"><span
+                                                    class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Importer
                                                     des
@@ -195,7 +196,7 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="/utilisateurs"><span
+                                            <!--begin:Menu link--><a class="menu-link" href="./users.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Liste des
@@ -206,19 +207,21 @@
                                     </div>
                                     <!--end:Menu sub-->
                                     <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
+                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
+                                    <!--begin:Menu item-->
+                                    <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link"
                                                 href="/affecter-technicien-manager"><span class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Affecter
                                                     un
-                                                    technicien</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
+                                                    technicien</span>
+                                                </a> -->
+                                    <!--end:Menu link-->
+                                    <!-- </div> -->
+                                    <!--end:Menu item-->
+                                    <!-- </div> -->
                                     <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
@@ -265,7 +268,7 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="/creer-questionnaire"><span
+                                            <!--begin:Menu link--><a class="menu-link" href="./createQuiz.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Créer
@@ -280,7 +283,7 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="/questionnaires"><span
+                                            <!--begin:Menu link--><a class="menu-link" href="./quizzes.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Liste des
@@ -294,8 +297,8 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="/affecter-technicien-questionnaire"><span
+                                            <!--begin:Menu link-->
+                                            <a class="menu-link" href="./allocateUserQuiz.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Affecter
@@ -307,36 +310,37 @@
                                     </div>
                                     <!--end:Menu sub-->
                                     <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="/affecter-question-factuelle-questionnaire"><span
+                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
+                                    <!--begin:Menu item-->
+                                    <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link" href="/affecter-question-factuelle-questionnaire"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Affecter
                                                     une Question
-                                                    Factuelle</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
+                                                    Factuelle</span></a> -->
+                                    <!--end:Menu link-->
+                                    <!-- </div> -->
+                                    <!--end:Menu item-->
+                                    <!-- </div> -->
                                     <!--end:Menu sub-->
                                     <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
+                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
+                                    <!--begin:Menu item-->
+                                    <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link"
                                                 href="/affecter-question-declarative-questionnaire"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Affecter
                                                     une Question
-                                                    Déclarative</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
+                                                    Déclarative</span></a> -->
+                                    <!--end:Menu link-->
+                                    <!-- </div> -->
+                                    <!--end:Menu item-->
+                                    <!-- </div> -->
                                     <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
@@ -351,40 +355,40 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="/creer-question-factuelle"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Créer
-                                                    une
-                                                    Question
-                                                    Factuelle</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="/creer-question-declarative"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Créer
-                                                    une
-                                                    Question
-                                                    Déclarative</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="/importer-question"><span
+                                            <!--begin:Menu link--><a class="menu-link" href="./createQuestion.php"><span
                                                     class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Créer
+                                                    une
+                                                    Question</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
+                                    <!--begin:Menu sub-->
+                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
+                                    <!--begin:Menu item-->
+                                    <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link" href="/creer-question-declarative"><span
+                                                    class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Créer
+                                                    une
+                                                    Question
+                                                    Déclarative</span></a> -->
+                                    <!--end:Menu link-->
+                                    <!-- </div> -->
+                                    <!--end:Menu item-->
+                                    <!-- </div> -->
+                                    <!--end:Menu sub-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link"
+                                                href="./importeQuestion.php"><span class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Importer
                                                     une
@@ -398,7 +402,7 @@
                                     <div class="menu-sub menu-sub-accordion">
                                         <!--begin:Menu item-->
                                         <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="/questions"><span
+                                            <!--begin:Menu link--><a class="menu-link" href="./questions.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Liste des
@@ -630,21 +634,21 @@
                                 <!-- </div> -->
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="/affectations"><span
-                                            class="menu-icon">
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="/affectations"><span class="menu-icon">
                                             <i class="ki-duotone ki-rocket fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Affectations</span></a>
-                                    <!--end:Menu link-->
-                                </div>
+                                            </i></span><span class="menu-title">Affectations</span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="/resultats"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./results.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-keyboard fs-2">
                                                 <span class="path1"></span>
@@ -688,6 +692,7 @@
                 </div>
                 <!--end::Footer-->
             </div>
+            <?php } elseif ($_SESSION["profile"] == "Technicien" || $_SESSION["profile"] == "Manager") { ?>
             <div id="kt_aside" class="aside aside-default  aside-hoverable " data-kt-drawer="true"
                 data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}"
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
@@ -695,7 +700,7 @@
                 <!--begin::Brand-->
                 <div class="aside-logo flex-column-auto px-10 pt-9 pb-5" id="kt_aside_logo">
                     <!--begin::Logo-->
-                    <a href="/dashboard">
+                    <a href="./dashboard.php">
                         <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-default" />
                         <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-minimize" />
                     </a>
@@ -716,7 +721,7 @@
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="/dashboard"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./dashboard.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-element-11 fs-2">
                                                 <span class="path1"></span>
@@ -727,16 +732,17 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--begin:Menu item-->
+                                <?php if ($_SESSION["profile"] == "Manager") {?>
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Personnes</span>
+                                            class="fw-bold text-muted text-uppercase fs-7">Personnels</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="/mes-techniciens"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./allocationManager.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2">
                                                 <span class="path1"></span>
@@ -757,7 +763,7 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="/liste-tests-techniciens"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-file-added fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">Test
@@ -766,6 +772,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php } elseif ($_SESSION["profile"] == "Technicien") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
@@ -777,13 +784,14 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="/mes-tests"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
                                             class="menu-icon"><i class="ki-duotone ki-handcart fs-2"></i></span><span
                                             class="menu-title">Mes
                                             Tests</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu content-->
@@ -818,6 +826,7 @@
                 <!--end::Footer-->
             </div>
             <!--end::Aside-->
+            <?php } ?>
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
@@ -836,7 +845,7 @@
                             </div>
                             <!--end::Aside Toggle-->
                             <!--begin::Logo-->
-                            <a href="/dashboard" class="d-lg-none">
+                            <a href="./dashboard.php" class="d-lg-none">
                                 <img alt="Logo" src="../public/images/logo.png" class="mh-40px" />
                             </a>
                             <!--end::Logo-->
@@ -992,6 +1001,8 @@
                                         data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                                         <img alt="Pic" src="../public/assets/media/avatars/300-1.jpg" />
                                         <b>
+                                            <?php echo $_SESSION["firstName"] ?>
+                                            <?php echo $_SESSION["lastName"] ?>
                                         </b>
                                     </div>
                                     <!--begin::User account menu-->
@@ -999,7 +1010,7 @@
                                         data-kt-menu="true">
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a href="/profile/">
+                                            <a href="/profile/<?php echo $_SESSION["firstName"] ?>">
                                                 <div class="menu-content d-flex align-items-center px-3">
                                                     <!--begin::Avatar-->
                                                     <div class="symbol symbol-50px me-5">
@@ -1012,14 +1023,14 @@
                                                         <div class="d-flex flex-column">
                                                             <div
                                                                 class="fw-bolder d-flex align-items-center text-black fs-5">
-                                                                Salut,
+                                                                Salut, <?php echo $_SESSION["firstName"] ?>
                                                                 <span
                                                                     class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">
-
+                                                                    <?php echo $_SESSION["profile"] ?>
                                                                 </span>
                                                             </div>
                                                             <div class="fw-bold text-muted text-hover-primary fs-7">
-
+                                                                <?php echo $_SESSION["email"] ?>
                                                             </div>
                                                         </div>
                                                         <!--end::Username-->
@@ -1033,7 +1044,8 @@
                                         <!--end::Menu separator-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="/profil/" class="menu-link px-5">
+                                            <a href="./profile.php?id=<?php echo $_SESSION["id"] ?>"
+                                                class="menu-link px-5">
                                                 Profil
                                             </a>
                                         </div>
@@ -1088,7 +1100,7 @@
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="/logout" class="menu-link px-5">
+                                            <a href="./logout.php" class="menu-link px-5">
                                                 Déconnexion
                                             </a>
                                         </div>

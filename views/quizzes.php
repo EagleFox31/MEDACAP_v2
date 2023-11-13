@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
+?><?php
 require_once '../vendor/autoload.php';
     
 // Create connection
@@ -54,7 +61,7 @@ if ( isset( $_POST[ 'retire-question-quiz' ] ) ) {
     
     $membre = $quizzes->updateOne(
         ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
-        ['$pull' => ['questions' => new MongoDB\BSON\ObjectId( $question )]]
+        ['$push' => ['questions' => new MongoDB\BSON\ObjectId( $question )]]
     );
     
     $quizzes = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId( $quiz )]);
@@ -83,11 +90,12 @@ if ( isset( $_POST[ 'retire-technician-quiz' ] ) ) {
  
  $quizzes->updateOne(
      ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
-     ['$pull' => ['users' => new MongoDB\BSON\ObjectId( $user )]]
+     ['$push' => ['users' => new MongoDB\BSON\ObjectId( $user )]]
  );
  
  // Handle flash messages and success message as needed in your application.
  $success_msg = "Personne retirée avec succes.";
+ exit();
 }
 
 if ( isset( $_POST[ 'delet' ] ) ) {
@@ -96,6 +104,7 @@ if ( isset( $_POST[ 'delet' ] ) ) {
     $quiz->active = false;
     $quizzes->updateOne(['_id' => $id], ['$set' => $quiz]);
     $success_msg =  "Questionnaire supprimé avec succes.";
+    exit();
 }
 ?>
 <?php
@@ -824,3 +833,4 @@ include_once 'partials/header.php'
 <?php
 include_once 'partials/footer.php'
 ?>
+<?php } ?>

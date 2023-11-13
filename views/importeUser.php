@@ -1,11 +1,13 @@
 <?php
+session_start();
+
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
+?><?php
 
 require_once '../vendor/autoload.php';
-
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Reader;
 
 if ( isset( $_POST[ 'submit' ] ) ) {
     // Create connection
@@ -16,6 +18,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 
     // Connecting in collections
     $users = $academy->users;
+    $allocations = $academy->allocations;
 
 
     $filePath = $_FILES['excel']['tmp_name'];
@@ -42,7 +45,20 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $recrutmentDate = $row["16"];
         $matricule = $row["17"];
         $username = $row["18"];
+        $usernameManager = $row["19"];
 
+        $member =  $users->findOne(["username" => $username]);
+        if($member && $member->active == false){
+            $users->updateOne(
+                [ '_id' => new MongoDB\BSON\ObjectId( $member->_id ) ],
+                ['$set' => ['active' => true]]
+            );
+            $success_msg = "Utilisateur ajouté avec succès";
+            exit();
+        } elseif ($member && $member->active == true){
+            $error_msg = "Cet utilisateur existe déjà";
+            exit();
+        }
         $person = [
             'username' => $username,
             'matricule' => $matricule,
@@ -65,9 +81,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'password' => $password,
             'active' => true
         ];
-        
-        $users->insertOne($person);
+    
+        $user = $users->insertOne($person);
+        $manager = $users->findOne([
+            ['username' => $usernameManager]
+        ]);
+        $user->manager = new MongoDB\BSON\ObjectId( $manager->_id );
+        $allocation = [
+            "user" => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+            "manager" => new MongoDB\BSON\ObjectId( $manager->_id ),
+            "type" => "Technicien dans manager",
+            'active' =>true
+        ];
+        $result = $allocations->insertOne($allocation);
         $success_msg = "Utilisateurs ajoutés avec succès";
+        exit();
     }
 }
 ?>
@@ -85,7 +113,7 @@ include_once 'partials/header.php'
         style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
     <h1 class='my-3 text-center'>Importer des utilisateurs</h1>
 
-    <?php 
+    <?php
      if(isset($success_msg)) {
     ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -94,10 +122,10 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
-    <?php 
+    <?php
      if(isset($error_msg)) {
     ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -106,7 +134,7 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
 
@@ -141,3 +169,4 @@ include_once 'partials/header.php'
 <?php
 include_once 'partials/footer.php'
 ?>
+<?php } ?>

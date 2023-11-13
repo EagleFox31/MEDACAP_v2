@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
 require_once '../vendor/autoload.php';
 
 // Create connection
@@ -10,6 +16,7 @@ $academy = $conn->academy;
 // Connecting in collections
 $questions = $academy->questions;
 $quizzes = $academy->quizzes;
+$allocations = $academy->allocations;
 
 if ( isset( $_POST[ 'submit' ] ) ) {
     $label = $_POST[ 'label' ];
@@ -24,9 +31,11 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $quiz = $_POST[ 'quiz' ];
     $image = $_FILES[ 'image' ][ 'name' ];
     $tmp_name = $_FILES[ 'image' ][ 'tmp_name' ];
-    $folder = "../public/files/".$image;
-    move_uploaded_file($tmp_name, $folder);
+    $folder = '../public/files/'.$image;
+    move_uploaded_file( $tmp_name, $folder );
 
+    $exist = $questions->findOne( [ 'label' => $label ] );
+    
     if ( empty( $label ) ||
     empty( $proposal1 ) ||
     empty( $type ) ||
@@ -34,70 +43,74 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     empty( $level ) ||
     empty( $speciality ) ) {
         $error = 'Champ obligatoire';
+    } elseif ( $exist && $exist->active == true ) {
+        $error_msg = 'Cette question existe déjà.';
+    } elseif ( empty( $image ) ) {
+        $quizz = $quizzes->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ] );
+        $question = [
+            'label' => ucfirst( $label ),
+            'proposal1' => ucfirst( $proposal1 ),
+            'proposal2' => ucfirst( $proposal2 ),
+            'proposal3' => ucfirst( $proposal3 ),
+            'proposal4' => ucfirst( $proposal4 ),
+            'answer' => ucfirst( $answer ),
+            'level' => ucfirst( $level ),
+            'speciality' => ucfirst( $speciality ),
+            'type' => $type,
+            'active' =>true
+        ];
+        $results = $questions->insertOne( $question );
+        $quizzes->updateOne(
+            [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
+            [ '$push' => [ 'questions' => new MongoDB\BSON\ObjectId( $results->getInsertedId() ) ] ]
+        );
+        $quizz->total++;
+        $quizzes->updateOne(
+            [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
+            [ '$set' => $quizz ]
+        );
+
+        $allocation = [
+            'quiz' =>  new MongoDB\BSON\ObjectId( $quiz ),
+            'question' =>  new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
+            'type' => 'Question dans questionnaire',
+            'active' =>true
+        ];
+        $result = $allocations->insertOne( $allocation );
+        $success_msg = 'Question ajoutée avec succès';
     } else {
-        $exist = $questions->findOne( [ [ 'label' => $label ] ] );
+        $question = [
+            'image' => $image,
+            'label' => ucfirst( $label ),
+            'proposal1' => ucfirst( $proposal1 ),
+            'proposal2' => ucfirst( $proposal2 ),
+            'proposal3' => ucfirst( $proposal3 ),
+            'proposal4' => ucfirst( $proposal4 ),
+            'answer' => ucfirst( $answer ),
+            'level' => ucfirst( $level ),
+            'speciality' => ucfirst( $speciality ),
+            'type' => $type,
+            'active' =>true
+        ];
+        $results = $questions->insertOne( $question );
+        $quizzes->updateOne(
+            [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
+            [ '$push' => [ 'questions' => new MongoDB\BSON\ObjectId( $results->getInsertedId() ) ] ]
+        );
+        $quizz->total++;
+        $quizzes->updateOne(
+            [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
+            [ '$set' => $quizz ]
+        );
 
-        if ( $exist && $exist->active == false ) {
-            $questions->updateOne( [ '_id' => new ObjectId( $exist->_id ) ], [ '$set' => [ 'active' => true ] ] );
-            $success_msg = 'Question ajoutée avec succès';
-        } elseif ( $exist && $exist->active == true ) {
-            $error_msg = 'Cette question existe déjà.';
-        }
-
-        if ( !isset( $image ) ) {
-            $question = [
-                'label' => ucfirst( $label ),
-                'proposal1' => ucfirst( $proposal1 ),
-                'proposal2' => ucfirst( $proposal2 ),
-                'proposal3' => ucfirst( $proposal3 ),
-                'proposal4' => ucfirst( $proposal4 ),
-                'answer' => ucfirst( $answer ),
-                'level' => ucfirst( $level ),
-                'speciality' => ucfirst( $speciality ),
-                'type' => $type,
-                'active' =>true
-            ];
-            $results = $questions->insertOne( $question );
-            if ($quiz) {
-                 $quizzes->updateOne(["_id" => new MongoDB\BSON\ObjectId($quiz)], ['$push' => ["questions" => $results->_id]]);
-        
-                 $allocation = [
-                     "quiz" => $quiz,
-                     "user" => $userID,
-                     "type" => "Question dans questionnaire",
-                     'active' =>true
-                ];
-                $result = $allocations->insertOne($allocation);
-            }
+        $allocation = [
+            'quiz' => new MongoDB\BSON\ObjectId( $quiz ),
+            'question' => new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
+            'type' => 'Question dans questionnaire',
+            'active' =>true
+        ];
+        $allocations->insertOne( $allocation );
         $success_msg = 'Question ajoutée avec succès';
-        } else {
-            $question = [
-                'image' => $image,
-                'label' => ucfirst( $label ),
-                'proposal1' => ucfirst( $proposal1 ),
-                'proposal2' => ucfirst( $proposal2 ),
-                'proposal3' => ucfirst( $proposal3 ),
-                'proposal4' => ucfirst( $proposal4 ),
-                'answer' => ucfirst( $answer ),
-                'level' => ucfirst( $level ),
-                'speciality' => ucfirst( $speciality ),
-                'type' => $type,
-                'active' =>true
-            ];
-            $results = $questions->insertOne( $question );
-            if ($quiz) {
-                 $quizzes->updateOne(["_id" => new MongoDB\BSON\ObjectId($quiz)], ['$push' => ["questions" => $results->_id]]);
-        
-                 $allocation = [
-                     "quiz" => $quiz,
-                     "user" => $userID,
-                     "type" => "Question dans questionnaire",
-                     'active' =>true
-                ];
-                $result = $allocations->insertOne($allocation);
-            }
-        $success_msg = 'Question ajoutée avec succès';
-        }
     }
 }
 ?>
@@ -347,39 +360,39 @@ if ( isset( $error ) ) {
         </div>
         <!--end::Input group-->
         <!--begin::Input group-->
-        <div class="d-flex flex-column mb-7 fv-row">
+        <div class='d-flex flex-column mb-7 fv-row'>
             <!--begin::Label-->
-            <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Niveau</span>
+            <label class='form-label fw-bolder text-dark fs-6'>
+                <span class='required'>Niveau</span>
                 </span>
             </label>
             <!--end::Label-->
             <!--begin::Input-->
-            <select name="level" aria-label="Select a Country"
-                data-placeholder="Sélectionnez le niveau du questionnaire..."
-                data-dropdown-parent="#kt_modal_add_customer" class="form-select form-select-solid fw-bold">
-                <option value="">Sélectionnez le
+            <select name='level' aria-label='Select a Country'
+                data-placeholder='Sélectionnez le niveau du questionnaire...'
+                data-dropdown-parent='#kt_modal_add_customer' class='form-select form-select-solid fw-bold'>
+                <option value=''>Sélectionnez le
                     niveau de la question...</option>
-                <option value="Junior">
+                <option value='Junior'>
                     Junior
                 </option>
-                <option value="Senior">
+                <option value='Senior'>
                     Senior
                 </option>
-                <option value="Expert">
+                <option value='Expert'>
                     Expert
                 </option>
             </select>
             <!--end::Input-->
-            <?php 
-                     if(isset($error)) {
-                    ?>
+            <?php
+if ( isset( $error ) ) {
+    ?>
             <span class='text-danger'>
                 <?php echo $error ?>
             </span>
-            <?php 
-                    }
-                    ?>
+            <?php
+}
+?>
         </div>
         <!--end::Input group-->
         <!--begin::Input group-->
@@ -400,13 +413,14 @@ if ( isset( $error ) ) {
                 <option value=''>Sélectionnez le
                     questionnaire...</option>
                 <?php
-                    $quiz = $quizzes->find(['active' => true]);
-                    foreach ($quiz as $quiz) {
-                ?>
-                <option value='<?php echo $quiz->label ?>'>
+$quiz = $quizzes->find( [ 'active' => true ] );
+foreach ( $quiz as $quiz ) {
+    ?>
+                <option value='<?php echo $quiz->_id ?>'>
                     <?php echo $quiz->label ?>
                 </option>
-                <?php } ?>
+                <?php }
+    ?>
             </select>
             <!--end::Input-->
         </div>
@@ -446,5 +460,6 @@ function selectif() {
 </script>
 
 <?php
-include_once 'partials/footer.php'
-?>
+    include_once 'partials/footer.php'
+    ?>
+<?php } ?>

@@ -1,59 +1,80 @@
+<?php
+session_start();
+
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
+    require_once '../vendor/autoload.php';
+        
+    // Create connection
+    $conn = new MongoDB\Client('mongodb://localhost:27017');
+        
+     // Connecting in database
+     $academy = $conn->academy;
+        
+    // Connecting in collections
+    $users = $academy->users;
+    $results = $academy->results;
+
+    $user = $_GET['user'];
+    $level = $_GET['level'];
+
+    $technician = $users->findOne(['_id' => new MongoDB\BSON\ObjectId( $user )]);
+?>
 <title>Résultat Technicien | CFAO Mobility Academy</title>
 <!--end::Title-->
-<meta property="og:url"
-    content="https://themes.getbootstrap.com/product/craft-bootstrap-5-admin-dashboard-theme" />
+<!-- Favicon -->
+<link href="../public/images/logo-cfao.png" rel="icon">
+
+<meta charset="utf-8" />
+<meta name="description"
+    content="Craft admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
+<meta name="keywords"
+    content="Craft, bootstrap, bootstrap 5, admin themes, dark mode, free admin themes, bootstrap admin, bootstrap dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Craft - Bootstrap 5 HTML Admin Dashboard Theme" />
+<meta property="og:url" content="https://themes.getbootstrap.com/product/craft-bootstrap-5-admin-dashboard-theme" />
 <meta property="og:site_name" content="Keenthemes | Craft" />
 <link rel="canonical" href="https://preview.keenthemes.com/craft" />
 <link rel="shortcut icon" href="/images/logo-cfao.png" />
 <!--begin::Fonts(mandatory for all pages)-->
-<link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 <!--end::Fonts-->
 <!--begin::Vendor Stylesheets(used for this page only)-->
-<link href="/assets/plugins/custom/leaflet/leaflet.bundle.css" rel="stylesheet"
-    type="text/css" />
-<link href="/assets/plugins/custom/datatables/datatables.bundle.css"
-    rel="stylesheet" type="text/css" />
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous">
+<link href="../public/assets/plugins/custom/leaflet/leaflet.bundle.css" rel="stylesheet" type="text/css" />
+<link href="../public/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <!--end::Vendor Stylesheets-->
 <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-<link href="/assets/plugins/global/plugins.bundle.css" rel="stylesheet"
-    type="text/css" />
-<link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+<link href="../public/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+<link href="../public/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
 <!--end::Global Stylesheets Bundle-->
 
 <!--begin::Body-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content"
-    data-select2-id="select2-data-kt_content">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-select2-id="select2-data-kt_content">
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
-        <div
-            class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
+        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
             <!--begin::Info-->
-            <div
-                class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
+            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    Résultat
-                    <%= user.firstName + " " + user.lastName %>
+                    Résultat de
+                    <?php echo $technician->firstName ?> <?php echo $technician->lastName ?>
                 </h1>
                 <!--end::Title-->
             </div>
             <!--end::Info-->
         </div>
     </div>
-    <center>
-        <%- include('partials/message') %>
-    </center>
     <!--end::Toolbar-->
     <!--begin::Post-->
-    <div class="post d-flex flex-column-fluid" id="kt_post"
-        data-select2-id="select2-data-kt_post">
+    <div class="post d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
         <!--begin::Card-->
         <div class="card">
@@ -66,15 +87,11 @@
                 <!--begin::Card toolbar-->
                 <div class="card-toolbar">
                     <!--begin::Toolbar-->
-                    <div class="d-flex justify-content-end"
-                        data-kt-customer-table-toolbar="base">
+                    <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
                         <!--begin::Export-->
-                        <button type="button" id="excel"
-                            class="btn btn-light-primary me-3"
-                            data-bs-toggle="modal"
+                        <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
                             data-bs-target="#kt_customers_export_modal">
-                            <i class="ki-duotone ki-exit-up fs-2"><span
-                                    class="path1"></span><span
+                            <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span
                                     class="path2"></span></i> Excel
                         </button>
                         <!--end::Export-->
@@ -87,1292 +104,1364 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Table-->
-                <div id="kt_customers_table_wrapper"
-                    class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="table-responsi">
                         <table aria-describedby=""
                             class="table align-middle table-bordered table-row-dashed gy-5 dataTable no-footer"
                             id="kt_customers_table">
                             <thead>
-                                <tr
-                                    class="text-start text-gray-400 fw-bold text-uppercase gs-0">
+                                <tr class="text-start text-gray-400 fw-bold text-uppercase gs-0">
                                     <th class="min-w-125px sorting bg-primary text-white text-center table-light"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        colspan="12"
+                                        tabindex="0" aria-controls="kt_customers_table" colspan="8"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
                                         Résultats de la mesure des savoirs
                                         et savoirs-faire (Compétences)</th>
                                 <tr></tr>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    rowspan="3"
-                                    aria-label="Email: activate to sort column ascending"
-                                    >
+                                    tabindex="0" aria-controls="kt_customers_table" rowspan="3"
+                                    aria-label="Email: activate to sort column ascending">
                                     Groupe Fonctionnel</th>
-                                <th class="min-w-500px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    colspan="3"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Test Factuel (Savoirs) </th>
+                                <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="2"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    Test des savoirs (Factuel) </th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    colspan="6"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Test Déclaratif (Savoir-faire)</th>
-                                <th class="min-w-100px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    colspan="2"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Validation</th>
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    Mesure des savoirs-faire (Déclaratif)</th>
+                                <th class="min-w-150px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table" rowspan="3"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    Synthèse</th>
                                 <tr></tr>
-                                <th class="min-w-300px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Savoirs</th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Résultats</th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Validation</th>
-                                <th class="min-w-350px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Savoir-faire</th>
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    Décision</th>
                                 <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Résultats technicien</th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Résultats manager</th>
-                                <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
+                                <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Résultats</th>
-                                <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Validation</th>
-                                <th class="min-w-100px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Fiabilité mesure</th>
-                                <th class="min-w-100px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Compétence</th>
-                                <th class="min-w-100px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0"
-                                    aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending"
-                                    style="width: 155.266px;">
-                                    Métier</th>
+                                <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    Décision</th>
                                 <tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
-                                <% if (transversaleFac && transversaleDecla && transversaleDeclaMa) { %>
-                                <% for (let i = 0; i < transversaleFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase "
-                                        tabindex="0"    
-                                        aria-controls="kt_customers_table"
-                                        rowspan='${i}'
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Transversale</td>
-                                    <td>
-                                        <%= transversaleFac.questions[i].label %>
-                                    </td>
-                                    <td  class="text-center" name="savoir" id="sTransverse">
-                                        <%= transversaleFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-sTransverse">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= transversaleDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= transversaleDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= transversaleDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (transversaleDecla.answers[i] == "Oui" && transversaleDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfTransverse">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleDecla.answers[i] == "Non" && transversaleDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfTransverse">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleDecla.answers[i] != transversaleDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfTransverse">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfTransverse">
-                                        
-                                    </td>
-                                    <% if (transversaleDecla.answers[i] == transversaleDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleDecla.answers[i] != transversaleDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleFac.answers[i] == "Maitrisé" && transversaleDecla.answers[i] == "Oui" && transversaleDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vTransverse">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleFac.answers[i] == "Non maitrisé" && transversaleDecla.answers[i] == "Non" && transversaleDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vTransverse">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleFac.answers[i] == "Non maitrisé" && transversaleDecla.answers[i] == "Oui" && transversaleDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vTransverse">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleFac.answers[i] == "Maitrisé" && transversaleDecla.answers[i] == "Non" && transversaleDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vTransverse">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleFac.answers[i] == "Maitrisé" && transversaleDecla.answers[i] != transversaleDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vTransverse">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (transversaleFac.answers[i] == "Non maitrisé" && transversaleDecla.answers[i] != transversaleDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vTransverse">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mTransverse">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (assistanceConduiteFac && assistanceConduiteDecla && assistanceConduiteDeclaMa) { %>
-                                <% for (let i = 0; i < assistanceConduiteFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Assistance à la Conduite</td>
-                                    <td>
-                                        <%= assistanceConduiteFac.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="savoir" id="sAssistance">
-                                        <%= assistanceConduiteFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-sAssistance">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= assistanceConduiteDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= assistanceConduiteDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= assistanceConduiteDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (assistanceConduiteDecla.answers[i] == "Oui" && assistanceConduiteDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfAssistance">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteDecla.answers[i] == "Non" && assistanceConduiteDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfAssistance">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteDecla.answers[i] != assistanceConduiteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfAssistance">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfAssistance">
-                                    </td>
-                                    <% if (assistanceConduiteDecla.answers[i] == assistanceConduiteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteDecla.answers[i] != assistanceConduiteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteFac.answers[i] == "Maitrisé" && assistanceConduiteDecla.answers[i] == "Oui" && assistanceConduiteDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vAssistance">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteFac.answers[i] == "Non maitrisé" && assistanceConduiteDecla.answers[i] == "Non" && assistanceConduiteDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vAssistance">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteFac.answers[i] == "Non maitrisé" && assistanceConduiteDecla.answers[i] == "Oui" && assistanceConduiteDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vAssistance">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteFac.answers[i] == "Maitrisé" && assistanceConduiteDecla.answers[i] == "Non" && assistanceConduiteDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vAssistance">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteFac.answers[i] == "Maitrisé" && assistanceConduiteDecla.answers[i] != assistanceConduiteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vAssistance">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (assistanceConduiteFac.answers[i] == "Non maitrisé" && assistanceConduiteDecla.answers[i] != assistanceConduiteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vAssistance">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mAssistance">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (climatisationFac && climatisationDecla && climatisationDeclaMa) { %>
-                                <% for (let i = 0; i < climatisationFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Climatisation</td>
-                                    <td>
-                                        <%= climatisationFac.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="savoir" id="sClimatisation">
-                                        <%= climatisationFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-sClimatisation">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= climatisationDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= climatisationDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= climatisationDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (climatisationDecla.answers[i] == "Oui" && climatisationDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfClimatisation">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationDecla.answers[i] == "Non" && climatisationDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationDecla.answers[i] != climatisationDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfClimatisation">
-                                        
-                                    </td>
-                                    <% if (climatisationDecla.answers[i] == climatisationDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationDecla.answers[i] != climatisationDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationFac.answers[i] == "Maitrisé" && climatisationDecla.answers[i] == "Oui" && climatisationDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vClimatisation">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationFac.answers[i] == "Non maitrisé" && climatisationDecla.answers[i] == "Non" && climatisationDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationFac.answers[i] == "Non maitrisé" && climatisationDecla.answers[i] == "Oui" && climatisationDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationFac.answers[i] == "Maitrisé" && climatisationDecla.answers[i] == "Non" && climatisationDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationFac.answers[i] == "Maitrisé" && climatisationDecla.answers[i] != climatisationDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (climatisationFac.answers[i] == "Non maitrisé" && climatisationDecla.answers[i] != climatisationDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mClimatisation">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (directionFac && directionDecla && directionDeclaMa) { %>
-                                <% for (let i = 0; i < directionFac.questions.length; i++) { %>
+                                <?php
+                                    $transversaleFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transversale'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $transversaleDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transversale'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $transversaleMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transversale']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($transversaleFac && $transversaleDecla && $transversaleMa) { ?>
+                                <?php for ($i = 0; $i < count($transversaleFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Transversale</td>
+                                    <td class="text-center hidden" name="savoir" id="sTransversale">
+                                        <?php echo $transversaleFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transversaleFac->score * 100 / $transversaleFac->total ?>%
+                                    </td>
+                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facTransversale">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $transversaleDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $transversaleDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($transversaleDecla->answers[$i] == "Oui" && $transversaleMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] == "Non" && $transversaleMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $transversaleDecla->score * 100 / $transversaleDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transversaleMa->score * 100 / $transversaleMa->total ?>%
+                                    </td>
+                                    <?php if ($transversaleDecla->answers[$i] == "Je connais" && $transversaleMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] == "Je connais pas" && $transversaleMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfTransversale">
+
+                                    </td>
+                                    <td class="text-center" id="result-rTransversale">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Transversale">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $assistanceConduiteFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'AssistanceConduite'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $assistanceConduiteDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'AssistanceConduite'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $assistanceConduiteMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'AssistanceConduite']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($assistanceConduiteFac && $assistanceConduiteDecla && $assistanceConduiteMa) { ?>
+                                <?php for ($i = 0; $i < count($assistanceConduiteFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Assistance à la conduite</td>
+                                    <td class="text-center hidden" name="savoir" id="sAssistanceConduite">
+                                        <?php echo $assistanceConduiteFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $assistanceConduiteFac->score * 100 / $assistanceConduiteFac->total ?>%
+                                    </td>
+                                    <?php if ((($assistanceConduiteFac->score  * 100 ) / $assistanceConduiteFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facAssistanceConduite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($assistanceConduiteFac->score  * 100 ) / $assistanceConduiteFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facAssistanceConduite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $assistanceConduiteDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $assistanceConduiteDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Oui" && $assistanceConduiteMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Non" && $assistanceConduiteMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($assistanceConduiteDecla->answers[$i] != $assistanceConduiteMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $assistanceConduiteDecla->score * 100 / $assistanceConduiteDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $assistanceConduiteMa->score * 100 / $assistanceConduiteMa->total ?>%
+                                    </td>
+                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Je connais" && $assistanceConduiteMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Je connais pas" && $assistanceConduiteMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($assistanceConduiteDecla->answers[$i] != $assistanceConduiteMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfAssistanceConduite">
+
+                                    </td>
+                                    <td class="text-center" id="result-rAssistanceConduite">
+
+                                    </td>
+                                    <td class="text-center" id="synth-AssistanceConduite">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $climatisationFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Climatisation'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $climatisationDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Climatisation'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $climatisationMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Climatisation']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($climatisationFac && $climatisationDecla && $climatisationMa) { ?>
+                                <?php for ($i = 0; $i < count($climatisationFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Climatisation</td>
+                                    <td class="text-center hidden" name="savoir" id="sClimatisation">
+                                        <?php echo $climatisationFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $climatisationFac->score * 100 / $climatisationFac->total ?>%
+                                    </td>
+                                    <?php if ((($climatisationFac->score  * 100 ) / $climatisationFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facClimatisation">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($climatisationFac->score  * 100 ) / $climatisationFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facClimatisation">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $climatisationDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $climatisationDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($climatisationDecla->answers[$i] == "Oui" && $climatisationMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($climatisationDecla->answers[$i] == "Non" && $climatisationMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($climatisationDecla->answers[$i] != $climatisationMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $climatisationDecla->score * 100 / $climatisationDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $climatisationMa->score * 100 / $climatisationMa->total ?>%
+                                    </td>
+                                    <?php if ($climatisationDecla->answers[$i] == "Je connais" && $climatisationMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($climatisationDecla->answers[$i] == "Je connais pas" && $climatisationMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($climatisationDecla->answers[$i] != $climatisationMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfClimatisation">
+
+                                    </td>
+                                    <td class="text-center" id="result-rClimatisation">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Climatisation">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $directionFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Direction'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $directionDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Direction'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $directionMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Direction']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($directionFac && $directionDecla && $directionMa) { ?>
+                                <?php for ($i = 0; $i < count($directionFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         Direction</td>
-                                    <td>
-                                        <%= directionFac.questions[i].label %>
+                                    <td class="text-center hidden" name="savoir" id="sDirection">
+                                        <?php echo $directionFac->answers[$i] ?>
                                     </td>
-                                    <td class="text-center" name="savoir" id="sDirection">
-                                        <%= directionFac.answers[i] %>
+                                    <td class="text-center">
+                                        <?php echo $directionFac->score * 100 / $directionFac->total ?>%
                                     </td>
-                                    <td class="text-center" id="result-sDirection">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= directionDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= directionDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= directionDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (directionDecla.answers[i] == "Oui" && directionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfDirection">
+                                    <?php if ((($directionFac->score  * 100 ) / $directionFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facDirection">
                                         Maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (directionDecla.answers[i] == "Non" && directionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfDirection">
+                                    <?php } ?>
+                                    <?php if ((($directionFac->score  * 100 ) / $directionFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facDirection">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (directionDecla.answers[i] != directionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfDirection">
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $directionDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $directionDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($directionDecla->answers[$i] == "Oui" && $directionMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($directionDecla->answers[$i] == "Non" && $directionMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
+                                    <?php } ?>
+                                    <?php if ($directionDecla->answers[$i] != $directionMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $directionDecla->score * 100 / $directionDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $directionMa->score * 100 / $directionMa->total ?>%
+                                    </td>
+                                    <?php if ($directionDecla->answers[$i] == "Je connais" && $directionMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($directionDecla->answers[$i] == "Je connais pas" && $directionMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($directionDecla->answers[$i] != $directionMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
                                     <td class="text-center" id="result-sfDirection">
-                                        
+
                                     </td>
-                                    <% if (directionDecla.answers[i] == directionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
+                                    <td class="text-center" id="result-rDirection">
+
                                     </td>
-                                    <% } %>
-                                    <% if (directionDecla.answers[i] != directionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (directionFac.answers[i] == "Maitrisé" && directionDecla.answers[i] == "Oui" && directionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vDirection">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (directionFac.answers[i] == "Non maitrisé" && directionDecla.answers[i] == "Non" && directionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vDirection">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (directionFac.answers[i] == "Non maitrisé" && directionDecla.answers[i] == "Oui" && directionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vDirection">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (directionFac.answers[i] == "Maitrisé" && directionDecla.answers[i] == "Non" && directionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vDirection">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (directionFac.answers[i] == "Maitrisé" && directionDecla.answers[i] != directionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vDirection">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (directionFac.answers[i] == "Non maitrisé" && directionDecla.answers[i] != directionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vDirection">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mDirection">
-                                        
+                                    <td class="text-center" id="synth-Direction">
+
                                     </td>
                                 </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (electriciteFac && electriciteDecla && electriciteDeclaMa) { %>
-                                <% for (let i = 0; i < electriciteFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Electricté</th>
-                                    <td>
-                                        <%= electriciteFac.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="savoir" id="sElectricite">
-                                        <%= electriciteFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-sElectricite">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= electriciteDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= electriciteDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= electriciteDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (electriciteDecla.answers[i] == "Oui" && electriciteDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfElectricite">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteDecla.answers[i] == "Non" && electriciteDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteDecla.answers[i] != electriciteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfElectricite">
-                                        
-                                    </td>
-                                    <% if (electriciteDecla.answers[i] == electriciteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteDecla.answers[i] != electriciteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteFac.answers[i] == "Maitrisé" && electriciteDecla.answers[i] == "Oui" && electriciteDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vElectricite">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteFac.answers[i] == "Non maitrisé" && electriciteDecla.answers[i] == "Non" && electriciteDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteFac.answers[i] == "Non maitrisé" && electriciteDecla.answers[i] == "Oui" && electriciteDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteFac.answers[i] == "Maitrisé" && electriciteDecla.answers[i] == "Non" && electriciteDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteFac.answers[i] == "Maitrisé" && electriciteDecla.answers[i] != electriciteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (electriciteFac.answers[i] == "Non maitrisé" && electriciteDecla.answers[i] != electriciteDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mElectricite">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (freinageFac && freinageDecla && freinageDeclaMa) { %>
-                                <% for (let i = 0; i < freinageFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Freinage</th>
-                                    <td>
-                                        <%= freinageFac.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="savoir" id="sFreinage">
-                                        <%= freinageFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-sFreinage">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= freinageDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= freinageDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= freinageDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (freinageDecla.answers[i] == "Oui" && freinageDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfFreinage">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageDecla.answers[i] == "Non" && freinageDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageDecla.answers[i] != freinageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfFreinage">
-                                        
-                                    </td>
-                                    <% if (freinageDecla.answers[i] == freinageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageDecla.answers[i] != freinageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageFac.answers[i] == "Maitrisé" && freinageDecla.answers[i] == "Oui" && freinageDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vFreinage">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageFac.answers[i] == "Non maitrisé" && freinageDecla.answers[i] == "Non" && freinageDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageFac.answers[i] == "Non maitrisé" && freinageDecla.answers[i] == "Oui" && freinageDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageFac.answers[i] == "Maitrisé" && freinageDecla.answers[i] == "Non" && freinageDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageFac.answers[i] == "Maitrisé" && freinageDecla.answers[i] != freinageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (freinageFac.answers[i] == "Non maitrisé" && freinageDecla.answers[i] != freinageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mFreinage">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (hydrauliqueFac && hydrauliqueDecla && hydrauliqueDeclaMa) { %>
-                                <% for (let i = 0; i < hydrauliqueFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Hydraulique</td>
-                                    <td>
-                                        <%= hydrauliqueFac.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="savoir" id="sHydraulique">
-                                        <%= hydrauliqueFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-sHydraulique">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= hydrauliqueDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= hydrauliqueDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= hydrauliqueDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (hydrauliqueDecla.answers[i] == "Oui" && hydrauliqueDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfHydraulique">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueDecla.answers[i] == "Non" && hydrauliqueDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueDecla.answers[i] != hydrauliqueDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfHydraulique">
-                                        
-                                    </td>
-                                    <% if (hydrauliqueDecla.answers[i] == hydrauliqueDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueDecla.answers[i] != hydrauliqueDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueFac.answers[i] == "Maitrisé" && hydrauliqueDecla.answers[i] == "Oui" && hydrauliqueDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vHydraulique">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueFac.answers[i] == "Non maitrisé" && hydrauliqueDecla.answers[i] == "Non" && hydrauliqueDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueFac.answers[i] == "Non maitrisé" && hydrauliqueDecla.answers[i] == "Oui" && hydrauliqueDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueFac.answers[i] == "Maitrisé" && hydrauliqueDecla.answers[i] == "Non" && hydrauliqueDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueFac.answers[i] == "Maitrisé" && hydrauliqueDecla.answers[i] != hydrauliqueDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (hydrauliqueFac.answers[i] == "Non maitrisé" && hydrauliqueDecla.answers[i] != hydrauliqueDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mHydraulique">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (moteurFac && moteurDecla && moteurDeclaMa) { %>
-                                <% for (let i = 0; i < moteurFac.questions.length; i++) { %>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $electriciteFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Electricite'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $electriciteDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Electricite'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $electriciteMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Electricite']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($electriciteFac && $electriciteDecla && $electriciteMa) { ?>
+                                <?php for ($i = 0; $i < count($electriciteFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Electricité</td>
+                                    <td class="text-center hidden" name="savoir" id="sElectricite">
+                                        <?php echo $electriciteFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $electriciteFac->score * 100 / $electriciteFac->total ?>%
+                                    </td>
+                                    <?php if ((($electriciteFac->score  * 100 ) / $electriciteFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facElectricite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($electriciteFac->score  * 100 ) / $electriciteFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facElectricite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $electriciteDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $electriciteDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($electriciteDecla->answers[$i] == "Oui" && $electriciteMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($electriciteDecla->answers[$i] == "Non" && $electriciteMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($electriciteDecla->answers[$i] != $electriciteMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $electriciteDecla->score * 100 / $electriciteDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $electriciteMa->score * 100 / $electriciteMa->total ?>%
+                                    </td>
+                                    <?php if ($electriciteDecla->answers[$i] == "Je connais" && $electriciteMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($electriciteDecla->answers[$i] == "Je connais pas" && $electriciteMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($electriciteDecla->answers[$i] != $electriciteMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfElectricite">
+
+                                    </td>
+                                    <td class="text-center" id="result-rElectricite">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Electricite">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $freinageFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Freinage'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $freinageDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Freinage'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $freinageMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Freinage']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($freinageFac && $freinageDecla && $freinageMa) { ?>
+                                <?php for ($i = 0; $i < count($freinageFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Assistance à la conduite</td>
+                                    <td class="text-center hidden" name="savoir" id="sFreinage">
+                                        <?php echo $freinageFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $freinageFac->score * 100 / $freinageFac->total ?>%
+                                    </td>
+                                    <?php if ((($freinageFac->score  * 100 ) / $freinageFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facFreinage">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($freinageFac->score  * 100 ) / $freinageFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facFreinage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $freinageDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $freinageDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($freinageDecla->answers[$i] == "Oui" && $freinageMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($freinageDecla->answers[$i] == "Non" && $freinageMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($freinageDecla->answers[$i] != $freinageMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $freinageDecla->score * 100 / $freinageDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $freinageMa->score * 100 / $freinageMa->total ?>%
+                                    </td>
+                                    <?php if ($freinageDecla->answers[$i] == "Je connais" && $freinageMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($freinageDecla->answers[$i] == "Je connais pas" && $freinageMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($freinageDecla->answers[$i] != $freinageMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfFreinage">
+
+                                    </td>
+                                    <td class="text-center" id="result-rFreinage">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Freinage">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $hydrauliqueFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Hydraulique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $hydrauliqueDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Hydraulique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $hydrauliqueMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Hydraulique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($hydrauliqueFac && $hydrauliqueDecla && $hydrauliqueMa) { ?>
+                                <?php for ($i = 0; $i < count($hydrauliqueFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Assistance à la conduite</td>
+                                    <td class="text-center hidden" name="savoir" id="sHydraulique">
+                                        <?php echo $hydrauliqueFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $hydrauliqueFac->score * 100 / $hydrauliqueFac->total ?>%
+                                    </td>
+                                    <?php if ((($hydrauliqueFac->score  * 100 ) / $hydrauliqueFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facHydraulique">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($hydrauliqueFac->score  * 100 ) / $hydrauliqueFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facHydraulique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $hydrauliqueDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $hydrauliqueDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($hydrauliqueDecla->answers[$i] == "Oui" && $hydrauliqueMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($hydrauliqueDecla->answers[$i] == "Non" && $hydrauliqueMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($hydrauliqueDecla->answers[$i] != $hydrauliqueMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $hydrauliqueDecla->score * 100 / $hydrauliqueDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $hydrauliqueMa->score * 100 / $hydrauliqueMa->total ?>%
+                                    </td>
+                                    <?php if ($hydrauliqueDecla->answers[$i] == "Je connais" && $hydrauliqueMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($hydrauliqueDecla->answers[$i] == "Je connais pas" && $hydrauliqueMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($hydrauliqueDecla->answers[$i] != $hydrauliqueMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfHydraulique">
+
+                                    </td>
+                                    <td class="text-center" id="result-rHydraulique">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Hydraulique">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $moteurFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $moteurDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $moteurMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($moteurFac && $moteurDecla && $moteurMa) { ?>
+                                <?php for ($i = 0; $i < count($moteurFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         Moteur</td>
-                                    <td>
-                                        <%= moteurFac.questions[i].label %>
+                                    <td class="text-center hidden" name="savoir" id="sMoteur">
+                                        <?php echo $moteurFac->answers[$i] ?>
                                     </td>
-                                    <td class="text-center" name="savoir" id="sMoteur">
-                                        <%= moteurFac.answers[i] %>
+                                    <td class="text-center">
+                                        <?php echo $moteurFac->score * 100 / $moteurFac->total ?>%
                                     </td>
-                                    <td class="text-center" id="result-sMoteur">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= moteurDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= moteurDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= moteurDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (moteurDecla.answers[i] == "Oui" && moteurDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfMoteur">
+                                    <?php if ((($moteurFac->score  * 100 ) / $moteurFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facMoteur">
                                         Maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (moteurDecla.answers[i] == "Non" && moteurDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfMoteur">
+                                    <?php } ?>
+                                    <?php if ((($moteurFac->score  * 100 ) / $moteurFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facMoteur">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (moteurDecla.answers[i] != moteurDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfMoteur">
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $moteurDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $moteurDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($moteurDecla->answers[$i] == "Oui" && $moteurMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($moteurDecla->answers[$i] == "Non" && $moteurMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
+                                    <?php } ?>
+                                    <?php if ($moteurDecla->answers[$i] != $moteurMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $moteurDecla->score * 100 / $moteurDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $moteurMa->score * 100 / $moteurMa->total ?>%
+                                    </td>
+                                    <?php if ($moteurDecla->answers[$i] == "Je connais" && $moteurMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($moteurDecla->answers[$i] == "Je connais pas" && $moteurMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($moteurDecla->answers[$i] != $moteurMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
                                     <td class="text-center" id="result-sfMoteur">
-                                        
+
                                     </td>
-                                    <% if (moteurDecla.answers[i] == moteurDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
+                                    <td class="text-center" id="result-rMoteur">
+
                                     </td>
-                                    <% } %>
-                                    <% if (moteurDecla.answers[i] != moteurDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (moteurFac.answers[i] == "Maitrisé" && moteurDecla.answers[i] == "Oui" && moteurDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vMoteur">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (moteurFac.answers[i] == "Non maitrisé" && moteurDecla.answers[i] == "Non" && moteurDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vMoteur">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (moteurFac.answers[i] == "Non maitrisé" && moteurDecla.answers[i] == "Oui" && moteurDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vMoteur">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (moteurFac.answers[i] == "Maitrisé" && moteurDecla.answers[i] == "Non" && moteurDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vMoteur">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (moteurFac.answers[i] == "Maitrisé" && moteurDecla.answers[i] != moteurDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vMoteur">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (moteurFac.answers[i] == "Non maitrisé" && moteurDecla.answers[i] != moteurDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vMoteur">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mMoteur">
-                                        
+                                    <td class="text-center" id="synth-Moteur">
+
                                     </td>
                                 </tr>
-                                <% } %>
-                                
-                                <% } %><!--end::Menu-->
-                                <% if (multiplexageFac && multiplexageDecla && multiplexageDeclaMa) { %>
-                                <% for (let i = 0; i < multiplexageFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Multiplexage & Electronique</td>
-                                    <td>
-                                        <%= multiplexageFac.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="savoir" id="smultiplexage">
-                                        <%= multiplexageFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-smultiplexage">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= multiplexageDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= multiplexageDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= multiplexageDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (multiplexageDecla.answers[i] == "Oui" && multiplexageDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfmultiplexage">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageDecla.answers[i] == "Non" && multiplexageDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfmultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageDecla.answers[i] != multiplexageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfmultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfmultiplexage">
-                                        
-                                    </td>
-                                    <% if (multiplexageDecla.answers[i] == multiplexageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageDecla.answers[i] != multiplexageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageFac.answers[i] == "Maitrisé" && multiplexageDecla.answers[i] == "Oui" && multiplexageDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vmultiplexage">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageFac.answers[i] == "Non maitrisé" && multiplexageDecla.answers[i] == "Non" && multiplexageDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vmultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageFac.answers[i] == "Non maitrisé" && multiplexageDecla.answers[i] == "Oui" && multiplexageDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vmultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageFac.answers[i] == "Maitrisé" && multiplexageDecla.answers[i] == "Non" && multiplexageDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vmultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageFac.answers[i] == "Maitrisé" && multiplexageDecla.answers[i] != multiplexageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vmultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (multiplexageFac.answers[i] == "Non maitrisé" && multiplexageDecla.answers[i] != multiplexageDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vmultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mmultiplexage">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (pneuFac && pneuDecla && pneuDeclaMa) { %>
-                                <% for (let i = 0; i < pneuFac.questions.length; i++) { %>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $multiplexageFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Multiplexage & Electronique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $multiplexageDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Multiplexage & Electronique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $multiplexageMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Multiplexage & Electronique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($multiplexageFac && $multiplexageDecla && $multiplexageMa) { ?>
+                                <?php for ($i = 0; $i < count($multiplexageFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Pneumatique</td>
-                                    <td>
-                                        <%= pneuFac.questions[i].label %>
+                                        Assistance à la conduite</td>
+                                    <td class="text-center hidden" name="savoir" id="sMultiplexage">
+                                        <?php echo $multiplexageFac->answers[$i] ?>
                                     </td>
-                                    <td class="text-center" name="savoir" id="sPneu">
-                                        <%= pneuFac.answers[i] %>
+                                    <td class="text-center">
+                                        <?php echo $multiplexageFac->score * 100 / $multiplexageFac->total ?>%
                                     </td>
-                                    <td class="text-center" id="result-sPneu">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= pneuDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= pneuDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= pneuDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (pneuDecla.answers[i] == "Oui" && pneuDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfPneu">
+                                    <?php if ((($multiplexageFac->score  * 100 ) / $multiplexageFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facMultiplexage">
                                         Maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (pneuDecla.answers[i] == "Non" && pneuDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfPneu">
+                                    <?php } ?>
+                                    <?php if ((($multiplexageFac->score  * 100 ) / $multiplexageFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facMultiplexage">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (pneuDecla.answers[i] != pneuDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfPneu">
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $multiplexageDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $multiplexageDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($multiplexageDecla->answers[$i] == "Oui" && $multiplexageMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($multiplexageDecla->answers[$i] == "Non" && $multiplexageMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
+                                    <?php } ?>
+                                    <?php if ($multiplexageDecla->answers[$i] != $multiplexageMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $multiplexageDecla->score * 100 / $multiplexageDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $multiplexageMa->score * 100 / $multiplexageMa->total ?>%
+                                    </td>
+                                    <?php if ($multiplexageDecla->answers[$i] == "Je connais" && $multiplexageMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($multiplexageDecla->answers[$i] == "Je connais pas" && $multiplexageMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($multiplexageDecla->answers[$i] != $multiplexageMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfMultiplexage">
+
+                                    </td>
+                                    <td class="text-center" id="result-rMultiplexage">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Multiplexage">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $pneuFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Pneumatique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $pneuDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Pneumatique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $pneuMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Pneumatique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($pneuFac && $pneuDecla && $pneuMa) { ?>
+                                <?php for ($i = 0; $i < count($pneuFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Assistance à la conduite</td>
+                                    <td class="text-center hidden" name="savoir" id="sPneu">
+                                        <?php echo $pneuFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $pneuFac->score * 100 / $pneuFac->total ?>%
+                                    </td>
+                                    <?php if ((($pneuFac->score  * 100 ) / $pneuFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facPneu">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($pneuFac->score  * 100 ) / $pneuFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facPneu">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $pneuDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $pneuDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($pneuDecla->answers[$i] == "Oui" && $pneuMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($pneuDecla->answers[$i] == "Non" && $pneuMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($pneuDecla->answers[$i] != $pneuMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $pneuDecla->score * 100 / $pneuDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $pneuMa->score * 100 / $pneuMa->total ?>%
+                                    </td>
+                                    <?php if ($pneuDecla->answers[$i] == "Je connais" && $pneuMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($pneuDecla->answers[$i] == "Je connais pas" && $pneuMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($pneuDecla->answers[$i] != $pneuMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
                                     <td class="text-center" id="result-sfPneu">
-                                        
+
                                     </td>
-                                    <% if (pneuDecla.answers[i] == pneuDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
+                                    <td class="text-center" id="result-rPneu">
+
                                     </td>
-                                    <% } %>
-                                    <% if (pneuDecla.answers[i] != pneuDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (pneuFac.answers[i] == "Maitrisé" && pneuDecla.answers[i] == "Oui" && pneuDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vPneu">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (pneuFac.answers[i] == "Non maitrisé" && pneuDecla.answers[i] == "Non" && pneuDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vPneu">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (pneuFac.answers[i] == "Non maitrisé" && pneuDecla.answers[i] == "Oui" && pneuDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vPneu">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (pneuFac.answers[i] == "Maitrisé" && pneuDecla.answers[i] == "Non" && pneuDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vPneu">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (pneuFac.answers[i] == "Maitrisé" && pneuDecla.answers[i] != pneuDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vPneu">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (pneuFac.answers[i] == "Non maitrisé" && pneuDecla.answers[i] != pneuDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vPneu">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mPneu">
-                                        
+                                    <td class="text-center" id="synth-Pneu">
+
                                     </td>
                                 </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (suspensionFac && suspensionDecla && suspensionDeclaMa) { %>
-                                <% for (let i = 0; i < suspensionFac.questions.length; i++) { %>
-                                <tr class="odd">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Suspension à Lame</td>
-                                    <td>
-                                        <%= suspensionFac.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="savoir" id="sSuspension">
-                                        <%= suspensionFac.answers[i] %>
-                                    </td>
-                                    <td class="text-center" id="result-sSuspension">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= suspensionDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= suspensionDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= suspensionDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (suspensionDecla.answers[i] == "Oui" && suspensionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfSuspension">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionDecla.answers[i] == "Non" && suspensionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionDecla.answers[i] != suspensionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfSuspension">
-                                        
-                                    </td>
-                                    <% if (suspensionDecla.answers[i] == suspensionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionDecla.answers[i] != suspensionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionFac.answers[i] == "Maitrisé" && suspensionDecla.answers[i] == "Oui" && suspensionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vSuspension">
-                                        Maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionFac.answers[i] == "Non maitrisé" && suspensionDecla.answers[i] == "Non" && suspensionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionFac.answers[i] == "Non maitrisé" && suspensionDecla.answers[i] == "Oui" && suspensionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionFac.answers[i] == "Maitrisé" && suspensionDecla.answers[i] == "Non" && suspensionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionFac.answers[i] == "Maitrisé" && suspensionDecla.answers[i] != suspensionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <% if (suspensionFac.answers[i] == "Non maitrisé" && suspensionDecla.answers[i] != suspensionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mSuspension">
-                                        
-                                    </td>
-                                </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
-                                <% if (transmissionFac && transmissionDecla && transmissionDeclaMa) { %>
-                                <% for (let i = 0; i < transmissionFac.questions.length; i++) { %>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $suspensionFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $suspensionDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $suspensionMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($suspensionFac && $suspensionDecla && $suspensionMa) { ?>
+                                <?php for ($i = 0; $i < count($suspensionFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        rowspan=`${i}`
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Transmission</td>
-                                    <td>
-                                        <%= transmissionFac.questions[i].label %>
+                                        Assistance à la conduite</td>
+                                    <td class="text-center hidden" name="savoir" id="sSuspension">
+                                        <?php echo $suspensionFac->answers[$i] ?>
                                     </td>
-                                    <td class="text-center" name="savoir" id="sTransmission">
-                                        <%= transmissionFac.answers[i] %>
+                                    <td class="text-center">
+                                        <?php echo $suspensionFac->score * 100 / $suspensionFac->total ?>%
                                     </td>
-                                    <td class="text-center" id="result-sTransmission">
-                                        
-                                    </td>
-                                    <td data-filter="email">
-                                        <%= transmissionDecla.questions[i].label %>
-                                    </td>
-                                    <td class="text-center" name="n">
-                                        <%= transmissionDecla.answers[i] %>
-                                    </td>
-                                    <td class="text-center" name="n1">
-                                        <%= transmissionDeclaMa.answers[i] %>
-                                    </td>
-                                    <% if (transmissionDecla.answers[i] == "Oui" && transmissionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfTransmission">
+                                    <?php if ((($suspensionFac->score  * 100 ) / $suspensionFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facSuspension">
                                         Maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (transmissionDecla.answers[i] == "Non" && transmissionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfTransmission">
+                                    <?php } ?>
+                                    <?php if ((($suspensionFac->score  * 100 ) / $suspensionFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facSuspension">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (transmissionDecla.answers[i] != transmissionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="savoirs-faire" id="sfTransmission">
-                                        Non maitrisé
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $suspensionDecla->answers[$i] ?>
                                     </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-sfTransmission">
-                                        
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $suspensionDecla->answers[$i] ?>
                                     </td>
-                                    <% if (transmissionDecla.answers[i] == transmissionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Oui
-                                    </td>
-                                    <% } %>
-                                    <% if (transmissionDecla.answers[i] != transmissionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="coh">
-                                        Non
-                                    </td>
-                                    <% } %>
-                                    <% if (transmissionFac.answers[i] == "Maitrisé" && transmissionDecla.answers[i] == "Oui" && transmissionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vTransmission">
+                                    <?php if ($suspensionDecla->answers[$i] == "Oui" && $suspensionMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (transmissionFac.answers[i] == "Non maitrisé" && transmissionDecla.answers[i] == "Non" && transmissionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vTransmission">
+                                    <?php } ?>
+                                    <?php if ($suspensionDecla->answers[$i] == "Non" && $suspensionMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (transmissionFac.answers[i] == "Non maitrisé" && transmissionDecla.answers[i] == "Oui" && transmissionDeclaMa.answers[i] == "Oui") { %>
-                                    <td class="text-center" name="valid" id="vTransmission">
+                                    <?php } ?>
+                                    <?php if ($suspensionDecla->answers[$i] != $suspensionMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (transmissionFac.answers[i] == "Maitrisé" && transmissionDecla.answers[i] == "Non" && transmissionDeclaMa.answers[i] == "Non") { %>
-                                    <td class="text-center" name="valid" id="vTransmission">
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $suspensionDecla->score * 100 / $suspensionDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $suspensionMa->score * 100 / $suspensionMa->total ?>%
+                                    </td>
+                                    <?php if ($suspensionDecla->answers[$i] == "Je connais" && $suspensionMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($suspensionDecla->answers[$i] == "Je connais pas" && $suspensionMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (transmissionFac.answers[i] == "Maitrisé" && transmissionDecla.answers[i] != transmissionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vTransmission">
+                                    <?php } ?>
+                                    <?php if ($suspensionDecla->answers[$i] != $suspensionMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Non maitrisé
                                     </td>
-                                    <% } %>
-                                    <% if (transmissionFac.answers[i] == "Non maitrisé" && transmissionDecla.answers[i] != transmissionDeclaMa.answers[i]) { %>
-                                    <td class="text-center" name="valid" id="vTransmission">
-                                        Non maitrisé
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfSuspension">
+
                                     </td>
-                                    <% } %>
-                                    <td class="text-center" id="result-mTransmission">
-                                        
+                                    <td class="text-center" id="result-rSuspension">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Suspension">
+
                                     </td>
                                 </tr>
-                                <% } %>
-                                <% } %><!--end::Menu-->
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $transmissionFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transmission'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $transmissionDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transmission'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $transmissionMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transmission']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($transmissionFac && $transmissionDecla && $transmissionMa) { ?>
+                                <?php for ($i = 0; $i < count($transmissionFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        Assistance à la conduite</td>
+                                    <td class="text-center hidden" name="savoir" id="sTransmission">
+                                        <?php echo $transmissionFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transmissionFac->score * 100 / $transmissionFac->total ?>%
+                                    </td>
+                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facTransmission">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $transmissionDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $transmissionDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($transmissionDecla->answers[$i] == "Oui" && $transmissionMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transmissionDecla->answers[$i] == "Non" && $transmissionMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transmissionDecla->answers[$i] != $transmissionMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $transmissionDecla->score * 100 / $transmissionDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transmissionMa->score * 100 / $transmissionMa->total ?>%
+                                    </td>
+                                    <?php if ($transmissionDecla->answers[$i] == "Je connais" && $transmissionMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transmissionDecla->answers[$i] == "Je connais pas" && $transmissionMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transmissionDecla->answers[$i] != $transmissionMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfTransmission">
+
+                                    </td>
+                                    <td class="text-center" id="result-rTransmission">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Transmission">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
                                 <tr>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        </th>
-                                    <th id=""
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
+                                        tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         Résultats</th>
                                     <th id="result-savoir"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        colspan="2"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
+                                        tabindex="0" colspan="1" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
-                                    <th id=""
+                                    <th id="decision-savoir"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
-                                        Résultats</th>
+                                        tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    </th>
                                     <th id="result-n"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
+                                        tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
+                                        tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        colspan="2"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
+                                        tabindex="0" colspan="1" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
-                                    <th id="result-coh"
+                                    <th id="decision-savoirs-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
+                                        tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
-                                    <th id="result-valid"
+                                    <th id="synthese"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        colspan="2"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px;">
+                                        colspan="1" tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
                                 </tr>
                             </tbody>
@@ -1389,488 +1478,480 @@
     <!--end::Post-->
 </div>
 <!--end::Body-->
-<script src="https://code.jquery.com/jquery-3.6.3.js"
-    integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-crossorigin="anonymous"></script>
-<script
-    src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js">
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js">
 </script>
 <script>
-    $(document).ready(function() {
-        $("#excel").on("click", function() {
-             let table = document.getElementsByTagName("table");
-             debugger;
-             TableToExcel.convert(table[0], {
-                name: `Table.xlsx`
-            })
-        });
+$(document).ready(function() {
+    $("#excel").on("click", function() {
+        let table = document.getElementsByTagName("table");
+        debugger;
+        TableToExcel.convert(table[0], {
+            name: `Table.xlsx`
+        })
     });
+});
 
-    const savoir = []
-    const savoirFaire = []
-    const n = []
-    const n1 = []
-    const coh = []
-    const valid = []
-    const sTransverse = []
-    const sfTransverse = []
-    const vTransverse = []
-    const sTransmission = []
-    const sfTransmission = []
-    const vTransmission = []
-    const sAssistance = []
-    const sfAssistance = []
-    const vAssistance = []
-    const sClimatisation = []
-    const sfClimatisation = []
-    const vClimatisation = []
-    const sDirection = []
-    const sfDirection = []
-    const vDirection = []
-    const sElectricite = []
-    const sfElectricite = []
-    const vElectricite = []
-    const sFreinage = []
-    const sfFreinage = []
-    const vFreinage = []
-    const sMoteur = []
-    const sfMoteur = []
-    const vMoteur = []
-    const sHydraulique = []
-    const sfHydraulique = []
-    const vHydraulique = []
-    const sPneu = []
-    const sfPneu = []
-    const vPneu = []
-    const smultiplexage = []
-    const sfmultiplexage = []
-    const vmultiplexage = []
-    const sSuspension = []
-    const sfSuspension = []
-    const vSuspension = []
-    const valueMaitrisé = "Maitrisé"
-    const valueOui = "Oui"
-    const tdSavoir = document.querySelectorAll("td[name='savoir']")
-    const tdSavoirFaire = document.querySelectorAll("td[name='savoirs-faire']")
-    const tdN = document.querySelectorAll("td[name='n']")
-    const tdN1 = document.querySelectorAll("td[name='n1']")
-    const tdCoh = document.querySelectorAll("td[name='coh']")
-    const tdValid = document.querySelectorAll("td[name='valid']")
-    const tdsTransverse = document.querySelectorAll("#sTransverse")
-    const tdsfTransverse = document.querySelectorAll("#sfTransverse")
-    const tdvTransverse = document.querySelectorAll("#vTransverse")
-    const tdsTransmission = document.querySelectorAll("#sTransmission")
-    const tdsfTransmission = document.querySelectorAll("#sfTransmission")
-    const tdvTransmission = document.querySelectorAll("#vTransmission")
-    const tdsAssistance = document.querySelectorAll("#sAssistance")
-    const tdsfAssistance = document.querySelectorAll("#sfAssistance")
-    const tdvAssistance = document.querySelectorAll("#vAssistance")
-    const tdsClimatisation = document.querySelectorAll("#sClimatisation")
-    const tdsfClimatisation = document.querySelectorAll("#sfClimatisation")
-    const tdvClimatisation = document.querySelectorAll("#vClimatisation")
-    const tdsDirection = document.querySelectorAll("#sDirection")
-    const tdsfDirection = document.querySelectorAll("#sfDirection")
-    const tdvDirection = document.querySelectorAll("#vDirection")
-    const tdsElectricite = document.querySelectorAll("#sElectricite")
-    const tdsfElectricite = document.querySelectorAll("#sfElectricite")
-    const tdvElectricite = document.querySelectorAll("#vElectricite")
-    const tdsFreinage = document.querySelectorAll("#sFreinage")
-    const tdsfFreinage = document.querySelectorAll("#sfFreinage")
-    const tdvFreinage = document.querySelectorAll("#vFreinage")
-    const tdsHydraulique = document.querySelectorAll("#sHydraulique")
-    const tdsfHydraulique = document.querySelectorAll("#sfHydraulique")
-    const tdvHydraulique = document.querySelectorAll("#vHydraulique")
-    const tdsMoteur = document.querySelectorAll("#sMoteur")
-    const tdsfMoteur = document.querySelectorAll("#sfMoteur")
-    const tdvMoteur = document.querySelectorAll("#vMoteur")
-    const tdsPneu = document.querySelectorAll("#sPneu")
-    const tdsfPneu = document.querySelectorAll("#sfPneu")
-    const tdvPneu = document.querySelectorAll("#vPneu")
-    const tdsmultiplexage = document.querySelectorAll("#smultiplexage")
-    const tdsfmultiplexage = document.querySelectorAll("#sfmultiplexage")
-    const tdvmultiplexage = document.querySelectorAll("#vmultiplexage")
-    const tdsSuspension = document.querySelectorAll("#sSuspension")
-    const tdsfSuspension = document.querySelectorAll("#sfSuspension")
-    const tdvSuspension = document.querySelectorAll("#vSuspension")
-    const resultSavoir = document.querySelector("#result-savoir")
-    const resultSavoirFaire = document.querySelector("#result-savoir-faire")
-    const resultN = document.querySelector("#result-n")
-    const resultN1 = document.querySelector("#result-n1")
-    const resultCoh = document.querySelector("#result-coh")
-    const resultValid = document.querySelector("#result-valid")
-    const resultsTransverse = document.querySelector("#result-sTransverse")
-    const resultsfTransverse = document.querySelector("#result-sfTransverse")
-    const resultvTransverse = document.querySelector("#result-mTransverse")
-    const resultsTransmission = document.querySelector("#result-sTransmission")
-    const resultsfTransmission = document.querySelector("#result-sfTransmission")
-    const resultvTransmission = document.querySelector("#result-mTransmission")
-    const resultsAssistance = document.querySelector("#result-sAssistance")
-    const resultsfAssistance = document.querySelector("#result-sfAssistance")
-    const resultvAssistance = document.querySelector("#result-mAssistance")
-    const resultsClimatisation= document.querySelector("#result-sClimatisation")
-    const resultsfClimatisation = document.querySelector("#result-sfClimatisation")
-    const resultvClimatisation = document.querySelector("#result-mClimatisation")
-    const resultsDirection = document.querySelector("#result-sDirection")
-    const resultsfDirection = document.querySelector("#result-sfDirection")
-    const resultvDirection = document.querySelector("#result-mDirection")
-    const resultsElectricite = document.querySelector("#result-sElectricite")
-    const resultsfElectricite = document.querySelector("#result-sfElectricite")
-    const resultvElectricite = document.querySelector("#result-mElectricite")
-    const resultsFreinage = document.querySelector("#result-sFreinage")
-    const resultsfFreinage = document.querySelector("#result-sfFreinage")
-    const resultvFreinage = document.querySelector("#result-mFreinage")
-    const resultsHydraulique= document.querySelector("#result-sHydraulique")
-    const resultsfHydraulique= document.querySelector("#result-sfHydraulique")
-    const resultvHydraulique = document.querySelector("#result-mHydraulique")
-    const resultsMoteur = document.querySelector("#result-sMoteur")
-    const resultsfMoteur = document.querySelector("#result-sfMoteur")
-    const resultvMoteur = document.querySelector("#result-mMoteur")
-    const resultsmultiplexage = document.querySelector("#result-smultiplexage")
-    const resultsfmultiplexage = document.querySelector("#result-sfmultiplexage")
-    const resultvmultiplexage = document.querySelector("#result-mmultiplexage")
-    const resultsPneu = document.querySelector("#result-sPneu")
-    const resultsfPneu = document.querySelector("#result-sfPneu")
-    const resultvPneu = document.querySelector("#result-mPneu")
-    const resultsSuspension = document.querySelector("#result-sSuspension")
-    const resultsfSuspension = document.querySelector("#result-sfSuspension")
-    const resultvSuspension = document.querySelector("#result-mSuspension")
+const savoir = []
+const savoirFaire = []
+const n = []
+const n1 = []
+const coh = []
+const valid = []
+const sfTransverse = []
+const sfTransmission = []
+const sfAssistance = []
+const sfClimatisation = []
+const sfDirection = []
+const sfElectricite = []
+const sfFreinage = []
+const sfMoteur = []
+const sfHydraulique = []
+const sfPneu = []
+const sfmultiplexage = []
+const sfSuspension = []
+const valueMaitrisé = "Maitrisé"
+const valueOui = "Oui"
+const tdSavoir = document.querySelectorAll("td[name='savoir']")
+const tdSavoirFaire = document.querySelectorAll("td[name='savoirs-faire']")
+const tdN = document.querySelectorAll("td[name='n']")
+const tdN1 = document.querySelectorAll("td[name='n1']")
+const tdCoh = document.querySelectorAll("td[name='coh']")
+const tdValid = document.querySelectorAll("td[name='valid']")
+const tdsfTransverse = document.querySelectorAll("#sfTransverse")
+const tdsfTransmission = document.querySelectorAll("#sfTransmission")
+const tdsfAssistance = document.querySelectorAll("#sfAssistance")
+const tdsfClimatisation = document.querySelectorAll("#sfClimatisation")
+const tdsfDirection = document.querySelectorAll("#sfDirection")
+const tdsfElectricite = document.querySelectorAll("#sfElectricite")
+const tdsfFreinage = document.querySelectorAll("#sfFreinage")
+const tdsfHydraulique = document.querySelectorAll("#sfHydraulique")
+const tdsfMoteur = document.querySelectorAll("#sfMoteur")
+const tdsfPneu = document.querySelectorAll("#sfPneu")
+const tdsfmultiplexage = document.querySelectorAll("#sfMultiplexage")
+const tdsfSuspension = document.querySelectorAll("#sfSuspension")
+const resultSavoir = document.querySelector("#result-savoir")
+const resultSavoirFaire = document.querySelector("#result-savoir-faire")
+const decisionSavoir = document.querySelector("#decision-savoir")
+const decisionSavoirFaire = document.querySelector("#decision-savoirs-faire")
+const synthese = document.querySelector("#synthese")
+const resultN = document.querySelector("#result-n")
+const resultN1 = document.querySelector("#result-n1")
+const resultCoh = document.querySelector("#result-coh")
+const resultValid = document.querySelector("#result-valid")
+const resultsfTransverse = document.querySelector("#result-sfTransverse")
+const synthTransversale = document.querySelector("#synth-Transversale")
+const resultrTransversale = document.querySelector("#result-rTransversale")
+const facTransversale = document.querySelector("#facTransversale")
+const resultsfTransmission = document.querySelector("#result-sfTransmission")
+const synthTransmission = document.querySelector("#synth-Transmission")
+const resultrTransmission = document.querySelector("#result-rTransmission")
+const facTransmission = document.querySelector("#facTransmission")
+const resultsfAssistance = document.querySelector("#result-sfAssistance")
+const synthAssistance = document.querySelector("#synth-Assistance")
+const resultrAssistance = document.querySelector("#result-rAssistance")
+const facAssistance = document.querySelector("#facAssistance")
+const resultsfClimatisation = document.querySelector("#result-sfClimatisation")
+const synthClimatisation = document.querySelector("#synth-Climatisation")
+const resultrClimatisation = document.querySelector("#result-rClimatisation")
+const facClimatisation = document.querySelector("#facClimatisation")
+const resultsfDirection = document.querySelector("#result-sfDirection")
+const synthDirection = document.querySelector("#synth-Direction")
+const resultrDirection = document.querySelector("#result-rDirection")
+const facDirection = document.querySelector("#facDirection")
+const resultsfElectricite = document.querySelector("#result-sfElectricite")
+const synthElectricite = document.querySelector("#synth-Electricite")
+const resultrElectricite = document.querySelector("#result-rElectricite")
+const facElectricite = document.querySelector("#facElectricite")
+const resultsfFreinage = document.querySelector("#result-sfFreinage")
+const synthFreinage = document.querySelector("#synth-Freinage")
+const resultrFreinage = document.querySelector("#result-rFreinage")
+const facFreinage = document.querySelector("#facFreinage")
+const resultsfHydraulique = document.querySelector("#result-sfHydraulique")
+const synthHydraulique = document.querySelector("#synth-Hydraulique")
+const resultrHydraulique = document.querySelector("#result-rHydraulique")
+const facHydraulique = document.querySelector("#facHydraulique")
+const resultsfMoteur = document.querySelector("#result-sfMoteur")
+const synthMoteur = document.querySelector("#synth-Moteur")
+const resultrMoteur = document.querySelector("#result-rMoteur")
+const facMoteur = document.querySelector("#facMoteur")
+const resultsfMultiplexage = document.querySelector("#result-sfmultiplexage")
+const synthMultiplexage = document.querySelector("#synth-Multiplexage")
+const resultrMultiplexage = document.querySelector("#result-rMultiplexage")
+const facMultiplexage = document.querySelector("#facMultiplexage")
+const resultsfPneu = document.querySelector("#result-sfPneu")
+const synthPneu = document.querySelector("#synth-Pneu")
+const resultrPneu = document.querySelector("#result-rPneu")
+const facPneu = document.querySelector("#facPneu")
+const resultsfSuspension = document.querySelector("#result-sfSuspension")
+const synthSuspension = document.querySelector("#synth-Suspension")
+const resultrSuspension = document.querySelector("#result-rSuspension")
+const facSuspension = document.querySelector("#facSuspension")
 
-    for (let i = 0; i < tdSavoir.length; i++) {
-        savoir.push(tdSavoir[i].innerHTML)
-    }
-    for (let i = 0; i < tdSavoirFaire.length; i++) {
-        savoirFaire.push(tdSavoirFaire[i].innerHTML)
-    }
-    for (let i = 0; i < tdN.length; i++) {
-        n.push(tdN[i].innerHTML)
-    }
-    for (let i = 0; i < tdN1.length; i++) {
-        n1.push(tdN1[i].innerHTML)
-    }
-    for (let i = 0; i < tdCoh.length; i++) {
-        coh.push(tdCoh[i].innerHTML)
-    }
-    for (let i = 0; i < tdValid.length; i++) {
-        valid.push(tdValid[i].innerHTML)
-    }
-    for (let i = 0; i < tdsTransverse.length; i++) {
-        sTransverse.push(tdsTransverse[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfTransverse.length; i++) {
-        sfTransverse.push(tdsfTransverse[i].innerHTML)
-    }
-    for (let i = 0; i < tdvTransverse.length; i++) {
-        vTransverse.push(tdvTransverse[i].innerHTML)
-    }
-    for (let i = 0; i < tdsTransmission.length; i++) {
-        sTransmission.push(tdsTransmission[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfTransmission.length; i++) {
-        sfTransmission.push(tdsfTransmission[i].innerHTML)
-    }
-    for (let i = 0; i < tdvTransmission.length; i++) {
-        vTransmission.push(tdvTransmission[i].innerHTML)
-    }
-    for (let i = 0; i < tdsAssistance.length; i++) {
-        sAssistance.push(tdsAssistance[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfAssistance.length; i++) {
-        sfAssistance.push(tdsfAssistance[i].innerHTML)
-    }
-    for (let i = 0; i < tdvAssistance.length; i++) {
-        vAssistance.push(tdvAssistance[i].innerHTML)
-    }
-    for (let i = 0; i < tdsClimatisation.length; i++) {
-        sClimatisation.push(tdsClimatisation[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfClimatisation.length; i++) {
-        sfClimatisation.push(tdsfClimatisation[i].innerHTML)
-    }
-    for (let i = 0; i < tdvClimatisation.length; i++) {
-        vClimatisation.push(tdvClimatisation[i].innerHTML)
-    }
-    for (let i = 0; i < tdsDirection.length; i++) {
-        sDirection.push(tdsDirection[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfDirection.length; i++) {
-        sfDirection.push(tdsfDirection[i].innerHTML)
-    }
-    for (let i = 0; i < tdvDirection.length; i++) {
-        vDirection.push(tdvDirection[i].innerHTML)
-    }
-    for (let i = 0; i < tdsElectricite.length; i++) {
-        sElectricite.push(tdsElectricite[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfElectricite.length; i++) {
-        sfElectricite.push(tdsfElectricite[i].innerHTML)
-    }
-    for (let i = 0; i < tdvElectricite.length; i++) {
-        vElectricite.push(tdvElectricite[i].innerHTML)
-    }
-    for (let i = 0; i < tdsFreinage.length; i++) {
-        sFreinage.push(tdsFreinage[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfFreinage.length; i++) {
-        sfFreinage.push(tdsfFreinage[i].innerHTML)
-    }
-    for (let i = 0; i < tdvFreinage.length; i++) {
-        vFreinage.push(tdvFreinage[i].innerHTML)
-    }
-    for (let i = 0; i < tdsHydraulique.length; i++) {
-        sHydraulique.push(tdsHydraulique[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfHydraulique.length; i++) {
-        sfHydraulique.push(tdsfHydraulique[i].innerHTML)
-    }
-    for (let i = 0; i < tdvHydraulique.length; i++) {
-        vHydraulique.push(tdvHydraulique[i].innerHTML)
-    }
-    for (let i = 0; i < tdsMoteur.length; i++) {
-        sMoteur.push(tdsMoteur[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfMoteur.length; i++) {
-        sfMoteur.push(tdsfMoteur[i].innerHTML)
-    }
-    for (let i = 0; i < tdvMoteur.length; i++) {
-        vMoteur.push(tdvMoteur[i].innerHTML)
-    }
-    for (let i = 0; i < tdsmultiplexage.length; i++) {
-        smultiplexage.push(tdsmultiplexage[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfmultiplexage.length; i++) {
-        sfmultiplexage.push(tdsfmultiplexage[i].innerHTML)
-    }
-    for (let i = 0; i < tdvmultiplexage.length; i++) {
-        vmultiplexage.push(tdvmultiplexage[i].innerHTML)
-    }
-    for (let i = 0; i < tdsPneu.length; i++) {
-        sPneu.push(tdsPneu[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfPneu.length; i++) {
-        sfPneu.push(tdsfPneu[i].innerHTML)
-    }
-    for (let i = 0; i < tdvPneu.length; i++) {
-        vPneu.push(tdvPneu[i].innerHTML)
-    }
-    for (let i = 0; i < tdsSuspension.length; i++) {
-        sSuspension.push(tdsSuspension[i].innerHTML)
-    }
-    for (let i = 0; i < tdsfSuspension.length; i++) {
-        sfSuspension.push(tdsfSuspension[i].innerHTML)
-    }
-    for (let i = 0; i < tdvSuspension.length; i++) {
-        vSuspension.push(tdvSuspension[i].innerHTML)
-    }
+for (let i = 0; i < tdSavoir.length; i++) {
+    savoir.push(tdSavoir[i].innerHTML)
+}
+for (let i = 0; i < tdSavoirFaire.length; i++) {
+    savoirFaire.push(tdSavoirFaire[i].innerHTML)
+}
+for (let i = 0; i < tdN.length; i++) {
+    n.push(tdN[i].innerHTML)
+}
+for (let i = 0; i < tdN1.length; i++) {
+    n1.push(tdN1[i].innerHTML)
+}
+for (let i = 0; i < tdCoh.length; i++) {
+    coh.push(tdCoh[i].innerHTML)
+}
+for (let i = 0; i < tdValid.length; i++) {
+    valid.push(tdValid[i].innerHTML)
+}
+for (let i = 0; i < tdsfTransverse.length; i++) {
+    sfTransverse.push(tdsfTransverse[i].innerHTML)
+}
+for (let i = 0; i < tdsfTransmission.length; i++) {
+    sfTransmission.push(tdsfTransmission[i].innerHTML)
+}
+for (let i = 0; i < tdsfAssistance.length; i++) {
+    sfAssistance.push(tdsfAssistance[i].innerHTML)
+}
+for (let i = 0; i < tdsfClimatisation.length; i++) {
+    sfClimatisation.push(tdsfClimatisation[i].innerHTML)
+}
+for (let i = 0; i < tdsfDirection.length; i++) {
+    sfDirection.push(tdsfDirection[i].innerHTML)
+}
+for (let i = 0; i < tdsfElectricite.length; i++) {
+    sfElectricite.push(tdsfElectricite[i].innerHTML)
+}
+for (let i = 0; i < tdsfFreinage.length; i++) {
+    sfFreinage.push(tdsfFreinage[i].innerHTML)
+}
+for (let i = 0; i < tdsfHydraulique.length; i++) {
+    sfHydraulique.push(tdsfHydraulique[i].innerHTML)
+}
+for (let i = 0; i < tdsfMoteur.length; i++) {
+    sfMoteur.push(tdsfMoteur[i].innerHTML)
+}
+for (let i = 0; i < tdsfmultiplexage.length; i++) {
+    sfmultiplexage.push(tdsfmultiplexage[i].innerHTML)
+}
+for (let i = 0; i < tdsfPneu.length; i++) {
+    sfPneu.push(tdsfPneu[i].innerHTML)
+}
+for (let i = 0; i < tdsfSuspension.length; i++) {
+    sfSuspension.push(tdsfSuspension[i].innerHTML)
+}
 
-    const maitriseSavoir = savoir.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitriseSavoirFaire = savoirFaire.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const ouiN = n.filter(function(str) {
-        return str.includes(valueOui)
-    })
-    const ouiN1 = n1.filter(function(str) {
-        return str.includes(valueOui)
-    })
-    const ouiCoh = coh.filter(function(str) {
-        return str.includes(valueOui)
-    })
-    const maitriseValid = valid.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesTransverse = sTransverse.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfTransverse = sfTransverse.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevTransverse = vTransverse.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesTransmission = sTransmission.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfTransmission = sfTransmission.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevTransmission = vTransmission.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesAssistance = sAssistance.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfAssistance = sfAssistance.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevAssistance = vAssistance.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesClimatisation = sClimatisation.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfClimatisation = sfClimatisation.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevClimatisation = vClimatisation.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesDirection = sDirection.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfDirection = sfDirection.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevDirection = vDirection.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesElectricite = sElectricite.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfElectricite = sfElectricite.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevElectricite = vElectricite.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesFreinage = sFreinage.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfFreinage = sfFreinage.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevFreinage = vFreinage.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesHydraulique = sHydraulique.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfHydraulique = sfHydraulique.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevHydraulique = vHydraulique.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesMoteur = sMoteur.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfMoteur = sfMoteur.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevMoteur = vMoteur.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesmultiplexage = smultiplexage.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfmultiplexage = sfmultiplexage.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevmultiplexage = vmultiplexage.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesPneu = sPneu.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfPneu = sfPneu.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevPneu = vPneu.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesSuspension = sSuspension.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisesfSuspension = sfSuspension.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
-    const maitrisevSuspension = vSuspension.filter(function(str) {
-        return str.includes(valueMaitrisé)
-    })
+const maitriseSavoir = savoir.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitriseSavoirFaire = savoirFaire.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const ouiN = n.filter(function(str) {
+    return str.includes(valueOui)
+})
+const ouiN1 = n1.filter(function(str) {
+    return str.includes(valueOui)
+})
+const ouiCoh = coh.filter(function(str) {
+    return str.includes(valueOui)
+})
+const maitriseValid = valid.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfTransverse = sfTransverse.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfTransmission = sfTransmission.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfAssistance = sfAssistance.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfClimatisation = sfClimatisation.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfDirection = sfDirection.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfElectricite = sfElectricite.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfFreinage = sfFreinage.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfHydraulique = sfHydraulique.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfMoteur = sfMoteur.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfmultiplexage = sfmultiplexage.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfPneu = sfPneu.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfSuspension = sfSuspension.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
 
-    const percentSavoir = ((maitriseSavoir.length * 100) / tdSavoir.length).toFixed(2)
-    const percentSavoirFaire = ((maitriseSavoirFaire.length * 100) / tdSavoirFaire.length).toFixed(2)
-    const percentN = ((ouiN.length * 100) / tdN.length).toFixed(2)
-    const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(2)
-    const percentCoh = ((ouiCoh.length * 100) / tdCoh.length).toFixed(2)
-    const percentValid = ((maitriseValid.length * 100) / tdValid.length).toFixed(2)
-    const percentsTransverse = ((maitrisesTransverse.length * 100) / tdsTransverse.length).toFixed(2)
-    const percentsfTransverse = ((maitrisesfTransverse.length * 100) / tdsfTransverse.length).toFixed(2)
-    const percentvTransverse = ((maitrisevTransverse.length * 100) / tdvTransverse.length).toFixed(2)
-    const percentsTransmission = ((maitrisesTransmission.length * 100) / tdsTransmission.length).toFixed(2)
-    const percentsfTransmission = ((maitrisesfTransmission.length * 100) / tdsfTransmission.length).toFixed(2)
-    const percentvTransmission = ((maitrisevTransmission.length * 100) / tdvTransmission.length).toFixed(2)
-    const percentsAssistance = ((maitrisesAssistance.length * 100) / tdsAssistance.length).toFixed(2)
-    const percentsfAssistance = ((maitrisesfAssistance.length * 100) / tdsfAssistance.length).toFixed(2)
-    const percentvAssistance = ((maitrisevAssistance.length * 100) / tdvAssistance.length).toFixed(2)
-    const percentsClimatisation = ((maitrisesClimatisation.length * 100) / tdsClimatisation.length).toFixed(2)
-    const percentsfClimatisation = ((maitrisesfClimatisation.length * 100) / tdsfClimatisation.length).toFixed(2)
-    const percentvClimatisation = ((maitrisevClimatisation.length * 100) / tdvClimatisation.length).toFixed(2)
-    const percentsDirection = ((maitrisesDirection.length * 100) / tdsDirection.length).toFixed(2)
-    const percentsfDirection = ((maitrisesfDirection.length * 100) / tdsfDirection.length).toFixed(2)
-    const percentvDirection = ((maitrisevDirection.length * 100) / tdvDirection.length).toFixed(2)
-    const percentsElectricite = ((maitrisesElectricite.length * 100) / tdsElectricite.length).toFixed(2)
-    const percentsfElectricite = ((maitrisesfElectricite.length * 100) / tdsfElectricite.length).toFixed(2)
-    const percentvElectricite = ((maitrisevElectricite.length * 100) / tdvElectricite.length).toFixed(2)
-    const percentsFreinage = ((maitrisesFreinage.length * 100) / tdsFreinage.length).toFixed(2)
-    const percentsfFreinage = ((maitrisesfFreinage.length * 100) / tdsfFreinage.length).toFixed(2)
-    const percentvFreinage = ((maitrisevFreinage.length * 100) / tdvFreinage.length).toFixed(2)
-    const percentsHydraulique = ((maitrisesHydraulique.length * 100) / tdsHydraulique.length).toFixed(2)
-    const percentsfHydraulique = ((maitrisesfHydraulique.length * 100) / tdsfHydraulique.length).toFixed(2)
-    const percentvHydraulique = ((maitrisevHydraulique.length * 100) / tdvHydraulique.length).toFixed(2)
-    const percentsMoteur = ((maitrisesMoteur.length * 100) / tdsMoteur.length).toFixed(2)
-    const percentsfMoteur = ((maitrisesfMoteur.length * 100) / tdsfMoteur.length).toFixed(2)
-    const percentvMoteur = ((maitrisevMoteur.length * 100) / tdvMoteur.length).toFixed(2)
-    const percentsPneu = ((maitrisesPneu.length * 100) / tdsPneu.length).toFixed(2)
-    const percentsfPneu = ((maitrisesfPneu.length * 100) / tdsfPneu.length).toFixed(2)
-    const percentvPneu = ((maitrisevPneu.length * 100) / tdvPneu.length).toFixed(2)
-    const percentsmultiplexage = ((maitrisesmultiplexage.length * 100) / tdsmultiplexage.length).toFixed(2)
-    const percentsfmultiplexage = ((maitrisesfmultiplexage.length * 100) / tdsfmultiplexage.length).toFixed(2)
-    const percentvmultiplexage = ((maitrisevmultiplexage.length * 100) / tdvmultiplexage.length).toFixed(2)
-    const percentsSuspension = ((maitrisesSuspension.length * 100) / tdsSuspension.length).toFixed(2)
-    const percentsfSuspension = ((maitrisesfSuspension.length * 100) / tdsfSuspension.length).toFixed(2)
-    const percentvSuspension = ((maitrisevSuspension.length * 100) / tdvSuspension.length).toFixed(2)
+const percentSavoir = ((maitriseSavoir.length * 100) / tdSavoir.length).toFixed(0)
+const percentSavoirFaire = ((maitriseSavoirFaire.length * 100) / tdSavoirFaire.length).toFixed(0)
+const percentN = ((ouiN.length * 100) / tdN.length).toFixed(0)
+const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
+const percentCoh = ((ouiCoh.length * 100) / tdCoh.length).toFixed(0)
+const percentValid = ((maitriseValid.length * 100) / tdValid.length).toFixed(0)
+const percentsfTransverse = ((maitrisesfTransverse.length * 100) / tdsfTransverse.length).toFixed(0)
+const percentsfTransmission = ((maitrisesfTransmission.length * 100) / tdsfTransmission.length).toFixed(0)
+const percentsfAssistance = ((maitrisesfAssistance.length * 100) / tdsfAssistance.length).toFixed(0)
+const percentsfClimatisation = ((maitrisesfClimatisation.length * 100) / tdsfClimatisation.length).toFixed(0)
+const percentsfDirection = ((maitrisesfDirection.length * 100) / tdsfDirection.length).toFixed(0)
+const percentsfElectricite = ((maitrisesfElectricite.length * 100) / tdsfElectricite.length).toFixed(0)
+const percentsfFreinage = ((maitrisesfFreinage.length * 100) / tdsfFreinage.length).toFixed(0)
+const percentsfHydraulique = ((maitrisesfHydraulique.length * 100) / tdsfHydraulique.length).toFixed(0)
+const percentsfMoteur = ((maitrisesfMoteur.length * 100) / tdsfMoteur.length).toFixed(0)
+const percentsfPneu = ((maitrisesfPneu.length * 100) / tdsfPneu.length).toFixed(0)
+const percentsfmultiplexage = ((maitrisesfmultiplexage.length * 100) / tdsfmultiplexage.length).toFixed(0)
+const percentsfSuspension = ((maitrisesfSuspension.length * 100) / tdsfSuspension.length).toFixed(0)
 
-    resultSavoir.innerHTML = percentSavoir + "%";
-    resultSavoirFaire.innerHTML = percentSavoirFaire + "%";
-    resultN.innerHTML = percentN + "%";
-    resultN1.innerHTML = percentN1 + "%";
-    resultCoh.innerHTML = percentCoh + "%";
-    resultValid.innerHTML = percentValid + "%";
-    resultsTransverse.innerHTML = percentsTransverse + "%";
+resultSavoir.innerHTML = percentSavoir + "%";
+resultSavoirFaire.innerHTML = percentSavoirFaire + "%";
+resultN.innerHTML = percentN + "%";
+resultN1.innerHTML = percentN1 + "%";
+// resultCoh.innerHTML = percentCoh + "%";
+// resultValid.innerHTML = percentValid + "%";
+if (resultsfTransverse) {
     resultsfTransverse.innerHTML = percentsfTransverse + "%";
-    resultvTransverse.innerHTML = percentvTransverse + "%";
-    resultsTransmission.innerHTML = percentsTransmission + "%";
+}
+if (resultsfTransmission) {
     resultsfTransmission.innerHTML = percentsfTransmission + "%";
-    resultvTransmission.innerHTML = percentvTransmission + "%";
-    resultsAssistance.innerHTML = percentsAssistance + "%";
+}
+if (resultsfAssistance) {
     resultsfAssistance.innerHTML = percentsfAssistance + "%";
-    resultvAssistance.innerHTML = percentvAssistance + "%";
-    resultsClimatisation.innerHTML = percentsClimatisation + "%";
-    resultvClimatisation.innerHTML = percentvClimatisation + "%";
-    resultsDirection.innerHTML = percentsDirection + "%";
+}
+if (resultsfClimatisation) {
+    resultsfClimatisation.innerHTML = percentsfClimatisation + "%";
+}
+if (resultsfDirection) {
     resultsfDirection.innerHTML = percentsfDirection + "%";
-    resultvDirection.innerHTML = percentvDirection + "%";
-    resultsElectricite.innerHTML = percentsElectricite + "%";
+}
+if (resultsfElectricite) {
     resultsfElectricite.innerHTML = percentsfElectricite + "%";
-    resultvElectricite.innerHTML = percentvElectricite + "%";
-    resultsFreinage.innerHTML = percentsFreinage + "%";
+}
+if (resultsfFreinage) {
     resultsfFreinage.innerHTML = percentsfFreinage + "%";
-    resultvFreinage.innerHTML = percentvFreinage + "%";
-    resultsHydraulique.innerHTML = percentsHydraulique + "%";
+}
+if (resultsfHydraulique) {
     resultsfHydraulique.innerHTML = percentsfHydraulique + "%";
-    resultvHydraulique.innerHTML = percentvHydraulique + "%";
-    resultsMoteur.innerHTML = percentsMoteur + "%";
+}
+if (resultsfMoteur) {
     resultsfMoteur.innerHTML = percentsfMoteur + "%";
-    resultvMoteur.innerHTML = percentvMoteur + "%";
-    resultsPneu.innerHTML = percentsPneu + "%";
+}
+if (resultsfPneu) {
     resultsfPneu.innerHTML = percentsfPneu + "%";
-    resultvPneu.innerHTML = percentvPneu + "%";
-    resultsmultiplexage.innerHTML = percentsmultiplexage + "%";
-    resultsfmultiplexage.innerHTML = percentsfmultiplexage + "%";
-    resultvmultiplexage.innerHTML = percentvmultiplexage + "%";
-    resultsSuspension.innerHTML = percentsSuspension + "%";
+}
+if (resultsfMultiplexage) {
+    resultsfMultiplexage.innerHTML = percentsfmultiplexage + "%";
+}
+if (resultsfSuspension) {
     resultsfSuspension.innerHTML = percentsfSuspension + "%";
-    resultvSuspension.innerHTML = percentvSuspension + "%";
+}
+const a = "80%";
+
+if (resultsfTransverse && parseFloat(resultsfTransverse.innerHTML) >= parseFloat(a)) {
+    resultrTransversale.innerHTML = "Maitrisé"
+}
+if (resultsfTransverse && parseFloat(resultsfTransverse.innerHTML) < parseFloat(a)) {
+    resultrTransmission.innerHTML = "Non maitrisé"
+}
+if (resultsfTransmission && parseFloat(resultsfTransmission.innerHTML) >= parseFloat(a)) {
+    resultrTransmission.innerHTML = "Maitrisé"
+}
+if (resultsfTransmission && parseFloat(resultsfTransmission.innerHTML) < parseFloat(a)) {
+    resultrTransmission.innerHTML = "Non maitrisé"
+}
+if (resultsfAssistance && parseFloat(resultsfAssistance.innerHTML) >= parseFloat(a)) {
+    resultrAssistance.innerHTML = "Maitrisé"
+}
+if (resultsfAssistance && parseFloat(resultsfAssistance.innerHTML) < parseFloat(a)) {
+    resultrAssistance.innerHTML = "Non maitrisé"
+}
+if (resultsfClimatisation && parseFloat(resultsfClimatisation.innerHTML) >= parseFloat(a)) {
+    resultrClimatisation.innerHTML = "Maitrisé"
+}
+if (resultsfClimatisation && parseFloat(resultsfClimatisation.innerHTML) < parseFloat(a)) {
+    resultrClimatisation.innerHTML = "Non maitrisé"
+}
+if (resultsfDirection && parseFloat(resultsfDirection.innerHTML) >= parseFloat(a)) {
+    resultrDirection.innerHTML = "Maitrisé"
+}
+if (resultsfDirection && parseFloat(resultsfDirection.innerHTML) < parseFloat(a)) {
+    resultrDirection.innerHTML = "Non maitrisé"
+}
+if (resultsfElectricite && parseFloat(resultsfElectricite.innerHTML) >= parseFloat(a)) {
+    resultrElectricite.innerHTML = "Maitrisé"
+}
+if (resultsfElectricite && parseFloat(resultsfElectricite.innerHTML) < parseFloat(a)) {
+    resultrElectricite.innerHTML = "Non maitrisé"
+}
+if (resultsfFreinage && parseFloat(resultsfFreinage.innerHTML) >= parseFloat(a)) {
+    resultrFreinage.innerHTML = "Maitrisé"
+}
+if (resultsfFreinage && parseFloat(resultsfFreinage.innerHTML) < parseFloat(a)) {
+    resultrFreinage.innerHTML = "Non maitrisé"
+}
+if (resultsfHydraulique && parseFloat(resultsfHydraulique.innerHTML) >= parseFloat(a)) {
+    resultrHydraulique.innerHTML = "Maitrisé"
+}
+if (resultsfHydraulique && parseFloat(resultsfHydraulique.innerHTML) < parseFloat(a)) {
+    resultrHydraulique.innerHTML = "Non maitrisé"
+}
+if (resultsfMoteur && parseFloat(resultsfMoteur.innerHTML) >= parseFloat(a)) {
+    resultrMoteur.innerHTML = "Maitrisé"
+}
+if (resultsfMoteur && parseFloat(resultsfMoteur.innerHTML) < parseFloat(a)) {
+    resultrMoteur.innerHTML = "Non maitrisé"
+}
+if (resultsfMultiplexage && parseFloat(resultsfMultiplexage.innerHTML) >= parseFloat(a)) {
+    resultrMultiplexage.innerHTML = "Maitrisé"
+}
+if (resultsfMultiplexage && parseFloat(resultsfMultiplexage.innerHTML) < parseFloat(a)) {
+    resultrMultiplexage.innerHTML = "Non maitrisé"
+}
+if (resultsfSuspension && parseFloat(resultsfSuspension.innerHTML) >= parseFloat(a)) {
+    resultrSuspension.innerHTML = "Maitrisé"
+}
+if (resultsfSuspension && parseFloat(resultsfSuspension.innerHTML) < parseFloat(a)) {
+    resultrSuspension.innerHTML = "Non maitrisé"
+}
+if (parseFloat(resultSavoir.innerHTML) >= parseFloat(a)) {
+    decisionSavoir.innerHTML = "Maitrisé"
+}
+if (parseFloat(resultSavoir.innerHTML) < parseFloat(a)) {
+    decisionSavoir.innerHTML = "Non maitrisé"
+}
+if (parseFloat(resultSavoirFaire.innerHTML) >= parseFloat(a)) {
+    decisionSavoirFaire.innerHTML = "Maitrisé"
+}
+if (parseFloat(resultSavoirFaire.innerHTML) < parseFloat(a)) {
+    decisionSavoirFaire.innerHTML = "Non maitrisé"
+}
+
+if (facTransversale && facTransversale.innerHTML == "Maitrisé" && (resultrTransversale.innerHTML == "Maitrisé")) {
+    synthTransversale.innerHTML = "Maitrisé"
+}
+if (facTransversale && facTransversale.innerHTML == "Non maitrisé" && (resultrTransversale.innerHTML ==
+        "Non maitrisé")) {
+    synthTransversale.innerHTML = "Non maitrisé"
+}
+if (facTransversale && facTransversale.innerHTML !== resultrTransversale.innerHTML) {
+    synthTransversale.innerHTML = "Non maitrisé"
+}
+if (facTransmission && facTransmission.innerHTML == "Maitrisé" && (resultrTransmission.innerHTML == "Maitrisé")) {
+    synthTransmission.innerHTML = "Maitrisé"
+}
+if (facTransmission && facTransmission.innerHTML == "Non maitrisé" && (resultrTransmission.innerHTML ==
+        "Non maitrisé")) {
+    synthTransmission.innerHTML = "Non maitrisé"
+}
+if (facTransmission && facTransmission.innerHTML !== resultrTransmission.innerHTML) {
+    synthTransmission.innerHTML = "Non maitrisé"
+}
+if (facAssistance && facAssistance.innerHTML == "Maitrisé" && (resultrAssistance.innerHTML == "Maitrisé")) {
+    synthAssistance.innerHTML = "Maitrisé"
+}
+if (facAssistance && facAssistance.innerHTML == "Non maitrisé" && (resultrAssistance.innerHTML == "Non maitrisé")) {
+    synthAssistance.innerHTML = "Non maitrisé"
+}
+if (facAssistance && facAssistance.innerHTML !== resultrAssistance.innerHTML) {
+    synthAssistance.innerHTML = "Non maitrisé"
+}
+if (facClimatisation && facClimatisation.innerHTML == "Maitrisé" && (resultrClimatisation.innerHTML == "Maitrisé")) {
+    synthClimatisation.innerHTML = "Maitrisé"
+}
+if (facClimatisation && facClimatisation.innerHTML == "Non maitrisé" && (resultrClimatisation.innerHTML ==
+        "Non maitrisé")) {
+    synthClimatisation.innerHTML = "Non maitrisé"
+}
+if (facClimatisation && facClimatisation.innerHTML !== resultrClimatisation.innerHTML) {
+    synthClimatisation.innerHTML = "Non maitrisé"
+}
+if (facDirection && facDirection.innerHTML == "Maitrisé" && (resultrDirection.innerHTML == "Maitrisé")) {
+    synthDirection.innerHTML = "Maitrisé"
+}
+if (facDirection && facDirection.innerHTML == "Non maitrisé" && (resultrDirection.innerHTML == "Non maitrisé")) {
+    synthDirection.innerHTML = "Non maitrisé"
+}
+if (facDirection && facDirection.innerHTML !== resultrDirection.innerHTML) {
+    synthDirection.innerHTML = "Non maitrisé"
+}
+if (facElectricite && facElectricite.innerHTML == "Maitrisé" && (resultrElectricite.innerHTML == "Maitrisé")) {
+    synthElectricite.innerHTML = "Maitrisé"
+}
+if (facElectricite && facElectricite.innerHTML == "Non maitrisé" && (resultrElectricite.innerHTML == "Non maitrisé")) {
+    synthElectricite.innerHTML = "Non maitrisé"
+}
+if (facElectricite && facElectricite.innerHTML !== resultrElectricite.innerHTML) {
+    synthElectricite.innerHTML = "Non maitrisé"
+}
+if (facFreinage && facFreinage.innerHTML == "Maitrisé" && (resultrFreinage.innerHTML == "Maitrisé")) {
+    synthFreinage.innerHTML = "Maitrisé"
+}
+if (facFreinage && facFreinage.innerHTML == "Non maitrisé" && (resultrFreinage.innerHTML == "Non maitrisé")) {
+    synthFreinage.innerHTML = "Non maitrisé"
+}
+if (facFreinage && facFreinage.innerHTML !== resultrFreinage.innerHTML) {
+    synthFreinage.innerHTML = "Non maitrisé"
+}
+if (facHydraulique && facHydraulique.innerHTML == "Maitrisé" && (resultrHydraulique.innerHTML == "Maitrisé")) {
+    synthHydraulique.innerHTML = "Maitrisé"
+}
+if (facHydraulique && facHydraulique.innerHTML == "Non maitrisé" && (resultrHydraulique.innerHTML == "Non maitrisé")) {
+    synthHydraulique.innerHTML = "Non maitrisé"
+}
+if (facHydraulique && facHydraulique.innerHTML !== resultrHydraulique.innerHTML) {
+    synthHydraulique.innerHTML = "Non maitrisé"
+}
+if (facMoteur && facMoteur.innerHTML == "Maitrisé" && (resultrMoteur.innerHTML == "Maitrisé")) {
+    synthMoteur.innerHTML = "Maitrisé"
+}
+if (facMoteur && facMoteur.innerHTML == "Non maitrisé" && (resultrMoteur.innerHTML == "Non maitrisé")) {
+    synthMoteur.innerHTML = "Non maitrisé"
+}
+if (facMoteur && facMoteur.innerHTML !== resultrMoteur.innerHTML) {
+    synthMoteur.innerHTML = "Non maitrisé"
+}
+if (facMultiplexage && facMultiplexage.innerHTML == "Maitrisé" && (resultrMultiplexage.innerHTML == "Maitrisé")) {
+    synthMultiplexage.innerHTML = "Maitrisé"
+}
+if (facMultiplexage && facMultiplexage.innerHTML == "Non maitrisé" && (resultrMultiplexage.innerHTML ==
+        "Non maitrisé")) {
+    synthMultiplexage.innerHTML = "Non maitrisé"
+}
+if (facMultiplexage && facMultiplexage.innerHTML !== resultrMultiplexage.innerHTML) {
+    synthMultiplexage.innerHTML = "Non maitrisé"
+}
+if (facSuspension && facSuspension.innerHTML == "Maitrisé" && (resultrSuspension.innerHTML == "Maitrisé")) {
+    synthSuspension.innerHTML = "Maitrisé"
+}
+if (facSuspension && facSuspension.innerHTML == "Non maitrisé" && (resultrSuspension.innerHTML == "Non maitrisé")) {
+    synthSuspension.innerHTML = "Non maitrisé"
+}
+if (facSuspension && facSuspension.innerHTML !== resultrSuspension.innerHTML) {
+    synthSuspension.innerHTML = "Non maitrisé"
+}
+if (decisionSavoir.innerHTML == "Maitrisé" && (decisionSavoirFaire.innerHTML == "Maitrisé")) {
+    synthese.innerHTML = "Maitrisé"
+}
+if (decisionSavoir.innerHTML == "Non maitrisé" && (decisionSavoirFaire.innerHTML == "Non maitrisé")) {
+    synthese.innerHTML = "Non maitrisé"
+}
+if (decisionSavoir.innerHTML !== decisionSavoirFaire.innerHTML) {
+    synthese.innerHTML = "Non maitrisé"
+}
 </script>
+<?php } ?>

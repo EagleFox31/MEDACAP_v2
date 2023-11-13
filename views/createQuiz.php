@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
 
 if ( isset( $_POST[ 'submit' ] ) ) {
 
@@ -20,47 +26,38 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $number = $_POST[ 'number' ];
     $level = $_POST[ 'level' ];
 
-    if ( empty( $label ) ||
-         empty( $description ) ||
-         empty( $type ) ||
-         empty( $speciality ) ||
-         empty( $level ) ||
-         empty( $number ) ) {
-        $error = 'Champ obligatoire';
-    } else {
-        $exist = $quizzes->findOne( [
-            '$and' => [
-                [ 'label' => $label ],
-                [ 'type' => $type ],
-                [ 'level' => $level ],
-                [ 'speciality' => $speciality ],
-            ],
-        ] );
-    
-        if ( $exist && $exist->active == false ) {
-            $quizzes->updateOne( [ '_id' => new ObjectId( $exist->_id ) ], [ '$set' => [ 'active' => true ] ] );
-            $success_msg = 'Questionnaire créé avec succès';
-        } elseif ( $exist && $exist->active == true ) {
-            $error_msg = 'Ce questionnaire existe déjà.';
-        } else {
-            $quiz = [
-                'users' => [],
-                'questions' => [],
-                'label' => ucfirst( $label ),
-                'description' => ucfirst( $description ),
-                'type' => $type,
-                'speciality' => ucfirst( $speciality ),
-                'level' => ucfirst( $level ),
-                'number' => +$number,
-                'total' => 0,
-                'active' => true
-            ];
-        
-            $quizzes->insertOne( $quiz );
-            $success_msg = 'Questionnaire créé avec succès';
-        }
-    }
+    $exist = $quizzes->findOne( [
+        '$and' => [
+            [ 'label' => $label ],
+            [ 'level' => $level ],
+        ],
+    ] );
 
+    if ( empty( $label ) ||
+    empty( $description ) ||
+    empty( $type ) ||
+    empty( $speciality ) ||
+    empty( $level ) ||
+    empty( $number ) ) {
+        $error = 'Champ obligatoire';
+    } elseif ( $exist && $exist->active == true ) {
+        $error_msg = 'Ce questionnaire existe déjà.';
+    } else {
+        $quiz = [
+            'users' => [],
+            'questions' => [],
+            'label' => ucfirst( $label ),
+            'description' => ucfirst( $description ),
+            'type' => $type,
+            'speciality' => ucfirst( $speciality ),
+            'level' => ucfirst( $level ),
+            'number' => +$number,
+            'total' => 0,
+            'active' => true
+        ];
+        $quizzes->insertOne( $quiz );
+        $success_msg = 'Questionnaire créé avec succès';
+    }
 }
 
 ?>
@@ -321,3 +318,4 @@ include_once 'partials/header.php'
 <?php
 include_once 'partials/footer.php'
 ?>
+<?php } ?>

@@ -1,3 +1,30 @@
+<?php
+session_start();
+
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
+    require_once '../vendor/autoload.php';
+    
+    // Create connection
+    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+    
+    // Connecting in database
+    $academy = $conn->academy;
+    
+    // Connecting in collections
+    $allocations = $academy->allocations;
+    $quizzes = $academy->quizzes;
+    $users = $academy->users;
+
+    $user = $_SESSION[ 'id' ];
+    $technician = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($user)]);
+}
+?>
+<?php
+include_once 'partials/header.php'
+?>
 <!--begin::Title-->
 <title>Mes Affectations | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -7,51 +34,39 @@
     data-select2-id="select2-data-kt_content">
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
-        <div
-            class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
+        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
             <!--begin::Info-->
-            <div
-                class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
+            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
                     Mes tests</h1>
                 <!--end::Title-->
-                    <div class="card-title">
-                        <!--begin::Search-->
-                        <div
-                            class="d-flex align-items-center position-relative my-1">
-                            <i
-                                class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span
-                                    class="path1"></span><span
-                                    class="path2"></span></i> <input type="text"
-                                data-kt-customer-table-filter="search"
-                                id="search"
-                                class="form-control form-control-solid w-250px ps-12"
-                                placeholder="Recherche">
-                        </div>
-                        <!--end::Search-->
+                <div class="card-title">
+                    <!--begin::Search-->
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span
+                                class="path2"></span></i> <input type="text" data-kt-customer-table-filter="search"
+                            id="search" class="form-control form-control-solid w-250px ps-12" placeholder="Recherche">
                     </div>
+                    <!--end::Search-->
+                </div>
             </div>
             <!--end::Info-->
         </div>
     </div>
-    <center>
-        <%- include('partials/message') %>
-    </center>
     <!--end::Toolbar-->
     <!--begin::Post-->
-    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post"
-        data-select2-id="select2-data-kt_post">
+    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
         <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->
                 <!-- <div class="card-header border-0 pt-6"> -->
-                    <!--begin::Card title-->
-                    <!-- <div class="card-title"> -->
-                        <!--begin::Search-->
-                        <!-- <div
+                <!--begin::Card title-->
+                <!-- <div class="card-title"> -->
+                <!--begin::Search-->
+                <!-- <div
                             class="d-flex align-items-center position-relative my-1">
                             <i
                                 class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span
@@ -62,18 +77,18 @@
                                 class="form-control form-control-solid w-250px ps-12"
                                 placeholder="Recherche">
                         </div> -->
-                        <!--end::Search-->
-                    <!-- </div> -->
-                    <!--begin::Card title-->
-                    <!--begin::Card toolbar-->
-                    <!-- <div class="card-toolbar"> -->
-                        <!--begin::Toolbar-->
-                        <!-- <div class="d-flex justify-content-end"
+                <!--end::Search-->
+                <!-- </div> -->
+                <!--begin::Card title-->
+                <!--begin::Card toolbar-->
+                <!-- <div class="card-toolbar"> -->
+                <!--begin::Toolbar-->
+                <!-- <div class="d-flex justify-content-end"
                             data-kt-customer-table-toolbar="base"> -->
-                            <!--begin::Filter-->
-                            <!-- <div class="w-150px me-3"> -->
-                                <!--begin::Select2-->
-                                <!-- <select id="select"
+                <!--begin::Filter-->
+                <!-- <div class="w-150px me-3"> -->
+                <!--begin::Select2-->
+                <!-- <select id="select"
                                     class="form-select form-select-solid"
                                     data-control="select2"
                                     data-hide-search="true"
@@ -87,89 +102,193 @@
                                     <option value="true">
                                         En attente</option>
                                 </select> -->
-                                <!--end::Select2-->
-                            <!-- </div> -->
-                            <!--end::Filter-->
-                            <!--begin::Export dropdown-->
-                            <!-- <button type="button" id="excel"
+                <!--end::Select2-->
+                <!-- </div> -->
+                <!--end::Filter-->
+                <!--begin::Export dropdown-->
+                <!-- <button type="button" id="excel"
                                 class="btn btn-light-primary">
                                 <i class="ki-duotone ki-exit-up fs-2"><span
                                         class="path1"></span><span
                                         class="path2"></span></i>
                                 Excel
                             </button> -->
-                            <!--end::Export dropdown-->
-                        <!-- </div> -->
-                        <!--end::Toolbar-->
-                    <!-- </div> -->
-                    <!--end::Card toolbar-->
+                <!--end::Export dropdown-->
+                <!-- </div> -->
+                <!--end::Toolbar-->
+                <!-- </div> -->
+                <!--end::Card toolbar-->
                 <!-- </div> -->
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Table-->
-                    <div id="kt_customers_table_wrapper"
-                        class="dataTables_wrapper dt-bootstrap4 no-footer">
+                    <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <div class="table-responsive">
                             <table aria-describedby=""
                                 class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                 id="kt_customers_table">
                                 <thead>
-                                    <tr
-                                        class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="min-w-125px sorting"
-                                            tabindex="0"
-                                            aria-controls="kt_customers_table"
+                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Questionnaires</th>
-                                        <th class="min-w-125px sorting"
-                                        tabindex="0"
-                                        aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Système
-                                        </th>
-                                        <th class="min-w-125px sorting"
-                                            tabindex="0"
-                                            aria-controls="kt_customers_table"
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">Niveau
                                         </th>
-                                        <th class="min-w-125px sorting text-end"
-                                            tabindex="0"
-                                            aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="fw-semibold text-gray-600"
-                                    id="table">
-                                    <% quizzes.forEach((quiz, i) => { %>
-                                    <tr class="odd"
-                                        etat="<%= quiz.active %>">
-                                        <td data-filter="email">    
-                                            <%= quiz.quiz.label %>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <%= quiz.quiz.speciality %>
-                                        </td>
-                                        <td data-filter="email">
-                                            <%= quiz.quiz.level %>
-                                        </td>
-                                        <% if (quiz.active == true) { %>
-                                        <td class="text-end">
-                                            <a href="/questionnaire-<%= quiz.quiz.type.toLowerCase() %>/<%= quiz.quiz._id %>" class="btn btn-light btn-active-light-primary btn-sm"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Test 
+                                <tbody class="fw-semibold text-gray-600" id="table">
+                                    <?php
+                                        $quizJuFac = $allocations->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($user)],
+                                                ['levelQuiz' => 'Junior'],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Factuel'],
+                                                ['type' => 'Technicien dans questionnaire']
+                                            ]
+                                        ]);
+                                        $quizSeFac = $allocations->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($user)],
+                                                ['levelQuiz' => 'Senior'],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Factuel'],
+                                                ['type' => 'Technicien dans questionnaire']
+                                            ]
+                                        ]);
+                                        $quizExFac = $allocations->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($user)],
+                                                ['levelQuiz' => 'Expert'],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Factuel'],
+                                                ['type' => 'Technicien dans questionnaire']
+                                            ]
+                                        ]);
+                                        $quizJuDecla = $allocations->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($user)],
+                                                ['levelQuiz' => 'Junior'],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Declaratif'],
+                                                ['type' => 'Technicien dans questionnaire']
+                                            ]
+                                        ]);
+                                        $quizSeDecla= $allocations->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($user)],
+                                                ['levelQuiz' => 'Senior'],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Declaratif'],
+                                                ['type' => 'Technicien dans questionnaire']
+                                            ]
+                                        ]);
+                                        $quizExDecla = $allocations->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($user)],
+                                                ['levelQuiz' => 'Expert'],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Declaratif'],
+                                                ['type' => 'Technicien dans questionnaire']
+                                            ]
+                                        ]);
+                                    ?>
+                                    <?php if ($quizJuFac) { ?>
+                                    <tr class="odd" etat="">
+                                        <td class="">
+                                            <a href="./userQuizFactuel.php?level=Junior&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click"
+                                                data-kt-menu-placement="bottom-end">Questionnaire savoir
                                             </a>
                                         </td>
-                                        <% } %>
+                                        <td data-filter="email">
+                                            Junior
+                                        </td>
                                         <!--end::Menu-->
                                     </tr>
-                                    <% }) %>
+                                    <?php } ?>
+                                    <?php if ($quizSeFac) { ?>
+                                    <tr class="odd" etat="">
+                                        <td class="">
+                                            <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click"
+                                                data-kt-menu-placement="bottom-end">Questionnaire savoir
+                                            </a>
+                                        </td>
+                                        <td data-filter="email">
+                                            Senior
+                                        </td>
+                                        <!--end::Menu-->
+                                    </tr>
+                                    <?php } ?>
+                                    <?php if ($quizExFac) { ?>
+                                    <tr class="odd" etat="">
+                                        <td class="">
+                                            <a href="./userQuizFactuel.php?level=Expert&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click"
+                                                data-kt-menu-placement="bottom-end">Questionnaire savoir
+                                            </a>
+                                        </td>
+                                        <td data-filter="email">
+                                            Expert
+                                        </td>
+                                        <!--end::Menu-->
+                                    </tr>
+                                    <?php } ?>
+                                    <?php if ($quizJuDecla) { ?>
+                                    <tr class="odd" etat="">
+                                        <td class="">
+                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click"
+                                                data-kt-menu-placement="bottom-end">Questionnaire savoir-faire
+                                            </a>
+                                        </td>
+                                        <td data-filter="email">
+                                            Junior
+                                        </td>
+                                        <!--end::Menu-->
+                                    </tr>
+                                    <?php } ?>
+                                    <?php if ($quizSeDecla) { ?>
+                                    <tr class="odd" etat="">
+                                        <td class="">
+                                            <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click"
+                                                data-kt-menu-placement="bottom-end">Questionnaire savoir-faire
+                                            </a>
+                                        </td>
+                                        <td data-filter="email">
+                                            Senior
+                                        </td>
+                                        <!--end::Menu-->
+                                    </tr>
+                                    <?php } ?>
+                                    <?php if ($quizExDecla) { ?>
+                                    <tr class="odd" etat="">
+                                        <td class="">
+                                            <a href="./userQuizDeclaratif.php?level=Expert&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click"
+                                                data-kt-menu-placement="bottom-end">Questionnaire savoir-faire
+                                            </a>
+                                        </td>
+                                        <td data-filter="email">
+                                            Expert
+                                        </td>
+                                        <!--end::Menu-->
+                                    </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -177,9 +296,7 @@
                             <div
                                 class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
                                 <div class="dataTables_length">
-                                    <label><select
-                                            id="kt_customers_table_length"
-                                            name="kt_customers_table_length"
+                                    <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
                                             <option value="10">10</option>
                                             <option value="25">25</option>
@@ -191,8 +308,7 @@
                             <div
                                 class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
                                 <div class="dataTables_paginate paging_simple_numbers">
-                                    <ul class="pagination" 
-                                        id="kt_customers_table_paginate">
+                                    <ul class="pagination" id="kt_customers_table_paginate">
                                     </ul>
                                 </div>
                             </div>
@@ -209,3 +325,6 @@
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php
+include_once 'partials/footer.php'
+?>

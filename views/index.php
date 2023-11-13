@@ -1,19 +1,39 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $conn = require __DIR__ . "/connect.php";
-    $sql = printf("SELECT * FROM user WHERE username = '%s'",
-    $conn->real_escape_string($_POST["username"]));
-    $result = $conn->query($qls);
-    $user = $result->fetch_assoc();
+session_start();
+
+require_once '../vendor/autoload.php';
     
-    if ($user) {
-        if (password_verify($_POST["password"], $user["password_hash"])) {
-            session_start();
-            $_SESSION["user_id"] = $user["id"];
-            header("Location: dashboard");
-        }
+// Create connection
+$conn = new MongoDB\Client('mongodb://localhost:27017');
+    
+ // Connecting in database
+ $academy = $conn->academy;
+    
+// Connecting in collections
+$users = $academy->users;
+if (isset( $_POST[ 'login' ] )) {
+    $username = $_POST[ 'username' ];
+    $password = sha1($_POST[ 'password' ]);
+
+    $data = [
+        'username' => $username,
+        'password' => $password
+        ];
+
+    $login = $users->findOne($data);
+    if (empty($login)) {
+        $error_msg = "Nom d'utilisateur ou mot de passe incorrect. Essayez encore!!!";
+    } elseif ($login->active == false) {
+        $error_msg = "Vous n'êtes plus autorisé à accéder à cette plateforme.";
+    } else {
+        $_SESSION["username"] = $login["username"];
+        $_SESSION["profile"] = $login["profile"];
+        $_SESSION["lastName"] = $login["lastName"];
+        $_SESSION["firstName"] = $login["firstName"];
+        $_SESSION["email"] = $login["email"];
+        $_SESSION["id"] = $login["_id"];
+        header('Location: ./dashboard.php');
     }
-    $is_invalid = true;   
 }
 ?>
 
@@ -76,6 +96,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
     </div>
     <!-- Navbar & Hero End -->
+
+    <?php
+if ( isset( $success_msg ) ) {
+    ?>
+    <div class='alert alert-success alert-dismissible fade show' role='alert'>
+        <center><strong><?php echo $success_msg ?></strong></center>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+            <span aria-hidden='true'>&times;
+            </span>
+        </button>
+    </div>
+    <?php
+}
+?>
+    <?php
+if ( isset( $error_msg ) ) {
+    ?>
+    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        <center><strong><?php echo $error_msg ?></strong></center>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+            <span aria-hidden='true'>&times;
+            </span>
+        </button>
+    </div>
+    <?php
+}
+?>
+
     <!-- Contact Start -->
     <div class="container-xxl py-5">
         <div class="container">
@@ -97,8 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="subject" name="username"
-                                        placeholder="Subject" value="<?= htmlspecialchars($POST[" username"] ?? "" )?>">
-                                    <label for="subject">Username</label>
+                                        placeholder="Subject">
+                                    <label for="subject">Nom d'utilisateur</label>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -110,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </div>
                             <a href="forgotPassword.php" class="link-primary fs-6 fw-bolder">Mot de passe Oublié ?</a>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Connexion</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" name="login">Connexion</button>
                             </div>
                         </div>
                     </form>

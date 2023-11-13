@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
+?>
+<?php
 require_once '../vendor/autoload.php';
     
 // Create connection
@@ -59,6 +67,7 @@ if ( isset( $_POST[ 'update' ] ) ) {
             ]
         );
         $success_msg = "Question modifiée avec succès.";
+        exit();
     } else {
         // Update the question in the collection
         $questions->updateOne(
@@ -66,6 +75,7 @@ if ( isset( $_POST[ 'update' ] ) ) {
             [ '$set' => $question ]
         );
         $success_msg = "Question modifiée avec succès.";
+        exit();
     }
 }
 
@@ -75,6 +85,7 @@ if ( isset( $_POST[ 'delet' ] ) ) {
     $question->active = false;
     $questions->updateOne(['_id' => $id], ['$set' => $question]);
     $success_msg =  "Question supprimée avec succes.";
+    exit();
 }
 ?>
 <?php
@@ -325,10 +336,10 @@ include_once 'partials/header.php'
                                             </a>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php echo $question->image ?>
+                                            <?php echo $question->image ?? "" ?>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php echo $question->answer ?>
+                                            <?php echo $question->answer ?? "" ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $question->type ?>
@@ -346,10 +357,10 @@ include_once 'partials/header.php'
                                             <?php echo $question->proposal2 ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $question->proposal3 ?>
+                                            <?php echo $question->proposal3 ?? "" ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $question->proposal4 ?>
+                                            <?php echo $question->proposal4 ?? "" ?>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->
@@ -765,3 +776,4 @@ include_once 'partials/header.php'
 <?php
 include_once 'partials/footer.php'
 ?>
+<?php } ?>

@@ -1,4 +1,34 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["profile"])) {
+    header("Location: ./index.php");
+    exit();
+} else {
+
+    require_once '../vendor/autoload.php';
+
+    // Create connection
+    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+
+    // Connecting in database
+    $academy = $conn->academy;
+
+    // Connecting in collections
+    $users = $academy->users;
+    $quizzes = $academy->quizzes;
+    $allocations = $academy->allocations;
+
+    $countUser = $users->find(['profile' => 'Technicien'])->toArray();
+    $countUsers = count($countUser);
+    $countManager = $users->find(['profile' => 'Technicien'])->toArray();
+    $countManagers = count($countManager);
+    $countAdmin = $users->find(['profile' => 'Technicien'])->toArray();
+    $countAdmins = count($countAdmin);
+    $countQuiz = $quizzes->find(['profile' => 'Technicien'])->toArray();
+    $countQuizzes = count($countQuiz);
+?>
+<?php
 include('./partials/header.php')
 ?>
 <!--begin::Title-->
@@ -21,7 +51,7 @@ include('./partials/header.php')
         </div>
     </div>
     <!--end::Toolbar-->
-    <% if (currentUser.profile == "Manager" || currentUser.profile == "Technicien") { %>
+    <?php if ($_SESSION["profile"] == "Manager" || $_SESSION["profile"] == "Technicien") {?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
@@ -67,8 +97,8 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    <% } %>
-    <% if (currentUser.profile == "Manager") { %>
+    <?php } ?>
+    <?php if ($_SESSION["profile"] == "Manager") {?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
@@ -102,39 +132,45 @@ include('./partials/header.php')
                                             Questionnaires</th>
                                         <th class="min-w-125px">Système</th>
                                         <th class="min-w-125px">Niveau</th>
-                                        <th class="text-end pe-2 min-w-70px">
-                                            Action</th>
                                     </tr>
-                                    <% quizzesMa.forEach((quiz, i) => { %>
+                                    <?php
+                                        $manager = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($_SESSION["id"])]);
+                                        $quizz = $quizzes->find(['type' => 'Declaratif']);
+                                        $quizzesMa = $allocations->find([
+                                            '$and' => [
+                                                ['user' => ["$in" => $manager->users]],
+                                                ['quiz' => ["$in" => $quizz]],
+                                            ]
+                                        ])->toArray();
+                                        $quizzesMa = array_slice($quizzesMa, 0, 4);
+                                        foreach ($quizzesMa as $quizMa) {
+                                            $user = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($quizMa["user"])]);
+                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($quizMa["quiz"])]);
+                                    ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.user.firstName + " " + quiz.user.lastName %>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.label %>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.speciality %>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.level %>
+                                                <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                             </span>
                                         </td>
                                         <td class="pe-0 text-end">
                                             <a href="/evaluation-technicien/<%= quiz.user._id %>/<%= quiz.quiz._id %>"
-                                                class="btn btn-light text-muted fw-bolder btn-sm px-5">Test</a>
+                                                class="btn btn-light text-muted fw-bolder btn-sm px-5"><?php echo $quiz->label ?></a>
+                                        </td>
+                                        <td>
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $quiz->speciality ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $quiz->level ?>
+                                            </span>
                                         </td>
                                     </tr>
-                                    <% }) %>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -148,8 +184,8 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    <% } %>
-    <% if (currentUser.profile == "Technicien") { %>
+    <?php } ?>
+    <?php if ($_SESSION["profile"] == "Technicien") {?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
@@ -181,36 +217,40 @@ include('./partials/header.php')
                                             Questionnaires</th>
                                         <th class="min-w-125px">Système</th>
                                         <th class="min-w-125px">Niveau</th>
-                                        <th class="text-end pe-2 min-w-70px">
-                                            Action</th>
                                     </tr>
-                                    <% quizzesFac.forEach((quiz, i) => { %>
-                                    <% if (quiz.quiz.type == "Factuel") { %>
+                                    <?php
+                                        $quizzesFac = $allocations->find([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Factuel']
+                                            ]
+                                        ])->toArray();
+                                        $quizzesFac = array_slice($quizzesFac, 0, 4);
+                                        foreach ($quizzesFac as $quiz) {
+                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($quiz["quiz"])]);
+                                    ?>
+                                    <?php if ($quiz->type =="Factuel" ) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
+                                        <td class="pe-0">
+                                            <a href="./userQuizDeclaratif.php?id=<?php echo $quiz->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm px-5"><?php echo $quiz->label ?></a>
+                                        </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.label %>
+                                                <?php echo $quiz->speciality ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.speciality %>
+                                                <?php echo $quiz->level ?>
                                             </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.level %>
-                                            </span>
-                                        </td>
-                                        <td class="pe-0 text-end">
-                                            <a href="/questionnaire-<%= quiz.quiz.type.toLowerCase() %>/<%= quiz.quiz._id %>"
-                                                class="btn btn-light text-muted fw-bolder btn-sm px-5">Test</a>
                                         </td>
                                     </tr>
-                                    <% } %>
-                                    <% }) %>
+                                    <?php } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -256,37 +296,40 @@ include('./partials/header.php')
                                         </th>
                                         <th class="min-w-125px">Système</th>
                                         <th class="min-w-125px">Niveau</th>
-                                        <th class="text-end pe-2 min-w-70px">
-                                            Action
-                                        </th>
                                     </tr>
-                                    <% quizzesDecla.forEach((quiz, i) => { %>
-                                    <% if (quiz.quiz.type == "Declaratif") { %>
+                                    <?php
+                                        $quizzesDecla = $allocations->find([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['active' => true],
+                                                ['typeQuiz' => 'Declaratif']
+                                            ]
+                                        ])->toArray();
+                                        $quizzesDecla = array_slice($quizzesDecla, 0, 4);
+                                        foreach ($quizzesDecla as $quiz) {
+                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($quiz["quiz"])]);
+                                    ?>
+                                    <?php if ($quiz->type =="Declaratif" ) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
+                                        <td class="pe-0">
+                                            <a href="./userQuizDeclaratif.php?id=<?php echo $quiz->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm px-5"><?php echo $quiz->label ?></a>
+                                        </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.label %>
+                                                <?php echo $quiz->speciality ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.speciality %>
+                                                <?php echo $quiz->level ?>
                                             </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <%= quiz.quiz.level %>
-                                            </span>
-                                        </td>
-                                        <td class="pe-0 text-end">
-                                            <a href="/questionnaire-<%= quiz.quiz.type.toLowerCase() %>/<%= quiz.quiz._id %>"
-                                                class="btn btn-light text-muted fw-bolder btn-sm px-5">Test</a>
                                         </td>
                                     </tr>
-                                    <% } %>
-                                    <% }) %>
+                                    <?php } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -300,8 +343,8 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    <% } %>
-    <% if (currentUser.profile == "Super Admin" || currentUser.profile == "Admin") { %>
+    <?php } ?>
+    <?php if ($_SESSION["profile"] == "Super Admin" || $_SESSION["profile"] == "Admin") {?>
     <!--begin::Content-->
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Post-->
@@ -321,7 +364,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<%= countUsers %>">
+                                        data-kt-countup-value="<?php echo $countUsers ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -347,7 +390,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<%= countManagers %>">
+                                        data-kt-countup-value="<?php echo $countManagers ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -362,7 +405,7 @@ include('./partials/header.php')
                         <!--end::Card-->
                     </div>
                     <!--end::Col-->
-                    <% if (currentUser.profile == "Super Admin") { %>
+                    <?php if ($_SESSION["profile"] == "Super Admin") {?>
                     <!--begin::Col-->
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <!--begin::Card-->
@@ -374,7 +417,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<%= countAdmins %>">
+                                        data-kt-countup-value="<?php echo $countAdmins ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -389,7 +432,7 @@ include('./partials/header.php')
                         <!--end::Card-->
                     </div>
                     <!--end::Col-->
-                    <% } %>
+                    <?php } ?>
                     <!--begin::Col-->
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <!--begin::Card-->
@@ -401,7 +444,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<%= countQuizzes %>">
+                                        data-kt-countup-value="<?php echo $countQuizzes ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -424,7 +467,7 @@ include('./partials/header.php')
         <!--end::Post-->
     </div>
     <!--end::Content-->
-    <% } %>
+    <?php } ?>
     <!-- begin::Row -->
     <div class="m-5">
         <figure class="highcharts-figure">
@@ -436,4 +479,7 @@ include('./partials/header.php')
 <!--end::Content-->
 <?php
 include('./partials/footer.php')
+?>
+<?php
+}
 ?>

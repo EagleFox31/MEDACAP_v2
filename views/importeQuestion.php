@@ -1,11 +1,13 @@
 <?php
+session_start();
 
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
+?>
+<?php
 require_once '../vendor/autoload.php';
-
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Reader;
 
 if ( isset( $_POST[ 'submit' ] ) ) {
     // Create connection
@@ -16,6 +18,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 
     // Connecting in collections
     $questions = $academy->questions;
+    $quizzes = $academy->quizzes;
+    $allocations = $academy->allocations;
 
 
     $filePath = $_FILES['excel']['tmp_name'];
@@ -31,7 +35,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $answer = $row["5"];
         $speciality = $row["6"];
         $type = $row["7"];
-        $image = $row["8"];
+        $level = $row["8"];
+        $quiz = $row["9"];
+        $image = $row["10"];
+        
+        $exist = $questions->findOne( [ [ 'label' => $label ] ] );
+        if ( $exist && $exist->active == false ) {
+            $questions->updateOne( [ '_id' => new MongoDB\BSON\ObjectId( $exist->_id ) ],
+                [ '$set' => [ 'active' => true ] ] );
+            $existAllocate = $allocations->findOne([ 'question' => new MongoDB\BSON\ObjectId( $exist->_id ) ]);
+            $allocations->updateOne( [ '_id' => new MongoDB\BSON\ObjectId( $existAllocate->_id ) ],
+                [ '$set' => [ 'active' => true ] ] );
+            $success_msg = 'Question ajoutée avec succès';
+        } elseif ( $exist && $exist->active == true ) {
+            $error_msg = 'Cette question existe déjà.';
+        }
 
         $question = [
             'image' => $image,
@@ -43,11 +61,29 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'answer' => ucfirst( $answer ),
             'speciality' => ucfirst( $speciality ),
             'type' => $type,
+            'level' => $level,
             'active' =>true
         ];
         
-        $questions->insertOne($question);
-        $success_msg = "Utilisateurs ajoutés avec succès";
+        $result = $questions->insertOne($question);
+        $quizz = $quizzes->findOne([
+            '$and' => [
+                ['label' => $quiz], ['level' => $level]
+            ]
+        ]);
+        $quizzes->updateOne(
+            ['_id' => new MongoDB\BSON\ObjectId( $quizz->_id )],
+            ['$push' => ['questions' => new MongoDB\BSON\ObjectId( $result->getInsertedId() )]]
+        );
+        $quizz->total++;
+        $allocation = [
+            "quiz" => new MongoDB\BSON\ObjectId( $quizz->_id ),
+            "question" => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
+            "type" => "Question dans questionnaire",
+            'active' =>true
+        ];
+        $allocations->insertOne($allocation);
+        $success_msg = "Questions ajoutés avec succès";
     }
 }
 ?>
@@ -64,7 +100,7 @@ include_once 'partials/header.php'
         style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
     <h1 class="my-3 text-center">Importer des questions</h1>
 
-    <?php 
+    <?php
      if(isset($success_msg)) {
     ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -73,10 +109,10 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
-    <?php 
+    <?php
      if(isset($error_msg)) {
     ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -85,7 +121,7 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
 
@@ -120,3 +156,4 @@ include_once 'partials/header.php'
 <?php
 include_once 'partials/footer.php'
 ?>
+<?php } ?>

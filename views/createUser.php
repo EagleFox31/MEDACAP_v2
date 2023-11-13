@@ -1,17 +1,23 @@
 <?php
+session_start();
 
+if ( !isset( $_SESSION[ 'id' ] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
 require_once '../vendor/autoload.php';
 
 // Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
+$conn = new MongoDB\Client( 'mongodb://localhost:27017' );
 
 // Connecting in database
 $academy = $conn->academy;
 
 // Connecting in collections
 $users = $academy->users;
+$allocations = $academy->allocations;
 if ( isset( $_POST[ 'submit' ] ) ) {
-    
+
     $firstName = $_POST[ 'firstName' ];
     $lastName = $_POST[ 'lastName' ];
     $email = $_POST[ 'email' ];
@@ -33,126 +39,120 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $level = $_POST[ 'level' ];
     $manager = $_POST[ 'manager' ];
     $password = $_POST[ 'password' ];
-    
-    
-    $member =  $users->findOne(["username" => $username]);
-    if($member && $member->active == false){
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $member->_id ) ],
-            ['$set' => ['active' => true]]
-        );
-        $success_msg = "Utilisateur ajouté avec succès";
-    } elseif ($member && $member->active == true){
-        $error_msg = "Cet utilisateur existe déjà";
-    }
-    
-    if (
-    empty($firstName) ||
-    empty($lastName) ||
-    empty($mainRole) ||
-    empty($username) ||
-    empty($matricule) ||
-    empty($speciality) ||
-    empty($birthdate) ||
-    empty($certificate) ||
-    empty($subsidiary) ||
-    empty($department) ||
-    empty($level) ||
-    empty($recruitmentDate) ||
-    empty($password) ||
-    empty($gender)
- ) {
-    $error = "Champ obligatoire";
- }
-    if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-        $email_error = ( "L'adresse email est invalide" );
-    }
-    if ( ! preg_match( "/^([0-9]{10})$/", $phone ) || empty($phone) ) {
-        $phone_error = ( 'Le numéro de téléphone est invalide' );
-    }
-    if ( strlen( $password ) < 6 ) {
-        $password_error = ( 'Le mot de passe doit être au moins de six caractères' );
-    }
-    // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
-    if ( ! preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
-        $password_error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
-    }
-    
-    $password_hash = password_hash( $password, PASSWORD_DEFAULT );
-    
-    if ( $profile == 'Technicien' ) {
-    
-        $person = [
-            'users' => [],
-            'username' => $username,
-            'matricule' => $matricule,
-            'firstName' => ucfirst( $firstName ),
-            'lastName' => ucfirst( $lastName ),
-            'email' => $email,
-            'phone' => $phone,
-            'gender' => $gender,
-            'level' => $level,
-            'country' => $country,
-            'profile' => $profile,
-            'birthdate' => $birthdate,
-            'recrutmentDate' => $recrutmentDate,
-            'certificate' => ucfirst( $certificate ),
-            'subsidiary' => ucfirst( $subsidiary ),
-            'speciality' => ucfirst( $speciality ),
-            'department' => ucfirst( $department ),
-            'subRole' => ucfirst( $subRole ),
-            'mainRole' => ucfirst( $mainRole ),
-            'password' => $password_hash,
-            'active' => true
-        ];
-    
-        $user = $users->insertOne( $person );
-        
-        if ($manager) {
-             $users->updateOne(["_id" => new MongoDB\BSON\ObjectId($manager)], ['$push' => ["users" => new MongoDB\BSON\ObjectId($user->_id)]]);
-             $user["manager"] = new MongoDB\BSON\ObjectId($manager);
-    
-             $users->updateOne(["_id" => new MongoDB\BSON\ObjectId($users->_id)], ['$set' => $user]);
-    
-             $allocation = [
-                 "manager" => new MongoDB\BSON\ObjectId($manager),
-                 "user" => new MongoDB\BSON\ObjectId($user->_id),
-                 "type" => "Technicien dans manager",
-            ];
-            $result = $allocations->insertOne($allocation);
-        }
-        $success_msg = "Technicien ajouté avec succès";
+
+    $password_hash = sha1( $password );
+    $member =  $users->findOne( [ 'username' => $username ] );
+    if (empty( $firstName ) ||
+        empty( $lastName ) ||
+        empty( $mainRole ) ||
+        empty( $username ) ||
+        empty( $matricule ) ||
+        empty( $speciality ) ||
+        empty( $birthdate ) ||
+        empty( $certificate ) ||
+        empty( $subsidiary ) ||
+        empty( $department ) ||
+        empty( $recrutmentDate ) ||
+        empty( $gender ) ||
+        !filter_var( $email, FILTER_VALIDATE_EMAIL ) ||
+        preg_match( '/^[\D]{15}$/', $phone ) ||
+        preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
+            $error = 'Champ obligatoire';
+            $email_error = ( "L'adresse email est invalide" );
+            $phone_error = ( 'Le numéro de téléphone est invalide' );
+            $password_error = ( 'Le mot de passe doit être au moins six caractères, un chiffre, une lettre majiscule' );
+    } elseif ( $member && $member->active == true ) {
+        $error_msg = 'Cet utilisateur existe déjà';
     } else {
-        $person = [
-            'users' => [],
-            'username' => $username,
-            'matricule' => $matricule,
-            'firstName' => ucfirst( $firstName ),
-            'lastName' => ucfirst( $lastName ),
-            'email' => $email,
-            'phone' => $phone,
-            'gender' => $gender,
-            'level' => 'Non applicable',
-            'country' => $country,
-            'profile' => $profile,
-            'birthdate' => $birthdate,
-            'recrutmentDate' => $recrutmentDate,
-            'certificate' => ucfirst( $certificate ),
-            'subsidiary' => ucfirst( $subsidiary ),
-            'speciality' => ucfirst( $speciality ),
-            'department' => ucfirst( $department ),
-            'subRole' => ucfirst( $subRole ),
-            'mainRole' => ucfirst( $mainRole ),
-            'password' => $password_hash,
-            'active' => true
-        ];
-    
-        if ( $profile == 'Manager' ) {
-            $users->insertOne( $person );
-            $success_msg = "Manager ajouté avec succès";
-        } elseif ( $profile == 'Admin' ) {
-            $users->insertOne( $person );
-            $success_msg = "Administrateur ajouté avec succès";
+        if ( $profile == 'Technicien' ) {
+            $personT = [
+                'username' => $username,
+                'matricule' => $matricule,
+                'firstName' => ucfirst( $firstName ),
+                'lastName' => ucfirst( $lastName ),
+                'email' => $email,
+                'phone' => $phone,
+                'gender' => $gender,
+                'level' => $level,
+                'country' => $country,
+                'profile' => $profile,
+                'birthdate' => $birthdate,
+                'recrutmentDate' => $recrutmentDate,
+                'certificate' => ucfirst( $certificate ),
+                'subsidiary' => ucfirst( $subsidiary ),
+                'speciality' => ucfirst( $speciality ),
+                'department' => ucfirst( $department ),
+                'subRole' => ucfirst( $subRole ),
+                'mainRole' => ucfirst( $mainRole ),
+                'password' => $password_hash,
+                'manager' => new MongoDB\BSON\ObjectId( $manager ),
+                'active' => true
+            ];
+            $user = $users->insertOne( $personT );
+            $users->updateOne(
+                [ '_id' => new MongoDB\BSON\ObjectId( $manager ) ],
+                [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+            );
+
+            $allocation = [
+                'manager' => new MongoDB\BSON\ObjectId( $manager ),
+                'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                'type' => 'Technicien dans manager',
+                'active' => true
+            ];
+            $result = $allocations->insertOne( $allocation );
+            $success_msg = 'Technicien ajouté avec succès';
+        } elseif ( $profile == 'Manager' ) {
+            $personM = [
+                'users' => [],
+                'username' => $username,
+                'matricule' => $matricule,
+                'firstName' => ucfirst( $firstName ),
+                'lastName' => ucfirst( $lastName ),
+                'email' => $email,
+                'phone' => $phone,
+                'gender' => $gender,
+                'level' => 'Non applicable',
+                'country' => $country,
+                'profile' => $profile,
+                'birthdate' => $birthdate,
+                'recrutmentDate' => $recrutmentDate,
+                'certificate' => ucfirst( $certificate ),
+                'subsidiary' => ucfirst( $subsidiary ),
+                'speciality' => ucfirst( $speciality ),
+                'department' => ucfirst( $department ),
+                'subRole' => ucfirst( $subRole ),
+                'mainRole' => ucfirst( $mainRole ),
+                'password' => $password_hash,
+                'active' => true
+            ];
+            $users->insertOne( $personM );
+            $success_msg = 'Manager ajouté avec succès';
+        } else {
+            $personA = [
+                'username' => $username,
+                'matricule' => $matricule,
+                'firstName' => ucfirst( $firstName ),
+                'lastName' => ucfirst( $lastName ),
+                'email' => $email,
+                'phone' => $phone,
+                'gender' => $gender,
+                'level' => 'Non applicable',
+                'country' => $country,
+                'profile' => $profile,
+                'birthdate' => $birthdate,
+                'recrutmentDate' => $recrutmentDate,
+                'certificate' => ucfirst( $certificate ),
+                'subsidiary' => ucfirst( $subsidiary ),
+                'speciality' => ucfirst( $speciality ),
+                'department' => ucfirst( $department ),
+                'subRole' => ucfirst( $subRole ),
+                'mainRole' => ucfirst( $mainRole ),
+                'password' => $password_hash,
+                'active' => true
+            ];
+            $users->insertOne( $personA );
+            $success_msg = 'Administrateur ajouté avec succès';
         }
     }
 }
@@ -173,30 +173,32 @@ include_once 'partials/header.php'
         style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
     <h1 class='my-3 text-center'>Ajouter un utilisateur</h1>
 
-    <?php 
-     if(isset($success_msg)) {
+    <?php
+if ( isset( $success_msg ) ) {
     ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class='alert alert-success alert-dismissible fade show' role='alert'>
         <center><strong><?php echo $success_msg ?></strong></center>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+            <span aria-hidden='true'>&times;
+            </span>
         </button>
     </div>
-    <?php 
-    }
+    <?php
+}
+?>
+    <?php
+if ( isset( $error_msg ) ) {
     ?>
-    <?php 
-     if(isset($error_msg)) {
-    ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
         <center><strong><?php echo $error_msg ?></strong></center>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+            <span aria-hidden='true'>&times;
+            </span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
+    <?php
+}
+?>
 
     <form method='POST'><br>
         <!--begin::Input group-->
@@ -212,15 +214,15 @@ include_once 'partials/header.php'
                     <input class='form-control form-control-solid' style='background-color: #f8f8f8;' placeholder=''
                         name='firstName' />
                     <!--end::Input-->
-                    <?php 
-                     if(isset($error)) {
-                    ?>
+                    <?php
+if ( isset( $error ) ) {
+    ?>
                     <span class='text-danger'>
                         <?php echo $error ?>
                     </span>
-                    <?php 
-                    }
-                    ?>
+                    <?php
+}
+?>
                 </div>
                 <!--end::Col-->
                 <!--begin::Col-->
@@ -232,15 +234,15 @@ include_once 'partials/header.php'
                     <input class='form-control form-control-solid' style='background-color: #f8f8f8;' placeholder=''
                         name='lastName' />
                     <!--end::Input-->
-                    <?php 
-                     if(isset($error)) {
-                    ?>
+                    <?php
+if ( isset( $error ) ) {
+    ?>
                     <span class='text-danger'>
                         <?php echo $error ?>
                     </span>
-                    <?php 
-                    }
-                    ?>
+                    <?php
+}
+?>
                 </div>
                 <!--end::Col-->
             </div>
@@ -248,21 +250,21 @@ include_once 'partials/header.php'
             <!--begin::Input group-->
             <div class='fv-row mb-7'>
                 <!--begin::Label-->
-                <label class='required form-label fw-bolder text-dark fs-6'>Username</label>
+                <label class='required form-label fw-bolder text-dark fs-6'>Nom d'utilisateur</label>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input type='text' class='form-control form-control-solid' style='background-color: #f8f8f8;'
                     placeholder='' name='username' />
                 <!--end::Input-->
-                <?php 
-                     if(isset($error)) {
-                    ?>
+                <?php
+if ( isset( $error ) ) {
+    ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
-                    }
-                    ?>
+                <?php
+}
+?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -274,15 +276,15 @@ include_once 'partials/header.php'
                 <input type='text' class='form-control form-control-solid' style='background-color: #f8f8f8;'
                     placeholder='' name='matricule' />
                 <!--end::Input-->
-                <?php 
-                     if(isset($error)) {
-                    ?>
+                <?php
+if ( isset( $error ) ) {
+    ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
-                    }
-                    ?>
+                <?php
+}
+?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -308,15 +310,15 @@ include_once 'partials/header.php'
                 <!--end::Input-->
             </div>
             <!--end::Input group-->
-            <?php 
-                     if(isset($error)) {
-                    ?>
+            <?php
+if ( isset( $error ) ) {
+    ?>
             <span class='text-danger'>
                 <?php echo $error ?>
             </span>
-            <?php 
-                    }
-                    ?>
+            <?php
+}
+?>
             <!--begin::Input group-->
             <div class='fv-row mb-7'>
                 <!--begin::Label-->
@@ -332,15 +334,15 @@ include_once 'partials/header.php'
                 <input type='email' class='form-control form-control-solid' style='background-color: #f8f8f8;'
                     placeholder='' name='email' />
                 <!--end::Input-->
-                <?php 
-                if(isset($email_error)) {
-                ?>
+                <?php
+if ( isset( $email_error ) ) {
+    ?>
                 <span class='text-danger'>
                     <?php echo $email_error ?>
                 </span>
-                <?php 
-                }
-                ?>
+                <?php
+}
+?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -353,15 +355,15 @@ include_once 'partials/header.php'
                 <input type='text' class='form-control form-control-solid' style='background-color: #f8f8f8;'
                     placeholder='' name='phone' />
                 <!--end::Input-->
-                <?php 
-                if(isset($phone_error)) {
-                ?>
+                <?php
+if ( isset( $phone_error ) ) {
+    ?>
                 <span class='text-danger'>
                     <?php echo $phone_error ?>
                 </span>
-                <?php 
-                }
-                ?>
+                <?php
+}
+?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -374,15 +376,15 @@ include_once 'partials/header.php'
                 <input type='date' class='form-control form-control-solid' style='background-color: #f8f8f8;'
                     placeholder='' name='birthdate' />
                 <!--end::Input-->
-                <?php 
-                     if(isset($error)) {
-                    ?>
+                <?php
+if ( isset( $error ) ) {
+    ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
-                    }
-                    ?>
+                <?php
+}
+?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -642,6 +644,15 @@ include_once 'partials/header.php'
                     <option value="Zimbabwe">Zimbabwe</option>
                 </select>
                 <!--end::Input-->
+                <?php 
+                     if(isset($error)) {
+                    ?>
+                <span class='text-danger'>
+                    <?php echo $error ?>
+                </span>
+                <?php 
+                    }
+                    ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -683,11 +694,11 @@ include_once 'partials/header.php'
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row">
+            <div class="d-flex flex-column mb-7 fv-row hidden" id="metier">
                 <!--begin::Label-->
                 <label class="form-label fw-bolder text-dark fs-6">
                     <span class="required">Métier</span> <span class="ms-1" data-bs-toggle="tooltip"
-                        title="Choississez le métier du technicien">
+                        title="Choississez le métier du technicien uniquement quand le profil est technicien">
                         <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
                                 class="path2"></span><span class="path3"></span></i>
                     </span>
@@ -880,7 +891,7 @@ include_once 'partials/header.php'
                 <input type="date" class="form-control form-control-solid" style="background-color: #f8f8f8;"
                     placeholder="" name="recrutmentDate" />
                 <!--end::Input-->
-                <?php 
+                <?php
                      if(isset($error)) {
                     ?>
                 <span class='text-danger'>
@@ -946,11 +957,12 @@ include_once 'partials/header.php'
                 <!--end::Input group-->
             </div>
             <!--end::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row">
+            <div class="d-flex flex-column mb-7 fv-row" id="manager">
                 <!--begin::Label-->
                 <label class="form-label fw-bolder text-dark fs-6">
-                    <span>Manager</span>
-                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le manager de cet technicien">
+                    <span class="required">Manager</span>
+                    <span class="ms-1" data-bs-toggle="tooltip"
+                        title="Choississez le manager de cet technicien et uniquement quand le profil est technicien">
                         <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
                                 class="path2"></span><span class="path3"></span></i>
                     </span>
@@ -973,11 +985,20 @@ include_once 'partials/header.php'
                     </option>
                     <?php } ?>
                 </select>
+                <?php
+                    if(isset($error)) {
+                ?>
+                <span class='text-danger'>
+                    <?php echo $error ?>
+                </span>
+                <?php 
+                    }
+                ?>
             </div>
             <!--end::Scroll-->
             <!--end::Modal body-->
             <!--begin::Modal footer-->
-            <div class="modal-footer flex-center">
+            <div class=" modal-footer flex-center">
                 <!--begin::Button-->
                 <button type="submit" name="submit" class="btn btn-primary">
                     <span class="indicator-label">
@@ -997,3 +1018,4 @@ include_once 'partials/header.php'
 <?php
 include('./partials/footer.php' )
 ?>
+<?php } ?>

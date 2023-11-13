@@ -1,4 +1,12 @@
-<?php 
+<?php
+session_start();
+
+if ( !isset( $_SESSION["profile"] ) ) {
+    header( 'Location: ./index.php' );
+    exit();
+} else {
+?>
+<?php
 require_once '../vendor/autoload.php';
 
 // Create connection
@@ -91,10 +99,13 @@ if ( isset( $_POST[ 'update' ] ) ) {
 
         if ( $member->profile == 'Technicien' ) {
             $success_msg = 'Technicien modifié avec succes.';
+            exit();
         } elseif ( $member->profile == 'Manager' ) {
             $success_msg = 'Manager modifié avec succes.';
+            exit();
         } elseif ( $member->profile == 'Admin' ) {
             $success_msg = 'Administrateur modifié avec succes.';
+            exit();
         }
     } else {
         $users->updateOne(
@@ -124,10 +135,13 @@ if ( isset( $_POST[ 'update' ] ) ) {
 
         if ( $member->profile == 'Technicien' ) {
             $success_msg = 'Technicien modifié avec succes.';
+            exit();
         } elseif ( $member->profile == 'Manager' ) {
             $success_msg = 'Manager modifié avec succes.';
+            exit();
         } elseif ( $member->profile == 'Admin' ) {
             $success_msg = 'Administrateur modifié avec succes.';
+            exit();
         }
     }
 }
@@ -140,6 +154,7 @@ if ( isset( $_POST[ 'password' ] ) ) {
     // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
     if ( ! preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
         $error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
+        exit();
     } else {
         $password_hash = password_hash( $password, PASSWORD_DEFAULT );
     
@@ -148,6 +163,7 @@ if ( isset( $_POST[ 'password' ] ) ) {
             [ '$set' => [ 'password' => $password_hash, ] ]
         );
         $success_msg = 'Mot de passe modifié avec succes.';
+        exit();
     }
 }
 
@@ -159,10 +175,13 @@ if ( isset( $_POST[ 'delete' ] ) ) {
 
     if ($member['profile'] == "Technicien") {
         $success_msg = "Technicien supprimé avec succès";
+        exit();
     } else if ($member['profile'] == "Manager") {
         $success_msg = "Manager supprimé avec succès";
+        exit();
     } else if ($member['profile'] == "Admin") {
         $success_msg = "Administrateur supprimé avec succès";
+        exit();
     }
 }
 
@@ -180,13 +199,14 @@ if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
 
     $membre = $users->updateOne(
         ['_id' => new MongoDB\BSON\ObjectId($manager->_id)],
-        ['$pull' => ['users' => new MongoDB\BSON\ObjectId($id)]]
+        ['$push' => ['users' => new MongoDB\BSON\ObjectId($id)]]
     );
     $user = $users->updateOne(
         ['_id' => new MongoDB\BSON\ObjectId($id)],
         ['$unset' => ['manager' => 1]]
     );
     $success_msg = "Membre retiré avec succes.";
+    exit();
 }
 ?>
 
@@ -473,7 +493,7 @@ include_once 'partials/header.php'
                                         $persons = $users->find(['active' => true]);
                                         foreach ($persons as $user) {
                                         ?>
-                                    <% if (currentUser.profile == "Admin") { %>
+                                    <?php if ($_SESSION["profile"] == "Admin") { ?>
                                     <?php if ($user["profile" ] != "Admin" && $user["profile" ]  != "Super Admin") { ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
                                         <td>
@@ -526,14 +546,15 @@ include_once 'partials/header.php'
                                             <?php echo $user->mainRole ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->subRole ?>
+                                            <?php echo $user->subRole ?? "" ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
                                         </td>
                                     </tr>
                                     <?php } ?>
-                                    <% } %>
+                                    <?php } ?>
+                                    <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                     <?php if ($user["profile" ] != "Super Admin") { ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
                                         <td>
@@ -585,13 +606,14 @@ include_once 'partials/header.php'
                                             <?php echo $user->mainRole ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->subRole ?>
+                                            <?php echo $user->subRole ?? "" ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
                                         </td>
                                     </tr>
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                     <!-- begin:: Modal - Confirm suspend -->
                                     <div class="modal" id="kt_modal_desactivate<?php echo $user->_id ?>" tabindex="-1"
@@ -1319,3 +1341,4 @@ include_once 'partials/header.php'
 <?php
 include_once 'partials/footer.php'
 ?>
+<?php } ?>
