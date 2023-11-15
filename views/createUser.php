@@ -61,7 +61,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             $email_error = ( "L'adresse email est invalide" );
             $phone_error = ( 'Le numéro de téléphone est invalide' );
             $password_error = ( 'Le mot de passe doit être au moins six caractères, un chiffre, une lettre majiscule' );
-    } elseif ( $member && $member->active == true ) {
+    } elseif ( $member ) {
         $error_msg = 'Cet utilisateur existe déjà';
     } else {
         if ( $profile == 'Technicien' ) {
@@ -86,7 +86,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'mainRole' => ucfirst( $mainRole ),
                 'password' => $password_hash,
                 'manager' => new MongoDB\BSON\ObjectId( $manager ),
-                'active' => true
+                'active' => true,
+                'created' => date("d-m-Y")
             ];
             $user = $users->insertOne( $personT );
             $users->updateOne(
@@ -98,7 +99,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'manager' => new MongoDB\BSON\ObjectId( $manager ),
                 'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
                 'type' => 'Technicien dans manager',
-                'active' => true
+                'active' => true,
+                'created' => date("d-m-Y")
             ];
             $result = $allocations->insertOne( $allocation );
             $success_msg = 'Technicien ajouté avec succès';
@@ -124,7 +126,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
                 'password' => $password_hash,
-                'active' => true
+                'active' => true,
+                'created' => date("d-m-Y")
             ];
             $users->insertOne( $personM );
             $success_msg = 'Manager ajouté avec succès';
@@ -149,7 +152,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
                 'password' => $password_hash,
-                'active' => true
+                'active' => true,
+                'created' => date("d-m-Y")
             ];
             $users->insertOne( $personA );
             $success_msg = 'Administrateur ajouté avec succès';

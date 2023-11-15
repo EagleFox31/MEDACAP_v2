@@ -40,50 +40,45 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $image = $row["10"];
         
         $exist = $questions->findOne( [ [ 'label' => $label ] ] );
-        if ( $exist && $exist->active == false ) {
-            $questions->updateOne( [ '_id' => new MongoDB\BSON\ObjectId( $exist->_id ) ],
-                [ '$set' => [ 'active' => true ] ] );
-            $existAllocate = $allocations->findOne([ 'question' => new MongoDB\BSON\ObjectId( $exist->_id ) ]);
-            $allocations->updateOne( [ '_id' => new MongoDB\BSON\ObjectId( $existAllocate->_id ) ],
-                [ '$set' => [ 'active' => true ] ] );
-            $success_msg = 'Question ajoutée avec succès';
-        } elseif ( $exist && $exist->active == true ) {
+        if ( $exist) {
             $error_msg = 'Cette question existe déjà.';
+        } else {
+            $question = [
+                'image' => $image,
+                'label' => ucfirst( $label ),
+                'proposal1' => ucfirst( $proposal1 ),
+                'proposal2' => ucfirst( $proposal2 ),
+                'proposal3' => ucfirst( $proposal3 ),
+                'proposal4' => ucfirst( $proposal4 ),
+                'answer' => ucfirst( $answer ),
+                'speciality' => ucfirst( $speciality ),
+                'type' => $type,
+                'level' => $level,
+                'active' =>true,
+                'created' => date("d-m-y")
+            ];
+            
+            $result = $questions->insertOne($question);
+            $quizz = $quizzes->findOne([
+                '$and' => [
+                    ['label' => $quiz], ['level' => $level]
+                ]
+            ]);
+            $quizzes->updateOne(
+                ['_id' => new MongoDB\BSON\ObjectId( $quizz->_id )],
+                ['$push' => ['questions' => new MongoDB\BSON\ObjectId( $result->getInsertedId() )]]
+            );
+            $quizz->total++;
+            $allocation = [
+                "quiz" => new MongoDB\BSON\ObjectId( $quizz->_id ),
+                "question" => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
+                "type" => "Question dans questionnaire",
+                'active' =>true,
+                'created' => date("d-m-y")
+            ];
+            $allocations->insertOne($allocation);
+            $success_msg = "Questions ajoutés avec succès";
         }
-
-        $question = [
-            'image' => $image,
-            'label' => ucfirst( $label ),
-            'proposal1' => ucfirst( $proposal1 ),
-            'proposal2' => ucfirst( $proposal2 ),
-            'proposal3' => ucfirst( $proposal3 ),
-            'proposal4' => ucfirst( $proposal4 ),
-            'answer' => ucfirst( $answer ),
-            'speciality' => ucfirst( $speciality ),
-            'type' => $type,
-            'level' => $level,
-            'active' =>true
-        ];
-        
-        $result = $questions->insertOne($question);
-        $quizz = $quizzes->findOne([
-            '$and' => [
-                ['label' => $quiz], ['level' => $level]
-            ]
-        ]);
-        $quizzes->updateOne(
-            ['_id' => new MongoDB\BSON\ObjectId( $quizz->_id )],
-            ['$push' => ['questions' => new MongoDB\BSON\ObjectId( $result->getInsertedId() )]]
-        );
-        $quizz->total++;
-        $allocation = [
-            "quiz" => new MongoDB\BSON\ObjectId( $quizz->_id ),
-            "question" => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-            "type" => "Question dans questionnaire",
-            'active' =>true
-        ];
-        $allocations->insertOne($allocation);
-        $success_msg = "Questions ajoutés avec succès";
     }
 }
 ?>

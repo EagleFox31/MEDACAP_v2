@@ -130,22 +130,17 @@ include('./partials/header.php')
                                             Techniciens</th>
                                         <th class="min-w-200px px-0">
                                             Questionnaires</th>
-                                        <th class="min-w-125px">Système</th>
                                         <th class="min-w-125px">Niveau</th>
                                     </tr>
                                     <?php
                                         $manager = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($_SESSION["id"])]);
-                                        $quizz = $quizzes->find(['type' => 'Declaratif']);
-                                        $quizzesMa = $allocations->find([
-                                            '$and' => [
-                                                ['user' => ["$in" => $manager->users]],
-                                                ['quiz' => ["$in" => $quizz]],
-                                            ]
-                                        ])->toArray();
-                                        $quizzesMa = array_slice($quizzesMa, 0, 4);
-                                        foreach ($quizzesMa as $quizMa) {
-                                            $user = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($quizMa["user"])]);
-                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($quizMa["quiz"])]);
+                                        foreach ($manager->users as $userr) {
+                                            $allocate = $allocations->findOne([
+                                                'user' => $userr,
+                                                'typeQuiz' => 'Declaratif',
+                                            ]);
+                                            $user = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($allocate["user"])]);
+                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($allocate["quiz"])]);
                                     ?>
                                     <tr>
                                         <td class="p-0">
@@ -155,20 +150,32 @@ include('./partials/header.php')
                                                 <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                             </span>
                                         </td>
-                                        <td class="pe-0 text-end">
-                                            <a href="/evaluation-technicien/<%= quiz.user._id %>/<%= quiz.quiz._id %>"
-                                                class="btn btn-light text-muted fw-bolder btn-sm px-5"><?php echo $quiz->label ?></a>
+                                        <td class="pe-0">
+                                            <a href="./userEvaluation.php?level=<?php echo $quiz->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm px-5">Questionnaire
+                                                des
+                                                Savoir-faire
+                                            </a>
                                         </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->speciality ?>
-                                            </span>
-                                        </td>
+                                        <?php if ($quiz->level == "Junior") { ?>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
                                                 <?php echo $quiz->level ?>
                                             </span>
                                         </td>
+                                        <?php } elseif ($quiz->level == "Senior") { ?>
+                                        <td>
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $quiz->level ?>
+                                            </span>
+                                        </td>
+                                        <?php } elseif ($quiz->level == "Expert") { ?>
+                                        <td>
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $quiz->level ?>
+                                            </span>
+                                        </td>
+                                        <?php } ?>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
@@ -215,41 +222,33 @@ include('./partials/header.php')
                                         </th>
                                         <th class="min-w-200px px-0">
                                             Questionnaires</th>
-                                        <th class="min-w-125px">Système</th>
                                         <th class="min-w-125px">Niveau</th>
                                     </tr>
                                     <?php
-                                        $quizzesFac = $allocations->find([
+                                        $quizzesFac = $allocations->findOne([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                 ['active' => true],
-                                                ['typeQuiz' => 'Factuel']
+                                                ['typeQuiz' => 'Factuel'],
+                                                ['type' => 'Technicien dans questionnaire']
                                             ]
-                                        ])->toArray();
-                                        $quizzesFac = array_slice($quizzesFac, 0, 4);
-                                        foreach ($quizzesFac as $quiz) {
-                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($quiz["quiz"])]);
+                                        ]);
                                     ?>
-                                    <?php if ($quiz->type =="Factuel" ) { ?>
+                                    <?php if ($quizzesFac) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
                                         <td class="pe-0">
-                                            <a href="./userQuizDeclaratif.php?id=<?php echo $quiz->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm px-5"><?php echo $quiz->label ?></a>
+                                            <a href="./userQuizFactuel.php?level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm px-5">Questionnaire
+                                                des savoirs</a>
                                         </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->speciality ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quizzesFac->levelQuiz ?>
                                             </span>
                                         </td>
                                     </tr>
-                                    <?php } ?>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -298,37 +297,30 @@ include('./partials/header.php')
                                         <th class="min-w-125px">Niveau</th>
                                     </tr>
                                     <?php
-                                        $quizzesDecla = $allocations->find([
+                                        $quizzesDecla = $allocations->findOne([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                 ['active' => true],
-                                                ['typeQuiz' => 'Declaratif']
+                                                ['typeQuiz' => 'Declaratif'],
+                                                ['type' => 'Technicien dans questionnaire']
                                             ]
-                                        ])->toArray();
-                                        $quizzesDecla = array_slice($quizzesDecla, 0, 4);
-                                        foreach ($quizzesDecla as $quiz) {
-                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($quiz["quiz"])]);
+                                        ]);
                                     ?>
-                                    <?php if ($quiz->type =="Declaratif" ) { ?>
+                                    <?php if ($quizzesDecla ) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
                                         <td class="pe-0">
-                                            <a href="./userQuizDeclaratif.php?id=<?php echo $quiz->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm px-5"><?php echo $quiz->label ?></a>
+                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light text-primary fw-bolder btn-sm px-5">Questionnaire
+                                                des Savoir-faire</a>
                                         </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->speciality ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quizzesDecla->levelQuiz ?>
                                             </span>
                                         </td>
                                     </tr>
-                                    <?php } ?>
                                     <?php } ?>
                                 </tbody>
                             </table>

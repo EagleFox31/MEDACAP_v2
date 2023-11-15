@@ -37,15 +37,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $exist = $questions->findOne( [ 'label' => $label ] );
     
     if ( empty( $label ) ||
-    empty( $proposal1 ) ||
     empty( $type ) ||
-    empty( $proposal2 ) ||
     empty( $level ) ||
     empty( $speciality ) ) {
         $error = 'Champ obligatoire';
     } elseif ( $exist && $exist->active == true ) {
         $error_msg = 'Cette question existe déjà.';
-    } elseif ( empty( $image ) ) {
+    } elseif ($type == "Factuel") {
         $quizz = $quizzes->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ] );
         $question = [
             'label' => ucfirst( $label ),
@@ -57,7 +55,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'level' => ucfirst( $level ),
             'speciality' => ucfirst( $speciality ),
             'type' => $type,
-            'active' =>true
+            'active' =>true,  
+            'created' => date("d-m-y")
         ];
         $results = $questions->insertOne( $question );
         $quizzes->updateOne(
@@ -74,23 +73,23 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'quiz' =>  new MongoDB\BSON\ObjectId( $quiz ),
             'question' =>  new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
             'type' => 'Question dans questionnaire',
-            'active' =>true
+            'active' =>true,  
+            'created' => date("d-m-y")
         ];
         $result = $allocations->insertOne( $allocation );
         $success_msg = 'Question ajoutée avec succès';
-    } else {
+    } elseif ($type == "Declarative") {
+        $quizz = $quizzes->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ] );
         $question = [
             'image' => $image,
             'label' => ucfirst( $label ),
-            'proposal1' => ucfirst( $proposal1 ),
-            'proposal2' => ucfirst( $proposal2 ),
-            'proposal3' => ucfirst( $proposal3 ),
-            'proposal4' => ucfirst( $proposal4 ),
-            'answer' => ucfirst( $answer ),
+            'proposal1' => "1-".$speciality."-".$label."-1",
+            'proposal2' => "0-".$speciality."-".$label."-0",
             'level' => ucfirst( $level ),
             'speciality' => ucfirst( $speciality ),
             'type' => $type,
-            'active' =>true
+            'active' =>true,
+            'created' => date("d-m-Y")
         ];
         $results = $questions->insertOne( $question );
         $quizzes->updateOne(
@@ -104,12 +103,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         );
 
         $allocation = [
-            'quiz' => new MongoDB\BSON\ObjectId( $quiz ),
-            'question' => new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
+            'quiz' =>  new MongoDB\BSON\ObjectId( $quiz ),
+            'question' =>  new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
             'type' => 'Question dans questionnaire',
-            'active' =>true
+            'active' =>true,  
+            'created' => date("d-m-y")
         ];
-        $allocations->insertOne( $allocation );
+        $result = $allocations->insertOne( $allocation );
         $success_msg = 'Question ajoutée avec succès';
     }
 }
@@ -198,11 +198,11 @@ if ( isset( $error ) ) {
                 data-placeholder='Sélectionnez votre sexe...' class='form-select form-select-solid fw-bold'>
                 <option>Sélectionnez le type de
                     question...</option>
-                <option value='Declaratif'>
-                    Declaratif
+                <option value='Declarative'>
+                    Declarative
                 </option>
-                <option value='Factuel'>
-                    Factuel
+                <option value='Factuelle'>
+                    Factuelle
                 </option>
             </select>
             <!--end::Input-->
@@ -218,7 +218,7 @@ if ( isset( $error ) ) {
         </div>
         <!--end::Input group-->
         <!--begin::Input group-->
-        <div class='row g-9 mb-7'>
+        <div class='row g-9 mb-7' id='prop'>
             <!--begin::Col-->
             <div class='col-md-6 fv-row'>
                 <!--begin::Label-->
@@ -262,7 +262,7 @@ if ( isset( $error ) ) {
         </div>
         <!--end::Input group-->
         <!--begin::Input group-->
-        <div class='row g-9 mb-7' id='prop'>
+        <div class='row g-9 mb-7' id='prop1'>
             <!--begin::Col-->
             <div class='col-md-6 fv-row'>
                 <!--begin::Label-->
@@ -444,16 +444,19 @@ foreach ( $quiz as $quiz ) {
 
 <script>
 const prop = document.querySelector('#prop')
+const prop1 = document.querySelector('#prop1')
 const answer = document.querySelector('#answer')
 
 function selectif() {
     const type = document.querySelector("select[name='type']").value
     console.log(type)
-    if (type == 'Declaratif') {
+    if (type == 'Declarative') {
         prop.classList.add('hidden')
+        prop1.classList.add('hidden')
         answer.classList.add('hidden')
     } else {
         prop.classList.remove('hidden')
+        prop1.classList.remove('hidden')
         answer.classList.remove('hidden')
     }
 }

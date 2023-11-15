@@ -64,7 +64,8 @@ if ( isset( $_POST[ 'update' ] ) ) {
             'department' => ucfirst( $department ),
             'subRole' => ucfirst( $subRole ),
             'mainRole' => ucfirst( $mainRole ),
-            "manager" => new MongoDB\BSON\ObjectId( $managerId )
+            "manager" => new MongoDB\BSON\ObjectId( $managerId ),
+            'updated' => date("d-m-Y")
         ];
         
     $member = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
@@ -86,7 +87,11 @@ if ( isset( $_POST[ 'update' ] ) ) {
         if ( $allocate ) {
             $allocations->updateOne(
                 [ '_id' => $allocate->_id ],
-                [ '$set' => [ 'manager' => new MongoDB\BSON\ObjectId( $managerId ) ] ]
+                [ '$set' => [
+                    '    manager' => new MongoDB\BSON\ObjectId( $managerId ),
+                        'updated' => date("d-m-Y")
+                    ]
+                ]
             );
         } else {
             $allocation = [
@@ -131,6 +136,7 @@ if ( isset( $_POST[ 'update' ] ) ) {
                     'department' => $department,
                     'subRole' => $subRole,
                     'mainRole' => $mainRole,
+                    'updated' => date("d-m-Y")
                 ]
             ]
         );

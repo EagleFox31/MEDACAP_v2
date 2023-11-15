@@ -44,6 +44,7 @@ if ( isset( $_POST[ 'update' ] ) ) {
         'speciality' => ucfirst( $speciality ),
         'level' => ucfirst( $level ),
         'answer' => ucfirst( $answer ),
+        'updated' => date("d-m-Y")
     ];
     // If there is a file, update the question data with the image URL
     if (!empty($image)) {
@@ -63,6 +64,7 @@ if ( isset( $_POST[ 'update' ] ) ) {
                     'level' => ucfirst( $level ),
                     'answer' => ucfirst( $answer ),
                     'image' => $image,
+                    'updated' => date("d-m-Y")
                 ]
             ]
         );
@@ -75,7 +77,6 @@ if ( isset( $_POST[ 'update' ] ) ) {
             [ '$set' => $question ]
         );
         $success_msg = "Question modifiée avec succès.";
-        exit();
     }
 }
 
@@ -83,9 +84,9 @@ if ( isset( $_POST[ 'delet' ] ) ) {
     $id = new MongoDB\BSON\ObjectId($_POST[ 'questionID' ]);
     $question = $questions->findOne(['_id' => $id]);
     $question->active = false;
+    $question->updated = date("d-m-Y");
     $questions->updateOne(['_id' => $id], ['$set' => $question]);
     $success_msg =  "Question supprimée avec succes.";
-    exit();
 }
 ?>
 <?php
@@ -350,12 +351,24 @@ include_once 'partials/header.php'
                                         <td data-order="subsidiary">
                                             <?php echo $question->speciality ?>
                                         </td>
+                                        <?php if ($question->proposal1 == "1-".$question->speciality."-".$question->label."-1") { ?>
+                                        <td data-order="subsidiary">
+                                            Je connais
+                                        </td>
+                                        <?php } else { ?>
                                         <td data-order="subsidiary">
                                             <?php echo $question->proposal1 ?>
                                         </td>
+                                        <?php } ?>
+                                        <?php if ($question->proposal2 == "0-".$question->speciality."-".$question->label."-0") { ?>
+                                        <td data-order="subsidiary">
+                                            Je connais pas
+                                        </td>
+                                        <?php } else { ?>
                                         <td data-order="subsidiary">
                                             <?php echo $question->proposal2 ?>
                                         </td>
+                                        <?php } ?>
                                         <td data-order="subsidiary">
                                             <?php echo $question->proposal3 ?? "" ?>
                                         </td>
@@ -639,7 +652,7 @@ include_once 'partials/header.php'
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="proposal3"
-                                                                        value="<?php echo $question->proposal3 ?>" />
+                                                                        value="<?php echo $question->proposal3 ?? '' ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -653,7 +666,7 @@ include_once 'partials/header.php'
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="proposal4"
-                                                                        value="<?php echo $question->proposal4 ?>" />
+                                                                        value="<?php echo $question->proposal4 ?? '' ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -698,7 +711,7 @@ include_once 'partials/header.php'
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="answer"
-                                                                        value="<?php echo $question->answer ?>" />
+                                                                        value="<?php echo $question->answer ?? '' ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->

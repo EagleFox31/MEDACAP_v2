@@ -48,54 +48,49 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $usernameManager = $row["19"];
 
         $member =  $users->findOne(["username" => $username]);
-        if($member && $member->active == false){
-            $users->updateOne(
-                [ '_id' => new MongoDB\BSON\ObjectId( $member->_id ) ],
-                ['$set' => ['active' => true]]
-            );
-            $success_msg = "Utilisateur ajouté avec succès";
-            exit();
-        } elseif ($member && $member->active == true){
+        if ($member){
             $error_msg = "Cet utilisateur existe déjà";
-            exit();
-        }
-        $person = [
-            'username' => $username,
-            'matricule' => $matricule,
-            'firstName' => ucfirst( $firstName ),
-            'lastName' => ucfirst( $lastName ),
-            'email' => $email,
-            'phone' => $phone,
-            'gender' => $gender,
-            'level' => $level,
-            'country' => $country,
-            'profile' => $profile,
-            'birthdate' => $birthdate,
-            'recrutmentDate' => $recrutmentDate,
-            'certificate' => ucfirst( $certificate ),
-            'subsidiary' => ucfirst( $subsidiary ),
-            'speciality' => ucfirst( $speciality ),
-            'department' => ucfirst( $department ),
-            'subRole' => ucfirst( $subRole ),
-            'mainRole' => ucfirst( $mainRole ),
-            'password' => $password,
-            'active' => true
-        ];
+        } else {
+            $person = [
+                'username' => $username,
+                'matricule' => $matricule,
+                'firstName' => ucfirst( $firstName ),
+                'lastName' => ucfirst( $lastName ),
+                'email' => $email,
+                'phone' => $phone,
+                'gender' => $gender,
+                'level' => $level,
+                'country' => $country,
+                'profile' => $profile,
+                'birthdate' => $birthdate,
+                'recrutmentDate' => $recrutmentDate,
+                'certificate' => ucfirst( $certificate ),
+                'subsidiary' => ucfirst( $subsidiary ),
+                'speciality' => ucfirst( $speciality ),
+                'department' => ucfirst( $department ),
+                'subRole' => ucfirst( $subRole ),
+                'mainRole' => ucfirst( $mainRole ),
+                'password' => $password,
+                'active' => true,
+                'created' => date("d-m-Y")
     
-        $user = $users->insertOne($person);
-        $manager = $users->findOne([
-            ['username' => $usernameManager]
-        ]);
-        $user->manager = new MongoDB\BSON\ObjectId( $manager->_id );
-        $allocation = [
-            "user" => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
-            "manager" => new MongoDB\BSON\ObjectId( $manager->_id ),
-            "type" => "Technicien dans manager",
-            'active' =>true
-        ];
-        $result = $allocations->insertOne($allocation);
-        $success_msg = "Utilisateurs ajoutés avec succès";
-        exit();
+            ];
+        
+            $user = $users->insertOne($person);
+            $manager = $users->findOne([
+                ['username' => $usernameManager]
+            ]);
+            $user->manager = new MongoDB\BSON\ObjectId( $manager->_id );
+            $allocation = [
+                "user" => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                "manager" => new MongoDB\BSON\ObjectId( $manager->_id ),
+                "type" => "Technicien dans manager",
+                'active' =>true,
+                'created' => date("d-m-y")
+            ];
+            $result = $allocations->insertOne($allocation);
+            $success_msg = "Utilisateurs ajoutés avec succès";
+        }
     }
 }
 ?>

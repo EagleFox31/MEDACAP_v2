@@ -32,14 +32,15 @@ if ( isset( $_POST[ 'update' ] ) ) {
     $subRole = $_POST[ 'subRole' ];
     $mainRole = $_POST[ 'mainRole' ];
     $gender = $_POST[ 'gender' ];
-    $password = $_POST[ 'password' ];
     $country = $_POST[ 'country' ];
     $certificate = $_POST[ 'certificate' ];
     $speciality = $_POST[ 'speciality' ];
     $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
     $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
     $level = $_POST[ 'level' ];
-    $managerId = $_POST[ 'manager' ];
+    if ($_POST[ 'manager' ]) {
+        $managerId = $_POST[ 'manager' ];
+    }
 
     $person = [
             'username' => $username,
@@ -59,7 +60,8 @@ if ( isset( $_POST[ 'update' ] ) ) {
             'department' => ucfirst( $department ),
             'subRole' => ucfirst( $subRole ),
             'mainRole' => ucfirst( $mainRole ),
-            "manager" => new MongoDB\BSON\ObjectId( $managerId )
+            "manager" => new MongoDB\BSON\ObjectId( $managerId ),
+            'updated' => date("d-m-Y")
         ];
         
     $member = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
@@ -81,7 +83,11 @@ if ( isset( $_POST[ 'update' ] ) ) {
         if ( $allocate ) {
             $allocations->updateOne(
                 [ '_id' => $allocate->_id ],
-                [ '$set' => [ 'manager' => new MongoDB\BSON\ObjectId( $managerId ) ] ]
+                [ '$set' => [
+                    '    manager' => new MongoDB\BSON\ObjectId( $managerId ),
+                        'updated' => date("d-m-Y")
+                    ]
+                ]
             );
         } else {
             $allocation = [
@@ -99,13 +105,10 @@ if ( isset( $_POST[ 'update' ] ) ) {
 
         if ( $member->profile == 'Technicien' ) {
             $success_msg = 'Technicien modifié avec succes.';
-            exit();
         } elseif ( $member->profile == 'Manager' ) {
             $success_msg = 'Manager modifié avec succes.';
-            exit();
         } elseif ( $member->profile == 'Admin' ) {
             $success_msg = 'Administrateur modifié avec succes.';
-            exit();
         }
     } else {
         $users->updateOne(
@@ -129,19 +132,17 @@ if ( isset( $_POST[ 'update' ] ) ) {
                     'department' => $department,
                     'subRole' => $subRole,
                     'mainRole' => $mainRole,
+                    'updated' => date("d-m-Y")
                 ]
             ]
         );
 
         if ( $member->profile == 'Technicien' ) {
             $success_msg = 'Technicien modifié avec succes.';
-            exit();
         } elseif ( $member->profile == 'Manager' ) {
             $success_msg = 'Manager modifié avec succes.';
-            exit();
         } elseif ( $member->profile == 'Admin' ) {
             $success_msg = 'Administrateur modifié avec succes.';
-            exit();
         }
     }
 }

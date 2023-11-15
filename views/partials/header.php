@@ -766,7 +766,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-file-added fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">Test
+                                                    class="path2"></span></i></span><span class="menu-title">Evaluer mes
                                             Techniciens
                                         </span></a>
                                     <!--end:Menu link-->

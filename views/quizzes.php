@@ -36,6 +36,7 @@ if ( isset( $_POST[ 'update-quiz' ] ) ) {
         'speciality' => ucfirst( $speciality ),
         'level' => ucfirst( $level ),
         'number' => +$number,
+        'updated' => date("d-m-Y")
     ];
     
     $quizzes->updateOne(
@@ -54,6 +55,7 @@ if ( isset( $_POST[ 'retire-question-quiz' ] ) ) {
     );
     
     $allocate['active'] = false;
+    $allocate['updated'] = date("d-m-Y");
     $allocations->updateOne(
         ['_id' => $allocate['_id']],
         ['$set' => $allocate]
@@ -66,6 +68,7 @@ if ( isset( $_POST[ 'retire-question-quiz' ] ) ) {
     
     $quizzes = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId( $quiz )]);
     $quizzes['total']--;
+    $quizzes['updated'] = date("d-m-Y");
     $quizzes->updateOne(
         ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
         ['$set' => $quizzes]

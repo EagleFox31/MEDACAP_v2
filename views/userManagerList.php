@@ -21,18 +21,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $id = $_SESSION[ 'id' ];
 
     $manager = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($id)]);
-    $quiz = $quizzes->find(['type' => 'Declaratif']);(['type' => 'Declaratif']);
-    $options = [
-        'projection' => ['user' => 1, 'quiz' => 1],
-        'sort' => ['_id' => -1],
-    ];
-
-    $filter = [
-        'user' => ['$in' => $manager->users],
-        'quiz' => ['$in' => $quizzes],
-    ];
-
-    $allocate = $allocations->find($filter, $options);
 ?>
 <?php
 include_once 'partials/header.php'
@@ -170,30 +158,40 @@ include_once 'partials/header.php'
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
-                                    <?php foreach ($allocate as $user) { ?>
-                                    <tr class="odd" etat="<?php echo $user->managerQuizz ?>">
+                                    <?php
+                                    foreach ($manager->users as $userr) {
+                                        $user = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($userr)]);
+                                        $allocate = $allocations->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($userr)],
+                                                ['type' => 'Technicien dans questionnaire'],
+                                                ['typeQuiz' => 'Declaratif'],
+                                            ]
+                                        ]);
+                                    ?>
+                                    <tr class="odd" etat="">
                                         <td>
                                         </td>
                                         <td>
-                                            <?php echo $user->user->firstName ?> <?php echo $user->user->lastName ?>
+                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                         </td>
-                                        <?php if ($user->managerQuizz == false) { ?>
+                                        <?php if ($allocate->managerQuiz == false) { ?>
                                         <td>
-                                            <a href="/evaluation-technicien/<%= users[i].user._id %>/<%= users[i].quiz._id %>"
-                                                class="btn btn-light btn-active-light-primary btn-sm"
+                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                class="btn btn-light btn-active-light-primary text-primary btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end"><?php echo $user->quiz->label ?>
+                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($user->managerQuizz == true) { ?>
+                                        <?php if ($allocate->managerQuiz == true) { ?>
                                         <td>
-                                            <?php echo $user->quiz->label ?>
+                                            Questionnaire des Savoir-faire
                                         </td>
                                         <?php } ?>
                                         <td>
-                                            <?php echo $user->quiz->level ?>
+                                            <?php echo $allocate->levelQuiz ?>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>

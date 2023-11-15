@@ -53,7 +53,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'level' => ucfirst( $level ),
             'number' => +$number,
             'total' => 0,
-            'active' => true
+            'active' => true,
+            'created' => date("d-m-Y")
         ];
         $quizzes->insertOne( $quiz );
         $success_msg = 'Questionnaire créé avec succès';

@@ -20,12 +20,12 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $id = $_SESSION[ 'id' ];
 
     $manager = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
-    $user = $users->find( [ '_id' => [ '$in' => $manager[ 'users' ] ] ] );
     $usersFactuel = $allocations->aggregate([
         [
             '$match' => [
                 '$and' => [
                     [
+                        'user' => [ '$in' => $manager[ 'users' ] ],
                         'type' => 'Technicien dans questionnaire',
                         'typeQuiz' => 'Factuel',
                     ],
@@ -70,6 +70,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             '$match' => [
                 '$and' => [
                     [
+                        'user' => [ '$in' => $manager[ 'users' ] ],
                         'type' => 'Technicien dans questionnaire',
                         'typeQuiz' => 'Declaratif',
                     ],
@@ -109,6 +110,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             ],
         ],
     ]);
+    
+    $userFac = iterator_to_array($usersFactuel);
+    $userDecla = iterator_to_array($usersDeclaratif);
 ?>
 <?php
     include_once 'partials/header.php'
@@ -244,9 +248,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    foreach ($user as $user) {
+                                    for ($i = 0; $i < count($manager[ 'users' ]); $i++) {
+                                        $user = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId($manager[ 'users' ][$i]) ] );
                                     ?>
-                                    <?php if ($user[ "_id" ] == $usersFactuel[ "_id" ] && $user[ "_id" ] == $usersDeclaratif[ "_id" ] ) { ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
                                         <td>
                                         </td>
@@ -256,31 +260,31 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <td data-filter="email">
                                             <div class="d-flex flex-column w-100 me-2 mt-2">
                                                 <span class="text-gray-400 me-2 fw-bolder mb-2">
-                                                    <?php echo $usersFactuel->percentage ?>%
+                                                    <?php echo round($userFac[$i]->percentage ?? "0", 0) ?>%
                                                 </span>
 
                                                 <div class="progress bg-light-success w-100 h-5px">
                                                     <div class="progress-bar bg-success" role="progressbar"
-                                                        style="width: <?php echo $usersFactuel->percentage ?>%;"></div>
+                                                        style="width: <?php echo round($userFac[$i]->percentage ?? "0", 0) ?>%;">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td data-filter="email">
                                             <div class="d-flex flex-column w-100 me-2 mt-2">
                                                 <span class="text-gray-400 me-2 fw-bolder mb-2">
-                                                    <?php echo $usersDeclaratif->percentage ?>%
+                                                    <?php echo round($userDecla[$i]->percentage ?? "0", 0) ?>%
                                                 </span>
 
                                                 <div class="progress bg-light-success w-100 h-5px">
                                                     <div class="progress-bar bg-success" role="progressbar"
-                                                        style="width: <?php echo $usersDeclaratif->percentage ?>%;">
+                                                        style="width: <?php echo round($userDecla[$i]->percentage ?? "0", 0) ?>%;">
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
-                                    <?php } ?>
                                     <?php } ?>
                                 </tbody>
                             </table>

@@ -148,7 +148,6 @@ include_once 'partials/header.php'
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['levelQuiz' => 'Junior'],
-                                                ['active' => true],
                                                 ['typeQuiz' => 'Factuel'],
                                                 ['type' => 'Technicien dans questionnaire']
                                             ]
@@ -157,7 +156,6 @@ include_once 'partials/header.php'
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['levelQuiz' => 'Senior'],
-                                                ['active' => true],
                                                 ['typeQuiz' => 'Factuel'],
                                                 ['type' => 'Technicien dans questionnaire']
                                             ]
@@ -166,7 +164,6 @@ include_once 'partials/header.php'
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['levelQuiz' => 'Expert'],
-                                                ['active' => true],
                                                 ['typeQuiz' => 'Factuel'],
                                                 ['type' => 'Technicien dans questionnaire']
                                             ]
@@ -175,7 +172,6 @@ include_once 'partials/header.php'
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['levelQuiz' => 'Junior'],
-                                                ['active' => true],
                                                 ['typeQuiz' => 'Declaratif'],
                                                 ['type' => 'Technicien dans questionnaire']
                                             ]
@@ -184,7 +180,6 @@ include_once 'partials/header.php'
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['levelQuiz' => 'Senior'],
-                                                ['active' => true],
                                                 ['typeQuiz' => 'Declaratif'],
                                                 ['type' => 'Technicien dans questionnaire']
                                             ]
@@ -193,7 +188,6 @@ include_once 'partials/header.php'
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['levelQuiz' => 'Expert'],
-                                                ['active' => true],
                                                 ['typeQuiz' => 'Declaratif'],
                                                 ['type' => 'Technicien dans questionnaire']
                                             ]
@@ -201,14 +195,20 @@ include_once 'partials/header.php'
                                     ?>
                                     <?php if ($quizJuFac) { ?>
                                     <tr class="odd" etat="">
+                                        <?php if ($quizJuFac->active == true) { ?>
                                         <td class="">
                                             <a href="./userQuizFactuel.php?level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-primary fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire savoir
+                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoirs
                                             </a>
                                         </td>
-                                        <td data-filter="email">
+                                        <?php } else{ ?>
+                                        <td>
+                                            Questionnaire des Savoirs
+                                        </td>
+                                        <?php } ?>
+                                        <td>
                                             Junior
                                         </td>
                                         <!--end::Menu-->
@@ -216,13 +216,19 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizSeFac) { ?>
                                     <tr class="odd" etat="">
+                                        <?php if ($quizSeFac->active == true) { ?>
                                         <td class="">
                                             <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-primary fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire savoir
+                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoirs
                                             </a>
                                         </td>
+                                        <?php } else{ ?>
+                                        <td>
+                                            Questionnaire des Savoirs
+                                        </td>
+                                        <?php } ?>
                                         <td data-filter="email">
                                             Senior
                                         </td>
@@ -231,13 +237,19 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizExFac) { ?>
                                     <tr class="odd" etat="">
+                                        <?php if ($quizExFac->active == true) { ?>
                                         <td class="">
-                                            <a href="./userQuizFactuel.php?level=Expert&id=<?php echo $technician->_id ?>"
+                                            <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-primary fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire savoir
+                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoirs
                                             </a>
                                         </td>
+                                        <?php } else{ ?>
+                                        <td>
+                                            Questionnaire des Savoirs
+                                        </td>
+                                        <?php } ?>
                                         <td data-filter="email">
                                             Expert
                                         </td>
@@ -246,13 +258,19 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizJuDecla) { ?>
                                     <tr class="odd" etat="">
+                                        <?php if ($quizJuDecla->active == true) { ?>
                                         <td class="">
                                             <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-primary fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire savoir-faire
+                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
                                             </a>
                                         </td>
+                                        <?php } else{ ?>
+                                        <td>
+                                            Questionnaire des Savoir-faire
+                                        </td>
+                                        <?php } ?>
                                         <td data-filter="email">
                                             Junior
                                         </td>
@@ -261,13 +279,19 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizSeDecla) { ?>
                                     <tr class="odd" etat="">
+                                        <?php if ($quizSeDecla->active == true) { ?>
                                         <td class="">
-                                            <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-primary fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire savoir-faire
+                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
                                             </a>
                                         </td>
+                                        <?php } else{ ?>
+                                        <td>
+                                            Questionnaire des Savoir-faire
+                                        </td>
+                                        <?php } ?>
                                         <td data-filter="email">
                                             Senior
                                         </td>
@@ -276,13 +300,19 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizExDecla) { ?>
                                     <tr class="odd" etat="">
+                                        <?php if ($quizExDecla->active == true) { ?>
                                         <td class="">
-                                            <a href="./userQuizDeclaratif.php?level=Expert&id=<?php echo $technician->_id ?>"
+                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-primary fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire savoir-faire
+                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
                                             </a>
                                         </td>
+                                        <?php } else{ ?>
+                                        <td>
+                                            Questionnaire des Savoir-faire
+                                        </td>
+                                        <?php } ?>
                                         <td data-filter="email">
                                             Expert
                                         </td>

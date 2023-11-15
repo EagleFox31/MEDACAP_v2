@@ -17,16 +17,592 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $users = $academy->users;
     $quizzes = $academy->quizzes;
     $questions = $academy->questions;
+    $results = $academy->results;
     $allocations = $academy->allocations;
 
     $id = $_GET["id"];
     $level = $_GET["level"];
+    
+    if (isset( $_POST[ 'valid' ] )) {
+        if (isset($_POST[ 'quizAssistance' ])) {
+            $assistanceID = $_POST[ 'quizAssistance' ];
+            $quizAssistance = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($assistanceID)]);
+        }
+        if (isset($_POST[ 'quizClimatisation' ])) {
+            $climatisationID = $_POST[ 'quizClimatisation' ];
+            $quizClimatisation = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($climatisationID)]);
+        }
+        if (isset($_POST[ 'quizDirection' ])) {
+            $directionID = $_POST[ 'quizDirection' ];
+            $quizDirection = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($directionID)]);
+        }
+        if (isset($_POST[ 'quizElectricite' ])) {
+            $electriciteID = $_POST[ 'quizElectricite' ];
+            $quizElectricite = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($electriciteID)]);
+        }
+        if (isset($_POST[ 'quizFreinage' ])) {
+            $freinageID = $_POST[ 'quizFreinage' ];
+            $quizFreinage = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($freinageID)]);
+        }
+        if (isset($_POST[ 'quizHydraulique' ])) {
+            $hydrauliqueID = $_POST[ 'quizHydraulique' ];
+            $quizHydraulique = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($hydrauliqueID)]);
+        }
+        if (isset($_POST[ 'quizMoteur' ])) {
+            $moteurID = $_POST[ 'quizMoteur' ];
+            $quizMoteur = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($moteurID)]);
+        }
+        if (isset($_POST[ 'quizMultiplexage' ])) {
+            $multiplexageID = $_POST[ 'quizMultiplexage' ];
+            $quizMultiplexage = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($multiplexageID)]);
+        }
+        if (isset($_POST[ 'quizPneumatique' ])) {
+            $pneumatiqueID = $_POST[ 'quizPneumatique' ];
+            $quizPneumatique = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($pneumatiqueID)]);
+        }
+        if (isset($_POST[ 'quizSuspension' ])) {
+            $suspensionID = $_POST[ 'quizSuspension' ];
+            $quizSuspension = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($suspensionID)]);
+        }
+        if (isset($_POST[ 'quizTransmission' ])) {
+            $transmissionID = $_POST[ 'quizTransmission' ];
+            $quizTransmission = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($transmissionID)]);
+        }
+        if (isset($_POST[ 'quizTransversale' ])) {
+            $transversaleID = $_POST[ 'quizTransversale' ];
+            $quizTransversale = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($transversaleID)]);
+        }
+        $body = $_POST; // assuming POST method, you can replace it with $_GET if it's a GET method
+        $proposals = array_values($body);
+    
+        $scoreAss = 0;
+        $scoreClim = 0;
+        $scoreDir = 0;
+        $scoreElec = 0;
+        $scoreMo = 0;
+        $scoreHyd = 0;
+        $scoreFrei = 0;
+        $scoreMulti = 0;
+        $scorePneu = 0;
+        $scoreSus = 0;
+        $scoreTran = 0;
+        $scoreMission = 0;
+        $quizQuestionAssistance = [];
+        $quizQuestionClimatisation = [];
+        $quizQuestionDirection = [];
+        $quizQuestionElectricite = [];
+        $quizQuestionFreinage = [];
+        $quizQuestionHydraulique = [];
+        $quizQuestionMoteur = [];
+        $quizQuestionMultiplexage = [];
+        $quizQuestionPneu = [];
+        $quizQuestionSuspension = [];
+        $quizQuestionTransmission = [];
+        $quizQuestionTransversale = [];
+        $answersAssistance = [];
+        $answersClimatisation = [];
+        $answersDirection = [];
+        $answersElectricite = [];
+        $answersFreinage = [];
+        $answersHydraulique = [];
+        $answersMoteur = [];
+        $answersMultiplexage = [];
+        $answersPneu = [];
+        $answersSuspension = [];
+        $answersTransmission = [];
+        $answersTransversale = [];
+        $proposalAssistance = [];
+        $proposalClimatisation = [];
+        $proposalDirection = [];
+        $proposalElectricite = [];
+        $proposalFreinage = [];
+        $proposalHydraulique = [];
+        $proposalMoteur = [];
+        $proposalMultiplexage = [];
+        $proposalPneu = [];
+        $proposalSuspension = [];
+        $proposalTransmission = [];
+        $proposalTransversale = [];
+        
+        for ($i = 0; $i < count($proposals); $i++) {
+            $questionsData = $questions->findOne([
+                '$or' => [
+                    ['proposal1' => $proposals[$i]],
+                    ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
+                    ['proposal4' => $proposals[$i]],
+                ],
+            ]);
+
+            if ($questionsData != null) {
+                if ($questionsData->speciality  == "Assistance à la Conduite") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreAss += 1;
+                        $proposalAssistance = "Maitrisé";
+                    } else {
+                        $scoreAss += 0;
+                        $proposalAssistance = "Non maitrisé";
+                    }
+                    array_push($answersAssistance, $proposalAssistance);
+                    array_push($quizQuestionAssistance, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionAssistance,
+                        'answers' => $answersAssistance,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($assistanceID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreAss,
+                        'speciality' => $quizAssistance->speciality ,
+                        'level' => $quizAssistance->level,
+                        'type' => $quizAssistance->type,
+                        'total' => $quizAssistance->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($assistanceID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Climatisation") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreClim += 1;
+                        $proposalClimatisation = "Maitrisé";
+                    } else {
+                        $scoreClim += 0;
+                        $proposalClimatisation = "Non maitrisé";
+                    }
+                    array_push($answersClimatisation, $proposalClimatisation);
+                    array_push($quizQuestionClimatisation, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionClimatisation,
+                        'answers' => $answersClimatisation,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($climatisationID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreClim,
+                        'speciality' => $quizClimatisation->speciality ,
+                        'level' => $quizClimatisation->level,
+                        'type' => $quizClimatisation->type,
+                        'total' => $quizClimatisation->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($climatisationID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Direction") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreDir += 1;
+                        $proposalDirection = "Maitrisé";
+                    } else {
+                        $scoreDir += 0;
+                        $proposalDirection = "Non maitrisé";
+                    }
+                    array_push($answersDirection, $proposalDirection);
+                    array_push($quizQuestionDirection, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionDirection,
+                        'answers' => $answersDirection,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($directionID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreDir,
+                        'speciality' => $quizDirection->speciality ,
+                        'level' => $quizDirection->level,
+                        'type' => $quizDirection->type,
+                        'total' => $quizDirection->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($directionID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Electricité") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreElec += 1;
+                        $proposalElectricite = "Maitrisé";
+                    } else {
+                        $scoreElec += 0;
+                        $proposalElectricite = "Non maitrisé";
+                    }
+                    array_push($answersElectricite, $proposalElectricite);
+                    array_push($quizQuestionElectricite, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionElectricite,
+                        'answers' => $answersElectricite,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($electriciteID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreElec,
+                        'speciality' => $quizElectricite->speciality ,
+                        'level' => $quizElectricite->level,
+                        'type' => $quizElectricite->type,
+                        'total' => $quizElectricite->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($electriciteID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Freinage") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreFrei += 1;
+                        $proposalFreinage = "Maitrisé";
+                    } else {
+                        $scoreFrei += 0;
+                        $proposalFreinage = "Non maitrisé";
+                    }
+                    array_push($answersFreinage, $proposalFreinage);
+                    array_push($quizQuestionFreinage, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionFreinage,
+                        'answers' => $answersFreinage,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($freinageID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreFrei,
+                        'speciality' => $quizFreinage->speciality ,
+                        'level' => $quizFreinage->level,
+                        'type' => $quizFreinage->type,
+                        'total' => $quizFreinage->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($freinageID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Hydraulique") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreHyd += 1;
+                        $proposalHydraulique = "Maitrisé";
+                    } else {
+                        $scoreHyd += 0;
+                        $proposalHydraulique = "Non maitrisé";
+                    }
+                    array_push($answersHydraulique, $proposalHydraulique);
+                    array_push($quizQuestionHydraulique, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionHydraulique,
+                        'answers' => $answersHydraulique,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($hydrauliqueID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreHyd,
+                        'speciality' => $quizHydraulique->speciality ,
+                        'level' => $quizHydraulique->level,
+                        'type' => $quizHydraulique->type,
+                        'total' => $quizHydraulique->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($hydrauliqueID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif($questionsData->speciality == "Moteur") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreMo += 1;
+                        $proposalMoteur = "Maitrisé";
+                    } else {
+                        $scoreMo += 0;
+                        $proposalMoteur = "Non maitrisé";
+                    }
+                    array_push($answersMoteur, $proposalMoteur);
+                    array_push($quizQuestionMoteur, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionMoteur,
+                        'answers' => $answersMoteur,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($moteurID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMo,
+                        'speciality' => $quizMoteur->speciality ,
+                        'level' => $quizMoteur->level,
+                        'type' => $quizMoteur->type,
+                        'total' => $quizMoteur->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($moteurID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality  == "Multiplexage & Electronique") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreMulti += 1;
+                        $proposalMultiplexage = "Maitrisé";
+                    } else {
+                        $scoreMulti += 0;
+                        $proposalMultiplexage = "Non maitrisé";
+                    }
+                    array_push($answersMultiplexage, $proposalMultiplexage);
+                    array_push($quizQuestionMultiplexage, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionMultiplexage,
+                        'answers' => $answersMultiplexage,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($multiplexageID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMulti,
+                        'speciality' => $quizMultiplexage->speciality ,
+                        'level' => $quizMultiplexage->level,
+                        'type' => $quizMultiplexage->type,
+                        'total' => $quizMultiplexage->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($multiplexageID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Pneumatique") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scorePneu += 1;
+                        $proposalPneu = "Maitrisé";
+                    } else {
+                        $scorePneu += 0;
+                        $proposalPneu = "Non maitrisé";
+                    }
+                    array_push($answersPneu, $proposalPneu);
+                    array_push($quizQuestionPneu, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionPneu,
+                        'answers' => $answersPneu,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($pneumatiqueID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scorePneu,
+                        'speciality' => $quizPneumatique->speciality ,
+                        'level' => $quizPneumatique->level,
+                        'type' => $quizPneumatique->type,
+                        'total' => $quizPneumatique->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($pneumatiqueID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Suspension") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreSus += 1;
+                        $proposalSuspension = "Maitrisé";
+                    } else {
+                        $scoreSus += 0;
+                        $proposalSuspension = "Non maitrisé";
+                    }
+                    array_push($answersSuspension, $proposalSuspension);
+                    array_push($quizQuestionSuspension, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionSuspension,
+                        'answers' => $answersSuspension,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($suspensionID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreSus,
+                        'speciality' => $quizSuspension->speciality ,
+                        'level' => $quizSuspension->level,
+                        'type' => $quizSuspension->type,
+                        'total' => $quizSuspension->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($suspensionID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Transmission") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreMissionMission += 1;
+                        $proposalTransmission = "Maitrisé";
+                    } else {
+                        $scoreMission += 0;
+                        $proposalTransmission = "Non maitrisé";
+                    }
+                    array_push($answersTransmission, $proposalTransmission);
+                    array_push($quizQuestionTransmission, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionTransmission,
+                        'answers' => $answersTransmission,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($transmissionID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMission,
+                        'speciality' => $quizTransmission->speciality ,
+                        'level' => $quizTransmission->level,
+                        'type' => $quizTransmission->type,
+                        'total' => $quizTransmission->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $resuls->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($transmissionID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                } elseif ($questionsData->speciality == "Transversale") {
+                    $answer = $questionsData->answer;
+                    if ($proposals[$i] === $answer) {
+                        $scoreTran += 1;
+                        $proposalTransversale = "Maitrisé";
+                    } else {
+                        $scoreTran += 0;
+                        $proposalTransversale = "Non maitrisé";
+                    }
+                    array_push($answersTransversale, $proposalTransversale);
+                    array_push($quizQuestionTransversale, $questionsData->_id);
+                    
+                    $newResult = [
+                        'questions' => $quizQuestionTransversale,
+                        'answers' => $answersTransversale,
+                        'userAnswers' => $proposals,
+                        'quiz' => new MongoDB\BSON\ObjectId($transversaleID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreTran,
+                        'speciality' => $quizTransversale->speciality ,
+                        'level' => $quizTransversale->level,
+                        'type' => $quizTransversale->type,
+                        'total' => $quizTransversale->number,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+    
+                    $insertedResult = $results->insertOne($newResult);
+    
+                    $allocationData = $allocations->findOne([
+                        '$and' => [
+                            ['user' => new MongoDB\BSON\ObjectId($id)],
+                            ['quiz' => new MongoDB\BSON\ObjectId($transversaleID)],
+                        ],
+                    ]);
+    
+                    $allocationData->active = false;
+                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
+                }
+            }
+        }
+        header('Location: ./dashboard.php');
+    }
+
 ?>
 <?php
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Questionnaires Factuels | CFAO Mobility Academy</title>
+<title>Questionnaires à Choix Multiples | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -38,17 +614,24 @@ include_once 'partials/header.php'
 
     <!-- Quiz section -->
     <div class="quiz">
-        <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-            Vous devez repondre à toutes les questions avant
-            de pouvoir valider le questionnaire.
-        </p>
+        <center style="margin-bottom: 50px;">
+            <div class="timer">
+                <div class="time_left_txt">Questions Restantes</div>
+                <div class="timer_sec" id="num" value="1">
+                </div>
+            </div>
+        </center>
         <!-- <center>
             <div class="timer">
                 <div class="time_left_txt">Temps Restant</div>
                 <div class="timer_sec" name="time" id="timer_sec" value="1">
+                    </div>
                 </div>
-            </div>
-        </center> -->
+            </center> -->
+        <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
+            Vous devez repondre à toutes les questions avant
+            de pouvoir valider le questionnaire.
+        </p>
         <form class="quiz-form" method="POST">
             <div class="quiz-form__quiz">
                 <?php
@@ -104,6 +687,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Assistance à la conduite
                 </p>
+                <input class="hidden" type="text" name="quizAssistance" value="<?php echo $assistanceFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -199,6 +783,8 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Climatisation
                 </p>
+                <input class="hidden" type="text" name="quizClimatisation"
+                    value="<?php echo $climatisationFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -294,6 +880,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Direction
                 </p>
+                <input class="hidden" type="text" name="quizDirection" value="<?php echo $directionFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -389,6 +976,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Electricité
                 </p>
+                <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -484,6 +1072,8 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Freinage
                 </p>
+                <input class="hidden" type="text" name="quizFreinage" value="<?php echo $freinageFac->_id ?>" />
+                <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -579,6 +1169,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Hydraulique
                 </p>
+                <input class="hidden" type="text" name="quizHydraulique" value="<?php echo $hydrauliqueFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -674,6 +1265,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Moteur
                 </p>
+                <input class="hidden" type="text" name="quizMoteur" value="<?php echo $moteurFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -769,6 +1361,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Multiplexage & Electronique
                 </p>
+                <input class="hidden" type="text" name="quizMultiplexage" value="<?php echo $multiplexageFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -864,6 +1457,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Pneumatique
                 </p>
+                <input class="hidden" type="text" name="quizPneumatique" value="<?php echo $pneumatiqueFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -959,6 +1553,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Suspension
                 </p>
+                <input class="hidden" type="text" name="quizSuspension" value="<?php echo $suspensionFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -1054,6 +1649,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Transmission
                 </p>
+                <input class="hidden" type="text" name="quizTransmission" value="<?php echo $transmissionFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -1149,6 +1745,7 @@ include_once 'partials/header.php'
                 <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
                     Système Transversale
                 </p>
+                <input class="hidden" type="text" name="quizTransversale" value="<?php echo $transversaleFac->_id ?>" />
                 <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
                     <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
                 </div>
@@ -1191,7 +1788,8 @@ include_once 'partials/header.php'
                 <?php } ?>
                 <?php } ?>
             </div>
-            <button class="btn btn-primary submit" type="submit">Valider</button>
+            <button class="btn btn-primary submit" style="margin-top: 100px;" name="valid"
+                type="submit">Terminer</button>
         </form>
     </div>
 </div>
@@ -1224,20 +1822,23 @@ include_once 'partials/header.php'
 
 let radio;
 const ques = document.querySelectorAll("#question");
-console.log(ques.length)
 const submitBtn = document.querySelector("button")
 submitBtn.classList.add("disabled")
+const num = document.querySelector("#num").getAttribute('value');
+const score = document.querySelector("#num");
+const cal = (num * ques.length);
+score.innerHTML = `${cal}`;
 
 function checkedRadio() {
     const radios = document.querySelectorAll("input[type='radio']:checked");
-    console.log(radios)
     radios.forEach(async (rad, i) => {
-        radio = i + 1
-        console.log(radio)
+        radio = i + 1;
     })
     if (ques.length == radio) {
         submitBtn.classList.remove("disabled");
     }
+    const cal = (num * ques.length) - radio;
+    score.innerHTML = `${cal}`;
 }
 </script>
 <?php
