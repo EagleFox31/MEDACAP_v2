@@ -684,7 +684,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Assistance à la conduite
                 </p>
                 <input class="hidden" type="text" name="quizAssistance" value="<?php echo $assistanceFac->_id ?>" />
@@ -780,7 +780,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Climatisation
                 </p>
                 <input class="hidden" type="text" name="quizClimatisation"
@@ -877,7 +877,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Direction
                 </p>
                 <input class="hidden" type="text" name="quizDirection" value="<?php echo $directionFac->_id ?>" />
@@ -973,7 +973,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Electricité
                 </p>
                 <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteFac->_id ?>" />
@@ -1069,7 +1069,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Freinage
                 </p>
                 <input class="hidden" type="text" name="quizFreinage" value="<?php echo $freinageFac->_id ?>" />
@@ -1166,7 +1166,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Hydraulique
                 </p>
                 <input class="hidden" type="text" name="quizHydraulique" value="<?php echo $hydrauliqueFac->_id ?>" />
@@ -1262,7 +1262,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Moteur
                 </p>
                 <input class="hidden" type="text" name="quizMoteur" value="<?php echo $moteurFac->_id ?>" />
@@ -1358,7 +1358,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Multiplexage & Electronique
                 </p>
                 <input class="hidden" type="text" name="quizMultiplexage" value="<?php echo $multiplexageFac->_id ?>" />
@@ -1454,7 +1454,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Pneumatique
                 </p>
                 <input class="hidden" type="text" name="quizPneumatique" value="<?php echo $pneumatiqueFac->_id ?>" />
@@ -1550,7 +1550,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Suspension
                 </p>
                 <input class="hidden" type="text" name="quizSuspension" value="<?php echo $suspensionFac->_id ?>" />
@@ -1646,7 +1646,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Transmission
                 </p>
                 <input class="hidden" type="text" name="quizTransmission" value="<?php echo $transmissionFac->_id ?>" />
@@ -1742,7 +1742,7 @@ include_once 'partials/header.php'
                             '_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])
                         ]);
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 50px; font-size: 30px; margin-bottom: 20px;">
+                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
                     Système Transversale
                 </p>
                 <input class="hidden" type="text" name="quizTransversale" value="<?php echo $transversaleFac->_id ?>" />
