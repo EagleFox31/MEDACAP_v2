@@ -163,111 +163,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
                                 <?php
-                                    $transversaleFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Transversale'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $transversaleDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Transversale'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $transversaleMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Transversale']
-                                        ]
-                                    ]);
-                                ?>
-                                <?php if ($transversaleFac && $transversaleDecla && $transversaleMa) { ?>
-                                <?php for ($i = 0; $i < count($transversaleFac->questions); $i++) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
-                                        Transversale</td>
-                                    <td class="text-center hidden" name="savoir" id="sTransversale">
-                                        <?php echo $transversaleFac->answers[$i] ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $transversaleFac->score * 100 / $transversaleFac->total ?>%
-                                    </td>
-                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) >= 80)  { ?>
-                                    <td class="text-center" id="facTransversale">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) < 80)  { ?>
-                                    <td class="text-center" id="facTransversale">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $transversaleDecla->answers[$i] ?>
-                                    </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $transversaleDecla->answers[$i] ?>
-                                    </td>
-                                    <?php if ($transversaleDecla->answers[$i] == "Oui" && $transversaleMa->answers[$i] == "Oui") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] == "Non" && $transversaleMa->answers[$i] == "Non") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $transversaleDecla->score * 100 / $transversaleDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $transversaleMa->score * 100 / $transversaleMa->total ?>%
-                                    </td>
-                                    <?php if ($transversaleDecla->answers[$i] == "Je connais" && $transversaleMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] == "Je connais pas" && $transversaleMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center" id="result-sfTransversale">
-
-                                    </td>
-                                    <td class="text-center" id="result-rTransversale">
-
-                                    </td>
-                                    <td class="text-center" id="synth-Transversale">
-
-                                    </td>
-                                </tr>
-                                <?php } ?>
-                                <?php } ?>
-                                <!--end::Menu-->
-                                <?php
                                     $assistanceConduiteFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
@@ -300,7 +195,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la conduite</td>
+                                        <a href="./system.php?speciality=<?php echo $assistanceConduiteFac->speciality?>&level=<?php echo $assistanceConduiteFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Assistance à la conduite
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sAssistanceConduite">
                                         <?php echo $assistanceConduiteFac->answers[$i] ?>
                                     </td>
@@ -405,7 +306,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Climatisation</td>
+                                        <a href="./system.php?speciality=<?php echo $climatisationFac->speciality?>&level=<?php echo $climatisationFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Climatisation
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sClimatisation">
                                         <?php echo $climatisationFac->answers[$i] ?>
                                     </td>
@@ -510,7 +417,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Direction</td>
+                                        <a href="./system.php?speciality=<?php echo $directionFac->speciality?>&level=<?php echo $directionFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Direction
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sDirection">
                                         <?php echo $directionFac->answers[$i] ?>
                                     </td>
@@ -615,7 +528,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Electricité</td>
+                                        <a href="./system.php?speciality=<?php echo $electriciteFac->speciality?>&level=<?php echo $electriciteFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Electricité
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sElectricite">
                                         <?php echo $electriciteFac->answers[$i] ?>
                                     </td>
@@ -720,7 +639,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la conduite</td>
+                                        <a href="./system.php?speciality=<?php echo $freinageFac->speciality?>&level=<?php echo $freinageFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Freinage
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sFreinage">
                                         <?php echo $freinageFac->answers[$i] ?>
                                     </td>
@@ -825,7 +750,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la conduite</td>
+                                        <a href="./system.php?speciality=<?php echo $hydrauliqueFac->speciality?>&level=<?php echo $hydrauliqueFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Hydraulique
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sHydraulique">
                                         <?php echo $hydrauliqueFac->answers[$i] ?>
                                     </td>
@@ -930,7 +861,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Moteur</td>
+                                        <a href="./system.php?speciality=<?php echo $moteurFac->speciality?>&level=<?php echo $moteurFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Moteur
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sMoteur">
                                         <?php echo $moteurFac->answers[$i] ?>
                                     </td>
@@ -1035,7 +972,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la conduite</td>
+                                        <a href="./system.php?speciality=<?php echo $multiplexageFac->speciality?>&level=<?php echo $multiplexageFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Multiplexage & Electronique
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sMultiplexage">
                                         <?php echo $multiplexageFac->answers[$i] ?>
                                     </td>
@@ -1140,7 +1083,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la conduite</td>
+                                        <a href="./system.php?speciality=<?php echo $pneuFac->speciality?>&level=<?php echo $pneuFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Pneumatique
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sPneu">
                                         <?php echo $pneuFac->answers[$i] ?>
                                     </td>
@@ -1245,7 +1194,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la conduite</td>
+                                        <a href="./system.php?speciality=<?php echo $suspensionFac->speciality?>&level=<?php echo $suspensionFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Suspension
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sSuspension">
                                         <?php echo $suspensionFac->answers[$i] ?>
                                     </td>
@@ -1350,7 +1305,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la conduite</td>
+                                        <a href="./system.php?speciality=<?php echo $transmissionFac->speciality?>&level=<?php echo $transmissionFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Transmission
+                                        </a>
+                                    </td>
                                     <td class="text-center hidden" name="savoir" id="sTransmission">
                                         <?php echo $transmissionFac->answers[$i] ?>
                                     </td>
@@ -1416,6 +1377,117 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                     <td class="text-center" id="synth-Transmission">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $transversaleFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transversale'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $transversaleDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transversale'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $transversaleMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Transversale']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($transversaleFac && $transversaleDecla && $transversaleMa) { ?>
+                                <?php for ($i = 0; $i < count($transversaleFac->questions); $i++) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $transversaleFac->speciality?>&level=<?php echo $transversaleFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Transversale
+                                        </a>
+                                    </td>
+                                    <td class="text-center hidden" name="savoir" id="sTransversale">
+                                        <?php echo $transversaleFac->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transversaleFac->score * 100 / $transversaleFac->total ?>%
+                                    </td>
+                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facTransversale">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center hidden" name="n">
+                                        <?php echo $transversaleDecla->answers[$i] ?>
+                                    </td>
+                                    <td class="text-center hidden" name="n1">
+                                        <?php echo $transversaleDecla->answers[$i] ?>
+                                    </td>
+                                    <?php if ($transversaleDecla->answers[$i] == "Oui" && $transversaleMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] == "Non" && $transversaleMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $transversaleDecla->score * 100 / $transversaleDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transversaleMa->score * 100 / $transversaleMa->total ?>%
+                                    </td>
+                                    <?php if ($transversaleDecla->answers[$i] == "Je connais" && $transversaleMa->answers[$i] == "Je connais") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] == "Je connais pas" && $transversaleMa->answers[$i] == "Je connais pas") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfTransversale">
+
+                                    </td>
+                                    <td class="text-center" id="result-rTransversale">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Transversale">
 
                                     </td>
                                 </tr>
@@ -1828,6 +1900,12 @@ if (resultsfSuspension && parseFloat(resultsfSuspension.innerHTML) >= parseFloat
 if (resultsfSuspension && parseFloat(resultsfSuspension.innerHTML) < parseFloat(a)) {
     resultrSuspension.innerHTML = "Non maitrisé"
 }
+if (resultsfPneu && parseFloat(resultsfPneu.innerHTML) >= parseFloat(a)) {
+    resultrPneu.innerHTML = "Maitrisé"
+}
+if (resultsfPneu && parseFloat(resultsfPneu.innerHTML) < parseFloat(a)) {
+    resultrPneu.innerHTML = "Non maitrisé"
+}
 if (parseFloat(resultSavoir.innerHTML) >= parseFloat(a)) {
     decisionSavoir.innerHTML = "Maitrisé"
 }
@@ -1943,6 +2021,16 @@ if (facSuspension && facSuspension.innerHTML == "Non maitrisé" && (resultrSuspe
 }
 if (facSuspension && facSuspension.innerHTML !== resultrSuspension.innerHTML) {
     synthSuspension.innerHTML = "Non maitrisé"
+}
+if (facPneu && facPneu.innerHTML == "Maitrisé" && (resultrPneu.innerHTML == "Maitrisé")) {
+    synthPneu.innerHTML = "Maitrisé"
+}
+if (facPneu && facPneu.innerHTML == "Non maitrisé" && (resultrPneu.innerHTML ==
+        "Non maitrisé")) {
+    synthPneu.innerHTML = "Non maitrisé"
+}
+if (facPneu && facPneu.innerHTML !== resultrPneu.innerHTML) {
+    synthPneu.innerHTML = "Non maitrisé"
 }
 if (decisionSavoir.innerHTML == "Maitrisé" && (decisionSavoirFaire.innerHTML == "Maitrisé")) {
     synthese.innerHTML = "Maitrisé"

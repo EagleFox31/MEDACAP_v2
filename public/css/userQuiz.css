@@ -212,13 +212,13 @@ input[type="radio"]:active + .design::after {
 
 .timer .time_left_txt{
     font-weight: bold;
-    font-size: 17px;
+    font-size: 15px;
     user-select: none;
 }
 
 .timer .timer_sec{
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
     height: 30px;
     width: 70px;
     color: #fff;
