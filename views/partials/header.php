@@ -1010,7 +1010,7 @@
                                         data-kt-menu="true">
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a href="/profile/<?php echo $_SESSION["firstName"] ?>">
+                                            <a href="./profile.php?id=<?php echo $_SESSION["id"] ?>">
                                                 <div class="menu-content d-flex align-items-center px-3">
                                                     <!--begin::Avatar-->
                                                     <div class="symbol symbol-50px me-5">

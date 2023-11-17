@@ -1919,117 +1919,118 @@ if (parseFloat(resultSavoirFaire.innerHTML) < parseFloat(a)) {
     decisionSavoirFaire.innerHTML = "Non maitrisé"
 }
 
-if (facTransversale && facTransversale.innerHTML == "Maitrisé" && (resultrTransversale.innerHTML == "Maitrisé")) {
+if (facTransversale && facTransversale.innerText == "Maitrisé" && (resultrTransversale.innerText == "Maitrisé")) {
     synthTransversale.innerHTML = "Maitrisé"
 }
-if (facTransversale && facTransversale.innerHTML == "Non maitrisé" && (resultrTransversale.innerHTML ==
+if (facTransversale && facTransversale.innerText == "Non maitrisé" && (resultrTransversale.innerText ==
         "Non maitrisé")) {
     synthTransversale.innerHTML = "Non maitrisé"
 }
-if (facTransversale && facTransversale.innerHTML !== resultrTransversale.innerHTML) {
+if (facTransversale && facTransversale.innerText != resultrTransversale.innerText) {
     synthTransversale.innerHTML = "Non maitrisé"
 }
-if (facTransmission && facTransmission.innerHTML == "Maitrisé" && (resultrTransmission.innerHTML == "Maitrisé")) {
+if (facTransmission && facTransmission.innerText == "Maitrisé" && (resultrTransmission.innerText == "Maitrisé")) {
     synthTransmission.innerHTML = "Maitrisé"
 }
-if (facTransmission && facTransmission.innerHTML == "Non maitrisé" && (resultrTransmission.innerHTML ==
+if (facTransmission && facTransmission.innerText == "Non maitrisé" && (resultrTransmission.innerText ==
         "Non maitrisé")) {
     synthTransmission.innerHTML = "Non maitrisé"
 }
-if (facTransmission && facTransmission.innerHTML !== resultrTransmission.innerHTML) {
+if (facTransmission && facTransmission.innerText != resultrTransmission.innerText) {
     synthTransmission.innerHTML = "Non maitrisé"
 }
-if (facAssistance && facAssistance.innerHTML == "Maitrisé" && (resultrAssistance.innerHTML == "Maitrisé")) {
+if (facAssistance && facAssistance.innerText == "Maitrisé" && (resultrAssistance.innerText == "Maitrisé")) {
     synthAssistance.innerHTML = "Maitrisé"
 }
-if (facAssistance && facAssistance.innerHTML == "Non maitrisé" && (resultrAssistance.innerHTML == "Non maitrisé")) {
+if (facAssistance && facAssistance.innerText == "Non maitrisé" && (resultrAssistance.innerText == "Non maitrisé")) {
     synthAssistance.innerHTML = "Non maitrisé"
 }
-if (facAssistance && facAssistance.innerHTML !== resultrAssistance.innerHTML) {
+if (facAssistance && facAssistance.innerText != resultrAssistance.innerText) {
     synthAssistance.innerHTML = "Non maitrisé"
 }
-if (facClimatisation && facClimatisation.innerHTML == "Maitrisé" && (resultrClimatisation.innerHTML == "Maitrisé")) {
+if (facClimatisation && facClimatisation.innerText == "Maitrisé" && (resultrClimatisation.innerText == "Maitrisé")) {
     synthClimatisation.innerHTML = "Maitrisé"
 }
-if (facClimatisation && facClimatisation.innerHTML == "Non maitrisé" && (resultrClimatisation.innerHTML ==
+if (facClimatisation && facClimatisation.innerText == "Non maitrisé" && (resultrClimatisation.innerText ==
         "Non maitrisé")) {
     synthClimatisation.innerHTML = "Non maitrisé"
 }
-if (facClimatisation && facClimatisation.innerHTML !== resultrClimatisation.innerHTML) {
+if (facClimatisation && facClimatisation.innerText != resultrClimatisation.innerText) {
     synthClimatisation.innerHTML = "Non maitrisé"
 }
-if (facDirection && facDirection.innerHTML == "Maitrisé" && (resultrDirection.innerHTML == "Maitrisé")) {
+if (facDirection && facDirection.innerText == "Maitrisé" && (resultrDirection.innerText == "Maitrisé")) {
     synthDirection.innerHTML = "Maitrisé"
 }
-if (facDirection && facDirection.innerHTML == "Non maitrisé" && (resultrDirection.innerHTML == "Non maitrisé")) {
+if (facDirection && facDirection.innerText == "Non maitrisé" && (resultrDirection.innerText == "Non maitrisé")) {
     synthDirection.innerHTML = "Non maitrisé"
 }
-if (facDirection && facDirection.innerHTML !== resultrDirection.innerHTML) {
+if (facDirection && facDirection.innerText != resultrDirection.innerText) {
     synthDirection.innerHTML = "Non maitrisé"
 }
-if (facElectricite && facElectricite.innerHTML == "Maitrisé" && (resultrElectricite.innerHTML == "Maitrisé")) {
+if (facElectricite && facElectricite.innerText == "Maitrisé" && (resultrElectricite.innerText == "Maitrisé")) {
     synthElectricite.innerHTML = "Maitrisé"
 }
-if (facElectricite && facElectricite.innerHTML == "Non maitrisé" && (resultrElectricite.innerHTML == "Non maitrisé")) {
+if (facElectricite && facElectricite.innerText == "Non maitrisé" && (resultrElectricite.innerText == "Non maitrisé")) {
     synthElectricite.innerHTML = "Non maitrisé"
 }
-if (facElectricite && facElectricite.innerHTML !== resultrElectricite.innerHTML) {
+if (facElectricite && facElectricite.innerText != resultrElectricite.innerText) {
     synthElectricite.innerHTML = "Non maitrisé"
 }
-if (facFreinage && facFreinage.innerHTML == "Maitrisé" && (resultrFreinage.innerHTML == "Maitrisé")) {
+if (facFreinage && facFreinage.innerText == "Maitrisé" && (resultrFreinage.innerText == "Maitrisé")) {
     synthFreinage.innerHTML = "Maitrisé"
 }
-if (facFreinage && facFreinage.innerHTML == "Non maitrisé" && (resultrFreinage.innerHTML == "Non maitrisé")) {
+if (facFreinage && facFreinage.innerText == "Non maitrisé" && (resultrFreinage.innerText == "Non maitrisé")) {
     synthFreinage.innerHTML = "Non maitrisé"
 }
-if (facFreinage && facFreinage.innerHTML !== resultrFreinage.innerHTML) {
+if (facFreinage && facFreinage.innerText != resultrFreinage.innerText) {
     synthFreinage.innerHTML = "Non maitrisé"
 }
-if (facHydraulique && facHydraulique.innerHTML == "Maitrisé" && (resultrHydraulique.innerHTML == "Maitrisé")) {
+if (facHydraulique && facHydraulique.innerText == "Maitrisé" && (resultrHydraulique.innerText == "Maitrisé")) {
     synthHydraulique.innerHTML = "Maitrisé"
 }
-if (facHydraulique && facHydraulique.innerHTML == "Non maitrisé" && (resultrHydraulique.innerHTML == "Non maitrisé")) {
+if (facHydraulique && facHydraulique.innerText == "Non maitrisé" && (resultrHydraulique.innerText ==
+        "Non maitrisé")) {
     synthHydraulique.innerHTML = "Non maitrisé"
 }
-if (facHydraulique && facHydraulique.innerHTML !== resultrHydraulique.innerHTML) {
+if (facHydraulique && facHydraulique.innerText != resultrHydraulique.innerText) {
     synthHydraulique.innerHTML = "Non maitrisé"
 }
-if (facMoteur && facMoteur.innerHTML == "Maitrisé" && (resultrMoteur.innerHTML == "Maitrisé")) {
+if (facMoteur && facMoteur.innerText == "Maitrisé" && (resultrMoteur.innerText == "Maitrisé")) {
     synthMoteur.innerHTML = "Maitrisé"
 }
-if (facMoteur && facMoteur.innerHTML == "Non maitrisé" && (resultrMoteur.innerHTML == "Non maitrisé")) {
+if (facMoteur && facMoteur.innerText == "Non maitrisé" && (resultrMoteur.innerText == "Non maitrisé")) {
     synthMoteur.innerHTML = "Non maitrisé"
 }
-if (facMoteur && facMoteur.innerHTML !== resultrMoteur.innerHTML) {
+if (facMoteur && facMoteur.innerText != resultrMoteur.innerText) {
     synthMoteur.innerHTML = "Non maitrisé"
 }
-if (facMultiplexage && facMultiplexage.innerHTML == "Maitrisé" && (resultrMultiplexage.innerHTML == "Maitrisé")) {
+if (facMultiplexage && facMultiplexage.innerText == "Maitrisé" && (resultrMultiplexage.innerText == "Maitrisé")) {
     synthMultiplexage.innerHTML = "Maitrisé"
 }
-if (facMultiplexage && facMultiplexage.innerHTML == "Non maitrisé" && (resultrMultiplexage.innerHTML ==
+if (facMultiplexage && facMultiplexage.innerText == "Non maitrisé" && (resultrMultiplexage.innerText ==
         "Non maitrisé")) {
     synthMultiplexage.innerHTML = "Non maitrisé"
 }
-if (facMultiplexage && facMultiplexage.innerHTML !== resultrMultiplexage.innerHTML) {
+if (facMultiplexage && facMultiplexage.innerText != resultrMultiplexage.innerText) {
     synthMultiplexage.innerHTML = "Non maitrisé"
 }
-if (facSuspension && facSuspension.innerHTML == "Maitrisé" && (resultrSuspension.innerHTML == "Maitrisé")) {
+if (facSuspension && facSuspension.innerText == "Maitrisé" && (resultrSuspension.innerText == "Maitrisé")) {
     synthSuspension.innerHTML = "Maitrisé"
 }
-if (facSuspension && facSuspension.innerHTML == "Non maitrisé" && (resultrSuspension.innerHTML == "Non maitrisé")) {
+if (facSuspension && facSuspension.innerText == "Non maitrisé" && (resultrSuspension.innerText == "Non maitrisé")) {
     synthSuspension.innerHTML = "Non maitrisé"
 }
-if (facSuspension && facSuspension.innerHTML !== resultrSuspension.innerHTML) {
+if (facSuspension && facSuspension.innerText != resultrSuspension.innerText) {
     synthSuspension.innerHTML = "Non maitrisé"
 }
-if (facPneu && facPneu.innerHTML == "Maitrisé" && (resultrPneu.innerHTML == "Maitrisé")) {
+if (facPneu && facPneu.innerText == "Maitrisé" && (resultrPneu.innerText == "Maitrisé")) {
     synthPneu.innerHTML = "Maitrisé"
 }
-if (facPneu && facPneu.innerHTML == "Non maitrisé" && (resultrPneu.innerHTML ==
+if (facPneu && facPneu.innerText == "Non maitrisé" && (resultrPneu.innerText ==
         "Non maitrisé")) {
     synthPneu.innerHTML = "Non maitrisé"
 }
-if (facPneu && facPneu.innerHTML !== resultrPneu.innerHTML) {
+if (facPneu && facPneu.innerText != resultrPneu.innerText) {
     synthPneu.innerHTML = "Non maitrisé"
 }
 if (decisionSavoir.innerHTML == "Maitrisé" && (decisionSavoirFaire.innerHTML == "Maitrisé")) {
@@ -2038,7 +2039,7 @@ if (decisionSavoir.innerHTML == "Maitrisé" && (decisionSavoirFaire.innerHTML ==
 if (decisionSavoir.innerHTML == "Non maitrisé" && (decisionSavoirFaire.innerHTML == "Non maitrisé")) {
     synthese.innerHTML = "Non maitrisé"
 }
-if (decisionSavoir.innerHTML !== decisionSavoirFaire.innerHTML) {
+if (decisionSavoir.innerHTML != decisionSavoirFaire.innerHTML) {
     synthese.innerHTML = "Non maitrisé"
 }
 </script>

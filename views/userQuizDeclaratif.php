@@ -72,6 +72,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             $transversaleID = $_POST[ 'quizTransversale' ];
             $quizTransversale = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($transversaleID)]);
         }
+        $time = $_POST[ 'timer' ];
         $body = $_POST; // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
         
@@ -128,6 +129,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizAssistance->level,
                         'type' => $quizAssistance->type,
                         'total' => $quizAssistance->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -161,6 +163,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizClimatisation->level,
                         'type' => $quizClimatisation->type,
                         'total' => $quizClimatisation->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -194,6 +197,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizDirection->level,
                         'type' => $quizDirection->type,
                         'total' => $quizDirection->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -227,6 +231,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizElectricite->level,
                         'type' => $quizElectricite->type,
                         'total' => $quizElectricite->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -260,6 +265,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizFreinage->level,
                         'type' => $quizFreinage->type,
                         'total' => $quizFreinage->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -293,6 +299,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizHydraulique->level,
                         'type' => $quizHydraulique->type,
                         'total' => $quizHydraulique->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -326,6 +333,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizMoteur->level,
                         'type' => $quizMoteur->type,
                         'total' => $quizMoteur->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -359,6 +367,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizMultiplexage->level,
                         'type' => $quizMultiplexage->type,
                         'total' => $quizMultiplexage->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -392,6 +401,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizPneumatique->level,
                         'type' => $quizPneumatique->type,
                         'total' => $quizPneumatique->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -425,6 +435,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizSuspension->level,
                         'type' => $quizSuspension->type,
                         'total' => $quizSuspension->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -458,6 +469,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizTransmission->level,
                         'type' => $quizTransmission->type,
                         'total' => $quizTransmission->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -491,6 +503,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'level' => $quizTransversale->level,
                         'type' => $quizTransversale->type,
                         'total' => $quizTransversale->total,
+                        'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
@@ -535,18 +548,19 @@ include_once 'partials/header.php'
                 </div>
             </div>
         </center>
-        <!-- <center>
+        <center style="margin-bottom: 50px;">
             <div class="timer">
-                <div class="time_left_txt">Temps Restant</div>
-                <div class="timer_sec" name="time" id="timer_sec" value="1">
-                    </div>
+                <div class="time_left_txt">Durée Questionnaire</div>
+                <div class="timer_sec" name="time" id="timer_sec" value="0">
                 </div>
-            </center> -->
+            </div>
+        </center>
         <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
             Vous devez repondre à toutes les questions avant
             de pouvoir valider le questionnaire.
         </p>
         <form class="quiz-form" method="POST">
+            <input class="hidden" type="text" name="timer" id="clock" />
             <div class="quiz-form__quiz">
                 <?php
                     $assistanceDecla = $quizzes->findOne([
@@ -1135,6 +1149,34 @@ include_once 'partials/header.php'
     </div>
 </div>
 <script>
+var timer = setInterval(countTimer, 1000);
+var totalSecond = 0;
+
+function countTimer() {
+    totalSecond++;
+
+    var hour = Math.floor(totalSecond / 3600);
+    var minutes = Math.floor((totalSecond - hour * 3600) / 60);
+    var seconds = totalSecond - (hour * 3600 + minutes * 60);
+
+    if (minutes < 9 && hour > 9) {
+        document.getElementById("timer_sec").innerHTML = hour + ":" + "0" + minutes;
+        document.getElementById("clock").value = hour + ":" + "0" + minutes + ":" + seconds;
+    } else if (hour < 9 && minutes > 9) {
+        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + minutes;
+        document.getElementById("clock").value = "0" + hour + ":" + minutes + ":" + seconds;
+    } else if (hour < 9 && minutes < 9) {
+        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
+        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
+    } else if (hour == 9 && minutes == 9) {
+        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
+        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
+    } else {
+        document.getElementById("timer_sec").innerHTML = hour + ":" + minutes;
+        document.getElementById("clock").value = hour + ":" + minutes + ":" + seconds;
+    }
+}
+
 let radio;
 const ques = document.querySelectorAll("#question");
 const submitBtn = document.querySelector("button")

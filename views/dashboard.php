@@ -293,7 +293,6 @@ include('./partials/header.php')
                                         <th class="min-w-200px px-0">
                                             Questionnaires
                                         </th>
-                                        <th class="min-w-125px">Système</th>
                                         <th class="min-w-125px">Niveau</th>
                                     </tr>
                                     <?php

@@ -76,7 +76,7 @@ include_once 'partials/header.php'
         style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
     <h1 class='my-3 text-center'>Création d'un questionnaire</h1>
 
-    <?php 
+    <?php
      if(isset($success_msg)) {
     ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -85,10 +85,10 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
-    <?php 
+    <?php
      if(isset($error_msg)) {
     ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -97,7 +97,7 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
 
@@ -112,13 +112,13 @@ include_once 'partials/header.php'
                 <!--begin::Input-->
                 <input type="text" class="form-control form-control-solid" placeholder="" name="label" />
                 <!--end::Input-->
-                <?php 
+                <?php
                      if(isset($error)) {
                     ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
+                <?php
                     }
                     ?>
             </div>
@@ -131,13 +131,13 @@ include_once 'partials/header.php'
                 <!--begin::Input-->
                 <input type="text" class="form-control form-control-solid" placeholder="" name="description" />
                 <!--end::Input-->
-                <?php 
+                <?php
                      if(isset($error)) {
                     ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
+                <?php
                     }
                     ?>
             </div>
@@ -164,13 +164,13 @@ include_once 'partials/header.php'
                     </option>
                 </select>
                 <!--end::Input-->
-                <?php 
+                <?php
                      if(isset($error)) {
                     ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
+                <?php
                     }
                     ?>
             </div>
@@ -226,13 +226,13 @@ include_once 'partials/header.php'
                     </option>
                 </select>
                 <!--end::Input-->
-                <?php 
+                <?php
                      if(isset($error)) {
                     ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
+                <?php
                     }
                     ?>
             </div>
@@ -246,13 +246,13 @@ include_once 'partials/header.php'
                 <!--begin::Input-->
                 <input type="text" class="form-control form-control-solid" placeholder="" name="number" />
                 <!--end::Input-->
-                <?php 
+                <?php
                      if(isset($error)) {
                     ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
+                <?php
                     }
                     ?>
             </div>
@@ -282,13 +282,13 @@ include_once 'partials/header.php'
                     </option>
                 </select>
                 <!--end::Input-->
-                <?php 
+                <?php
                      if(isset($error)) {
                     ?>
                 <span class='text-danger'>
                     <?php echo $error ?>
                 </span>
-                <?php 
+                <?php
                     }
                     ?>
             </div>

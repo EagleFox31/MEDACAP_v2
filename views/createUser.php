@@ -66,6 +66,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     } else {
         if ( $profile == 'Technicien' ) {
             $personT = [
+                'users' => [],
                 'username' => $username,
                 'matricule' => $matricule,
                 'firstName' => ucfirst( $firstName ),
@@ -133,6 +134,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             $success_msg = 'Manager ajouté avec succès';
         } else {
             $personA = [
+                'users' => [],
                 'username' => $username,
                 'matricule' => $matricule,
                 'firstName' => ucfirst( $firstName ),
@@ -168,7 +170,7 @@ include_once 'partials/header.php'
 ?>
 
 <!--begin::Title-->
-<title>Ajouter Technicien | CFAO Mobility Academy</title>
+<title>Ajouter Utilisateur | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Modal body-->

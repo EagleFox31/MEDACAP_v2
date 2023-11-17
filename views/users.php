@@ -155,7 +155,6 @@ if ( isset( $_POST[ 'password' ] ) ) {
     // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
     if ( ! preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
         $error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
-        exit();
     } else {
         $password_hash = password_hash( $password, PASSWORD_DEFAULT );
     
@@ -164,7 +163,6 @@ if ( isset( $_POST[ 'password' ] ) ) {
             [ '$set' => [ 'password' => $password_hash, ] ]
         );
         $success_msg = 'Mot de passe modifié avec succes.';
-        exit();
     }
 }
 
@@ -176,13 +174,10 @@ if ( isset( $_POST[ 'delete' ] ) ) {
 
     if ($member['profile'] == "Technicien") {
         $success_msg = "Technicien supprimé avec succès";
-        exit();
     } else if ($member['profile'] == "Manager") {
         $success_msg = "Manager supprimé avec succès";
-        exit();
     } else if ($member['profile'] == "Admin") {
         $success_msg = "Administrateur supprimé avec succès";
-        exit();
     }
 }
 
@@ -207,7 +202,6 @@ if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
         ['$unset' => ['manager' => 1]]
     );
     $success_msg = "Membre retiré avec succes.";
-    exit();
 }
 ?>
 
