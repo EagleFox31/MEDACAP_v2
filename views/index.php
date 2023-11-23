@@ -153,6 +153,14 @@ if ( isset( $error_msg ) ) {
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="subject" name="password"
                                         placeholder="Subject">
+                                    <span
+                                        class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+                                        data-kt-password-meter-control="visibility">
+                                        <i class="ki-duotone ki-eye-slash fs-1"><span class="path1"></span><span
+                                                class="path2"></span><span class="path3"></span><span
+                                                class="path4"></span></i> <i class="ki-duotone ki-eye d-none fs-1"><span
+                                                class="path1"></span><span class="path2"></span><span
+                                                class="path3"></span></i> </span>
                                     <label for="subject">Mot de passe</label>
                                 </div>
                             </div>
@@ -256,6 +264,8 @@ if ( isset( $error_msg ) ) {
     <script src="../public/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="../public/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js">
     </script>
+    <!--begin::Custom Javascript(used for this page only)-->
+    <script src="../public/assets/js/custom/authentication/sign-up/free-trial.js"></script>
     <!-- Template Javascript -->
     <script src="../public/js/main.js"></script>
 </body>

@@ -64,11 +64,15 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     ['label' => $quiz], ['level' => $level]
                 ]
             ]);
+            $quizz->total++;
+            $quizzes->updateOne(
+                ['_id' => new MongoDB\BSON\ObjectId( $quizz->_id )],
+                ['$set' => $quizz]
+            );
             $quizzes->updateOne(
                 ['_id' => new MongoDB\BSON\ObjectId( $quizz->_id )],
                 ['$push' => ['questions' => new MongoDB\BSON\ObjectId( $result->getInsertedId() )]]
             );
-            $quizz->total++;
             $allocation = [
                 "quiz" => new MongoDB\BSON\ObjectId( $quizz->_id ),
                 "question" => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),

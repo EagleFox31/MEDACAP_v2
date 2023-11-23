@@ -209,7 +209,9 @@ include_once 'partials/header.php'
                                         </td>
                                         <?php } ?>
                                         <td>
-                                            Junior
+                                            <span class="badge badge-light-success  fs-7 m-1">
+                                                Junior
+                                            </span>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
@@ -230,7 +232,9 @@ include_once 'partials/header.php'
                                         </td>
                                         <?php } ?>
                                         <td data-filter="email">
-                                            Senior
+                                            <span class="badge badge-light-danger  fs-7 m-1">
+                                                Senior
+                                            </span>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
@@ -251,7 +255,9 @@ include_once 'partials/header.php'
                                         </td>
                                         <?php } ?>
                                         <td data-filter="email">
-                                            Expert
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                Expert
+                                            </span>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
@@ -272,7 +278,9 @@ include_once 'partials/header.php'
                                         </td>
                                         <?php } ?>
                                         <td data-filter="email">
-                                            Junior
+                                            <span class="badge badge-light-success  fs-7 m-1">
+                                                Junior
+                                            </span>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
@@ -293,7 +301,9 @@ include_once 'partials/header.php'
                                         </td>
                                         <?php } ?>
                                         <td data-filter="email">
-                                            Senior
+                                            <span class="badge badge-light-danger  fs-7 m-1">
+                                                Senior
+                                            </span>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
@@ -314,7 +324,9 @@ include_once 'partials/header.php'
                                         </td>
                                         <?php } ?>
                                         <td data-filter="email">
-                                            Expert
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                Expert
+                                            </span>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>

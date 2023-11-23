@@ -157,15 +157,15 @@ if ( isset( $_POST[ 'password' ] ) ) {
     $newPassword = $_POST[ 'newPassword' ];
     $oldPassword = $_POST[ 'oldPassword' ];
 
-    $password = $users->findOne(["password" => password_hash( $password, PASSWORD_DEFAULT ) ]);
+    $password = $users->findOne(["password" => sha1( $oldPassword ) ]);
     if (!$password) {
         $error_msg = 'Ancien mot de passe incorrect';
     } else {
         // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
-        if ( ! preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $newPassword ) ) {
+        if ( preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $newPassword ) ) {
             $error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
         } else {
-            $password_hash = password_hash( $newPassword, PASSWORD_DEFAULT );
+            $password_hash = sha1( $newPassword );
         
             $users->updateOne(
                 [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],

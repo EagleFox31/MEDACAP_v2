@@ -156,7 +156,7 @@ if ( isset( $_POST[ 'password' ] ) ) {
     if ( ! preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
         $error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
     } else {
-        $password_hash = password_hash( $password, PASSWORD_DEFAULT );
+        $password_hash = sha1( $password );
     
         $users->updateOne(
             [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
@@ -517,10 +517,23 @@ include_once 'partials/header.php'
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->birthdate ?>
-                                            <!-- $user->birthdate->toDateTime()->format("d M Y"); -->
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->profile ?>
+                                            <?php if ($user->profile == "Technicien") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $user->profile ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($user->profile == "Manager") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $user->profile ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($user->profile == "Admin") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $user->profile ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level ?>
@@ -580,7 +593,21 @@ include_once 'partials/header.php'
                                             <?php echo $user->birthdate ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->profile ?>
+                                            <?php if ($user->profile == "Technicien") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $user->profile ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($user->profile == "Manager") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $user->profile ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($user->profile == "Admin") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $user->profile ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level ?>
@@ -1332,7 +1359,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
-
 <?php
 include_once 'partials/footer.php'
 ?>

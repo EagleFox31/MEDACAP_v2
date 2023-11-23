@@ -21,23 +21,94 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $level = $_GET['level'];
 
     $technician = $users->findOne(['_id' => new MongoDB\BSON\ObjectId( $user )]);
+    $resultFac = $results->aggregate([
+        [
+            '$match' => [
+                '$and' => [
+                    [
+                        'user' => new MongoDB\BSON\ObjectId( $user ),
+                        'level' => $level,
+                        'type' => 'Factuel',
+                    ],
+                ],
+            ],
+        ],
+        [
+            '$group' => [
+                '_id' => '$user',
+                'total' => ['$sum' => '$total'],
+                'score' => ['$sum' => '$score'],
+            ],
+        ],
+        [
+            '$project' => [
+                '_id' => 0,
+                'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
+            ],
+        ],
+    ]);
+    $resultDecla = $results->aggregate([
+        [
+            '$match' => [
+                '$and' => [
+                    [
+                        'user' => new MongoDB\BSON\ObjectId( $user ),
+                        'level' => $level,
+                        'typeR' => 'Technicien',
+                    ],
+                ],
+            ],
+        ],
+        [
+            '$group' => [
+                '_id' => '$user',
+                'total' => ['$sum' => '$total'],
+                'score' => ['$sum' => '$score'],
+            ],
+        ],
+        [
+            '$project' => [
+                '_id' => 0,
+                'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
+            ],
+        ],
+    ]);
+    $resultMa = $results->aggregate([
+        [
+            '$match' => [
+                '$and' => [
+                    [
+                        'user' => new MongoDB\BSON\ObjectId( $user ),
+                        'manager' => new MongoDB\BSON\ObjectId( $technician->manager ),
+                        'level' => $level,
+                        'typeR' => 'Manager',
+                    ],
+                ],
+            ],
+        ],
+        [
+            '$group' => [
+                '_id' => '$user',
+                'total' => ['$sum' => '$total'],
+                'score' => ['$sum' => '$score'],
+            ],
+        ],
+        [
+            '$project' => [
+                '_id' => 0,
+                'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
+            ],
+        ],
+    ]);
+    $arrResultFac = iterator_to_array($resultFac);
+    $arrResultDecla = iterator_to_array($resultDecla);
+    $arrResultMa = iterator_to_array($resultMa);
 ?>
 <title>Résultat Technicien | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
 <link href="../public/images/logo-cfao.png" rel="icon">
 
-<meta charset="utf-8" />
-<meta name="description"
-    content="Craft admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
-<meta name="keywords"
-    content="Craft, bootstrap, bootstrap 5, admin themes, dark mode, free admin themes, bootstrap admin, bootstrap dashboard" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:locale" content="en_US" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Craft - Bootstrap 5 HTML Admin Dashboard Theme" />
-<meta property="og:url" content="https://themes.getbootstrap.com/product/craft-bootstrap-5-admin-dashboard-theme" />
-<meta property="og:site_name" content="Keenthemes | Craft" />
 <link rel="canonical" href="https://preview.keenthemes.com/craft" />
 <link rel="shortcut icon" href="/images/logo-cfao.png" />
 <!--begin::Fonts(mandatory for all pages)-->
@@ -167,7 +238,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'AssistanceConduite'],
+                                            ['speciality' => 'Assistance à la Conduite'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
@@ -175,7 +246,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'AssistanceConduite'],
+                                            ['speciality' => 'Assistance à la Conduite'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
@@ -184,12 +255,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'AssistanceConduite']
+                                            ['speciality' => 'Assistance à la Conduite']
                                         ]
                                     ]);
                                 ?>
                                 <?php if ($assistanceConduiteFac && $assistanceConduiteDecla && $assistanceConduiteMa) { ?>
-                                <?php for ($i = 0; $i < count($assistanceConduiteFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -202,40 +272,16 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             Assistance à la conduite
                                         </a>
                                     </td>
-                                    <td class="text-center hidden" name="savoir" id="sAssistanceConduite">
-                                        <?php echo $assistanceConduiteFac->answers[$i] ?>
-                                    </td>
                                     <td class="text-center">
                                         <?php echo $assistanceConduiteFac->score * 100 / $assistanceConduiteFac->total ?>%
                                     </td>
                                     <?php if ((($assistanceConduiteFac->score  * 100 ) / $assistanceConduiteFac->total) >= 80)  { ?>
-                                    <td class="text-center" id="facAssistanceConduite">
+                                    <td class="text-center" id="facAssistance">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
                                     <?php if ((($assistanceConduiteFac->score  * 100 ) / $assistanceConduiteFac->total) < 80)  { ?>
-                                    <td class="text-center" id="facAssistanceConduite">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $assistanceConduiteDecla->answers[$i] ?>
-                                    </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $assistanceConduiteDecla->answers[$i] ?>
-                                    </td>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Oui" && $assistanceConduiteMa->answers[$i] == "Oui") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Non" && $assistanceConduiteMa->answers[$i] == "Non") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] != $assistanceConduiteMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                    <td class="text-center" id="facAssistance">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
@@ -245,32 +291,33 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $assistanceConduiteMa->score * 100 / $assistanceConduiteMa->total ?>%
                                     </td>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Je connais" && $assistanceConduiteMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                    <?php for ($i = 0; $i < count($assistanceConduiteFac->questions); $i++) { ?>
+                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Oui" && $assistanceConduiteMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Je connais pas" && $assistanceConduiteMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Non" && $assistanceConduiteMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <?php if ($assistanceConduiteDecla->answers[$i] != $assistanceConduiteMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistanceConduite">
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center" id="result-sfAssistanceConduite">
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfAssistance">
 
                                     </td>
-                                    <td class="text-center" id="result-rAssistanceConduite">
+                                    <td class="text-center" id="result-rAssistance">
 
                                     </td>
-                                    <td class="text-center" id="synth-AssistanceConduite">
+                                    <td class="text-center" id="synth-Assistance">
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -300,7 +347,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($climatisationFac && $climatisationDecla && $climatisationMa) { ?>
-                                <?php for ($i = 0; $i < count($climatisationFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -312,9 +358,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Climatisation
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sClimatisation">
-                                        <?php echo $climatisationFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $climatisationFac->score * 100 / $climatisationFac->total ?>%
@@ -329,12 +372,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $climatisationDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $climatisationDecla->score * 100 / $climatisationDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $climatisationDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $climatisationMa->score * 100 / $climatisationMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($climatisationFac->questions); $i++) { ?>
                                     <?php if ($climatisationDecla->answers[$i] == "Oui" && $climatisationMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
                                         Maitrisé
@@ -350,26 +394,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $climatisationDecla->score * 100 / $climatisationDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $climatisationMa->score * 100 / $climatisationMa->total ?>%
-                                    </td>
-                                    <?php if ($climatisationDecla->answers[$i] == "Je connais" && $climatisationMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($climatisationDecla->answers[$i] == "Je connais pas" && $climatisationMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($climatisationDecla->answers[$i] != $climatisationMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfClimatisation">
 
@@ -381,7 +405,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -411,7 +434,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($directionFac && $directionDecla && $directionMa) { ?>
-                                <?php for ($i = 0; $i < count($directionFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -423,9 +445,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Direction
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sDirection">
-                                        <?php echo $directionFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $directionFac->score * 100 / $directionFac->total ?>%
@@ -440,12 +459,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $directionDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $directionDecla->score * 100 / $directionDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $directionDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $directionMa->score * 100 / $directionMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($directionFac->questions); $i++) { ?>
                                     <?php if ($directionDecla->answers[$i] == "Oui" && $directionMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
                                         Maitrisé
@@ -461,26 +481,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $directionDecla->score * 100 / $directionDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $directionMa->score * 100 / $directionMa->total ?>%
-                                    </td>
-                                    <?php if ($directionDecla->answers[$i] == "Je connais" && $directionMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($directionDecla->answers[$i] == "Je connais pas" && $directionMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($directionDecla->answers[$i] != $directionMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfDirection">
 
@@ -493,14 +493,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                 </tr>
                                 <?php } ?>
-                                <?php } ?>
                                 <!--end::Menu-->
                                 <?php
                                     $electriciteFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Electricite'],
+                                            ['speciality' => 'Electricité'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
@@ -508,7 +507,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Electricite'],
+                                            ['speciality' => 'Electricité'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
@@ -517,12 +516,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'Electricite']
+                                            ['speciality' => 'Electricité']
                                         ]
                                     ]);
                                 ?>
                                 <?php if ($electriciteFac && $electriciteDecla && $electriciteMa) { ?>
-                                <?php for ($i = 0; $i < count($electriciteFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -534,9 +532,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Electricité
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sElectricite">
-                                        <?php echo $electriciteFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $electriciteFac->score * 100 / $electriciteFac->total ?>%
@@ -551,12 +546,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $electriciteDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $electriciteDecla->score * 100 / $electriciteDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $electriciteDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $electriciteMa->score * 100 / $electriciteMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($electriciteFac->questions); $i++) { ?>
                                     <?php if ($electriciteDecla->answers[$i] == "Oui" && $electriciteMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
                                         Maitrisé
@@ -572,26 +568,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $electriciteDecla->score * 100 / $electriciteDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $electriciteMa->score * 100 / $electriciteMa->total ?>%
-                                    </td>
-                                    <?php if ($electriciteDecla->answers[$i] == "Je connais" && $electriciteMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($electriciteDecla->answers[$i] == "Je connais pas" && $electriciteMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($electriciteDecla->answers[$i] != $electriciteMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfElectricite">
 
@@ -603,7 +579,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -633,7 +608,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($freinageFac && $freinageDecla && $freinageMa) { ?>
-                                <?php for ($i = 0; $i < count($freinageFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -645,9 +619,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Freinage
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sFreinage">
-                                        <?php echo $freinageFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $freinageFac->score * 100 / $freinageFac->total ?>%
@@ -662,12 +633,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $freinageDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $freinageDecla->score * 100 / $freinageDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $freinageDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $freinageMa->score * 100 / $freinageMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($freinageFac->questions); $i++) { ?>
                                     <?php if ($freinageDecla->answers[$i] == "Oui" && $freinageMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
                                         Maitrisé
@@ -683,26 +655,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $freinageDecla->score * 100 / $freinageDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $freinageMa->score * 100 / $freinageMa->total ?>%
-                                    </td>
-                                    <?php if ($freinageDecla->answers[$i] == "Je connais" && $freinageMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($freinageDecla->answers[$i] == "Je connais pas" && $freinageMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($freinageDecla->answers[$i] != $freinageMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfFreinage">
 
@@ -714,7 +666,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -744,7 +695,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($hydrauliqueFac && $hydrauliqueDecla && $hydrauliqueMa) { ?>
-                                <?php for ($i = 0; $i < count($hydrauliqueFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -756,9 +706,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Hydraulique
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sHydraulique">
-                                        <?php echo $hydrauliqueFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $hydrauliqueFac->score * 100 / $hydrauliqueFac->total ?>%
@@ -773,12 +720,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $hydrauliqueDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $hydrauliqueDecla->score * 100 / $hydrauliqueDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $hydrauliqueDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $hydrauliqueMa->score * 100 / $hydrauliqueMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($hydrauliqueFac->questions); $i++) { ?>
                                     <?php if ($hydrauliqueDecla->answers[$i] == "Oui" && $hydrauliqueMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
                                         Maitrisé
@@ -794,26 +742,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $hydrauliqueDecla->score * 100 / $hydrauliqueDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $hydrauliqueMa->score * 100 / $hydrauliqueMa->total ?>%
-                                    </td>
-                                    <?php if ($hydrauliqueDecla->answers[$i] == "Je connais" && $hydrauliqueMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($hydrauliqueDecla->answers[$i] == "Je connais pas" && $hydrauliqueMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($hydrauliqueDecla->answers[$i] != $hydrauliqueMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfHydraulique">
 
@@ -825,7 +753,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -855,7 +782,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($moteurFac && $moteurDecla && $moteurMa) { ?>
-                                <?php for ($i = 0; $i < count($moteurFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -867,9 +793,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Moteur
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sMoteur">
-                                        <?php echo $moteurFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $moteurFac->score * 100 / $moteurFac->total ?>%
@@ -884,12 +807,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $moteurDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $moteurDecla->score * 100 / $moteurDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $moteurDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $moteurMa->score * 100 / $moteurMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($moteurFac->questions); $i++) { ?>
                                     <?php if ($moteurDecla->answers[$i] == "Oui" && $moteurMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
                                         Maitrisé
@@ -905,26 +829,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $moteurDecla->score * 100 / $moteurDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $moteurMa->score * 100 / $moteurMa->total ?>%
-                                    </td>
-                                    <?php if ($moteurDecla->answers[$i] == "Je connais" && $moteurMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($moteurDecla->answers[$i] == "Je connais pas" && $moteurMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($moteurDecla->answers[$i] != $moteurMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfMoteur">
 
@@ -937,14 +841,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                 </tr>
                                 <?php } ?>
-                                <?php } ?>
                                 <!--end::Menu-->
                                 <?php
                                     $multiplexageFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Multiplexage & Electronique'],
+                                            ['speciality' => 'Multiplexage et Electronique'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
@@ -952,7 +855,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Multiplexage & Electronique'],
+                                            ['speciality' => 'Multiplexage et Electronique'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
@@ -961,12 +864,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'Multiplexage & Electronique']
+                                            ['speciality' => 'Multiplexage et Electronique']
                                         ]
                                     ]);
                                 ?>
                                 <?php if ($multiplexageFac && $multiplexageDecla && $multiplexageMa) { ?>
-                                <?php for ($i = 0; $i < count($multiplexageFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -978,9 +880,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Multiplexage & Electronique
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sMultiplexage">
-                                        <?php echo $multiplexageFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $multiplexageFac->score * 100 / $multiplexageFac->total ?>%
@@ -995,12 +894,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $multiplexageDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $multiplexageDecla->score * 100 / $multiplexageDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $multiplexageDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $multiplexageMa->score * 100 / $multiplexageMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($multiplexageFac->questions); $i++) { ?>
                                     <?php if ($multiplexageDecla->answers[$i] == "Oui" && $multiplexageMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
                                         Maitrisé
@@ -1016,26 +916,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $multiplexageDecla->score * 100 / $multiplexageDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $multiplexageMa->score * 100 / $multiplexageMa->total ?>%
-                                    </td>
-                                    <?php if ($multiplexageDecla->answers[$i] == "Je connais" && $multiplexageMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($multiplexageDecla->answers[$i] == "Je connais pas" && $multiplexageMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($multiplexageDecla->answers[$i] != $multiplexageMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfMultiplexage">
 
@@ -1047,7 +927,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -1077,7 +956,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($pneuFac && $pneuDecla && $pneuMa) { ?>
-                                <?php for ($i = 0; $i < count($pneuFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -1089,9 +967,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Pneumatique
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sPneu">
-                                        <?php echo $pneuFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $pneuFac->score * 100 / $pneuFac->total ?>%
@@ -1106,12 +981,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $pneuDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $pneuDecla->score * 100 / $pneuDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $pneuDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $pneuMa->score * 100 / $pneuMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($pneuFac->questions); $i++) { ?>
                                     <?php if ($pneuDecla->answers[$i] == "Oui" && $pneuMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
                                         Maitrisé
@@ -1127,26 +1003,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $pneuDecla->score * 100 / $pneuDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $pneuMa->score * 100 / $pneuMa->total ?>%
-                                    </td>
-                                    <?php if ($pneuDecla->answers[$i] == "Je connais" && $pneuMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($pneuDecla->answers[$i] == "Je connais pas" && $pneuMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($pneuDecla->answers[$i] != $pneuMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfPneu">
 
@@ -1158,7 +1014,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -1188,7 +1043,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($suspensionFac && $suspensionDecla && $suspensionMa) { ?>
-                                <?php for ($i = 0; $i < count($suspensionFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -1200,9 +1054,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Suspension
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sSuspension">
-                                        <?php echo $suspensionFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $suspensionFac->score * 100 / $suspensionFac->total ?>%
@@ -1217,12 +1068,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $suspensionDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $suspensionDecla->score * 100 / $suspensionDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $suspensionDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $suspensionMa->score * 100 / $suspensionMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($suspensionFac->questions); $i++) { ?>
                                     <?php if ($suspensionDecla->answers[$i] == "Oui" && $suspensionMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Maitrisé
@@ -1238,26 +1090,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $suspensionDecla->score * 100 / $suspensionDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $suspensionMa->score * 100 / $suspensionMa->total ?>%
-                                    </td>
-                                    <?php if ($suspensionDecla->answers[$i] == "Je connais" && $suspensionMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($suspensionDecla->answers[$i] == "Je connais pas" && $suspensionMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($suspensionDecla->answers[$i] != $suspensionMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfSuspension">
 
@@ -1269,7 +1101,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -1299,7 +1130,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($transmissionFac && $transmissionDecla && $transmissionMa) { ?>
-                                <?php for ($i = 0; $i < count($transmissionFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -1311,9 +1141,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Transmission
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sTransmission">
-                                        <?php echo $transmissionFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $transmissionFac->score * 100 / $transmissionFac->total ?>%
@@ -1328,12 +1155,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $transmissionDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $transmissionDecla->score * 100 / $transmissionDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $transmissionDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $transmissionMa->score * 100 / $transmissionMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($transmissionFac->questions); $i++) { ?>
                                     <?php if ($transmissionDecla->answers[$i] == "Oui" && $transmissionMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
                                         Maitrisé
@@ -1349,26 +1177,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $transmissionDecla->score * 100 / $transmissionDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $transmissionMa->score * 100 / $transmissionMa->total ?>%
-                                    </td>
-                                    <?php if ($transmissionDecla->answers[$i] == "Je connais" && $transmissionMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($transmissionDecla->answers[$i] == "Je connais pas" && $transmissionMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($transmissionDecla->answers[$i] != $transmissionMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
-                                        Non maitrisé
-                                    </td>
                                     <?php } ?>
                                     <td class="text-center" id="result-sfTransmission">
 
@@ -1380,7 +1188,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
@@ -1410,7 +1217,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     ]);
                                 ?>
                                 <?php if ($transversaleFac && $transversaleDecla && $transversaleMa) { ?>
-                                <?php for ($i = 0; $i < count($transversaleFac->questions); $i++) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
@@ -1422,9 +1228,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Transversale
                                         </a>
-                                    </td>
-                                    <td class="text-center hidden" name="savoir" id="sTransversale">
-                                        <?php echo $transversaleFac->answers[$i] ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $transversaleFac->score * 100 / $transversaleFac->total ?>%
@@ -1439,12 +1242,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center hidden" name="n">
-                                        <?php echo $transversaleDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $transversaleDecla->score * 100 / $transversaleDecla->total ?>%
                                     </td>
-                                    <td class="text-center hidden" name="n1">
-                                        <?php echo $transversaleDecla->answers[$i] ?>
+                                    <td class="text-center">
+                                        <?php echo $transversaleMa->score * 100 / $transversaleMa->total ?>%
                                     </td>
+                                    <?php for ($i = 0; $i < count($transversaleFac->questions); $i++) { ?>
                                     <?php if ($transversaleDecla->answers[$i] == "Oui" && $transversaleMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
                                         Maitrisé
@@ -1460,28 +1264,8 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo $transversaleDecla->score * 100 / $transversaleDecla->total ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo $transversaleMa->score * 100 / $transversaleMa->total ?>%
-                                    </td>
-                                    <?php if ($transversaleDecla->answers[$i] == "Je connais" && $transversaleMa->answers[$i] == "Je connais") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Maitrisé
-                                    </td>
                                     <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] == "Je connais pas" && $transversaleMa->answers[$i] == "Je connais pas") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center" id="result-sfTransversale">
+                                    <td class="text-center" id="result-sfTransverse">
 
                                     </td>
                                     <td class="text-center" id="result-rTransversale">
@@ -1491,7 +1275,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                 </tr>
-                                <?php } ?>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <tr>
@@ -1504,13 +1287,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                        <?php echo round($arrResultFac[0]->percentage ?? "0", 0) ?>%
                                     </th>
                                     <th id="decision-savoir"
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    </th>
-                                    <th id="result-n"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
@@ -1519,6 +1298,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                        <?php echo round($arrResultDecla[0]->percentage ?? "0", 0) ?>%
+                                    </th>
+                                    <th id="result-n1"
+                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                        <?php echo round($arrResultMa[0]->percentage ?? "0", 0) ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -1565,13 +1351,11 @@ $(document).ready(function() {
     });
 });
 
-const savoir = []
+// const savoir = []
 const savoirFaire = []
-const n = []
-const n1 = []
-const coh = []
-const valid = []
-const sfTransverse = []
+// const n = []
+// const n1 = []
+const sfTransversale = []
 const sfTransmission = []
 const sfAssistance = []
 const sfClimatisation = []
@@ -1585,13 +1369,12 @@ const sfmultiplexage = []
 const sfSuspension = []
 const valueMaitrisé = "Maitrisé"
 const valueOui = "Oui"
-const tdSavoir = document.querySelectorAll("td[name='savoir']")
+// const tdSavoir = document.querySelectorAll("td[name='savoir']")
 const tdSavoirFaire = document.querySelectorAll("td[name='savoirs-faire']")
-const tdN = document.querySelectorAll("td[name='n']")
-const tdN1 = document.querySelectorAll("td[name='n1']")
-const tdCoh = document.querySelectorAll("td[name='coh']")
-const tdValid = document.querySelectorAll("td[name='valid']")
-const tdsfTransverse = document.querySelectorAll("#sfTransverse")
+console.log(tdSavoirFaire)
+// const tdN = document.querySelectorAll("td[name='n']")
+// const tdN1 = document.querySelectorAll("td[name='n1']")
+const tdsfTransversale = document.querySelectorAll("#sfTransversale")
 const tdsfTransmission = document.querySelectorAll("#sfTransmission")
 const tdsfAssistance = document.querySelectorAll("#sfAssistance")
 const tdsfClimatisation = document.querySelectorAll("#sfClimatisation")
@@ -1608,11 +1391,9 @@ const resultSavoirFaire = document.querySelector("#result-savoir-faire")
 const decisionSavoir = document.querySelector("#decision-savoir")
 const decisionSavoirFaire = document.querySelector("#decision-savoirs-faire")
 const synthese = document.querySelector("#synthese")
-const resultN = document.querySelector("#result-n")
-const resultN1 = document.querySelector("#result-n1")
-const resultCoh = document.querySelector("#result-coh")
-const resultValid = document.querySelector("#result-valid")
-const resultsfTransverse = document.querySelector("#result-sfTransverse")
+// const resultN = document.querySelector("#result-n")
+// const resultN1 = document.querySelector("#result-n1")
+const resultsfTransversale = document.querySelector("#result-sfTransverse")
 const synthTransversale = document.querySelector("#synth-Transversale")
 const resultrTransversale = document.querySelector("#result-rTransversale")
 const facTransversale = document.querySelector("#facTransversale")
@@ -1661,26 +1442,21 @@ const synthSuspension = document.querySelector("#synth-Suspension")
 const resultrSuspension = document.querySelector("#result-rSuspension")
 const facSuspension = document.querySelector("#facSuspension")
 
-for (let i = 0; i < tdSavoir.length; i++) {
-    savoir.push(tdSavoir[i].innerHTML)
-}
+// for (let i = 0; i < tdSavoir.length; i++) {
+//     savoir.push(tdSavoir[i].innerHTML)
+// }
 for (let i = 0; i < tdSavoirFaire.length; i++) {
     savoirFaire.push(tdSavoirFaire[i].innerHTML)
 }
-for (let i = 0; i < tdN.length; i++) {
-    n.push(tdN[i].innerHTML)
-}
-for (let i = 0; i < tdN1.length; i++) {
-    n1.push(tdN1[i].innerHTML)
-}
-for (let i = 0; i < tdCoh.length; i++) {
-    coh.push(tdCoh[i].innerHTML)
-}
-for (let i = 0; i < tdValid.length; i++) {
-    valid.push(tdValid[i].innerHTML)
-}
-for (let i = 0; i < tdsfTransverse.length; i++) {
-    sfTransverse.push(tdsfTransverse[i].innerHTML)
+console.log(savoirFaire)
+// for (let i = 0; i < tdN.length; i++) {
+//     n.push(tdN[i].innerHTML)
+// }
+// for (let i = 0; i < tdN1.length; i++) {
+//     n1.push(tdN1[i].innerHTML)
+// }
+for (let i = 0; i < tdsfTransversale.length; i++) {
+    sfTransversale.push(tdsfTransversale[i].innerHTML)
 }
 for (let i = 0; i < tdsfTransmission.length; i++) {
     sfTransmission.push(tdsfTransmission[i].innerHTML)
@@ -1716,25 +1492,19 @@ for (let i = 0; i < tdsfSuspension.length; i++) {
     sfSuspension.push(tdsfSuspension[i].innerHTML)
 }
 
-const maitriseSavoir = savoir.filter(function(str) {
-    return str.includes(valueMaitrisé)
-})
+// const maitriseSavoir = savoir.filter(function(str) {
+//     return str.includes(valueMaitrisé)
+// })
 const maitriseSavoirFaire = savoirFaire.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
-const ouiN = n.filter(function(str) {
-    return str.includes(valueOui)
-})
-const ouiN1 = n1.filter(function(str) {
-    return str.includes(valueOui)
-})
-const ouiCoh = coh.filter(function(str) {
-    return str.includes(valueOui)
-})
-const maitriseValid = valid.filter(function(str) {
-    return str.includes(valueMaitrisé)
-})
-const maitrisesfTransverse = sfTransverse.filter(function(str) {
+// const ouiN = n.filter(function(str) {
+//     return str.includes(valueOui)
+// })
+// const ouiN1 = n1.filter(function(str) {
+//     return str.includes(valueOui)
+// })
+const maitrisesfTransversale = sfTransversale.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
 const maitrisesfTransmission = sfTransmission.filter(function(str) {
@@ -1771,13 +1541,11 @@ const maitrisesfSuspension = sfSuspension.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
 
-const percentSavoir = ((maitriseSavoir.length * 100) / tdSavoir.length).toFixed(0)
+// const percentSavoir = ((maitriseSavoir.length * 100) / tdSavoir.length).toFixed(0)
 const percentSavoirFaire = ((maitriseSavoirFaire.length * 100) / tdSavoirFaire.length).toFixed(0)
-const percentN = ((ouiN.length * 100) / tdN.length).toFixed(0)
-const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
-const percentCoh = ((ouiCoh.length * 100) / tdCoh.length).toFixed(0)
-const percentValid = ((maitriseValid.length * 100) / tdValid.length).toFixed(0)
-const percentsfTransverse = ((maitrisesfTransverse.length * 100) / tdsfTransverse.length).toFixed(0)
+// const percentN = ((ouiN.length * 100) / tdN.length).toFixed(0)
+// const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
+const percentsfTransversale = ((maitrisesfTransversale.length * 100) / tdsfTransversale.length).toFixed(0)
 const percentsfTransmission = ((maitrisesfTransmission.length * 100) / tdsfTransmission.length).toFixed(0)
 const percentsfAssistance = ((maitrisesfAssistance.length * 100) / tdsfAssistance.length).toFixed(0)
 const percentsfClimatisation = ((maitrisesfClimatisation.length * 100) / tdsfClimatisation.length).toFixed(0)
@@ -1790,14 +1558,12 @@ const percentsfPneu = ((maitrisesfPneu.length * 100) / tdsfPneu.length).toFixed(
 const percentsfmultiplexage = ((maitrisesfmultiplexage.length * 100) / tdsfmultiplexage.length).toFixed(0)
 const percentsfSuspension = ((maitrisesfSuspension.length * 100) / tdsfSuspension.length).toFixed(0)
 
-resultSavoir.innerHTML = percentSavoir + "%";
+// resultSavoir.innerHTML = percentSavoir + "%";
 resultSavoirFaire.innerHTML = percentSavoirFaire + "%";
-resultN.innerHTML = percentN + "%";
-resultN1.innerHTML = percentN1 + "%";
-// resultCoh.innerHTML = percentCoh + "%";
-// resultValid.innerHTML = percentValid + "%";
-if (resultsfTransverse) {
-    resultsfTransverse.innerHTML = percentsfTransverse + "%";
+// resultN.innerHTML = percentN + "%";
+// resultN1.innerHTML = percentN1 + "%";
+if (resultsfTransversale) {
+    resultsfTransversale.innerHTML = percentsfTransversale + "%";
 }
 if (resultsfTransmission) {
     resultsfTransmission.innerHTML = percentsfTransmission + "%";
@@ -1834,11 +1600,11 @@ if (resultsfSuspension) {
 }
 const a = "80%";
 
-if (resultsfTransverse && parseFloat(resultsfTransverse.innerHTML) >= parseFloat(a)) {
+if (resultsfTransversale && parseFloat(resultsfTransversale.innerHTML) >= parseFloat(a)) {
     resultrTransversale.innerHTML = "Maitrisé"
 }
-if (resultsfTransverse && parseFloat(resultsfTransverse.innerHTML) < parseFloat(a)) {
-    resultrTransmission.innerHTML = "Non maitrisé"
+if (resultsfTransversale && parseFloat(resultsfTransversale.innerHTML) < parseFloat(a)) {
+    resultrTransversale.innerHTML = "Non maitrisé"
 }
 if (resultsfTransmission && parseFloat(resultsfTransmission.innerHTML) >= parseFloat(a)) {
     resultrTransmission.innerHTML = "Maitrisé"

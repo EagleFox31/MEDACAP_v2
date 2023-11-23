@@ -371,13 +371,36 @@ include_once 'partials/header.php'
                                             <?php echo $quiz->description ?>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php echo $quiz->type ?>
+                                            <?php if ($quiz->type == "Factuel") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $quiz->type ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($quiz->type == "Declaratif") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $quiz->type ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $quiz->speciality ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $quiz->level ?>
+                                            <?php if ($quiz->level == "Junior") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $quiz->level ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($quiz->level == "Senior") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $quiz->level ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($quiz->level == "Expert") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $quiz->level ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->

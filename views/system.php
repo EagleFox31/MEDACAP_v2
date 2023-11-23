@@ -202,7 +202,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <?php echo $groupeDecla->answers[$i] ?>
                                     </td>
                                     <td class="text-center" name="n1">
-                                        <?php echo $groupeDecla->answers[$i] ?>
+                                        <?php echo $groupeMa->answers[$i] ?>
                                     </td>
                                     <?php if ($groupeDecla->answers[$i] == "Oui" && $groupeMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center" name="savoirs-faire">

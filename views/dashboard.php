@@ -21,11 +21,11 @@ if (!isset($_SESSION["profile"])) {
 
     $countUser = $users->find(['profile' => 'Technicien'])->toArray();
     $countUsers = count($countUser);
-    $countManager = $users->find(['profile' => 'Technicien'])->toArray();
+    $countManager = $users->find(['profile' => 'Manager'])->toArray();
     $countManagers = count($countManager);
-    $countAdmin = $users->find(['profile' => 'Technicien'])->toArray();
+    $countAdmin = $users->find(['profile' => 'Admin'])->toArray();
     $countAdmins = count($countAdmin);
-    $countQuiz = $quizzes->find(['profile' => 'Technicien'])->toArray();
+    $countQuiz = $quizzes->find()->toArray();
     $countQuizzes = count($countQuiz);
 ?>
 <?php
@@ -141,6 +141,13 @@ include('./partials/header.php')
                                             ]);
                                             $user = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($allocate["user"])]);
                                             $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($allocate["quiz"])]);
+                                            
+                                            $verified = $allocations->findOne([
+                                                'user' => $user->_id,
+                                                'quiz' => $quiz->_id,
+                                            ]);
+
+                                            if ($verified->managerQuiz == false) {
                                     ?>
                                     <tr>
                                         <td class="p-0">
@@ -157,26 +164,25 @@ include('./partials/header.php')
                                                 Savoir-faire
                                             </a>
                                         </td>
-                                        <?php if ($quiz->level == "Junior") { ?>
                                         <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->level ?>
+                                            <?php if ($quiz->level== "Junior") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $quiz->level?>
                                             </span>
-                                        </td>
-                                        <?php } elseif ($quiz->level == "Senior") { ?>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->level ?>
+                                            <?php } ?>
+                                            <?php if ($quiz->level== "Senior") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $quiz->level?>
                                             </span>
-                                        </td>
-                                        <?php } elseif ($quiz->level == "Expert") { ?>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $quiz->level ?>
+                                            <?php } ?>
+                                            <?php if ($quiz->level== "Expert") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $quiz->level?>
                                             </span>
+                                            <?php } ?>
                                         </td>
-                                        <?php } ?>
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -244,9 +250,21 @@ include('./partials/header.php')
                                                 des savoirs</a>
                                         </td>
                                         <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                            <?php if ($quizzesFac->levelQuiz == "Junior") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $quizzesFac->levelQuiz ?>
                                             </span>
+                                            <?php } ?>
+                                            <?php if ($quizzesFac->levelQuiz == "Senior") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $quizzesFac->levelQuiz ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($quizzesFac->levelQuiz == "Expert") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $quizzesFac->levelQuiz ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                     <?php } ?>
@@ -315,9 +333,21 @@ include('./partials/header.php')
                                                 des Savoir-faire</a>
                                         </td>
                                         <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                            <?php if ($quizzesDecla->levelQuiz == "Junior") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $quizzesDecla->levelQuiz ?>
                                             </span>
+                                            <?php } ?>
+                                            <?php if ($quizzesDecla->levelQuiz == "Senior") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $quizzesDecla->levelQuiz ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($quizzesDecla->levelQuiz == "Expert") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $quizzesDecla->levelQuiz ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                     <?php } ?>

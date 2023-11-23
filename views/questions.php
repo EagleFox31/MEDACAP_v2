@@ -343,10 +343,33 @@ include_once 'partials/header.php'
                                             <?php echo $question->answer ?? "" ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $question->type ?>
+                                            <?php if ($question->type == "Factuelle") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $question->type ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($question->type == "Declarative") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $question->type ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $question->level ?>
+                                            <?php if ($question->level == "Junior") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $question->level ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($question->level == "Senior") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $question->level ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($question->level == "Expert") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $question->level ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $question->speciality ?>

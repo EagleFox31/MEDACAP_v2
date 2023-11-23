@@ -83,8 +83,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $question = [
             'image' => $image,
             'label' => ucfirst( $label ),
-            'proposal1' => "1-".$speciality."-".$label."-1",
-            'proposal2' => "0-".$speciality."-".$label."-0",
+            'proposal1' => "1-".$speciality."-".$level."-".$label."-1",
+            'proposal2' => "0-".$speciality."-".$level."-".$label."-0",
             'level' => ucfirst( $level ),
             'speciality' => ucfirst( $speciality ),
             'type' => $type,
@@ -92,21 +92,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'created' => date("d-m-Y")
         ];
         $results = $questions->insertOne( $question );
-        $quizzes->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
-            [ '$push' => [ 'questions' => new MongoDB\BSON\ObjectId( $results->getInsertedId() ) ] ]
-        );
         $quizz->total++;
         $quizzes->updateOne(
             [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
             [ '$set' => $quizz ]
+        );
+        $quizzes->updateOne(
+            [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
+            [ '$push' => [ 'questions' => new MongoDB\BSON\ObjectId( $results->getInsertedId() ) ] ]
         );
 
         $allocation = [
             'quiz' =>  new MongoDB\BSON\ObjectId( $quiz ),
             'question' =>  new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
             'type' => 'Question dans questionnaire',
-            'active' =>true,  
+            'active' =>true,
             'created' => date("d-m-y")
         ];
         $result = $allocations->insertOne( $allocation );
@@ -331,7 +331,7 @@ if ( isset( $error ) ) {
                 <option value='Moteur'>
                     Moteur
                 </option>
-                <option value='Multiplexage & Electronique'>
+                <option value='Multiplexage et Electronique'>
                     Multiplexage & Electronique
                 </option>
                 <option value='Pneumatique'>

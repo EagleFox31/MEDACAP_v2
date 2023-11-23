@@ -20,7 +20,7 @@ $allocations = $academy->allocations;
 
 if ( isset( $_POST[ 'submit' ] ) ) {
     $quiz = $_POST['quiz'];
-    $technicians = $_POST['technicians'];
+    $technicians[] = $_POST['technicians'];
     $start = $_POST['start'];
     $end = $_POST['end'];
     
@@ -40,10 +40,10 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     } elseif ($end < $start) {
         $error_msg = 'La date de fin doit être strictement supérieure à la date de début.';
     } else {
-        foreach ($technicians as $technician) {
+        for ($i = 0; $i < count($technicians); $i++) {
             $allocateExist = $allocations->findOne([
                 '$and' => [
-                    ['user' => new MongoDB\BSON\ObjectId($technician)],
+                    ['user' => new MongoDB\BSON\ObjectId($technicians[$i])],
                     ['quiz' => new MongoDB\BSON\ObjectId($quiz)]
                 ]
             ]);
@@ -53,12 +53,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 $allocateExist->period->start = $start;
                 $allocateExist->period->end = $end;
                 $allocateExist->save();
-                $quizz->users->addToSet($technician);
+                $quizz->users->addToSet($technicians[$i]);
                 $success_msg = 'Technicien(s) affecté(s) avec succès';
             } elseif ($quizz->type == 'Declaratif') {
                 $allocate = [
                     'quiz' => new MongoDB\BSON\ObjectId($quiz),
-                    'user' => new MongoDB\BSON\ObjectId($technician),
+                    'user' => new MongoDB\BSON\ObjectId($technicians[$i]),
                     'type' => 'Technicien dans questionnaire',
                     'typeQuiz' => $quizz->type,
                     'levelQuiz' => $quizz->level,
@@ -66,19 +66,22 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         'start' => date( 'd-m-Y', strtotime($start)),
                         'end' => date( 'd-m-Y', strtotime($end)),
                     ],
-                    "active" => true    
+                    "managerQuiz" => false,
+                    "active" => true,
+                    'created' => date("d-m-y")
+
                 ];
             
                 $quizzes->updateOne(
                     ['_id' => new MongoDB\BSON\ObjectId($quiz)],
-                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technician)]]
+                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
                 );
                 $allocations->insertOne($allocate);
                 $success_msg = 'Technicien(s) affecté(s) avec succès';
             } else {
                 $allocate = [
                     'quiz' => new MongoDB\BSON\ObjectId($quiz),
-                    'user' => new MongoDB\BSON\ObjectId($technician),
+                    'user' => new MongoDB\BSON\ObjectId($technicians[$i]),
                     'type' => 'Technicien dans questionnaire',
                     'typeQuiz' => $quizz->type,
                     'levelQuiz' => $quizz->level,
@@ -86,12 +89,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         'start' => date( 'd-m-Y', strtotime($start)),
                         'end' => date( 'd-m-Y', strtotime($end)),
                     ],
-                    "active" => true
+                    "active" => true,
+                    'created' => date("d-m-y")
                 ];
             
                 $quizzes->updateOne(
                     ['_id' => new MongoDB\BSON\ObjectId($quiz)],
-                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technician)]]
+                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
                 );
                 $allocations->insertOne($allocate);
                 $success_msg = 'Technicien(s) affecté(s) avec succès';

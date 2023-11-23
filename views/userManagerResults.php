@@ -18,11 +18,17 @@ $conn = new MongoDB\Client('mongodb://localhost:27017');
 $users = $academy->users;
 $results = $academy->results;
 
+
+$manager = $users->findOne([
+    '_id' => new MongoDB\BSON\ObjectId($_SESSION[ 'id' ])
+]);
+
 $resultFacJu = $results->aggregate([
     [
         '$match' => [
             '$and' => [
                 [
+                    'user' => [ '$in' => $manager[ 'users' ] ],
                     'level' => 'Junior',
                     'type' => 'Factuel',
                 ],
@@ -49,6 +55,7 @@ $resultFacSe = $results->aggregate([
         '$match' => [
             '$and' => [
                 [
+                    'user' => [ '$in' => $manager[ 'users' ] ],
                     'level' => 'Senior',
                     'type' => 'Factuel',
                 ],
@@ -75,6 +82,7 @@ $resultFacEx = $results->aggregate([
         '$match' => [
             '$and' => [
                 [
+                    'user' => [ '$in' => $manager[ 'users' ] ],
                     'level' => 'Expert',
                     'type' => 'Factuel',
                 ],
@@ -102,6 +110,7 @@ $resultDeclaJu = $results->aggregate([
         '$match' => [
             '$and' => [
                 [
+                    'user' => [ '$in' => $manager[ 'users' ] ],
                     'level' => 'Junior',
                     'type' => 'Declaratif',
                     'typeR' => 'Technicien',
@@ -129,6 +138,7 @@ $resultDeclaSe = $results->aggregate([
         '$match' => [
             '$and' => [
                 [
+                    'user' => [ '$in' => $manager[ 'users' ] ],
                     'level' => 'Senior',
                     'type' => 'Declaratif',
                     'typeR' => 'Technicien',
@@ -156,6 +166,7 @@ $resultDeclaEx = $results->aggregate([
         '$match' => [
             '$and' => [
                 [
+                    'user' => [ '$in' => $manager[ 'users' ] ],
                     'level' => 'Expert',
                     'type' => 'Declaratif',
                     'typeR' => 'Technicien',
@@ -281,17 +292,17 @@ include_once 'partials/header.php'
                                             style="width: 125px;">Techniciens
                                         </th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="2"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Junior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="2"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Senior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="2"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Expert</th>
@@ -309,11 +320,6 @@ include_once 'partials/header.php'
                                     <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Payment Method: activate to sort column ascending"
-                                        style="width: 126.516px;">Résultats
-                                    </th>
-                                    <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Payment Method: activate to sort column ascending"
                                         style="width: 126.516px;">Savoir
                                     </th>
                                     <th class="min-w-120px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
@@ -324,22 +330,12 @@ include_once 'partials/header.php'
                                     <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Payment Method: activate to sort column ascending"
-                                        style="width: 126.516px;">Résultats
-                                    </th>
-                                    <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Payment Method: activate to sort column ascending"
                                         style="width: 126.516px;">Savoir
                                     </th>
                                     <th class="min-w-120px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Created Date: activate to sort column ascending"
                                         style="width: 152.719px;">Savoir-faire
-                                    </th>
-                                    <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Payment Method: activate to sort column ascending"
-                                        style="width: 126.516px;">Résultats
                                     </th>
                                     </tr>
                                 </thead>
@@ -358,41 +354,17 @@ include_once 'partials/header.php'
                                         <td>
                                             <?php echo round($arrResultDeclaJu[$i]->percentage ?? "0", 0) ?>%
                                         </td>
-                                        <td class="text-end">
-                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id ?>"
-                                                class="btn btn-light btn-active-light-primary text-primary btn-sm"
-                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Voir
-                                                resultats
-                                            </a>
-                                        </td>
                                         <td>
                                             <?php echo round($arrResultFacSe[$i]->percentage ?? "0", 0) ?>%
                                         </td>
                                         <td>
                                             <?php echo round($arrResultDeclaSe[$i]->percentage ?? "0", 0) ?>%
                                         </td>
-                                        <td class="text-end">
-                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id ?>"
-                                                class="btn btn-light btn-active-light-primary text-primary btn-sm"
-                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Voir
-                                                resultats
-                                            </a>
-                                        </td>
                                         <td>
                                             <?php echo round($arrResultFacEx[$i]->percentage ?? "0", 0) ?>%
                                         </td>
                                         <td>
                                             <?php echo round($arrResultDeclaEx[$i]->percentage ?? "0", 0) ?>%
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id ?>"
-                                                class="btn btn-light btn-active-light-primary text-primary btn-sm"
-                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Voir
-                                                resultats
-                                            </a>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>

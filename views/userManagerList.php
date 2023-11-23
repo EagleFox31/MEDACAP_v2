@@ -191,7 +191,21 @@ include_once 'partials/header.php'
                                         </td>
                                         <?php } ?>
                                         <td>
-                                            <?php echo $allocate->levelQuiz ?>
+                                            <?php if ($allocate->levelQuiz == "Junior") { ?>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $allocate->levelQuiz ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($allocate->levelQuiz == "Senior") { ?>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $allocate->levelQuiz ?>
+                                            </span>
+                                            <?php } ?>
+                                            <?php if ($allocate->levelQuiz == "Expert") { ?>
+                                            <span class="badge badge-light-warning  fs-7 m-1">
+                                                <?php echo $allocate->levelQuiz ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
                                         <!--end::Menu-->
                                     </tr>

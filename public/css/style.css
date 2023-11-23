@@ -174,14 +174,14 @@
 
 /*** Hero Header ***/
 .hero-header {
-    background: linear-gradient(rgba(20, 20, 31, .7), rgba(20, 20, 31, .7)), url(../images/20230310_173722.jpg);
+    background: linear-gradient(rgba(28, 28, 31, 0.7), rgba(28, 28, 31, 0.7)), url(../images/20230310_173722.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-    color: rgba(255, 255, 255, .5);
+    color: rgba(28, 28, 31, 0.7);
 }
 
 

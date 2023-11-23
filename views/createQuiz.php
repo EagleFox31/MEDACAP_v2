@@ -209,7 +209,7 @@ include_once 'partials/header.php'
                     <option value="Moteur">
                         Moteur
                     </option>
-                    <option value="Multiplexage & Electronique">
+                    <option value="Multiplexage et Electronique">
                         Multiplexage & Electronique
                     </option>
                     <option value="Pneumatique">

@@ -34,6 +34,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $country = $_POST[ 'country' ];
     $certificate = $_POST[ 'certificate' ];
     $speciality = $_POST[ 'speciality' ];
+    $activity = $_POST[ 'activity' ];
     $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
     $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
     $level = $_POST[ 'level' ];
@@ -54,6 +55,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         empty( $department ) ||
         empty( $recrutmentDate ) ||
         empty( $gender ) ||
+        empty( $activity ) ||
         !filter_var( $email, FILTER_VALIDATE_EMAIL ) ||
         preg_match( '/^[\D]{15}$/', $phone ) ||
         preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
@@ -82,6 +84,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'certificate' => ucfirst( $certificate ),
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
+                'activity' => $activity,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
@@ -123,6 +126,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'certificate' => ucfirst( $certificate ),
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
+                'activity' => $activity,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
@@ -150,6 +154,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'certificate' => ucfirst( $certificate ),
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
+                'activity' => $activity,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
@@ -676,7 +681,7 @@ if ( isset( $error ) ) {
                 <select name="profile" aria-label="Select a Country" data-control="select2"
                     data-placeholder="Sélectionnez le profile..." class="form-select form-select-solid fw-bold">
                     <option>Sélectionnez le
-                        profile...</option>
+                        profil...</option>
                     <option value="Admin">
                         Administrateur
                     </option>
@@ -778,13 +783,24 @@ if ( isset( $error ) ) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="fv-row mb-7">
+            <div class="d-flex flex-column mb-7 fv-row">
                 <!--begin::Label-->
-                <label class="required form-label fw-bolder text-dark fs-6">Département</label>
+                <label class="form-label fw-bolder text-dark fs-6">
+                    <span class="required">Département</span>
+                    </span>
+                </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" class="form-control form-control-solid" style="background-color: #f8f8f8;"
-                    placeholder="" name="department" />
+                <select name="department" aria-label="Select a Country" data-control="select2"
+                    data-placeholder="Sélectionnez votre département..." class="form-select form-select-solid fw-bold">
+                    <option>Sélectionnez votre département...</option>
+                    <option value="Equipment">
+                        Equipment
+                    </option>
+                    <option value="Motors">
+                        Motors
+                    </option>
+                </select>
                 <!--end::Input-->
                 <?php 
                      if(isset($error)) {
@@ -862,7 +878,7 @@ if ( isset( $error ) ) {
                     <option value="Moteur">
                         Moteur
                     </option>
-                    <option value="Multiplexage & Electronique">
+                    <option value="Multiplexage et Electronique">
                         Multiplexage & Electronique
                     </option>
                     <option value="Pneumatique">
@@ -873,6 +889,47 @@ if ( isset( $error ) ) {
                     </option>
                     <option value="Transmission">
                         Transmission
+                    </option>
+                </select>
+                <!--end::Input-->
+                <?php 
+                     if(isset($error)) {
+                    ?>
+                <span class='text-danger'>
+                    <?php echo $error ?>
+                </span>
+                <?php 
+                    }
+                    ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row">
+                <!--begin::Label-->
+                <label class="form-label fw-bolder text-dark fs-6">
+                    <span class="required">Domaine d'activité</span>
+                    </span>
+                </label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <select name="activity" multiple aria-label="Select a Country" data-control="select2"
+                    data-placeholder="Sélectionnez votre domaine d'activité..."
+                    class="form-select form-select-solid fw-bold">
+                    <option>Sélectionnez votre domaine d'activité...</option>
+                    <option value="Bus">
+                        Bus
+                    </option>
+                    <option value="Camions">
+                        Camions
+                    </option>
+                    <option value="Chariot">
+                        Chariot
+                    </option>
+                    <option value="Engins">
+                        Engins
+                    </option>
+                    <option value="Voitures légères">
+                        Voitures légères
                     </option>
                 </select>
                 <!--end::Input-->
@@ -956,9 +1013,9 @@ if ( isset( $error ) ) {
                 </div>
                 <!--end::Wrapper-->
                 <!--begin::Hint-->
-                <div class="text-muted">Utilisez 8
+                <div class="text-muted">Utilisez 6
                     caractères ou plus avec un mélange de
-                    lettres
+                    lettres en majuscule et minuscule
                     &amp; de chiffres.</div>
                 <!--end::Input group-->
             </div>

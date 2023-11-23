@@ -772,6 +772,25 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-7">Résultats</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./userManagerResults.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-file-added fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">Résultats
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
                                 <?php } elseif ($_SESSION["profile"] == "Technicien") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">

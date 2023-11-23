@@ -26,7 +26,11 @@
 <!--end::Scrolltop-->
 <!--begin::Javascript-->
 <script>
-var hostUrl = "../public/assets/index.html";
+var hostUrl = "../public/assets/index.php";
+</script>
+<!--begin::Javascript-->
+<script>
+var hostUrl = "../public/assets/";
 </script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="../public/assets/plugins/global/plugins.bundle.js"></script>
@@ -37,6 +41,8 @@ var hostUrl = "../public/assets/index.html";
 </script>
 <script src="../public/assets/plugins/custom/datatables/datatables.bundle.js">
 </script>
+<!--begin::Custom Javascript(used for this page only)-->
+<script src="../public/assets/js/custom/authentication/sign-up/free-trial.js"></script>
 <!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
 <script src="../public/assets/js/widgets.bundle.js"></script>
