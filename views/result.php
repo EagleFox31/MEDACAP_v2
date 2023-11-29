@@ -291,7 +291,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $assistanceConduiteMa->score * 100 / $assistanceConduiteMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($assistanceConduiteFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($assistanceConduiteDecla->questions); $i++) { ?>
                                     <?php if ($assistanceConduiteDecla->answers[$i] == "Oui" && $assistanceConduiteMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
                                         Maitrisé
@@ -378,7 +378,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $climatisationMa->score * 100 / $climatisationMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($climatisationFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($climatisationDecla->questions); $i++) { ?>
                                     <?php if ($climatisationDecla->answers[$i] == "Oui" && $climatisationMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
                                         Maitrisé
@@ -465,7 +465,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $directionMa->score * 100 / $directionMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($directionFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($directionDecla->questions); $i++) { ?>
                                     <?php if ($directionDecla->answers[$i] == "Oui" && $directionMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
                                         Maitrisé
@@ -552,7 +552,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $electriciteMa->score * 100 / $electriciteMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($electriciteFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($electriciteDecla->questions); $i++) { ?>
                                     <?php if ($electriciteDecla->answers[$i] == "Oui" && $electriciteMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
                                         Maitrisé
@@ -639,7 +639,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $freinageMa->score * 100 / $freinageMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($freinageFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($freinageDecla->questions); $i++) { ?>
                                     <?php if ($freinageDecla->answers[$i] == "Oui" && $freinageMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
                                         Maitrisé
@@ -726,7 +726,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $hydrauliqueMa->score * 100 / $hydrauliqueMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($hydrauliqueFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($hydrauliqueDecla->questions); $i++) { ?>
                                     <?php if ($hydrauliqueDecla->answers[$i] == "Oui" && $hydrauliqueMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
                                         Maitrisé
@@ -813,7 +813,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $moteurMa->score * 100 / $moteurMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($moteurFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($moteurDecla->questions); $i++) { ?>
                                     <?php if ($moteurDecla->answers[$i] == "Oui" && $moteurMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
                                         Maitrisé
@@ -900,7 +900,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $multiplexageMa->score * 100 / $multiplexageMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($multiplexageFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($multiplexageDecla->questions); $i++) { ?>
                                     <?php if ($multiplexageDecla->answers[$i] == "Oui" && $multiplexageMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
                                         Maitrisé
@@ -987,7 +987,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $pneuMa->score * 100 / $pneuMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($pneuFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($pneuDecla->questions); $i++) { ?>
                                     <?php if ($pneuDecla->answers[$i] == "Oui" && $pneuMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
                                         Maitrisé
@@ -1074,7 +1074,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $suspensionMa->score * 100 / $suspensionMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($suspensionFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($suspensionDecla->questions); $i++) { ?>
                                     <?php if ($suspensionDecla->answers[$i] == "Oui" && $suspensionMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Maitrisé
@@ -1161,7 +1161,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $transmissionMa->score * 100 / $transmissionMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($transmissionFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($transmissionDecla->questions); $i++) { ?>
                                     <?php if ($transmissionDecla->answers[$i] == "Oui" && $transmissionMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
                                         Maitrisé
@@ -1248,7 +1248,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <td class="text-center">
                                         <?php echo $transversaleMa->score * 100 / $transversaleMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($transversaleFac->questions); $i++) { ?>
+                                    <?php for ($i = 0; $i < count($transversaleDecla->questions); $i++) { ?>
                                     <?php if ($transversaleDecla->answers[$i] == "Oui" && $transversaleMa->answers[$i] == "Oui") { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
                                         Maitrisé
@@ -1371,7 +1371,6 @@ const valueMaitrisé = "Maitrisé"
 const valueOui = "Oui"
 // const tdSavoir = document.querySelectorAll("td[name='savoir']")
 const tdSavoirFaire = document.querySelectorAll("td[name='savoirs-faire']")
-console.log(tdSavoirFaire)
 // const tdN = document.querySelectorAll("td[name='n']")
 // const tdN1 = document.querySelectorAll("td[name='n1']")
 const tdsfTransversale = document.querySelectorAll("#sfTransversale")
@@ -1808,5 +1807,7 @@ if (decisionSavoir.innerHTML == "Non maitrisé" && (decisionSavoirFaire.innerHTM
 if (decisionSavoir.innerHTML != decisionSavoirFaire.innerHTML) {
     synthese.innerHTML = "Non maitrisé"
 }
+$_SESSION['synthèse'] = synthese.innerHTML;
+var_dump($_SESSION['synthèse'])
 </script>
 <?php } ?>

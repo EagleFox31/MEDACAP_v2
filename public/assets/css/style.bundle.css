@@ -2284,6 +2284,16 @@ progress {
   height: fit-content;
 }
 
+.heading {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 450px;
+  height: fit-content;
+  position: sticky;
+  top: 60px;
+  background: #edf2f7;
+}
+
 thead {
   position: sticky;
   top: 0px;

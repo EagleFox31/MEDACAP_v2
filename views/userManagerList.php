@@ -39,7 +39,8 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Listes de mes techniciens à valider leurs savoirs faire </h1>
+                    Listes de mes techniciens à valider leur maîtrise des tâches professionnelles
+                </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -149,12 +150,32 @@ include_once 'partials/header.php'
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Questionnaires</th>
+                                            Département</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau</th>
+                                            Domaine d'activité</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Tests</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Niveau Junior</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Niveau Senior</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Niveau Expert</th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -175,38 +196,99 @@ include_once 'partials/header.php'
                                         <td>
                                             <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                         </td>
+                                        <td>
+                                            <?php echo $user->department ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $user->activity ?>
+                                        </td>
+                                        <td>
+                                            Questionnaire sur la maitrise tâches professionnelles des techniciens
+                                        </td>
+                                        <?php if ($allocate->levelQuiz == "Junior") { ?>
                                         <?php if ($allocate->managerQuiz == false) { ?>
                                         <td>
                                             <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
                                             </a>
                                         </td>
-                                        <?php } ?>
-                                        <?php if ($allocate->managerQuiz == true) { ?>
+                                        <?php } else { ?>
                                         <td>
-                                            Questionnaire des Savoir-faire
+                                            <Espan class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </Espan>
                                         </td>
                                         <?php } ?>
                                         <td>
-                                            <?php if ($allocate->levelQuiz == "Junior") { ?>
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $allocate->levelQuiz ?>
-                                            </span>
-                                            <?php } ?>
-                                            <?php if ($allocate->levelQuiz == "Senior") { ?>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $allocate->levelQuiz ?>
+                                                Non disponible
                                             </span>
-                                            <?php } ?>
-                                            <?php if ($allocate->levelQuiz == "Expert") { ?>
-                                            <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $allocate->levelQuiz ?>
-                                            </span>
-                                            <?php } ?>
                                         </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($allocate->levelQuiz == "Senior") { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php if ($allocate->managerQuiz == false) { ?>
+                                        <td>
+                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <?php } else { ?>
+                                        <td>
+                                            <Espan class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </Espan>
+                                        </td>
+                                        <?php } ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($allocate->levelQuiz == "Expert") { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php if ($allocate->managerQuiz == false) { ?>
+                                        <td>
+                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <?php } else { ?>
+                                        <td>
+                                            <Espan class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </Espan>
+                                        </td>
+                                        <?php } ?>
+                                        <?php } ?>
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>

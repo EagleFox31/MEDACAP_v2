@@ -20,99 +20,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $id = $_SESSION[ 'id' ];
 
     $manager = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
-    $usersFactuel = $allocations->aggregate([
-        [
-            '$match' => [
-                '$and' => [
-                    [
-                        'user' => [ '$in' => $manager[ 'users' ] ],
-                        'type' => 'Technicien dans questionnaire',
-                        'typeQuiz' => 'Factuel',
-                    ],
-                ],
-            ],
-        ],
-        [
-            '$group' => [
-                '_id' => '$user',
-                'totalFalse' => [
-                    '$sum' => [
-                        '$cond' => [
-                            [ '$eq' => [ '$active', false ] ],
-                            1,
-                            0,
-                        ],
-                    ],
-                ],
-                'total' => [ '$sum' => 1 ],
-            ],
-        ],
-        [
-            '$project' => [
-                '_id' => 0,
-                'user' => '$_id',
-                'percentage' => [
-                    '$multiply' => [
-                        [
-                            '$divide' => [
-                                '$totalFalse',
-                                '$total',
-                            ],
-                        ],
-                        100,
-                    ],
-                ],
-            ],
-        ],
-    ]);
-    $usersDeclaratif = $allocations->aggregate([
-        [
-            '$match' => [
-                '$and' => [
-                    [
-                        'user' => [ '$in' => $manager[ 'users' ] ],
-                        'type' => 'Technicien dans questionnaire',
-                        'typeQuiz' => 'Declaratif',
-                    ],
-                ],
-            ],
-        ],
-        [
-            '$group' => [
-                '_id' => '$user',
-                'totalFalse' => [
-                    '$sum' => [
-                        '$cond' => [
-                            [ '$eq' => [ '$active', false ] ],
-                            1,
-                            0,
-                        ],
-                    ],
-                ],
-                'total' => [ '$sum' => 1 ],
-            ],
-        ],
-        [
-            '$project' => [
-                '_id' => 0,
-                'user' => '$_id',
-                'percentage' => [
-                    '$multiply' => [
-                        [
-                            '$divide' => [
-                                '$totalFalse',
-                                '$total',
-                            ],
-                        ],
-                        100,
-                    ],
-                ],
-            ],
-        ],
-    ]);
-    
-    $userFac = iterator_to_array($usersFactuel);
-    $userDecla = iterator_to_array($usersDeclaratif);
 ?>
 <?php
     include_once 'partials/header.php'
@@ -131,7 +38,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             <div class='d-flex flex-column align-items-start justify-content-center flex-wrap me-2'>
                 <!--begin::Title-->
                 <h1 class='text-dark fw-bold my-1 fs-2'>
-                    Etat d'avancement de mes techniciens</h1>
+                    Etat d'avancement des tests de mes techniciens</h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -239,17 +146,43 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Etat des QCM </th>
+                                            style="width: 155.266px;">Département</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Etat des Tâches </th>
+                                            style="width: 155.266px;">Domaine d'activité</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">Etat d'avancement des QCM </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">Etat d'avancement des Tâches </th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
                                     for ($i = 0; $i < count($manager[ 'users' ]); $i++) {
                                         $user = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId($manager[ 'users' ][$i]) ] );
+                                        $usersFactuel = $allocations->findOne([
+                                            '$and' => [
+                                                [
+                                                    'user' => $user->_id,
+                                                    'type' => 'Technicien dans questionnaire',
+                                                    'typeQuiz' => 'Factuel',
+                                                ],
+                                            ],
+                                        ]);
+                                        $usersDeclaratif = $allocations->findOne([
+                                            '$and' => [
+                                                [
+                                                    'user' => $user->_id,
+                                                    'type' => 'Technicien dans questionnaire',
+                                                    'typeQuiz' => 'Declaratif',
+                                                ],
+                                            ],
+                                        ]);
                                     ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
                                         <td>
@@ -258,31 +191,39 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                         </td>
                                         <td data-filter="email">
-                                            <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                <span class="text-gray-400 me-2 fw-bolder mb-2">
-                                                    <?php echo round($userFac[$i]->percentage ?? "0", 0) ?>%
-                                                </span>
-
-                                                <div class="progress bg-light-success w-100 h-5px">
-                                                    <div class="progress-bar bg-success" role="progressbar"
-                                                        style="width: <?php echo round($userFac[$i]->percentage ?? "0", 0) ?>%;">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <?php echo $user->department ?>
                                         </td>
                                         <td data-filter="email">
-                                            <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                <span class="text-gray-400 me-2 fw-bolder mb-2">
-                                                    <?php echo round($userDecla[$i]->percentage ?? "0", 0) ?>%
-                                                </span>
-
-                                                <div class="progress bg-light-success w-100 h-5px">
-                                                    <div class="progress-bar bg-success" role="progressbar"
-                                                        style="width: <?php echo round($userDecla[$i]->percentage ?? "0", 0) ?>%;">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <?php echo $user->activity ?>
                                         </td>
+                                        <?php if ($usersFactuel->active == true) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                En attente
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($usersFactuel->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($usersDeclaratif->active == true) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                En attente
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($usersDeclaratif->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <?php } ?>
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>

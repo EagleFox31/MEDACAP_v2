@@ -18,184 +18,70 @@ $conn = new MongoDB\Client('mongodb://localhost:27017');
 $users = $academy->users;
 $results = $academy->results;
 
+$id = $_SESSION[ 'id' ];
+$manager = $users->findOne(['_id' => new MongoDB\BSON\ObjectId( $id )]);
 
-$manager = $users->findOne([
-    '_id' => new MongoDB\BSON\ObjectId($_SESSION[ 'id' ])
-]);
+$resultFacJu = $results->find([
+    '$and' => [
+        [   'user' => [ '$in' => $manager[ 'users' ]],
+            'level' => 'Junior',
+            'type' => 'Factuel',
+            'typeR' => 'Technicien',
+        ],
+    ]
+])->toArray();
 
-$resultFacJu = $results->aggregate([
-    [
-        '$match' => [
-            '$and' => [
-                [
-                    'user' => [ '$in' => $manager[ 'users' ] ],
-                    'level' => 'Junior',
-                    'type' => 'Factuel',
-                ],
-            ],
+$resultFacSe = $results->find([
+    '$and' => [
+        [
+            'user' => [ '$in' => $manager[ 'users' ] ],
+            'level' => 'Senior',
+            'type' => 'Factuel',
+            'typeR' => 'Technicien',
         ],
-    ],
-    [
-        '$group' => [
-            '_id' => '$user',
-            'total' => ['$sum' => '$total'],
-            'score' => ['$sum' => '$score'],
+    ]
+])->toArray();
+$resultFacEx = $results->find([
+    '$and' => [
+        [
+            'user' => [ '$in' => $manager[ 'users' ] ],
+            'level' => 'Expert',
+            'type' => 'Factuel',
+            'typeR' => 'Technicien',
         ],
-    ],
-    [
-        '$project' => [
-            '_id' => 0,
-            'user' => '$_id',
-            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
-        ],
-    ],
-]);
-$resultFacSe = $results->aggregate([
-    [
-        '$match' => [
-            '$and' => [
-                [
-                    'user' => [ '$in' => $manager[ 'users' ] ],
-                    'level' => 'Senior',
-                    'type' => 'Factuel',
-                ],
-            ],
-        ],
-    ],
-    [
-        '$group' => [
-            '_id' => '$user',
-            'total' => ['$sum' => '$total'],
-            'score' => ['$sum' => '$score'],
-        ],
-    ],
-    [
-        '$project' => [
-            '_id' => 0,
-            'user' => '$_id',
-            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
-        ],
-    ],
-]);
-$resultFacEx = $results->aggregate([
-    [
-        '$match' => [
-            '$and' => [
-                [
-                    'user' => [ '$in' => $manager[ 'users' ] ],
-                    'level' => 'Expert',
-                    'type' => 'Factuel',
-                ],
-            ],
-        ],
-    ],
-    [
-        '$group' => [
-            '_id' => '$user',
-            'total' => ['$sum' => '$total'],
-            'score' => ['$sum' => '$score'],
-        ],
-    ],
-    [
-        '$project' => [
-            '_id' => 0,
-            'user' => '$_id',
-            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
-        ],
-    ],
-]);
+    ]
+])->toArray();
 
-$resultDeclaJu = $results->aggregate([
-    [
-        '$match' => [
-            '$and' => [
-                [
-                    'user' => [ '$in' => $manager[ 'users' ] ],
-                    'level' => 'Junior',
-                    'type' => 'Declaratif',
-                    'typeR' => 'Technicien',
-                ],
-            ],
+$resultDeclaJu = $results->find([
+    '$and' => [
+        [
+            'user' => [ '$in' => $manager[ 'users' ] ],
+            'level' => 'Junior',
+            'type' => 'Declaratif',
+            'typeR' => 'Technicien - Manager',
         ],
-    ],
-    [
-        '$group' => [
-            '_id' => '$user',
-            'total' => ['$sum' => '$total'],
-            'score' => ['$sum' => '$score'],
+    ]
+])->toArray();
+$resultDeclaSe = $results->find([
+    '$and' => [
+        [
+            'user' => [ '$in' => $manager[ 'users' ] ],
+            'level' => 'Senior',
+            'type' => 'Declaratif',
+            'typeR' => 'Technicien - Manager',
         ],
-    ],
-    [
-        '$project' => [
-            '_id' => 0,
-            'user' => '$_id',
-            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
+    ]
+])->toArray();
+$resultDeclaEx = $results->find([
+    '$and' => [
+        [
+            'user' => [ '$in' => $manager[ 'users' ] ],
+            'level' => 'Expert',
+            'type' => 'Declaratif',
+            'typeR' => 'Technicien - Manager',
         ],
-    ],
-]);
-$resultDeclaSe = $results->aggregate([
-    [
-        '$match' => [
-            '$and' => [
-                [
-                    'user' => [ '$in' => $manager[ 'users' ] ],
-                    'level' => 'Senior',
-                    'type' => 'Declaratif',
-                    'typeR' => 'Technicien',
-                ],
-            ],
-        ],
-    ],
-    [
-        '$group' => [
-            '_id' => '$user',
-            'total' => ['$sum' => '$total'],
-            'score' => ['$sum' => '$score'],
-        ],
-    ],
-    [
-        '$project' => [
-            '_id' => 0,
-            'user' => '$_id',
-            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
-        ],
-    ],
-]);
-$resultDeclaEx = $results->aggregate([
-    [
-        '$match' => [
-            '$and' => [
-                [
-                    'user' => [ '$in' => $manager[ 'users' ] ],
-                    'level' => 'Expert',
-                    'type' => 'Declaratif',
-                    'typeR' => 'Technicien',
-                ],
-            ],
-        ],
-    ],
-    [
-        '$group' => [
-            '_id' => '$user',
-            'total' => ['$sum' => '$total'],
-            'score' => ['$sum' => '$score'],
-        ],
-    ],
-    [
-        '$project' => [
-            '_id' => 0,
-            'user' => '$_id',
-            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
-        ],
-    ],
-]);
-
-$arrResultFacJu = iterator_to_array($resultFacJu);
-$arrResultFacSe = iterator_to_array($resultFacSe);
-$arrResultFacEx = iterator_to_array($resultFacEx);
-$arrResultDeclaJu = iterator_to_array($resultDeclaJu);
-$arrResultDeclaSe = iterator_to_array($resultDeclaSe);
-$arrResultDeclaEx = iterator_to_array($resultDeclaEx);
+    ]
+])->toArray();
 ?>
 <?php
 include_once 'partials/header.php'
@@ -287,88 +173,155 @@ include_once 'partials/header.php'
                                 id="kt_customers_table">
                                 <thead>
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="min-w-200px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="3" aria-label="Customer Name: activate to sort column ascending"
+                                        <th class="min-w-200px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table" rowspan="3"
+                                            aria-label="Customer Name: activate to sort column ascending"
                                             style="width: 125px;">Techniciens
                                         </th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="2"
+                                            aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Junior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="2"
+                                            aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Senior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="2"
+                                            aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Expert</th>
-                                    <tr></tr>
-                                    <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Payment Method: activate to sort column ascending"
-                                        style="width: 126.516px;">Savoir
-                                    </th>
-                                    <th class="min-w-120px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Created Date: activate to sort column ascending"
-                                        style="width: 152.719px;">Savoir-faire
-                                    </th>
-                                    <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Payment Method: activate to sort column ascending"
-                                        style="width: 126.516px;">Savoir
-                                    </th>
-                                    <th class="min-w-120px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Created Date: activate to sort column ascending"
-                                        style="width: 152.719px;">Savoir-faire
-                                    </th>
-                                    <th class="min-w-80px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Payment Method: activate to sort column ascending"
-                                        style="width: 126.516px;">Savoir
-                                    </th>
-                                    <th class="min-w-120px sorting text-gray-400 fw-bold fs-7 text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Created Date: activate to sort column ascending"
-                                        style="width: 152.719px;">Savoir-faire
-                                    </th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    for ($i = 0; $i < count($arrResultFacJu); $i++) {
-                                        $user = $users->findone(['_id' => new MongoDB\BSON\ObjectId( $arrResultFacJu[$i]['user'] )]);
+                                    if ($resultFacJu) {
+                                        for ($i = 0; $i < count($resultFacJu); $i++) {
+                                            $user = $users->findone(['_id' => new MongoDB\BSON\ObjectId( $resultFacJu[$i]['user'] )]);
+                                            $percentageFacJu = ($resultFacJu[$i]['score'] * 100) / $resultFacJu[$i]['total'];
+                                            if ($resultDeclaJu) {
+                                                $percentageDeclaJu = ($resultDeclaJu[$i]['score'] * 100) / $resultDeclaJu[$i]['total'];
+                                            }
+                                            if ($resultFacSe) {
+                                                $percentageFacSe = ($resultFacSe[$i]['score'] * 100) / $resultFacSe[$i]['total'];
+                                            }
+                                            if ($resultDeclaSe) {
+                                                $percentageDeclaSe = ($resultDeclaSe[$i]['score'] * 100) / $resultDeclaSe[$i]['total'];
+                                            }
+                                            if ($resultFacEx) {
+                                                $percentageFacEx = ($resultFacEx[$i]['score'] * 100) / $resultFacEx[$i]['total'];
+                                            }
+                                            if ($resultDeclaEx) {
+                                                $percentageDeclaEx = ($resultDeclaEx[$i]['score'] * 100) / $resultDeclaEx[$i]['total'];
+                                            }
                                     ?>
                                     <tr class="odd">
-                                        <td>
+                                        <td class="text-center">
                                             <?php echo $user['firstName'] ?> <?php echo $user['lastName'] ?>
                                         </td>
-                                        <td>
-                                            <?php echo round($arrResultFacJu[$i]->percentage ?? "0", 0) ?>%
+                                        <?php
+                                        if ($percentageFacJu >= 80 && $percentageDeclaJu >= 80) {
+                                        ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                Maitrisé
+                                            </a>
                                         </td>
-                                        <td>
-                                            <?php echo round($arrResultDeclaJu[$i]->percentage ?? "0", 0) ?>%
+                                        <?php
+                                        } else {
+                                        ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                Non maitrisé
+                                            </a>
                                         </td>
-                                        <td>
-                                            <?php echo round($arrResultFacSe[$i]->percentage ?? "0", 0) ?>%
+                                        <?php
+                                        }
+                                        ?>
+                                        <?php
+                                        if ($resultFacSe) {
+                                        if ($percentageFacSe >= 80 && $percentageDeclaSe >= 80) {
+                                        ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                Maitrisé
+                                            </a>
                                         </td>
-                                        <td>
-                                            <?php echo round($arrResultDeclaSe[$i]->percentage ?? "0", 0) ?>%
+                                        <?php
+                                        } else{
+                                        ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                Non maitrisé
+                                            </a>
                                         </td>
-                                        <td>
-                                            <?php echo round($arrResultFacEx[$i]->percentage ?? "0", 0) ?>%
+                                        <?php
+                                        }
+                                        } else {
+                                        ?>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
                                         </td>
-                                        <td>
-                                            <?php echo round($arrResultDeclaEx[$i]->percentage ?? "0", 0) ?>%
+                                        <?php
+                                        }
+                                        ?>
+                                        <?php
+                                        if ($resultFacEx) {
+                                        if ($percentageFacEx >= 80 && $percentageDeclaEx >= 80) {
+                                        ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                Maitrisé
+                                            </a>
                                         </td>
+                                        <?php
+                                        } else{
+                                        ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                Non maitrisé
+                                            </a>
+                                        </td>
+                                        <?php
+                                        }
+                                        } else {
+                                        ?>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php
+                                        }
+                                        ?>
                                         <!--end::Menu-->
                                     </tr>
-                                    <?php } ?>
+                                    <?php
+                                        }
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

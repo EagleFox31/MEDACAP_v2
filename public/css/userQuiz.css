@@ -25,7 +25,7 @@
 #image {
   width: 250px;
   border-radius: 10px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 .quiz__heading {
@@ -54,7 +54,7 @@
   margin-bottom: 0.8rem;
   font-size: 1.2rem;
   font-weight: bold;
-  font-size: 3  0;
+  font-size: 3 0;
 }
 
 .quiz-form__quiz:not(:last-child) {
@@ -66,7 +66,6 @@
   border: 2px solid #264868;
   padding: 0.8rem;
   color: #424242;
-  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -91,7 +90,6 @@ input[type="radio"] {
   border: 1px solid #a1a9bd;
   border-radius: 100%;
   margin-right: 1rem;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -197,35 +195,35 @@ input[type="radio"]:active + .design::after {
   color: crimson;
 }
 
-.timer{
-    color: #004085;
-    background: #cce5ff;
-    border: 1px solid #b8daff;
-    height: 45px;
-    padding: 0 8px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 250px;
+.timer {
+  color: #004085;
+  background: #cce5ff;
+  border: 1px solid #b8daff;
+  height: 45px;
+  padding: 0 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
 }
 
-.timer .time_left_txt{
-    font-weight: bold;
-    font-size: 15px;
-    user-select: none;
+.timer .time_left_txt {
+  font-weight: bold;
+  font-size: 15px;
+  user-select: none;
 }
 
-.timer .timer_sec{
-    font-size: 20px;
-    font-weight: 600;
-    height: 30px;
-    width: 70px;
-    color: #fff;
-    border-radius: 5px;
-    line-height: 30px;
-    text-align: center;
-    background: #343a40;
-    border: 1px solid #343a40;
-    user-select: none;
+.timer .timer_sec {
+  font-size: 20px;
+  font-weight: 600;
+  height: 30px;
+  width: 70px;
+  color: #fff;
+  border-radius: 5px;
+  line-height: 30px;
+  text-align: center;
+  background: #343a40;
+  border: 1px solid #343a40;
+  user-select: none;
 }

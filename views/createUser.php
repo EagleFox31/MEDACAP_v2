@@ -35,6 +35,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $certificate = $_POST[ 'certificate' ];
     $speciality = $_POST[ 'speciality' ];
     $activity = $_POST[ 'activity' ];
+    $brand = $_POST[ 'brand' ];
     $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
     $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
     $level = $_POST[ 'level' ];
@@ -56,6 +57,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         empty( $recrutmentDate ) ||
         empty( $gender ) ||
         empty( $activity ) ||
+        empty( $brand ) ||
         !filter_var( $email, FILTER_VALIDATE_EMAIL ) ||
         preg_match( '/^[\D]{15}$/', $phone ) ||
         preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
@@ -85,6 +87,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
                 'activity' => $activity,
+                'brand' => $brand,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
@@ -127,6 +130,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
                 'activity' => $activity,
+                'brand' => $brand,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
@@ -155,6 +159,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
                 'activity' => $activity,
+                'brand' => $brand,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
@@ -890,6 +895,9 @@ if ( isset( $error ) ) {
                     <option value="Transmission">
                         Transmission
                     </option>
+                    <option value="Toutes les spécialités">
+                        Toutes les spécialités
+                    </option>
                 </select>
                 <!--end::Input-->
                 <?php 
@@ -912,10 +920,10 @@ if ( isset( $error ) ) {
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <select name="activity" multiple aria-label="Select a Country" data-control="select2"
+                <select name="activity" aria-label="Select a Country" data-control="select2"
                     data-placeholder="Sélectionnez votre domaine d'activité..."
                     class="form-select form-select-solid fw-bold">
-                    <option>Sélectionnez votre domaine d'activité...</option>
+                    <option>Sélectionnez votre/vos domaine d'activité...</option>
                     <option value="Bus">
                         Bus
                     </option>
@@ -930,6 +938,86 @@ if ( isset( $error ) ) {
                     </option>
                     <option value="Voitures légères">
                         Voitures légères
+                    </option>
+                    <option value="Tous les domaines">
+                        Tous les domaines
+                    </option>
+                </select>
+                <!--end::Input-->
+                <?php 
+                     if(isset($error)) {
+                    ?>
+                <span class='text-danger'>
+                    <?php echo $error ?>
+                </span>
+                <?php 
+                    }
+                    ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row">
+                <!--begin::Label-->
+                <label class="form-label fw-bolder text-dark fs-6">
+                    <span class="required">Marque de véhicules</span>
+                    </span>
+                </label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <select name="brand" % aria-label="Select a Country" data-control="select2"
+                    data-placeholder="Sélectionnez la marque de véhicules..."
+                    class="form-select form-select-solid fw-bold">
+                    <option>Sélectionnez la/les marque de véhicules...</option>
+                    <option value="TOYOTA">
+                        TOYOTA
+                    </option>
+                    <option value="SUZUKI">
+                        SUZUKI
+                    </option>
+                    <option value="PEUGEOT">
+                        PEUGEOT
+                    </option>
+                    <option value="CITROEN">
+                        CITROEN
+                    </option>
+                    <option value="MERCEDES">
+                        MERCEDES
+                    </option>
+                    <option value="MITSHUBISHI">
+                        MITSHUBISHI
+                    </option>
+                    <option value="BYD">
+                        BYD
+                    </option>
+                    <option value="RENAULT TRUCKS">
+                        RENAULT TRUCKS
+                    </option>
+                    <option value="HOHAN">
+                        HOHAN
+                    </option>
+                    <option value="FUSO">
+                        FUSO
+                    </option>
+                    <option value="SINOTRUCK">
+                        SINOTRUCK
+                    </option>
+                    <option value="MERCEDES TRUCKS">
+                        MERCEDES TRUCKS
+                    </option>
+                    <option value="HINO">
+                        HINO
+                    </option>
+                    <option value="JCB">
+                        JCB
+                    </option>
+                    <option value="TOYOTA BT">
+                        TOYOTA BT
+                    </option>
+                    <option value="TOYOTA FORFLIT">
+                        TOYOTA FORFLIT
+                    </option>
+                    <option value="Toutes les marques">
+                        Toutes les marques
                     </option>
                 </select>
                 <!--end::Input-->

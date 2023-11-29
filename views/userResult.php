@@ -134,11 +134,21 @@ include_once 'partials/header.php'
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Questionnaires</th>
+                                            Tests</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Niveau
+                                            style="width: 155.266px;">Niveau Junior
+                                        </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Niveau Senior</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">Niveau Expert
                                         </th>
                                     </tr>
                                 </thead>
@@ -195,22 +205,32 @@ include_once 'partials/header.php'
                                     ?>
                                     <?php if ($quizJuFac) { ?>
                                     <tr class="odd" etat="">
+                                        <td>
+                                            Questionnaire sur les connaissances techniques
+                                        </td>
                                         <?php if ($quizJuFac->active == true) { ?>
-                                        <td class="">
+                                        <td>
                                             <a href="./userQuizFactuel.php?level=Junior&id=<?php echo $technician->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoirs
+                                                class="btn btn-light text-success fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
-                                        <?php } else{ ?>
-                                        <td>
-                                            Questionnaire des Savoirs
+                                        <?php } ?>
+                                        <?php if ($quizJuFac->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
                                         </td>
                                         <?php } ?>
                                         <td>
-                                            <span class="badge badge-light-success  fs-7 m-1">
-                                                Junior
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
                                             </span>
                                         </td>
                                         <!--end::Menu-->
@@ -218,22 +238,32 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizSeFac) { ?>
                                     <tr class="odd" etat="">
+                                        <td>
+                                            Questionnaire sur les connaissances techniques
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
                                         <?php if ($quizSeFac->active == true) { ?>
-                                        <td class="">
+                                        <td>
                                             <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $technician->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoirs
+                                                class="btn btn-light text-success fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
-                                        <?php } else{ ?>
-                                        <td>
-                                            Questionnaire des Savoirs
+                                        <?php } ?>
+                                        <?php if ($quizSeFac->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
                                         </td>
                                         <?php } ?>
-                                        <td data-filter="email">
-                                            <span class="badge badge-light-danger  fs-7 m-1">
-                                                Senior
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
                                             </span>
                                         </td>
                                         <!--end::Menu-->
@@ -241,45 +271,66 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizExFac) { ?>
                                     <tr class="odd" etat="">
-                                        <?php if ($quizExFac->active == true) { ?>
-                                        <td class="">
-                                            <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $technician->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoirs
-                                            </a>
-                                        </td>
-                                        <?php } else{ ?>
                                         <td>
-                                            Questionnaire des Savoirs
+                                            Questionnaire sur les connaissances techniques
                                         </td>
-                                        <?php } ?>
-                                        <td data-filter="email">
-                                            <span class="badge badge-light-warning  fs-7 m-1">
-                                                Expert
+                                        <td>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
                                             </span>
                                         </td>
+                                        <td>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        </td>
+                                        <?php if ($quizExFac->active == true) { ?>
+                                        <td>
+                                            <a href="./userQuizFactuel.php?level=Expert&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-success fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($quizExFac->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <?php } ?>
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>
                                     <?php if ($quizJuDecla) { ?>
                                     <tr class="odd" etat="">
+                                        <td>
+                                            Questionnaire sur la maitrise des tâches professionnelles
+                                        </td>
                                         <?php if ($quizJuDecla->active == true) { ?>
-                                        <td class="">
+                                        <td>
                                             <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
+                                                class="btn btn-light text-success fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
-                                        <?php } else{ ?>
-                                        <td>
-                                            Questionnaire des Savoir-faire
+                                        <?php } ?>
+                                        <?php if ($quizJuDecla->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
                                         </td>
                                         <?php } ?>
-                                        <td data-filter="email">
-                                            <span class="badge badge-light-success  fs-7 m-1">
-                                                Junior
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
                                             </span>
                                         </td>
                                         <!--end::Menu-->
@@ -287,22 +338,32 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizSeDecla) { ?>
                                     <tr class="odd" etat="">
+                                        <td>
+                                            Questionnaire sur la maitrise des tâches professionnelles
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
                                         <?php if ($quizSeDecla->active == true) { ?>
-                                        <td class="">
-                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
+                                        <td>
+                                            <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-success fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
-                                        <?php } else{ ?>
-                                        <td>
-                                            Questionnaire des Savoir-faire
+                                        <?php } ?>
+                                        <?php if ($quizSeDecla->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
                                         </td>
                                         <?php } ?>
-                                        <td data-filter="email">
-                                            <span class="badge badge-light-danger  fs-7 m-1">
-                                                Senior
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
                                             </span>
                                         </td>
                                         <!--end::Menu-->
@@ -310,27 +371,36 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php if ($quizExDecla) { ?>
                                     <tr class="odd" etat="">
-                                        <?php if ($quizExDecla->active == true) { ?>
-                                        <td class="">
-                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
-                                                class="btn btn-light text-primary fw-bolder btn-sm"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">Questionnaire des Savoir-faire
-                                            </a>
-                                        </td>
-                                        <?php } else{ ?>
                                         <td>
-                                            Questionnaire des Savoir-faire
+                                            Questionnaire sur la maitrise des tâches professionnelles
                                         </td>
-                                        <?php } ?>
-                                        <td data-filter="email">
-                                            <span class="badge badge-light-warning  fs-7 m-1">
-                                                Expert
+                                        <td>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
                                             </span>
                                         </td>
+                                        <td>
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <?php if ($quizExDecla->active == true) { ?>
+                                        <td>
+                                            <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                                class="btn btn-light text-success fw-bolder btn-sm"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($quizExDecla->active == false) { ?>
+                                        <td data-filter="email">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <?php } ?>
                                         <!--end::Menu-->
-                                    </tr>
-                                    <?php } ?>
+                                        <?php } ?>
                                 </tbody>
                             </table>
                         </div>

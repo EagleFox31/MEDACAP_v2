@@ -29,6 +29,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
     
+        $score = 0;
         $scoreAss = 0;
         $scoreClim = 0;
         $scoreDir = 0;
@@ -41,6 +42,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         $scoreSus = 0;
         $scoreTran = 0;
         $scoreMission = 0;
+        $quizQuestion = [];
         $quizQuestionAssistance = [];
         $quizQuestionClimatisation = [];
         $quizQuestionDirection = [];
@@ -53,6 +55,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         $quizQuestionSuspension = [];
         $quizQuestionTransmission = [];
         $quizQuestionTransversale = [];
+        $answers = [];
         $answersAssistance = [];
         $answersClimatisation = [];
         $answersDirection = [];
@@ -65,6 +68,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         $answersSuspension = [];
         $answersTransmission = [];
         $answersTransversale = [];
+        $proposal = [];
         $proposalAssistance = [];
         $proposalClimatisation = [];
         $proposalDirection = [];
@@ -90,6 +94,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -98,12 +103,18 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         if ($proposals[$i] === $answer) {
                             $scoreAss += 1;
                             $proposalAssistance = "Maitrisé";
+                            $score += 1;
+                            $proposal = "Maitrisé";
                         } else {
                             $scoreAss += 0;
                             $proposalAssistance = "Non maitrisé";
+                            $score += 0;
+                            $proposal = "Non maitrisé";
                         }
                         array_push($answersAssistance, $proposalAssistance);
                         array_push($quizQuestionAssistance, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
                         
                         $newResult = [
                             'questions' => $quizQuestionAssistance,
@@ -113,7 +124,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             'user' => new MongoDB\BSON\ObjectId($id),
                             'score' => $scoreAss,
                             'speciality' => $quizAssistance->speciality ,
-                            'level' => $quizAssistance->level,
+                            'level' => $level,
                             'type' => $quizAssistance->type,
                             'total' => $quizAssistance->number,
                             'time' => $time,
@@ -148,6 +159,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -156,22 +168,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreClim += 1;
                         $proposalClimatisation = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreClim += 0;
                         $proposalClimatisation = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersClimatisation, $proposalClimatisation);
                     array_push($quizQuestionClimatisation, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionClimatisation,
                         'answers' => $answersClimatisation,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($climatisationID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreClim,
                         'speciality' => $quizClimatisation->speciality ,
-                        'level' => $quizClimatisation->level,
+                        'level' => $level,
                         'type' => $quizClimatisation->type,
                         'total' => $quizClimatisation->number,
                         'time' => $time,
@@ -205,6 +222,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -213,22 +231,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreDir += 1;
                         $proposalDirection = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreDir += 0;
                         $proposalDirection = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersDirection, $proposalDirection);
                     array_push($quizQuestionDirection, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionDirection,
                         'answers' => $answersDirection,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($directionID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreDir,
                         'speciality' => $quizDirection->speciality ,
-                        'level' => $quizDirection->level,
+                        'level' => $level,
                         'type' => $quizDirection->type,
                         'total' => $quizDirection->number,
                         'time' => $time,
@@ -249,10 +272,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 }
             }
             $insertedResult = $results->insertOne($newResult);
-        } 
+        }
         if (isset($_POST[ 'quizElectricite' ])) {
             $electriciteID = $_POST[ 'quizElectricite' ];
-            $quizElectricite = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($electriciteID)]);                 
+            $quizElectricite = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($electriciteID)]);
             for ($i = 0; $i < count($proposals); $i++) {
                 $questionsData = $questions->findOne([
                     '$or' => [
@@ -261,6 +284,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -269,22 +293,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreElec += 1;
                         $proposalElectricite = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreElec += 0;
                         $proposalElectricite = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersElectricite, $proposalElectricite);
                     array_push($quizQuestionElectricite, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionElectricite,
                         'answers' => $answersElectricite,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($electriciteID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreElec,
-                        'speciality' => $quizElectricite->speciality ,
-                        'level' => $quizElectricite->level,
+                        'speciality' => $quizElectricite->speciality,
+                        'level' => $level,
                         'type' => $quizElectricite->type,
                         'total' => $quizElectricite->number,
                         'time' => $time,
@@ -305,11 +334,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 }
             }
             $insertedResult = $results->insertOne($newResult);
-        } 
+        }
         
         if (isset($_POST[ 'quizFreinage' ])) {
             $freinageID = $_POST[ 'quizFreinage' ];
-            $quizFreinage = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($freinageID)]);                 
+            $quizFreinage = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($freinageID)]);
             for ($i = 0; $i < count($proposals); $i++) {
                 $questionsData = $questions->findOne([
                     '$or' => [
@@ -318,6 +347,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -326,22 +356,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreFrei += 1;
                         $proposalFreinage = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreFrei += 0;
                         $proposalFreinage = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersFreinage, $proposalFreinage);
                     array_push($quizQuestionFreinage, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionFreinage,
                         'answers' => $answersFreinage,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($freinageID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreFrei,
                         'speciality' => $quizFreinage->speciality ,
-                        'level' => $quizFreinage->level,
+                        'level' => $level,
                         'type' => $quizFreinage->type,
                         'total' => $quizFreinage->number,
                         'time' => $time,
@@ -362,10 +397,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 }
             }
             $insertedResult = $results->insertOne($newResult);
-        } 
+        }
         if (isset($_POST[ 'quizHydraulique' ])) {
             $hydrauliqueID = $_POST[ 'quizHydraulique' ];
-            $quizHydraulique = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($hydrauliqueID)]);                 
+            $quizHydraulique = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($hydrauliqueID)]);
             for ($i = 0; $i < count($proposals); $i++) {
                 $questionsData = $questions->findOne([
                     '$or' => [
@@ -374,6 +409,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -382,22 +418,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreHyd += 1;
                         $proposalHydraulique = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreHyd += 0;
                         $proposalHydraulique = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersHydraulique, $proposalHydraulique);
                     array_push($quizQuestionHydraulique, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionHydraulique,
                         'answers' => $answersHydraulique,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($hydrauliqueID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreHyd,
                         'speciality' => $quizHydraulique->speciality ,
-                        'level' => $quizHydraulique->level,
+                        'level' => $level,
                         'type' => $quizHydraulique->type,
                         'total' => $quizHydraulique->number,
                         'time' => $time,
@@ -430,6 +471,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -438,22 +480,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreMo += 1;
                         $proposalMoteur = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreMo += 0;
                         $proposalMoteur = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersMoteur, $proposalMoteur);
                     array_push($quizQuestionMoteur, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionMoteur,
                         'answers' => $answersMoteur,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($moteurID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreMo,
                         'speciality' => $quizMoteur->speciality ,
-                        'level' => $quizMoteur->level,
+                        'level' => $level,
                         'type' => $quizMoteur->type,
                         'total' => $quizMoteur->number,
                         'time' => $time,
@@ -486,6 +533,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -494,22 +542,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreMulti += 1;
                         $proposalMultiplexage = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreMulti += 0;
                         $proposalMultiplexage = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersMultiplexage, $proposalMultiplexage);
                     array_push($quizQuestionMultiplexage, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionMultiplexage,
                         'answers' => $answersMultiplexage,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($multiplexageID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreMulti,
                         'speciality' => $quizMultiplexage->speciality ,
-                        'level' => $quizMultiplexage->level,
+                        'level' => $level,
                         'type' => $quizMultiplexage->type,
                         'total' => $quizMultiplexage->number,
                         'time' => $time,
@@ -542,6 +595,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -550,22 +604,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scorePneu += 1;
                         $proposalPneu = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scorePneu += 0;
                         $proposalPneu = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersPneu, $proposalPneu);
                     array_push($quizQuestionPneu, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionPneu,
                         'answers' => $answersPneu,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($pneumatiqueID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scorePneu,
                         'speciality' => $quizPneumatique->speciality ,
-                        'level' => $quizPneumatique->level,
+                        'level' => $level,
                         'type' => $quizPneumatique->type,
                         'total' => $quizPneumatique->number,
                         'time' => $time,
@@ -598,6 +657,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -606,22 +666,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreSus += 1;
                         $proposalSuspension = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreSus += 0;
                         $proposalSuspension = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersSuspension, $proposalSuspension);
                     array_push($quizQuestionSuspension, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionSuspension,
                         'answers' => $answersSuspension,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($suspensionID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreSus,
                         'speciality' => $quizSuspension->speciality ,
-                        'level' => $quizSuspension->level,
+                        'level' => $level,
                         'type' => $quizSuspension->type,
                         'total' => $quizSuspension->number,
                         'time' => $time,
@@ -654,6 +719,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -662,22 +728,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreMissionMission += 1;
                         $proposalTransmission = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreMission += 0;
                         $proposalTransmission = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersTransmission, $proposalTransmission);
                     array_push($quizQuestionTransmission, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionTransmission,
                         'answers' => $answersTransmission,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($transmissionID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreMission,
                         'speciality' => $quizTransmission->speciality ,
-                        'level' => $quizTransmission->level,
+                        'level' => $level,
                         'type' => $quizTransmission->type,
                         'total' => $quizTransmission->number,
                         'time' => $time,
@@ -710,6 +781,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         ['proposal3' => $proposals[$i]],
                         ['proposal4' => $proposals[$i]],
                     ],
+                    'type' => 'Factuelle',
                 ]);
     
                 if ($questionsData != null) {
@@ -718,22 +790,27 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     if ($proposals[$i] === $answer) {
                         $scoreTran += 1;
                         $proposalTransversale = "Maitrisé";
+                        $score += 1;
+                        $proposal = "Maitrisé";
                     } else {
                         $scoreTran += 0;
                         $proposalTransversale = "Non maitrisé";
+                        $score += 0;
+                        $proposal = "Non maitrisé";
                     }
                     array_push($answersTransversale, $proposalTransversale);
                     array_push($quizQuestionTransversale, $questionsData->_id);
+                    array_push($answers, $proposal);
+                    array_push($quizQuestion, $questionsData->_id);
                     
                     $newResult = [
                         'questions' => $quizQuestionTransversale,
                         'answers' => $answersTransversale,
-                        'userAnswers' => $proposals,
                         'quiz' => new MongoDB\BSON\ObjectId($transversaleID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'score' => $scoreTran,
                         'speciality' => $quizTransversale->speciality ,
-                        'level' => $quizTransversale->level,
+                        'level' => $level,
                         'type' => $quizTransversale->type,
                         'total' => $quizTransversale->number,
                         'time' => $time,
@@ -755,6 +832,22 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             }
             $insertedResult = $results->insertOne($newResult);
         }
+        $newResult = [
+            'questions' => $quizQuestion,
+            'answers' => $answers,
+            'userAnswers' => $proposals,
+            'user' => new MongoDB\BSON\ObjectId($id),
+            'score' => $score,
+            'level' => $level,
+            'type' => 'Factuel',
+            'typeR' => 'Technicien',
+            'total' => count($quizQuestion),
+            'time' => $time,
+            'active' => true,
+            'created' => date("d-m-y")
+        ];
+        $result = $results->insertOne($newResult);
+        
         header('Location: ./dashboard.php');
     }
 
@@ -771,24 +864,22 @@ include_once 'partials/header.php'
 <div class="container">
     <div class="heading">
         <h1 class="heading__text">Question à choix multiple</h1>
-    </div>
-
-    <!-- Quiz section -->
-    <div class="quiz">
-        <center style="margin-bottom: 50px;">
-            <div class="timer">
+        <center>
+            <div class="timer" style="margin-right: 300px;">
                 <div class="time_left_txt">Questions Restantes</div>
                 <div class="timer_sec" id="num" value="1">
                 </div>
             </div>
-        </center>
-        <center style="margin-bottom: 50px;">
-            <div class="timer">
-                <div class="time_left_txt">Durée Questionnaire</div>
+            <div class="timer" style="margin-top: -45px; margin-left: 300px">
+                <div class="time_left_txt">Durée(heure et minute)</div>
                 <div class="timer_sec" name="time" id="timer_sec" value="0">
                 </div>
             </div>
         </center>
+    </div>
+
+    <!-- Quiz section -->
+    <div class="quiz" style="margin-bottom: 40px;">
         <!-- <center>
             <div class="timer">
                 <div class="time_left_txt">Temps Restant</div>
@@ -848,7 +939,7 @@ include_once 'partials/header.php'
                 $arrQuestions = $arrQuizzAssistance[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Assistance à la conduite
+                    Connaissance Assistance à la conduite
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -857,9 +948,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizAssistance" value="<?php echo $assistanceFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -896,6 +984,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -944,7 +1035,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzClimatisation[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Climatisation
+                    Connaissance Climatisation
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -954,9 +1045,6 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizClimatisation"
                     value="<?php echo $climatisationFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -993,6 +1081,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1041,7 +1132,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzDirection[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Direction
+                    Connaissance Direction
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1050,9 +1141,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizDirection" value="<?php echo $directionFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1089,6 +1177,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1137,7 +1228,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzElectricite[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Electricité
+                    Connaissance Electricité
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1146,9 +1237,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1185,6 +1273,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1233,7 +1324,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzFreinage[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Freinage
+                    Connaissance Freinage
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1242,10 +1333,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizFreinage" value="<?php echo $freinageFac->_id ?>" />
-                <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1282,6 +1369,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1330,7 +1420,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzHydraulique[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Hydraulique
+                    Connaissance Hydraulique
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1339,9 +1429,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizHydraulique" value="<?php echo $hydrauliqueFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1378,6 +1465,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1426,7 +1516,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzMoteur[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Moteur
+                    Connaissance Moteur
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1435,9 +1525,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizMoteur" value="<?php echo $moteurFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1474,6 +1561,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1522,7 +1612,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzMultiplexage[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Multiplexage & Electronique
+                    Connaissance Multiplexage & Electronique
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1531,9 +1621,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizMultiplexage" value="<?php echo $multiplexageFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1570,6 +1657,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1618,7 +1708,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzPneumatique[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Pneumatique
+                    Connaissance Pneumatique
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1627,9 +1717,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizPneumatique" value="<?php echo $pneumatiqueFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1714,7 +1801,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzSuspension[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Suspension
+                    Connaissance Suspension
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1723,9 +1810,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizSuspension" value="<?php echo $suspensionFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1762,6 +1846,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1810,7 +1897,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzTransmission[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Transmission
+                    Connaissance Transmission
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1819,9 +1906,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizTransmission" value="<?php echo $transmissionFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1858,6 +1942,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
                 <?php
@@ -1906,7 +1993,7 @@ include_once 'partials/header.php'
                     $arrQuestions = $arrQuizzTransversale[0]['questions'];
                 ?>
                 <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Système Transversale
+                    Connaissance Transversale
                 </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
@@ -1915,9 +2002,6 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizTransversale" value="<?php echo $transversaleFac->_id ?>" />
-                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
-                </div>
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $i + 1 ?> - <?php echo $question->label ?>
@@ -1954,6 +2038,9 @@ include_once 'partials/header.php'
                         <?php echo $question->proposal4 ?>
                     </span>
                 </label>
+                <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <img id="image" alt="" src="../public/files/<?php echo $question->image ?? "" ?>"> <br>
+                </div>
                 <?php } ?>
                 <?php } ?>
             </div>
