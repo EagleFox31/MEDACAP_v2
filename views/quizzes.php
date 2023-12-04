@@ -98,7 +98,6 @@ if ( isset( $_POST[ 'retire-technician-quiz' ] ) ) {
  
  // Handle flash messages and success message as needed in your application.
  $success_msg = "Personne retirée avec succes.";
- exit();
 }
 
 if ( isset( $_POST[ 'delet' ] ) ) {
@@ -107,14 +106,13 @@ if ( isset( $_POST[ 'delet' ] ) ) {
     $quiz->active = false;
     $quizzes->updateOne(['_id' => $id], ['$set' => $quiz]);
     $success_msg =  "Questionnaire supprimé avec succes.";
-    exit();
 }
 ?>
 <?php
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Listes des Questionnaires | CFAO Mobility Academy</title>
+<title>Liste des Questionnaires | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -127,7 +125,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Listes des questionnaires </h1>
+                    Liste des questionnaires </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->

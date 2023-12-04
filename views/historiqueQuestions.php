@@ -79,10 +79,10 @@ if ( isset( $_POST[ 'update' ] ) ) {
     }
 }
 
-if ( isset( $_POST[ 'delet' ] ) ) {
+if ( isset( $_POST[ 'active' ] ) ) {
     $id = new MongoDB\BSON\ObjectId($_POST[ 'questionID' ]);
     $question = $questions->findOne(['_id' => $id]);
-    $question->active = false;
+    $question->active = true;
     $question->updated = date("d-m-Y");
     $questions->updateOne(['_id' => $id], ['$set' => $question]);
     $success_msg =  "Question supprimée avec succes.";
@@ -92,7 +92,7 @@ if ( isset( $_POST[ 'delet' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Liste des Questions | CFAO Mobility Academy</title>
+<title>Liste des Questions Supprimées | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -105,7 +105,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des questions </h1>
+                    Liste des questions supprimées </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -128,9 +128,9 @@ include_once 'partials/header.php'
                     </button>
                 </div>
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="delete" title="Cliquez ici pour supprimer la question"
-                        data-bs-toggle="modal" class="btn btn-danger">
-                        Supprimer
+                    <button type="button" id="delete" title="Cliquez ici pour restorer la question"
+                        data-bs-toggle="modal" class="btn btn-primary">
+                        Restorer
                     </button>
                 </div>
             </div>
@@ -148,10 +148,10 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
-    <?php 
+    <?php
      if(isset($error_msg)) {
     ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -319,7 +319,7 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $question = $questions->find(['active' => true]);
+                                        $question = $questions->find(['active' => false]);
                                         foreach ($question as $question) {
                                     ?>
                                     <tr class="odd" etat="<?php echo $question->active ?>">
@@ -413,7 +413,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Suppréssion
+                                                            Restoration
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -440,7 +440,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
                                                             Voulez-vous vraiment
-                                                            supprimer cette
+                                                            restorer cette
                                                             question?
                                                         </h4>
                                                     </div>
@@ -455,7 +455,7 @@ include_once 'partials/header.php'
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
-                                                        <button type="submit" name="delet" class="btn btn-danger">
+                                                        <button type="submit" name="active" class="btn btn-primary">
                                                             Oui
                                                         </button>
                                                         <!--end::Button-->

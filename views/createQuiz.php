@@ -26,12 +26,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $number = $_POST[ 'number' ];
     $level = $_POST[ 'level' ];
 
-    $exist = $quizzes->findOne( [
+    $exist = $quizzes->findOne([
         '$and' => [
             [ 'label' => $label ],
             [ 'level' => $level ],
+            [ 'active' => true ],
         ],
-    ] );
+    ]);
 
     if ( empty( $label ) ||
     empty( $description ) ||

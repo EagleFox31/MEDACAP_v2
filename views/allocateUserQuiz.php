@@ -27,7 +27,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $member = $quizzes->findOne([
         '$and' => [
             ['users' => ['$in' => $technicians]],
-            ['_id' => new MongoDB\BSON\ObjectId($quiz)]
+            ['_id' => new MongoDB\BSON\ObjectId($quiz)],
+            ['active' => true]
         ]
     ]);
     

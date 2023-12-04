@@ -34,6 +34,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $country = $_POST[ 'country' ];
     $certificate = $_POST[ 'certificate' ];
     $speciality = $_POST[ 'speciality' ];
+    $activity1 = $_POST[ 'activity1' ];
     $activity = $_POST[ 'activity' ];
     $brand = $_POST[ 'brand' ];
     $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
@@ -43,7 +44,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $password = $_POST[ 'password' ];
 
     $password_hash = sha1( $password );
-    $member =  $users->findOne( [ 'username' => $username ] );
+    $member =  $users->findOne([
+        '$and' => [
+            [ 'username' => $username ],
+            [ 'active' => true ],
+        ],
+    ]);
     if (empty( $firstName ) ||
         empty( $lastName ) ||
         empty( $mainRole ) ||
@@ -87,6 +93,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
                 'activity' => $activity,
+                'activity1' => $activity1,
                 'brand' => $brand,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
@@ -101,15 +108,6 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 [ '_id' => new MongoDB\BSON\ObjectId( $manager ) ],
                 [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
             );
-
-            $allocation = [
-                'manager' => new MongoDB\BSON\ObjectId( $manager ),
-                'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
-                'type' => 'Technicien dans manager',
-                'active' => true,
-                'created' => date("d-m-Y")
-            ];
-            $result = $allocations->insertOne( $allocation );
             $success_msg = 'Technicien ajouté avec succès';
         } elseif ( $profile == 'Manager' ) {
             $personM = [
@@ -130,6 +128,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
                 'activity' => $activity,
+                'activity1' => $activity1,
                 'brand' => $brand,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
@@ -159,6 +158,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
                 'activity' => $activity,
+                'activity1' => $activity1,
                 'brand' => $brand,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
@@ -915,15 +915,54 @@ if ( isset( $error ) ) {
             <div class="d-flex flex-column mb-7 fv-row">
                 <!--begin::Label-->
                 <label class="form-label fw-bolder text-dark fs-6">
-                    <span class="required">Domaine d'activité</span>
-                    </span>
+                    <span class="required">Domaine d'activité principal</span>
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <select name="activity" aria-label="Select a Country" data-control="select2"
                     data-placeholder="Sélectionnez votre domaine d'activité..."
                     class="form-select form-select-solid fw-bold">
-                    <option>Sélectionnez votre/vos domaine d'activité...</option>
+                    <option>Sélectionnez votre domaine d'activité principal...</option>
+                    <option value="Bus">
+                        Bus
+                    </option>
+                    <option value="Camions">
+                        Camions
+                    </option>
+                    <option value="Chariot">
+                        Chariot
+                    </option>
+                    <option value="Engins">
+                        Engins
+                    </option>
+                    <option value="Voitures légères">
+                        Voitures légères
+                    </option>
+                </select>
+                <!--end::Input-->
+                <?php 
+                     if(isset($error)) {
+                    ?>
+                <span class='text-danger'>
+                    <?php echo $error ?>
+                </span>
+                <?php 
+                    }
+                    ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row">
+                <!--begin::Label-->
+                <label class="form-label fw-bolder text-dark fs-6">
+                    <span class="">Domaine d'activité secondaire</span>
+                </label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <select name="activity1" aria-label="Select a Country" data-control="select2"
+                    data-placeholder="Sélectionnez votre domaine d'activité..."
+                    class="form-select form-select-solid fw-bold">
+                    <option>Sélectionnez votre domaine d'activité secondaire...</option>
                     <option value="Bus">
                         Bus
                     </option>

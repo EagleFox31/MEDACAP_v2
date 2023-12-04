@@ -20,7 +20,14 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
     $id = $_SESSION[ 'id' ];
 
-    $manager = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($id)]);
+    $manager = $users->findOne([
+        '$and' => [
+            [
+                '_id' => new MongoDB\BSON\ObjectId($id),
+                'active' => true,
+            ],
+        ]
+    ]);
 ?>
 <?php
 include_once 'partials/header.php'
@@ -181,7 +188,14 @@ include_once 'partials/header.php'
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
                                     foreach ($manager->users as $userr) {
-                                        $user = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($userr)]);
+                                        $user = $users->findOne([
+                                            '$and' => [
+                                                [
+                                                    '_id' => new MongoDB\BSON\ObjectId($userr),
+                                                    'active' => true,
+                                                ],
+                                            ]
+                                        ]);
                                         $allocate = $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($userr)],

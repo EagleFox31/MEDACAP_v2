@@ -140,15 +140,15 @@ if ( isset( $_POST[ 'password' ] ) ) {
     }
 }
 
-if ( isset( $_POST[ 'delete' ] ) ) {
+if ( isset( $_POST[ 'active' ] ) ) {
     $id = $_POST[ 'userID' ];
     $member = $users->findOne([
         '$and' => [
             '_id' => new MongoDB\BSON\ObjectId($id),
-            'active' => true
+            'active' => false
         ]
     ]);
-    $member['active'] = false;
+    $member['active'] = true;
     $users->updateOne(['_id' => new MongoDB\BSON\ObjectId($id)], ['$set' => $member]);
 
     if ($member['profile'] == "Technicien") {
@@ -186,7 +186,7 @@ if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Liste des Utilisateurs | CFAO Mobility Academy</title>
+<title>Liste des Utilisateurs Supprimés | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -199,7 +199,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des utilisateurs </h1>
+                    Liste des utilisateurs supprimés </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -233,9 +233,9 @@ include_once 'partials/header.php'
                     </button>
                 </div>
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="delete" title="Cliquez ici pour supprimer le technicien"
-                        data-bs-toggle="modal" class="btn btn-danger">
-                        Supprimer
+                    <button type="button" id="delete" title="Cliquez ici pour restorer l'utilisateur'"
+                        data-bs-toggle="modal" class="btn btn-primary">
+                        Restorer
                     </button>
                 </div>
             </div>
@@ -477,7 +477,7 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $persons = $users->find(['active' => true]);
+                                        $persons = $users->find(['active' => false]);
                                         foreach ($persons as $user) {
                                         ?>
                                     <?php if ($_SESSION["profile"] == "Admin") { ?>
@@ -661,7 +661,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Suppréssion
+                                                            Restoration
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -688,7 +688,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
                                                             Voulez-vous vraiment
-                                                            supprimer cet
+                                                            restorer cet
                                                             utilisateur?
                                                         </h4>
                                                     </div>
@@ -703,7 +703,7 @@ include_once 'partials/header.php'
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
-                                                        <button type="submit" name="delete" class="btn btn-danger">
+                                                        <button type="submit" name="active" class="btn btn-danger">
                                                             Oui
                                                         </button>
                                                         <!--end::Button-->

@@ -901,6 +901,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Assistance à la Conduite"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
                 if ($assistanceFac) {
@@ -996,6 +997,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Climatisation"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1093,6 +1095,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Direction"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1189,6 +1192,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Electricité"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1285,6 +1289,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Freinage"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1381,6 +1386,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Hydraulique"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1477,6 +1483,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Moteur"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1573,6 +1580,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Multiplexage & Electronique"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1669,6 +1677,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Pneumatique"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1762,6 +1771,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Suspension"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1858,6 +1868,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Transmission"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1954,6 +1965,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Transversale"],
                             ['type' => "Factuel"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     

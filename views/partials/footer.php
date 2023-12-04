@@ -72,6 +72,7 @@ var hostUrl = "../public/assets/";
 </script>
 <script src="../public/assets/js/custom/utilities/modals/users-search.js">
 </script>
+<script src="../public/js/main.js"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -136,6 +137,7 @@ $(document).ready(function() {
     //   "scrollY": "50vh",
     //   "scrollCollapse": true,
     // });
+
 });
 
 // var tab = document.querySelector('table');

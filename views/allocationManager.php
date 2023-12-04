@@ -164,7 +164,14 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
                                     for ($i = 0; $i < count($manager[ 'users' ]); $i++) {
-                                        $user = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId($manager[ 'users' ][$i]) ] );
+                                        $user = $users->findOne([
+                                            '$and' => [
+                                                [
+                                                    '_id' => new MongoDB\BSON\ObjectId($manager[ 'users' ][$i]) ,
+                                                    'active' => true,
+                                                ],
+                                            ]
+                                        ]);
                                         $usersFactuel = $allocations->findOne([
                                             '$and' => [
                                                 [

@@ -14,7 +14,12 @@ if (isset( $_POST[ 'submit' ] )) {
     $username = $_POST[ 'username' ];
     $password = sha1($_POST[ 'password' ]);
     
-    $member = $users->findOne(['username' => $username]);
+    $member = $users->findOne([
+        '$and' => [
+            'username' => $username,
+            'active' => true
+        ]
+    ]);
     if (empty($username) || empty($password)) {
         $error = "Champ Obligatoire";
     } elseif (empty($member)) {
@@ -104,6 +109,14 @@ License: For each use you must have a valid license purchased only from above li
 <!--begin::Body-->
 
 <body id="kt_body" class="auth-bg">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
     <!--begin::Theme mode setup on page load-->
     <script>
     var defaultThemeMode = "light";

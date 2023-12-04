@@ -19,7 +19,14 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $users = $academy->users;
 
     $user = $_SESSION[ 'id' ];
-    $technician = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($user)]);
+    $technician = $users->findOne([
+        '$and' => [
+            [
+                '_id' => new MongoDB\BSON\ObjectId($user),
+                'active' => true,
+            ],
+        ]
+    ]);
 }
 ?>
 <?php

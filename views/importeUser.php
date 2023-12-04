@@ -47,11 +47,17 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $username = $row["18"];
         $usernameManager = $row["19"];
 
-        $member =  $users->findOne(["username" => $username]);
+        $member =  $users->findOne([
+            '$and' => [
+                [ 'username' => $username ],
+                [ 'active' => true ],
+            ],
+        ]);
         if ($member){
             $error_msg = "Cet utilisateur existe déjà";
         } else {
             $person = [
+                'users' => [],
                 'username' => $username,
                 'matricule' => $matricule,
                 'firstName' => ucfirst( $firstName ),
@@ -73,22 +79,26 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'password' => $password,
                 'active' => true,
                 'created' => date("d-m-Y")
-    
             ];
         
             $user = $users->insertOne($person);
-            $manager = $users->findOne([
-                ['username' => $usernameManager]
+            $create =  $users->findOne([
+                '$and' => [
+                    [ '_id' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ],
+                    [ 'active' => true ],
+                ],
             ]);
-            $user->manager = new MongoDB\BSON\ObjectId( $manager->_id );
-            $allocation = [
-                "user" => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
-                "manager" => new MongoDB\BSON\ObjectId( $manager->_id ),
-                "type" => "Technicien dans manager",
-                'active' =>true,
-                'created' => date("d-m-y")
-            ];
-            $result = $allocations->insertOne($allocation);
+            $manager = $users->findOne([
+                '$and' => [
+                    'username' => $usernameManager,
+                    'active' => true
+                ]
+            ]);
+            $create->manager = new MongoDB\BSON\ObjectId( $manager->_id );
+            $users->updateOne(
+                [ '_id' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ],
+                [ '$set' => $create ]
+            );
             $success_msg = "Utilisateurs ajoutés avec succès";
         }
     }

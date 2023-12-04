@@ -34,7 +34,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $folder = '../public/files/'.$image;
     move_uploaded_file( $tmp_name, $folder );
 
-    $exist = $questions->findOne( [ 'label' => $label ] );
+    $exist = $questions->findOne([
+        '$and' => [
+            [ 'label' => $label ],
+            [ 'active' => true ],
+        ],
+    ]);
     
     if ( empty( $label ) ||
     empty( $type ) ||
@@ -44,7 +49,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     } elseif ( $exist && $exist->active == true ) {
         $error_msg = 'Cette question existe déjà.';
     } elseif ($type == "Factuel") {
-        $quizz = $quizzes->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ] );
+        $quizz = $quizzes->findOne([
+            '$and' => [
+                [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
+                [ 'active' => true ],
+            ],
+        ]);
         $question = [
             'label' => ucfirst( $label ),
             'proposal1' => ucfirst( $proposal1 ),
@@ -55,7 +65,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'level' => ucfirst( $level ),
             'speciality' => ucfirst( $speciality ),
             'type' => $type,
-            'active' =>true,  
+            'active' =>true,
             'created' => date("d-m-y")
         ];
         $results = $questions->insertOne( $question );
@@ -68,18 +78,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
             [ '$set' => $quizz ]
         );
-
-        $allocation = [
-            'quiz' =>  new MongoDB\BSON\ObjectId( $quiz ),
-            'question' =>  new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
-            'type' => 'Question dans questionnaire',
-            'active' =>true,  
-            'created' => date("d-m-y")
-        ];
-        $result = $allocations->insertOne( $allocation );
         $success_msg = 'Question ajoutée avec succès';
     } elseif ($type == "Declarative") {
-        $quizz = $quizzes->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ] );
+        $quizz = $quizzes->findOne([
+            '$and' => [
+                [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
+                [ 'active' => true ],
+            ],
+        ]);
         $question = [
             'image' => $image,
             'label' => ucfirst( $label ),
@@ -101,15 +107,6 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             [ '_id' => new MongoDB\BSON\ObjectId( $quiz ) ],
             [ '$push' => [ 'questions' => new MongoDB\BSON\ObjectId( $results->getInsertedId() ) ] ]
         );
-
-        $allocation = [
-            'quiz' =>  new MongoDB\BSON\ObjectId( $quiz ),
-            'question' =>  new MongoDB\BSON\ObjectId( $results->getInsertedId() ),
-            'type' => 'Question dans questionnaire',
-            'active' =>true,
-            'created' => date("d-m-y")
-        ];
-        $result = $allocations->insertOne( $allocation );
         $success_msg = 'Question ajoutée avec succès';
     }
 }

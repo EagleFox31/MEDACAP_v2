@@ -39,7 +39,12 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $quiz = $row["9"];
         $image = $row["10"];
         
-        $exist = $questions->findOne( [ [ 'label' => $label ] ] );
+        $exist = $questions->findOne([
+            '$and' => [
+                [ 'label' => $label ],
+                [ 'active' => true ],
+            ],
+        ]);
         if ( $exist) {
             $error_msg = 'Cette question existe déjà.';
         } else {
@@ -61,7 +66,9 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             $result = $questions->insertOne($question);
             $quizz = $quizzes->findOne([
                 '$and' => [
-                    ['label' => $quiz], ['level' => $level]
+                    ['label' => $quiz],
+                    ['level' => $level],
+                    ['active' => true]
                 ]
             ]);
             $quizz->total++;
@@ -73,14 +80,6 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 ['_id' => new MongoDB\BSON\ObjectId( $quizz->_id )],
                 ['$push' => ['questions' => new MongoDB\BSON\ObjectId( $result->getInsertedId() )]]
             );
-            $allocation = [
-                "quiz" => new MongoDB\BSON\ObjectId( $quizz->_id ),
-                "question" => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                "type" => "Question dans questionnaire",
-                'active' =>true,
-                'created' => date("d-m-y")
-            ];
-            $allocations->insertOne($allocation);
             $success_msg = "Questions ajoutés avec succès";
         }
     }

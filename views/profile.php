@@ -19,7 +19,12 @@ if (!isset($_SESSION["id"])) {
 
     $id = $_SESSION["id"];
     
-    $user = $users->findOne([ "_id" => new MongoDB\BSON\ObjectId( $id ) ]);
+    $user = $users->findOne([
+        '$and' => [
+                [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
+                [ 'active' => true ]
+        ]
+    ]);
     
 ?>
 <?php
@@ -76,13 +81,18 @@ if ( isset( $_POST[ 'update' ] ) ) {
             [ '$set' => $person ]
         );
 
-        $manager = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $managerId ) ] );
+        $manager = $users->findOne( [
+            '$and' => [
+                [ '_id' => new MongoDB\BSON\ObjectId( $managerId ) ],
+                [ 'active' => true ]
+            ]
+        ]);
         $allocate = $allocations->findOne( [
             '$and' => [
                 [ 'user' => $id ],
                 [ 'type' => 'Technicien dans manager' ]
             ]
-        ] );
+        ]);
 
         if ( $allocate ) {
             $allocations->updateOne(
@@ -184,9 +194,9 @@ if ( isset( $_POST[ 'delete' ] ) ) {
 
     if ($member['profile'] == "Technicien") {
         $success_msg = "Technicien supprimé avec succès";
-    } else if ($member['profile'] == "Manager") {
+    } elseif ($member['profile'] == "Manager") {
         $success_msg = "Manager supprimé avec succès";
-    } else if ($member['profile'] == "Admin") {
+    } elseif ($member['profile'] == "Admin") {
         $success_msg = "Administrateur supprimé avec succès";
     }
 }
@@ -199,33 +209,33 @@ include_once 'partials/header.php'
 <title>Profile | CFAO Mobility Academy</title>
 <!--end::Title-->
 
-<?php
-     if(isset($success_msg)) {
-    ?>
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <center><strong><?php echo $success_msg ?></strong></center>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<?php
-    }
-    ?>
-<?php
-     if(isset($error_msg)) {
-    ?>
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <center><strong><?php echo $error_msg ?></strong></center>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<?php
-    }
-    ?>
 
 <!--begin::Content-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+    <?php
+         if(isset($success_msg)) {
+        ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <center><strong><?php echo $success_msg ?></strong></center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <?php
+        }
+        ?>
+    <?php
+         if(isset($error_msg)) {
+        ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <center><strong><?php echo $error_msg ?></strong></center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <?php
+        }
+        ?>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">

@@ -199,7 +199,14 @@ include_once 'partials/header.php'
                                     <?php
                                     if ($resultFacJu) {
                                         for ($i = 0; $i < count($resultFacJu); $i++) {
-                                            $user = $users->findone(['_id' => new MongoDB\BSON\ObjectId( $resultFacJu[$i]['user'] )]);
+                                            $user = $users->findone([
+                                                '$and' => [
+                                                    [
+                                                        '_id' => new MongoDB\BSON\ObjectId( $resultFacJu[$i]['user'] ),
+                                                        'active' => true,
+                                                    ],
+                                                ]
+                                            ]);
                                             $percentageFacJu = ($resultFacJu[$i]['score'] * 100) / $resultFacJu[$i]['total'];
                                             if ($resultDeclaJu) {
                                                 $percentageDeclaJu = ($resultDeclaJu[$i]['score'] * 100) / $resultDeclaJu[$i]['total'];

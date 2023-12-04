@@ -72,6 +72,14 @@
 
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
     <!--begin::Theme mode setup on page load-->
     <script>
     var defaultThemeMode = "light";
@@ -114,7 +122,7 @@
                 <!--begin::Brand-->
                 <div class="aside-logo flex-column-auto px-10 pt-9 pb-5" id="kt_aside_logo">
                     <!--begin::Logo-->
-                    <a href="/dashboard">
+                    <a href="./dashboard.php">
                         <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-default" />
                         <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-minimize" />
                     </a>
@@ -206,46 +214,7 @@
                                         <!--end:Menu item-->
                                     </div>
                                     <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                    <!--begin:Menu item-->
-                                    <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link"
-                                                href="/affecter-technicien-manager"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    un
-                                                    technicien</span>
-                                                </a> -->
-                                    <!--end:Menu link-->
-                                    <!-- </div> -->
-                                    <!--end:Menu item-->
-                                    <!-- </div> -->
-                                    <!--end:Menu sub-->
                                 </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item pt-5"> -->
-                                <!--begin:Menu content-->
-                                <!-- <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Groupes</span>
-                                    </div> -->
-                                <!--end:Menu content-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link" href="/groupes"><span
-                                            class="menu-icon">
-                                            <i
-                                                class="ki-duotone ki-row-vertical fs-2"><span
-                                                    class="path1"></span><span
-                                                    class="path2"></span></i></span><span
-                                            class="menu-title">Groupes</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
@@ -309,39 +278,6 @@
                                         <!--end:Menu item-->
                                     </div>
                                     <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                    <!--begin:Menu item-->
-                                    <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link" href="/affecter-question-factuelle-questionnaire"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    une Question
-                                                    Factuelle</span></a> -->
-                                    <!--end:Menu link-->
-                                    <!-- </div> -->
-                                    <!--end:Menu item-->
-                                    <!-- </div> -->
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                    <!--begin:Menu item-->
-                                    <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link"
-                                                href="/affecter-question-declarative-questionnaire"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    une Question
-                                                    Déclarative</span></a> -->
-                                    <!--end:Menu link-->
-                                    <!-- </div> -->
-                                    <!--end:Menu item-->
-                                    <!-- </div> -->
-                                    <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
@@ -365,23 +301,6 @@
                                         </div>
                                         <!--end:Menu item-->
                                     </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                    <!--begin:Menu item-->
-                                    <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link" href="/creer-question-declarative"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Créer
-                                                    une
-                                                    Question
-                                                    Déclarative</span></a> -->
-                                    <!--end:Menu link-->
-                                    <!-- </div> -->
-                                    <!--end:Menu item-->
-                                    <!-- </div> -->
                                     <!--end:Menu sub-->
                                     <!--begin:Menu sub-->
                                     <div class="menu-sub menu-sub-accordion">
@@ -424,229 +343,6 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <!-- <div data-kt-menu-trigger="click"
-                                    class="menu-item menu-accordion"> -->
-                                <!--begin:Menu link-->
-                                <!-- <span class="menu-link"><span
-                                            class="menu-icon"><i
-                                                class="ki-duotone ki-rocket fs-2"><span
-                                                    class="path1"></span><span
-                                                    class="path2"></span></i></span><span
-                                            class="menu-title">Affectations</span><span
-                                            class="menu-arrow"></span></span> -->
-                                <!--end:Menu link-->
-                                <!--begin:Menu sub-->
-                                <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                <!--begin:Menu item-->
-                                <!-- <div data-kt-menu-trigger="click"
-                                            class="menu-item menu-accordion"> -->
-                                <!--begin:Menu link-->
-                                <!-- <span class="menu-link"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    un technicien</span><span
-                                                    class="menu-arrow"></span></span> -->
-                                <!--end:Menu link-->
-                                <!--begin:Menu sub-->
-                                <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-technicien-manager"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">A
-                                                            un
-                                                            Manager</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-technicien-groupe"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">Dans
-                                                            un
-                                                            Groupe</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-technicien-questionnaire"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">A
-                                                            un
-                                                            Questionnaire</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!-- </div> -->
-                                <!--end:Menu sub-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div data-kt-menu-trigger="click"
-                                            class="menu-item menu-accordion"> -->
-                                <!--begin:Menu link-->
-                                <!-- <span class="menu-link"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    un Manager</span><span
-                                                    class="menu-arrow"></span></span> -->
-                                <!--end:Menu link-->
-                                <!--begin:Menu sub-->
-                                <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-manager-groupe"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">Dans
-                                                            un
-                                                            Groupe</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-manager-questionnaire"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">A
-                                                            un
-                                                            Questionnaire</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!-- </div> -->
-                                <!--end:Menu sub-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div data-kt-menu-trigger="click"
-                                            class="menu-item menu-accordion"> -->
-                                <!--begin:Menu link-->
-                                <!-- <span class="menu-link"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    une Question</span><span
-                                                    class="menu-arrow"></span></span> -->
-                                <!--end:Menu link-->
-                                <!--begin:Menu sub-->
-                                <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-question-factuelle-questionnaire"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">Factuelle</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-question-declarative-questionnaire"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">Déclarative</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!-- </div> -->
-                                <!--end:Menu sub-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div data-kt-menu-trigger="click"
-                                            class="menu-item menu-accordion"> -->
-                                <!--begin:Menu link-->
-                                <!-- <span class="menu-link"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    un Groupe</span><span
-                                                    class="menu-arrow"></span></span> -->
-                                <!--end:Menu link-->
-                                <!--begin:Menu sub-->
-                                <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-groupe-techniciens-questionnaire"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">De
-                                                            techniciens</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                        href="/affecter-groupe-managers-questionnaire"><span
-                                                            class="menu-bullet"><span
-                                                                class="bullet bullet-dot"></span></span><span
-                                                            class="menu-title">De
-                                                            Managers</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!-- </div> -->
-                                <!--end:Menu sub-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link"
-                                                href="/affectations"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Listes
-                                                    des
-                                                    Affectations</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!-- </div> -->
-                                <!--end:Menu sub-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                <!--begin:Menu link-->
-                                <!-- <a class="menu-link" href="/affectations"><span class="menu-icon">
-                                            <i class="ki-duotone ki-rocket fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                                <span class="path3"></span>
-                                                <span class="path4"></span>
-                                            </i></span><span class="menu-title">Affectations</span></a> -->
-                                <!--end:Menu link-->
-                                <!-- </div> -->
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./results.php"><span
                                             class="menu-icon">
@@ -657,6 +353,63 @@
                                                 <span class="path4"></span>
                                             </i></span><span class="menu-title">Résultats</span></a>
                                     <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-7">Historiques</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                    <!--begin:Menu link--><span class="menu-link "><span class="menu-icon"><i
+                                                class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title">Historiques</span><span class="menu-arrow"></span></span>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link"
+                                                href="./historiqueUsers.php"><span class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Historique Utilisateurs</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link"
+                                                href="./historiqueQuizzes.php"><span class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Historique Questionnaires</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link"
+                                                href="./historiqueQuestions.php"><span class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Historique Questions</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
@@ -905,19 +658,6 @@
                                         <!--begin::Hidden input(Added to disable form autocomplete)-->
                                         <input type="hidden" />
                                         <!--end::Hidden input-->
-                                        <!--begin::Icon-->
-                                        <!-- <i
-                                            class="ki-duotone ki-magnifier search-icon fs-2 text-gray-500 position-absolute top-50 translate-middle-y ms-5"><span
-                                                class="path1"></span><span
-                                                class="path2"></span></i> -->
-                                        <!--end::Icon-->
-                                        <!--begin::Input-->
-                                        <!-- <input type="text"
-                                            class="search-input form-control form-control-solid  ps-13"
-                                            name="search" value=""
-                                            placeholder="Recherche..."
-                                            data-kt-search-element="input" /> -->
-                                        <!--end::Input-->
                                         <!--begin::Spinner-->
                                         <span
                                             class="search-spinner  position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5"

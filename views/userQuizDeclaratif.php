@@ -29,7 +29,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
         
-        $scoreF = [];
+        $scoreF = 0;
         $score = [];
         $scoreAss = [];
         $scoreClim = [];
@@ -796,6 +796,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Assistance à la Conduite"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
                 if ($assistanceDecla) {
@@ -843,6 +844,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Climatisation"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -892,6 +894,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Direction"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -940,6 +943,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Electricité"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -988,6 +992,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Freinage"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1037,6 +1042,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Hydraulique"],
                             ['type' => "Declaraif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1085,6 +1091,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Moteur"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1133,6 +1140,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Multiplexage & Electronique"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1182,6 +1190,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Pneumatique"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1230,6 +1239,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Suspension"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1278,6 +1288,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Transmission"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1327,6 +1338,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Transversale"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     

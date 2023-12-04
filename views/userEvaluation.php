@@ -21,7 +21,14 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $allocations = $academy->allocations;
 
     $id = $_GET[ 'user' ];
-    $user = $users->findone( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
+    $user = $users->findone([
+                '$and' => [
+                    [
+                        '_id' => new MongoDB\BSON\ObjectId( $id ),
+                        'active' => true,
+                    ],
+                ]
+            ]);
     $manager = $_GET[ 'id' ];
     $level = $_GET[ 'level' ];
 
@@ -815,6 +822,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Assistance à la Conduite"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true],
                         ]
                     ]);
                 if ($assistanceDecla) {
@@ -862,6 +870,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Climatisation"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -911,6 +920,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Direction"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -959,6 +969,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Electricité"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1007,6 +1018,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Freinage"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1056,6 +1068,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Hydraulique"],
                             ['type' => "Declaraif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1104,6 +1117,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Moteur"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1152,6 +1166,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Multiplexage & Electronique"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1201,6 +1216,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Pneumatique"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1249,6 +1265,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Suspension"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1297,6 +1314,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Transmission"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     
@@ -1346,6 +1364,7 @@ include_once 'partials/header.php'
                             ['speciality' => "Transversale"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
+                            ["active" => true]
                         ]
                     ]);
     

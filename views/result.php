@@ -128,6 +128,14 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
 <!--begin::Body-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-select2-id="select2-data-kt_content">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -1340,6 +1348,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js">
 </script>
+<script src="../public/js/main.js"></script>
 <script>
 $(document).ready(function() {
     $("#excel").on("click", function() {

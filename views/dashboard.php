@@ -138,18 +138,39 @@ include('./partials/header.php')
                                         <th class="min-w-125px">Niveau Expert</th>
                                     </tr>
                                     <?php
-                                        $manager = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($_SESSION["id"])]);
+                                        $manager = $users->findOne([
+                                            '$and' => [
+                                                [
+                                                    '_id' => new MongoDB\BSON\ObjectId($_SESSION["id"]),
+                                                    'active' => true,
+                                                ],
+                                            ]
+                                        ]);
                                         foreach ($manager->users as $userr) {
                                             $allocate = $allocations->findOne([
                                                 'user' => $userr,
                                                 'typeQuiz' => 'Declaratif',
                                             ]);
-                                            $user = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($allocate["user"])]);
-                                            $quiz = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($allocate["quiz"])]);
+                                            $user = $users->findOne([
+                                                '$and' => [
+                                                    [
+                                                        '_id' => new MongoDB\BSON\ObjectId($allocate["user"]),
+                                                        'active' => true,
+                                                    ],
+                                                ]
+                                            ]);
+                                            $quiz = $quizzes->findOne([
+                                                '$and' => [
+                                                    [
+                                                        '_id' => new MongoDB\BSON\ObjectId($allocate["quiz"]),
+                                                        'active' => true,
+                                                    ],
+                                                ]
+                                            ]);
                                             
                                             $verified = $allocations->findOne([
-                                                'user' => $user->_id,
-                                                'quiz' => $quiz->_id,
+                                                'user' => new MongoDB\BSON\ObjectId($user->_id),
+                                                'quiz' => new MongoDB\BSON\ObjectId($quiz->_id),
                                             ]);
 
                                             if ($verified->managerQuiz == false) {
