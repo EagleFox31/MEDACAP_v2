@@ -72,6 +72,11 @@ var hostUrl = "../public/assets/";
 </script>
 <script src="../public/assets/js/custom/utilities/modals/users-search.js">
 </script>
+<!-- begin::charts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>

@@ -571,8 +571,8 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
-                                            <i class="ki-duotone ki-file-added fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">Evaluer mes
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Evaluer
+                                            mes
                                             Techniciens
                                         </span></a>
                                     <!--end:Menu link-->
@@ -591,8 +591,12 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerResults.php"><span
                                             class="menu-icon">
-                                            <i class="ki-duotone ki-file-added fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">Résultats
+                                            <i class="ki-duotone ki-gift fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                            </i></span><span class="menu-title">Résultats
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -610,8 +614,8 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
-                                            class="menu-icon"><i class="ki-duotone ki-handcart fs-2"></i></span><span
-                                            class="menu-title">Mes
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
                                             Tests</span></a>
                                     <!--end:Menu link-->
                                 </div>

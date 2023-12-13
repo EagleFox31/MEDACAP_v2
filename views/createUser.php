@@ -1090,6 +1090,9 @@ if ( isset( $error ) ) {
                                 <option value="JCB">
                                     JCB
                                 </option>
+                                <option value="KING LONG">
+                                    KING LONG
+                                </option>
                                 <option value="MERCEDES">
                                     MERCEDES
                                 </option>

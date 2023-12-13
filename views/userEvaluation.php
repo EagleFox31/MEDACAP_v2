@@ -119,9 +119,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Assistance à la Conduite") {
                     if ($proposals[$i] == "1-Assistance à la Conduite-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreAss, "il connait");
+                        array_push($scoreAss, "Il connait");
                         array_push($proposalAssistance, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalAssistance, "Non");
@@ -169,9 +169,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Arbre de Transmission") {
                     if ($proposals[$i] == "1-Arbre de Transmission-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreAr, "il connait");
+                        array_push($scoreAr, "Il connait");
                         array_push($proposalArbre, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalArbre, "Non");
@@ -219,9 +219,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Boite de Transfert") {
                     if ($proposals[$i] == "1-Boite de Transfert-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreBoT, "il connait");
+                        array_push($scoreBoT, "Il connait");
                         array_push($proposalTransfert, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalBoite, "Non");
@@ -269,9 +269,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Boite de Vitesse") {
                     if ($proposals[$i] == "1-Boite de Vitesse-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreBoi, "il connait");
+                        array_push($scoreBoi, "Il connait");
                         array_push($proposalBoite, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalBoite, "Non");
@@ -319,9 +319,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Climatisation") {
                     if ($proposals[$i] == "1-Climatisation-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreClim, "il connait");
+                        array_push($scoreClim, "Il connait");
                         array_push($proposalClimatisation, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalClimatisation, "Non");
@@ -364,9 +364,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Direction") {
                     if ($proposals[$i] == "1-Direction-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreDir, "il connait");
+                        array_push($scoreDir, "Il connait");
                         array_push($proposalDirection, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalDirection, "Non");
@@ -409,9 +409,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Electricité") {
                     if ($proposals[$i] == "1-Electricité-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreElec, "il connait");
+                        array_push($scoreElec, "Il connait");
                         array_push($proposalElectricite, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalElectricite, "Non");
@@ -454,9 +454,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Freinage Hydraulique") {
                     if ($proposals[$i] == "1-Freinage Hydraulique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreFreiH, "il connait");
+                        array_push($scoreFreiH, "Il connait");
                         array_push($proposalFreinage, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalFreinage, "Non");
@@ -509,9 +509,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Freinage Pneumatique") {
                     if ($proposals[$i] == "1-Freinage Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreFreiP, "il connait");
+                        array_push($scoreFreiP, "Il connait");
                         array_push($proposalFrein, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalFreinage, "Non");
@@ -554,9 +554,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Hydraulique") {
                     if ($proposals[$i] == "1-Hydraulique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreHyd, "il connait");
+                        array_push($scoreHyd, "Il connait");
                         array_push($proposalHydraulique, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalHydraulique, "Non");
@@ -609,9 +609,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Moteur Diesel") {
                     if ($proposals[$i] == "1-Moteur Diesel-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMoD, "il connait");
+                        array_push($scoreMoD, "Il connait");
                         array_push($proposalMoteurDiesel, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMoteurDiesel, "Non");
@@ -654,9 +654,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Moteur Electrique") {
                     if ($proposals[$i] == "1-Moteur Electrique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMoEl, "il connait");
+                        array_push($scoreMoEl, "Il connait");
                         array_push($proposalMoteurElec, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMoteurElec, "Non");
@@ -699,9 +699,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Moteur Essence") {
                     if ($proposals[$i] == "1-Moteur Essence-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMoE, "il connait");
+                        array_push($scoreMoE, "Il connait");
                         array_push($proposalMoteurEssence, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMoteurEssence, "Non");
@@ -744,9 +744,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Multiplexage & Electronique") {
                     if ($proposals[$i] == "1-Multiplexage & Electronique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMulti, "il connait");
+                        array_push($scoreMulti, "Il connait");
                         array_push($proposalMultiplexage, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMultiplexage, "Non");
@@ -799,9 +799,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Pont") {
                     if ($proposals[$i] == "1-Pont-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scorePont, "il connait");
+                        array_push($scorePont, "Il connait");
                         array_push($proposalPont, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalPont, "Non");
@@ -844,9 +844,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Pneumatique") {
                     if ($proposals[$i] == "1-Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scorePneu, "il connait");
+                        array_push($scorePneu, "Il connait");
                         array_push($proposalPneu, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalPneu, "Non");
@@ -899,9 +899,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Reducteur") {
                     if ($proposals[$i] == "1-Reducteur-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scorePneu, "il connait");
+                        array_push($scorePneu, "Il connait");
                         array_push($proposalPneu, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalPneu, "Non");
@@ -944,9 +944,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Suspension à Lame") {
                     if ($proposals[$i] == "1-Suspension à Lame-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreSusL, "il connait");
+                        array_push($scoreSusL, "Il connait");
                         array_push($proposalSuspensionLame, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalSuspensionLame, "Non");
@@ -989,9 +989,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Suspension Ressort") {
                     if ($proposals[$i] == "1-Suspension Ressort-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreSusR, "il connait");
+                        array_push($scoreSusR, "Il connait");
                         array_push($proposalSuspensionRessort, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalSuspensionRessort, "Non");
@@ -1034,9 +1034,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Suspension Pneumatique") {
                     if ($proposals[$i] == "1-Suspension Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreSusP, "il connait");
+                        array_push($scoreSusP, "Il connait");
                         array_push($proposalSuspensionPneumatique, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalSuspensionPneumatique, "Non");
@@ -1079,9 +1079,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Transversale") {
                     if ($proposals[$i] == "1-Transversale-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreTran, "il connait");
+                        array_push($scoreTran, "Il connait");
                         array_push($proposalTransversale, "Oui");
-                        array_push($score, "il connait");
+                        array_push($score, "Il connait");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalTransversale, "Non");
@@ -1182,10 +1182,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Evaluation de <?php echo $user->firstName ?> <?php echo $user->lastName ?> | CFAO Mobility Academy</title>
+<title>Evaluation de <?php echo $user->firstName ?> <?php echo $user->lastName ?> | CFAO MobIlity Academy</title>
 <!--end::Title-->
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?famIly=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
 <link href="../public/css/userQuiz.css" rel="stylesheet" type="text/css" />
 <div class="container">
     <div class="heading">
@@ -1249,7 +1249,7 @@ include_once 'partials/header.php'
                         name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1257,7 +1257,7 @@ include_once 'partials/header.php'
                         name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1299,7 +1299,7 @@ include_once 'partials/header.php'
                         name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1307,7 +1307,7 @@ include_once 'partials/header.php'
                         name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1349,7 +1349,7 @@ include_once 'partials/header.php'
                         name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1357,7 +1357,7 @@ include_once 'partials/header.php'
                         name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1399,7 +1399,7 @@ include_once 'partials/header.php'
                         name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1407,7 +1407,7 @@ include_once 'partials/header.php'
                         name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1451,7 +1451,7 @@ include_once 'partials/header.php'
                         name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1459,7 +1459,7 @@ include_once 'partials/header.php'
                         name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1502,7 +1502,7 @@ include_once 'partials/header.php'
                         name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1510,7 +1510,7 @@ include_once 'partials/header.php'
                         name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1553,7 +1553,7 @@ include_once 'partials/header.php'
                         name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1561,7 +1561,7 @@ include_once 'partials/header.php'
                         name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1604,7 +1604,7 @@ include_once 'partials/header.php'
                         name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1612,7 +1612,7 @@ include_once 'partials/header.php'
                         name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1655,7 +1655,7 @@ include_once 'partials/header.php'
                         name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1663,7 +1663,7 @@ include_once 'partials/header.php'
                         name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1706,7 +1706,7 @@ include_once 'partials/header.php'
                         name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1714,7 +1714,7 @@ include_once 'partials/header.php'
                         name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1758,7 +1758,7 @@ include_once 'partials/header.php'
                         name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1766,7 +1766,7 @@ include_once 'partials/header.php'
                         name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1809,7 +1809,7 @@ include_once 'partials/header.php'
                         name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1817,7 +1817,7 @@ include_once 'partials/header.php'
                         name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1861,7 +1861,7 @@ include_once 'partials/header.php'
                         name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1869,7 +1869,7 @@ include_once 'partials/header.php'
                         name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1913,7 +1913,7 @@ include_once 'partials/header.php'
                         name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1921,7 +1921,7 @@ include_once 'partials/header.php'
                         name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -1964,7 +1964,7 @@ include_once 'partials/header.php'
                         name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1972,7 +1972,7 @@ include_once 'partials/header.php'
                         name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -2015,7 +2015,7 @@ include_once 'partials/header.php'
                         name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2023,7 +2023,7 @@ include_once 'partials/header.php'
                         name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -2066,7 +2066,7 @@ include_once 'partials/header.php'
                         name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2074,7 +2074,7 @@ include_once 'partials/header.php'
                         name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -2118,7 +2118,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2126,7 +2126,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -2170,7 +2170,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2178,7 +2178,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -2223,7 +2223,7 @@ include_once 'partials/header.php'
                         value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2232,7 +2232,7 @@ include_once 'partials/header.php'
                         value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>
@@ -2276,7 +2276,7 @@ include_once 'partials/header.php'
                         name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il connait
+                        Il connait
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2284,7 +2284,7 @@ include_once 'partials/header.php'
                         name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        il ne connait pas
+                        Il ne connait pas
                     </span>
                 </label>
                 <?php } ?>

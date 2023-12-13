@@ -15,8 +15,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     
     // Connecting in collections
     $users = $academy->users;
-    $allocations = $academy->allocations;
+    $vehicles = $academy->vehicles;
     $quizzes = $academy->quizzes;
+    $allocations = $academy->allocations;
 
     $id = $_SESSION[ 'id' ];
 
@@ -167,6 +168,10 @@ include_once 'partials/header.php'
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
+                                            Marques</th>
+                                        <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending" style="width: 200px;">
                                             Tests</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -187,19 +192,27 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    foreach ($manager->users as $userr) {
+                                    $allocate = $allocations->find([
+                                        '$and' => [
+                                            ['user' => ['$in' => $manager->users]],
+                                            ['type' => 'Declaratif'],
+                                        ]
+                                    ])->toArray();
+                                    foreach ($allocate as $allocate) {
                                         $user = $users->findOne([
                                             '$and' => [
                                                 [
-                                                    '_id' => new MongoDB\BSON\ObjectId($userr),
+                                                    '_id' => new MongoDB\BSON\ObjectId($allocate['user']),
                                                     'active' => true,
                                                 ],
                                             ]
                                         ]);
-                                        $allocate = $allocations->findOne([
+                                        $vehicle = $vehicles->findOne([
                                             '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($userr)],
-                                                ['type' => 'Declaratif'],
+                                                [
+                                                    '_id' => new MongoDB\BSON\ObjectId($allocate['vehicle']),
+                                                    'active' => true,
+                                                ],
                                             ]
                                         ]);
                                     ?>
@@ -213,7 +226,10 @@ include_once 'partials/header.php'
                                             <?php echo $user->department ?>
                                         </td>
                                         <td>
-                                            <?php echo $user->vehicle ?>
+                                            <?php echo $vehicle->label ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->brand ?>
                                         </td>
                                         <td>
                                             Questionnaire sur la maitrise tâches professionnelles des techniciens

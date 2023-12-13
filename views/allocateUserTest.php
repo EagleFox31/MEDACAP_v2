@@ -158,7 +158,7 @@ include_once 'partials/header.php'
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <select name="vehicle" aria-label="Select a Country" data-control="select2"
-                                    data-placeholder="Sélectionnez le questionnaire..."
+                                    data-placeholder="Sélectionnez le véhicule..."
                                     class="form-select form-select-solid fw-bold">
                                     <option value="">Sélectionnez le véhicule...
                                     </option>
@@ -167,7 +167,7 @@ include_once 'partials/header.php'
                             foreach ($vehicle as $vehicle) {
                         ?>
                                     <option value='<?php echo $vehicle->_id ?>'>
-                                        <?php echo $vehicle->label ?>
+                                        <?php echo $vehicle->label ?> (<?php echo $vehicle->brand ?>)
                                     </option>
                                     <?php } ?>
                                 </select>

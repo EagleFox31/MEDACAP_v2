@@ -15,11 +15,19 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
     // Connecting in collections
     $users = $academy->users;
+    $vehicles = $academy->vehicles;
     $allocations = $academy->allocations;
 
     $id = $_SESSION[ 'id' ];
 
-    $manager = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
+    $manager = $users->findOne([
+        '$and' => [
+            [
+                '_id' => new MongoDB\BSON\ObjectId($id),
+                'active' => true,
+            ],
+        ]
+    ]);
 ?>
 <?php
     include_once 'partials/header.php'
@@ -154,39 +162,51 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Etat d'avancement des QCM </th>
+                                            style="width: 155.266px;">Marque de véhicule</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Etat d'avancement des Tâches </th>
+                                            aria-label="Email: activate to sort column ascending" style="width: 200px;">
+                                            Etat d'avancement des QCM </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending" style="width: 200px;">
+                                            Etat d'avancement des Tâches </th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    for ($i = 0; $i < count($manager[ 'users' ]); $i++) {
+                                    $usersFactuel = $allocations->find([
+                                        '$and' => [
+                                            [
+                                                'user' => ['$in' => $manager[ 'users' ]],
+                                                'type' => 'Factuel',
+                                            ],
+                                        ],
+                                    ])->toArray();
+                                    $usersDeclaratif = $allocations->find([
+                                        '$and' => [
+                                            [
+                                                'user' => ['$in' => $manager[ 'users' ]],
+                                                'type' => 'Declaratif',
+                                            ],
+                                        ],
+                                    ])->toArray();
+                                    for ($i = 0; $i < count($usersFactuel); $i++) {
                                         $user = $users->findOne([
                                             '$and' => [
                                                 [
-                                                    '_id' => new MongoDB\BSON\ObjectId($manager[ 'users' ][$i]) ,
+                                                    '_id' => new MongoDB\BSON\ObjectId($usersFactuel[$i][ 'user' ]) ,
                                                     'active' => true,
                                                 ],
                                             ]
                                         ]);
-                                        $usersFactuel = $allocations->findOne([
+                                        $vehicle = $vehicles->findOne([
                                             '$and' => [
                                                 [
-                                                    'user' => $user->_id,
-                                                    'type' => 'Factuel',
+                                                    '_id' => new MongoDB\BSON\ObjectId($usersFactuel[$i][ 'vehicle' ]) ,
+                                                    'active' => true,
                                                 ],
-                                            ],
-                                        ]);
-                                        $usersDeclaratif = $allocations->findOne([
-                                            '$and' => [
-                                                [
-                                                    'user' => $user->_id,
-                                                    'type' => 'Declaratif',
-                                                ],
-                                            ],
+                                            ]
                                         ]);
                                     ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
@@ -199,30 +219,33 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             <?php echo $user->department ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->vehicle ?>
+                                            <?php echo $vehicle->label ?>
                                         </td>
-                                        <?php if ($usersFactuel->active == false) { ?>
+                                        <td data-filter="email">
+                                            <?php echo $vehicle->brand ?>
+                                        </td>
+                                        <?php if ($usersFactuel[$i]->active == false) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 En attente
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersFactuel->active == true) { ?>
+                                        <?php if ($usersFactuel[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersDeclaratif->active == false) { ?>
+                                        <?php if ($usersDeclaratif[$i]->active == false) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 En attente
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersDeclaratif->active == true) { ?>
+                                        <?php if ($usersDeclaratif[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué

@@ -18,6 +18,32 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $quizzes = $academy->quizzes;
 
     $user = $_SESSION[ 'id' ];
+    $resultFac = $users->aggregate([
+        [
+            '$match' => [
+                '$and' => [
+                    [
+                        'user' => new MongoDB\BSON\ObjectId( $user ),
+                        'level' => $level,
+                        'type' => 'Factuel',
+                    ],
+                ],
+            ],
+        ],
+        [
+            '$group' => [
+                '_id' => '$user',
+                'total' => ['$sum' => '$total'],
+                'score' => ['$sum' => '$score'],
+            ],
+        ],
+        [
+            '$project' => [
+                '_id' => 0,
+                'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
+            ],
+        ],
+    ]);
 }
 ?>
 <?php

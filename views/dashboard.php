@@ -28,6 +28,7 @@ if (!isset($_SESSION["profile"])) {
     $countAdmins = count($countAdmin);
     $countVehicle = $vehicles->find()->toArray();
     $countVehicles = count($countVehicle);
+    
 ?>
 <?php
 include('./partials/header.php')
@@ -133,6 +134,7 @@ include('./partials/header.php')
                                         <th class="min-w-150px px-0 text-center">
                                             Tests</th>
                                         <th class="min-w-125px">Vehicules</th>
+                                        <th class="min-w-125px">Marques</th>
                                         <th class="min-w-125px">Département</th>
                                         <th class="min-w-125px">Niveau Junior</th>
                                         <th class="min-w-125px">Niveau Senior</th>
@@ -147,11 +149,15 @@ include('./partials/header.php')
                                                 ],
                                             ]
                                         ]);
-                                        foreach ($manager->users as $userr) {
-                                            $allocate = $allocations->findOne([
-                                                'user' => $userr,
-                                                'type' => 'Declaratif',
-                                            ]);
+                                        $allocate = $allocations->find([
+                                            '$and' => [
+                                                [
+                                                    'user' => ['$in' => $manager->users],
+                                                    'type' => 'Declaratif',
+                                                ],
+                                            ]
+                                        ])->toArray();
+                                        foreach ($allocate as $allocate) {
                                             $user = $users->findOne([
                                                 '$and' => [
                                                     [

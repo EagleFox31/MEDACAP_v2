@@ -23,13 +23,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $speciality = $_GET['speciality'];
 
     $technician = $users->findOne([
-                    '$and' => [
-                        [
-                            '_id' => new MongoDB\BSON\ObjectId( $user ),
-                            'active' => true,
-                        ],
-                    ]
-                ]);
+        '$and' => [
+            [
+                '_id' => new MongoDB\BSON\ObjectId( $user ),
+                'active' => true,
+            ],
+        ]
+    ]);
 ?>
 <title>Résultat Technicien | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -156,11 +156,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Questions</th>
-                                <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                <th class="min-w-130px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
                                     Résultats technicien</th>
-                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                <th class="min-w-120px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Résultats manager</th>
@@ -248,6 +248,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                        <?php echo round($groupeFac->score * 100 / $groupeFac->total, 0) ?>%
                                     </th>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -258,11 +259,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                        <?php echo round($groupeDecla->score * 100 / $groupeDecla->total, 0) ?>%
                                     </th>
                                     <th id="result-n1"
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                        <?php echo round($groupeMa->score * 100 / $groupeMa->total, 0) ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -346,9 +349,9 @@ const percentSavoirFaire = ((maitriseSavoirFaire.length * 100) / tdSavoirFaire.l
 const percentN = ((ouiN.length * 100) / tdN.length).toFixed(0)
 const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
 
-resultSavoir.innerHTML = percentSavoir + "%";
+// resultSavoir.innerHTML = percentSavoir + "%";
 resultSavoirFaire.innerHTML = percentSavoirFaire + "%";
-resultN.innerHTML = percentN + "%";
-resultN1.innerHTML = percentN1 + "%";
+// resultN.innerHTML = percentN + "%";
+// resultN1.innerHTML = percentN1 + "%";
 </script>
 <?php } ?>

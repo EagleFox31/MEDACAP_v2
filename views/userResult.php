@@ -139,9 +139,18 @@ include_once 'partials/header.php'
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending" style="width: 250px;">
+                                            Tests</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Tests</th>
+                                            Véhicules</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Marques</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
@@ -161,63 +170,77 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $vehicleJuFac = $allocations->findOne([
+                                        $vehicleJuFac = $allocations->find([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['level' => 'Junior'],
                                                 ['type' => 'Factuel'],
                                             ]
-                                        ]);
-                                        $vehicleSeFac = $allocations->findOne([
+                                        ])->toArray();
+                                        $vehicleSeFac = $allocations->find([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['level' => 'Senior'],
                                                 ['type' => 'Factuel'],
                                             ]
-                                        ]);
-                                        $vehicleExFac = $allocations->findOne([
+                                        ])->toArray();
+                                        $vehicleExFac = $allocations->find([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['level' => 'Expert'],
                                                 ['type' => 'Factuel'],
                                             ]
-                                        ]);
-                                        $vehicleJuDecla = $allocations->findOne([
+                                        ])->toArray();
+                                        $vehicleJuDecla = $allocations->find([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['level' => 'Junior'],
                                                 ['type' => 'Declaratif'],
                                             ]
-                                        ]);
-                                        $vehicleSeDecla= $allocations->findOne([
+                                        ])->toArray();
+                                        $vehicleSeDecla= $allocations->find([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['level' => 'Senior'],
                                                 ['type' => 'Declaratif'],
                                             ]
-                                        ]);
-                                        $vehicleExDecla = $allocations->findOne([
+                                        ])->toArray();
+                                        $vehicleExDecla = $allocations->find([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
                                                 ['level' => 'Expert'],
                                                 ['type' => 'Declaratif'],
+                                            ]
+                                        ])->toArray();
+                                    ?>
+                                    <?php if ($vehicleJuFac) { ?>
+                                    <?php for ($i = 0; $i < count($vehicleJuFac); $i++) {
+                                        $vehicle = $vehicles->findOne([
+                                            '$and' => [
+                                                ['_id' => new MongoDB\BSON\ObjectId($vehicleJuFac[$i]->vehicle)],
+                                                ['active' => true],
                                             ]
                                         ]);
                                     ?>
-                                    <?php if ($vehicleJuFac) { ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur les connaissances techniques
                                         </td>
-                                        <?php if ($vehicleJuFac->active == false) { ?>
                                         <td>
-                                            <a href="./userQuizFactuel.php?level=Junior&id=<?php echo $technician->_id ?>"
+                                            <?php echo $vehicle->label ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->brand ?>
+                                        </td>
+                                        <?php if ($vehicleJuFac[$i]->active == false) { ?>
+                                        <td>
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($vehicleJuFac->active == true) { ?>
+                                        <?php if ($vehicleJuFac[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -236,26 +259,41 @@ include_once 'partials/header.php'
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                     <?php if ($vehicleSeFac) { ?>
+                                    <?php for ($i = 0; $i < count($vehicleSeFac); $i++) {
+                                        $vehicle = $vehicles->findOne([
+                                            '$and' => [
+                                                ['_id' => new MongoDB\BSON\ObjectId($vehicleSeFac[$i]->vehicle)],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                    ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur les connaissances techniques
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->label ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->brand ?>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
-                                        <?php if ($vehicleSeFac->active == false) { ?>
+                                        <?php if ($vehicleSeFac[$i]->active == false) { ?>
                                         <td>
-                                            <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($vehicleSeFac->active == true) { ?>
+                                        <?php if ($vehicleSeFac[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -269,13 +307,28 @@ include_once 'partials/header.php'
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                     <?php if ($vehicleExFac) { ?>
+                                    <?php for ($i = 0; $i < count($vehicleExFac); $i++) {
+                                        $vehicle = $vehicles->findOne([
+                                            '$and' => [
+                                                ['_id' => new MongoDB\BSON\ObjectId($vehicleExFac[$i]->vehicle)],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                    ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur les connaissances techniques
                                         </td>
                                         <td>
+                                            <?php echo $vehicle->label ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->brand ?>
+                                        </td>
+                                        <td>
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
@@ -286,15 +339,15 @@ include_once 'partials/header.php'
                                             </span>
                                         </td>
                                         </td>
-                                        <?php if ($vehicleExFac->active == false) { ?>
+                                        <?php if ($vehicleExFac[$i]->active == false) { ?>
                                         <td>
-                                            <a href="./userQuizFactuel.php?level=Expert&id=<?php echo $technician->_id ?>"
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=Expert&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($vehicleExFac->active == true) { ?>
+                                        <?php if ($vehicleExFac[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -303,21 +356,36 @@ include_once 'partials/header.php'
                                         <?php } ?>
                                         <!--end::Menu-->
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                     <?php if ($vehicleJuDecla) { ?>
+                                    <?php for ($i = 0; $i < count($vehicleJuDecla); $i++) {
+                                        $vehicle = $vehicles->findOne([
+                                            '$and' => [
+                                                ['_id' => new MongoDB\BSON\ObjectId($vehicleJuDecla[$i]->vehicle)],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                     ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur la maitrise des tâches professionnelles
                                         </td>
-                                        <?php if ($vehicleJuDecla->active == false) { ?>
                                         <td>
-                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
+                                            <?php echo $vehicle->label ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->brand ?>
+                                        </td>
+                                        <?php if ($vehicleJuDecla[$i]->active == false) { ?>
+                                        <td>
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($vehicleJuDecla->active == true) { ?>
+                                        <?php if ($vehicleJuDecla[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -336,26 +404,41 @@ include_once 'partials/header.php'
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                     <?php if ($vehicleSeDecla) { ?>
+                                    <?php for ($i = 0; $i < count($vehicleSeDecla); $i++) { 
+                                        $vehicle = $vehicles->findOne([
+                                            '$and' => [
+                                                ['_id' => new MongoDB\BSON\ObjectId($vehicleSeDecla[$i]->vehicle)],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                    ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur la maitrise des tâches professionnelles
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->label ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->brand ?>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
-                                        <?php if ($vehicleSeDecla->active == false) { ?>
+                                        <?php if ($vehicleSeDecla[$i]->active == false) { ?>
                                         <td>
-                                            <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($vehicleSeDecla->active == true) { ?>
+                                        <?php if ($vehicleSeDecla[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -370,12 +453,27 @@ include_once 'partials/header.php'
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>
+                                    <?php } ?>
                                     <?php if ($vehicleExDecla) { ?>
+                                    <?php for ($i = 0; $i < count($vehicleExDecla); $i++) { 
+                                        $vehicle = $vehicles->findOne([
+                                            '$and' => [
+                                                ['_id' => new MongoDB\BSON\ObjectId($vehicleExDecla[$i]->vehicle)],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                    ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur la maitrise des tâches professionnelles
                                         </td>
                                         <td>
+                                            <?php echo $vehicle->label ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $vehicle->brand ?>
+                                        </td>
+                                        <td>
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
@@ -385,20 +483,21 @@ include_once 'partials/header.php'
                                                 Effectué
                                             </span>
                                         </td>
-                                        <?php if ($vehicleExDecla->active == false) { ?>
+                                        <?php if ($vehicleExDecla[$i]->active == false) { ?>
                                         <td>
-                                            <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">A faire
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($vehicleExDecla->active == true) { ?>
+                                        <?php if ($vehicleExDecla[$i]->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
+                                        <?php } ?>
                                         <?php } ?>
                                         <!--end::Menu-->
                                         <?php } ?>

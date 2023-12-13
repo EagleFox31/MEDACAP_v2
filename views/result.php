@@ -20,7 +20,14 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $user = $_GET['user'];
     $level = $_GET['level'];
 
-    $technician = $users->findOne(['_id' => new MongoDB\BSON\ObjectId( $user )]);
+    $technician = $users->findOne([
+        '$and' => [
+            [
+                '_id' => new MongoDB\BSON\ObjectId( $user ),
+                'active' => true,
+            ],
+        ]
+    ]);
     $resultFac = $results->aggregate([
         [
             '$match' => [
@@ -224,9 +231,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     Décision</th>
                                 <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    aria-label="Email: activate to sort column ascending" style="width: 15.266px;">
                                     Résultats technicien</th>
-                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                <th class="min-w-120px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Résultats manager</th>
@@ -281,7 +288,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transmissionFac->score * 100 / $transmissionFac->total ?>%
+                                        <?php echo round($transmissionFac->score * 100 / $transmissionFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facTransmission">
@@ -294,10 +301,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $transmissionDecla->score * 100 / $transmissionDecla->total ?>%
+                                        <?php echo round($transmissionDecla->score * 100 / $transmissionDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transmissionMa->score * 100 / $transmissionMa->total ?>%
+                                        <?php echo round($transmissionMa->score * 100 / $transmissionMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($transmissionDecla->questions); $i++) { ?>
                                     <?php if ($transmissionDecla->answers[$i] == "Oui" && $transmissionMa->answers[$i] == "Oui") { ?>
@@ -368,7 +375,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $assistanceConduiteFac->score * 100 / $assistanceConduiteFac->total ?>%
+                                        <?php echo round($assistanceConduiteFac->score * 100 / $assistanceConduiteFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($assistanceConduiteFac->score  * 100 ) / $assistanceConduiteFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facAssistance">
@@ -381,10 +388,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $assistanceConduiteDecla->score * 100 / $assistanceConduiteDecla->total ?>%
+                                        <?php echo round($assistanceConduiteDecla->score * 100 / $assistanceConduiteDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $assistanceConduiteMa->score * 100 / $assistanceConduiteMa->total ?>%
+                                        <?php echo round($assistanceConduiteMa->score * 100 / $assistanceConduiteMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($assistanceConduiteDecla->questions); $i++) { ?>
                                     <?php if ($assistanceConduiteDecla->answers[$i] == "Oui" && $assistanceConduiteMa->answers[$i] == "Oui") { ?>
@@ -455,7 +462,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transfertFac->score * 100 / $transfertFac->total ?>%
+                                        <?php echo round($transfertFac->score * 100 / $transfertFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($transfertFac->score  * 100 ) / $transfertFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facTransfert">
@@ -468,10 +475,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $transfertDecla->score * 100 / $transfertDecla->total ?>%
+                                        <?php echo round($transfertDecla->score * 100 / $transfertDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transfertMa->score * 100 / $transfertMa->total ?>%
+                                        <?php echo round($transfertMa->score * 100 / $transfertMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($transfertDecla->questions); $i++) { ?>
                                     <?php if ($transfertDecla->answers[$i] == "Oui" && $transfertMa->answers[$i] == "Oui") { ?>
@@ -541,7 +548,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $boiteFac->score * 100 / $boiteFac->total ?>%
+                                        <?php echo round($boiteFac->score * 100 / $boiteFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($boiteFac->score  * 100 ) / $boiteFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facBoite">
@@ -554,10 +561,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $boiteDecla->score * 100 / $boiteDecla->total ?>%
+                                        <?php echo round($boiteDecla->score * 100 / $boiteDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $boiteMa->score * 100 / $boiteMa->total ?>%
+                                        <?php echo round($boiteMa->score * 100 / $boiteMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($boiteDecla->questions); $i++) { ?>
                                     <?php if ($boiteDecla->answers[$i] == "Oui" && $boiteMa->answers[$i] == "Oui") { ?>
@@ -628,7 +635,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $climatisationFac->score * 100 / $climatisationFac->total ?>%
+                                        <?php echo round($climatisationFac->score * 100 / $climatisationFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($climatisationFac->score  * 100 ) / $climatisationFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facClimatisation">
@@ -641,10 +648,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $climatisationDecla->score * 100 / $climatisationDecla->total ?>%
+                                        <?php echo round($climatisationDecla->score * 100 / $climatisationDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $climatisationMa->score * 100 / $climatisationMa->total ?>%
+                                        <?php echo round($climatisationMa->score * 100 / $climatisationMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($climatisationDecla->questions); $i++) { ?>
                                     <?php if ($climatisationDecla->answers[$i] == "Oui" && $climatisationMa->answers[$i] == "Oui") { ?>
@@ -715,7 +722,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $directionFac->score * 100 / $directionFac->total ?>%
+                                        <?php echo round($directionFac->score * 100 / $directionFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($directionFac->score  * 100 ) / $directionFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facDirection">
@@ -728,10 +735,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $directionDecla->score * 100 / $directionDecla->total ?>%
+                                        <?php echo round($directionDecla->score * 100 / $directionDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $directionMa->score * 100 / $directionMa->total ?>%
+                                        <?php echo round($directionMa->score * 100 / $directionMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($directionDecla->questions); $i++) { ?>
                                     <?php if ($directionDecla->answers[$i] == "Oui" && $directionMa->answers[$i] == "Oui") { ?>
@@ -802,7 +809,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $electriciteFac->score * 100 / $electriciteFac->total ?>%
+                                        <?php echo round($electriciteFac->score * 100 / $electriciteFac->total, 0)?>%
                                     </td>
                                     <?php if ((($electriciteFac->score  * 100 ) / $electriciteFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facElectricite">
@@ -815,10 +822,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $electriciteDecla->score * 100 / $electriciteDecla->total ?>%
+                                        <?php echo round($electriciteDecla->score * 100 / $electriciteDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $electriciteMa->score * 100 / $electriciteMa->total ?>%
+                                        <?php echo round($electriciteMa->score * 100 / $electriciteMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($electriciteDecla->questions); $i++) { ?>
                                     <?php if ($electriciteDecla->answers[$i] == "Oui" && $electriciteMa->answers[$i] == "Oui") { ?>
@@ -889,7 +896,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $freinageFac->score * 100 / $freinageFac->total ?>%
+                                        <?php echoround( $freinageFac->score * 100 / $freinageFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($freinageFac->score  * 100 ) / $freinageFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facFreinage">
@@ -902,10 +909,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $freinageDecla->score * 100 / $freinageDecla->total ?>%
+                                        <?php echo round($freinageDecla->score * 100 / $freinageDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $freinageMa->score * 100 / $freinageMa->total ?>%
+                                        <?php echo round($freinageMa->score * 100 / $freinageMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($freinageDecla->questions); $i++) { ?>
                                     <?php if ($freinageDecla->answers[$i] == "Oui" && $freinageMa->answers[$i] == "Oui") { ?>
@@ -976,7 +983,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $freinFac->score * 100 / $freinFac->total ?>%
+                                        <?php echo round($freinFac->score * 100 / $freinFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($freinFac->score  * 100 ) / $freinFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facFrein">
@@ -989,10 +996,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $freinDecla->score * 100 / $freinDecla->total ?>%
+                                        <?php echo round($freinDecla->score * 100 / $freinDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $freinMa->score * 100 / $freinMa->total ?>%
+                                        <?php echo round($freinMa->score * 100 / $freinMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($freinDecla->questions); $i++) { ?>
                                     <?php if ($freinDecla->answers[$i] == "Oui" && $freinMa->answers[$i] == "Oui") { ?>
@@ -1063,7 +1070,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $hydrauliqueFac->score * 100 / $hydrauliqueFac->total ?>%
+                                        <?php echo round($hydrauliqueFac->score * 100 / $hydrauliqueFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($hydrauliqueFac->score  * 100 ) / $hydrauliqueFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facHydraulique">
@@ -1076,10 +1083,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $hydrauliqueDecla->score * 100 / $hydrauliqueDecla->total ?>%
+                                        <?php echo round($hydrauliqueDecla->score * 100 / $hydrauliqueDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $hydrauliqueMa->score * 100 / $hydrauliqueMa->total ?>%
+                                        <?php echo round($hydrauliqueMa->score * 100 / $hydrauliqueMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($hydrauliqueDecla->questions); $i++) { ?>
                                     <?php if ($hydrauliqueDecla->answers[$i] == "Oui" && $hydrauliqueMa->answers[$i] == "Oui") { ?>
@@ -1150,7 +1157,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurDieselFac->score * 100 / $moteurDieselFac->total ?>%
+                                        <?php echo round($moteurDieselFac->score * 100 / $moteurDieselFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($moteurDieselFac->score  * 100 ) / $moteurDieselFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facMoteurDiesel">
@@ -1163,10 +1170,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $moteurDieselDecla->score * 100 / $moteurDieselDecla->total ?>%
+                                        <?php echo round($moteurDieselDecla->score * 100 / $moteurDieselDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurDieselMa->score * 100 / $moteurDieselMa->total ?>%
+                                        <?php echo round($moteurDieselMa->score * 100 / $moteurDieselMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($moteurDieselDecla->questions); $i++) { ?>
                                     <?php if ($moteurDieselDecla->answers[$i] == "Oui" && $moteurDieselMa->answers[$i] == "Oui") { ?>
@@ -1237,7 +1244,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurElecFac->score * 100 / $moteurElecFac->total ?>%
+                                        <?php echo round($moteurElecFac->score * 100 / $moteurElecFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($moteurElecFac->score  * 100 ) / $moteurElecFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facMoteurElec">
@@ -1250,10 +1257,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $moteurElecDecla->score * 100 / $moteurElecDecla->total ?>%
+                                        <?php echo round($moteurElecDecla->score * 100 / $moteurElecDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurElecMa->score * 100 / $moteurElecMa->total ?>%
+                                        <?php echo round($moteurElecMa->score * 100 / $moteurElecMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($moteurElecDecla->questions); $i++) { ?>
                                     <?php if ($moteurElecDecla->answers[$i] == "Oui" && $moteurElecMa->answers[$i] == "Oui") { ?>
@@ -1324,7 +1331,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurEssenceFac->score * 100 / $moteurEssenceFac->total ?>%
+                                        <?php echo round($moteurEssenceFac->score * 100 / $moteurEssenceFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($moteurEssenceFac->score  * 100 ) / $moteurEssenceFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facMoteurEssence">
@@ -1337,10 +1344,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $moteurEssenceDecla->score * 100 / $moteurEssenceDecla->total ?>%
+                                        <?php echo round($moteurEssenceDecla->score * 100 / $moteurEssenceDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurEssenceMa->score * 100 / $moteurEssenceMa->total ?>%
+                                        <?php echo round($moteurEssenceMa->score * 100 / $moteurEssenceMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($moteurEssenceDecla->questions); $i++) { ?>
                                     <?php if ($moteurEssenceDecla->answers[$i] == "Oui" && $moteurEssenceMa->answers[$i] == "Oui") { ?>
@@ -1407,11 +1414,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             class="btn btn-light btn-active-light-primary text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Multiplexage & Electronique
+                                            Multiplexage
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $multiplexageFac->score * 100 / $multiplexageFac->total ?>%
+                                        <?php echo round($multiplexageFac->score * 100 / $multiplexageFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($multiplexageFac->score  * 100 ) / $multiplexageFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facMultiplexage">
@@ -1424,10 +1431,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $multiplexageDecla->score * 100 / $multiplexageDecla->total ?>%
+                                        <?php echo round($multiplexageDecla->score * 100 / $multiplexageDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $multiplexageMa->score * 100 / $multiplexageMa->total ?>%
+                                        <?php echo round($multiplexageMa->score * 100 / $multiplexageMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($multiplexageDecla->questions); $i++) { ?>
                                     <?php if ($multiplexageDecla->answers[$i] == "Oui" && $multiplexageMa->answers[$i] == "Oui") { ?>
@@ -1498,7 +1505,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $pneuFac->score * 100 / $pneuFac->total ?>%
+                                        <?php echo round($pneuFac->score * 100 / $pneuFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($pneuFac->score  * 100 ) / $pneuFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facPneu">
@@ -1511,10 +1518,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $pneuDecla->score * 100 / $pneuDecla->total ?>%
+                                        <?php echo round($pneuDecla->score * 100 / $pneuDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $pneuMa->score * 100 / $pneuMa->total ?>%
+                                        <?php echo round($pneuMa->score * 100 / $pneuMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($pneuDecla->questions); $i++) { ?>
                                     <?php if ($pneuDecla->answers[$i] == "Oui" && $pneuMa->answers[$i] == "Oui") { ?>
@@ -1585,7 +1592,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $pontFac->score * 100 / $pontFac->total ?>%
+                                        <?php echo round($pontFac->score * 100 / $pontFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($pontFac->score  * 100 ) / $pontFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facPont">
@@ -1598,10 +1605,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $pontDecla->score * 100 / $pontDecla->total ?>%
+                                        <?php echo round($pontDecla->score * 100 / $pontDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $pontMa->score * 100 / $pontMa->total ?>%
+                                        <?php echo round($pontMa->score * 100 / $pontMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($pontDecla->questions); $i++) { ?>
                                     <?php if ($pontDecla->answers[$i] == "Oui" && $pontMa->answers[$i] == "Oui") { ?>
@@ -1672,7 +1679,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $reducteurFac->score * 100 / $reducteurFac->total ?>%
+                                        <?php echo round($reducteurFac->score * 100 / $reducteurFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($reducteurFac->score  * 100 ) / $reducteurFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facReducteur">
@@ -1685,10 +1692,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $reducteurDecla->score * 100 / $reducteurDecla->total ?>%
+                                        <?php echo round($reducteurDecla->score * 100 / $reducteurDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $reducteurMa->score * 100 / $reducteurMa->total ?>%
+                                        <?php echo round($reducteurMa->score * 100 / $reducteurMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($reducteurDecla->questions); $i++) { ?>
                                     <?php if ($reducteurDecla->answers[$i] == "Oui" && $reducteurMa->answers[$i] == "Oui") { ?>
@@ -1759,7 +1766,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionLameFac->score * 100 / $suspensionLameFac->total ?>%
+                                        <?php echo round($suspensionLameFac->score * 100 / $suspensionLameFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($suspensionLameFac->score  * 100 ) / $suspensionLameFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facSuspensionLame">
@@ -1772,10 +1779,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $suspensionLameDecla->score * 100 / $suspensionLameDecla->total ?>%
+                                        <?php echo round($suspensionLameDecla->score * 100 / $suspensionLameDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionLameMa->score * 100 / $suspensionLameMa->total ?>%
+                                        <?php echo round($suspensionLameMa->score * 100 / $suspensionLameMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($suspensionLameDecla->questions); $i++) { ?>
                                     <?php if ($suspensionLameDecla->answers[$i] == "Oui" && $suspensionLameMa->answers[$i] == "Oui") { ?>
@@ -1846,7 +1853,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionRessortFac->score * 100 / $suspensionRessortFac->total ?>%
+                                        <?php echo round($suspensionRessortFac->score * 100 / $suspensionRessortFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($suspensionRessortFac->score  * 100 ) / $suspensionRessortFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facSuspensionRessort">
@@ -1859,10 +1866,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $suspensionRessortDecla->score * 100 / $suspensionRessortDecla->total ?>%
+                                        <?php echo round($suspensionRessortDecla->score * 100 / $suspensionRessortDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionRessortMa->score * 100 / $suspensionRessortMa->total ?>%
+                                        <?php echo round($suspensionRessortMa->score * 100 / $suspensionRessortMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($suspensionRessortDecla->questions); $i++) { ?>
                                     <?php if ($suspensionRessortDecla->answers[$i] == "Oui" && $suspensionRessortMa->answers[$i] == "Oui") { ?>
@@ -1933,7 +1940,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionPneumatiqueFac->score * 100 / $suspensionPneumatiqueFac->total ?>%
+                                        <?php echo round($suspensionPneumatiqueFac->score * 100 / $suspensionPneumatiqueFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($suspensionPneumatiqueFac->score  * 100 ) / $suspensionPneumatiqueFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facSuspensionPneumatique">
@@ -1946,10 +1953,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $suspensionPneumatiqueDecla->score * 100 / $suspensionPneumatiqueDecla->total ?>%
+                                        <?php echo round($suspensionPneumatiqueDecla->score * 100 / $suspensionPneumatiqueDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionPneumatiqueMa->score * 100 / $suspensionPneumatiqueMa->total ?>%
+                                        <?php echo round($suspensionPneumatiqueMa->score * 100 / $suspensionPneumatiqueMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($suspensionPneumatiqueDecla->questions); $i++) { ?>
                                     <?php if ($suspensionPneumatiqueDecla->answers[$i] == "Oui" && $suspensionPneumatiqueMa->answers[$i] == "Oui") { ?>
@@ -2020,7 +2027,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transversaleFac->score * 100 / $transversaleFac->total ?>%
+                                        <?php echo round($transversaleFac->score * 100 / $transversaleFac->total, 0) ?>%
                                     </td>
                                     <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) >= 80)  { ?>
                                     <td class="text-center" id="facTransversale">
@@ -2033,10 +2040,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $transversaleDecla->score * 100 / $transversaleDecla->total ?>%
+                                        <?php echo round($transversaleDecla->score * 100 / $transversaleDecla->total, 0) ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transversaleMa->score * 100 / $transversaleMa->total ?>%
+                                        <?php echo round($transversaleMa->score * 100 / $transversaleMa->total, 0) ?>%
                                     </td>
                                     <?php for ($i = 0; $i < count($transversaleDecla->questions); $i++) { ?>
                                     <?php if ($transversaleDecla->answers[$i] == "Oui" && $transversaleMa->answers[$i] == "Oui") { ?>
@@ -2683,7 +2690,7 @@ if (facTransfert && facTransfert.innerText == "Non maitrisé" && (resultrTransfe
         "Non maitrisé")) {
     synthTransfert.innerHTML = "Non maitrisé"
 }
-if (facTransversale && facTransfert.innerText != resultrTransfert.innerText) {
+if (facTransfert && facTransfert.innerText != resultrTransfert.innerText) {
     synthTransfert.innerHTML = "Non maitrisé"
 }
 if (facTransmission && facTransmission.innerText == "Maitrisé" && (resultrTransmission.innerText == "Maitrisé")) {
@@ -2699,8 +2706,7 @@ if (facTransmission && facTransmission.innerText != resultrTransmission.innerTex
 if (facBoite && facBoite.innerText == "Maitrisé" && (resultrBoite.innerText == "Maitrisé")) {
     synthBoite.innerHTML = "Maitrisé"
 }
-if (facBoite && facBoite.innerText == "Non maitrisé" && (resultrBoite.innerText ==
-        "Non maitrisé")) {
+if (facBoite && facBoite.innerText == "Non maitrisé" && (resultrBoite.innerText == "Non maitrisé")) {
     synthBoite.innerHTML = "Non maitrisé"
 }
 if (facBoite && facBoite.innerText != resultrBoite.innerText) {
