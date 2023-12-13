@@ -242,6 +242,93 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
                                 <?php
+                                    $transmissionFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Arbre de Transmission'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $transmissionDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Arbre de Transmission'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $transmissionMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Arbre de Transmission']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($transmissionFac && $transmissionDecla && $transmissionMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $transmissionFac->speciality?>&level=<?php echo $transmissionFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Arbre de Transmission
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transmissionFac->score * 100 / $transmissionFac->total ?>%
+                                    </td>
+                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facTransmission">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $transmissionDecla->score * 100 / $transmissionDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transmissionMa->score * 100 / $transmissionMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($transmissionDecla->questions); $i++) { ?>
+                                    <?php if ($transmissionDecla->answers[$i] == "Oui" && $transmissionMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transmissionDecla->answers[$i] == "Non" && $transmissionMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transmissionDecla->answers[$i] != $transmissionMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfTransmission">
+
+                                    </td>
+                                    <td class="text-center" id="result-rTransmission">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Transmission">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
                                     $assistanceConduiteFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
@@ -323,6 +410,179 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                     <td class="text-center" id="synth-Assistance">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $transfertFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Transfert'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $transfertDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Transfert'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $transfertMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Transfert']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($transfertFac && $transfertDecla && $transfertMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $transfertFac->speciality?>&level=<?php echo $transfertFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            boite
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transfertFac->score * 100 / $transfertFac->total ?>%
+                                    </td>
+                                    <?php if ((($transfertFac->score  * 100 ) / $transfertFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facTransfert">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($transfertFac->score  * 100 ) / $transfertFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facTransfert">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $transfertDecla->score * 100 / $transfertDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $transfertMa->score * 100 / $transfertMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($transfertDecla->questions); $i++) { ?>
+                                    <?php if ($transfertDecla->answers[$i] == "Oui" && $transfertMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transfertDecla->answers[$i] == "Non" && $transfertMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($transfertDecla->answers[$i] != $transfertMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfTransfert">
+
+                                    </td>
+                                    <td class="text-center" id="result-rTransfert">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Transfert">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <?php
+                                    $boiteFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $boiteDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $boiteMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($boiteFac && $boiteDecla && $boiteMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $boiteFac->speciality?>&level=<?php echo $boiteFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            boite
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $boiteFac->score * 100 / $boiteFac->total ?>%
+                                    </td>
+                                    <?php if ((($boiteFac->score  * 100 ) / $boiteFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facBoite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($boiteFac->score  * 100 ) / $boiteFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facBoite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $boiteDecla->score * 100 / $boiteDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $boiteMa->score * 100 / $boiteMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($boiteDecla->questions); $i++) { ?>
+                                    <?php if ($boiteDecla->answers[$i] == "Oui" && $boiteMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteDecla->answers[$i] == "Non" && $boiteMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteDecla->answers[$i] != $boiteMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfBoite">
+
+                                    </td>
+                                    <td class="text-center" id="result-rBoite">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Boite">
 
                                     </td>
                                 </tr>
@@ -594,7 +854,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Freinage'],
+                                            ['speciality' => 'Freinage Hydraulique'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
@@ -602,7 +862,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Freinage'],
+                                            ['speciality' => 'Freinage Hydraulique'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
@@ -611,7 +871,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'Freinage']
+                                            ['speciality' => 'Freinage Hydraulique']
                                         ]
                                     ]);
                                 ?>
@@ -625,7 +885,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             class="btn btn-light btn-active-light-primary text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Freinage
+                                            Freinage Hydraulique
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -671,6 +931,93 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                     <td class="text-center" id="synth-Freinage">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $freinFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Freinage Pneumatique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $freinDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Freinage Pneumatique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $freinMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Freinage Pneumatique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($freinFac && $freinDecla && $freinMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $freinFac->speciality?>&level=<?php echo $freinFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Freinage Pneumatique
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $freinFac->score * 100 / $freinFac->total ?>%
+                                    </td>
+                                    <?php if ((($freinFac->score  * 100 ) / $freinFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facFrein">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($freinFac->score  * 100 ) / $freinFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facFrein">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $freinDecla->score * 100 / $freinDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $freinMa->score * 100 / $freinMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($freinDecla->questions); $i++) { ?>
+                                    <?php if ($freinDecla->answers[$i] == "Oui" && $freinMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($freinDecla->answers[$i] == "Non" && $freinMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($freinDecla->answers[$i] != $freinMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfFrein">
+
+                                    </td>
+                                    <td class="text-center" id="result-rFrein">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Frein">
 
                                     </td>
                                 </tr>
@@ -764,87 +1111,261 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $moteurFac = $results->findOne([
+                                    $moteurDieselFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Moteur'],
+                                            ['speciality' => 'Moteur Diesel'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
-                                    $moteurDecla = $results->findOne([
+                                    $moteurDieselDecla = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Moteur'],
+                                            ['speciality' => 'Moteur Diesel'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
-                                    $moteurMa = $results->findOne([
+                                    $moteurDieselMa = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'Moteur']
+                                            ['speciality' => 'Moteur Diesel']
                                         ]
                                     ]);
                                 ?>
-                                <?php if ($moteurFac && $moteurDecla && $moteurMa) { ?>
+                                <?php if ($moteurDieselFac && $moteurDieselDecla && $moteurDieselMa) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurFac->speciality?>&level=<?php echo $moteurFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $moteurDieselFac->speciality?>&level=<?php echo $moteurDieselFac->level?>&user=<?php echo $technician->_id ?>"
                                             class="btn btn-light btn-active-light-primary text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Moteur
+                                            Moteur Diesel
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurFac->score * 100 / $moteurFac->total ?>%
+                                        <?php echo $moteurDieselFac->score * 100 / $moteurDieselFac->total ?>%
                                     </td>
-                                    <?php if ((($moteurFac->score  * 100 ) / $moteurFac->total) >= 80)  { ?>
-                                    <td class="text-center" id="facMoteur">
+                                    <?php if ((($moteurDieselFac->score  * 100 ) / $moteurDieselFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facMoteurDiesel">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($moteurFac->score  * 100 ) / $moteurFac->total) < 80)  { ?>
-                                    <td class="text-center" id="facMoteur">
+                                    <?php if ((($moteurDieselFac->score  * 100 ) / $moteurDieselFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facMoteurDiesel">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $moteurDecla->score * 100 / $moteurDecla->total ?>%
+                                        <?php echo $moteurDieselDecla->score * 100 / $moteurDieselDecla->total ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $moteurMa->score * 100 / $moteurMa->total ?>%
+                                        <?php echo $moteurDieselMa->score * 100 / $moteurDieselMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($moteurDecla->questions); $i++) { ?>
-                                    <?php if ($moteurDecla->answers[$i] == "Oui" && $moteurMa->answers[$i] == "Oui") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                    <?php for ($i = 0; $i < count($moteurDieselDecla->questions); $i++) { ?>
+                                    <?php if ($moteurDieselDecla->answers[$i] == "Oui" && $moteurDieselMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurDecla->answers[$i] == "Non" && $moteurMa->answers[$i] == "Non") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                    <?php if ($moteurDieselDecla->answers[$i] == "Non" && $moteurDieselMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurDecla->answers[$i] != $moteurMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteur">
+                                    <?php if ($moteurDieselDecla->answers[$i] != $moteurDieselMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
-                                    <td class="text-center" id="result-sfMoteur">
+                                    <td class="text-center" id="result-sfMoteurDiesel">
 
                                     </td>
-                                    <td class="text-center" id="result-rMoteur">
+                                    <td class="text-center" id="result-rMoteurDiesel">
 
                                     </td>
-                                    <td class="text-center" id="synth-Moteur">
+                                    <td class="text-center" id="synth-MoteurDiesel">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $moteurElecFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur Electrique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $moteurElecDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur Electrique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $moteurElecMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur Electrique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($moteurElecFac && $moteurElecDecla && $moteurElecMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $moteurElecFac->speciality?>&level=<?php echo $moteurElecFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Moteur Electrique
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $moteurElecFac->score * 100 / $moteurElecFac->total ?>%
+                                    </td>
+                                    <?php if ((($moteurElecFac->score  * 100 ) / $moteurElecFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facMoteurElec">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($moteurElecFac->score  * 100 ) / $moteurElecFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facMoteurElec">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $moteurElecDecla->score * 100 / $moteurElecDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $moteurElecMa->score * 100 / $moteurElecMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($moteurElecDecla->questions); $i++) { ?>
+                                    <?php if ($moteurElecDecla->answers[$i] == "Oui" && $moteurElecMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($moteurElecDecla->answers[$i] == "Non" && $moteurElecMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($moteurElecDecla->answers[$i] != $moteurElecMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfMoteurElec">
+
+                                    </td>
+                                    <td class="text-center" id="result-rMoteurElec">
+
+                                    </td>
+                                    <td class="text-center" id="synth-MoteurElec">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $moteurEssenceFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur Essence'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $moteurEssenceDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur Essence'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $moteurEssenceMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Moteur Essence']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($moteurEssenceFac && $moteurEssenceDecla && $moteurEssenceMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $moteurEssenceFac->speciality?>&level=<?php echo $moteurEssenceFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Moteur Essence
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $moteurEssenceFac->score * 100 / $moteurEssenceFac->total ?>%
+                                    </td>
+                                    <?php if ((($moteurEssenceFac->score  * 100 ) / $moteurEssenceFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facMoteurEssence">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($moteurEssenceFac->score  * 100 ) / $moteurEssenceFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facMoteurEssence">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $moteurEssenceDecla->score * 100 / $moteurEssenceDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $moteurEssenceMa->score * 100 / $moteurEssenceMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($moteurEssenceDecla->questions); $i++) { ?>
+                                    <?php if ($moteurEssenceDecla->answers[$i] == "Oui" && $moteurEssenceMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($moteurEssenceDecla->answers[$i] == "Non" && $moteurEssenceMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($moteurEssenceDecla->answers[$i] != $moteurEssenceMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfMoteurEssence">
+
+                                    </td>
+                                    <td class="text-center" id="result-rMoteurEssence">
+
+                                    </td>
+                                    <td class="text-center" id="synth-MoteurEssence">
 
                                     </td>
                                 </tr>
@@ -855,7 +1376,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Multiplexage et Electronique'],
+                                            ['speciality' => 'Multiplexage'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
@@ -863,7 +1384,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Multiplexage et Electronique'],
+                                            ['speciality' => 'Multiplexage'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
@@ -872,7 +1393,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'Multiplexage et Electronique']
+                                            ['speciality' => 'Multiplexage']
                                         ]
                                     ]);
                                 ?>
@@ -1025,174 +1546,435 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $suspensionFac = $results->findOne([
+                                    $pontFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Suspension'],
+                                            ['speciality' => 'Pont'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
-                                    $suspensionDecla = $results->findOne([
+                                    $pontDecla = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Suspension'],
+                                            ['speciality' => 'Pont'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
-                                    $suspensionMa = $results->findOne([
+                                    $pontMa = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'Suspension']
+                                            ['speciality' => 'Pont']
                                         ]
                                     ]);
                                 ?>
-                                <?php if ($suspensionFac && $suspensionDecla && $suspensionMa) { ?>
+                                <?php if ($pontFac && $pontDecla && $pontMa) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionFac->speciality?>&level=<?php echo $suspensionFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $pontFac->speciality?>&level=<?php echo $pontFac->level?>&user=<?php echo $technician->_id ?>"
                                             class="btn btn-light btn-active-light-primary text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Suspension
+                                            Pont
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionFac->score * 100 / $suspensionFac->total ?>%
+                                        <?php echo $pontFac->score * 100 / $pontFac->total ?>%
                                     </td>
-                                    <?php if ((($suspensionFac->score  * 100 ) / $suspensionFac->total) >= 80)  { ?>
-                                    <td class="text-center" id="facSuspension">
+                                    <?php if ((($pontFac->score  * 100 ) / $pontFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facPont">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($suspensionFac->score  * 100 ) / $suspensionFac->total) < 80)  { ?>
-                                    <td class="text-center" id="facSuspension">
+                                    <?php if ((($pontFac->score  * 100 ) / $pontFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facPont">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $suspensionDecla->score * 100 / $suspensionDecla->total ?>%
+                                        <?php echo $pontDecla->score * 100 / $pontDecla->total ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $suspensionMa->score * 100 / $suspensionMa->total ?>%
+                                        <?php echo $pontMa->score * 100 / $pontMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($suspensionDecla->questions); $i++) { ?>
-                                    <?php if ($suspensionDecla->answers[$i] == "Oui" && $suspensionMa->answers[$i] == "Oui") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
+                                    <?php for ($i = 0; $i < count($pontDecla->questions); $i++) { ?>
+                                    <?php if ($pontDecla->answers[$i] == "Oui" && $pontMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPont">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionDecla->answers[$i] == "Non" && $suspensionMa->answers[$i] == "Non") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
+                                    <?php if ($pontDecla->answers[$i] == "Non" && $pontMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPont">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionDecla->answers[$i] != $suspensionMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
+                                    <?php if ($pontDecla->answers[$i] != $pontMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfPont">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
-                                    <td class="text-center" id="result-sfSuspension">
+                                    <td class="text-center" id="result-sfPont">
 
                                     </td>
-                                    <td class="text-center" id="result-rSuspension">
+                                    <td class="text-center" id="result-rPont">
 
                                     </td>
-                                    <td class="text-center" id="synth-Suspension">
+                                    <td class="text-center" id="synth-Pont">
 
                                     </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $transmissionFac = $results->findOne([
+                                    $reducteurFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Transmission'],
+                                            ['speciality' => 'Réducteur'],
                                             ['type' => 'Factuel']
                                         ]
                                     ]);
-                                    $transmissionDecla = $results->findOne([
+                                    $reducteurDecla = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['level' => $level],
-                                            ['speciality' => 'Transmission'],
+                                            ['speciality' => 'Réducteur'],
                                             ['type' => 'Declaratif']
                                         ]
                                     ]);
-                                    $transmissionMa = $results->findOne([
+                                    $reducteurMa = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
                                             ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
                                             ['level' => $level],
-                                            ['speciality' => 'Transmission']
+                                            ['speciality' => 'Réducteur']
                                         ]
                                     ]);
                                 ?>
-                                <?php if ($transmissionFac && $transmissionDecla && $transmissionMa) { ?>
+                                <?php if ($reducteurFac && $reducteurDecla && $reducteurMa) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transmissionFac->speciality?>&level=<?php echo $transmissionFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $reducteurFac->speciality?>&level=<?php echo $reducteurFac->level?>&user=<?php echo $technician->_id ?>"
                                             class="btn btn-light btn-active-light-primary text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Transmission
+                                            Réducteur
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transmissionFac->score * 100 / $transmissionFac->total ?>%
+                                        <?php echo $reducteurFac->score * 100 / $reducteurFac->total ?>%
                                     </td>
-                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) >= 80)  { ?>
-                                    <td class="text-center" id="facTransmission">
+                                    <?php if ((($reducteurFac->score  * 100 ) / $reducteurFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facReducteur">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) < 80)  { ?>
-                                    <td class="text-center" id="facTransmission">
+                                    <?php if ((($reducteurFac->score  * 100 ) / $reducteurFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facReducteur">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $transmissionDecla->score * 100 / $transmissionDecla->total ?>%
+                                        <?php echo $reducteurDecla->score * 100 / $reducteurDecla->total ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $transmissionMa->score * 100 / $transmissionMa->total ?>%
+                                        <?php echo $reducteurMa->score * 100 / $reducteurMa->total ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($transmissionDecla->questions); $i++) { ?>
-                                    <?php if ($transmissionDecla->answers[$i] == "Oui" && $transmissionMa->answers[$i] == "Oui") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                    <?php for ($i = 0; $i < count($reducteurDecla->questions); $i++) { ?>
+                                    <?php if ($reducteurDecla->answers[$i] == "Oui" && $reducteurMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transmissionDecla->answers[$i] == "Non" && $transmissionMa->answers[$i] == "Non") { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                    <?php if ($reducteurDecla->answers[$i] == "Non" && $reducteurMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transmissionDecla->answers[$i] != $transmissionMa->answers[$i]) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
+                                    <?php if ($reducteurDecla->answers[$i] != $reducteurMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
-                                    <td class="text-center" id="result-sfTransmission">
+                                    <td class="text-center" id="result-sfReducteur">
 
                                     </td>
-                                    <td class="text-center" id="result-rTransmission">
+                                    <td class="text-center" id="result-rReducteur">
 
                                     </td>
-                                    <td class="text-center" id="synth-Transmission">
+                                    <td class="text-center" id="synth-Reducteur">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $suspensionLameFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension à Lame'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $suspensionLameDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension à Lame'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $suspensionLameMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension à Lame']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($suspensionLameFac && $suspensionLameDecla && $suspensionLameMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality?>&level=<?php echo $suspensionLameFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Suspension à Lame
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $suspensionLameFac->score * 100 / $suspensionLameFac->total ?>%
+                                    </td>
+                                    <?php if ((($suspensionLameFac->score  * 100 ) / $suspensionLameFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facSuspensionLame">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($suspensionLameFac->score  * 100 ) / $suspensionLameFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facSuspensionLame">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $suspensionLameDecla->score * 100 / $suspensionLameDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $suspensionLameMa->score * 100 / $suspensionLameMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($suspensionLameDecla->questions); $i++) { ?>
+                                    <?php if ($suspensionLameDecla->answers[$i] == "Oui" && $suspensionLameMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($suspensionLameDecla->answers[$i] == "Non" && $suspensionLameMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($suspensionLameDecla->answers[$i] != $suspensionLameMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfSuspensionLame">
+
+                                    </td>
+                                    <td class="text-center" id="result-rSuspensionLame">
+
+                                    </td>
+                                    <td class="text-center" id="synth-SuspensionLame">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $suspensionRessortFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension Ressort'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $suspensionRessortDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension Ressort'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $suspensionRessortMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension Ressort']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($suspensionRessortFac && $suspensionRessortDecla && $suspensionRessortMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $suspensionRessortFac->speciality?>&level=<?php echo $suspensionRessortFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Suspension Ressort
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $suspensionRessortFac->score * 100 / $suspensionRessortFac->total ?>%
+                                    </td>
+                                    <?php if ((($suspensionRessortFac->score  * 100 ) / $suspensionRessortFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facSuspensionRessort">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($suspensionRessortFac->score  * 100 ) / $suspensionRessortFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facSuspensionRessort">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $suspensionRessortDecla->score * 100 / $suspensionRessortDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $suspensionRessortMa->score * 100 / $suspensionRessortMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($suspensionRessortDecla->questions); $i++) { ?>
+                                    <?php if ($suspensionRessortDecla->answers[$i] == "Oui" && $suspensionRessortMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($suspensionRessortDecla->answers[$i] == "Non" && $suspensionRessortMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($suspensionRessortDecla->answers[$i] != $suspensionRessortMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfSuspensionRessort">
+
+                                    </td>
+                                    <td class="text-center" id="result-rSuspensionRessort">
+
+                                    </td>
+                                    <td class="text-center" id="synth-SuspensionRessort">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $suspensionPneumatiqueFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension Pneumatique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $suspensionPneumatiqueDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension Pneumatique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $suspensionPneumatiqueMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Suspension Pneumatique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($suspensionPneumatiqueFac && $suspensionPneumatiqueDecla && $suspensionPneumatiqueMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $suspensionPneumatiqueFac->speciality?>&level=<?php echo $suspensionPneumatiqueFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Suspension Pneumatique
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $suspensionPneumatiqueFac->score * 100 / $suspensionPneumatiqueFac->total ?>%
+                                    </td>
+                                    <?php if ((($suspensionPneumatiqueFac->score  * 100 ) / $suspensionPneumatiqueFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facSuspensionPneumatique">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($suspensionPneumatiqueFac->score  * 100 ) / $suspensionPneumatiqueFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facSuspensionPneumatique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo $suspensionPneumatiqueDecla->score * 100 / $suspensionPneumatiqueDecla->total ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo $suspensionPneumatiqueMa->score * 100 / $suspensionPneumatiqueMa->total ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($suspensionPneumatiqueDecla->questions); $i++) { ?>
+                                    <?php if ($suspensionPneumatiqueDecla->answers[$i] == "Oui" && $suspensionPneumatiqueMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($suspensionPneumatiqueDecla->answers[$i] == "Non" && $suspensionPneumatiqueMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($suspensionPneumatiqueDecla->answers[$i] != $suspensionPneumatiqueMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfSuspensionPneumatique">
+
+                                    </td>
+                                    <td class="text-center" id="result-rSuspensionPneumatique">
+
+                                    </td>
+                                    <td class="text-center" id="synth-SuspensionPneumatique">
 
                                     </td>
                                 </tr>
@@ -1364,18 +2146,27 @@ $(document).ready(function() {
 const savoirFaire = []
 // const n = []
 // const n1 = []
+const sfTransfert = []
 const sfTransversale = []
 const sfTransmission = []
+const sfBoite = []
 const sfAssistance = []
 const sfClimatisation = []
 const sfDirection = []
 const sfElectricite = []
 const sfFreinage = []
-const sfMoteur = []
+const sfFrein = []
+const sfMoteurDiesel = []
+const sfMoteurElec = []
+const sfMoteurEssence = []
 const sfHydraulique = []
 const sfPneu = []
+const sfPont = []
+const sfReducteur = []
 const sfmultiplexage = []
-const sfSuspension = []
+const sfSuspensionLame = []
+const sfSuspensionRessort = []
+const sfSuspensionPneumatique = []
 const valueMaitrisé = "Maitrisé"
 const valueOui = "Oui"
 // const tdSavoir = document.querySelectorAll("td[name='savoir']")
@@ -1383,17 +2174,26 @@ const tdSavoirFaire = document.querySelectorAll("td[name='savoirs-faire']")
 // const tdN = document.querySelectorAll("td[name='n']")
 // const tdN1 = document.querySelectorAll("td[name='n1']")
 const tdsfTransversale = document.querySelectorAll("#sfTransversale")
+const tdsfTransfert = document.querySelectorAll("#sfTransfert")
 const tdsfTransmission = document.querySelectorAll("#sfTransmission")
+const tdsfBoite = document.querySelectorAll("#sfBoite")
 const tdsfAssistance = document.querySelectorAll("#sfAssistance")
 const tdsfClimatisation = document.querySelectorAll("#sfClimatisation")
 const tdsfDirection = document.querySelectorAll("#sfDirection")
 const tdsfElectricite = document.querySelectorAll("#sfElectricite")
 const tdsfFreinage = document.querySelectorAll("#sfFreinage")
+const tdsfFrein = document.querySelectorAll("#sfFrein")
 const tdsfHydraulique = document.querySelectorAll("#sfHydraulique")
-const tdsfMoteur = document.querySelectorAll("#sfMoteur")
+const tdsfMoteurDiesel = document.querySelectorAll("#sfMoteurDiesel")
+const tdsfMoteurElec = document.querySelectorAll("#sfMoteurElec")
+const tdsfMoteurEssence = document.querySelectorAll("#sfMoteurEssence")
 const tdsfPneu = document.querySelectorAll("#sfPneu")
+const tdsfPont = document.querySelectorAll("#sfPont")
+const tdsfReducteur = document.querySelectorAll("#sfReducteur")
 const tdsfmultiplexage = document.querySelectorAll("#sfMultiplexage")
-const tdsfSuspension = document.querySelectorAll("#sfSuspension")
+const tdsfSuspensionLame = document.querySelectorAll("#sfSuspensionLame")
+const tdsfSuspensionRessort = document.querySelectorAll("#sfSuspensionRessort")
+const tdsfSuspensionPneumatique = document.querySelectorAll("#sfSuspensionPneumatique")
 const resultSavoir = document.querySelector("#result-savoir")
 const resultSavoirFaire = document.querySelector("#result-savoir-faire")
 const decisionSavoir = document.querySelector("#decision-savoir")
@@ -1405,10 +2205,18 @@ const resultsfTransversale = document.querySelector("#result-sfTransverse")
 const synthTransversale = document.querySelector("#synth-Transversale")
 const resultrTransversale = document.querySelector("#result-rTransversale")
 const facTransversale = document.querySelector("#facTransversale")
+const resultsfTransfert = document.querySelector("#result-sfTransfert")
+const synthTransfert = document.querySelector("#synth-Transfert")
+const resultrTransfert = document.querySelector("#result-rTransfert")
+const facTransfert = document.querySelector("#facTransfert")
 const resultsfTransmission = document.querySelector("#result-sfTransmission")
 const synthTransmission = document.querySelector("#synth-Transmission")
 const resultrTransmission = document.querySelector("#result-rTransmission")
 const facTransmission = document.querySelector("#facTransmission")
+const resultsfBoite = document.querySelector("#result-sfBoite")
+const synthBoite = document.querySelector("#synth-Boite")
+const resultrBoite = document.querySelector("#result-rBoite")
+const facBoite = document.querySelector("#facBoite")
 const resultsfAssistance = document.querySelector("#result-sfAssistance")
 const synthAssistance = document.querySelector("#synth-Assistance")
 const resultrAssistance = document.querySelector("#result-rAssistance")
@@ -1429,14 +2237,26 @@ const resultsfFreinage = document.querySelector("#result-sfFreinage")
 const synthFreinage = document.querySelector("#synth-Freinage")
 const resultrFreinage = document.querySelector("#result-rFreinage")
 const facFreinage = document.querySelector("#facFreinage")
+const resultsfFrein = document.querySelector("#result-sfFrein")
+const synthFrein = document.querySelector("#synth-Frein")
+const resultrFrein = document.querySelector("#result-rFrein")
+const facFrein = document.querySelector("#facFrein")
 const resultsfHydraulique = document.querySelector("#result-sfHydraulique")
 const synthHydraulique = document.querySelector("#synth-Hydraulique")
 const resultrHydraulique = document.querySelector("#result-rHydraulique")
 const facHydraulique = document.querySelector("#facHydraulique")
-const resultsfMoteur = document.querySelector("#result-sfMoteur")
-const synthMoteur = document.querySelector("#synth-Moteur")
-const resultrMoteur = document.querySelector("#result-rMoteur")
-const facMoteur = document.querySelector("#facMoteur")
+const resultsfMoteurDiesel = document.querySelector("#result-sfMoteurDiesel")
+const synthMoteurDiesel = document.querySelector("#synth-MoteurDiesel")
+const resultrMoteurDiesel = document.querySelector("#result-rMoteurDiesel")
+const facMoteurDiesel = document.querySelector("#facMoteurDiesel")
+const resultsfMoteurElec = document.querySelector("#result-sfMoteurElec")
+const synthMoteurElec = document.querySelector("#synth-MoteurElec")
+const resultrMoteurElec = document.querySelector("#result-rMoteurElec")
+const facMoteurElec = document.querySelector("#facMoteurElec")
+const resultsfMoteurEssence = document.querySelector("#result-sfMoteurEssence")
+const synthMoteurEssence = document.querySelector("#synth-MoteurEssence")
+const resultrMoteurEssence = document.querySelector("#result-rMoteurEssence")
+const facMoteurEssence = document.querySelector("#facMoteurEssence")
 const resultsfMultiplexage = document.querySelector("#result-sfmultiplexage")
 const synthMultiplexage = document.querySelector("#synth-Multiplexage")
 const resultrMultiplexage = document.querySelector("#result-rMultiplexage")
@@ -1445,10 +2265,26 @@ const resultsfPneu = document.querySelector("#result-sfPneu")
 const synthPneu = document.querySelector("#synth-Pneu")
 const resultrPneu = document.querySelector("#result-rPneu")
 const facPneu = document.querySelector("#facPneu")
-const resultsfSuspension = document.querySelector("#result-sfSuspension")
-const synthSuspension = document.querySelector("#synth-Suspension")
-const resultrSuspension = document.querySelector("#result-rSuspension")
-const facSuspension = document.querySelector("#facSuspension")
+const resultsfPont = document.querySelector("#result-sfPont")
+const synthPont = document.querySelector("#synth-Pont")
+const resultrPont = document.querySelector("#result-rPont")
+const facPont = document.querySelector("#facPont")
+const resultsfReducteur = document.querySelector("#result-sfReducteur")
+const synthReducteur = document.querySelector("#synth-Reducteur")
+const resultrReducteur = document.querySelector("#result-rReducteur")
+const facReducteur = document.querySelector("#facReducteur")
+const resultsfSuspensionLame = document.querySelector("#result-sfSuspensionLame")
+const synthSuspensionLame = document.querySelector("#synth-SuspensionLame")
+const resultrSuspensionLame = document.querySelector("#result-rSuspensionLame")
+const facSuspensionLame = document.querySelector("#facSuspensionLame")
+const resultsfSuspensionRessort = document.querySelector("#result-sfSuspensionRessort")
+const synthSuspensionRessort = document.querySelector("#synth-SuspensionRessort")
+const resultrSuspensionRessort = document.querySelector("#result-rSuspensionRessort")
+const facSuspensionRessort = document.querySelector("#facSuspensionRessort")
+const resultsfSuspensionPneumatique = document.querySelector("#result-sfSuspensionPneumatique")
+const synthSuspensionPneumatique = document.querySelector("#synth-SuspensionPneumatique")
+const resultrSuspensionPneumatique = document.querySelector("#result-rSuspensionPneumatique")
+const facSuspensionPneumatique = document.querySelector("#facSuspensionPneumatique")
 
 // for (let i = 0; i < tdSavoir.length; i++) {
 //     savoir.push(tdSavoir[i].innerHTML)
@@ -1456,7 +2292,6 @@ const facSuspension = document.querySelector("#facSuspension")
 for (let i = 0; i < tdSavoirFaire.length; i++) {
     savoirFaire.push(tdSavoirFaire[i].innerHTML)
 }
-console.log(savoirFaire)
 // for (let i = 0; i < tdN.length; i++) {
 //     n.push(tdN[i].innerHTML)
 // }
@@ -1466,8 +2301,14 @@ console.log(savoirFaire)
 for (let i = 0; i < tdsfTransversale.length; i++) {
     sfTransversale.push(tdsfTransversale[i].innerHTML)
 }
+for (let i = 0; i < tdsfTransfert.length; i++) {
+    sfTransfert.push(tdsfTransfert[i].innerHTML)
+}
 for (let i = 0; i < tdsfTransmission.length; i++) {
     sfTransmission.push(tdsfTransmission[i].innerHTML)
+}
+for (let i = 0; i < tdsfBoite.length; i++) {
+    sfBoite.push(tdsfBoite[i].innerHTML)
 }
 for (let i = 0; i < tdsfAssistance.length; i++) {
     sfAssistance.push(tdsfAssistance[i].innerHTML)
@@ -1484,11 +2325,20 @@ for (let i = 0; i < tdsfElectricite.length; i++) {
 for (let i = 0; i < tdsfFreinage.length; i++) {
     sfFreinage.push(tdsfFreinage[i].innerHTML)
 }
+for (let i = 0; i < tdsfFrein.length; i++) {
+    sfFrein.push(tdsfFrein[i].innerHTML)
+}
 for (let i = 0; i < tdsfHydraulique.length; i++) {
     sfHydraulique.push(tdsfHydraulique[i].innerHTML)
 }
-for (let i = 0; i < tdsfMoteur.length; i++) {
-    sfMoteur.push(tdsfMoteur[i].innerHTML)
+for (let i = 0; i < tdsfMoteurDiesel.length; i++) {
+    sfMoteurDiesel.push(tdsfMoteurDiesel[i].innerHTML)
+}
+for (let i = 0; i < tdsfMoteurElec.length; i++) {
+    sfMoteurElec.push(tdsfMoteurElec[i].innerHTML)
+}
+for (let i = 0; i < tdsfMoteurEssence.length; i++) {
+    sfMoteurEssence.push(tdsfMoteurEssence[i].innerHTML)
 }
 for (let i = 0; i < tdsfmultiplexage.length; i++) {
     sfmultiplexage.push(tdsfmultiplexage[i].innerHTML)
@@ -1496,8 +2346,20 @@ for (let i = 0; i < tdsfmultiplexage.length; i++) {
 for (let i = 0; i < tdsfPneu.length; i++) {
     sfPneu.push(tdsfPneu[i].innerHTML)
 }
-for (let i = 0; i < tdsfSuspension.length; i++) {
-    sfSuspension.push(tdsfSuspension[i].innerHTML)
+for (let i = 0; i < tdsfPont.length; i++) {
+    sfPont.push(tdsfPont[i].innerHTML)
+}
+for (let i = 0; i < tdsfReducteur.length; i++) {
+    sfReducteur.push(tdsfReducteur[i].innerHTML)
+}
+for (let i = 0; i < tdsfSuspensionLame.length; i++) {
+    sfSuspensionLame.push(tdsfSuspensionLame[i].innerHTML)
+}
+for (let i = 0; i < tdsfSuspensionRessort.length; i++) {
+    sfSuspensionRessort.push(tdsfSuspensionRessort[i].innerHTML)
+}
+for (let i = 0; i < tdsfSuspensionPneumatique.length; i++) {
+    sfSuspensionPneumatique.push(tdsfSuspensionPneumatique[i].innerHTML)
 }
 
 // const maitriseSavoir = savoir.filter(function(str) {
@@ -1515,7 +2377,13 @@ const maitriseSavoirFaire = savoirFaire.filter(function(str) {
 const maitrisesfTransversale = sfTransversale.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
+const maitrisesfTransfert = sfTransfert.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
 const maitrisesfTransmission = sfTransmission.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfBoite = sfBoite.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
 const maitrisesfAssistance = sfAssistance.filter(function(str) {
@@ -1533,10 +2401,19 @@ const maitrisesfElectricite = sfElectricite.filter(function(str) {
 const maitrisesfFreinage = sfFreinage.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
+const maitrisesfFrein = sfFrein.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
 const maitrisesfHydraulique = sfHydraulique.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
-const maitrisesfMoteur = sfMoteur.filter(function(str) {
+const maitrisesfMoteurDiesel = sfMoteurDiesel.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfMoteurElec = sfMoteurElec.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfMoteurEssence = sfMoteurEssence.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
 const maitrisesfmultiplexage = sfmultiplexage.filter(function(str) {
@@ -1545,7 +2422,19 @@ const maitrisesfmultiplexage = sfmultiplexage.filter(function(str) {
 const maitrisesfPneu = sfPneu.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
-const maitrisesfSuspension = sfSuspension.filter(function(str) {
+const maitrisesfPont = sfPont.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfReducteur = sfReducteur.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfSuspensionLame = sfSuspensionLame.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfSuspensionRessort = sfSuspensionRessort.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfSuspensionPneumatique = sfSuspensionPneumatique.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
 
@@ -1554,17 +2443,29 @@ const percentSavoirFaire = ((maitriseSavoirFaire.length * 100) / tdSavoirFaire.l
 // const percentN = ((ouiN.length * 100) / tdN.length).toFixed(0)
 // const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
 const percentsfTransversale = ((maitrisesfTransversale.length * 100) / tdsfTransversale.length).toFixed(0)
+const percentsfTransfert = ((maitrisesfTransfert.length * 100) / tdsfTransfert.length).toFixed(0)
 const percentsfTransmission = ((maitrisesfTransmission.length * 100) / tdsfTransmission.length).toFixed(0)
+const percentsfBoite = ((maitrisesfBoite.length * 100) / tdsfBoite.length).toFixed(0)
 const percentsfAssistance = ((maitrisesfAssistance.length * 100) / tdsfAssistance.length).toFixed(0)
 const percentsfClimatisation = ((maitrisesfClimatisation.length * 100) / tdsfClimatisation.length).toFixed(0)
 const percentsfDirection = ((maitrisesfDirection.length * 100) / tdsfDirection.length).toFixed(0)
 const percentsfElectricite = ((maitrisesfElectricite.length * 100) / tdsfElectricite.length).toFixed(0)
 const percentsfFreinage = ((maitrisesfFreinage.length * 100) / tdsfFreinage.length).toFixed(0)
+const percentsfFrein = ((maitrisesfFrein.length * 100) / tdsfFrein.length).toFixed(0)
 const percentsfHydraulique = ((maitrisesfHydraulique.length * 100) / tdsfHydraulique.length).toFixed(0)
-const percentsfMoteur = ((maitrisesfMoteur.length * 100) / tdsfMoteur.length).toFixed(0)
+const percentsfMoteurDiesel = ((maitrisesfMoteurDiesel.length * 100) / tdsfMoteurDiesel.length).toFixed(0)
+const percentsfMoteurElec = ((maitrisesfMoteurElec.length * 100) / tdsfMoteurElec.length).toFixed(0)
+const percentsfMoteurEssence = ((maitrisesfMoteurEssence.length * 100) / tdsfMoteurEssence.length).toFixed(0)
 const percentsfPneu = ((maitrisesfPneu.length * 100) / tdsfPneu.length).toFixed(0)
+const percentsfPont = ((maitrisesfPont.length * 100) / tdsfPont.length).toFixed(0)
+const percentsfReducteur = ((maitrisesfReducteur.length * 100) / tdsfReducteur.length).toFixed(0)
 const percentsfmultiplexage = ((maitrisesfmultiplexage.length * 100) / tdsfmultiplexage.length).toFixed(0)
-const percentsfSuspension = ((maitrisesfSuspension.length * 100) / tdsfSuspension.length).toFixed(0)
+const percentsfSuspensionLame = ((maitrisesfSuspensionLame.length * 100) / tdsfSuspensionLame.length).toFixed(0)
+const percentsfSuspensionRessort = ((maitrisesfSuspensionRessort.length * 100) / tdsfSuspensionRessort.length).toFixed(
+    0)
+const percentsfSuspensionPneumatique = ((maitrisesfSuspensionPneumatique.length * 100) / tdsfSuspensionPneumatique
+    .length).toFixed(
+    0)
 
 // resultSavoir.innerHTML = percentSavoir + "%";
 resultSavoirFaire.innerHTML = percentSavoirFaire + "%";
@@ -1573,8 +2474,14 @@ resultSavoirFaire.innerHTML = percentSavoirFaire + "%";
 if (resultsfTransversale) {
     resultsfTransversale.innerHTML = percentsfTransversale + "%";
 }
+if (resultsfTransfert) {
+    resultsfTransfert.innerHTML = percentsfTransfert + "%";
+}
 if (resultsfTransmission) {
     resultsfTransmission.innerHTML = percentsfTransmission + "%";
+}
+if (resultsfBoite) {
+    resultsfBoite.innerHTML = percentsfBoite + "%";
 }
 if (resultsfAssistance) {
     resultsfAssistance.innerHTML = percentsfAssistance + "%";
@@ -1591,20 +2498,41 @@ if (resultsfElectricite) {
 if (resultsfFreinage) {
     resultsfFreinage.innerHTML = percentsfFreinage + "%";
 }
+if (resultsfFrein) {
+    resultsfFrein.innerHTML = percentsfFrein + "%";
+}
 if (resultsfHydraulique) {
     resultsfHydraulique.innerHTML = percentsfHydraulique + "%";
 }
-if (resultsfMoteur) {
-    resultsfMoteur.innerHTML = percentsfMoteur + "%";
+if (resultsfMoteurDiesel) {
+    resultsfMoteurDiesel.innerHTML = percentsfMoteurDiesel + "%";
+}
+if (resultsfMoteurElec) {
+    resultsfMoteurElec.innerHTML = percentsfMoteurElec + "%";
+}
+if (resultsfMoteurEssence) {
+    resultsfMoteurEssence.innerHTML = percentsfMoteurEssence + "%";
 }
 if (resultsfPneu) {
     resultsfPneu.innerHTML = percentsfPneu + "%";
 }
+if (resultsfPont) {
+    resultsfPont.innerHTML = percentsfPont + "%";
+}
+if (resultsfReducteur) {
+    resultsfReducteur.innerHTML = percentsfReducteur + "%";
+}
 if (resultsfMultiplexage) {
     resultsfMultiplexage.innerHTML = percentsfmultiplexage + "%";
 }
-if (resultsfSuspension) {
-    resultsfSuspension.innerHTML = percentsfSuspension + "%";
+if (resultsfSuspensionLame) {
+    resultsfSuspensionLame.innerHTML = percentsfSuspensionLame + "%";
+}
+if (resultsfSuspensionRessort) {
+    resultsfSuspensionRessort.innerHTML = percentsfSuspensionRessort + "%";
+}
+if (resultsfSuspensionPneumatique) {
+    resultsfSuspensionPneumatique.innerHTML = percentsfSuspensionPneumatique + "%";
 }
 const a = "80%";
 
@@ -1614,11 +2542,23 @@ if (resultsfTransversale && parseFloat(resultsfTransversale.innerHTML) >= parseF
 if (resultsfTransversale && parseFloat(resultsfTransversale.innerHTML) < parseFloat(a)) {
     resultrTransversale.innerHTML = "Non maitrisé"
 }
+if (resultsfTransfert && parseFloat(resultsfTransfert.innerHTML) >= parseFloat(a)) {
+    resultrTransfert.innerHTML = "Maitrisé"
+}
+if (resultsfTransfert && parseFloat(resultsfTransfert.innerHTML) < parseFloat(a)) {
+    resultrTransfert.innerHTML = "Non maitrisé"
+}
 if (resultsfTransmission && parseFloat(resultsfTransmission.innerHTML) >= parseFloat(a)) {
     resultrTransmission.innerHTML = "Maitrisé"
 }
 if (resultsfTransmission && parseFloat(resultsfTransmission.innerHTML) < parseFloat(a)) {
     resultrTransmission.innerHTML = "Non maitrisé"
+}
+if (resultsfBoite && parseFloat(resultsfBoite.innerHTML) >= parseFloat(a)) {
+    resultrBoite.innerHTML = "Maitrisé"
+}
+if (resultsfBoite && parseFloat(resultsfBoite.innerHTML) < parseFloat(a)) {
+    resultrBoite.innerHTML = "Non maitrisé"
 }
 if (resultsfAssistance && parseFloat(resultsfAssistance.innerHTML) >= parseFloat(a)) {
     resultrAssistance.innerHTML = "Maitrisé"
@@ -1650,17 +2590,35 @@ if (resultsfFreinage && parseFloat(resultsfFreinage.innerHTML) >= parseFloat(a))
 if (resultsfFreinage && parseFloat(resultsfFreinage.innerHTML) < parseFloat(a)) {
     resultrFreinage.innerHTML = "Non maitrisé"
 }
+if (resultsfFrein && parseFloat(resultsfFrein.innerHTML) >= parseFloat(a)) {
+    resultrFrein.innerHTML = "Maitrisé"
+}
+if (resultsfFrein && parseFloat(resultsfFrein.innerHTML) < parseFloat(a)) {
+    resultrFrein.innerHTML = "Non maitrisé"
+}
 if (resultsfHydraulique && parseFloat(resultsfHydraulique.innerHTML) >= parseFloat(a)) {
     resultrHydraulique.innerHTML = "Maitrisé"
 }
 if (resultsfHydraulique && parseFloat(resultsfHydraulique.innerHTML) < parseFloat(a)) {
     resultrHydraulique.innerHTML = "Non maitrisé"
 }
-if (resultsfMoteur && parseFloat(resultsfMoteur.innerHTML) >= parseFloat(a)) {
-    resultrMoteur.innerHTML = "Maitrisé"
+if (resultsfMoteurDiesel && parseFloat(resultsfMoteurDiesel.innerHTML) >= parseFloat(a)) {
+    resultrMoteurDiesel.innerHTML = "Maitrisé"
 }
-if (resultsfMoteur && parseFloat(resultsfMoteur.innerHTML) < parseFloat(a)) {
-    resultrMoteur.innerHTML = "Non maitrisé"
+if (resultsfMoteurDiesel && parseFloat(resultsfMoteurDiesel.innerHTML) < parseFloat(a)) {
+    resultrMoteurDiesel.innerHTML = "Non maitrisé"
+}
+if (resultsfMoteurElec && parseFloat(resultsfMoteurElec.innerHTML) >= parseFloat(a)) {
+    resultrMoteurElec.innerHTML = "Maitrisé"
+}
+if (resultsfMoteurElec && parseFloat(resultsfMoteurElec.innerHTML) < parseFloat(a)) {
+    resultrMoteurElec.innerHTML = "Non maitrisé"
+}
+if (resultsfMoteurEssence && parseFloat(resultsfMoteurEssence.innerHTML) >= parseFloat(a)) {
+    resultrMoteurEssence.innerHTML = "Maitrisé"
+}
+if (resultsfMoteurEssence && parseFloat(resultsfMoteurEssence.innerHTML) < parseFloat(a)) {
+    resultrMoteurEssence.innerHTML = "Non maitrisé"
 }
 if (resultsfMultiplexage && parseFloat(resultsfMultiplexage.innerHTML) >= parseFloat(a)) {
     resultrMultiplexage.innerHTML = "Maitrisé"
@@ -1668,17 +2626,32 @@ if (resultsfMultiplexage && parseFloat(resultsfMultiplexage.innerHTML) >= parseF
 if (resultsfMultiplexage && parseFloat(resultsfMultiplexage.innerHTML) < parseFloat(a)) {
     resultrMultiplexage.innerHTML = "Non maitrisé"
 }
-if (resultsfSuspension && parseFloat(resultsfSuspension.innerHTML) >= parseFloat(a)) {
-    resultrSuspension.innerHTML = "Maitrisé"
+if (resultsfSuspensionLame && parseFloat(resultsfSuspensionLame.innerHTML) >= parseFloat(a)) {
+    resultrSuspensionLame.innerHTML = "Maitrisé"
 }
-if (resultsfSuspension && parseFloat(resultsfSuspension.innerHTML) < parseFloat(a)) {
-    resultrSuspension.innerHTML = "Non maitrisé"
+if (resultsfSuspensionLame && parseFloat(resultsfSuspensionLame.innerHTML) < parseFloat(a)) {
+    resultrSuspensionLame.innerHTML = "Non maitrisé"
+}
+if (resultsfSuspensionRessort && parseFloat(resultsfSuspensionRessort.innerHTML) >= parseFloat(a)) {
+    resultrSuspensionRessort.innerHTML = "Maitrisé"
+}
+if (resultsfSuspensionRessort && parseFloat(resultsfSuspensionRessort.innerHTML) < parseFloat(a)) {
+    resultrSuspensionRessort.innerHTML = "Non maitrisé"
+}
+if (resultsfSuspensionPneumatique && parseFloat(resultsfSuspensionPneumatique.innerHTML) >= parseFloat(a)) {
+    resultrSuspensionPneumatique.innerHTML = "Maitrisé"
+}
+if (resultsfSuspensionPneumatique && parseFloat(resultsfSuspensionPneumatique.innerHTML) < parseFloat(a)) {
+    resultrSuspensionPneumatique.innerHTML = "Non maitrisé"
 }
 if (resultsfPneu && parseFloat(resultsfPneu.innerHTML) >= parseFloat(a)) {
     resultrPneu.innerHTML = "Maitrisé"
 }
-if (resultsfPneu && parseFloat(resultsfPneu.innerHTML) < parseFloat(a)) {
-    resultrPneu.innerHTML = "Non maitrisé"
+if (resultsfPont && parseFloat(resultsfPont.innerHTML) < parseFloat(a)) {
+    resultrPont.innerHTML = "Non maitrisé"
+}
+if (resultsfReducteur && parseFloat(resultsfReducteur.innerHTML) < parseFloat(a)) {
+    resultrReducteur.innerHTML = "Non maitrisé"
 }
 if (parseFloat(resultSavoir.innerHTML) >= parseFloat(a)) {
     decisionSavoir.innerHTML = "Maitrisé"
@@ -1703,6 +2676,16 @@ if (facTransversale && facTransversale.innerText == "Non maitrisé" && (resultrT
 if (facTransversale && facTransversale.innerText != resultrTransversale.innerText) {
     synthTransversale.innerHTML = "Non maitrisé"
 }
+if (facTransfert && facTransfert.innerText == "Maitrisé" && (resultrTransfert.innerText == "Maitrisé")) {
+    synthTransfert.innerHTML = "Maitrisé"
+}
+if (facTransfert && facTransfert.innerText == "Non maitrisé" && (resultrTransfert.innerText ==
+        "Non maitrisé")) {
+    synthTransfert.innerHTML = "Non maitrisé"
+}
+if (facTransversale && facTransfert.innerText != resultrTransfert.innerText) {
+    synthTransfert.innerHTML = "Non maitrisé"
+}
 if (facTransmission && facTransmission.innerText == "Maitrisé" && (resultrTransmission.innerText == "Maitrisé")) {
     synthTransmission.innerHTML = "Maitrisé"
 }
@@ -1712,6 +2695,16 @@ if (facTransmission && facTransmission.innerText == "Non maitrisé" && (resultrT
 }
 if (facTransmission && facTransmission.innerText != resultrTransmission.innerText) {
     synthTransmission.innerHTML = "Non maitrisé"
+}
+if (facBoite && facBoite.innerText == "Maitrisé" && (resultrBoite.innerText == "Maitrisé")) {
+    synthBoite.innerHTML = "Maitrisé"
+}
+if (facBoite && facBoite.innerText == "Non maitrisé" && (resultrBoite.innerText ==
+        "Non maitrisé")) {
+    synthBoite.innerHTML = "Non maitrisé"
+}
+if (facBoite && facBoite.innerText != resultrBoite.innerText) {
+    synthBoite.innerHTML = "Non maitrisé"
 }
 if (facAssistance && facAssistance.innerText == "Maitrisé" && (resultrAssistance.innerText == "Maitrisé")) {
     synthAssistance.innerHTML = "Maitrisé"
@@ -1759,6 +2752,15 @@ if (facFreinage && facFreinage.innerText == "Non maitrisé" && (resultrFreinage.
 if (facFreinage && facFreinage.innerText != resultrFreinage.innerText) {
     synthFreinage.innerHTML = "Non maitrisé"
 }
+if (facFrein && facFrein.innerText == "Maitrisé" && (resultrFrein.innerText == "Maitrisé")) {
+    synthFrein.innerHTML = "Maitrisé"
+}
+if (facFrein && facFrein.innerText == "Non maitrisé" && (resultrFrein.innerText == "Non maitrisé")) {
+    synthFrein.innerHTML = "Non maitrisé"
+}
+if (facFrein && facFrein.innerText != resultrFrein.innerText) {
+    synthFrein.innerHTML = "Non maitrisé"
+}
 if (facHydraulique && facHydraulique.innerText == "Maitrisé" && (resultrHydraulique.innerText == "Maitrisé")) {
     synthHydraulique.innerHTML = "Maitrisé"
 }
@@ -1769,14 +2771,34 @@ if (facHydraulique && facHydraulique.innerText == "Non maitrisé" && (resultrHyd
 if (facHydraulique && facHydraulique.innerText != resultrHydraulique.innerText) {
     synthHydraulique.innerHTML = "Non maitrisé"
 }
-if (facMoteur && facMoteur.innerText == "Maitrisé" && (resultrMoteur.innerText == "Maitrisé")) {
-    synthMoteur.innerHTML = "Maitrisé"
+if (facMoteurDiesel && facMoteurDiesel.innerText == "Maitrisé" && (resultrMoteurDiesel.innerText == "Maitrisé")) {
+    synthMoteurDiesel.innerHTML = "Maitrisé"
 }
-if (facMoteur && facMoteur.innerText == "Non maitrisé" && (resultrMoteur.innerText == "Non maitrisé")) {
-    synthMoteur.innerHTML = "Non maitrisé"
+if (facMoteurDiesel && facMoteurDiesel.innerText == "Non maitrisé" && (resultrMoteurDiesel.innerText ==
+        "Non maitrisé")) {
+    synthMoteurDiesel.innerHTML = "Non maitrisé"
 }
-if (facMoteur && facMoteur.innerText != resultrMoteur.innerText) {
-    synthMoteur.innerHTML = "Non maitrisé"
+if (facMoteurDiesel && facMoteurDiesel.innerText != resultrMoteurDiesel.innerText) {
+    synthMoteurDiesel.innerHTML = "Non maitrisé"
+}
+if (facMoteurElec && facMoteurElec.innerText == "Maitrisé" && (resultrMoteurElec.innerText == "Maitrisé")) {
+    synthMoteurElec.innerHTML = "Maitrisé"
+}
+if (facMoteurElec && facMoteurElec.innerText == "Non maitrisé" && (resultrMoteurElec.innerText == "Non maitrisé")) {
+    synthMoteurElec.innerHTML = "Non maitrisé"
+}
+if (facMoteurElec && facMoteurElec.innerText != resultrMoteurElec.innerText) {
+    synthMoteurElec.innerHTML = "Non maitrisé"
+}
+if (facMoteurEssence && facMoteurEssence.innerText == "Maitrisé" && (resultrMoteurEssence.innerText == "Maitrisé")) {
+    synthMoteurEssence.innerHTML = "Maitrisé"
+}
+if (facMoteurEssence && facMoteurEssence.innerText == "Non maitrisé" && (resultrMoteurEssence.innerText ==
+        "Non maitrisé")) {
+    synthMoteurEssence.innerHTML = "Non maitrisé"
+}
+if (facMoteurEssence && facMoteurEssence.innerText != resultrMoteurEssence.innerText) {
+    synthMoteurEssence.innerHTML = "Non maitrisé"
 }
 if (facMultiplexage && facMultiplexage.innerText == "Maitrisé" && (resultrMultiplexage.innerText == "Maitrisé")) {
     synthMultiplexage.innerHTML = "Maitrisé"
@@ -1788,14 +2810,39 @@ if (facMultiplexage && facMultiplexage.innerText == "Non maitrisé" && (resultrM
 if (facMultiplexage && facMultiplexage.innerText != resultrMultiplexage.innerText) {
     synthMultiplexage.innerHTML = "Non maitrisé"
 }
-if (facSuspension && facSuspension.innerText == "Maitrisé" && (resultrSuspension.innerText == "Maitrisé")) {
+if (facSuspensionLame && facSuspensionLame.innerText == "Maitrisé" && (resultrSuspensionLame.innerText == "Maitrisé")) {
     synthSuspension.innerHTML = "Maitrisé"
 }
-if (facSuspension && facSuspension.innerText == "Non maitrisé" && (resultrSuspension.innerText == "Non maitrisé")) {
-    synthSuspension.innerHTML = "Non maitrisé"
+if (facSuspensionLame && facSuspensionLame.innerText == "Non maitrisé" && (resultrSuspensionLame.innerText ==
+        "Non maitrisé")) {
+    synthSuspensionLame.innerHTML = "Non maitrisé"
 }
-if (facSuspension && facSuspension.innerText != resultrSuspension.innerText) {
-    synthSuspension.innerHTML = "Non maitrisé"
+if (facSuspensionLame && facSuspensionLame.innerText != resultrSuspensionLame.innerText) {
+    synthSuspensionLame.innerHTML = "Non maitrisé"
+}
+if (facSuspensionRessort && facSuspensionRessort.innerText == "Maitrisé" && (resultrSuspensionRessort.innerText ==
+        "Maitrisé")) {
+    synthSuspensionRessort.innerHTML = "Maitrisé"
+}
+if (facSuspensionRessort && facSuspensionRessort.innerText == "Non maitrisé" && (resultrSuspensionRessort.innerText ==
+        "Non maitrisé")) {
+    synthSuspensionRessort.innerHTML = "Non maitrisé"
+}
+if (facSuspensionRessort && facSuspensionRessort.innerText != resultrSuspensionRessort.innerText) {
+    synthSuspensionRessort.innerHTML = "Non maitrisé"
+}
+if (facSuspensionPneumatique && facSuspensionPneumatique.innerText == "Maitrisé" && (resultrSuspensionPneumatique
+        .innerText ==
+        "Maitrisé")) {
+    synthSuspensionPneumatique.innerHTML = "Maitrisé"
+}
+if (facSuspensionPneumatique && facSuspensionPneumatique.innerText == "Non maitrisé" && (resultrSuspensionPneumatique
+        .innerText ==
+        "Non maitrisé")) {
+    synthSuspensionPneumatique.innerHTML = "Non maitrisé"
+}
+if (facSuspensionPneumatique && facSuspensionPneumatique.innerText != resultrSuspensionPneumatique.innerText) {
+    synthSuspensionPneumatique.innerHTML = "Non maitrisé"
 }
 if (facPneu && facPneu.innerText == "Maitrisé" && (resultrPneu.innerText == "Maitrisé")) {
     synthPneu.innerHTML = "Maitrisé"
@@ -1807,6 +2854,26 @@ if (facPneu && facPneu.innerText == "Non maitrisé" && (resultrPneu.innerText ==
 if (facPneu && facPneu.innerText != resultrPneu.innerText) {
     synthPneu.innerHTML = "Non maitrisé"
 }
+if (facPont && facPont.innerText == "Maitrisé" && (resultrPont.innerText == "Maitrisé")) {
+    synthPont.innerHTML = "Maitrisé"
+}
+if (facPont && facPont.innerText == "Non maitrisé" && (resultrPont.innerText ==
+        "Non maitrisé")) {
+    synthPont.innerHTML = "Non maitrisé"
+}
+if (facPont && facPont.innerText != resultrPont.innerText) {
+    synthPont.innerHTML = "Non maitrisé"
+}
+if (facReducteur && facReducteur.innerText == "Maitrisé" && (resultrReducteur.innerText == "Maitrisé")) {
+    synthReducteur.innerHTML = "Maitrisé"
+}
+if (facReducteur && facReducteur.innerText == "Non maitrisé" && (resultrReducteur.innerText ==
+        "Non maitrisé")) {
+    synthReducteur.innerHTML = "Non maitrisé"
+}
+if (facReducteur && facReducteur.innerText != resultrReducteur.innerText) {
+    synthReducteur.innerHTML = "Non maitrisé"
+}
 if (decisionSavoir.innerHTML == "Maitrisé" && (decisionSavoirFaire.innerHTML == "Maitrisé")) {
     synthese.innerHTML = "Maitrisé"
 }
@@ -1816,7 +2883,5 @@ if (decisionSavoir.innerHTML == "Non maitrisé" && (decisionSavoirFaire.innerHTM
 if (decisionSavoir.innerHTML != decisionSavoirFaire.innerHTML) {
     synthese.innerHTML = "Non maitrisé"
 }
-$_SESSION['synthèse'] = synthese.innerHTML;
-var_dump($_SESSION['synthèse'])
 </script>
 <?php } ?>

@@ -162,7 +162,7 @@ include_once 'partials/header.php'
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Domaine d'activité</th>
+                                            Véhicules</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
@@ -199,8 +199,7 @@ include_once 'partials/header.php'
                                         $allocate = $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($userr)],
-                                                ['type' => 'Technicien dans questionnaire'],
-                                                ['typeQuiz' => 'Declaratif'],
+                                                ['type' => 'Declaratif'],
                                             ]
                                         ]);
                                     ?>
@@ -214,15 +213,15 @@ include_once 'partials/header.php'
                                             <?php echo $user->department ?>
                                         </td>
                                         <td>
-                                            <?php echo $user->activity ?>
+                                            <?php echo $user->vehicle ?>
                                         </td>
                                         <td>
                                             Questionnaire sur la maitrise tâches professionnelles des techniciens
                                         </td>
-                                        <?php if ($allocate->levelQuiz == "Junior") { ?>
-                                        <?php if ($allocate->managerQuiz == false) { ?>
+                                        <?php if ($allocate->level == "Junior") { ?>
+                                        <?php if ($allocate->activeManager == false) { ?>
                                         <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                            <a href="./userEvaluation.php?level=<?php echo $allocate->level ?>&brand=<?php echo $user->brand ?>&vehicle=<?php echo $user->vehicle ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -247,15 +246,15 @@ include_once 'partials/header.php'
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($allocate->levelQuiz == "Senior") { ?>
+                                        <?php if ($allocate->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
-                                        <?php if ($allocate->managerQuiz == false) { ?>
+                                        <?php if ($allocate->activeManager == false) { ?>
                                         <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                            <a href="./userEvaluation.php?level=<?php echo $allocate->level ?>&brand=<?php echo $user->brand ?>&vehicle=<?php echo $user->vehicle ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -275,7 +274,7 @@ include_once 'partials/header.php'
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($allocate->levelQuiz == "Expert") { ?>
+                                        <?php if ($allocate->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -286,9 +285,9 @@ include_once 'partials/header.php'
                                                 Non disponible
                                             </span>
                                         </td>
-                                        <?php if ($allocate->managerQuiz == false) { ?>
+                                        <?php if ($allocate->activeManager == false) { ?>
                                         <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                            <a href="./userEvaluation.php?level=<?php echo $allocate->level ?>&brand=<?php echo $user->brand ?>&vehicle=<?php echo $user->vehicle ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">

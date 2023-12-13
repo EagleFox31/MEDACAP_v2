@@ -150,7 +150,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Domaine d'activité</th>
+                                            style="width: 155.266px;">Véhicules</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
@@ -176,8 +176,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             '$and' => [
                                                 [
                                                     'user' => $user->_id,
-                                                    'type' => 'Technicien dans questionnaire',
-                                                    'typeQuiz' => 'Factuel',
+                                                    'type' => 'Factuel',
                                                 ],
                                             ],
                                         ]);
@@ -185,8 +184,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             '$and' => [
                                                 [
                                                     'user' => $user->_id,
-                                                    'type' => 'Technicien dans questionnaire',
-                                                    'typeQuiz' => 'Declaratif',
+                                                    'type' => 'Declaratif',
                                                 ],
                                             ],
                                         ]);
@@ -201,30 +199,30 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             <?php echo $user->department ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->activity ?>
+                                            <?php echo $user->vehicle ?>
                                         </td>
-                                        <?php if ($usersFactuel->active == true) { ?>
+                                        <?php if ($usersFactuel->active == false) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 En attente
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersFactuel->active == false) { ?>
+                                        <?php if ($usersFactuel->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersDeclaratif->active == true) { ?>
+                                        <?php if ($usersDeclaratif->active == false) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 En attente
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersDeclaratif->active == false) { ?>
+                                        <?php if ($usersDeclaratif->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué

@@ -60,6 +60,9 @@ if ( isset( $_POST[ 'update' ] ) ) {
             'department' => ucfirst( $department ),
             'subRole' => ucfirst( $subRole ),
             'mainRole' => ucfirst( $mainRole ),
+            'brand' => $brand,
+            'vehicle' => $vehicle,
+            'subVehicle' => $subVehicle,
             "manager" => new MongoDB\BSON\ObjectId( $managerId ),
             'updated' => date("d-m-Y")
         ];
@@ -106,6 +109,9 @@ if ( isset( $_POST[ 'update' ] ) ) {
                     'department' => $department,
                     'subRole' => $subRole,
                     'mainRole' => $mainRole,
+                    'brand' => $brand,
+                    'vehicle' => $vehicle,
+                    'subVehicle' => $subVehicle,
                     'updated' => date("d-m-Y")
                 ]
             ]
@@ -144,10 +150,21 @@ if ( isset( $_POST[ 'delete' ] ) ) {
     $id = $_POST[ 'userID' ];
     $member = $users->findOne([
         '$and' => [
-            '_id' => new MongoDB\BSON\ObjectId($id),
-            'active' => true
+            [
+                '_id' => new MongoDB\BSON\ObjectId($id),
+                'active' => true
+            ]
         ]
     ]);
+    $manager = $users->findOne([
+        '$and' => [
+            [
+                'users' => new MongoDB\BSON\ObjectId($id),
+                'active' => true
+            ]
+        ]
+    ]);
+
     $member['active'] = false;
     $users->updateOne(['_id' => new MongoDB\BSON\ObjectId($id)], ['$set' => $member]);
 
@@ -164,15 +181,16 @@ if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
     $id = $_POST[ 'userID' ];
     $manager = $users->findOne([
         '$and' => [
-            '_id' => new MongoDB\BSON\ObjectId($id),
-            'active' => true
+            [
+                '_id' => new MongoDB\BSON\ObjectId($id),
+                'active' => true
+            ]
         ]
     ]);
-    $collection->updateOne(['_id' => $allocation['_id']], ['$set' => $allocate]);
 
     $membre = $users->updateOne(
         ['_id' => new MongoDB\BSON\ObjectId($manager->_id)],
-        ['$push' => ['users' => new MongoDB\BSON\ObjectId($id)]]
+        ['$pull' => ['users' => new MongoDB\BSON\ObjectId($id)]]
     );
     $user = $users->updateOne(
         ['_id' => new MongoDB\BSON\ObjectId($id)],
@@ -265,7 +283,7 @@ include_once 'partials/header.php'
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
+    <?php
     }
     ?>
     <!--begin::Post-->
@@ -382,7 +400,7 @@ include_once 'partials/header.php'
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Username
+                                            style="width: 125px;">Nom d'utilisateur
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -461,7 +479,12 @@ include_once 'partials/header.php'
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Domaine d'activité
+                                            style="width: 152.719px;">Type de Véhicule Principal
+                                        </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">Type de Véhicule Secondaire
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -511,21 +534,9 @@ include_once 'partials/header.php'
                                             <?php echo $user->birthdate ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php if ($user->profile == "Technicien") { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $user->profile ?>
                                             </span>
-                                            <?php } ?>
-                                            <?php if ($user->profile == "Manager") { ?>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $user->profile ?>
-                                            </span>
-                                            <?php } ?>
-                                            <?php if ($user->profile == "Admin") { ?>
-                                            <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $user->profile ?>
-                                            </span>
-                                            <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level ?>
@@ -546,13 +557,16 @@ include_once 'partials/header.php'
                                             <?php echo $user->mainRole ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->subRole ?? "" ?>
+                                            <?php echo $user->subRole ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->speciality ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->activity ?>
+                                            <?php echo $user->vehicle ?>
+                                        </td>
+                                        <td data-order="department">
+                                            <?php echo $user->subVehicle ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->brand ?>
@@ -594,21 +608,9 @@ include_once 'partials/header.php'
                                             <?php echo $user->birthdate ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php if ($user->profile == "Technicien") { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $user->profile ?>
                                             </span>
-                                            <?php } ?>
-                                            <?php if ($user->profile == "Manager") { ?>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $user->profile ?>
-                                            </span>
-                                            <?php } ?>
-                                            <?php if ($user->profile == "Admin") { ?>
-                                            <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $user->profile ?>
-                                            </span>
-                                            <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level ?>
@@ -629,13 +631,16 @@ include_once 'partials/header.php'
                                             <?php echo $user->mainRole ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->subRole ?? "" ?>
+                                            <?php echo $user->subRole ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->speciality ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->activity ?>
+                                            <?php echo $user->vehicle ?>
+                                        </td>
+                                        <td data-order="department">
+                                            <?php echo $user->subVehicle ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->brand ?>
@@ -1077,6 +1082,48 @@ include_once 'partials/header.php'
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">Type de Véhicule
+                                                                        Principale</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="vehicle"
+                                                                        value="<?php echo $user->vehicle ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">Type de Véhicule
+                                                                        Secondaire</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="subVehicle"
+                                                                        value="<?php echo $user->subVehicle ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">Marque de
+                                                                        Véhicule</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="brand"
+                                                                        value="<?php echo $user->brand ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">Date
                                                                         de
                                                                         recrutement</label>
@@ -1225,7 +1272,7 @@ include_once 'partials/header.php'
                                                                 </div>
                                                                 <!--end::Details-->
                                                                 <!--begin::Access menu-->
-                                                                <div data-kt-menu-trigger="click">
+                                                                <!-- <div data-kt-menu-trigger="click">
                                                                     <form method="POST">
                                                                         <input type="hidden" name="userID"
                                                                             value="<?php echo $technician->_id ?>">
@@ -1234,7 +1281,7 @@ include_once 'partials/header.php'
                                                                             type="submit"
                                                                             name="retire-technician-manager">Supprimer</button>
                                                                     </form>
-                                                                </div>
+                                                                </div> -->
                                                                 <!--end::Access menu-->
                                                             </div>
                                                             <!--end::User-->

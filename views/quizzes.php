@@ -142,12 +142,6 @@ include_once 'partials/header.php'
             <!--begin::Actions-->
             <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="users" title="Cliquez ici pour voir la liste des techniciens"
-                        data-bs-toggle="modal" class="btn btn-primary">
-                        Liste techniciens
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
                     <button type="button" id="questions" title="Cliquez ici pour voir la liste des questions"
                         data-bs-toggle="modal" class="btn btn-primary">
                         Liste questions
@@ -325,11 +319,6 @@ include_once 'partials/header.php'
                                             aria-label="Customer Name: activate to sort column ascending"
                                             style="width: 125px;">Questionnaires
                                         </th>
-                                        <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Description</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
@@ -364,9 +353,6 @@ include_once 'partials/header.php'
                                                 class="text-gray-800 text-hover-primary mb-1">
                                                 <?php echo $quiz->label ?>
                                             </a>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $quiz->description ?>
                                         </td>
                                         <td data-filter="phone">
                                             <?php if ($quiz->type == "Factuel") { ?>
@@ -543,19 +529,6 @@ include_once 'partials/header.php'
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Description</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="description"
-                                                                        value="<?php echo $quiz->description ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">Type</label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -673,7 +646,14 @@ include_once 'partials/header.php'
                                                         <div class="mh-300px scroll-y me-n7 pe-7">
                                                             <!--begin::User-->
                                                             <?php
-                                                                $question = $questions->find(['_id' => ['$in' => $quiz["questions"]]]);
+                                                                $question = $questions->find([
+                                                                    '$and' => [
+                                                                        [
+                                                                            '_id' => ['$in' => $quiz["questions"]],
+                                                                            'active' => true
+                                                                        ],
+                                                                    ],
+                                                                ]);
                                                                 foreach ($question as $question) {
                                                             ?>
                                                             <div
@@ -690,7 +670,7 @@ include_once 'partials/header.php'
                                                                 </div>
                                                                 <!--end::Details-->
                                                                 <!--begin::Access menu-->
-                                                                <div data-kt-menu-trigger="click">
+                                                                <!-- <div data-kt-menu-trigger="click">
                                                                     <form method="POST">
                                                                         <input type="hidden" name="questionID"
                                                                             value="<?php echo $question->_id ?>">
@@ -701,7 +681,7 @@ include_once 'partials/header.php'
                                                                             type="submit" name="retire-question-quiz"
                                                                             title="Cliquez ici pour enlever la question du questionnaire">Supprimer</button>
                                                                     </form>
-                                                                </div>
+                                                                </div> -->
                                                                 <!--end::Access menu-->
                                                             </div>
                                                             <!--end::User-->
@@ -736,73 +716,6 @@ include_once 'partials/header.php'
                                                     <!--end::Close-->
                                                 </div>
                                                 <!--begin::Modal header-->
-                                                <!--begin::Modal body-->
-                                                <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                                    <!--begin::Heading-->
-                                                    <div class="text-center mb-13">
-                                                        <!--begin::Title-->
-                                                        <h1 class="mb-3">
-                                                            Liste des techniciens
-                                                        </h1>
-                                                        <!--end::Title-->
-                                                    </div>
-                                                    <!--end::Heading-->
-                                                    <!--begin::Users-->
-                                                    <div class="mb-10">
-                                                        <!--begin::List-->
-                                                        <div class="mh-300px scroll-y me-n7 pe-7">
-                                                            <!--begin::User-->
-                                                            <?php
-                                                                $technicians = $users->find(['_id' => ['$in' => $quiz["users"]]]);
-                                                                foreach ($technicians as $technician) {
-                                                            ?>
-                                                            <div
-                                                                class="d-flex flex-stack py-4 border-bottom border-gray-300 border-bottom-dashed">
-                                                                <!--begin::Details-->
-                                                                <div class="d-flex align-items-center">
-                                                                    <!--begin::Avatar-->
-                                                                    <div class="symbol symbol-35px symbol-circle">
-                                                                        <img alt="Pic"
-                                                                            src="../public/assets/media/avatars/300-1.jpg" />
-                                                                    </div>
-                                                                    <!--end::Avatar -->
-                                                                    <!--begin::Details-->
-                                                                    <div class="ms-5">
-                                                                        <a href="#"
-                                                                            class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">
-                                                                            <?php echo $technician->firstName ?>
-                                                                            <?php echo $technician->lastName ?>
-                                                                        </a>
-                                                                        <div class="fw-semibold text-muted">
-                                                                            <?php echo $technician->email ?>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--end::Details-->
-                                                                </div>
-                                                                <!--end::Details-->
-                                                                <!--begin::Access menu-->
-                                                                <div data-kt-menu-trigger="click">
-                                                                    <form method="POST">
-                                                                        <input type="hidden" name="userID"
-                                                                            value="<?php echo $technician->_id ?>">
-                                                                        <input type="hidden" name="quizID"
-                                                                            value="<?php echo $quiz->_id ?>">
-                                                                        <button
-                                                                            class="btn btn-light btn-active-light-primary btn-sm"
-                                                                            type="submit" name="retire-technician-quiz"
-                                                                            title="Cliquez ici pour enlever le technicien du questionnaire">Supprimer</button>
-                                                                    </form>
-                                                                </div>
-                                                                <!--end::Access menu-->
-                                                            </div>
-                                                            <!--end::User-->
-                                                            <?php } ?>
-                                                        </div>
-                                                        <!--end::List-->
-                                                    </div>
-                                                    <!--end::Users-->
-                                                </div>
-                                                <!--end::Modal body-->
                                             </div>
                                             <!--end::Modal content-->
                                         </div>

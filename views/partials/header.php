@@ -150,7 +150,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Dashboard</span></a>
+                                            </i></span><span class="menu-title">Tableau de bord</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--begin:Menu item-->
@@ -240,7 +240,7 @@
                                             <!--begin:Menu link--><a class="menu-link" href="./createQuiz.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Créer
+                                                    class="menu-title">Ajouter
                                                     un
                                                     Questionnaire</span></a>
                                             <!--end:Menu link-->
@@ -262,28 +262,12 @@
                                         <!--end:Menu item-->
                                     </div>
                                     <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link-->
-                                            <a class="menu-link" href="./allocateUserQuiz.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Affecter
-                                                    un
-                                                    technicien</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                                     <!--begin:Menu link--><span class="menu-link"><span class="menu-icon"><i
-                                                class="ki-duotone ki-file-added fs-2"><span class="path1"></span><span
+                                                class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span
                                             class="menu-title">Questions</span><span class="menu-arrow"></span></span>
                                     <!--end:Menu link-->
@@ -294,7 +278,7 @@
                                             <!--begin:Menu link--><a class="menu-link" href="./createQuestion.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Créer
+                                                    class="menu-title">Ajouter
                                                     une
                                                     Question</span></a>
                                             <!--end:Menu link-->
@@ -334,6 +318,62 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
+                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                    <!--begin:Menu link--><span class="menu-link"><span class="menu-icon">
+                                            <i class="fas fa-car-side fs-2"></i></span><span
+                                            class="menu-title">Véhicules</span><span class="menu-arrow"></span></span>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link" href="./createVehicle.php"><span
+                                                    class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Ajouter
+                                                    un
+                                                    Véhicule</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link" href="./vehicles.php"><span
+                                                    class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Liste des
+                                                    Véhicules</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-7">Affectations</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./allocateUserTest.php">
+                                        <span class="menu-icon">
+                                            <i class="fas fa-exchange fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title">Affectation au Test</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
@@ -346,7 +386,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./results.php"><span
                                             class="menu-icon">
-                                            <i class="ki-duotone ki-keyboard fs-2">
+                                            <i class="ki-duotone ki-gift fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
@@ -367,7 +407,7 @@
                                 <!--begin:Menu item-->
                                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                                     <!--begin:Menu link--><span class="menu-link "><span class="menu-icon"><i
-                                                class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span
                                             class="menu-title">Historiques</span><span class="menu-arrow"></span></span>
                                     <!--end:Menu link-->
@@ -410,6 +450,19 @@
                                         <!--end:Menu item-->
                                     </div>
                                     <!--end:Menu sub-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link"
+                                                href="./historiqueVehicles.php"><span class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Historique Véhicules</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
@@ -439,7 +492,7 @@
                 <!--end::Aside menu-->
                 <!--begin::Footer-->
                 <div class="aside-footer flex-column-auto pb-5 d-none" id="kt_aside_footer">
-                    <a href="/dashboard" class="btn btn-light-primary w-100">
+                    <a href="./dashboard.php" class="btn btn-light-primary w-100">
                         Button
                     </a>
                 </div>
@@ -481,7 +534,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Dashboard</span></a>
+                                            </i></span><span class="menu-title">Tableau de bord</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--begin:Menu item-->
@@ -591,7 +644,7 @@
                 <!--end::Aside menu-->
                 <!--begin::Footer-->
                 <div class="aside-footer flex-column-auto pb-5 d-none" id="kt_aside_footer">
-                    <a href="/dashboard" class="btn btn-light-primary w-100">
+                    <a href="./dashboard.php" class="btn btn-light-primary w-100">
                         Button
                     </a>
                 </div>

@@ -72,7 +72,6 @@ var hostUrl = "../public/assets/";
 </script>
 <script src="../public/assets/js/custom/utilities/modals/users-search.js">
 </script>
-<script src="../public/js/main.js"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -138,6 +137,15 @@ $(document).ready(function() {
     //   "scrollCollapse": true,
     // });
 
+    // Spinner
+    var spinner = function() {
+        setTimeout(function() {
+            if ($('#spinner').length > 0) {
+                $('#spinner').removeClass('show');
+            }
+        }, 1);
+    };
+    spinner();
 });
 
 // var tab = document.querySelector('table');

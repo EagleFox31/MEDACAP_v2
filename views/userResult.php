@@ -14,9 +14,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $academy = $conn->academy;
     
     // Connecting in collections
-    $allocations = $academy->allocations;
-    $quizzes = $academy->quizzes;
     $users = $academy->users;
+    $vehicles = $academy->vehicles;
+    $allocations = $academy->allocations;
 
     $user = $_SESSION[ 'id' ];
     $technician = $users->findOne([
@@ -161,61 +161,55 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $quizJuFac = $allocations->findOne([
+                                        $vehicleJuFac = $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
-                                                ['levelQuiz' => 'Junior'],
-                                                ['typeQuiz' => 'Factuel'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['level' => 'Junior'],
+                                                ['type' => 'Factuel'],
                                             ]
                                         ]);
-                                        $quizSeFac = $allocations->findOne([
+                                        $vehicleSeFac = $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
-                                                ['levelQuiz' => 'Senior'],
-                                                ['typeQuiz' => 'Factuel'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['level' => 'Senior'],
+                                                ['type' => 'Factuel'],
                                             ]
                                         ]);
-                                        $quizExFac = $allocations->findOne([
+                                        $vehicleExFac = $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
-                                                ['levelQuiz' => 'Expert'],
-                                                ['typeQuiz' => 'Factuel'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['level' => 'Expert'],
+                                                ['type' => 'Factuel'],
                                             ]
                                         ]);
-                                        $quizJuDecla = $allocations->findOne([
+                                        $vehicleJuDecla = $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
-                                                ['levelQuiz' => 'Junior'],
-                                                ['typeQuiz' => 'Declaratif'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['level' => 'Junior'],
+                                                ['type' => 'Declaratif'],
                                             ]
                                         ]);
-                                        $quizSeDecla= $allocations->findOne([
+                                        $vehicleSeDecla= $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
-                                                ['levelQuiz' => 'Senior'],
-                                                ['typeQuiz' => 'Declaratif'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['level' => 'Senior'],
+                                                ['type' => 'Declaratif'],
                                             ]
                                         ]);
-                                        $quizExDecla = $allocations->findOne([
+                                        $vehicleExDecla = $allocations->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($user)],
-                                                ['levelQuiz' => 'Expert'],
-                                                ['typeQuiz' => 'Declaratif'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['level' => 'Expert'],
+                                                ['type' => 'Declaratif'],
                                             ]
                                         ]);
                                     ?>
-                                    <?php if ($quizJuFac) { ?>
+                                    <?php if ($vehicleJuFac) { ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur les connaissances techniques
                                         </td>
-                                        <?php if ($quizJuFac->active == true) { ?>
+                                        <?php if ($vehicleJuFac->active == false) { ?>
                                         <td>
                                             <a href="./userQuizFactuel.php?level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
@@ -223,7 +217,7 @@ include_once 'partials/header.php'
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizJuFac->active == false) { ?>
+                                        <?php if ($vehicleJuFac->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -243,7 +237,7 @@ include_once 'partials/header.php'
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>
-                                    <?php if ($quizSeFac) { ?>
+                                    <?php if ($vehicleSeFac) { ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur les connaissances techniques
@@ -253,7 +247,7 @@ include_once 'partials/header.php'
                                                 Effectué
                                             </span>
                                         </td>
-                                        <?php if ($quizSeFac->active == true) { ?>
+                                        <?php if ($vehicleSeFac->active == false) { ?>
                                         <td>
                                             <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
@@ -261,7 +255,7 @@ include_once 'partials/header.php'
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizSeFac->active == false) { ?>
+                                        <?php if ($vehicleSeFac->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -276,7 +270,7 @@ include_once 'partials/header.php'
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>
-                                    <?php if ($quizExFac) { ?>
+                                    <?php if ($vehicleExFac) { ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur les connaissances techniques
@@ -292,7 +286,7 @@ include_once 'partials/header.php'
                                             </span>
                                         </td>
                                         </td>
-                                        <?php if ($quizExFac->active == true) { ?>
+                                        <?php if ($vehicleExFac->active == false) { ?>
                                         <td>
                                             <a href="./userQuizFactuel.php?level=Expert&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
@@ -300,7 +294,7 @@ include_once 'partials/header.php'
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizExFac->active == false) { ?>
+                                        <?php if ($vehicleExFac->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -310,12 +304,12 @@ include_once 'partials/header.php'
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>
-                                    <?php if ($quizJuDecla) { ?>
+                                    <?php if ($vehicleJuDecla) { ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur la maitrise des tâches professionnelles
                                         </td>
-                                        <?php if ($quizJuDecla->active == true) { ?>
+                                        <?php if ($vehicleJuDecla->active == false) { ?>
                                         <td>
                                             <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
@@ -323,7 +317,7 @@ include_once 'partials/header.php'
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizJuDecla->active == false) { ?>
+                                        <?php if ($vehicleJuDecla->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -343,7 +337,7 @@ include_once 'partials/header.php'
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>
-                                    <?php if ($quizSeDecla) { ?>
+                                    <?php if ($vehicleSeDecla) { ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur la maitrise des tâches professionnelles
@@ -353,7 +347,7 @@ include_once 'partials/header.php'
                                                 Effectué
                                             </span>
                                         </td>
-                                        <?php if ($quizSeDecla->active == true) { ?>
+                                        <?php if ($vehicleSeDecla->active == false) { ?>
                                         <td>
                                             <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
@@ -361,7 +355,7 @@ include_once 'partials/header.php'
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizSeDecla->active == false) { ?>
+                                        <?php if ($vehicleSeDecla->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -376,7 +370,7 @@ include_once 'partials/header.php'
                                         <!--end::Menu-->
                                     </tr>
                                     <?php } ?>
-                                    <?php if ($quizExDecla) { ?>
+                                    <?php if ($vehicleExDecla) { ?>
                                     <tr class="odd" etat="">
                                         <td>
                                             Questionnaire sur la maitrise des tâches professionnelles
@@ -391,7 +385,7 @@ include_once 'partials/header.php'
                                                 Effectué
                                             </span>
                                         </td>
-                                        <?php if ($quizExDecla->active == true) { ?>
+                                        <?php if ($vehicleExDecla->active == false) { ?>
                                         <td>
                                             <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $technician->_id ?>"
                                                 class="btn btn-light text-success fw-bolder btn-sm"
@@ -399,7 +393,7 @@ include_once 'partials/header.php'
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizExDecla->active == false) { ?>
+                                        <?php if ($vehicleExDecla->active == true) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué

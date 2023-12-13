@@ -158,7 +158,7 @@ License: For each use you must have a valid license purchased only from above li
                     <div class="d-flex flex-column">
                         <!--begin::Logo-->
                         <a href="./index.php" class="mb-15">
-                            <img alt="Logo" src="../public/images/logo-cfao.png" class="h-150px" />
+                            <img alt="Logo" src="../public/images/logo.png" class="h-150px" />
                         </a>
                         <!--end::Logo-->
 
@@ -350,6 +350,17 @@ License: For each use you must have a valid license purchased only from above li
 
     <!--begin::Custom Javascript(used for this page only)-->
     <script src="../public/assets/js/custom/authentication/sign-up/free-trial.js"></script>
+    <script>
+    // Spinner
+    var spinner = function() {
+        setTimeout(function() {
+            if ($('#spinner').length > 0) {
+                $('#spinner').removeClass('show');
+            }
+        }, 1);
+    };
+    spinner();
+    </script>
     <!--end::Custom Javascript-->
     <!--end::Javascript-->
 

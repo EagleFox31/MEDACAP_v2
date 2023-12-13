@@ -17,6 +17,7 @@ if (!isset($_SESSION["profile"])) {
     // Connecting in collections
     $users = $academy->users;
     $quizzes = $academy->quizzes;
+    $vehicles = $academy->vehicles;
     $allocations = $academy->allocations;
 
     $countUser = $users->find(['profile' => 'Technicien'])->toArray();
@@ -25,14 +26,14 @@ if (!isset($_SESSION["profile"])) {
     $countManagers = count($countManager);
     $countAdmin = $users->find(['profile' => 'Admin'])->toArray();
     $countAdmins = count($countAdmin);
-    $countQuiz = $quizzes->find()->toArray();
-    $countQuizzes = count($countQuiz);
+    $countVehicle = $vehicles->find()->toArray();
+    $countVehicles = count($countVehicle);
 ?>
 <?php
 include('./partials/header.php')
 ?>
 <!--begin::Title-->
-<title>Dashboard | CFAO Mobility Academy</title>
+<title>Tableau de Bord | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!--begin::Content-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
@@ -43,7 +44,7 @@ include('./partials/header.php')
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Dashboard
+                    Tableau de bord
                 </h1>
                 <!--end::Title-->
             </div>
@@ -131,7 +132,7 @@ include('./partials/header.php')
                                             Techniciens</th>
                                         <th class="min-w-150px px-0 text-center">
                                             Tests</th>
-                                        <th class="min-w-125px">Domaine d'activité</th>
+                                        <th class="min-w-125px">Vehicules</th>
                                         <th class="min-w-125px">Département</th>
                                         <th class="min-w-125px">Niveau Junior</th>
                                         <th class="min-w-125px">Niveau Senior</th>
@@ -149,7 +150,7 @@ include('./partials/header.php')
                                         foreach ($manager->users as $userr) {
                                             $allocate = $allocations->findOne([
                                                 'user' => $userr,
-                                                'typeQuiz' => 'Declaratif',
+                                                'type' => 'Declaratif',
                                             ]);
                                             $user = $users->findOne([
                                                 '$and' => [
@@ -159,10 +160,10 @@ include('./partials/header.php')
                                                     ],
                                                 ]
                                             ]);
-                                            $quiz = $quizzes->findOne([
+                                            $vehicle = $vehicles->findOne([
                                                 '$and' => [
                                                     [
-                                                        '_id' => new MongoDB\BSON\ObjectId($allocate["quiz"]),
+                                                        '_id' => new MongoDB\BSON\ObjectId($allocate["vehicle"]),
                                                         'active' => true,
                                                     ],
                                                 ]
@@ -170,10 +171,10 @@ include('./partials/header.php')
                                             
                                             $verified = $allocations->findOne([
                                                 'user' => new MongoDB\BSON\ObjectId($user->_id),
-                                                'quiz' => new MongoDB\BSON\ObjectId($quiz->_id),
+                                                'vehicle' => new MongoDB\BSON\ObjectId($vehicle->_id),
                                             ]);
 
-                                            if ($verified->managerQuiz == false) {
+                                            if ($verified->activeManager == false) {
                                     ?>
                                     <tr>
                                         <td class="p-0">
@@ -190,7 +191,12 @@ include('./partials/header.php')
                                         </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $user->activity ?>
+                                                <?php echo $vehicle->label ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle->brand ?>
                                             </span>
                                         </td>
                                         <td>
@@ -198,9 +204,9 @@ include('./partials/header.php')
                                                 <?php echo $user->department ?>
                                             </span>
                                         </td>
-                                        <?php if ($allocate->levelQuiz == "Junior") { ?>
+                                        <?php if ($allocate->level == "Junior") { ?>
                                         <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                            <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -218,14 +224,14 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($allocate->levelQuiz == "Senior") { ?>
+                                        <?php if ($allocate->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                            <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -238,7 +244,7 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($allocate->levelQuiz == "Expert") { ?>
+                                        <?php if ($allocate->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -250,7 +256,7 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->levelQuiz ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                            <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -350,21 +356,29 @@ include('./partials/header.php')
                                         </th>
                                         <th class="min-w-200px px-0">
                                             Tests</th>
+                                        <th class="min-w-125px">Véhicules</th>
+                                        <th class="min-w-125px">Marques</th>
                                         <th class="min-w-125px">Niveau Junior</th>
                                         <th class="min-w-125px">Niveau Senior</th>
                                         <th class="min-w-125px">Niveau Expert</th>
                                     </tr>
                                     <?php
-                                        $quizzesFac = $allocations->findOne([
+                                        $testFac = $allocations->find([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['active' => true],
-                                                ['typeQuiz' => 'Factuel'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['active' => false],
+                                                ['type' => 'Factuel'],
                                             ]
                                         ]);
+                                        foreach ($testFac as $test) {
+                                            $vehicle = $vehicles->findOne([
+                                                '$and' => [
+                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true],
+                                                ]
+                                            ]);
                                     ?>
-                                    <?php if ($quizzesFac) { ?>
+                                    <?php if ($test) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
@@ -373,9 +387,19 @@ include('./partials/header.php')
                                                 Questionnaire sur vos connaissances techniques
                                             </span>
                                         </td>
-                                        <?php if ($quizzesFac->levelQuiz == "Junior") { ?>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["label"] ?>
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["brand"] ?>
+                                            </span>
+                                        </td>
+                                        <?php if ($test->level == "Junior") { ?>
                                         <td>
-                                            <a href="./userQuizFactuel.php?level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -393,14 +417,14 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizzesFac->levelQuiz == "Senior") { ?>
+                                        <?php if ($test->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="./userQuizFactuel.php?level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -413,7 +437,7 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizzesFac->levelQuiz == "Expert") { ?>
+                                        <?php if ($test->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -425,7 +449,7 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="./userQuizFactuel.php?level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -435,7 +459,10 @@ include('./partials/header.php')
                                         <?php } ?>
                                         </td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php
+                                       }
+                                       }
+                                   ?>
                                 </tbody>
                             </table>
                         </div>
@@ -478,21 +505,29 @@ include('./partials/header.php')
                                         </th>
                                         <th class="min-w-200px px-0">
                                             Tests</th>
+                                        <th class="min-w-125px">Véhicules</th>
+                                        <th class="min-w-125px">Marques</th>
                                         <th class="min-w-125px">Niveau Junior</th>
                                         <th class="min-w-125px">Niveau Senior</th>
                                         <th class="min-w-125px">Niveau Expert</th>
                                     </tr>
                                     <?php
-                                        $quizzesDecla = $allocations->findOne([
+                                        $testDecla = $allocations->find([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['active' => true],
-                                                ['typeQuiz' => 'Declaratif'],
-                                                ['type' => 'Technicien dans questionnaire']
+                                                ['active' => false],
+                                                ['type' => 'Declaratif'],
                                             ]
                                         ]);
+                                        foreach ($testDecla as $test) {
+                                            $vehicle = $vehicles->findOne([
+                                                '$and' => [
+                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true],
+                                                ]
+                                            ])
                                     ?>
-                                    <?php if ($quizzesDecla ) { ?>
+                                    <?php if ($test ) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
@@ -501,9 +536,19 @@ include('./partials/header.php')
                                                 Questionnaire sur la maitrise de vos tâches professionnelles
                                             </span>
                                         </td>
-                                        <?php if ($quizzesDecla->levelQuiz == "Junior") { ?>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["label"] ?>
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["brand"] ?>
+                                            </span>
+                                        </td>
+                                        <?php if ($test->level == "Junior") { ?>
                                         <td>
-                                            <a href="./userQuizDeclaratif.php?level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -521,14 +566,14 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizzesDecla->levelQuiz == "Senior") { ?>
+                                        <?php if ($test->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="./userQuizDeclaratif.php?level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -541,7 +586,7 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($quizzesDecla->levelQuiz == "Expert") { ?>
+                                        <?php if ($test->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -553,7 +598,7 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="./userQuizDeclaratif.php?level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour ouvrir le questionnaire"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -562,7 +607,10 @@ include('./partials/header.php')
                                         </td>
                                         <?php } ?>
                                     </tr>
-                                    <?php } ?>
+                                    <?php
+                                       }
+                                       }
+                                   ?>
                                 </tbody>
                             </table>
                         </div>
@@ -656,7 +704,8 @@ include('./partials/header.php')
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    Administrateurs </div>
+                                    Administrateurs
+                                </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>
@@ -677,13 +726,13 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<?php echo $countQuizzes ?>">
+                                        data-kt-countup-value="<?php echo $countVehicles ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    Questionnaires </div>
+                                    Véhicules </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>
