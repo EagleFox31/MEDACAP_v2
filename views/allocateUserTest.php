@@ -167,7 +167,8 @@ include_once 'partials/header.php'
                             foreach ($vehicle as $vehicle) {
                         ?>
                                     <option value='<?php echo $vehicle->_id ?>'>
-                                        <?php echo $vehicle->label ?> (<?php echo $vehicle->brand ?>)
+                                        <?php echo $vehicle->label ?> (<?php echo $vehicle->brand ?>,
+                                        <?php echo $vehicle->type ?>)
                                     </option>
                                     <?php } ?>
                                 </select>

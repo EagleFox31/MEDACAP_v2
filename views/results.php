@@ -174,6 +174,16 @@ include_once 'partials/header.php'
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
+                                            Filiale</th>
+                                        <th class="min-w-150px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Departement</th>
+                                        <th class="min-w-150px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
                                             Niveau Junior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table"
@@ -219,6 +229,12 @@ include_once 'partials/header.php'
                                     <tr class="odd">
                                         <td class="text-center">
                                             <?php echo $user['firstName'] ?> <?php echo $user['lastName'] ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo $user['subsidiary'] ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo $user['department'] ?>
                                         </td>
                                         <?php
                                         if ($percentageFacJu >= 80 && $percentageDeclaJu >= 80) {

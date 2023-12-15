@@ -110,11 +110,16 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
-                $result = $result = $quizzes->insertOne( $quiz );
+                $result = $quizzes->insertOne( $quiz );
                 if ($bus) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
                     );
                 }
                 if ($camions) {
@@ -122,17 +127,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -154,11 +174,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($engins) {
@@ -166,11 +196,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -194,11 +234,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -206,17 +256,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -238,11 +303,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -250,17 +325,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -284,17 +374,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -316,17 +421,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -350,11 +470,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -362,17 +492,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -394,11 +539,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -406,17 +561,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -440,11 +610,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions && $camions->brand == "RENAULT TRUCK" ||  $camions->brand == "MERCEDES TRUCK" || $camions->brand == "SINOTRUK") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -452,17 +632,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -484,11 +679,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions && $camions->brand == "RENAULT TRUCK" ||  $camions->brand == "MERCEDES TRUCK" || $camions->brand == "SINOTRUK") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -496,17 +701,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -530,11 +750,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -542,17 +772,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -574,11 +819,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -586,17 +841,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -620,11 +890,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -632,17 +912,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -664,11 +959,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -676,17 +981,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -710,17 +1030,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -742,17 +1077,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -776,11 +1126,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -802,11 +1162,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -830,17 +1200,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -862,17 +1247,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -896,11 +1296,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -908,17 +1318,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -940,11 +1365,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -952,17 +1387,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -986,11 +1436,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1012,11 +1472,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1040,11 +1510,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1066,11 +1546,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1094,11 +1584,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1106,17 +1606,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1138,11 +1653,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1150,17 +1675,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1184,11 +1724,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots && $chariots->brand == "TOYOTA FORFLIT") {
@@ -1196,17 +1746,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1228,11 +1793,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots && $chariots->brand == "TOYOTA FORFLIT") {
@@ -1240,17 +1815,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1274,11 +1864,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1286,11 +1886,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1312,11 +1922,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1324,11 +1944,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1352,11 +1982,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1364,17 +2004,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1396,11 +2051,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1408,17 +2073,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1442,17 +2122,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1474,17 +2169,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1508,6 +2218,11 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
+                    );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             } else {
@@ -1527,6 +2242,11 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1550,11 +2270,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures && $voitures->brand != "SUZUKI") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1576,11 +2306,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures && $voitures->brand != "SUZUKI") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1604,11 +2344,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1616,17 +2366,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1648,11 +2413,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1660,17 +2435,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1730,15 +2520,15 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             ]);
         
         if ($speciality == "Arbre de Transmission") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -1748,11 +2538,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($engins) {
@@ -1760,11 +2560,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1786,11 +2596,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($engins) {
@@ -1798,25 +2618,35 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Assistance à la Conduite") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -1826,11 +2656,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1838,17 +2678,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -1870,11 +2725,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -1882,31 +2747,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Boite de Transfert") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -1916,17 +2796,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -1948,31 +2843,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Boite de Vitesse") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -1982,11 +2892,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 if ($chariots) {
@@ -1994,17 +2914,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -2026,11 +2961,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2038,31 +2983,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Climatisation") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2072,11 +3032,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions && $camions->brand == "RENAULT TRUCK" ||  $camions->brand == "MERCEDES TRUCK" || $camions->brand == "SINOTRUK") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2084,17 +3054,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2116,11 +3101,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions && $camions->brand == "RENAULT TRUCK" ||  $camions->brand == "MERCEDES TRUCK" || $camions->brand == "SINOTRUK") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2128,31 +3123,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Direction") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2162,11 +3172,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2174,17 +3194,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2206,11 +3241,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2218,31 +3263,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Electricité") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2252,11 +3312,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2264,11 +3334,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 if ($voitures) {
@@ -2276,8 +3356,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
+                    );
                 }
-                $success_msg = 'Questionnaire ajouté avec succès'; 
+                $success_msg = 'Questionnaire ajouté avec succès';
             } else {
                 $quiz = [
                     'questions' => [],
@@ -2296,11 +3381,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2308,31 +3403,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Freinage Hydraulique") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2342,17 +3452,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2374,31 +3499,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Freinage Pneumatique") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2408,11 +3548,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2434,25 +3584,35 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Hydraulique") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2462,17 +3622,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2494,31 +3669,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($chariots) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Moteur Diesel") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2528,11 +3718,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2540,17 +3740,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2572,11 +3787,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2584,31 +3809,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Moteur Electrique") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2618,11 +3858,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2644,25 +3894,35 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Moteur Essence") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2672,11 +3932,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2698,25 +3968,35 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Multiplexage") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2726,11 +4006,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2738,17 +4028,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2770,11 +4075,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camionss['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2782,31 +4097,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Pont") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2816,11 +4146,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots && $chariots->brand == "TOYOTA FORFLIT") {
@@ -2828,17 +4168,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2860,11 +4215,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots && $chariots->brand == "TOYOTA FORFLIT") {
@@ -2872,31 +4237,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Reducteur") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2906,11 +4286,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2918,11 +4308,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -2944,11 +4344,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2956,25 +4366,35 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Pneumatique") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -2984,11 +4404,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -2996,17 +4426,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès'; 
@@ -3028,11 +4473,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -3040,31 +4495,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Suspension à Lame") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -3074,17 +4544,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -3106,31 +4591,46 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Suspension Ressort") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -3139,6 +4639,11 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -3159,20 +4664,25 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Suspension Pneumatique") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -3182,11 +4692,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures && $voitures->brand != "SUZUKI") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
@@ -3208,25 +4728,35 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
+                    );
                 }
                 if ($voitures && $voitures->brand != "SUZUKI") {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';
             }
         } elseif ($speciality == "Transversale") {
-            if($questionFac) {
+            if($questionDecla) {
                 $quiz = [
-                    'questions' => $questionFacArr,
+                    'questions' => $questionDeclaArr,
                     'label' => 'Tâche '.$speciality.'',
                     'type' => $type,
                     'speciality' => ucfirst( $speciality ),
                     'level' => ucfirst( $level ),
                     'number' => +$number,
-                    'total' => count($questionFacArr),
+                    'total' => count($questionDeclaArr),
                     'active' => true,
                     'created' => date("d-m-Y")
                 ];
@@ -3236,11 +4766,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -3248,11 +4788,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( engins->_id ) ],
+                        [ '$set' => $engins ]
                     );
                 }
                 if ($voitures) {
@@ -3260,8 +4810,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
+                    );
                 }
-                $success_msg = 'Questionnaire ajouté avec succès'; 
+                $success_msg = 'Questionnaire ajouté avec succès';
             } else {
                 $quiz = [
                     'questions' => [],
@@ -3280,11 +4835,21 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $bus['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
+                        [ '$set' => $bus ]
+                    );
                 }
                 if ($camions) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $camions['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $camions->_id ) ],
+                        [ '$set' => $camions ]
                     );
                 }
                 if ($chariots) {
@@ -3292,17 +4857,32 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $chariots['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $chariots->_id ) ],
+                        [ '$set' => $chariots ]
+                    );
                 }
                 if ($engins) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                     );
+                    $engins['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $engins->_id ) ],
+                        [ '$set' => $engins ]
+                    );
                 }
                 if ($voitures) {
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
+                    );
+                    $voitures['total']++;
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $voitures->_id ) ],
+                        [ '$set' => $voitures ]
                     );
                 }
                 $success_msg = 'Questionnaire ajouté avec succès';

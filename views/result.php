@@ -229,9 +229,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     Décision</th>
-                                <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                <th class="min-w-130px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
-                                    aria-label="Email: activate to sort column ascending" style="width: 15.266px;">
+                                    aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
                                     Résultats technicien</th>
                                 <th class="min-w-120px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
@@ -281,7 +281,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $transmissionFac->speciality?>&level=<?php echo $transmissionFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Arbre de Transmission
@@ -368,7 +368,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $assistanceConduiteFac->speciality?>&level=<?php echo $assistanceConduiteFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Assistance à la conduite
@@ -455,10 +455,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $transfertFac->speciality?>&level=<?php echo $transfertFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            boite
+                                            Boite de Transfert
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -541,10 +541,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $boiteFac->speciality?>&level=<?php echo $boiteFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            boite
+                                            Boite de Vitesse
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -628,7 +628,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $climatisationFac->speciality?>&level=<?php echo $climatisationFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Climatisation
@@ -715,7 +715,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $directionFac->speciality?>&level=<?php echo $directionFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Direction
@@ -802,7 +802,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $electriciteFac->speciality?>&level=<?php echo $electriciteFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Electricité
@@ -889,7 +889,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $freinageFac->speciality?>&level=<?php echo $freinageFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Freinage Hydraulique
@@ -976,7 +976,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $freinFac->speciality?>&level=<?php echo $freinFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Freinage Pneumatique
@@ -1063,7 +1063,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $hydrauliqueFac->speciality?>&level=<?php echo $hydrauliqueFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Hydraulique
@@ -1150,7 +1150,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $moteurDieselFac->speciality?>&level=<?php echo $moteurDieselFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Moteur Diesel
@@ -1237,7 +1237,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $moteurElecFac->speciality?>&level=<?php echo $moteurElecFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Moteur Electrique
@@ -1324,7 +1324,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $moteurEssenceFac->speciality?>&level=<?php echo $moteurEssenceFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Moteur Essence
@@ -1411,7 +1411,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $multiplexageFac->speciality?>&level=<?php echo $multiplexageFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Multiplexage
@@ -1498,7 +1498,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $pneuFac->speciality?>&level=<?php echo $pneuFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Pneumatique
@@ -1585,7 +1585,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $pontFac->speciality?>&level=<?php echo $pontFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Pont
@@ -1672,7 +1672,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $reducteurFac->speciality?>&level=<?php echo $reducteurFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Réducteur
@@ -1759,7 +1759,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality?>&level=<?php echo $suspensionLameFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Suspension à Lame
@@ -1846,7 +1846,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $suspensionRessortFac->speciality?>&level=<?php echo $suspensionRessortFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Suspension Ressort
@@ -1933,7 +1933,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $suspensionPneumatiqueFac->speciality?>&level=<?php echo $suspensionPneumatiqueFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Suspension Pneumatique
@@ -2020,7 +2020,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
                                         <a href="./system.php?speciality=<?php echo $transversaleFac->speciality?>&level=<?php echo $transversaleFac->level?>&user=<?php echo $technician->_id ?>"
-                                            class="btn btn-light btn-active-light-primary text-primary btn-sm"
+                                            class="btn btn-light btn-active-light-primary fw-boldertext-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             Transversale

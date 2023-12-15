@@ -199,17 +199,26 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 ?>
                                 <?php if ($groupeFac && $groupeDecla && $groupeMa) { ?>
                                 <?php
-                                    for ($i = 0; $i < count($groupeFac->questions); $i++) {
-                                        $questionFac = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeFac->questions[$i])]);
+                                    for ($i = 0; $i < count($groupeDecla->questions); $i++) {
+                                        if (isset($groupeFac->answers[$i])) {
+                                            $questionFac = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeFac->questions[$i])]);
+                                        }
                                         $questionDecla = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeDecla->questions[$i])]);
                                 ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
+                                    <?php if (isset($groupeFac->answers[$i])) { ?>
                                     <td class="text-center">
                                         <?php echo $questionFac->label ?>
                                     </td>
                                     <td class="text-center" name="savoir">
                                         <?php echo $groupeFac->answers[$i] ?>
                                     </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center" name="savoir">
+                                    </td>
+                                    <?php } ?>
                                     <td class="text-center">
                                         <?php echo $questionDecla->label ?>
                                     </td>

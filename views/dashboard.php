@@ -18,6 +18,7 @@ if (!isset($_SESSION["profile"])) {
     $users = $academy->users;
     $quizzes = $academy->quizzes;
     $vehicles = $academy->vehicles;
+    $results = $academy->results;
     $allocations = $academy->allocations;
 
     $countUser = $users->find(['profile' => 'Technicien'])->toArray();
@@ -29,6 +30,32 @@ if (!isset($_SESSION["profile"])) {
     $countVehicle = $vehicles->find()->toArray();
     $countVehicles = count($countVehicle);
     
+    $resultFac = $results->aggregate([
+    [
+        '$match' => [
+            '$and' => [
+                [
+                    'typeR' => 'Technicien',
+                    'type' => 'Factuel',
+                ],
+            ],
+        ],
+    ],
+    [
+        '$group' => [
+            '_id' => '$level',
+            'total' => ['$sum' => '$total'],
+            'score' => ['$sum' => '$score'],
+        ],
+    ],
+    [
+        '$project' => [
+            '_id' => 0,
+            'level' => '$_id',
+            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
+        ],
+    ],
+])->toArray();
 ?>
 <?php
 include('./partials/header.php')
@@ -749,6 +776,9 @@ include('./partials/header.php')
                     <!--end::Col-->
                 </div>
                 <!--end:Row-->
+                <!-- begin::Row -->
+                <canvas id="lineChart"></canvas>
+                <!-- end::Row -->
             </div>
             <!--end::Container-->
         </div>
@@ -756,13 +786,6 @@ include('./partials/header.php')
     </div>
     <!--end::Content-->
     <?php } ?>
-    <!-- begin::Row -->
-    <div class="m-5">
-        <figure class="highcharts-figure">
-            <div id="courbe_evolution"></div>
-        </figure>
-    </div>
-    <!-- end::Row -->
 </div>
 <!--end::Content-->
 <?php
@@ -771,3 +794,38 @@ include('./partials/footer.php')
 <?php
 }
 ?>
+<script>
+var ctxL = document.getElementById("lineChart").getContext('3d');
+var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+        labels: <?php echo $resultFac[0]['level'] ?>,
+        datasets: [{
+                label: "My First dataset",
+                data: <?php echo $resultFac[0]['percentage'] ?>,
+                backgroundColor: [
+                    'rgba(105, 0, 132, .2)',
+                ],
+                borderColor: [
+                    'rgba(200, 99, 132, .7)',
+                ],
+                borderWidth: 2
+            },
+            {
+                label: "My Second dataset",
+                data: [28, 48, 40, 19, 86, 27, 90],
+                backgroundColor: [
+                    'rgba(0, 137, 132, .2)',
+                ],
+                borderColor: [
+                    'rgba(0, 10, 130, .7)',
+                ],
+                borderWidth: 2
+            }
+        ]
+    },
+    options: {
+        responsive: true
+    }
+});
+</script>

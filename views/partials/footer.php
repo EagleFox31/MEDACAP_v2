@@ -4,7 +4,7 @@
     <div class=" container-fluid  d-flex flex-column flex-md-row flex-stack">
         <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
-            <span class="text-muted fw-semibold me-2">2023&copy;</span>
+            <span class="text-muted fw-semibold me-2">2024&copy;</span>
             <a href="https://keenthemes.com/" class="text-gray-800 text-hover-primary">CFAO
                 Mobility Academy Panafrican</a>
         </div>
@@ -77,6 +77,7 @@ var hostUrl = "../public/assets/";
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="path/to/vanilla.js"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -93,7 +94,8 @@ const menuSpan = document.querySelectorAll("span[class='menu-link']");
 
 menuA.forEach((link) => {
     const menuPathname = new URL(link.href).pathname;
-    if ((activeMenu === menuPathname) || (activeMenu === "/dashboard" && menuPathname === "/dashboard")) {
+    if ((activeMenu === menuPathname) || (activeMenu === "/dashboard.php" && menuPathname ===
+            "/dashboard.php")) {
         link.classList.add("active");
     }
 })

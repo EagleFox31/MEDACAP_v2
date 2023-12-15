@@ -428,6 +428,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizBus),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -466,6 +467,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizBus),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -482,6 +484,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCamTrck),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -520,6 +523,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCamO),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -558,6 +562,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCam),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -596,6 +601,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCamTrck),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -609,6 +615,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCamO),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -622,6 +629,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCam),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -638,6 +646,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizChaBt),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -676,6 +685,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCha),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -714,6 +724,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizChaBt),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -727,6 +738,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizCha),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -743,6 +755,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizEng),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -781,6 +794,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizEng),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -797,6 +811,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizVls),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -835,6 +850,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizVl),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -873,6 +889,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizVls),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
@@ -886,6 +903,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'type' => $type,
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
+                'total' => count($quizVl),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];

@@ -36,6 +36,8 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             ["active" => true]
         ]
     ]);
+    $cal = round(100 / $vehicule['total'], 0);
+    $number = round($cal, 0);
     $arrQuizzes = iterator_to_array($vehicule->quizzes);
 
     if ( isset( $_POST[ 'valid' ] ) ) {
@@ -182,7 +184,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             'speciality' => $quizAssistance->speciality ,
                             'level' => $level,
                             'type' => $quizAssistance->type,
-                            'total' => $quizAssistance->number,
+                            'total' => count($quizQuestionAssistance),
                             'time' => $time,
                             'active' => true,
                             'created' => date("d-m-y")
@@ -241,7 +243,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             'speciality' => $quizArbre->speciality ,
                             'level' => $level,
                             'type' => $quizArbre->type,
-                            'total' => $quizArbre->number,
+                            'total' => count($quizQuestionArbre),
                             'time' => $time,
                             'active' => true,
                             'created' => date("d-m-y")
@@ -300,7 +302,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             'speciality' => $quizTransfert->speciality ,
                             'level' => $level,
                             'type' => $quizTransfert->type,
-                            'total' => $quizTransfert->number,
+                            'total' => count($quizQuestionTransfert),
                             'time' => $time,
                             'active' => true,
                             'created' => date("d-m-y")
@@ -359,7 +361,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             'speciality' => $quizBoite->speciality ,
                             'level' => $level,
                             'type' => $quizBoite->type,
-                            'total' => $quizBoite->number,
+                            'total' => count($quizQuestionBoite),
                             'time' => $time,
                             'active' => true,
                             'created' => date("d-m-y")
@@ -417,7 +419,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             'speciality' => $quizClimatisation->speciality ,
                             'level' => $level,
                             'type' => $quizClimatisation->type,
-                            'total' => $quizClimatisation->number,
+                            'total' => count($quizQuestionClimatisation),
                             'time' => $time,
                             'active' => true,
                             'created' => date("d-m-y")
@@ -475,7 +477,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizDirection->speciality ,
                         'level' => $level,
                         'type' => $quizDirection->type,
-                        'total' => $quizDirection->number,
+                        'total' => count($quizQuestionDirection),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -532,7 +534,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizElectricite->speciality,
                         'level' => $level,
                         'type' => $quizElectricite->type,
-                        'total' => $quizElectricite->number,
+                        'total' => count($quizQuestionElectricite),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -589,7 +591,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizFreinage->speciality ,
                         'level' => $level,
                         'type' => $quizFreinage->type,
-                        'total' => $quizFreinage->number,
+                        'total' => count($quizQuestionFreinage),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -646,7 +648,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizFrein->speciality ,
                         'level' => $level,
                         'type' => $quizFrein->type,
-                        'total' => $quizFrein->number,
+                        'total' => count($quizQuestionFrein),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -703,7 +705,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizHydraulique->speciality ,
                         'level' => $level,
                         'type' => $quizHydraulique->type,
-                        'total' => $quizHydraulique->number,
+                        'total' => count($quizQuestionHydraulique),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -760,7 +762,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizMoteurDiesel->speciality ,
                         'level' => $level,
                         'type' => $quizMoteurDiesel->type,
-                        'total' => $quizMoteurDiesel->number,
+                        'total' => count($quizQuestionMoteurDiesel),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -817,7 +819,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizMoteurElec->speciality ,
                         'level' => $level,
                         'type' => $quizMoteurElec->type,
-                        'total' => $quizMoteurElec->number,
+                        'total' => count($quizQuestionMoteurElec),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -873,7 +875,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizMoteurEssence->speciality ,
                         'level' => $level,
                         'type' => $quizMoteurEssence->type,
-                        'total' => $quizMoteurEssence->number,
+                        'total' => count($quizQuestionMoteurEssence),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -940,7 +942,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizMultiplexage->speciality ,
                         'level' => $level,
                         'type' => $quizMultiplexage->type,
-                        'total' => $quizMultiplexage->number,
+                        'total' => count($quizQuestionMultiplexage),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1007,7 +1009,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizPont->speciality ,
                         'level' => $level,
                         'type' => $quizPont->type,
-                        'total' => $quizPont->number,
+                        'total' => count($quizQuestionPont),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1064,7 +1066,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizPneumatique->speciality ,
                         'level' => $level,
                         'type' => $quizPneumatique->type,
-                        'total' => $quizPneumatique->number,
+                        'total' => count($quizQuestionPneu),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1131,7 +1133,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizReducteur->speciality ,
                         'level' => $level,
                         'type' => $quizReducteur->type,
-                        'total' => $quizReducteur->number,
+                        'total' => count($quizQuestionReducteur),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1188,7 +1190,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizSuspensionLame->speciality ,
                         'level' => $level,
                         'type' => $quizSuspensionLame->type,
-                        'total' => $quizSuspensionLame->number,
+                        'total' => count($quizQuestionSuspensionLame),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1245,7 +1247,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizSuspensionRessort->speciality ,
                         'level' => $level,
                         'type' => $quizSuspensionRessort->type,
-                        'total' => $quizSuspensionRessort->number,
+                        'total' => count($quizQuestionSuspensionRessort),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1302,7 +1304,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizSuspensionPneumatique->speciality ,
                         'level' => $level,
                         'type' => $quizSuspensionPneumatique->type,
-                        'total' => $quizSuspensionPneumatique->number,
+                        'total' => count($quizQuestionSuspensionPneumatique),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1359,7 +1361,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'speciality' => $quizTransversale->speciality ,
                         'level' => $level,
                         'type' => $quizTransversale->type,
-                        'total' => $quizTransversale->number,
+                        'total' => count($quizQuestionTransversale),
                         'time' => $time,
                         'active' => true,
                         'created' => date("d-m-y")
@@ -1492,7 +1494,7 @@ include_once 'partials/header.php'
                 ],
                 [
                 '$sample' => [
-                'size' => $assistanceFac->number,
+                'size' => $number,
                 ],
                 ],
                 [
@@ -1595,7 +1597,7 @@ include_once 'partials/header.php'
                 ],
                 [
                 '$sample' => [
-                'size' => $arbreFac->number,
+                'size' => $number,
                 ],
                 ],
                 [
@@ -1697,7 +1699,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $transfertFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -1804,7 +1806,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $boiteFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -1907,7 +1909,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $climatisationFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2014,7 +2016,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $directionFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2121,7 +2123,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $electriciteFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2228,7 +2230,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $freinageFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2335,7 +2337,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $freinFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2437,7 +2439,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $hydrauliqueFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2544,7 +2546,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $moteurDieselFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2651,7 +2653,7 @@ include_once 'partials/header.php'
                                 ],
                                 [
                                 '$sample' => [
-                                'size' => $moteurElecFac->number,
+                                'size' => $number,
                                 ],
                                 ],
                                 [
@@ -2758,7 +2760,7 @@ include_once 'partials/header.php'
                                         ],
                                         [
                                         '$sample' => [
-                                        'size' => $moteurEssenceFac->number,
+                                        'size' => $number,
                                         ],
                                         ],
                                         [
@@ -2865,7 +2867,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $multiplexageFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -2973,7 +2975,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $pontFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -3072,7 +3074,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $pneumatiqueFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -3172,7 +3174,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $reducteurFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -3280,7 +3282,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $suspensionLameFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -3388,7 +3390,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $suspensionRessortFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -3496,7 +3498,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $suspensionPneumatiqueFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
@@ -3604,7 +3606,7 @@ include_once 'partials/header.php'
                         ],
                         [
                             '$sample' => [
-                                'size' => $transversaleFac->number,
+                                'size' => $number,
                             ],
                         ],
                         [
