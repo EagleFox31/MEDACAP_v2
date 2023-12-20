@@ -20,23 +20,55 @@ $allocations = $academy->allocations;
 
 if ( isset( $_POST[ 'submit' ] ) ) {
     $vehicle = $_POST['vehicle'];
-    $technicians[] = $_POST['technicians'];
+    $technicians = $_POST['technicians'];
     
-    $member = $vehicles->findOne([
+    $vehice = $vehicles->findOne([
         '$and' => [
-            ['users' => ['$in' => $technicians]],
             ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
             ['active' => true]
         ]
     ]);
-    
-    $vehice = $vehicles->findOne(['_id' => new MongoDB\BSON\ObjectId($vehicle)]);
 
     if (!$vehicle || !$technicians) {
         $error_msg = 'Veuillez remplir tous les champs.';
-    } elseif ($member) {
-            $error_msg = 'Le technicien ' . $member->firstName . ' ' . $member->lastName . ' est déjà affecté à ce questionnaire.';
-    }  else {
+    } elseif ($vehice->type == 'Declaratif') {
+        for ($i = 0; $i < count($technicians); $i++) {
+            $allocateExist = $allocations->findOne([
+                '$and' => [
+                    ['user' => new MongoDB\BSON\ObjectId($technicians[$i])],
+                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicle)]
+                ]
+            ]);
+        
+            if ($allocateExist) {
+                $allocations->updateOne(
+                    ['_id' => new MongoDB\BSON\ObjectId($allocateExist->_id)],
+                    ['$set' => ['active' => false]]
+                );
+                $vehicles->updateOne(
+                    ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
+                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
+                );
+            } else {
+                $allocate = [
+                    'vehicle' => new MongoDB\BSON\ObjectId($vehicle),
+                    'user' => new MongoDB\BSON\ObjectId($technicians[$i]),
+                    'type' => $vehice->type,
+                    'level' => $vehice->level,
+                    "activeManager" => false,
+                    "active" => false,
+                    'created' => date("d-m-y")
+                ];
+            
+                $vehicles->updateOne(
+                    ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
+                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
+                );
+                $allocations->insertOne($allocate);
+            }
+        }
+        $success_msg = 'Technicien(s) affecté(s) avec succès';
+    } elseif ($vehice->type == 'Factuel') {
         for ($i = 0; $i < count($technicians); $i++) {
             $allocateExist = $allocations->findOne([
                 '$and' => [
@@ -47,30 +79,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         
             if ($allocateExist) {
                 $allocateExist->active = false;
-                $allocateExist->save();
+                $allocations->updateOne(
+                    ['_id' => new MongoDB\BSON\ObjectId($allocateExist->_id)],
+                    ['$set' => ['active' => false]]
+                );
                 $vehicles->updateOne(
                     ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
                     ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
                 );
-                $success_msg = 'Technicien(s) affecté(s) avec succès';
-            } elseif ($vehice->type == 'Declaratif') {
-                $allocate = [
-                    'vehicle' => new MongoDB\BSON\ObjectId($vehicle),
-                    'user' => new MongoDB\BSON\ObjectId($technicians[$i]),
-                    'type' => $vehice->type,
-                    'level' => $vehice->level,
-                    "activeManager" => false,
-                    "active" => false,
-                    'created' => date("d-m-y")
-
-                ];
-            
-                $vehicles->updateOne(
-                    ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
-                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
-                );
-                $allocations->insertOne($allocate);
-                $success_msg = 'Technicien(s) affecté(s) avec succès';
             } else {
                 $allocate = [
                     'vehicle' => new MongoDB\BSON\ObjectId($vehicle),
@@ -86,11 +102,10 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
                 );
                 $allocations->insertOne($allocate);
-                $success_msg = 'Technicien(s) affecté(s) avec succès';
             }
         }
+        $success_msg = 'Technicien(s) affecté(s) avec succès';
     }
-    
 }
 
 ?>
@@ -198,8 +213,8 @@ include_once 'partials/header.php'
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <select name="technicians" aria-label="Select a Country" data-control="select2"
-                                    data-placeholder="Sélectionnez le technicien..."
+                                <select name="technicians[]" multiple aria-label="Select a Country"
+                                    data-control="select2" data-placeholder="Sélectionnez le technicien..."
                                     class="form-select form-select-solid fw-bold">
                                     <option value="">Sélectionnez le technicien...</option>
                                     <?php

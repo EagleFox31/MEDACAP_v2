@@ -219,7 +219,8 @@ include('./partials/header.php')
                                         </td>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                Questionnaire sur la maitrise tâches professionnelles des techniciens
+                                                Questionnaire sur la maitrise des tâches professionnelles des
+                                                techniciens
                                             </span>
                                         </td>
                                         <td>

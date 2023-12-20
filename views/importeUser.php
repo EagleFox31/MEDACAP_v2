@@ -54,9 +54,15 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 [ 'active' => true ],
             ],
         ]);
+        $manager = $users->findOne([
+            '$and' => [
+                'username' => $usernameManager,
+                'active' => true
+            ]
+        ]);
         if ($member){
             $error_msg = "Cet utilisateur ".$firstName." ".$lastName." existe déjà";
-        } else {
+        } elseif ($profile == 'Technicien') {
             $person = [
                 'users' => [],
                 'username' => $username,
@@ -78,42 +84,325 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
                 'password' => $password,
-                'manager' => "",
+                'manager' => new MongoDB\BSON\ObjectId( $manager->_id ),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
         
             $user = $users->insertOne($person);
-            $create =  $users->findOne([
-                '$and' => [
-                    [ '_id' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            $manager = $users->findOne([
-                '$and' => [
-                    'username' => $usernameManager,
-                    'active' => true
-                ]
-            ]);
-            $create->manager = new MongoDB\BSON\ObjectId( $manager->_id );
+            
             $users->updateOne(
-                [ '_id' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ],
-                [ '$set' => $create ]
+                [ '_id' => new MongoDB\BSON\ObjectId( $manager->_id ) ],
+                [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
             );
-            $vehicle = $vehicles->findOne([
+            
+            $vehicleFacJu = $vehicles->findOne([
                 '$and' => [
                     [ 'label' => $vehicle ],
                     [ 'brand' => $brand ],
-                    [ 'level' => "Junior" ],
+                    [ 'type' => 'Factuel' ],
+                    [ 'level' => 'Junior' ],
                     [ 'active' => true ],
                 ],
             ]);
-            $vehicles->updateOne(
-                [ '_id' => new MongoDB\BSON\ObjectId( $vehicle->_id ) ],
-                [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() )] ]
-            );
-            $success_msg = "Utilisateurs ajoutés avec succès";
+            $vehicleDeclaJu = $vehicles->findOne([
+                '$and' => [
+                    [ 'label' => $vehicle ],
+                    [ 'brand' => $brand ],
+                    [ 'type' => 'Declaratif' ],
+                    [ 'level' => 'Junior' ],
+                    [ 'active' => true ],
+                ],
+            ]);
+            $vehicleFacSe = $vehicles->findOne([
+                '$and' => [
+                    [ 'label' => $vehicle ],
+                    [ 'brand' => $brand ],
+                    [ 'type' => 'Factuel' ],
+                    [ 'level' => 'Senior' ],
+                    [ 'active' => true ],
+                ],
+            ]);
+            $vehicleDeclaSe = $vehicles->findOne([
+                '$and' => [
+                    [ 'label' => $vehicle ],
+                    [ 'brand' => $brand ],
+                    [ 'type' => 'Declaratif' ],
+                    [ 'level' => 'Senior' ],
+                    [ 'active' => true ],
+                ],
+            ]);
+            $vehicleFacEx = $vehicles->findOne([
+                '$and' => [
+                    [ 'label' => $vehicle ],
+                    [ 'brand' => $brand ],
+                    [ 'type' => 'Factuel' ],
+                    [ 'level' => 'Expert' ],
+                    [ 'active' => true ],
+                ],
+            ]);
+            $vehicleDeclaEx = $vehicles->findOne([
+                '$and' => [
+                    [ 'label' => $vehicle ],
+                    [ 'brand' => $brand ],
+                    [ 'type' => 'Declaratif' ],
+                    [ 'level' => 'Expert' ],
+                    [ 'active' => true ],
+                ],
+            ]);
+            if ($level == 'Technicien de maintenance') {
+                if ($vehicleFacJu) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleFacJu->type,
+                        'level' => $vehicleFacJu->level,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                        ];
+                        $allocations->insertOne( $allocates );
+                }
+                if ($vehicleDeclaJu) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleDeclaJu->type,
+                        'level' => $vehicleDeclaJu->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                    ];
+                    $allocations->insertOne( $allocates );
+                }
+                $success_msg = 'Technicien ajouté avec succès';
+            } elseif ($level == 'Technicien de réparation') {
+                if ($vehicleFacJu) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleFacJu->type,
+                        'level' => $vehicleFacJu->level,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                        ];
+                        $allocations->insertOne( $allocates );
+                }
+                if ($vehicleDeclaJu) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleDeclaJu->type,
+                        'level' => $vehicleDeclaJu->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                    ];
+                    $allocations->insertOne( $allocates );
+                }
+                if ($vehicleFacSe) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleFacSe->type,
+                        'level' => $vehicleFacSe->level,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                        ];
+                        $allocations->insertOne( $allocates );
+                }
+                if ($vehicleDeclaSe) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleDeclaSe->type,
+                        'level' => $vehicleDeclaSe->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                    ];
+                    $allocations->insertOne( $allocates );
+                }
+                $success_msg = 'Technicien ajouté avec succès';
+            } elseif ($level == 'Technicien de diagnostic') {
+                if ($vehicleFacJu) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleFacJu->type,
+                        'level' => $vehicleFacJu->level,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                        ];
+                        $allocations->insertOne( $allocates );
+                }
+                if ($vehicleDeclaJu) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleDeclaJu->type,
+                        'level' => $vehicleDeclaJu->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                    ];
+                    $allocations->insertOne( $allocates );
+                }
+                if ($vehicleFacSe) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleFacSe->type,
+                        'level' => $vehicleFacSe->level,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                        ];
+                        $allocations->insertOne( $allocates );
+                }
+                if ($vehicleDeclaSe) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleDeclaSe->type,
+                        'level' => $vehicleDeclaSe->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                    ];
+                    $allocations->insertOne( $allocates );
+                }
+                if ($vehicleFacEx) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacEx->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacEx->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleFacEx->type,
+                        'level' => $vehicleFacEx->level,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                        ];
+                        $allocations->insertOne( $allocates );
+                }
+                if ($vehicleDeclaEx) {
+                    $vehicles->updateOne(
+                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaEx->_id ) ],
+                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                    );
+                    $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaEx->_id ),
+                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        'type' => $vehicleDeclaEx->type,
+                        'level' => $vehicleDeclaEx->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-Y"),
+                    ];
+                    $allocations->insertOne( $allocates );
+                }
+                $success_msg = 'Techniciens ajoutés avec succès';
+            }
+        } elseif ( $profile == 'Manager' ) {
+            $personM = [
+                'users' => [],
+                'username' => $username,
+                'matricule' => $matricule,
+                'firstName' => ucfirst( $firstName ),
+                'lastName' => ucfirst( $lastName ),
+                'email' => $email,
+                'phone' => $phone,
+                'gender' => $gender,
+                'level' => 'Non applicable',
+                'country' => $country,
+                'profile' => $profile,
+                'birthdate' => $birthdate,
+                'recrutmentDate' => $recrutmentDate,
+                'certificate' => ucfirst( $certificate ),
+                'subsidiary' => ucfirst( $subsidiary ),
+                'speciality' => ucfirst( $speciality ),
+                'vehicle' => $vehicle,
+                'subVehicle' => $subVehicle,
+                'brand' => $brand,
+                'department' => ucfirst( $department ),
+                'subRole' => ucfirst( $subRole ),
+                'mainRole' => ucfirst( $mainRole ),
+                'password' => $password_hash,
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $users->insertOne( $personM );
+            $success_msg = 'Managers ajoutés avec succès';
+        } else {
+            $personA = [
+                'users' => [],
+                'username' => $username,
+                'matricule' => $matricule,
+                'firstName' => ucfirst( $firstName ),
+                'lastName' => ucfirst( $lastName ),
+                'email' => $email,
+                'phone' => $phone,
+                'gender' => $gender,
+                'level' => 'Non applicable',
+                'country' => $country,
+                'profile' => $profile,
+                'birthdate' => $birthdate,
+                'recrutmentDate' => $recrutmentDate,
+                'certificate' => ucfirst( $certificate ),
+                'subsidiary' => ucfirst( $subsidiary ),
+                'speciality' => ucfirst( $speciality ),
+                'vehicle' => $vehicle,
+                'subVehicle' => $subVehicle,
+                'brand' => $brand,
+                'department' => ucfirst( $department ),
+                'subRole' => ucfirst( $subRole ),
+                'mainRole' => ucfirst( $mainRole ),
+                'password' => $password_hash,
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $users->insertOne( $personA );
+            $success_msg = 'Administrateurs ajoutés avec succès';
         }
     }
 }

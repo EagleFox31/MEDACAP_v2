@@ -803,7 +803,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ] ]
                     );
-                    bus['total']++;
+                    $bus['total']++;
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$set' => $bus ]
@@ -1775,7 +1775,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ] ]
                     );
-                    bus['total']++;
+                    $bus['total']++;
                     $vehicles->updateOne(
                         [ '_id' => new MongoDB\BSON\ObjectId( $bus->_id ) ],
                         [ '$set' => $bus ]

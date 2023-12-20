@@ -3732,22 +3732,23 @@ function countTimer() {
     var minutes = Math.floor((totalSecond - hour * 3600) / 60);
     var seconds = totalSecond - (hour * 3600 + minutes * 60);
 
-    if (minutes < 9 && hour > 9) {
+    if (minutes <= 9 && hour > 9) {
         document.getElementById("timer_sec").innerHTML = hour + ":" + "0" + minutes;
         document.getElementById("clock").value = hour + ":" + "0" + minutes + ":" + seconds;
-    } else if (hour < 9 && minutes > 9) {
+    }
+    if (hour <= 9 && minutes > 9) {
         document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + minutes;
         document.getElementById("clock").value = "0" + hour + ":" + minutes + ":" + seconds;
-    } else if (hour < 9 && minutes < 9) {
-        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
-        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
-    } else if (hour == 9 && minutes == 9) {
-        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
-        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
-    } else {
-        document.getElementById("timer_sec").innerHTML = hour + ":" + minutes;
-        document.getElementById("clock").value = hour + ":" + minutes + ":" + seconds;
     }
+    if (hour <= 9 && minutes <= 9) {
+        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
+        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
+    }
+    if (hour == 9 && minutes == 9) {
+        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
+        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
+    }
+    Et
 }
 
 let radio;
