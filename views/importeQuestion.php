@@ -29,16 +29,16 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $array = [];
 
     foreach ($data as $row) {
-        $label = $row["0"];
-        $proposal1 = $row["1"];
-        $proposal2 = $row["2"];
-        $proposal3 = $row["3"];
-        $proposal4 = $row["4"];
-        $answer = $row["5"];
-        $speciality = $row["6"];
-        $type = $row["7"];
-        $image = $row["8"];
-        $level = $row["9"];
+        $speciality = $row["0"];
+        $level = $row["1"];
+        $label = $row["2"];
+        $proposal1 = $row["3"];
+        $proposal2 = $row["4"];
+        $proposal3 = $row["5"];
+        $proposal4 = $row["6"];
+        $image = $row["7"];
+        $answer = $row["8"];
+        $type = $row["9"];
         
         $exist = $questions->findOne([
             '$and' => [
@@ -98,7 +98,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     [ 'label' => 'Chariots' ],
                     [ 'level' => $level ],
                     [ 'type' => 'Factuel' ],
-                    [ 'active' => true ],
+                    [ 'active' => true ]
                 ],
             ]);
             $engins = $vehicles->findOne([
@@ -114,7 +114,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     [ 'label' => 'Voitures' ],
                     [ 'level' => $level ],
                     [ 'type' => 'Factuel' ],
-                    [ 'active' => true ],
+                    [ 'active' => true ]
                 ],
             ]);
             
