@@ -114,7 +114,7 @@
         <!--begin::Page-->
         <div class="page d-flex flex-row flex-column-fluid">
             <!--begin::Aside-->
-            <?php if ($_SESSION["profile"] == "Super Admin" || $_SESSION["profile"] == "Admin") {?>
+            <?php if ($_SESSION['profile'] == 'Super Admin' || $_SESSION['profile'] == 'Admin') {?>
             <div id="kt_aside" class="aside aside-default  aside-hoverable " data-kt-drawer="true"
                 data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}"
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
@@ -498,7 +498,7 @@
                 </div>
                 <!--end::Footer-->
             </div>
-            <?php } elseif ($_SESSION["profile"] == "Technicien" || $_SESSION["profile"] == "Manager") { ?>
+            <?php } elseif ($_SESSION['profile'] == 'Technicien' || $_SESSION['profile'] == 'Manager') { ?>
             <div id="kt_aside" class="aside aside-default  aside-hoverable " data-kt-drawer="true"
                 data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}"
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
@@ -538,7 +538,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--begin:Menu item-->
-                                <?php if ($_SESSION["profile"] == "Manager") {?>
+                                <?php if ($_SESSION['profile'] == 'Manager') {?>
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
@@ -601,7 +601,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php } elseif ($_SESSION["profile"] == "Technicien") { ?>
+                                <?php } elseif ($_SESSION['profile'] == 'Technicien') { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
@@ -817,8 +817,8 @@
                                         data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                                         <img alt="Pic" src="../public/assets/media/avatars/300-1.jpg" />
                                         <b>
-                                            <?php echo $_SESSION["firstName"] ?>
-                                            <?php echo $_SESSION["lastName"] ?>
+                                            <?php echo $_SESSION['firstName']; ?>
+                                            <?php echo $_SESSION['lastName']; ?>
                                         </b>
                                     </div>
                                     <!--begin::User account menu-->
@@ -826,7 +826,7 @@
                                         data-kt-menu="true">
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a href="./profile.php?id=<?php echo $_SESSION["id"] ?>">
+                                            <a href="./profile.php?id=<?php echo $_SESSION['id']; ?>">
                                                 <div class="menu-content d-flex align-items-center px-3">
                                                     <!--begin::Avatar-->
                                                     <div class="symbol symbol-50px me-5">
@@ -839,14 +839,14 @@
                                                         <div class="d-flex flex-column">
                                                             <div
                                                                 class="fw-bolder d-flex align-items-center text-black fs-5">
-                                                                Salut, <?php echo $_SESSION["firstName"] ?>
+                                                                Salut, <?php echo $_SESSION['firstName']; ?>
                                                                 <span
                                                                     class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">
-                                                                    <?php echo $_SESSION["profile"] ?>
+                                                                    <?php echo $_SESSION['profile']; ?>
                                                                 </span>
                                                             </div>
                                                             <div class="fw-bold text-muted text-hover-primary fs-7">
-                                                                <?php echo $_SESSION["email"] ?>
+                                                                <?php echo $_SESSION['email']; ?>
                                                             </div>
                                                         </div>
                                                         <!--end::Username-->
@@ -860,7 +860,7 @@
                                         <!--end::Menu separator-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="./profile.php?id=<?php echo $_SESSION["id"] ?>"
+                                            <a href="./profile.php?id=<?php echo $_SESSION['id']; ?>"
                                                 class="menu-link px-5">
                                                 Profil
                                             </a>

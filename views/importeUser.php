@@ -38,15 +38,18 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $certificate = $row["8"];
         $subsidiary = $row["9"];
         $level = $row["10"];
-        $password = password_hash( $row["11"], PASSWORD_DEFAULT );
+        $password = sha1( $row["11"] );
         $department = $row["12"];
         $mainRole = $row["13"];
         $subRole = $row["14"];
-        $profile = $row["15"];
-        $recrutmentDate = $row["16"];
-        $matricule = $row["17"];
-        $username = $row["18"];
-        $usernameManager = $row["19"];
+        $subVehicle = $_POST[ '15' ];
+        $vehicle = $_POST[ '16' ];
+        $brand = $_POST[ '17' ];
+        $profile = $row["18"];
+        $recrutmentDate = $row["19"];
+        $matricule = $row["20"];
+        $username = $row["21"];
+        $usernameManager = $row["22"];
 
         $member =  $users->findOne([
             '$and' => [
@@ -80,6 +83,9 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 'certificate' => ucfirst( $certificate ),
                 'subsidiary' => ucfirst( $subsidiary ),
                 'speciality' => ucfirst( $speciality ),
+                'vehicle' => $vehicle,
+                'subVehicle' => $subVehicle,
+                'brand' => $brand,
                 'department' => ucfirst( $department ),
                 'subRole' => ucfirst( $subRole ),
                 'mainRole' => ucfirst( $mainRole ),
