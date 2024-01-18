@@ -1,434 +1,551 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION['id'])) {
+    header('Location: ./index.php');
     exit();
 } else {
-require_once '../vendor/autoload.php';
+    require_once '../vendor/autoload.php';
 
-// Create connection
-$conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+    // Create connection
+    $conn = new MongoDB\Client('mongodb://localhost:27017');
 
-// Connecting in database
-$academy = $conn->academy;
+    // Connecting in database
+    $academy = $conn->academy;
 
-// Connecting in collections
-$users = $academy->users;
-$vehicles = $academy->vehicles;
-$quizzes = $academy->quizzes;
-$allocations = $academy->allocations;
+    // Connecting in collections
+    $users = $academy->users;
+    $vehicles = $academy->vehicles;
+    $quizzes = $academy->quizzes;
+    $allocations = $academy->allocations;
 
-if ( isset( $_POST[ 'submit' ] ) ) {
+    if (isset($_POST['submit'])) {
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $matricule = $_POST['matricule'];
+        $username = $_POST['username'];
+        $subsidiary = $_POST['subsidiary'];
+        $department = $_POST['department'];
+        $subRole = $_POST['subRole'];
+        $mainRole = $_POST['mainRole'];
+        $profile = $_POST['profile'];
+        $gender = $_POST['gender'];
+        $password = $_POST['password'];
+        $country = $_POST['country'];
+        $certificate = $_POST['certificate'];
+        $speciality = $_POST['speciality'];
+        $subVehicle = $_POST['subVehicle'];
+        $vehicle = $_POST['vehicle'];
+        $brand = $_POST['brand'];
+        $birthdate = date('d-m-Y', strtotime($_POST['birthdate']));
+        $recrutmentDate = date('d-m-Y', strtotime($_POST['recrutmentDate']));
+        $level = $_POST['level'];
+        $manager = $_POST['manager'];
+        $password = $_POST['password'];
 
-    $firstName = $_POST[ 'firstName' ];
-    $lastName = $_POST[ 'lastName' ];
-    $email = $_POST[ 'email' ];
-    $phone = $_POST[ 'phone' ];
-    $matricule = $_POST[ 'matricule' ];
-    $username = $_POST[ 'username' ];
-    $subsidiary = $_POST[ 'subsidiary' ];
-    $department = $_POST[ 'department' ];
-    $subRole = $_POST[ 'subRole' ];
-    $mainRole = $_POST[ 'mainRole' ];
-    $profile = $_POST[ 'profile' ];
-    $gender = $_POST[ 'gender' ];
-    $password = $_POST[ 'password' ];
-    $country = $_POST[ 'country' ];
-    $certificate = $_POST[ 'certificate' ];
-    $speciality = $_POST[ 'speciality' ];
-    $subVehicle = $_POST[ 'subVehicle' ];
-    $vehicle = $_POST[ 'vehicle' ];
-    $brand = $_POST[ 'brand' ];
-    $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
-    $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
-    $level = $_POST[ 'level' ];
-    $manager = $_POST[ 'manager' ];
-    $password = $_POST[ 'password' ];
+        $techs = [];
 
-    $techs = [];
-
-    $password_hash = sha1( $password );
-    $member =  $users->findOne([
+        $password_hash = sha1($password);
+        $member = $users->findOne([
         '$and' => [
-            [ 'username' => $username ],
-            [ 'active' => true ],
+            ['username' => $username],
+            ['active' => true],
         ],
     ]);
-    if (empty( $firstName ) ||
-        empty( $lastName ) ||
-        empty( $mainRole ) ||
-        empty( $username ) ||
-        empty( $matricule ) ||
-        empty( $speciality ) ||
-        empty( $birthdate ) ||
-        empty( $certificate ) ||
-        empty( $subsidiary ) ||
-        empty( $department ) ||
-        empty( $recrutmentDate ) ||
-        empty( $gender ) ||
-        empty( $vehicle ) ||
-        empty( $brand ) ||
-        !filter_var( $email, FILTER_VALIDATE_EMAIL ) ||
-        preg_match( '/^[\D]{15}$/', $phone ) ||
-        preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
+        if (empty($firstName) ||
+        empty($lastName) ||
+        empty($mainRole) ||
+        empty($username) ||
+        empty($matricule) ||
+        empty($speciality) ||
+        empty($birthdate) ||
+        empty($certificate) ||
+        empty($subsidiary) ||
+        empty($department) ||
+        empty($recrutmentDate) ||
+        empty($gender) ||
+        empty($level) ||
+        empty($vehicle) ||
+        empty($brand) ||
+        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+        preg_match('/^[\D]{15}$/', $phone) ||
+        preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password)) {
             $error = 'Champ obligatoire';
-            $email_error = ( "L'adresse email est invalide" );
-            $phone_error = ( 'Le numéro de téléphone est invalide' );
-            $password_error = ( 'Le mot de passe doit être au moins six caractères, un chiffre, une lettre majiscule' );
-    } elseif ( $member ) {
-        $error_msg = 'Cet utilisateur existe déjà';
-    } else {
-        if ( $profile == 'Technicien' ) {
-            $personT = [
-                'users' => [],
-                'username' => $username,
-                'matricule' => $matricule,
-                'firstName' => ucfirst( $firstName ),
-                'lastName' => ucfirst( $lastName ),
-                'email' => $email,
-                'phone' => $phone,
-                'gender' => $gender,
-                'level' => $level,
-                'country' => $country,
-                'profile' => $profile,
-                'birthdate' => $birthdate,
-                'recrutmentDate' => $recrutmentDate,
-                'certificate' => ucfirst( $certificate ),
-                'subsidiary' => ucfirst( $subsidiary ),
-                'speciality' => ucfirst( $speciality ),
-                'vehicle' => $vehicle,
-                'subVehicle' => $subVehicle,
-                'brand' => $brand,
-                'department' => ucfirst( $department ),
-                'subRole' => ucfirst( $subRole ),
-                'mainRole' => ucfirst( $mainRole ),
-                'password' => $password_hash,
-                'manager' => new MongoDB\BSON\ObjectId( $manager ),
-                'active' => true,
-                'created' => date("d-m-Y")
-            ];
-            $user = $users->insertOne( $personT );
-            $users->updateOne(
-                [ '_id' => new MongoDB\BSON\ObjectId( $manager ) ],
-                [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
-            );
-            $vehicleFacJu = $vehicles->findOne([
-                '$and' => [
-                    [ 'label' => $vehicle ],
-                    [ 'brand' => $brand ],
-                    [ 'type' => 'Factuel' ],
-                    [ 'level' => 'Junior' ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            $vehicleDeclaJu = $vehicles->findOne([
-                '$and' => [
-                    [ 'label' => $vehicle ],
-                    [ 'brand' => $brand ],
-                    [ 'type' => 'Declaratif' ],
-                    [ 'level' => 'Junior' ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            $vehicleFacSe = $vehicles->findOne([
-                '$and' => [
-                    [ 'label' => $vehicle ],
-                    [ 'brand' => $brand ],
-                    [ 'type' => 'Factuel' ],
-                    [ 'level' => 'Senior' ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            $vehicleDeclaSe = $vehicles->findOne([
-                '$and' => [
-                    [ 'label' => $vehicle ],
-                    [ 'brand' => $brand ],
-                    [ 'type' => 'Declaratif' ],
-                    [ 'level' => 'Senior' ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            $vehicleFacEx = $vehicles->findOne([
-                '$and' => [
-                    [ 'label' => $vehicle ],
-                    [ 'brand' => $brand ],
-                    [ 'type' => 'Factuel' ],
-                    [ 'level' => 'Expert' ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            $vehicleDeclaEx = $vehicles->findOne([
-                '$and' => [
-                    [ 'label' => $vehicle ],
-                    [ 'brand' => $brand ],
-                    [ 'type' => 'Declaratif' ],
-                    [ 'level' => 'Expert' ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            if ($level == 'Technicien de maintenance') {
-                if ($vehicleFacJu) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+            $email_error = ("L'adresse email est invalide");
+            $phone_error = ('Le numéro de téléphone est invalide');
+            $password_error = ('Le mot de passe doit être au moins six caractères, un chiffre, une lettre majiscule');
+        } elseif ($member) {
+            $error_msg = 'Cet utilisateur existe déjà';
+        } else {
+            if ($profile == 'Technicien') {
+                if ($manager) {
+                    $personT = [
+                        'users' => [],
+                        'username' => $username,
+                        'matricule' => $matricule,
+                        'firstName' => ucfirst($firstName),
+                        'lastName' => ucfirst($lastName),
+                        'email' => $email,
+                        'phone' => +$phone,
+                        'gender' => $gender,
+                        'level' => $level,
+                        'country' => $country,
+                        'profile' => $profile,
+                        'birthdate' => $birthdate,
+                        'recrutmentDate' => $recrutmentDate,
+                        'certificate' => ucfirst($certificate),
+                        'subsidiary' => ucfirst($subsidiary),
+                        'speciality' => ucfirst($speciality),
+                        'vehicle' => $vehicle,
+                        'subVehicle' => $subVehicle,
+                        'brand' => $brand,
+                        'department' => ucfirst($department),
+                        'mainRole' => ucfirst($mainRole),
+                        'subRole' => ucfirst($subRole),
+                        'password' => $password_hash,
+                        'manager' => new MongoDB\BSON\ObjectId($manager),
+                        'active' => true,
+                        'created' => date('d-m-Y'),
+                    ];
+                    $user = $users->insertOne($personT);
+                    $users->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($manager)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                } else {
+                    $personT = [
+                        'users' => [],
+                        'username' => $username,
+                        'matricule' => $matricule,
+                        'firstName' => ucfirst($firstName),
+                        'lastName' => ucfirst($lastName),
+                        'email' => $email,
+                        'phone' => +$phone,
+                        'gender' => $gender,
+                        'level' => $level,
+                        'country' => $country,
+                        'profile' => $profile,
+                        'birthdate' => $birthdate,
+                        'recrutmentDate' => $recrutmentDate,
+                        'certificate' => ucfirst($certificate),
+                        'subsidiary' => ucfirst($subsidiary),
+                        'speciality' => ucfirst($speciality),
+                        'vehicle' => $vehicle,
+                        'subVehicle' => $subVehicle,
+                        'brand' => $brand,
+                        'department' => ucfirst($department),
+                        'mainRole' => ucfirst($mainRole),
+                        'subRole' => ucfirst($subRole),
+                        'password' => $password_hash,
+                        'manager' => "",
+                        'active' => true,
+                        'created' => date('d-m-Y'),
+                    ];
+                    $user = $users->insertOne($personT);
+                }
+                $vehicleFacJu = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Factuel'],
+                    ['level' => 'Junior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleDeclaJu = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Declaratif'],
+                    ['level' => 'Junior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleFacSe = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Factuel'],
+                    ['level' => 'Senior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleDeclaSe = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Declaratif'],
+                    ['level' => 'Senior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleFacEx = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Factuel'],
+                    ['level' => 'Expert'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleDeclaEx = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Declaratif'],
+                    ['level' => 'Expert'],
+                    ['active' => true],
+                ],
+            ]);
+                if ($level == 'Junior (Maintenance)') {
+                    if ($vehicleFacJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleFacJu->type,
                         'level' => $vehicleFacJu->level,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                         ];
-                        $allocations->insertOne( $allocates );
-                }
-                if ($vehicleDeclaJu) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleDeclaJu->type,
                         'level' => $vehicleDeclaJu->level,
                         'activeManager' => false,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                     ];
-                    $allocations->insertOne( $allocates );
-                }
-                $success_msg = 'Technicien ajouté avec succès';
-            } elseif ($level == 'Technicien de réparation') {
-                if ($vehicleFacJu) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    $success_msg = 'Technicien ajouté avec succès';
+                } elseif ($level == 'Senior (Réparation)') {
+                    if ($vehicleFacJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleFacJu->type,
                         'level' => $vehicleFacJu->level,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                         ];
-                        $allocations->insertOne( $allocates );
-                }
-                if ($vehicleDeclaJu) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleDeclaJu->type,
                         'level' => $vehicleDeclaJu->level,
                         'activeManager' => false,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                     ];
-                    $allocations->insertOne( $allocates );
-                }
-                if ($vehicleFacSe) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleFacSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleFacSe->type,
                         'level' => $vehicleFacSe->level,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                         ];
-                        $allocations->insertOne( $allocates );
-                }
-                if ($vehicleDeclaSe) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleDeclaSe->type,
                         'level' => $vehicleDeclaSe->level,
                         'activeManager' => false,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                     ];
-                    $allocations->insertOne( $allocates );
-                }
-                $success_msg = 'Technicien ajouté avec succès';
-            } elseif ($level == 'Technicien de diagnostic') {
-                if ($vehicleFacJu) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    $success_msg = 'Technicien ajouté avec succès';
+                } elseif ($level == 'Expert (Diagnostic)') {
+                    if ($vehicleFacJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacJu->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleFacJu->type,
                         'level' => $vehicleFacJu->level,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                         ];
-                        $allocations->insertOne( $allocates );
-                }
-                if ($vehicleDeclaJu) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaJu->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleDeclaJu->type,
                         'level' => $vehicleDeclaJu->level,
                         'activeManager' => false,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                     ];
-                    $allocations->insertOne( $allocates );
-                }
-                if ($vehicleFacSe) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleFacSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacSe->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleFacSe->type,
                         'level' => $vehicleFacSe->level,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                         ];
-                        $allocations->insertOne( $allocates );
-                }
-                if ($vehicleDeclaSe) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaSe->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleDeclaSe->type,
                         'level' => $vehicleDeclaSe->level,
                         'activeManager' => false,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                     ];
-                    $allocations->insertOne( $allocates );
-                }
-                if ($vehicleFacEx) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleFacEx->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleFacEx) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacEx->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleFacEx->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacEx->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleFacEx->type,
                         'level' => $vehicleFacEx->level,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                         ];
-                        $allocations->insertOne( $allocates );
-                }
-                if ($vehicleDeclaEx) {
-                    $vehicles->updateOne(
-                        [ '_id' => new MongoDB\BSON\ObjectId( $vehicleDeclaEx->_id ) ],
-                        [ '$push' => [ 'users' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ) ] ]
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaEx) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaEx->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $vehicleDeclaEx->_id ),
-                        'user' => new MongoDB\BSON\ObjectId( $user->getInsertedId() ),
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaEx->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
                         'type' => $vehicleDeclaEx->type,
                         'level' => $vehicleDeclaEx->level,
                         'activeManager' => false,
                         'active' => false,
-                        'created' => date("d-m-Y"),
+                        'created' => date('d-m-Y'),
                     ];
-                    $allocations->insertOne( $allocates );
+                        $allocations->insertOne($allocates);
+                    }
+                    $success_msg = 'Technicien ajouté avec succès';
                 }
-                $success_msg = 'Technicien ajouté avec succès';
+            } elseif ($profile == 'Manager') {
+                if ($manager) {
+                    $personM = [
+                        'users' => [],
+                        'username' => $username,
+                        'matricule' => $matricule,
+                        'firstName' => ucfirst($firstName),
+                        'lastName' => ucfirst($lastName),
+                        'email' => $email,
+                        'phone' => +$phone,
+                        'gender' => $gender,
+                        'level' => $level,
+                        'country' => $country,
+                        'profile' => $profile,
+                        'birthdate' => $birthdate,
+                        'recrutmentDate' => $recrutmentDate,
+                        'certificate' => ucfirst($certificate),
+                        'subsidiary' => ucfirst($subsidiary),
+                        'speciality' => ucfirst($speciality),
+                        'vehicle' => $vehicle,
+                        'subVehicle' => $subVehicle,
+                        'brand' => $brand,
+                        'department' => ucfirst($department),
+                        'mainRole' => ucfirst($mainRole),
+                        'subRole' => ucfirst($subRole),
+                        'password' => $password_hash,
+                        'manager' => new MongoDB\BSON\ObjectId($manager),
+                        'active' => true,
+                        'created' => date('d-m-Y'),
+                    ];
+                    $user = $users->insertOne($personM);
+                    $users->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($manager)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                } else {
+                    $personM = [
+                        'users' => [],
+                        'username' => $username,
+                        'matricule' => $matricule,
+                        'firstName' => ucfirst($firstName),
+                        'lastName' => ucfirst($lastName),
+                        'email' => $email,
+                        'phone' => +$phone,
+                        'gender' => $gender,
+                        'level' => $level,
+                        'country' => $country,
+                        'profile' => $profile,
+                        'birthdate' => $birthdate,
+                        'recrutmentDate' => $recrutmentDate,
+                        'certificate' => ucfirst($certificate),
+                        'subsidiary' => ucfirst($subsidiary),
+                        'speciality' => ucfirst($speciality),
+                        'vehicle' => $vehicle,
+                        'subVehicle' => $subVehicle,
+                        'brand' => $brand,
+                        'department' => ucfirst($department),
+                        'mainRole' => ucfirst($mainRole),
+                        'subRole' => ucfirst($subRole),
+                        'password' => $password_hash,
+                        'manager' => "",
+                        'active' => true,
+                        'created' => date('d-m-Y'),
+                    ];
+                    $user = $users->insertOne($personM);
+                }
+                $vehicleFacJu = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Factuel'],
+                    ['level' => 'Junior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleDeclaJu = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Declaratif'],
+                    ['level' => 'Junior'],
+                    ['active' => true],
+                ],
+            ]);
+                if ($level == 'Junior (Maintenance)') {
+                    if ($vehicleFacJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleFacJu->type,
+                        'level' => $vehicleFacJu->level,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                        ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleDeclaJu->type,
+                        'level' => $vehicleDeclaJu->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                    ];
+                        $allocations->insertOne($allocates);
+                    }
+                    $success_msg = 'Manager ajouté avec succès';
+                }
+            } elseif ($profile == 'Admin') {
+                $personA = [
+                'users' => [],
+                'username' => $username,
+                'matricule' => $matricule,
+                'firstName' => ucfirst($firstName),
+                'lastName' => ucfirst($lastName),
+                'email' => $email,
+                'phone' => +$phone,
+                'gender' => $gender,
+                'level' => 'Non applicable',
+                'country' => $country,
+                'profile' => $profile,
+                'birthdate' => $birthdate,
+                'recrutmentDate' => $recrutmentDate,
+                'certificate' => ucfirst($certificate),
+                'subsidiary' => ucfirst($subsidiary),
+                'speciality' => ucfirst($speciality),
+                'vehicle' => $vehicle,
+                'subVehicle' => $subVehicle,
+                'brand' => $brand,
+                'department' => ucfirst($department),
+                'mainRole' => ucfirst($mainRole),
+                'subRole' => ucfirst($subRole),
+                'password' => $password_hash,
+                'active' => true,
+                'created' => date('d-m-Y'),
+            ];
+                $users->insertOne($personA);
+                $success_msg = 'Administrateur ajouté avec succès';
             }
-        } elseif ( $profile == 'Manager' ) {
-            $personM = [
-                'users' => [],
-                'username' => $username,
-                'matricule' => $matricule,
-                'firstName' => ucfirst( $firstName ),
-                'lastName' => ucfirst( $lastName ),
-                'email' => $email,
-                'phone' => $phone,
-                'gender' => $gender,
-                'level' => 'Non applicable',
-                'country' => $country,
-                'profile' => $profile,
-                'birthdate' => $birthdate,
-                'recrutmentDate' => $recrutmentDate,
-                'certificate' => ucfirst( $certificate ),
-                'subsidiary' => ucfirst( $subsidiary ),
-                'speciality' => ucfirst( $speciality ),
-                'vehicle' => $vehicle,
-                'subVehicle' => $subVehicle,
-                'brand' => $brand,
-                'department' => ucfirst( $department ),
-                'subRole' => ucfirst( $subRole ),
-                'mainRole' => ucfirst( $mainRole ),
-                'password' => $password_hash,
-                'active' => true,
-                'created' => date("d-m-Y")
-            ];
-            $users->insertOne( $personM );
-            $success_msg = 'Manager ajouté avec succès';
-        } else {
-            $personA = [
-                'users' => [],
-                'username' => $username,
-                'matricule' => $matricule,
-                'firstName' => ucfirst( $firstName ),
-                'lastName' => ucfirst( $lastName ),
-                'email' => $email,
-                'phone' => $phone,
-                'gender' => $gender,
-                'level' => 'Non applicable',
-                'country' => $country,
-                'profile' => $profile,
-                'birthdate' => $birthdate,
-                'recrutmentDate' => $recrutmentDate,
-                'certificate' => ucfirst( $certificate ),
-                'subsidiary' => ucfirst( $subsidiary ),
-                'speciality' => ucfirst( $speciality ),
-                'vehicle' => $vehicle,
-                'subVehicle' => $subVehicle,
-                'brand' => $brand,
-                'department' => ucfirst( $department ),
-                'subRole' => ucfirst( $subRole ),
-                'mainRole' => ucfirst( $mainRole ),
-                'password' => $password_hash,
-                'active' => true,
-                'created' => date("d-m-Y")
-            ];
-            $users->insertOne( $personA );
-            $success_msg = 'Administrateur ajouté avec succès';
         }
-    }
-}
-
-?>
+    } ?>
 
 <?php
-include_once 'partials/header.php'
-?>
+include_once 'partials/header.php'; ?>
 
 <!--begin::Title-->
 <title>Ajouter Utilisateur | CFAO Mobility Academy</title>
@@ -449,31 +566,29 @@ include_once 'partials/header.php'
                 <h1 class='my-3 text-center'>Ajouter un utilisateur</h1>
 
                 <?php
-if ( isset( $success_msg ) ) {
-    ?>
+if (isset($success_msg)) {
+        ?>
                 <div class='alert alert-success alert-dismissible fade show' role='alert'>
-                    <center><strong><?php echo $success_msg ?></strong></center>
+                    <center><strong><?php echo $success_msg; ?></strong></center>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                         <span aria-hidden='true'>&times;
                         </span>
                     </button>
                 </div>
                 <?php
-}
-?>
+    } ?>
                 <?php
-if ( isset( $error_msg ) ) {
-    ?>
+if (isset($error_msg)) {
+        ?>
                 <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                    <center><strong><?php echo $error_msg ?></strong></center>
+                    <center><strong><?php echo $error_msg; ?></strong></center>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                         <span aria-hidden='true'>&times;
                         </span>
                     </button>
                 </div>
                 <?php
-}
-?>
+    } ?>
 
                 <form method='POST'><br>
                     <!--begin::Input group-->
@@ -489,14 +604,13 @@ if ( isset( $error_msg ) ) {
                                 <input class='form-control form-control-solid' placeholder='' name='firstName' />
                                 <!--end::Input-->
                                 <?php
-if ( isset( $error ) ) {
-    ?>
+if (isset($error)) {
+        ?>
                                 <span class='text-danger'>
-                                    <?php echo $error ?>
+                                    <?php echo $error; ?>
                                 </span>
                                 <?php
-}
-?>
+    } ?>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -508,14 +622,13 @@ if ( isset( $error ) ) {
                                 <input class='form-control form-control-solid' placeholder='' name='lastName' />
                                 <!--end::Input-->
                                 <?php
-if ( isset( $error ) ) {
-    ?>
+if (isset($error)) {
+        ?>
                                 <span class='text-danger'>
-                                    <?php echo $error ?>
+                                    <?php echo $error; ?>
                                 </span>
                                 <?php
-}
-?>
+    } ?>
                             </div>
                             <!--end::Col-->
                         </div>
@@ -529,14 +642,13 @@ if ( isset( $error ) ) {
                             <input type='text' class='form-control form-control-solid' placeholder='' name='username' />
                             <!--end::Input-->
                             <?php
-if ( isset( $error ) ) {
-    ?>
+if (isset($error)) {
+        ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-}
-?>
+    } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -549,14 +661,13 @@ if ( isset( $error ) ) {
                                 name='matricule' />
                             <!--end::Input-->
                             <?php
-if ( isset( $error ) ) {
-    ?>
+if (isset($error)) {
+        ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-}
-?>
+    } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -584,14 +695,13 @@ if ( isset( $error ) ) {
                         </div>
                         <!--end::Input group-->
                         <?php
-if ( isset( $error ) ) {
-    ?>
+if (isset($error)) {
+        ?>
                         <span class='text-danger'>
-                            <?php echo $error ?>
+                            <?php echo $error; ?>
                         </span>
                         <?php
-}
-?>
+    } ?>
                         <!--begin::Input group-->
                         <div class='fv-row mb-7'>
                             <!--begin::Label-->
@@ -608,14 +718,13 @@ if ( isset( $error ) ) {
                             <input type='email' class='form-control form-control-solid' placeholder='' name='email' />
                             <!--end::Input-->
                             <?php
-if ( isset( $email_error ) ) {
-    ?>
+if (isset($email_error)) {
+        ?>
                             <span class='text-danger'>
-                                <?php echo $email_error ?>
+                                <?php echo $email_error; ?>
                             </span>
                             <?php
-}
-?>
+    } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -628,14 +737,13 @@ if ( isset( $email_error ) ) {
                             <input type='text' class='form-control form-control-solid' placeholder='' name='phone' />
                             <!--end::Input-->
                             <?php
-if ( isset( $phone_error ) ) {
-    ?>
+if (isset($phone_error)) {
+        ?>
                             <span class='text-danger'>
-                                <?php echo $phone_error ?>
+                                <?php echo $phone_error; ?>
                             </span>
                             <?php
-}
-?>
+    } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -649,14 +757,13 @@ if ( isset( $phone_error ) ) {
                                 name='birthdate' />
                             <!--end::Input-->
                             <?php
-if ( isset( $error ) ) {
-    ?>
+if (isset($error)) {
+        ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-}
-?>
+    } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -920,14 +1027,13 @@ if ( isset( $error ) ) {
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -959,22 +1065,21 @@ if ( isset( $error ) ) {
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="d-flex flex-column mb-7 fv-row hidden" id="metier">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Métier</span> <span class="ms-1" data-bs-toggle="tooltip"
-                                    title="Choississez le métier du technicien uniquement quand le profil est technicien">
+                                <span class="required">Niveau</span> <span class="ms-1" data-bs-toggle="tooltip"
+                                    title="Choississez le niveau du technicien ou du manager">
                                     <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
                                             class="path2"></span><span class="path3"></span></i>
                                 </span>
@@ -982,30 +1087,29 @@ if ( isset( $error ) ) {
                             <!--end::Label-->
                             <!--begin::Input-->
                             <select name="level" aria-label="Select a Country" data-control="select2"
-                                data-placeholder="Sélectionnez le profile..."
+                                data-placeholder="Sélectionnez le niveau..."
                                 class="form-select form-select-solid fw-bold">
                                 <option>Sélectionnez le
-                                    métier du technicien...</option>
-                                <option value="Technicien de maintenance">
-                                    Technicien de maintenance
+                                    niveau...</option>
+                                <option value="Junior (Maintenance)">
+                                    Junior (Maintenance)
                                 </option>
-                                <option value="Technicien de réparation">
-                                    Technicien de réparation
+                                <option value="Senior (Réparation)">
+                                    Senior (Réparation)
                                 </option>
-                                <option value="Technicien de diagnostic">
-                                    Technicien de diagnostic
+                                <option value="Expert (Diagnostic)">
+                                    Expert (Diagnostic)
                                 </option>
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1018,14 +1122,13 @@ if ( isset( $error ) ) {
                                 name="certificate" />
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1038,14 +1141,13 @@ if ( isset( $error ) ) {
                                 name="subsidiary" />
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1070,14 +1172,13 @@ if ( isset( $error ) ) {
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1090,14 +1191,13 @@ if ( isset( $error ) ) {
                                 name="mainRole" />
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1143,8 +1243,14 @@ if ( isset( $error ) ) {
                                 <option value="Direction">
                                     Direction
                                 </option>
-                                <option value="Electricité">
-                                    Electricité
+                                <option value="Electricité et Electronique">
+                                    Electricité & Electronique
+                                </option>
+                                <option value="Freinage">
+                                    Freinage
+                                </option>
+                                <option value="Freinage Electromagnétique">
+                                    Freinage Electromagnétique
                                 </option>
                                 <option value="Freinage Hydraulique">
                                     Freinage Hydraulique
@@ -1164,6 +1270,9 @@ if ( isset( $error ) ) {
                                 <option value="Moteur Essence">
                                     Moteur Essence
                                 </option>
+                                <option value="Moteur Thermique">
+                                    Moteur Thermique
+                                </option>
                                 <option value="Multiplexage">
                                     Multiplexage
                                 </option>
@@ -1176,6 +1285,9 @@ if ( isset( $error ) ) {
                                 <option value="Réducteur">
                                     Réducteur
                                 </option>
+                                <option value="Suspension">
+                                    Suspension
+                                </option>
                                 <option value="Suspension à Lame">
                                     Suspension à Lame
                                 </option>
@@ -1185,20 +1297,19 @@ if ( isset( $error ) ) {
                                 <option value="Suspension Pneumatique">
                                     Suspension Pneumatique
                                 </option>
-                                <option value="Toutes les spécialités">
-                                    Toutes les spécialités
+                                <option value="Transversale">
+                                    Transversale
                                 </option>
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1231,14 +1342,13 @@ if ( isset( $error ) ) {
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1271,14 +1381,13 @@ if ( isset( $error ) ) {
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1339,14 +1448,13 @@ if ( isset( $error ) ) {
                             </select>
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1360,14 +1468,13 @@ if ( isset( $error ) ) {
                                 name="recrutmentDate" />
                             <!--end::Input-->
                             <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                    ?>
+                     } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1386,23 +1493,21 @@ if ( isset( $error ) ) {
                                 </div>
                                 <!--end::Input wrapper-->
                                 <?php
-                if(isset($password_error)) {
-                ?>
+                if (isset($password_error)) {
+                    ?>
                                 <span class="text-danger">
-                                    <?php echo $password_error ?>
+                                    <?php echo $password_error; ?>
                                 </span>
                                 <?php
-                }
-                ?>
+                } ?>
                                 <?php
-                     if(isset($error)) {
-                    ?>
+                     if (isset($error)) {
+                         ?>
                                 <span class='text-danger'>
-                                    <?php echo $error ?>
+                                    <?php echo $error; ?>
                                 </span>
                                 <?php
-                    }
-                    ?>
+                     } ?>
                                 <!--begin::Meter-->
                                 <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
                                     <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2">
@@ -1444,26 +1549,26 @@ if ( isset( $error ) ) {
                                 <?php
                     $manager = $users->find([
                         '$and' => [
-                            [ 'profile' => "Manager" ],
-                            [ 'active' => true ],
-                        ]
+                            ['profile' => 'Manager'],
+                            ['active' => true],
+                        ],
                     ]);
-                    foreach ($manager as $manager) {
-                    ?>
-                                <option value='<?php echo $manager->_id ?>'>
-                                    <?php echo $manager->firstName ?> <?php echo $manager->lastName ?>
+    foreach ($manager as $manager) {
+        ?>
+                                <option value='<?php echo $manager->_id; ?>'>
+                                    <?php echo $manager->firstName; ?> <?php echo $manager->lastName; ?>
                                 </option>
-                                <?php } ?>
+                                <?php
+    } ?>
                             </select>
                             <?php
-                    if(isset($error)) {
-                ?>
+                    if (isset($error)) {
+                        ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                ?>
+                    } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1484,26 +1589,26 @@ if ( isset( $error ) ) {
                                 <?php
                     $techniciens = $users->find([
                         '$and' => [
-                            [ 'profile' => "Technicien" ],
-                            [ 'active' => true ],
-                        ]
+                            ['profile' => 'Technicien'],
+                            ['active' => true],
+                        ],
                     ]);
-                    foreach ($techniciens as $technicien) {
-                    ?>
-                                <option value='<?php echo $technicien->_id ?>'>
-                                    <?php echo $technicien->firstName ?> <?php echo $technicien->lastName ?>
+    foreach ($techniciens as $technicien) {
+        ?>
+                                <option value='<?php echo $technicien->_id; ?>'>
+                                    <?php echo $technicien->firstName; ?> <?php echo $technicien->lastName; ?>
                                 </option>
-                                <?php } ?>
+                                <?php
+    } ?>
                             </select>
                             <?php
-                    if(isset($error)) {
-                ?>
+                    if (isset($error)) {
+                        ?>
                             <span class='text-danger'>
-                                <?php echo $error ?>
+                                <?php echo $error; ?>
                             </span>
                             <?php
-                    }
-                ?>
+                    } ?>
                         </div> -->
                         <!--end::Input group-->
                         <!--end::Scroll-->
@@ -1534,9 +1639,9 @@ if ( isset( $error ) ) {
 </div>
 <!--end::Body-->
 <?php
-include('./partials/footer.php' )
-?>
-<?php } ?>
+include './partials/footer.php'; ?>
+<?php
+} ?>
 
 <script>
 

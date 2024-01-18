@@ -23,7 +23,6 @@ $users = $academy->users;
 if ( isset( $_POST[ 'update-quiz' ] ) ) {
     $id = $_POST[ 'quizID' ];
     $label = $_POST[ 'label' ];
-    $description = $_POST[ 'description' ];
     $type = $_POST[ 'type' ];
     $speciality = $_POST[ 'speciality' ];
     $number = $_POST[ 'number' ];
@@ -31,7 +30,6 @@ if ( isset( $_POST[ 'update-quiz' ] ) ) {
     
     $quiz = [
         'label' => ucfirst( $label ),
-        'description' => ucfirst( $description ),
         'type' => $type,
         'speciality' => ucfirst( $speciality ),
         'level' => ucfirst( $level ),
@@ -564,23 +562,6 @@ include_once 'partials/header.php'
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="level"
                                                                         value="<?php echo $quiz->level ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Nombre
-                                                                        de
-                                                                        question
-                                                                        à
-                                                                        répondre</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="number"
-                                                                        value="<?php echo $quiz->number ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->

@@ -16,6 +16,16 @@
   color: #fff;
 } */
 
+.center {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 450px;
+  height: fit-content;
+  position: sticky;
+  top: 60px;
+  background: #edf2f7;
+}
+
 .container {
   max-width: 50rem;
   width: 90vw;

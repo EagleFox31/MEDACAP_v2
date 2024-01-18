@@ -33,6 +33,9 @@ if ( isset( $_POST[ 'update' ] ) ) {
     $mainRole = $_POST[ 'mainRole' ];
     $gender = $_POST[ 'gender' ];
     $country = $_POST[ 'country' ];
+    $vehicle = $_POST[ 'vehicle' ];
+    $subVehicle = $_POST[ 'subVehicle' ];
+    $brand = $_POST[ 'brand' ];
     $certificate = $_POST[ 'certificate' ];
     $speciality = $_POST[ 'speciality' ];
     $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
@@ -67,7 +70,14 @@ if ( isset( $_POST[ 'update' ] ) ) {
             'updated' => date("d-m-Y")
         ];
         
-    $member = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
+    $member = $users->findOne([
+        '$and' => [
+            [
+                '_id' => new MongoDB\BSON\ObjectId($id),
+                'active' => true
+            ]
+        ]
+    ]);
 
     if ( $managerId  ) {
         $users->updateOne(
@@ -1136,7 +1146,7 @@ include_once 'partials/header.php'
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
-                                                                <?php if($user->profile == "Technicien" ) { ?>
+                                                                <?php if($user->profile == "Technicien" || $user->profile == "Manager") { ?>
                                                                 <!--begin::Input group-->
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                     <!--begin::Label-->

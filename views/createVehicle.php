@@ -98,7 +98,23 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     ]);
     $electricite = $quizzes->findOne([
         '$and' => [
-            [ 'speciality' => "Electricité" ],
+            [ 'speciality' => "Electricité et Electronique" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $freinage = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Freinage" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $freinageElec = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Freinage Electronique" ],
             [ 'type' => $type ],
             [ 'level' => $level ],
             [ 'active' => true ],
@@ -152,6 +168,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             [ 'active' => true ],
         ],
     ]);
+    $moteurThermique = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Moteur Thermique" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
     $multiplexage = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Multiplexage" ],
@@ -179,6 +203,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $reducteur = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Reducteur" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $suspension = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Suspension" ],
             [ 'type' => $type ],
             [ 'level' => $level ],
             [ 'active' => true ],
@@ -221,18 +253,19 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         '$and' => [
             [ 'vehicle' => $label ],
             [ 'brand' => $brand ],
-            [ 'profile' => "Technicien" ],
             [ 'active' => true ],
         ],
     ])->toArray();
     
     for ($i = 0; $i < count($user); $i++) {
-        array_push($userArr, $user[$i]->_id);
-        if ($user[$i]->level == 'Technicien de réparation' || $user[$i]->level == 'Technicien de diagnostic') {
-            array_push($userArrR, $user[$i]->_id);
-        }
-        if ($user[$i]->level == 'Technicien de diagnostic') {
-            array_push($userArrD, $user[$i]->_id);
+        if ($user[$i]->profile == 'Technicien'  || $user[$i]->profile == 'Manager') {
+            array_push($userArr, $user[$i]->_id);
+            if ($user[$i]->level == 'Senior (Réparation)' || $user[$i]->level == 'Expert (Diagnostic)') {
+                array_push($userArrR, $user[$i]->_id);
+            }
+            if ($user[$i]->level == 'Expert (Diagnostic)') {
+                array_push($userArrD, $user[$i]->_id);
+            }
         }
     }
     
@@ -307,6 +340,19 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         array_push($quizCha, $electricite->_id);
         array_push($quizChaBt, $electricite->_id);
     }
+    if ($freinage) {
+        array_push($quizBus, $freinage->_id);
+        array_push($quizCam, $freinage->_id);
+        array_push($quizCamTrck, $freinage->_id);
+        array_push($quizCamO, $freinage->_id);
+        array_push($quizVl, $freinage->_id);
+        array_push($quizVls, $freinage->_id);
+        array_push($quizEng, $freinage->_id);
+        array_push($quizCha, $freinage->_id);
+    }
+    if ($freinageElec) {
+        array_push($quizChaBt, $freinage->_id);
+    }
     if ($freinageHyd) {
         array_push($quizVl, $freinageHyd->_id);
         array_push($quizVls, $freinageHyd->_id);
@@ -350,6 +396,16 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         array_push($quizCha, $moteurEssence->_id);
         array_push($quizChaBt, $moteurEssence->_id);
     }
+    if ($moteurThermique) {
+        array_push($quizBus, $moteurThermique->_id);
+        array_push($quizCam, $moteurThermique->_id);
+        array_push($quizCamTrck, $moteurThermique->_id);
+        array_push($quizCamO, $moteurThermique->_id);
+        array_push($quizVl, $moteurThermique->_id);
+        array_push($quizVls, $moteurThermique->_id);
+        array_push($quizEng, $moteurThermique->_id);
+        array_push($quizCha, $moteurThermique->_id);
+    }
     if ($multiplexage) {
         array_push($quizBus, $multiplexage->_id);
         array_push($quizCam, $multiplexage->_id);
@@ -391,6 +447,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         array_push($quizEng, $reducteur->_id);
         array_push($quizCha, $reducteur->_id);
         array_push($quizChaBt, $reducteur->_id);
+    }
+    if ($suspension) {
+        array_push($quizBus, $suspension->_id);
+        array_push($quizCam, $suspension->_id);
+        array_push($quizCamTrck, $suspension->_id);
+        array_push($quizCamO, $suspension->_id);
+        array_push($quizVl, $suspension->_id);
+        array_push($quizVls, $suspension->_id);
     }
     if ($suspensionLame) {
         array_push($quizBus, $suspensionLame->_id);
@@ -1287,7 +1351,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Junior' && $brand != "SUZUKI") {
             $vehicle = [
-                'users' => $userArrVl,
+                'users' => $userArr,
                 'quizzes' => $quizVl,
                 'label' => ucfirst( $label ),
                 'type' => $type,
@@ -1299,11 +1363,11 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             ];
             $result = $vehicles->insertOne( $vehicle );
     
-            for ($i = 0; $i < count($userArrVl); $i++) {
+            for ($i = 0; $i < count($userArr); $i++) {
                 if ($type == 'Factuel') {
                     $allocates = [
                         'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrVl[$i] ),
+                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
                         'type' => $type,
                         'level' => $level,
                         'active' => false,
@@ -1313,7 +1377,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 } elseif ($type == 'Declaratif') {
                     $allocates = [
                         'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrVl[$i] ),
+                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
                         'type' => $type,
                         'level' => $level,
                         'activeManager' => false,

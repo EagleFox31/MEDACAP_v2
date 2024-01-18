@@ -19,15 +19,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $allocations = $academy->allocations;
 
     $id = $_SESSION[ 'id' ];
-
-    $manager = $users->findOne([
-        '$and' => [
-            [
-                '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true,
-            ],
-        ]
-    ]);
 ?>
 <?php
     include_once 'partials/header.php'
@@ -46,7 +37,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             <div class='d-flex flex-column align-items-start justify-content-center flex-wrap me-2'>
                 <!--begin::Title-->
                 <h1 class='text-dark fw-bold my-1 fs-2'>
-                    Etat d'avancement des tests de mes techniciens</h1>
+                    Etat d'avancement des tests des utilisateurs</h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -150,7 +141,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Techniciens</th>
+                                            style="width: 155.266px;">Utilisateurs</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
@@ -176,20 +167,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
                                     $usersFactuel = $allocations->find([
-                                        '$and' => [
-                                            [
-                                                'user' => ['$in' => $manager[ 'users' ]],
-                                                'type' => 'Factuel',
-                                            ],
-                                        ],
+                                        'type' => 'Factuel',
                                     ])->toArray();
                                     $usersDeclaratif = $allocations->find([
-                                        '$and' => [
-                                            [
-                                                'user' => ['$in' => $manager[ 'users' ]],
-                                                'type' => 'Declaratif',
-                                            ],
-                                        ],
+                                        'type' => 'Declaratif',
                                     ])->toArray();
                                     for ($i = 0; $i < count($usersFactuel); $i++) {
                                         $user = $users->findOne([

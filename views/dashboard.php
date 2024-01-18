@@ -348,7 +348,7 @@ include('./partials/header.php')
                             compétences actuelles sur les trois niveaux (Junior, Senior et Expert) et nous vous
                             proposons de repondre
                             aux questionnaires suivants: <br>
-                            - Questionnaires sur vos connaissances techniques, <br>
+                            - Questionnaires sur vos connaissances théoriques, <br>
                             - Questionnaires sur la maîtrise de vos tâches professionnelles. <br> <br>
                             Merci de repondre intégralement à tous les questionnaires ci-dessous.
                         </p>
@@ -361,7 +361,6 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div class=" container-xxl ">
@@ -375,7 +374,7 @@ include('./partials/header.php')
                             <!--begin::Heading-->
                             <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-bolder text-gray-800 fs-2">Mes
-                                    Questionnaires sur vos connaissances techniques</span>
+                                    Questionnaires</span>
                             </h3>
                             <!--end::Heading-->
                         </div>
@@ -400,8 +399,15 @@ include('./partials/header.php')
                                         $testFac = $allocations->find([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['active' => false],
                                                 ['type' => 'Factuel'],
+                                                ['active' => false],
+                                            ]
+                                        ]);
+                                        $testDecla = $allocations->find([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Declaratif'],
+                                                ['active' => false],
                                             ]
                                         ]);
                                         foreach ($testFac as $test) {
@@ -410,15 +416,15 @@ include('./partials/header.php')
                                                     ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
                                                     ['active' => true],
                                                 ]
-                                            ]);
+                                            ])
                                     ?>
-                                    <?php if ($test) { ?>
+                                    <?php if ($test ) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                Questionnaire sur vos connaissances techniques
+                                                Questionnaire sur les connaissances théoriques
                                             </span>
                                         </td>
                                         <td class="pe-0">
@@ -454,7 +460,7 @@ include('./partials/header.php')
                                         <?php if ($test->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                Effectué
                                             </span>
                                         </td>
                                         <td>
@@ -474,12 +480,12 @@ include('./partials/header.php')
                                         <?php if ($test->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                Effectué
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                Effectué
                                             </span>
                                         </td>
                                         <td>
@@ -491,69 +497,11 @@ include('./partials/header.php')
                                             </a>
                                         </td>
                                         <?php } ?>
-                                        </td>
                                     </tr>
-                                    <?php
-                                       }
-                                       }
-                                   ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--end::Table-->
-                    </div>
-                    <!--end::Card body-->
-                </div>
-            </div>
-            <!--end::Layout Builder Notice-->
-        </div>
-        <!--end::Container-->
-    </div>
-    <!--end::Post-->
-    <!--begin::Post-->
-    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
-        <!--begin::Container-->
-        <div class=" container-xxl ">
-            <!--begin::Layout Builder Notice-->
-            <div class="card mb-10">
-                <div class="card-body d-flex align-items-center p-5 p-lg-8">
-                    <!--begin::Card body-->
-                    <div class="card-body pt-0">
-                        <!--begin::Header-->
-                        <div class="card-header border-0 pt-5 pb-3">
-                            <!--begin::Heading-->
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bolder text-gray-800 fs-2">Mes
-                                    Questionnaires sur la maîtrise de vos tâches professionnelles</span>
-                            </h3>
-                            <!--end::Heading-->
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Table-->
-                        <div class="table-responsive">
-                            <table class="table align-middle table-row-bordered table-row-dashed gy-5"
-                                id="kt_table_widget_1">
-                                <tbody>
-                                    <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase">
-                                        <th class="w-20px ps-0">
-                                        </th>
-                                        <th class="min-w-200px px-0">
-                                            Tests</th>
-                                        <th class="min-w-125px">Véhicules</th>
-                                        <th class="min-w-125px">Marques</th>
-                                        <th class="min-w-125px">Niveau Junior</th>
-                                        <th class="min-w-125px">Niveau Senior</th>
-                                        <th class="min-w-125px">Niveau Expert</th>
-                                    </tr>
-                                    <?php
-                                        $testDecla = $allocations->find([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['active' => false],
-                                                ['type' => 'Declaratif'],
-                                            ]
-                                        ]);
-                                        foreach ($testDecla as $test) {
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <?php 
+                                    foreach ($testDecla as $test) {
                                             $vehicle = $vehicles->findOne([
                                                 '$and' => [
                                                     ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
@@ -641,10 +589,8 @@ include('./partials/header.php')
                                         </td>
                                         <?php } ?>
                                     </tr>
-                                    <?php
-                                       }
-                                       }
-                                   ?>
+                                    <?php } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -778,7 +724,7 @@ include('./partials/header.php')
                 </div>
                 <!--end:Row-->
                 <!-- begin::Row -->
-                <canvas id="lineChart"></canvas>
+                <canvas id="labelChart"></canvas>
                 <!-- end::Row -->
             </div>
             <!--end::Container-->
@@ -796,37 +742,48 @@ include('./partials/footer.php')
 }
 ?>
 <script>
-var ctxL = document.getElementById("lineChart").getContext('3d');
-var myLineChart = new Chart(ctxL, {
-    type: 'line',
-    data: {
-        labels: <?php echo $resultFac[0]['level'] ?>,
-        datasets: [{
-                label: "My First dataset",
-                data: <?php echo $resultFac[0]['percentage'] ?>,
-                backgroundColor: [
-                    'rgba(105, 0, 132, .2)',
-                ],
-                borderColor: [
-                    'rgba(200, 99, 132, .7)',
-                ],
-                borderWidth: 2
-            },
-            {
-                label: "My Second dataset",
-                data: [28, 48, 40, 19, 86, 27, 90],
-                backgroundColor: [
-                    'rgba(0, 137, 132, .2)',
-                ],
-                borderColor: [
-                    'rgba(0, 10, 130, .7)',
-                ],
-                borderWidth: 2
-            }
-        ]
+var ctxP = document.getElementById("labelChart").getContext('2d');
+var myPieChart = new Chart(ctxP, {
+  plugins: [ChartDataLabels],
+  type: 'pie',
+  data: {
+    labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+    datasets: [{
+      data: [210, 130, 120, 160, 120],
+      backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+      hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+    }]
+  },
+  options: {
+    responsive: true,
+    legend: {
+      position: 'right',
+      labels: {
+        padding: 20,
+        boxWidth: 10
+      }
     },
-    options: {
-        responsive: true
+    plugins: {
+      datalabels: {
+        formatter: (value, ctx) => {
+          let sum = 0;
+          let dataArr = ctx.chart.data.datasets[0].data;
+          dataArr.map(data => {
+            sum += data;
+          });
+          let percentage = (value * 100 / sum).toFixed(2) + "%";
+          return percentage;
+        },
+        color: 'white',
+        labels: {
+          title: {
+            font: {
+              size: '16'
+            }
+          }
+        }
+      }
     }
+  }
 });
 </script>

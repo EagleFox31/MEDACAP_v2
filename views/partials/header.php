@@ -150,7 +150,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Tableau de bord</span></a>
+                                            </i></span><span class="menu-title">Tableau de Bord</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--begin:Menu item-->
@@ -214,13 +214,27 @@
                                         <!--end:Menu item-->
                                     </div>
                                     <!--end:Menu sub-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link" href="./userInfo.php"><span
+                                                    class="menu-bullet"><span
+                                                        class="bullet bullet-dot"></span></span><span
+                                                    class="menu-title">Avancement des
+                                                    Utilisateurs</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                    <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Developpement</span>
+                                            class="fw-bold text-muted text-uppercase fs-7">Developpements</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -358,7 +372,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Affectations</span>
+                                            class="fw-bold text-muted text-uppercase fs-7">Assignations</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -369,7 +383,7 @@
                                         <span class="menu-icon">
                                             <i class="fas fa-exchange fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i>
-                                        </span><span class="menu-title">Affectation de Test</span></a>
+                                        </span><span class="menu-title">Assignation des Tests</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -534,7 +548,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Tableau de bord</span></a>
+                                            </i></span><span class="menu-title">Tableau de Bord</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--begin:Menu item-->
@@ -616,7 +630,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Tests</span></a>
+                                            Tests Réalisés</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->

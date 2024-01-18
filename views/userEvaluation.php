@@ -65,13 +65,18 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         $scoreMoD = [];
         $scoreMoEl = [];
         $scoreMoE = [];
+        $scoreMoT = [];
         $scoreHyd = [];
+        $scoreFrei = [];
+        $scoreFreiE = [];
         $scoreFreiH = [];
         $scoreFreiP = [];
         $scoreMulti = [];
         $scorePont = [];
         $scorePneu = [];
         $scoreRe = [];
+        $scoreSus = [];
+        $scoreSusL = [];
         $scoreSusH = [];
         $scoreSusR = [];
         $scoreSusP = [];
@@ -85,17 +90,21 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         $proposalClimatisation = [];
         $proposalDirection = [];
         $proposalElectricite = [];
+        $proposalFrei = [];
+        $proposalFreinageElec = [];
         $proposalFreinage = [];
         $proposalFrein = [];
         $proposalHydraulique = [];
         $proposalMoteurDiesel = [];
         $proposalMoteurElec = [];
         $proposalMoteurEssence = [];
+        $proposalMoteurThermique = [];
         $proposalMultiplexage = [];
         $proposalPont = [];
         $proposalPneu = [];
         $proposalReducteur = [];
         $proposalSuspensionLame = [];
+        $proposalSuspension = [];
         $proposalSuspensionRessort = [];
         $proposalSuspensionPneumatique = [];
         $proposalTransversale = [];
@@ -113,22 +122,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Assistance à la Conduite") {
                     if ($proposals[$i] == "1-Assistance à la Conduite-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreAss, "Il connait");
+                        array_push($scoreAss, "il sait faire");
                         array_push($proposalAssistance, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalAssistance, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizAssistance->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizAssistance->questions,
                         'answers' => $proposalAssistance,
@@ -163,22 +173,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Arbre de Transmission") {
                     if ($proposals[$i] == "1-Arbre de Transmission-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreAr, "Il connait");
+                        array_push($scoreAr, "il sait faire");
                         array_push($proposalArbre, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalArbre, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizArbre->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizArbre->questions,
                         'answers' => $proposalArbre,
@@ -213,22 +224,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Boite de Transfert") {
                     if ($proposals[$i] == "1-Boite de Transfert-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreBoT, "Il connait");
+                        array_push($scoreBoT, "il sait faire");
                         array_push($proposalTransfert, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalBoite, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizTransfert->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizTransfert->questions,
                         'answers' => $proposalTransfert,
@@ -263,22 +275,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Boite de Vitesse") {
                     if ($proposals[$i] == "1-Boite de Vitesse-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreBoi, "Il connait");
+                        array_push($scoreBoi, "il sait faire");
                         array_push($proposalBoite, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalBoite, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizBoite->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizBoite->questions,
                         'answers' => $proposalBoite,
@@ -313,22 +326,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Climatisation") {
                     if ($proposals[$i] == "1-Climatisation-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreClim, "Il connait");
+                        array_push($scoreClim, "il sait faire");
                         array_push($proposalClimatisation, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalClimatisation, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizClimatisation->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizClimatisation->questions,
                         'answers' => $proposalClimatisation,
@@ -358,22 +372,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Direction") {
                     if ($proposals[$i] == "1-Direction-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreDir, "Il connait");
+                        array_push($scoreDir, "il sait faire");
                         array_push($proposalDirection, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalDirection, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizDirection->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizDirection->questions,
                         'answers' => $proposalDirection,
@@ -403,22 +418,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
-                if ($questionsData->speciality  == "Electricité") {
+                if ($questionsData->speciality  == "Electricité et Electronique") {
                     if ($proposals[$i] == "1-Electricité-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreElec, "Il connait");
+                        array_push($scoreElec, "il sait faire");
                         array_push($proposalElectricite, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalElectricite, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizElectricite->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizElectricite->questions,
                         'answers' => $proposalElectricite,
@@ -440,6 +456,98 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         }
           $insertedResult = $results->insertOne($result);
         }
+        if (isset($_POST[ 'quizFrei' ])) {
+            $freiID = $_POST[ 'quizFrei' ];
+            $quizFrei = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($freiID)]);
+            for ($i = 0; $i < count($proposals); $i++) {
+            $questionsData = $questions->findOne([
+                '$or' => [
+                    ['proposal1' => $proposals[$i]],
+                    ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
+                ],
+            ]);
+            
+            if ($questionsData != null) {
+                if ($questionsData->speciality  == "Freinage") {
+                    if ($proposals[$i] == "1-Freinage-".$questionsData->level."-".$questionsData->label."-1") {
+                        array_push($scoreFrei, "il sait faire");
+                        array_push($proposalFrei, "Oui");
+                        array_push($score, "il sait faire");
+                        array_push($proposal, "Oui");
+                    } else {
+                        array_push($proposalFrei, "Non");
+                        array_push($proposal, "Non");
+                    }
+                    
+                    array_push($quizQuestion, $questionsData->_id);
+                    $result = [
+                        'questions' => $quizFrei->questions,
+                        'answers' => $proposalFrei,
+                        'quiz' => new MongoDB\BSON\ObjectId($freiID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'manager' => new MongoDB\BSON\ObjectId($manager),
+                        'score' => count($scoreFrei),
+                        'speciality' => $quizFrei->speciality,
+                        'level' => $level,
+                        'type' => $quizFrei->type,
+                        'typeR' => 'Manager',
+                        'total' => $quizFrei->total,
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+                }
+            }
+        }
+          $insertedResult = $results->insertOne($result);
+        }
+        if (isset($_POST[ 'quizFreinageElec' ])) {
+            $freinageElecID = $_POST[ 'quizFreinageElec' ];
+            $quizFreinageElec = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($freinageElecID)]);
+            for ($i = 0; $i < count($proposals); $i++) {
+            $questionsData = $questions->findOne([
+                '$or' => [
+                    ['proposal1' => $proposals[$i]],
+                    ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
+                ],
+            ]);
+            
+            if ($questionsData != null) {
+                if ($questionsData->speciality  == "Freinage Electromagnétique") {
+                    if ($proposals[$i] == "1-Freinage Electromagnétique-".$questionsData->level."-".$questionsData->label."-1") {
+                        array_push($scoreFreiE, "il sait faire");
+                        array_push($proposalFreinageElec, "Oui");
+                        array_push($score, "il sait faire");
+                        array_push($proposal, "Oui");
+                    } else {
+                        array_push($proposalFreinageElec, "Non");
+                        array_push($proposal, "Non");
+                    }
+                    
+                    array_push($quizQuestion, $questionsData->_id);
+                    $result = [
+                        'questions' => $quizFreinageElec->questions,
+                        'answers' => $proposalFreinageElec,
+                        'quiz' => new MongoDB\BSON\ObjectId($freinageElecID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'manager' => new MongoDB\BSON\ObjectId($manager),
+                        'score' => count($scoreFreiE),
+                        'speciality' => $quizFreinageElec->speciality,
+                        'level' => $level,
+                        'type' => $quizFreinageElec->type,
+                        'typeR' => 'Manager',
+                        'total' => $quizFreinageElec->total,
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+                }
+            }
+        }
+          $insertedResult = $results->insertOne($result);
+        }
         if (isset($_POST[ 'quizFreinage' ])) {
             $freinageID = $_POST[ 'quizFreinage' ];
             $quizFreinage = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($freinageID)]);
@@ -448,22 +556,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Freinage Hydraulique") {
                     if ($proposals[$i] == "1-Freinage Hydraulique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreFreiH, "Il connait");
+                        array_push($scoreFreiH, "il sait faire");
                         array_push($proposalFreinage, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalFreinage, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizFreinage->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizFreinage->questions,
                         'answers' => $proposalFreinage,
@@ -480,16 +589,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
-    
-                    $allocationData = $allocations->findOne([
-                        '$and' => [
-                            ['user' => new MongoDB\BSON\ObjectId($id)],
-                            ['quiz' => new MongoDB\BSON\ObjectId($freinageID)],
-                        ],
-                    ]);
-    
-                    $allocationData->active = false;
-                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
                 }
             }
         }
@@ -503,25 +602,26 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Freinage Pneumatique") {
                     if ($proposals[$i] == "1-Freinage Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreFreiP, "Il connait");
+                        array_push($scoreFreiP, "il sait faire");
                         array_push($proposalFrein, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalFreinage, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizFrein->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizFrein->questions,
-                        'answers' => $proposalFreinage,
+                        'answers' => $proposalFrein,
                         'quiz' => new MongoDB\BSON\ObjectId($freinID),
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'manager' => new MongoDB\BSON\ObjectId($manager),
@@ -548,22 +648,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Hydraulique") {
                     if ($proposals[$i] == "1-Hydraulique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreHyd, "Il connait");
+                        array_push($scoreHyd, "il sait faire");
                         array_push($proposalHydraulique, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalHydraulique, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizHydraulique->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizHydraulique->questions,
                         'answers' => $proposalHydraulique,
@@ -580,16 +681,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
-    
-                    $allocationData = $allocations->findOne([
-                        '$and' => [
-                            ['user' => new MongoDB\BSON\ObjectId($id)],
-                            ['quiz' => new MongoDB\BSON\ObjectId($hydrauliqueID)],
-                        ],
-                    ]);
-    
-                    $allocationData->active = false;
-                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
                 }
             }
         }
@@ -603,22 +694,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Moteur Diesel") {
                     if ($proposals[$i] == "1-Moteur Diesel-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMoD, "Il connait");
+                        array_push($scoreMoD, "il sait faire");
                         array_push($proposalMoteurDiesel, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMoteurDiesel, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizMoteurDiesel->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizMoteurDiesel->questions,
                         'answers' => $proposalMoteurDiesel,
@@ -648,22 +740,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Moteur Electrique") {
                     if ($proposals[$i] == "1-Moteur Electrique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMoEl, "Il connait");
+                        array_push($scoreMoEl, "il sait faire");
                         array_push($proposalMoteurElec, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMoteurElec, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizMoteurElec->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizMoteurElec->questions,
                         'answers' => $proposalMoteurElec,
@@ -693,22 +786,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Moteur Essence") {
                     if ($proposals[$i] == "1-Moteur Essence-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMoE, "Il connait");
+                        array_push($scoreMoE, "il sait faire");
                         array_push($proposalMoteurEssence, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMoteurEssence, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizMoteurEssence->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizMoteurEssence->questions,
                         'answers' => $proposalMoteurEssence,
@@ -730,6 +824,52 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         }
           $insertedResult = $results->insertOne($result);
         }
+        if (isset($_POST[ 'quizMoteurThermique' ])) {
+            $moteurThermiqueID = $_POST[ 'quizMoteurThermique' ];
+            $quizMoteurThermique = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($moteurThermiqueID)]);
+            for ($i = 0; $i < count($proposals); $i++) {
+            $questionsData = $questions->findOne([
+                '$or' => [
+                    ['proposal1' => $proposals[$i]],
+                    ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
+                ],
+            ]);
+            
+            if ($questionsData != null) {
+                if ($questionsData->speciality  == "Moteur Thermique") {
+                    if ($proposals[$i] == "1-Moteur Thermique-".$questionsData->level."-".$questionsData->label."-1") {
+                        array_push($scoreMoT, "il sait faire");
+                        array_push($proposalMoteurThermique, "Oui");
+                        array_push($score, "il sait faire");
+                        array_push($proposal, "Oui");
+                    } else {
+                        array_push($proposalMoteurThermique, "Non");
+                        array_push($proposal, "Non");
+                    }
+                    
+                    array_push($quizQuestion, $questionsData->_id);
+                    $result = [
+                        'questions' => $quizMoteurThermique->questions,
+                        'answers' => $proposalMoteurThermique,
+                        'quiz' => new MongoDB\BSON\ObjectId($moteurThermiqueID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'manager' => new MongoDB\BSON\ObjectId($manager),
+                        'score' => count($scoreMoT),
+                        'speciality' => $quizMoteurThermique->speciality,
+                        'level' => $level,
+                        'type' => $quizMoteurThermique->type,
+                        'typeR' => 'Manager',
+                        'total' => $quizMoteurThermique->total,
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+                }
+            }
+        }
+          $insertedResult = $results->insertOne($result);
+        }
         if (isset($_POST[ 'quizMultiplexage' ])) {
             $multiplexageID = $_POST[ 'quizMultiplexage' ];
             $quizMultiplexage = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($multiplexageID)]);
@@ -738,22 +878,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
-                if ($questionsData->speciality  == "Multiplexage & Electronique") {
-                    if ($proposals[$i] == "1-Multiplexage & Electronique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreMulti, "Il connait");
+                if ($questionsData->speciality  == "Multiplexage") {
+                    if ($proposals[$i] == "1-Multiplexage-".$questionsData->level."-".$questionsData->label."-1") {
+                        array_push($scoreMulti, "il sait faire");
                         array_push($proposalMultiplexage, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalMultiplexage, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizMultiplexage->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizMultiplexage->questions,
                         'answers' => $proposalMultiplexage,
@@ -770,16 +911,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
-    
-                    $allocationData = $allocations->findOne([
-                        '$and' => [
-                            ['user' => new MongoDB\BSON\ObjectId($id)],
-                            ['quiz' => new MongoDB\BSON\ObjectId($multiplexageID)],
-                        ],
-                    ]);
-    
-                    $allocationData->active = false;
-                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
                 }
             }
         }
@@ -793,22 +924,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Pont") {
                     if ($proposals[$i] == "1-Pont-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scorePont, "Il connait");
+                        array_push($scorePont, "il sait faire");
                         array_push($proposalPont, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalPont, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizPont->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizPont->questions,
                         'answers' => $proposalPont,
@@ -838,22 +970,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Pneumatique") {
                     if ($proposals[$i] == "1-Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scorePneu, "Il connait");
+                        array_push($scorePneu, "il sait faire");
                         array_push($proposalPneu, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalPneu, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizPneumatique->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizPneumatique->questions,
                         'answers' => $proposalPneu,
@@ -870,16 +1003,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                         'active' => true,
                         'created' => date("d-m-y")
                     ];
-    
-                    $allocationData = $allocations->findOne([
-                        '$and' => [
-                            ['user' => new MongoDB\BSON\ObjectId($id)],
-                            ['quiz' => new MongoDB\BSON\ObjectId($pneumatiqueID)],
-                        ],
-                    ]);
-    
-                    $allocationData->active = false;
-                    $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
                 }
             }
         }
@@ -893,22 +1016,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Reducteur") {
                     if ($proposals[$i] == "1-Reducteur-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scorePneu, "Il connait");
+                        array_push($scorePneu, "il sait faire");
                         array_push($proposalPneu, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalPneu, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizReducteur->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizReducteur->questions,
                         'answers' => $proposalPneu,
@@ -930,6 +1054,52 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         }
           $insertedResult = $results->insertOne($result);
         }
+        if (isset($_POST[ 'quizSuspension' ])) {
+            $suspensionID = $_POST[ 'quizSuspension' ];
+            $quizSuspension = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($suspensionID)]);
+            for ($i = 0; $i < count($proposals); $i++) {
+            $questionsData = $questions->findOne([
+                '$or' => [
+                    ['proposal1' => $proposals[$i]],
+                    ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
+                ],
+            ]);
+            
+            if ($questionsData != null) {
+                if ($questionsData->speciality  == "Suspension") {
+                    if ($proposals[$i] == "1-Suspension à -".$questionsData->level."-".$questionsData->label."-1") {
+                        array_push($scoreSus, "il sait faire");
+                        array_push($proposalSuspension, "Oui");
+                        array_push($score, "il sait faire");
+                        array_push($proposal, "Oui");
+                    } else {
+                        array_push($proposalSuspension, "Non");
+                        array_push($proposal, "Non");
+                    }
+                    
+                    array_push($quizQuestion, $questionsData->_id);
+                    $result = [
+                        'questions' => $quizSuspension->questions,
+                        'answers' => $proposalSuspension,
+                        'quiz' => new MongoDB\BSON\ObjectId($suspensionID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'manager' => new MongoDB\BSON\ObjectId($manager),
+                        'score' => count($scoreSus),
+                        'speciality' => $quizSuspension->speciality,
+                        'level' => $level,
+                        'type' => $quizSuspension->type,
+                        'typeR' => 'Manager',
+                        'total' => $quizSuspension->total,
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date("d-m-y")
+                    ];
+                }
+            }
+        }
+          $insertedResult = $results->insertOne($result);
+        }
         if (isset($_POST[ 'quizSuspensionLame' ])) {
             $suspensionLameID = $_POST[ 'quizSuspensionLame' ];
             $quizSuspensionLame = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId($suspensionLameID)]);
@@ -938,22 +1108,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Suspension à Lame") {
                     if ($proposals[$i] == "1-Suspension à Lame-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreSusL, "Il connait");
+                        array_push($scoreSusL, "il sait faire");
                         array_push($proposalSuspensionLame, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalSuspensionLame, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizSuspension->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizSuspensionLame->questions,
                         'answers' => $proposalSuspensionLame,
@@ -983,22 +1154,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Suspension Ressort") {
                     if ($proposals[$i] == "1-Suspension Ressort-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreSusR, "Il connait");
+                        array_push($scoreSusR, "il sait faire");
                         array_push($proposalSuspensionRessort, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalSuspensionRessort, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizSuspensionRessort->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizSuspensionRessort->questions,
                         'answers' => $proposalSuspensionRessort,
@@ -1028,22 +1200,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Suspension Pneumatique") {
                     if ($proposals[$i] == "1-Suspension Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreSusP, "Il connait");
+                        array_push($scoreSusP, "il sait faire");
                         array_push($proposalSuspensionPneumatique, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalSuspensionPneumatique, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizSuspensionPneumatique->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizSuspensionPneumatique->questions,
                         'answers' => $proposalSuspensionPneumatique,
@@ -1073,22 +1246,23 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 '$or' => [
                     ['proposal1' => $proposals[$i]],
                     ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
                 ],
             ]);
             
             if ($questionsData != null) {
                 if ($questionsData->speciality  == "Transversale") {
                     if ($proposals[$i] == "1-Transversale-".$questionsData->level."-".$questionsData->label."-1") {
-                        array_push($scoreTran, "Il connait");
+                        array_push($scoreTran, "il sait faire");
                         array_push($proposalTransversale, "Oui");
-                        array_push($score, "Il connait");
+                        array_push($score, "il sait faire");
                         array_push($proposal, "Oui");
                     } else {
                         array_push($proposalTransversale, "Non");
                         array_push($proposal, "Non");
                     }
                     
-                    array_push($quizQuestion, $quizTransversale->questions);
+                    array_push($quizQuestion, $questionsData->_id);
                     $result = [
                         'questions' => $quizTransversale->questions,
                         'answers' => $proposalTransversale,
@@ -1118,9 +1292,24 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 ['active' => true],
             ],
         ]);
+            $managerAnswer = [];
+            for ($i = 0; $i < count($proposals); ++$i) {
+                $data = $questions->findOne([
+                    '$or' => [
+                        ['proposal1' => $proposals[$i]],
+                        ['proposal2' => $proposals[$i]],
+                        ['proposal3' => $proposals[$i]],
+                    ],
+                    'type' => 'Declarative',
+                ]);
+                if ($data) {
+                    array_push($managerAnswer, $proposals[$i]);
+                }
+            }
         $newResult = [
             'questions' => $quizQuestion,
             'answers' => $proposal,
+            'managerAnswers' => $managerAnswer,
             'user' => new MongoDB\BSON\ObjectId($id),
             'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
             'manager' => new MongoDB\BSON\ObjectId($manager),
@@ -1188,20 +1377,20 @@ include_once 'partials/header.php'
 <link href="https://fonts.googleapis.com/css2?famIly=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
 <link href="../public/css/userQuiz.css" rel="stylesheet" type="text/css" />
 <div class="container">
-    <div class="heading">
-        <h1 class="heading__text">Evaluation de <?php echo $user->firstName ?> <?php echo $user->lastName ?></h1>
-        <center>
-            <div class="timer" style="margin-right: 300px;">
-                <div class="time_left_txt">Questions Restantes</div>
-                <div class="timer_sec" id="num" value="1">
-                </div>
-            </div>
-            <div class="timer" style="margin-top: -45px; margin-left: 300px">
-                <div class="time_left_txt">Durée(heure et minute)</div>
-                <div class="timer_sec" name="time" id="timer_sec" value="0">
-                </div>
-            </div>
-        </center>
+    <center class="center" style="margin-top: -100px;">
+      <div class="timer" style="margin-right: 300px;">
+        <div class="time_left_txt">Questions Restantes</div>
+        <div class="timer_sec" id="num" value="1">
+        </div>
+      </div>
+      <div class="timer" style="margin-top: -45px; margin-left: 300px">
+        <div class="time_left_txt">Durée(heure et minute)</div>
+        <div class="timer_sec" name="time" id="timer_sec" value="0">
+        </div>
+      </div>
+    </center>
+    <div class="heading" style="margin-top: 10px;">
+      <h1 class="heading__text">Evaluation de <?php echo $user->firstName ?> <?php echo $user->lastName ?></h1>
     </div>
 
     <!-- Quiz section -->
@@ -1214,6 +1403,7 @@ include_once 'partials/header.php'
             <input class="hidden" type="text" name="timer" id="clock" />
             <div class="quiz-form__quiz">
                 <?php
+                $k = 1;
                 for ($j = 0; $j < count($arrQuizzes); $j++) {
                     $assistanceDecla = $quizzes->findOne([
                         '$and' => [
@@ -1227,9 +1417,6 @@ include_once 'partials/header.php'
                 if ($assistanceDecla) {
                 $arrQuestions = $assistanceDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Assistance à la conduite
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1242,14 +1429,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizAssistance" value="<?php echo $assistanceDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1257,7 +1444,15 @@ include_once 'partials/header.php'
                         name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1277,9 +1472,6 @@ include_once 'partials/header.php'
                 if ($arbreDecla) {
                 $arrQuestions = $arbreDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Arbre de Transmission
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1292,14 +1484,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1307,7 +1499,15 @@ include_once 'partials/header.php'
                         name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1327,9 +1527,6 @@ include_once 'partials/header.php'
                 if ($transfertDecla) {
                 $arrQuestions = $transfertDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Boite de Transfert
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1342,14 +1539,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizTransfert" value="<?php echo $transfertDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1357,7 +1554,15 @@ include_once 'partials/header.php'
                         name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1377,9 +1582,6 @@ include_once 'partials/header.php'
                 if ($boiteDecla) {
                 $arrQuestions = $boiteDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Boite de Vitesse
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1392,14 +1594,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizBoite" value="<?php echo $boiteDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1407,7 +1609,15 @@ include_once 'partials/header.php'
                         name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1428,9 +1638,6 @@ include_once 'partials/header.php'
                     if ($climatisationDecla) {
                     $arrQuestions = $climatisationDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Climatisation
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1444,14 +1651,14 @@ include_once 'partials/header.php'
                     value="<?php echo $climatisationDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1459,7 +1666,15 @@ include_once 'partials/header.php'
                         name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1480,9 +1695,6 @@ include_once 'partials/header.php'
                     if ($directionDecla) {
                     $arrQuestions = $directionDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Direction
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1495,14 +1707,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizDirection" value="<?php echo $directionDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1510,7 +1722,15 @@ include_once 'partials/header.php'
                         name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1521,7 +1741,7 @@ include_once 'partials/header.php'
                     $electriciteDecla = $quizzes->findOne([
                         '$and' => [
                             ['_id' => new MongoDB\BSON\ObjectId($arrQuizzes[$j])],
-                            ['speciality' => "Electricité"],
+                            ['speciality' => "Electricité et Electronique"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
                             ["active" => true]
@@ -1531,9 +1751,6 @@ include_once 'partials/header.php'
                     if ($electriciteDecla) {
                     $arrQuestions = $electriciteDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Electricité
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1546,14 +1763,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1561,7 +1778,127 @@ include_once 'partials/header.php'
                         name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
+                    </span>
+                </label>
+                <?php } ?>
+                <?php } ?>
+                <?php } ?>
+                <?php
+                for ($j = 0; $j < count($arrQuizzes); $j++) {
+                    $freiDecla = $quizzes->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($arrQuizzes[$j])],
+                            ['speciality' => "Freinage"],
+                            ['type' => "Declaratif"],
+                            ["level" => $level],
+                            ["active" => true]
+                        ]
+                    ]);
+    
+                    if ($freiDecla) {
+                    $arrQuestions = $freiDecla['questions'];
+                ?>
+                <?php
+                    for ($i = 0; $i < count($arrQuestions); $i++) {
+                        $question = $questions->findone([
+                            '$and' => [
+                                ['_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])],
+                                ["active" => true]
+                            ]
+                        ]);
+                ?>
+                <input class="hidden" type="text" name="quizFrei" value="<?php echo $freiDecla->_id ?>" />
+                <p class="quiz-form__question fw-bold" id="question"
+                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
+                </p>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFrei<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il sait faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFrei<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFrei<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
+                    </span>
+                </label>
+                <?php } ?>
+                <?php } ?>
+                <?php } ?>
+                <?php
+                for ($j = 0; $j < count($arrQuizzes); $j++) {
+                    $freinageElecDecla = $quizzes->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($arrQuizzes[$j])],
+                            ['speciality' => "Freinage Electromagnétique"],
+                            ['type' => "Declaratif"],
+                            ["level" => $level],
+                            ["active" => true]
+                        ]
+                    ]);
+    
+                    if ($freinageElecDecla) {
+                    $arrQuestions = $freinageElecDecla['questions'];
+                ?>
+                <?php
+                    for ($i = 0; $i < count($arrQuestions); $i++) {
+                        $question = $questions->findone([
+                            '$and' => [
+                                ['_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])],
+                                ["active" => true]
+                            ]
+                        ]);
+                ?>
+                <input class="hidden" type="text" name="quizFreinageElec" value="<?php echo $freinageElecDecla->_id ?>" />
+                <p class="quiz-form__question fw-bold" id="question"
+                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
+                </p>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFreinageElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il sait faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFreinageElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFreinageElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1572,7 +1909,7 @@ include_once 'partials/header.php'
                     $freinageDecla = $quizzes->findOne([
                         '$and' => [
                             ['_id' => new MongoDB\BSON\ObjectId($arrQuizzes[$j])],
-                            ['speciality' => "Freinage"],
+                            ['speciality' => "Freinage Hydraulique"],
                             ['type' => "Declaratif"],
                             ["level" => $level],
                             ["active" => true]
@@ -1582,9 +1919,6 @@ include_once 'partials/header.php'
                     if ($freinageDecla) {
                     $arrQuestions = $freinageDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Freinage Hydraulique
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1597,14 +1931,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizFreinage" value="<?php echo $freinageDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1612,7 +1946,15 @@ include_once 'partials/header.php'
                         name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1633,9 +1975,6 @@ include_once 'partials/header.php'
                     if ($freinDecla) {
                     $arrQuestions = $freinDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Freinage Pneumatique
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1648,14 +1987,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizFrein" value="<?php echo $freinDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1663,7 +2002,15 @@ include_once 'partials/header.php'
                         name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1684,9 +2031,6 @@ include_once 'partials/header.php'
                     if ($hydrauliqueDecla) {
                     $arrQuestions = $hydrauliqueDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Hydraulique
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1699,14 +2043,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizHydraulique" value="<?php echo $hydrauliqueDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1714,7 +2058,15 @@ include_once 'partials/header.php'
                         name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1735,9 +2087,6 @@ include_once 'partials/header.php'
                     if ($moteurDieselDecla) {
                     $arrQuestions = $moteurDieselDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Moteur Diesel
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1751,14 +2100,14 @@ include_once 'partials/header.php'
                     value="<?php echo $moteurDieselDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1766,7 +2115,15 @@ include_once 'partials/header.php'
                         name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1787,9 +2144,6 @@ include_once 'partials/header.php'
                     if ($moteurElecDecla) {
                     $arrQuestions = $moteurElecDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Moteur Electrique
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1802,14 +2156,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizMoteurElec" value="<?php echo $moteurElecDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1817,7 +2171,15 @@ include_once 'partials/header.php'
                         name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1838,9 +2200,6 @@ include_once 'partials/header.php'
                     if ($moteurEssenceDecla) {
                     $arrQuestions = $moteurEssenceDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Moteur Essence
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1854,14 +2213,14 @@ include_once 'partials/header.php'
                     value="<?php echo $moteurEssenceDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1869,7 +2228,72 @@ include_once 'partials/header.php'
                         name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
+                    </span>
+                </label>
+                <?php } ?>
+                <?php } ?>
+                <?php } ?>
+                <?php
+                for ($j = 0; $j < count($arrQuizzes); $j++) {
+                    $moteurThermiqueDecla = $quizzes->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($arrQuizzes[$j])],
+                            ['speciality' => "Moteur Thermique"],
+                            ['type' => "Declaratif"],
+                            ["level" => $level],
+                            ["active" => true]
+                        ]
+                    ]);
+    
+                    if ($moteurThermiqueDecla) {
+                    $arrQuestions = $moteurThermiqueDecla['questions'];
+                ?>
+                <?php
+                    for ($i = 0; $i < count($arrQuestions); $i++) {
+                        $question = $questions->findone([
+                            '$and' => [
+                                ['_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])],
+                                ["active" => true]
+                            ]
+                        ]);
+                ?>
+                <input class="hidden" type="text" name="quizMoteurThermique"
+                    value="<?php echo $moteurThermiqueDecla->_id ?>" />
+                <p class="quiz-form__question fw-bold" id="question"
+                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
+                </p>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerMoteurThermique<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il sait faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerMoteurThermique<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerMoteurThermique<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1890,9 +2314,6 @@ include_once 'partials/header.php'
                     if ($multiplexageDecla) {
                     $arrQuestions = $multiplexageDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Multiplexage
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1906,14 +2327,14 @@ include_once 'partials/header.php'
                     value="<?php echo $multiplexageDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1921,7 +2342,15 @@ include_once 'partials/header.php'
                         name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1942,9 +2371,6 @@ include_once 'partials/header.php'
                     if ($pontDecla) {
                     $arrQuestions = $pontDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Pont
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -1957,14 +2383,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizPont" value="<?php echo $pontDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -1972,7 +2398,15 @@ include_once 'partials/header.php'
                         name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -1993,9 +2427,6 @@ include_once 'partials/header.php'
                     if ($pneumatiqueDecla) {
                     $arrQuestions = $pneumatiqueDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Pneumatique
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -2008,14 +2439,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizPneumatique" value="<?php echo $pneumatiqueDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2023,7 +2454,15 @@ include_once 'partials/header.php'
                         name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -2044,9 +2483,6 @@ include_once 'partials/header.php'
                     if ($reducteurDecla) {
                     $arrQuestions = $reducteurDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Reducteur
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -2059,14 +2495,14 @@ include_once 'partials/header.php'
                 <input class="hidden" type="text" name="quizReducteur" value="<?php echo $reducteurDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2074,7 +2510,72 @@ include_once 'partials/header.php'
                         name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
+                    </span>
+                </label>
+                <?php } ?>
+                <?php } ?>
+                <?php } ?>
+                <?php
+                for ($j = 0; $j < count($arrQuizzes); $j++) {
+                    $suspensionDecla = $quizzes->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($arrQuizzes[$j])],
+                            ['speciality' => "Suspension"],
+                            ['type' => "Declaratif"],
+                            ["level" => $level],
+                            ["active" => true]
+                        ]
+                    ]);
+    
+                    if ($suspensionDecla) {
+                    $arrQuestions = $suspensionDecla['questions'];
+                ?>
+                <?php
+                    for ($i = 0; $i < count($arrQuestions); $i++) {
+                        $question = $questions->findone([
+                            '$and' => [
+                                ['_id' => new MongoDB\BSON\ObjectId($arrQuestions[$i])],
+                                ["active" => true]
+                            ]
+                        ]);
+                ?>
+                <input class="hidden" type="text" name="quizSuspension"
+                    value="<?php echo $suspensionDecla->_id ?>" />
+                <p class="quiz-form__question fw-bold" id="question"
+                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
+                </p>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerSuspension<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il sait faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerSuspension<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerSuspension<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -2095,9 +2596,6 @@ include_once 'partials/header.php'
                     if ($suspensionLameDecla) {
                     $arrQuestions = $suspensionLameDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Suspension à Lame
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -2111,14 +2609,14 @@ include_once 'partials/header.php'
                     value="<?php echo $suspensionLameDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2126,7 +2624,15 @@ include_once 'partials/header.php'
                         name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -2147,9 +2653,6 @@ include_once 'partials/header.php'
                     if ($suspensionRessortDecla) {
                     $arrQuestions = $suspensionRessortDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Suspension Ressort
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -2163,14 +2666,14 @@ include_once 'partials/header.php'
                     value="<?php echo $suspensionRessortDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2178,7 +2681,15 @@ include_once 'partials/header.php'
                         name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -2199,9 +2710,6 @@ include_once 'partials/header.php'
                     if ($suspensionPneumatiqueDecla) {
                     $arrQuestions = $suspensionPneumatiqueDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Suspension Pneumatique
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -2215,7 +2723,7 @@ include_once 'partials/header.php'
                     value="<?php echo $suspensionPneumatiqueDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
@@ -2223,7 +2731,7 @@ include_once 'partials/header.php'
                         value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2232,7 +2740,15 @@ include_once 'partials/header.php'
                         value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerSuspensionPneumatique<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>
@@ -2253,9 +2769,6 @@ include_once 'partials/header.php'
                     if ($transversaleDecla) {
                     $arrQuestions = $transversaleDecla['questions'];
                 ?>
-                <p class="quiz-form__question fw-bold" style="margin-top: 60px; font-size: 30px;">
-                    Tâche Transversale
-                </p>
                 <?php
                     for ($i = 0; $i < count($arrQuestions); $i++) {
                         $question = $questions->findone([
@@ -2269,14 +2782,14 @@ include_once 'partials/header.php'
                     value="<?php echo $transversaleDecla->_id ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $i + 1 ?> - <?php echo $question->label ?>
+                    <?php echo $k++ ?> - <?php echo $question->label ?>
                 </p>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
                         name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il connait
+                        il sait faire
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2284,7 +2797,15 @@ include_once 'partials/header.php'
                         name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne connait pas
+                        il ne sait pas faire
+                    </span>
+                </label>
+                <label class="quiz-form__ans">
+                    <input type="radio" id="proposal<?php echo $i + 1 ?>" onclick="checkedRadio()"
+                        name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
+                    <span class="design"></span>
+                    <span class="text">
+                        il n'a jamais fait
                     </span>
                 </label>
                 <?php } ?>

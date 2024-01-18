@@ -114,7 +114,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Affecter Technicien au Test | CFAO Mobility Academy</title>
+<title>Assigner Technicien au Test | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -129,7 +129,7 @@ include_once 'partials/header.php'
             <div class="container mt-5 w-50">
                 <img src="../public/images/logo.png" alt="10" height="170"
                     style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-                <h1 class="my-3 text-center">Affecter un technicien à un test</h1>
+                <h1 class="my-3 text-center">Assigner un technicien à un test</h1>
 
                 <?php
                  if(isset($success_msg)) {
