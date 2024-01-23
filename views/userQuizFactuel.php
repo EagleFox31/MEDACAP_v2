@@ -51,6 +51,7 @@ if (!isset($_SESSION['id'])) {
     
     if (isset($_POST['save'])) {
         $questionsTag = $_POST['questionsTag'];
+        $time = $_POST['time'];
         $questionsTags = [];
         $body = $_POST;
         // assuming POST method, you can replace it with $_GET if it's a GET method
@@ -234,10 +235,12 @@ if (!isset($_SESSION['id'])) {
         }
 
         if($exam) {
-            $exams->updateOne([
+            $exam->answers = $answers;
+            $exam->time = $time;
+            $exams->updateOne(
                 [ '_id' => new MongoDB\BSON\ObjectId($exam->_id) ],
-                [ '$set' => $answers ]
-            ]);
+                [ '$set' => $exam ]
+            );
         } else {
             $exam = [
                 'questions' => $questionsTags,
@@ -269,6 +272,7 @@ if (!isset($_SESSION['id'])) {
                 'quizSuspensionRessort' => $suspensionRessortID,
                 'quizSuspensionPneumatique' => $suspensionPneumatiqueID,
                 'quizTransversale' => $transversaleID,
+                'time' => $time,
                 'active' => true,
                 'created' => date('d-m-y')
             ];
@@ -1765,37 +1769,41 @@ include_once 'partials/header.php'; ?>
         <!--begin::Container-->
         <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
             <div class="container">
-                <center class="center" style="margin-top: -100px;">
-                    <div class="timer" style="margin-right: 300px;">
-                        <div class="time_left_txt">Questions Restantes</div>
-                        <div class="timer_sec" id="num" value="1">
+                <form class="quiz-form" method="POST">
+                        <center class="center" style="margin-top: -100px;">
+                            <div class="timer" style="margin-right: 400px;">
+                                <div class="time_left_txt">Questions Restantes</div>
+                                <div class="timer_sec" id="num" value="1">
+                                </div>
+                            </div>
+                            <div class="timer" style="margin-top: -45px; margin-left: 400px">
+                                <div class="time_left_txt">Durée(heure et minute)</div>
+                                <div class="timer_sec" id="timer_sec" value="<?php echo $exam['time'] ?? "180"; ?>">
+                                </div>
+                            </div>
+                            <div style="margin-top: -45px; margin-left: 0px">
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
+                        </center>
+                        <div class="heading" style="margin-top: 10px;">
+                            <h1 class="heading__text">Questionnaire à choix multiple</h1>
                         </div>
-                    </div>
-                    <div class="timer" style="margin-top: -45px; margin-left: 300px">
-                        <div class="time_left_txt">Durée(heure et minute)</div>
-                        <div class="timer_sec" name="time" id="timer_sec" value="90">
+        
+                        <!-- Quiz section -->
+                        <div class="quiz" style="margin-bottom: 40px;">
+                            <!-- <center>
+                    <div class="timer">
+                        <div class="time_left_txt">Temps Restant</div>
+                        <div class="timer_sec" name="time" id="timer_sec" value="1">
+                            </div>
                         </div>
-                    </div>
-                </center>
-                <div class="heading" style="margin-top: 10px;">
-                    <h1 class="heading__text">Questionnaire à choix multiple</h1>
-                </div>
-
-                <!-- Quiz section -->
-                <div class="quiz" style="margin-bottom: 40px;">
-                    <!-- <center>
-            <div class="timer">
-                <div class="time_left_txt">Temps Restant</div>
-                <div class="timer_sec" name="time" id="timer_sec" value="1">
-                    </div>
-                </div>
-            </center> -->
-                    <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-                        Vous devez repondre à toutes les questions avant
-                        de pouvoir valider le questionnaire.
-                    </p>
-                    <form class="quiz-form" method="POST">
+                    </center> -->
+                            <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
+                                Vous devez repondre à toutes les questions avant
+                                de pouvoir valider le questionnaire.
+                            </p>
                         <input class="hidden" type="text" name="timer" id="clock" />
+                        <input class="hidden" type="text" name="time" id="clock1" />
                         <div class="quiz-form__quiz" style="">
                         <?php if (!isset($exam)) { ?>
                         <?php
@@ -1860,6 +1868,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerAssistance<?php echo $i + 1; ?>"
@@ -1896,9 +1907,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -1964,6 +1972,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerArbre<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -1996,9 +2007,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2066,6 +2074,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerTransfert<?php echo $i + 1; ?>"
@@ -2102,9 +2113,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2171,6 +2179,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoite<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -2203,9 +2214,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2273,6 +2281,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerClimatisation<?php echo $i + 1; ?>"
@@ -2309,9 +2320,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2379,6 +2387,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerDirection<?php echo $i + 1; ?>"
@@ -2415,9 +2426,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2485,6 +2493,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerElectricite<?php echo $i + 1; ?>"
@@ -2521,9 +2532,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2591,6 +2599,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFrei<?php echo $i + 1; ?>"
@@ -2627,9 +2638,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2697,6 +2705,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerfreinageElec<?php echo $i + 1; ?>"
@@ -2733,9 +2744,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2803,6 +2811,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFreinage<?php echo $i + 1; ?>"
@@ -2839,9 +2850,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2908,6 +2916,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFrein<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -2940,9 +2951,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3010,6 +3018,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerHydraulique<?php echo $i + 1; ?>"
@@ -3046,9 +3057,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3116,6 +3124,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurDiesel<?php echo $i + 1; ?>"
@@ -3152,9 +3163,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3222,6 +3230,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurElec<?php echo $i + 1; ?>"
@@ -3258,9 +3269,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3328,6 +3336,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurEssence<?php echo $i + 1; ?>"
@@ -3364,9 +3375,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3434,6 +3442,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteur<?php echo $i + 1; ?>"
@@ -3470,9 +3481,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3540,6 +3548,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMultiplexage<?php echo $i + 1; ?>"
@@ -3576,10 +3587,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>">
-                                <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3646,6 +3653,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerPont<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -3745,6 +3755,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerPneu<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -3844,6 +3857,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerReducteur<?php echo $i + 1; ?>"
@@ -3880,10 +3896,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>">
-                                <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3951,6 +3963,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspension<?php echo $i + 1; ?>"
@@ -3987,10 +4002,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>">
-                                <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4058,6 +4069,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionLame<?php echo $i + 1; ?>"
@@ -4094,10 +4108,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>">
-                                <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4165,6 +4175,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionRessort<?php echo $i + 1; ?>"
@@ -4201,10 +4214,6 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>">
-                                <br>
-                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4272,6 +4281,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionPneumatique<?php echo $i + 1; ?>"
@@ -4308,12 +4320,8 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>">
-                                <br>
-                            </div>
                             <?php
-                    } ?>
+                              } ?>
                             <?php
                                     } ?>
                             <?php
@@ -4379,6 +4387,9 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerTransversale<?php echo $i + 1; ?>"
@@ -4415,193 +4426,188 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>">
-                                <br>
-                            </div>
                             <?php
                              } ?>
                             <?php
-                                    } ?>
+                                } ?>
                             <?php
                                 } ?>
-                            <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
-                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Terminer</button>
-                            </div>
                             <?php
                                 } elseif (isset($exam)) {
                             for ($i = 0; $i < count($exam['questions']); ++$i) {
                                 $question = $questions->findone([
-                                    '$and' => [
-                                        ['_id' => new MongoDB\BSON\ObjectId($exam->questions[$i])],
+                            '$and' => [
+                                        ['_id' => new MongoDB\BSON\ObjectId($exam['questions'][$i])],
                                         ['active' => true],
                                     ],
                                 ]);
                         ?>
                         <?php
-                            if($exam->quizAssistance != null) {
+                            if($exam['quizAssistance'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizAssistance"
-                            value="<?php echo $exam->quizAssistance; ?>" />
+                            value="<?php echo $exam['quizAssistance']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizArbre != null) {
+                            if($exam['quizArbre'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizArbre"
-                            value="<?php echo $exam->quizArbre; ?>" />
+                            value="<?php echo $exam['quizArbre']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizTransfert != null) {
+                            if($exam['quizTransfert'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizTransfert"
-                            value="<?php echo $exam->quizTransfert; ?>" />
+                            value="<?php echo $exam['quizTransfert']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizBoite != null) {
+                            if($exam["quizBoite"] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizBoite"
-                            value="<?php echo $exam->quizBoite; ?>" />
+                            value="<?php echo $exam['quizBoite']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizClimatisation != null) {
+                            if($exam['quizClimatisation'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizClimatisation"
-                            value="<?php echo $exam->quizClimatisation; ?>" />
+                            value="<?php echo $exam['quizClimatisation']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizDirection != null) {
+                            if($exam['quizDirection'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizDirection"
-                            value="<?php echo $exam->quizDirection; ?>" />
+                            value="<?php echo $exam['quizDirection']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizElectricite != null) {
+                            if($exam['quizElectricite'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizElectricite"
-                            value="<?php echo $exam->quizElectricite; ?>" />
+                            value="<?php echo $exam['quizElectricite']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizFrei != null) {
+                            if($exam['quizFrei'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizFrei"
-                            value="<?php echo $exam->quizFrei; ?>" />
+                            value="<?php echo $exam['quizFrei']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizFreinageElec != null) {
+                            if($exam['quizFreinageElec'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizfreinageElec"
-                            value="<?php echo $exam->quizFreinageElec; ?>" />
+                            value="<?php echo $exam['quizFreinageElec']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizFreinage != null) {
+                            if($exam['quizFreinage'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizFreinage"
-                            value="<?php echo $exam->quizFreinage; ?>" />
+                            value="<?php echo $exam['quizFreinage']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizFrein != null) {
+                            if($exam['quizFrein'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizFrein"
-                         value="<?php echo $exam->quizFrein; ?>" />
+                         value="<?php echo $exam['quizFrein']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizHydraulique != null) {
+                            if($exam['quizHydraulique'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizHydraulique"
-                            value="<?php echo $exam->quizHydraulique; ?>" />
+                            value="<?php echo $exam['quizHydraulique']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizMoteurDiesel != null) {
+                            if($exam['quizMoteurDiesel'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizMoteurDiesel"
-                            value="<?php echo $exam->quizMoteurDiesel; ?>" />
+                            value="<?php echo $exam['quizMoteurDiesel']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizMoteurElec != null) {
+                            if($exam['quizMoteurElec'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizMoteurElec"
-                            value="<?php echo $exam->quizMoteurElec; ?>" />
+                            value="<?php echo $exam['quizMoteurElec']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizMoteurEssence != null) {
+                            if($exam['quizMoteurEssence'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizMoteurEssence"
-                            value="<?php echo $exam->quizMoteurEssence; ?>" />
+                            value="<?php echo $exam['quizMoteurEssence']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizMoteur != null) {
+                            if($exam['quizMoteur'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizMoteur"
-                            value="<?php echo $exam->quizMoteur; ?>" />
+                            value="<?php echo $exam['quizMoteur']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizMultiplexage != null) {
+                            if($exam['quizMultiplexage'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizMultiplexage"
-                            value="<?php echo $exam->quizMultiplexage; ?>" />
+                            value="<?php echo $exam['quizMultiplexage']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizPont != null) {
+                            if($exam['quizPont'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizPont" 
-                        value="<?php echo $exam->quizPont; ?>" />
+                        value="<?php echo $exam['quizPont']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizPneumatique != null) {
+                            if($exam['quizPneumatique'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizPneumatique"
-                            value="<?php echo $exam->quizPneumatique; ?>" />
+                            value="<?php echo $exam['quizPneumatique']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizReducteur != null) {
+                            if($exam['quizReducteur'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizReducteur"
-                            value="<?php echo $exam->quizReducteur; ?>" />
+                            value="<?php echo $exam['quizReducteur']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizSuspension != null) {
+                            if($exam['quizSuspension'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizSuspension"
-                            value="<?php echo $exam->quizSuspension; ?>" />
+                            value="<?php echo $exam['quizSuspension']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizSuspensionLame != null) {
+                            if($exam['quizSuspensionLame'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizSuspensionLame"
-                            value="<?php echo $exam->quizSuspensionLame; ?>" />
+                            value="<?php echo $exam['quizSuspensionLame']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizSuspensionRessort != null) {
+                            if($exam['quizSuspensionRessort'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizSuspensionRessort"
-                            value="<?php echo $exam->quizSuspensionRessort; ?>" />
+                            value="<?php echo $exam['quizSuspensionRessort']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizSuspensionPneumatique != null) {
+                            if($exam['quizSuspensionPneumatique'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizSuspensionPneumatique"
-                            value="<?php echo $exam->quizSuspensionPneumatique; ?>" />
+                            value="<?php echo $exam['quizSuspensionPneumatique']; ?>" />
                         <?php } ?>
                         <?php
-                            if($exam->quizTransversale != null) {
+                            if($exam['quizTransversale'] != null) {
                         ?>
                         <input class="hidden" type="text" name="quizTransversale"
-                            value="<?php echo $exam->quizTransversale; ?>" />
+                            value="<?php echo $exam['quizTransversale']; ?>" />
                         <?php } ?>
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                             <p class="quiz-form__question fw-bold" id="question"
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $i + 1; ?> - <?php echo $question->label; ?>
                             </p>
+                            <div style="margin-top: 50px; display: flex; justify-content: center;">
+                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
+                            </div>
                             <?php
-                                if(isset($exam->answers[$i])) {
+                                if(isset($exam['answers'][$i])) {
                             ?>
                             <?php
-                                if($exam->questions[$i] == $question->_id) {
+                                if($exam['questions'][$i] == $question->_id) {
                             ?>
                             <?php
-                                if($exam->answers[$i] == $question->proposal1) {
+                                if($exam['answers'][$i] == $question->proposal1) {
                             ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
@@ -4639,25 +4645,7 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <?php } } } else { ?>
-                            <label class="quiz-form__ans">
-                                <input type="radio" onclick="checkedRadio()"
-                                    name="answer<?php echo $i + 1; ?>"
-                                    value="<?php echo $question->proposal1; ?>" />
-                                <span class="design"></span>
-                                <span class="text">
-                                    <?php echo $question->proposal1; ?>
-                                </span>
-                            </label>
-                            <?php } ?>
-                            <?php
-                                if(isset($exam->answers[$i])) {
-                            ?>
-                            <?php
-                                if($exam->questions[$i] == $question->_id) {
-                            ?>
-                            <?php
-                                if($exam->answers[$i] == $question->proposal2) {
+                            <?php } elseif($exam['answers'][$i] == $question->proposal2) {
                             ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
@@ -4695,25 +4683,7 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <?php } } } else { ?>
-                            <label class="quiz-form__ans">
-                                <input type="radio" onclick="checkedRadio()"
-                                    name="answer<?php echo $i + 1; ?>"
-                                    value="<?php echo $question->proposal2; ?>" />
-                                <span class="design"></span>
-                                <span class="text">
-                                    <?php echo $question->proposal2; ?>
-                                </span>
-                            </label>
-                            <?php } ?>
-                            <?php
-                                if(isset($exam->answers[$i])) {
-                            ?>
-                            <?php
-                                if($exam->questions[$i] == $question->_id) {
-                            ?>
-                            <?php
-                                if($exam->answers[$i] == $question->proposal3) {
+                            <?php } elseif($exam['answers'][$i] == $question->proposal3) {
                             ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
@@ -4751,25 +4721,7 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
-                            <?php } } } else { ?>
-                            <label class="quiz-form__ans">
-                                <input type="radio" onclick="checkedRadio()"
-                                    name="answer<?php echo $i + 1; ?>"
-                                    value="<?php echo $question->proposal3; ?>" />
-                                <span class="design"></span>
-                                <span class="text">
-                                    <?php echo $question->proposal3; ?>
-                                </span>
-                            </label>
-                            <?php } ?>
-                            <?php
-                                if(isset($exam->answers[$i])) {
-                            ?>
-                            <?php
-                                if($exam->questions[$i] == $question->_id) {
-                            ?>
-                            <?php
-                                if($exam->answers[$i] == $question->proposal4) {
+                            <?php } elseif($exam['answers'][$i] == $question->proposal4) {
                             ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
@@ -4807,7 +4759,71 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <?php } elseif($exam['answers'][$i] != $question->proposal1 || $exam['answers'][$i] != $question->proposal2 || $exam['answers'][$i] != $question->proposal3 || $exam['answers'][$i] != $question->proposal4) { ?>
+                            <label class="quiz-form__ans">
+                                <input type="radio" onclick="checkedRadio()"
+                                    name="answer<?php echo $i + 1; ?>"
+                                    value="<?php echo $question->proposal1; ?>" />
+                                <span class="design"></span>
+                                <span class="text">
+                                    <?php echo $question->proposal1; ?>
+                                </span>
+                            </label>
+                            <label class="quiz-form__ans">
+                                <input type="radio" onclick="checkedRadio()"
+                                    name="answer<?php echo $i + 1; ?>"
+                                    value="<?php echo $question->proposal2; ?>" />
+                                <span class="design"></span>
+                                <span class="text">
+                                    <?php echo $question->proposal2; ?>
+                                </span>
+                            </label>
+                            <label class="quiz-form__ans">
+                                <input type="radio" onclick="checkedRadio()"
+                                    name="answer<?php echo $i + 1; ?>"
+                                    value="<?php echo $question->proposal3; ?>" />
+                                <span class="design"></span>
+                                <span class="text">
+                                    <?php echo $question->proposal3; ?>
+                                </span>
+                            </label>
+                            <label class="quiz-form__ans">
+                                <input type="radio" onclick="checkedRadio()"
+                                    name="answer<?php echo $i + 1; ?>"
+                                    value="<?php echo $question->proposal4; ?>" />
+                                <span class="design"></span>
+                                <span class="text">
+                                    <?php echo $question->proposal4; ?>
+                                </span>
+                            </label>
                             <?php } } } else { ?>
+                            <label class="quiz-form__ans">
+                                <input type="radio" onclick="checkedRadio()"
+                                    name="answer<?php echo $i + 1; ?>"
+                                    value="<?php echo $question->proposal1; ?>" />
+                                <span class="design"></span>
+                                <span class="text">
+                                    <?php echo $question->proposal1; ?>
+                                </span>
+                            </label>
+                            <label class="quiz-form__ans">
+                                <input type="radio" onclick="checkedRadio()"
+                                    name="answer<?php echo $i + 1; ?>"
+                                    value="<?php echo $question->proposal2; ?>" />
+                                <span class="design"></span>
+                                <span class="text">
+                                    <?php echo $question->proposal2; ?>
+                                </span>
+                            </label>
+                            <label class="quiz-form__ans">
+                                <input type="radio" onclick="checkedRadio()"
+                                    name="answer<?php echo $i + 1; ?>"
+                                    value="<?php echo $question->proposal3; ?>" />
+                                <span class="design"></span>
+                                <span class="text">
+                                    <?php echo $question->proposal3; ?>
+                                </span>
+                            </label>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answer<?php echo $i + 1; ?>"
@@ -4818,14 +4834,11 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <?php } ?>
-                            <div style="margin-top: 50px; display: flex; justify-content: center; margin-bottom: 30px;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
+                            <?php } ?>
                             <?php } ?>
                             <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
                                 <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Terminer</button>
                             </div>
-                            <?php } ?>
                         </div>
                     </form>
                 </div>
@@ -4856,12 +4869,14 @@ function updateCountDown() {
         seconds = seconds < 10 ? "0" + seconds : seconds;
         countDown.innerHTML = `${minutes}:${seconds}`;
         document.getElementById("clock").value = `${minutes}:${seconds}`;
+        document.getElementById("clock1").value = `${minutes}`;
     } else if (time < 0) {
         clearInterval(updateCountDown);
         minutes = "00";
         seconds = "00";
         countDown.innerHTML = `${minutes}:${seconds}`;
         document.getElementById("clock").value = `${minutes}:${seconds}`;
+        document.getElementById("clock1").value = `${minutes}`;
         // document.getElementById(".submit").addEventListener("click")
     }
 }

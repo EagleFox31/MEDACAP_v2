@@ -19,24 +19,256 @@ if (!isset($_SESSION['id'])) {
     $vehicles = $academy->vehicles;
     $questions = $academy->questions;
     $results = $academy->results;
+    $exams = $academy->exams;
     $allocations = $academy->allocations;
 
     $id = $_GET['id'];
     $level = $_GET['level'];
     $vehicle = $_GET['vehicle'];
     $brand = $_GET['brand'];
-
+    $questionsTag = [];
+        
     $vehicule = $vehicles->findOne([
+            '$and' => [
+                ['users' => new MongoDB\BSON\ObjectId($id)],
+                ['label' => $vehicle],
+                ['brand' => $brand],
+                ['type' => 'Declaratif'],
+                ['level' => $level],
+                ['active' => true],
+            ],
+        ]);
+        
+    $exam = $exams->findOne([
         '$and' => [
-            ['users' => new MongoDB\BSON\ObjectId($id)],
-            ['label' => $vehicle],
-            ['brand' => $brand],
-            ['type' => 'Declaratif'],
-            ['level' => $level],
+            ['user' => new MongoDB\BSON\ObjectId($id)],
+            ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
             ['active' => true],
         ],
     ]);
     $arrQuizzes = iterator_to_array($vehicule->quizzes);
+    
+    if (isset($_POST['save'])) {
+        $questionsTag = $_POST['questionsTag'];
+        $questionsTags = [];
+        $body = $_POST;
+        // assuming POST method, you can replace it with $_GET if it's a GET method
+        $proposals = array_values($body);
+        $answers = [];
+        for ($i = 0; $i < count($questionsTag); ++$i) {
+            array_push($questionsTags, new MongoDB\BSON\ObjectId($questionsTag[$i]));
+        }
+        for ($i = 0; $i < count($proposals); ++$i) {
+            $data = $questions->findOne([
+                '$or' => [
+                    ['proposal1' => $proposals[$i]],
+                    ['proposal2' => $proposals[$i]],
+                    ['proposal3' => $proposals[$i]],
+                ],
+                'type' => 'Declarative',
+            ]);
+            if ($data) {
+                array_push($answers, $proposals[$i]);
+            }
+        }
+        
+        if (isset($_POST['quizAssistance'])) {
+            $assistanceID = new MongoDB\BSON\ObjectId($_POST['quizAssistance']);
+        }
+        if (isset($_POST['quizArbre'])) {
+            $arbreID = new MongoDB\BSON\ObjectId($_POST['quizArbre']);
+        }
+        if (isset($_POST['quizTransfert'])) {
+            $transfertID = new MongoDB\BSON\ObjectId($_POST['quizTransfert']);
+        }
+        if (isset($_POST['quizBoite'])) {
+            $boiteID = new MongoDB\BSON\ObjectId($_POST['quizBoite']);
+        }
+        if (isset($_POST['quizClimatisation'])) {
+            $climatisationID = new MongoDB\BSON\ObjectId($_POST['quizClimatisation']);
+        }
+        if (isset($_POST['quizDirection'])) {
+            $directionID = new MongoDB\BSON\ObjectId($_POST['quizDirection']);
+        }
+        if (isset($_POST['quizElectricite'])) {
+            $electriciteID = new MongoDB\BSON\ObjectId($_POST['quizElectricite']);
+        }
+        if (isset($_POST['quizFrei'])) {
+            $freiID = new MongoDB\BSON\ObjectId($_POST['quizFrei']);
+        }
+        if (isset($_POST['quizFreinageElec'])) {
+            $freinageElecID = new MongoDB\BSON\ObjectId($_POST['quizFreinageElec']);
+        }
+        if (isset($_POST['quizFreinage'])) {
+            $freinageID = new MongoDB\BSON\ObjectId($_POST['quizFreinage']);
+        }
+        if (isset($_POST['quizFrein'])) {
+            $freinID = new MongoDB\BSON\ObjectId($_POST['quizFrein']);
+        }
+        if (isset($_POST['quizHydraulique'])) {
+            $hydrauliqueID = new MongoDB\BSON\ObjectId($_POST['quizHydraulique']);
+        }
+        if (isset($_POST['quizMoteurDiesel'])) {
+            $moteurDieselID = new MongoDB\BSON\ObjectId($_POST['quizMoteurDiesel']);
+        }
+        if (isset($_POST['quizMoteurElec'])) {
+            $moteurElecID = new MongoDB\BSON\ObjectId($_POST['quizMoteurElec']);
+        }
+        if (isset($_POST['quizMoteurEssence'])) {
+            $moteurEssenceID = new MongoDB\BSON\ObjectId($_POST['quizMoteurEssence']);
+        }
+        if (isset($_POST['quizMoteur'])) {
+            $moteurID = new MongoDB\BSON\ObjectId($_POST['quizMoteur']);
+        }
+        if (isset($_POST['quizMultiplexage'])) {
+            $multiplexageID = new MongoDB\BSON\ObjectId($_POST['quizMultiplexage']);
+        }
+        if (isset($_POST['quizPont'])) {
+            $pontID = new MongoDB\BSON\ObjectId($_POST['quizPont']);
+        }
+        if (isset($_POST['quizPneumatique'])) {
+            $pneumatiqueID = new MongoDB\BSON\ObjectId($_POST['quizPneumatique']);
+        }
+        if (isset($_POST['quizReducteur'])) {
+            $reducteurID = new MongoDB\BSON\ObjectId($_POST['quizReducteur']);
+        }
+        if (isset($_POST['quizSuspension'])) {
+            $suspensionID = new MongoDB\BSON\ObjectId($_POST['quizSuspension']);
+        }
+        if (isset($_POST['quizSuspensionLame'])) {
+            $suspensionLameID = new MongoDB\BSON\ObjectId($_POST['quizSuspensionLame']);
+        }
+        if (isset($_POST['quizSuspensionRessort'])) {
+            $suspensionRessortID = new MongoDB\BSON\ObjectId($_POST['quizSuspensionRessort']);
+        }
+        if (isset($_POST['quizSuspensionPneumatique'])) {
+            $suspensionPneumatiqueID = new MongoDB\BSON\ObjectId($_POST['quizSuspensionPneumatique']);
+        }
+        if (isset($_POST['quizTransversale'])) {
+            $transversaleID = new MongoDB\BSON\ObjectId($_POST['quizTransversale']);
+        }
+        if (!isset($_POST['quizAssistance'])) {
+            $assistanceID = null;
+        }
+        if (!isset($_POST['quizArbre'])) {
+            $arbreID = null;
+        }
+        if (!isset($_POST['quizTransfert'])) {
+            $transfertID = null;
+        }
+        if (!isset($_POST['quizBoite'])) {
+            $boiteID = null;
+        }
+        if (!isset($_POST['quizClimatisation'])) {
+            $climatisationID = null;
+        }
+        if (!isset($_POST['quizDirection'])) {
+            $directionID = null;
+        }
+        if (!isset($_POST['quizFrei'])) {
+            $freiID = null;
+        }
+        if (!isset($_POST['quizFreinageElec'])) {
+            $freinageElecID = null;
+        }
+        if (!isset($_POST['quizFreinage'])) {
+            $freinageID = null;
+        }
+        if (!isset($_POST['quizFrein'])) {
+            $freinID = null;
+        }
+        if (!isset($_POST['quizHydraulique'])) {
+            $hydrauliqueID = null;
+        }
+        if (!isset($_POST['quizElectricite'])) {
+            $electriciteID = null;
+        }
+        if (!isset($_POST['quizMoteurDiesel'])) {
+            $moteurDieselID = null;
+        }
+        if (!isset($_POST['quizMoteurElec'])) {
+            $moteurElecID = null;
+        }
+        if (!isset($_POST['quizMoteurEssence'])) {
+            $moteurEssenceID = null;
+        }
+        if (!isset($_POST['quizMoteur'])) {
+            $moteurID = null;
+        }
+        if (!isset($_POST['quizMultiplexage'])) {
+            $multiplexageID = null;
+        }
+        if (!isset($_POST['quizPont'])) {
+            $pontID = null;
+        }
+        if (!isset($_POST['quizPneumatique'])) {
+            $pneumatiqueID = null;
+        }
+        if (!isset($_POST['quizReducteur'])) {
+            $reducteurID = null;
+        }
+        if (!isset($_POST['quizSuspension'])) {
+            $suspensionID = null;
+        }
+        if (!isset($_POST['quizSuspensionLame'])) {
+            $suspensionLameID = null;
+        }
+        if (!isset($_POST['quizSuspensionRessort'])) {
+            $suspensionRessortID = null;
+        }
+        if (!isset($_POST['quizSuspensionPneumatique'])) {
+            $suspensionPneumatiqueID = null;
+        }
+        if (!isset($_POST['quizTransversale'])) {
+            $transversaleID = null;
+        }
+
+        if($exam) {
+            $exam->answers = $answers;
+            $exam->time = $time;
+            $exams->updateOne(
+                [ '_id' => new MongoDB\BSON\ObjectId($exam->_id) ],
+                [ '$set' => $exam ]
+            );
+        } else {
+            $exam = [
+                'questions' => $questionsTags,
+                'answers' => $answers,
+                'user' => new MongoDB\BSON\ObjectId($id),
+                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                'quizAssistance' => $assistanceID,
+                'quizArbre' => $arbreID,
+                'quizTransfert' => $transfertID,
+                'quizBoite' => $boiteID,
+                'quizClimatisation' => $climatisationID,
+                'quizDirection' => $directionID,
+                'quizElectricite' => $electriciteID,
+                'quizFrei' => $freiID,
+                'quizFreinageElec' => $freinageElecID,
+                'quizFreinage' => $freinageID,
+                'quizFrein' => $freinID,
+                'quizHydraulique' => $hydrauliqueID,
+                'quizMoteurDiesel' => $moteurDieselID,
+                'quizMoteurElec' => $moteurElecID,
+                'quizMoteurEssence' => $moteurEssenceID,
+                'quizMoteur' => $moteurID,
+                'quizMultiplexage' => $multiplexageID,
+                'quizPont' => $pontID,
+                'quizPneumatique' => $pneumatiqueID,
+                'quizReducteur' => $reducteurID,
+                'quizSuspension' => $suspensionID,
+                'quizSuspensionLame' => $suspensionLameID,
+                'quizSuspensionRessort' => $suspensionRessortID,
+                'quizSuspensionPneumatique' => $suspensionPneumatiqueID,
+                'quizTransversale' => $transversaleID,
+                'time' => $time,
+                'active' => true,
+                'created' => date('d-m-y')
+            ];
+        
+            $exams->insertOne($exam);
+        }
+    }
 
     if (isset($_POST['valid'])) {
         $time = $_POST['timer'];
@@ -1342,31 +1574,35 @@ include_once 'partials/header.php'; ?>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
 <link href="../public/css/userQuiz.css" rel="stylesheet" type="text/css" />
 <div class="container">
-    <center class="center" style="margin-top: -100px;">
-      <div class="timer" style="margin-right: 300px;">
-        <div class="time_left_txt">Questions Restantes</div>
-        <div class="timer_sec" id="num" value="1">
-        </div>
-      </div>
-      <div class="timer" style="margin-top: -45px; margin-left: 300px">
-        <div class="time_left_txt">Durée(heure et minute)</div>
-        <div class="timer_sec" name="time" id="timer_sec" value="0">
-        </div>
-      </div>
-    </center>
-    <div class="heading" style="margin-top: 10px;">
-      <h1 class="heading__text">Questionnaire sur les tâches professionnelles</h1>
-    </div>
-
-    <!-- Quiz section -->
-    <div class="quiz" style="margin-bottom: 40px;">
-        <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-            Vous devez repondre à toutes les questions avant
-            de pouvoir valider le questionnaire.
-        </p>
-        <form class="quiz-form" method="POST">
+    <form class="quiz-form" method="POST">
+            <center class="center" style="margin-top: -100px;">
+                <div class="timer" style="margin-right: 400px;">
+                    <div class="time_left_txt">Questions Restantes</div>
+                    <div class="timer_sec" id="num" value="1">
+                    </div>
+                </div>
+                <div class="timer" style="margin-top: -45px; margin-left: 400px">
+                    <div class="time_left_txt">Durée(heure et minute)</div>
+                    <div class="timer_sec" id="timer_sec" value="<?php echo $exam['time'] ?? "180"; ?>">
+                    </div>
+                </div>
+                <div style="margin-top: -45px; margin-left: 0px">
+                    <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                </div>
+            </center>
+            <div class="heading" style="margin-top: 10px;">
+              <h1 class="heading__text">Questionnaire sur les tâches professionnelles</h1>
+            </div>
+        
+            <!-- Quiz section -->
+            <div class="quiz" style="margin-bottom: 40px;">
+                <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
+                    Vous devez repondre à toutes les questions avant
+                    de pouvoir valider le questionnaire.
+                </p>
             <input class="hidden" type="text" name="timer" id="clock" />
             <div class="quiz-form__quiz">
+                <?php if (!isset($exam)) { ?>
                 <?php
                  $k = 1;
                 for ($j = 0; $j < count($arrQuizzes); ++$j) {
@@ -1390,6 +1626,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizAssistance" value="<?php echo $assistanceDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1445,7 +1682,8 @@ include_once 'partials/header.php'; ?>
                                 ['active' => true],
                             ],
                         ]); ?>
-                <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreDecla->_id; ?>" />
+                <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreDecla->_id; ?>" />        
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1502,6 +1740,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizTransfert" value="<?php echo $transfertDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1558,6 +1797,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizBoite" value="<?php echo $boiteDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1616,6 +1856,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizClimatisation"
                     value="<?php echo $climatisationDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1673,6 +1914,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizDirection" value="<?php echo $directionDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1730,6 +1972,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1787,6 +2030,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizFrei" value="<?php echo $freiDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1844,6 +2088,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizFreinageElec" value="<?php echo $freinageElecDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1901,6 +2146,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizFreinage" value="<?php echo $freinageDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -1958,6 +2204,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizFrein" value="<?php echo $freinDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2015,6 +2262,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizHydraulique" value="<?php echo $hydrauliqueDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2073,6 +2321,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizMoteurDiesel"
                     value="<?php echo $moteurDieselDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2130,6 +2379,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizMoteurElec" value="<?php echo $moteurElecDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2188,6 +2438,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizMoteurEssence"
                     value="<?php echo $moteurEssenceDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2246,6 +2497,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizMoteurThermique"
                     value="<?php echo $moteurThermiqueDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2304,6 +2556,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizMultiplexage"
                     value="<?php echo $multiplexageDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2361,6 +2614,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizPont" value="<?php echo $pontDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2418,6 +2672,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizPneumatique" value="<?php echo $pneumatiqueDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2475,6 +2730,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                 <input class="hidden" type="text" name="quizReducteur" value="<?php echo $reducteurDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2533,6 +2789,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizSuspension"
                     value="<?php echo $suspensionDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2591,6 +2848,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizSuspensionLame"
                     value="<?php echo $suspensionLameDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2649,6 +2907,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizSuspensionRessort"
                     value="<?php echo $suspensionRessortDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2707,6 +2966,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizSuspensionPneumatique"
                     value="<?php echo $suspensionPneumatiqueDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2767,6 +3027,7 @@ include_once 'partials/header.php'; ?>
                         ]); ?>
                 <input class="hidden" type="text" name="quizTransversale"
                     value="<?php echo $transversaleDecla->_id; ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label; ?>
@@ -2800,45 +3061,393 @@ include_once 'partials/header.php'; ?>
                 <?php
                     } ?>
                 <?php
-                } ?>
+            } ?>
+            <?php
+                } elseif (isset($exam)) {
+            for ($i = 0; $i < count($exam['questions']); ++$i) {
+                $question = $questions->findone([
+            '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($exam['questions'][$i])],
+                        ['active' => true],
+                    ],
+                ]);
+                ?>
+                <?php
+                    if($exam['quizAssistance'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizAssistance"
+                    value="<?php echo $exam['quizAssistance']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizArbre'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizArbre"
+                    value="<?php echo $exam['quizArbre']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizTransfert'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizTransfert"
+                    value="<?php echo $exam['quizTransfert']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam["quizBoite"] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizBoite"
+                    value="<?php echo $exam['quizBoite']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizClimatisation'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizClimatisation"
+                    value="<?php echo $exam['quizClimatisation']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizDirection'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizDirection"
+                    value="<?php echo $exam['quizDirection']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizElectricite'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizElectricite"
+                    value="<?php echo $exam['quizElectricite']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizFrei'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizFrei"
+                    value="<?php echo $exam['quizFrei']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizFreinageElec'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizfreinageElec"
+                    value="<?php echo $exam['quizFreinageElec']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizFreinage'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizFreinage"
+                    value="<?php echo $exam['quizFreinage']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizFrein'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizFrein"
+                 value="<?php echo $exam['quizFrein']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizHydraulique'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizHydraulique"
+                    value="<?php echo $exam['quizHydraulique']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizMoteurDiesel'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizMoteurDiesel"
+                    value="<?php echo $exam['quizMoteurDiesel']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizMoteurElec'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizMoteurElec"
+                    value="<?php echo $exam['quizMoteurElec']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizMoteurEssence'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizMoteurEssence"
+                    value="<?php echo $exam['quizMoteurEssence']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizMoteur'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizMoteur"
+                    value="<?php echo $exam['quizMoteur']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizMultiplexage'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizMultiplexage"
+                    value="<?php echo $exam['quizMultiplexage']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizPont'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizPont" 
+                value="<?php echo $exam['quizPont']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizPneumatique'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizPneumatique"
+                    value="<?php echo $exam['quizPneumatique']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizReducteur'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizReducteur"
+                    value="<?php echo $exam['quizReducteur']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizSuspension'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizSuspension"
+                    value="<?php echo $exam['quizSuspension']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizSuspensionLame'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizSuspensionLame"
+                    value="<?php echo $exam['quizSuspensionLame']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizSuspensionRessort'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizSuspensionRessort"
+                    value="<?php echo $exam['quizSuspensionRessort']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizSuspensionPneumatique'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizSuspensionPneumatique"
+                    value="<?php echo $exam['quizSuspensionPneumatique']; ?>" />
+                <?php } ?>
+                <?php
+                    if($exam['quizTransversale'] != null) {
+                ?>
+                <input class="hidden" type="text" name="quizTransversale"
+                    value="<?php echo $exam['quizTransversale']; ?>" />
+                <?php } ?>
+            <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
+            <p class="quiz-form__question fw-bold" id="question"
+                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                <?php echo $i + 1; ?> - <?php echo $question->label; ?>
+            </p>
+            <?php
+                if(isset($exam['answers'][$i])) {
+            ?>
+            <?php
+                if($exam['questions'][$i] == $question->_id) {
+            ?>
+            <?php
+                if($exam['answers'] == $question->proposal1) {
+            ?>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal1; ?>" checked/>
+                <span class="design"></span>
+                <span class="text">
+                    Je sais faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal2; ?>" />
+                <span class="design"></span>
+                <span class="text">
+                    Je ne sais pas faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal3; ?>" />
+                <span class="design"></span>
+                <span class="text">
+                    Je n'ai jamais fait
+                </span>
+            </label>
+            <?php } elseif($exam['answers'] == $question->proposal2) {
+            ?>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal1; ?>"/>
+                <span class="design"></span>
+                <span class="text">
+                    Je sais faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal2; ?>" checked/>
+                <span class="design"></span>
+                <span class="text">
+                    Je ne sais pas faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal3; ?>" />
+                <span class="design"></span>
+                <span class="text">
+                    Je n'ai jamais fait
+                </span>
+            </label>
+            <?php } elseif($exam['answers'] == $question->proposal3) {
+            ?>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal1; ?>"/>
+                <span class="design"></span>
+                <span class="text">
+                    Je sais faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal2; ?>" />
+                <span class="design"></span>
+                <span class="text">
+                    Je ne sais pas faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal3; ?>" checked/>
+                <span class="design"></span>
+                <span class="text">
+                    Je n'ai jamais fait
+                </span>
+            </label>
+            <?php } elseif($exam['answers'] != $question->proposal1 || $exam['answers'] != $question->proposal2 || $exam['answers'] != $question->proposal3) { ?>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal1; ?>"/>
+                <span class="design"></span>
+                <span class="text">
+                    Je sais faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal2; ?>" />
+                <span class="design"></span>
+                <span class="text">
+                    Je ne sais pas faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal3; ?>"/>
+                <span class="design"></span>
+                <span class="text">
+                    Je n'ai jamais fait
+                </span>
+            </label>
+            <?php } } } else { ?>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal1; ?>"/>
+                <span class="design"></span>
+                <span class="text">
+                    Je sais faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal2; ?>" />
+                <span class="design"></span>
+                <span class="text">
+                    Je ne sais pas faire
+                </span>
+            </label>
+            <label class="quiz-form__ans">
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="<?php echo $question->proposal3; ?>"/>
+                <span class="design"></span>
+                <span class="text">
+                    Je n'ai jamais fait
+                </span>
+            </label>
+            <?php } ?>
+            <?php } ?>
+            <?php } ?>
             </div>
-            <button class="btn btn-primary submit" style="margin-top: 100px;" name="valid"
-                type="submit">Terminer</button>
+            <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
+                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Terminer</button>
+            </div>
         </form>
     </div>
 </div>
 <script>
-var timer = setInterval(countTimer, 1000);
-var totalSecond = 0;
+const startingMinutes = document
+    .getElementById("timer_sec")
+    .getAttribute("value");
+let time = startingMinutes * 60;
 
-function countTimer() {
-    totalSecond++;
+const countDown = document.getElementById("timer_sec");
 
-    var hour = Math.floor(totalSecond / 3600);
-    var minutes = Math.floor((totalSecond - hour * 3600) / 60);
-    var seconds = totalSecond - (hour * 3600 + minutes * 60);
+setInterval(updateCountDown, 1000);
 
-    if (minutes < 9 && hour > 9) {
-        document.getElementById("timer_sec").innerHTML = hour + ":" + "0" + minutes;
-        document.getElementById("clock").value = hour + ":" + "0" + minutes + ":" + seconds;
-    } else if (hour < 9 && minutes > 9) {
-        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + minutes;
-        document.getElementById("clock").value = "0" + hour + ":" + minutes + ":" + seconds;
-    } else if (hour < 9 && minutes < 9) {
-        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
-        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
-    } else if (hour == 9 && minutes == 9) {
-        document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
-        document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
-    } else {
-        document.getElementById("timer_sec").innerHTML = hour + ":" + minutes;
-        document.getElementById("clock").value = hour + ":" + minutes + ":" + seconds;
+function updateCountDown() {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    time--;
+    if (time > 0) {
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        countDown.innerHTML = `${minutes}:${seconds}`;
+        document.getElementById("clock").value = `${minutes}:${seconds}`;
+    } else if (time < 0) {
+        clearInterval(updateCountDown);
+        minutes = "00";
+        seconds = "00";
+        countDown.innerHTML = `${minutes}:${seconds}`;
+        document.getElementById("clock").value = `${minutes}:${seconds}`;
+        // document.getElementById(".submit").addEventListener("click")
     }
 }
 
+// var timer = setInterval(countTimer, 1000);
+// var totalSecond = 0;
+
+// function countTimer() {
+//     totalSecond++;
+
+//     var hour = Math.floor(totalSecond / 3600);
+//     var minutes = Math.floor((totalSecond - hour * 3600) / 60);
+//     var seconds = totalSecond - (hour * 3600 + minutes * 60);
+
+//     if (minutes <= 9 && hour > 9) {
+//         document.getElementById("timer_sec").innerHTML = hour + ":" + "0" + minutes;
+//         document.getElementById("clock").value = hour + ":" + "0" + minutes + ":" + seconds;
+//     }
+//     if (hour <= 9 && minutes > 9) {
+//         document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + minutes;
+//         document.getElementById("clock").value = "0" + hour + ":" + minutes + ":" + seconds;
+//     }
+//     if (hour <= 9 && minutes <= 9) {
+//         document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
+//         document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
+//     }
+//     if (hour == 9 && minutes == 9) {
+//         document.getElementById("timer_sec").innerHTML = "0" + hour + ":" + "0" + minutes;
+//         document.getElementById("clock").value = "0" + hour + ":" + "0" + minutes + ":" + seconds;
+//     }
+//     Et
+// }
+
 let radio;
 const ques = document.querySelectorAll("#question");
-const submitBtn = document.querySelector("button")
+const submitBtn = document.querySelector("#button")
 submitBtn.classList.add("disabled")
 const num = document.querySelector("#num").getAttribute('value');
 const score = document.querySelector("#num");

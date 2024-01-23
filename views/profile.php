@@ -385,14 +385,6 @@ include_once 'partials/header.php'
                                     <!--begin::Details item-->
                                     <!--begin::Details item-->
                                     <div class="fw-bolder mt-5">
-                                        Fonction Secondaire
-                                    </div>
-                                    <div class="text-gray-600">
-                                        <?php echo $user->subRole ?>
-                                    </div>
-                                    <!--begin::Details item-->
-                                    <!--begin::Details item-->
-                                    <div class="fw-bolder mt-5">
                                         Date de recrutement
                                     </div>
                                     <div class="text-gray-600">
