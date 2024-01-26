@@ -585,13 +585,24 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Evaluer
-                                            mes
-                                            Techniciens
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">
+                                            Mes
+                                            Techniciens évalués
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php if ($_SESSION['test'] == true) { ?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
+                                            Evaluations Réalisés</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
@@ -630,7 +641,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Tests Réalisés</span></a>
+                                            Evaluations Réalisés</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->

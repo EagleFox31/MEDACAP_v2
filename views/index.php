@@ -31,6 +31,7 @@ if (isset( $_POST[ 'login' ] )) {
         $_SESSION["lastName"] = $login["lastName"];
         $_SESSION["firstName"] = $login["firstName"];
         $_SESSION["email"] = $login["email"];
+        $_SESSION["test"] = $login["test"];
         $_SESSION["id"] = $login["_id"];
         header('Location: ./dashboard.php');
     }
@@ -164,7 +165,8 @@ if ( isset( $error_msg ) ) {
                                     <label for="subject">Mot de passe</label>
                                 </div>
                             </div>
-                            <a href="forgotPassword.php" class="link-primary fs-6 fw-bolder">Mot de passe Oublié ?</a>
+                            <div></div><br><br>
+                            <!-- <a href="forgotPassword.php" class="link-primary fs-6 fw-bolder">Mot de passe Oublié ?</a> -->
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit" name="login">Connexion</button>
                             </div>

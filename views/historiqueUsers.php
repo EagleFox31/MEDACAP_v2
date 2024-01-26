@@ -29,13 +29,12 @@ if ( isset( $_POST[ 'update' ] ) ) {
     $username = $_POST[ 'username' ];
     $subsidiary = $_POST[ 'subsidiary' ];
     $department = $_POST[ 'department' ];
-    $subRole = $_POST[ 'subRole' ];
-    $mainRole = $_POST[ 'mainRole' ];
+    $role = $_POST[ 'role' ];
     $gender = $_POST[ 'gender' ];
     $country = $_POST[ 'country' ];
     $brand = $_POST[ 'brand' ];
     $vehicle = $_POST[ 'vehicle' ];
-    $subVehicle = $_POST[ 'subVehicle' ];
+    $subBrand = $_POST[ 'subBrand' ];
     $certificate = $_POST[ 'certificate' ];
     $speciality = $_POST[ 'speciality' ];
     $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
@@ -61,11 +60,10 @@ if ( isset( $_POST[ 'update' ] ) ) {
             'subsidiary' => ucfirst( $subsidiary ),
             'speciality' => ucfirst( $speciality ),
             'department' => ucfirst( $department ),
-            'subRole' => ucfirst( $subRole ),
-            'mainRole' => ucfirst( $mainRole ),
+            'role' => ucfirst( $role ),
             'brand' => $brand,
             'vehicle' => $vehicle,
-            'subVehicle' => $subVehicle,
+            'subBrand' => $subBrand,
             "manager" => new MongoDB\BSON\ObjectId( $managerId ),
             'updated' => date("d-m-Y")
         ];
@@ -110,11 +108,10 @@ if ( isset( $_POST[ 'update' ] ) ) {
                     'subsidiary' => $subsidiary,
                     'speciality' => $speciality,
                     'department' => $department,
-                    'subRole' => $subRole,
-                    'mainRole' => $mainRole,
+                    'role' => $role,
                     'brand' => $brand,
                     'vehicle' => $vehicle,
-                    'subVehicle' => $subVehicle,
+                    'subBrand' => $subBrand,
                     'updated' => date("d-m-Y")
                 ]
             ]
@@ -455,12 +452,7 @@ include_once 'partials/header.php'
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Fonction Principale
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Fonction Secondaire
+                                            style="width: 152.719px;">Fonction
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -470,17 +462,17 @@ include_once 'partials/header.php'
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Type de Véhicule Principal
+                                            style="width: 152.719px;">Type de Véhicule
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Type de Véhicule Sécondaire
+                                            style="width: 152.719px;">Marque de véhicule Principale
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Marque de véhicule
+                                            style="width: 152.719px;">Marque de Véhicule Sécondaire
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -545,10 +537,7 @@ include_once 'partials/header.php'
                                             <?php echo $user->department ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->mainRole ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->subRole ?? "" ?>
+                                            <?php echo $user->role ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->speciality ?>
@@ -557,10 +546,10 @@ include_once 'partials/header.php'
                                             <?php echo $user->vehicle ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->subVehicle ?>
+                                            <?php echo $user->brand ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->brand ?>
+                                            <?php echo $user->subBrand ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
@@ -619,10 +608,7 @@ include_once 'partials/header.php'
                                             <?php echo $user->department ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->mainRole ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->subRole ?>
+                                            <?php echo $user->role ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->speciality ?>
@@ -631,10 +617,10 @@ include_once 'partials/header.php'
                                             <?php echo $user->vehicle ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->subVehicle ?>
+                                            <?php echo $user->brand ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->brand ?>
+                                            <?php echo $user->subBrand ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
@@ -1046,34 +1032,20 @@ include_once 'partials/header.php'
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">Fonction
-                                                                        Principale</label>
+                                                                        </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="mainRole"
-                                                                        value="<?php echo $user->mainRole ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Fonction
-                                                                        Secondaire</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="subRole"
-                                                                        value="<?php echo $user->subRole ?>" />
+                                                                        placeholder="" name="role"
+                                                                        value="<?php echo $user->role ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">Type de Véhicule
-                                                                        Principale</label>
+                                                                        </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -1086,28 +1058,28 @@ include_once 'partials/header.php'
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Type de Véhicule
-                                                                        Secondaire</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="subVehicle"
-                                                                        value="<?php echo $user->subVehicle ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">Marque de
-                                                                        Véhicule</label>
+                                                                        Véhicule Principale</label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="brand"
                                                                         value="<?php echo $user->brand ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">Marque de Véhicule
+                                                                        Secondaire</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="subBrand"
+                                                                        value="<?php echo $user->subBrand ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->

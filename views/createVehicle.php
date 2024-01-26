@@ -258,7 +258,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     ])->toArray();
     
     for ($i = 0; $i < count($user); $i++) {
-        if ($user[$i]->profile == 'Technicien'  || $user[$i]->profile == 'Manager') {
+        if ($user[$i]->profile == 'Technicien'  || $user[$i]->profile == 'Manager (à évaluer)') {
             array_push($userArr, $user[$i]->_id);
             if ($user[$i]->level == 'Senior (Réparation)' || $user[$i]->level == 'Expert (Diagnostic)') {
                 array_push($userArrR, $user[$i]->_id);
@@ -1599,7 +1599,7 @@ include_once 'partials/header.php'
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="">Nom du type de véhicule</span>
+                                <span class="required">Nom du type de véhicule</span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->

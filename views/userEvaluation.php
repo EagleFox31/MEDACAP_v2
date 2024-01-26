@@ -19,6 +19,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $vehicles = $academy->vehicles;
     $questions = $academy->questions;
     $results = $academy->results;
+    $exams = $academy->exams;
     $allocations = $academy->allocations;
     
     $id = $_GET[ 'user' ];
@@ -47,7 +48,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     ]);
     $exam = $exams->findOne([
         '$and' => [
-            ['user' => new MongoDB\BSON\ObjectId($id)],
+            ['user' => new MongoDB\BSON\ObjectId($manager)],
             ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
             ['active' => true],
         ],
@@ -56,6 +57,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
     if (isset($_POST['save'])) {
         $questionsTag = $_POST['questionsTag'];
+        $time = $_POST['time'];
         $questionsTags = [];
         $body = $_POST;
         // assuming POST method, you can replace it with $_GET if it's a GET method
@@ -240,8 +242,8 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             $exam = [
                 'questions' => $questionsTags,
                 'answers' => $answers,
-                'user' => new MongoDB\BSON\ObjectId($id),
-                'vehicle' => new MongoDB\BSON\ObjectId($vehicle->_id),
+                'user' => new MongoDB\BSON\ObjectId($manager),
+                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
                 'quizAssistance' => $assistanceID,
                 'quizArbre' => $arbreID,
                 'quizTransfert' => $transfertID,
@@ -1614,7 +1616,7 @@ include_once 'partials/header.php'
                 </div>
                 <div class="timer" style="margin-top: -45px; margin-left: 400px">
                     <div class="time_left_txt">Durée(heure et minute)</div>
-                    <div class="timer_sec" name="time" id="timer_sec" value="180">
+                    <div class="timer_sec" id="timer_sec" value="<?php echo $exam['time'] ?? "180"; ?>">
                     </div>
                 </div>
                 <div style="margin-top: -45px; margin-left: 0px">
@@ -1632,6 +1634,7 @@ include_once 'partials/header.php'
                     de pouvoir valider le questionnaire.
                 </p>
             <input class="hidden" type="text" name="timer" id="clock" />
+            <input class="hidden" type="text" name="time" id="clock1" />
             <div class="quiz-form__quiz">
                 <?php if (!isset($exam)) { ?>
                 <?php
@@ -1659,6 +1662,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizAssistance" value="<?php echo $assistanceDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -1714,6 +1718,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -1769,6 +1774,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizTransfert" value="<?php echo $transfertDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -1824,6 +1830,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizBoite" value="<?php echo $boiteDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -1881,6 +1888,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizClimatisation"
                     value="<?php echo $climatisationDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -1937,6 +1945,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizDirection" value="<?php echo $directionDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -1993,6 +2002,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2049,6 +2059,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizFrei" value="<?php echo $freiDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2105,6 +2116,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizFreinageElec" value="<?php echo $freinageElecDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2161,6 +2173,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizFreinage" value="<?php echo $freinageDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2217,6 +2230,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizFrein" value="<?php echo $freinDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2273,6 +2287,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizHydraulique" value="<?php echo $hydrauliqueDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2330,6 +2345,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizMoteurDiesel"
                     value="<?php echo $moteurDieselDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2386,6 +2402,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizMoteurElec" value="<?php echo $moteurElecDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2443,6 +2460,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizMoteurEssence"
                     value="<?php echo $moteurEssenceDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2500,6 +2518,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizMoteurThermique"
                     value="<?php echo $moteurThermiqueDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2557,6 +2576,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizMultiplexage"
                     value="<?php echo $multiplexageDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2613,6 +2633,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizPont" value="<?php echo $pontDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2669,6 +2690,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizPneumatique" value="<?php echo $pneumatiqueDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2725,6 +2747,7 @@ include_once 'partials/header.php'
                         ]);
                 ?>
                 <input class="hidden" type="text" name="quizReducteur" value="<?php echo $reducteurDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2782,6 +2805,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizSuspension"
                     value="<?php echo $suspensionDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2839,6 +2863,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizSuspensionLame"
                     value="<?php echo $suspensionLameDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2896,6 +2921,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizSuspensionRessort"
                     value="<?php echo $suspensionRessortDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -2953,6 +2979,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizSuspensionPneumatique"
                     value="<?php echo $suspensionPneumatiqueDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -3012,6 +3039,7 @@ include_once 'partials/header.php'
                 ?>
                 <input class="hidden" type="text" name="quizTransversale"
                     value="<?php echo $transversaleDecla->_id ?>" />
+                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                     <?php echo $k++ ?> - <?php echo $question->label ?>
@@ -3208,9 +3236,6 @@ include_once 'partials/header.php'
                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                 <?php echo $i + 1; ?> - <?php echo $question->label; ?>
             </p>
-            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-            </div>
             <?php
                 if(isset($exam['answers'][$i])) {
             ?>
@@ -3365,8 +3390,9 @@ include_once 'partials/header.php'
             <?php } ?>
             <?php } ?>
             </div>
-            <button class="btn btn-primary submit" style="margin-top: 100px;" name="valid"
-                type="submit">Terminer</button>
+            <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
+                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Terminer</button>
+            </div>
         </form>
     </div>
 </div>
@@ -3389,12 +3415,14 @@ function updateCountDown() {
         seconds = seconds < 10 ? "0" + seconds : seconds;
         countDown.innerHTML = `${minutes}:${seconds}`;
         document.getElementById("clock").value = `${minutes}:${seconds}`;
+        document.getElementById("clock1").value = `${minutes}`;
     } else if (time < 0) {
         clearInterval(updateCountDown);
         minutes = "00";
         seconds = "00";
         countDown.innerHTML = `${minutes}:${seconds}`;
         document.getElementById("clock").value = `${minutes}:${seconds}`;
+        document.getElementById("clock1").value = `${minutes}`;
         // document.getElementById(".submit").addEventListener("click")
     }
 }

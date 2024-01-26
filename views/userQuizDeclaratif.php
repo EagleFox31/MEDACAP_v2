@@ -50,6 +50,7 @@ if (!isset($_SESSION['id'])) {
     
     if (isset($_POST['save'])) {
         $questionsTag = $_POST['questionsTag'];
+        $time = $_POST['time'];
         $questionsTags = [];
         $body = $_POST;
         // assuming POST method, you can replace it with $_GET if it's a GET method
@@ -1601,6 +1602,7 @@ include_once 'partials/header.php'; ?>
                     de pouvoir valider le questionnaire.
                 </p>
             <input class="hidden" type="text" name="timer" id="clock" />
+            <input class="hidden" type="text" name="time" id="clock1" />
             <div class="quiz-form__quiz">
                 <?php if (!isset($exam)) { ?>
                 <?php
@@ -3406,12 +3408,14 @@ function updateCountDown() {
         seconds = seconds < 10 ? "0" + seconds : seconds;
         countDown.innerHTML = `${minutes}:${seconds}`;
         document.getElementById("clock").value = `${minutes}:${seconds}`;
+        document.getElementById("clock1").value = `${minutes}`;
     } else if (time < 0) {
         clearInterval(updateCountDown);
         minutes = "00";
         seconds = "00";
         countDown.innerHTML = `${minutes}:${seconds}`;
         document.getElementById("clock").value = `${minutes}:${seconds}`;
+        document.getElementById("clock1").value = `${minutes}`;
         // document.getElementById(".submit").addEventListener("click")
     }
 }

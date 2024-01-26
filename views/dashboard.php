@@ -314,6 +314,251 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <?php if($_SESSION["test"] == true) ?>
+    <!--end::Post-->
+    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div class=" container-xxl ">
+            <!--begin::Layout Builder Notice-->
+            <div class="card mb-10">
+                <div class="card-body d-flex align-items-center p-5 p-lg-8">
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0">
+                        <!--begin::Header-->
+                        <div class="card-header border-0 pt-5 pb-3">
+                            <!--begin::Heading-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bolder text-gray-800 fs-2">Mes
+                                    Questionnaires</span>
+                            </h3>
+                            <!--end::Heading-->
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Table-->
+                        <div class="table-responsive">
+                            <table class="table align-middle table-row-bordered table-row-dashed gy-5"
+                                id="kt_table_widget_1">
+                                <tbody>
+                                    <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase">
+                                        <th class="w-20px ps-0">
+                                        </th>
+                                        <th class="min-w-200px px-0">
+                                            Tests</th>
+                                        <th class="min-w-125px">Véhicules</th>
+                                        <th class="min-w-125px">Marques</th>
+                                        <th class="min-w-125px">Niveau Junior</th>
+                                        <th class="min-w-125px">Niveau Senior</th>
+                                        <th class="min-w-125px">Niveau Expert</th>
+                                    </tr>
+                                    <?php
+                                        $testFac = $allocations->find([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
+                                                ['active' => false],
+                                            ]
+                                        ]);
+                                        $testDecla = $allocations->find([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Declaratif'],
+                                                ['active' => false],
+                                            ]
+                                        ]);
+                                        foreach ($testFac as $test) {
+                                            $vehicle = $vehicles->findOne([
+                                                '$and' => [
+                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true],
+                                                ]
+                                            ])
+                                    ?>
+                                    <?php if ($test ) { ?>
+                                    <tr>
+                                        <td class="p-0">
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                Questionnaire sur les connaissances théoriques
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["label"] ?>
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["brand"] ?>
+                                            </span>
+                                        </td>
+                                        <?php if ($test->level == "Junior") { ?>
+                                        <td>
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($test->level == "Senior") { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($test->level == "Expert") { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Effectué
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <?php 
+                                    foreach ($testDecla as $test) {
+                                            $vehicle = $vehicles->findOne([
+                                                '$and' => [
+                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true],
+                                                ]
+                                            ])
+                                    ?>
+                                    <?php if ($test ) { ?>
+                                    <tr>
+                                        <td class="p-0">
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                Questionnaire sur la maitrise de vos tâches professionnelles
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["label"] ?>
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
+                                                <?php echo $vehicle["brand"] ?>
+                                            </span>
+                                        </td>
+                                        <?php if ($test->level == "Junior") { ?>
+                                        <td>
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($test->level == "Senior") { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($test->level == "Expert") { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                title="Cliquez ici pour ouvrir le questionnaire"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                A faire
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Card body-->
+                </div>
+            </div>
+            <!--end::Layout Builder Notice-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
     <?php } ?>
     <?php if ($_SESSION["profile"] == "Technicien") {?>
     <!--begin::Post-->

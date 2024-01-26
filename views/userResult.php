@@ -33,7 +33,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Mes Affectations | CFAO Mobility Academy</title>
+<title>Mes Evaluations Réalisés | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -46,7 +46,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Mes tests réalisés</h1>
+                    Mes évaluations réalisés</h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->

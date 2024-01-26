@@ -34,7 +34,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Listes des techniciens à Evaluer | CFAO Mobility Academy</title>
+<title>Listes des Techniciens Evalués | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -47,7 +47,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Listes de mes techniciens à valider leur maîtrise des tâches professionnelles
+                    Listes de mes techniciens évalués
                 </h1>
                 <!--end::Title-->
                 <div class="card-title">
@@ -196,6 +196,7 @@ include_once 'partials/header.php'
                                         '$and' => [
                                             ['user' => ['$in' => $manager->users]],
                                             ['type' => 'Declaratif'],
+                                            ['activeManager' => true],
                                         ]
                                     ])->toArray();
                                     foreach ($allocate as $allocate) {
@@ -235,22 +236,11 @@ include_once 'partials/header.php'
                                             Questionnaire sur la maitrise tâches professionnelles des techniciens
                                         </td>
                                         <?php if ($allocate->level == "Junior") { ?>
-                                        <?php if ($allocate->activeManager == false) { ?>
-                                        <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->level ?>&brand=<?php echo $user->brand ?>&vehicle=<?php echo $user->vehicle ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour ouvrir le questionnaire"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                A faire
-                                            </a>
-                                        </td>
-                                        <?php } else { ?>
                                         <td>
                                             <Espan class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </Espan>
                                         </td>
-                                        <?php } ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -264,26 +254,15 @@ include_once 'partials/header.php'
                                         <?php } ?>
                                         <?php if ($allocate->level == "Senior") { ?>
                                         <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
+                                            <Espan class="badge badge-light-success fs-7 m-1">
+                                                Effectué
+                                            </Espan>
                                         </td>
-                                        <?php if ($allocate->activeManager == false) { ?>
-                                        <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->level ?>&brand=<?php echo $user->brand ?>&vehicle=<?php echo $user->vehicle ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour ouvrir le questionnaire"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                A faire
-                                            </a>
-                                        </td>
-                                        <?php } else { ?>
                                         <td>
                                             <Espan class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </Espan>
                                         </td>
-                                        <?php } ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -292,31 +271,20 @@ include_once 'partials/header.php'
                                         <?php } ?>
                                         <?php if ($allocate->level == "Expert") { ?>
                                         <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                Effectué
                                             </span>
                                         </td>
-                                        <?php if ($allocate->activeManager == false) { ?>
-                                        <td>
-                                            <a href="./userEvaluation.php?level=<?php echo $allocate->level ?>&brand=<?php echo $user->brand ?>&vehicle=<?php echo $user->vehicle ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour ouvrir le questionnaire"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                A faire
-                                            </a>
-                                        </td>
-                                        <?php } else { ?>
                                         <td>
                                             <Espan class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </Espan>
                                         </td>
-                                        <?php } ?>
                                         <?php } ?>
                                         <!--end::Menu-->
                                     </tr>

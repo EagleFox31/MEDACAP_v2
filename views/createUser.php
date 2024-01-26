@@ -28,15 +28,14 @@ if (!isset($_SESSION['id'])) {
         $username = $_POST['username'];
         $subsidiary = $_POST['subsidiary'];
         $department = $_POST['department'];
-        $subRole = $_POST['subRole'];
-        $mainRole = $_POST['mainRole'];
+        $role = $_POST['role'];
         $profile = $_POST['profile'];
         $gender = $_POST['gender'];
         $password = $_POST['password'];
         $country = $_POST['country'];
         $certificate = $_POST['certificate'];
         $speciality = $_POST['speciality'];
-        $subVehicle = $_POST['subVehicle'];
+        $subBrand = $_POST['subBrand'];
         $vehicle = $_POST['vehicle'];
         $brand = $_POST['brand'];
         $birthdate = date('d-m-Y', strtotime($_POST['birthdate']));
@@ -56,7 +55,7 @@ if (!isset($_SESSION['id'])) {
     ]);
         if (empty($firstName) ||
         empty($lastName) ||
-        empty($mainRole) ||
+        empty($role) ||
         empty($username) ||
         empty($matricule) ||
         empty($speciality) ||
@@ -99,11 +98,10 @@ if (!isset($_SESSION['id'])) {
                         'subsidiary' => ucfirst($subsidiary),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
-                        'subVehicle' => $subVehicle,
                         'brand' => $brand,
                         'department' => ucfirst($department),
-                        'mainRole' => ucfirst($mainRole),
-                        'subRole' => ucfirst($subRole),
+                        'subBrandsubBrand' => $subBrand,
+                        'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => new MongoDB\BSON\ObjectId($manager),
                         'active' => true,
@@ -133,11 +131,10 @@ if (!isset($_SESSION['id'])) {
                         'subsidiary' => ucfirst($subsidiary),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
-                        'subVehicle' => $subVehicle,
                         'brand' => $brand,
+                        'subBrand' => $subBrand,
                         'department' => ucfirst($department),
-                        'mainRole' => ucfirst($mainRole),
-                        'subRole' => ucfirst($subRole),
+                        'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => "",
                         'active' => true,
@@ -392,7 +389,7 @@ if (!isset($_SESSION['id'])) {
                     }
                     $success_msg = 'Technicien ajouté avec succès';
                 }
-            } elseif ($profile == 'Manager') {
+            } elseif ($profile == 'Manager (à évaluer)') {
                 if ($manager) {
                     $personM = [
                         'users' => [],
@@ -405,20 +402,20 @@ if (!isset($_SESSION['id'])) {
                         'gender' => $gender,
                         'level' => $level,
                         'country' => $country,
-                        'profile' => $profile,
+                        'profile' => "Manager",
                         'birthdate' => $birthdate,
                         'recrutmentDate' => $recrutmentDate,
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
-                        'subVehicle' => $subVehicle,
                         'brand' => $brand,
+                        'subBrand' => $subBrand,
                         'department' => ucfirst($department),
-                        'mainRole' => ucfirst($mainRole),
-                        'subRole' => ucfirst($subRole),
+                        'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => new MongoDB\BSON\ObjectId($manager),
+                        'test' => true,
                         'active' => true,
                         'created' => date('d-m-Y'),
                     ];
@@ -446,11 +443,10 @@ if (!isset($_SESSION['id'])) {
                         'subsidiary' => ucfirst($subsidiary),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
-                        'subVehicle' => $subVehicle,
                         'brand' => $brand,
+                        'subBrand' => $subBrand,
                         'department' => ucfirst($department),
-                        'mainRole' => ucfirst($mainRole),
-                        'subRole' => ucfirst($subRole),
+                        'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => "",
                         'active' => true,
@@ -473,6 +469,42 @@ if (!isset($_SESSION['id'])) {
                     ['brand' => $brand],
                     ['type' => 'Declaratif'],
                     ['level' => 'Junior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleFacSe = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Factuel'],
+                    ['level' => 'Senior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleDeclaSe = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Declaratif'],
+                    ['level' => 'Senior'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleFacEx = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Factuel'],
+                    ['level' => 'Expert'],
+                    ['active' => true],
+                ],
+            ]);
+                $vehicleDeclaEx = $vehicles->findOne([
+                '$and' => [
+                    ['label' => $vehicle],
+                    ['brand' => $brand],
+                    ['type' => 'Declaratif'],
+                    ['level' => 'Expert'],
                     ['active' => true],
                 ],
             ]);
@@ -509,7 +541,195 @@ if (!isset($_SESSION['id'])) {
                         $allocations->insertOne($allocates);
                     }
                     $success_msg = 'Manager ajouté avec succès';
+                } elseif ($level == 'Senior (Réparation)') {
+                    if ($vehicleFacJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleFacJu->type,
+                        'level' => $vehicleFacJu->level,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                        ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleDeclaJu->type,
+                        'level' => $vehicleDeclaJu->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                    ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleFacSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleFacSe->type,
+                        'level' => $vehicleFacSe->level,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                        ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleDeclaSe->type,
+                        'level' => $vehicleDeclaSe->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                    ];
+                        $allocations->insertOne($allocates);
+                    }
+                    $success_msg = 'Manager ajouté avec succès';
+                } elseif ($level == 'Expert (Diagnostic)') {
+                    if ($vehicleFacJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleFacJu->type,
+                        'level' => $vehicleFacJu->level,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                        ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaJu) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaJu->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleDeclaJu->type,
+                        'level' => $vehicleDeclaJu->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                    ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleFacSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleFacSe->type,
+                        'level' => $vehicleFacSe->level,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                        ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaSe) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaSe->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleDeclaSe->type,
+                        'level' => $vehicleDeclaSe->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                    ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleFacEx) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleFacEx->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleFacEx->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleFacEx->type,
+                        'level' => $vehicleFacEx->level,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                        ];
+                        $allocations->insertOne($allocates);
+                    }
+                    if ($vehicleDeclaEx) {
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($vehicleDeclaEx->_id)],
+                        ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
+                    );
+                        $allocates = [
+                        'vehicle' => new MongoDB\BSON\ObjectId($vehicleDeclaEx->_id),
+                        'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                        'type' => $vehicleDeclaEx->type,
+                        'level' => $vehicleDeclaEx->level,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date('d-m-Y'),
+                    ];
+                        $allocations->insertOne($allocates);
+                    }
+                    $success_msg = 'Manager ajouté avec succès';
                 }
+            } elseif ($profile == 'Manager (Non évalué)') {
+                $personM = [
+                    'users' => [],
+                    'username' => $username,
+                    'matricule' => $matricule,
+                    'firstName' => ucfirst($firstName),
+                    'lastName' => ucfirst($lastName),
+                    'email' => $email,
+                    'phone' => +$phone,
+                    'gender' => $gender,
+                    'level' => $level,
+                    'country' => $country,
+                    'profile' => "Manager",
+                    'birthdate' => $birthdate,
+                    'recrutmentDate' => $recrutmentDate,
+                    'certificate' => ucfirst($certificate),
+                    'subsidiary' => ucfirst($subsidiary),
+                    'speciality' => ucfirst($speciality),
+                    'vehicle' => $vehicle,
+                    'brand' => $brand,
+                    'subBrand' => $subBrand,
+                    'department' => ucfirst($department),
+                    'role' => ucfirst($role),
+                    'password' => $password_hash,
+                    'test' => false,
+                    'active' => true,
+                    'created' => date('d-m-Y'),
+                ];
+                $user = $users->insertOne($personM);
             } elseif ($profile == 'Admin') {
                 $personA = [
                 'users' => [],
@@ -529,11 +749,10 @@ if (!isset($_SESSION['id'])) {
                 'subsidiary' => ucfirst($subsidiary),
                 'speciality' => ucfirst($speciality),
                 'vehicle' => $vehicle,
-                'subVehicle' => $subVehicle,
                 'brand' => $brand,
+                'subBrand' => $subBrand,
                 'department' => ucfirst($department),
-                'mainRole' => ucfirst($mainRole),
-                'subRole' => ucfirst($subRole),
+                'role' => ucfirst($role),
                 'password' => $password_hash,
                 'active' => true,
                 'created' => date('d-m-Y'),
@@ -1056,8 +1275,11 @@ if (isset($error)) {
                                 <option value="Admin">
                                     Administrateur
                                 </option>
-                                <option value="Manager">
-                                    Manager
+                                <option value="Manager (à évaluer)">
+                                    Manager (à évaluer)
+                                </option>
+                                <option value="Manager (non évalué)">
+                                    Manager (non évalué)
                                 </option>
                                 <option value="Technicien">
                                     Technicien
@@ -1184,11 +1406,11 @@ if (isset($error)) {
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required form-label fw-bolder text-dark fs-6">Fonction Principale</label>
+                            <label class="required form-label fw-bolder text-dark fs-6">Fonction</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" class="form-control form-control-solid fw-bold" placeholder=""
-                                name="mainRole" />
+                                name="role" />
                             <!--end::Input-->
                             <?php
                      if (isset($error)) {
@@ -1198,17 +1420,6 @@ if (isset($error)) {
                             </span>
                             <?php
                      } ?>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-7">
-                            <!--begin::Label-->
-                            <label class="form-label fw-bolder text-dark fs-6">Fonction Secondaire</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="text" class="form-control form-control-solid fw-bold" placeholder=""
-                                name="subRole" />
-                            <!--end::Input-->
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -1316,14 +1527,14 @@ if (isset($error)) {
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Type de vehicule principal</span>
+                                <span class="required">Type de vehicule</span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <select name="vehicle" aria-label="Select a Country" data-control="select2"
                                 data-placeholder="Sélectionnez votre type de vehicule principal..."
                                 class="form-select form-select-solid fw-bold">
-                                <option>Sélectionnez votre type de vehicule principal...</option>
+                                <option value="">Sélectionnez votre type de vehicule principal...</option>
                                 <option value="Bus">
                                     Bus
                                 </option>
@@ -1355,54 +1566,81 @@ if (isset($error)) {
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="">Type de vehicule secondaire</span>
-                            </label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <select name="subVehicle" aria-label="Select a Country" data-control="select2"
-                                data-placeholder="Sélectionnez votre type de vehicule secondaire..."
-                                class="form-select form-select-solid fw-bold">
-                                <option>Sélectionnez votre type de vehicule secondaire...</option>
-                                <option value="Bus">
-                                    Bus
-                                </option>
-                                <option value="Camions">
-                                    Camions
-                                </option>
-                                <option value="Chariots">
-                                    Chariots
-                                </option>
-                                <option value="Engins">
-                                    Engins
-                                </option>
-                                <option value="Voitures">
-                                    Voitures
-                                </option>
-                            </select>
-                            <!--end::Input-->
-                            <?php
-                     if (isset($error)) {
-                         ?>
-                            <span class='text-danger'>
-                                <?php echo $error; ?>
-                            </span>
-                            <?php
-                     } ?>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="d-flex flex-column mb-7 fv-row">
-                            <!--begin::Label-->
-                            <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Marque de véhicules</span>
+                                <span class="required">Marque de véhicule principal</span>
                                 </span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <select name="brand" aria-label="Select a Country" data-control="select2"
-                                data-placeholder="Sélectionnez la marque de véhicules..."
+                                data-placeholder="Sélectionnez la marque de véhicule principal..."
                                 class="form-select form-select-solid fw-bold">
-                                <option>Sélectionnez la marque de véhicules...</option>
+                                <option value="">Sélectionnez la marque de véhicule principal...</option>
+                                <option value="CITROEN">
+                                    CITROEN
+                                </option>
+                                <option value="FUSO">
+                                    FUSO
+                                </option>
+                                <option value="HINO">
+                                    HINO
+                                </option>
+                                <option value="JCB">
+                                    JCB
+                                </option>
+                                <option value="KING LONG">
+                                    KING LONG
+                                </option>
+                                <option value="MERCEDES">
+                                    MERCEDES
+                                </option>
+                                <option value="MERCEDES TRUCK">
+                                    MERCEDES TRUCK
+                                </option>
+                                <option value="RENAULT TRUCK">
+                                    RENAULT TRUCK
+                                </option>
+                                <option value="PEUGEOT">
+                                    PEUGEOT
+                                </option>
+                                <option value="SINOTRUCK">
+                                    SINOTRUCK
+                                </option>
+                                <option value="SUZUKI">
+                                    SUZUKI
+                                </option>
+                                <option value="TOYOTA">
+                                    TOYOTA
+                                </option>
+                                <option value="TOYOTA BT">
+                                    TOYOTA BT
+                                </option>
+                                <option value="TOYOTA FORFLIT">
+                                    TOYOTA FORFLIT
+                                </option>
+                            </select>
+                            <!--end::Input-->
+                            <?php
+                     if (isset($error)) {
+                         ?>
+                            <span class='text-danger'>
+                                <?php echo $error; ?>
+                            </span>
+                            <?php
+                     } ?>
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="d-flex flex-column mb-7 fv-row">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bolder text-dark fs-6">
+                                <span class="">Marque de vehicule secondaire</span>
+                            </label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <select name="subBrand" aria-label="Select a Country" data-control="select2"
+                                data-placeholder="Sélectionnez votre type de vehicule secondaire..."
+                                class="form-select form-select-solid fw-bold">
+                                <option value="">Sélectionnez votre marque de vehicule secondaire...</option>
                                 <option value="CITROEN">
                                     CITROEN
                                 </option>
@@ -1546,70 +1784,30 @@ if (isset($error)) {
                                 class="form-select form-select-solid fw-bold">
                                 <option value="">Sélectionnez votre
                                     manager...</option>
-                                <?php
-                    $manager = $users->find([
-                        '$and' => [
-                            ['profile' => 'Manager'],
-                            ['active' => true],
-                        ],
-                    ]);
-    foreach ($manager as $manager) {
-        ?>
-                                <option value='<?php echo $manager->_id; ?>'>
-                                    <?php echo $manager->firstName; ?> <?php echo $manager->lastName; ?>
-                                </option>
-                                <?php
-    } ?>
-                            </select>
-                            <?php
-                    if (isset($error)) {
-                        ?>
-                            <span class='text-danger'>
-                                <?php echo $error; ?>
-                            </span>
+                                    <?php
+                                    $manager = $users->find([
+                                        '$and' => [
+                                            ['profile' => 'Manager'],
+                                            ['active' => true],
+                                        ],
+                                    ]);
+                                    foreach ($manager as $manager) {
+                                    ?>
+                                        <option value='<?php echo $manager->_id; ?>'>
+                                            <?php echo $manager->firstName; ?> <?php echo $manager->lastName; ?>
+                                        </option>
+                                        <?php
+                                    } ?>
+                                        </select>
+                                        <?php
+                                if (isset($error)) {
+                                    ?>
+                                        <span class='text-danger'>
+                                            <?php echo $error; ?>
+                                        </span>
                             <?php
                     } ?>
                         </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <!-- <div class="d-flex flex-column mb-7 fv-row"> -->
-                        <!--begin::Label-->
-                        <!-- <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Techniciens</span>
-                                <span class="ms-1" data-bs-toggle="tooltip"
-                                    title="Choississez les techniciens de ce manager et uniquement quand le profil est manager">
-                                    <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
-                                            class="path2"></span><span class="path3"></span></i>
-                                </span>
-                            </label>
-                            <select name="technicians[]" multiple aria-label="Select a Country" data-control="select2"
-                                data-placeholder="Sélectionnez les techniciens..."
-                                class="form-select form-select-solid fw-bold" hidden>
-                                <option value="">Sélectionnez les techniciens...</option>
-                                <?php
-                    $techniciens = $users->find([
-                        '$and' => [
-                            ['profile' => 'Technicien'],
-                            ['active' => true],
-                        ],
-                    ]);
-    foreach ($techniciens as $technicien) {
-        ?>
-                                <option value='<?php echo $technicien->_id; ?>'>
-                                    <?php echo $technicien->firstName; ?> <?php echo $technicien->lastName; ?>
-                                </option>
-                                <?php
-    } ?>
-                            </select>
-                            <?php
-                    if (isset($error)) {
-                        ?>
-                            <span class='text-danger'>
-                                <?php echo $error; ?>
-                            </span>
-                            <?php
-                    } ?>
-                        </div> -->
                         <!--end::Input group-->
                         <!--end::Scroll-->
                         <!--end::Modal body-->
