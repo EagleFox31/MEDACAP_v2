@@ -65,9 +65,33 @@ if (!isset($_SESSION['id'])) {
             ['active' => true],
         ],
     ]);
-    $cal = round(100 / $vehicule['total'], 0);
-    $number = round($cal, 0);
     $arrQuizzes = iterator_to_array($vehicule->quizzes);
+    $quizVehicle = $vehicles->aggregate([
+        [
+            '$match' => [
+                '_id' => new MongoDB\BSON\ObjectId($vehicule->_id),
+            ],
+        ],
+        [
+            '$lookup' => [
+            'from' => 'quizzes',
+            'localField' => 'quizzes',
+            'foreignField' => '_id',
+            'as' => 'quizzes',
+            ],
+        ],
+        [
+            '$unwind' => '$quizzes',
+        ],
+        [
+            '$group' => [
+                '_id' => '$_id',
+                'sumTotal' => [
+                    '$sum' => '$quizzes.total',
+                ],
+            ],
+        ],
+    ])->toArray();
     
     if (isset($_POST['save'])) {
         $questionsTag = $_POST['questionsTag'];
@@ -1826,50 +1850,117 @@ include_once 'partials/header.php'; ?>
                         <input class="hidden" type="text" name="time" id="clock1" />
                         <div class="quiz-form__quiz" style="">
                             <?php if (isset($subVehicule)) { 
-                            $test = [
-                                'quizzes' => [],
-                                'user' => new MongoDB\BSON\ObjectId($id),
-                                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
-                                'brand' => $brand,
-                                'subBrand' => $technician->subBrand,
-                                'total' => 0,
-                                'active' => true,
-                                'created' => date('d-m-y')
-                            ];
-                        
-                            $insert = $tests->insertOne($test);
-                            for ($a = 0; $a < count($subVehicule->quizzes); ++$a) {
-                                $tests->updateOne(
-                                    [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
-                                    [ '$addToSet' => [ 'quizzes' => $subVehicule->quizzes[$a] ] ]
-                                );
-                            }
-                            for ($b = 0; $b < count($vehicule->quizzes); ++$b) {
-                                $tests->updateOne(
-                                    [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
-                                    [ '$addToSet' => [ 'quizzes' => $vehicule->quizzes[$b] ] ]
-                                );
-                            }
-                            $saveTest = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ]);
-                            $saveTest['total'] = count($saveTest['quizzes']);
-                            $tests->updateOne(
-                                [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
-                                [ '$set' => $saveTest ]
-                            );
+                                $existTest = $tests->findOne([
+                                    '$and' => [
+                                        ['user' => new MongoDB\BSON\ObjectId($id)],
+                                        ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),],
+                                        ['brand' => $brand],
+                                        ['subBrand' => $technician->subBrand,],
+                                    ],
+                                ]);
+                                if ($existTest) {
+                                    $quizVehicule = $tests->aggregate([
+                                        [
+                                            '$match' => [
+                                                '_id' => new MongoDB\BSON\ObjectId( $existTest->_id ),
+                                            ],
+                                        ],
+                                        [
+                                            '$lookup' => [
+                                            'from' => 'quizzes',
+                                            'localField' => 'quizzes',
+                                            'foreignField' => '_id',
+                                            'as' => 'quizzes',
+                                            ],
+                                        ],
+                                        [
+                                            '$unwind' => '$quizzes',
+                                        ],
+                                        [
+                                            '$group' => [
+                                                '_id' => '$_id',
+                                                'sumTotal' => [
+                                                    '$sum' => '$quizzes.total',
+                                                ],
+                                            ],
+                                        ],
+                                    ])->toArray();
+                                    $saveTest['quizzes'] = $existTest['quizzes'];
+                                } else {
+                                    $test = [
+                                        'quizzes' => [],
+                                        'user' => new MongoDB\BSON\ObjectId($id),
+                                        'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                                        'brand' => $brand,
+                                        'subBrand' => $technician->subBrand,
+                                        'total' => 0,
+                                        'active' => true,
+                                        'created' => date('d-m-y')
+                                    ];
+                                
+                                    $insert = $tests->insertOne($test);
+                                    for ($a = 0; $a < count($subVehicule->quizzes); ++$a) {
+                                        $tests->updateOne(
+                                            [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
+                                            [ '$addToSet' => [ 'quizzes' => $subVehicule->quizzes[$a] ] ]
+                                        );
+                                    }
+                                    for ($b = 0; $b < count($vehicule->quizzes); ++$b) {
+                                        $tests->updateOne(
+                                            [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
+                                            [ '$addToSet' => [ 'quizzes' => $vehicule->quizzes[$b] ] ]
+                                        );
+                                    }
+                                    $saveTest = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ]);
+                                    $saveTest['total'] = count($saveTest['quizzes']);
+                                    $tests->updateOne(
+                                        [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
+                                        [ '$set' => $saveTest ]
+                                    );
+                                    $quizVehicule = $tests->aggregate([
+                                        [
+                                            '$match' => [
+                                                '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ),
+                                            ],
+                                        ],
+                                        [
+                                            '$lookup' => [
+                                            'from' => 'quizzes',
+                                            'localField' => 'quizzes',
+                                            'foreignField' => '_id',
+                                            'as' => 'quizzes',
+                                            ],
+                                        ],
+                                        [
+                                            '$unwind' => '$quizzes',
+                                        ],
+                                        [
+                                            '$group' => [
+                                                '_id' => '$_id',
+                                                'sumTotal' => [
+                                                    '$sum' => '$quizzes.total',
+                                                ],
+                                            ],
+                                        ],
+                                    ])->toArray();
+                                }
                             ?>
                         <?php
                  $k = 1;
     for ($j = 0; $j < count($saveTest['quizzes']); ++$j) {
         $assistanceFac = $quizzes->findOne([
-                        '$and' => [
-                            ['_id' => new MongoDB\BSON\ObjectId($saveTest['quizzes'][$j])],
-                            ['speciality' => 'Assistance à la Conduite'],
-                            ['type' => 'Factuel'],
-                            ['level' => $level],
-                            ['active' => true],
-                        ],
-                    ]);
+            '$and' => [
+                ['_id' => new MongoDB\BSON\ObjectId($saveTest['quizzes'][$j])],
+                ['speciality' => 'Assistance à la Conduite'],
+                ['type' => 'Factuel'],
+                ['level' => $level],
+                ['active' => true],
+            ],
+        ]);
+        
         if ($assistanceFac) {
+            $cal = round($assistanceFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+            $number = round($cal, 0);
             $quizzAssistance = $quizzes->aggregate([
                 [
                 '$match' => [
@@ -1975,37 +2066,39 @@ include_once 'partials/header.php'; ?>
                         ],
                     ]);
                     if ($arbreFac) {
+                        $cal = round($arbreFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzArbre = $quizzes->aggregate([
-                [
-                '$match' => [
-                '_id' => new MongoDB\BSON\ObjectId($arbreFac->_id),
-                ],
-                ],
-                [
-                '$lookup' => [
-                'from' => 'questions',
-                'localField' => 'questions',
-                'foreignField' => '_id',
-                'as' => 'questions',
-                ],
-                ],
-                [
-                '$unwind' => '$questions',
-                ],
-                [
-                '$sample' => [
-                'size' => $number,
-                ],
-                ],
-                [
-                '$group' => [
-                '_id' => '$_id',
-                'questions' => [
-                '$push' => '$questions._id',
-                ],
-                ],
-                ],
-                ]);
+                            [
+                                '$match' => [
+                                '_id' => new MongoDB\BSON\ObjectId($arbreFac->_id),
+                                ],
+                            ],
+                            [
+                                '$lookup' => [
+                                'from' => 'questions',
+                                'localField' => 'questions',
+                                'foreignField' => '_id',
+                                'as' => 'questions',
+                                ],
+                            ],
+                            [
+                                '$unwind' => '$questions',
+                            ],
+                            [
+                                '$sample' => [
+                                'size' => $number,
+                            ],
+                            ],
+                            [
+                                '$group' => [
+                                '_id' => '$_id',
+                                'questions' => [
+                                '$push' => '$questions._id',
+                            ],
+                            ],
+                            ],
+                            ]);
                         $arrQuizzArbre = iterator_to_array($quizzArbre);
                         $arrQuestions = $arrQuizzArbre[0]['questions']; ?>
                             <?php
@@ -2076,6 +2169,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($transfertFac) {
+                        $cal = round($transfertFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzTransfert = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2182,6 +2277,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($boiteFac) {
+                        $cal = round($boiteFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzBoite = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2283,6 +2380,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($climatisationFac) {
+                        $cal = round($climatisationFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzClimatisation = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2389,6 +2488,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($directionFac) {
+                        $cal = round($directionFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzDirection = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2495,6 +2596,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($electriciteFac) {
+                        $cal = round($electriciteFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzElectricite = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2601,6 +2704,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freiFac) {
+                        $cal = round($freiFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzFrei = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2707,6 +2812,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freinageElecFac) {
+                        $cal = round($freinageElecFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzfreinageElec = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2813,6 +2920,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freinageFac) {
+                        $cal = round($freinageFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzFreinage = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -2919,6 +3028,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freinFac) {
+                        $cal = round($freinFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzFrein = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3020,6 +3131,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($hydrauliqueFac) {
+                        $cal = round($hydrauliqueFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzHydraulique = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3126,6 +3239,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($moteurDieselFac) {
+                        $cal = round($moteurDieselFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzMoteurDiesel = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3232,6 +3347,8 @@ include_once 'partials/header.php'; ?>
                                 ]);
 
                                 if ($moteurElecFac) {
+                                $cal = round($moteurElecFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                                $number = round($cal, 0);
                                     $quizzMoteurElec = $quizzes->aggregate([
                                 [
                                 '$match' => [
@@ -3338,6 +3455,8 @@ include_once 'partials/header.php'; ?>
                                         ]);
 
                                     if ($moteurEssenceFac) {
+                                        $cal = round($moteurEssenceFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                                        $number = round($cal, 0);
                                         $quizzMoteurEssence = $quizzes->aggregate([
                                         [
                                         '$match' => [
@@ -3444,6 +3563,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($moteurFac) {
+                        $cal = round($moteurFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzMoteur = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3550,6 +3671,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($multiplexageFac) {
+                        $cal = round($multiplexageFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzMultiplexage = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3656,6 +3779,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($pontFac) {
+                        $cal = round($pontFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzPont = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3757,6 +3882,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($pneumatiqueFac) {
+                        $cal = round($pneumatiqueFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzPneumatique = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3859,6 +3986,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($reducteurFac) {
+                        $cal = round($reducteurFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzReducteur = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -3965,6 +4094,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionFac) {
+                        $cal = round($suspensionFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspension = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -4071,6 +4202,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionLameFac) {
+                        $cal = round($suspensionLameFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspensionLame = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -4177,6 +4310,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionRessortFac) {
+                        $cal = round($suspensionRessortFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspensionRessort = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -4283,6 +4418,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionPneumatiqueFac) {
+                        $cal = round($suspensionPneumatiqueFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspensionPneumatique = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -4389,6 +4526,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($transversaleFac) {
+                        $cal = round($transversaleFac['total'] * 100 / $quizVehicule[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzTransversale = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -4497,6 +4636,8 @@ include_once 'partials/header.php'; ?>
                         ],
                     ]);
         if ($assistanceFac) {
+            $cal = round($assistanceFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+            $number = round($cal, 0);
             $quizzAssistance = $quizzes->aggregate([
                 [
                 '$match' => [
@@ -4602,6 +4743,8 @@ include_once 'partials/header.php'; ?>
                         ],
                     ]);
                     if ($arbreFac) {
+                        $cal = round($arbreFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzArbre = $quizzes->aggregate([
                 [
                 '$match' => [
@@ -4703,6 +4846,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($transfertFac) {
+                        $cal = round($transfertFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzTransfert = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -4809,6 +4954,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($boiteFac) {
+                        $cal = round($boiteFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzBoite = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -4910,6 +5057,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($climatisationFac) {
+                        $cal = round($climatisationFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzClimatisation = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5016,6 +5165,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($directionFac) {
+                        $cal = round($directionFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzDirection = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5122,6 +5273,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($electriciteFac) {
+                        $cal = round($electriciteFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzElectricite = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5228,6 +5381,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freiFac) {
+                        $cal = round($freiFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzFrei = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5334,6 +5489,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freinageElecFac) {
+                        $cal = round($freinageElecFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzfreinageElec = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5440,6 +5597,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freinageFac) {
+                        $cal = round($freinageFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzFreinage = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5546,6 +5705,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($freinFac) {
+                        $cal = round($freinFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzFrein = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5647,6 +5808,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($hydrauliqueFac) {
+                        $cal = round($hydrauliqueFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzHydraulique = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5753,6 +5916,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($moteurDieselFac) {
+                        $cal = round($moteurDieselFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzMoteurDiesel = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -5859,6 +6024,8 @@ include_once 'partials/header.php'; ?>
                                 ]);
 
                                 if ($moteurElecFac) {
+                                    $cal = round($moteurElecFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                                    $number = round($cal, 0);
                                     $quizzMoteurElec = $quizzes->aggregate([
                                 [
                                 '$match' => [
@@ -5965,6 +6132,8 @@ include_once 'partials/header.php'; ?>
                                         ]);
 
                                     if ($moteurEssenceFac) {
+                                        $cal = round($moteurEssenceFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                                        $number = round($cal, 0);
                                         $quizzMoteurEssence = $quizzes->aggregate([
                                         [
                                         '$match' => [
@@ -6071,6 +6240,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                     if ($moteurFac) {
+                        $cal = round($moteurFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                         $quizzMoteur = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6177,6 +6348,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($multiplexageFac) {
+                        $cal = round($multiplexageFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzMultiplexage = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6283,6 +6456,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($pontFac) {
+                        $cal = round($pontFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzPont = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6384,6 +6559,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($pneumatiqueFac) {
+                        $cal = round($pneumatiqueFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzPneumatique = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6486,6 +6663,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($reducteurFac) {
+                        $cal = round($reducteurFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzReducteur = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6592,6 +6771,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionFac) {
+                        $cal = round($suspensionFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspension = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6698,6 +6879,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionLameFac) {
+                        $cal = round($suspensionsLameFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspensionLame = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6804,6 +6987,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionRessortFac) {
+                        $cal = round($suspensionRessortFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspensionRessort = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -6910,6 +7095,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionPneumatiqueFac) {
+                        $cal = round($suspensionPneumatiqueFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzSuspensionPneumatique = $quizzes->aggregate([
                         [
                             '$match' => [
@@ -7016,6 +7203,8 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($transversaleFac) {
+                        $cal = round($transversaleFac['total'] * 100 / $quizVehicle[0]['sumTotal'], 0);
+                        $number = round($cal, 0);
                                         $quizzTransversale = $quizzes->aggregate([
                         [
                             '$match' => [

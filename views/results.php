@@ -199,7 +199,7 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    if ($resultFacJu) {
+                                    if ($resultFacJu && $resultDeclaJu) {
                                         for ($i = 0; $i < count($resultFacJu); $i++) {
                                             $user = $users->findone([
                                                 '$and' => [

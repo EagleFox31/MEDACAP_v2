@@ -132,17 +132,17 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" aria-controls="kt_customers_table" colspan="6"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
-                                        Résultats de la mesure des savoirs
-                                        et savoirs-faire (Compétences)</th>
+                                        Résultats de la mesure des connaissances théoriques
+                                        et connaissances pratiques</th>
                                 <tr></tr>
                                 <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="2"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Test des savoirs (Factuel) </th>
+                                    Mesure des connaissances théoriques</th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des savoirs-faire (Déclaratif)</th>
+                                    Mesure des connaissances pratiques</th>
                                 <tr></tr>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
@@ -217,7 +217,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <?php } else { ?>
                                     <td class="text-center">
                                     </td>
-                                    <td class="text-center" name="savoir">
+                                    <td class="text-center">
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -289,11 +289,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     <?php } else { ?>
                                     <td class="text-center">
                                     </td>
-                                    <td class="text-center" name="n">
+                                    <td class="text-center">
                                     </td>
-                                    <td class="text-center" name="n1">
+                                    <td class="text-center">
                                     </td>
-                                    <td class="text-center" name="savoirs-faire">
+                                    <td class="text-center">
                                     </td>
                                     <?php } ?>
                                 </tr>

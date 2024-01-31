@@ -161,7 +161,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
                                         Résultats de la mesure des connaissances théoriques
-                                        et tâches professionnelles</th>
+                                        et connaissances pratiques</th>
                                 <tr></tr>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
@@ -170,11 +170,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="2"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances théoriques </th>
+                                    Mesure des connaissances théoriques</th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des tâches professionnelles</th>
+                                    Mesure des connaissances pratiques</th>
                                 <th class="min-w-150px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">

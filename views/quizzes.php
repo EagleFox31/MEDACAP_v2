@@ -329,6 +329,11 @@ include_once 'partials/header.php'
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
+                                            aria-label="Payment Method: activate to sort column ascending"
+                                            style="width: 126.516px;">Nombre de questions
+                                        </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">Niveau
                                         </th>
@@ -366,6 +371,9 @@ include_once 'partials/header.php'
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $quiz->speciality ?>
+                                        </td>
+                                        <td data-order="subsidiary">
+                                            <?php echo $quiz->total ?>
                                         </td>
                                         <td data-order="department">
                                             <?php if ($quiz->level == "Junior") { ?>
