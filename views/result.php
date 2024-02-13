@@ -764,7 +764,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Boite de Vitesse Mécanique
+                                            Boite de Vitesse  à Variation Continue
                                         </a>
                                     </td>
                                     <td class="text-center">
