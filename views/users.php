@@ -135,14 +135,14 @@ if ( isset( $_POST[ 'update' ] ) ) {
     }
 }
 
-if ( isset( $_POST[ 'password' ] ) ) {
+if ( isset( $_POST[ 'pass' ] ) ) {
     // Password modification
     $id = $_POST[ 'userID' ];
     $password = $_POST[ 'password' ];
-    
+
     // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
-    if ( ! preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
-        $error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
+    if ( preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
+        $error = ( 'Le mot de passe doit être au moins de six caractères contenir au moins un chiffre, une lettre majiscule' );
     } else {
         $password_hash = sha1( $password );
     
@@ -160,14 +160,6 @@ if ( isset( $_POST[ 'delete' ] ) ) {
         '$and' => [
             [
                 '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true
-            ]
-        ]
-    ]);
-    $manager = $users->findOne([
-        '$and' => [
-            [
-                'users' => new MongoDB\BSON\ObjectId($id),
                 'active' => true
             ]
         ]
@@ -492,11 +484,6 @@ include_once 'partials/header.php'
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Marque de Véhicule Secondaire
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">Date de
                                             recrutement</th>
                                     </tr>
@@ -568,9 +555,6 @@ include_once 'partials/header.php'
                                         <td data-order="department">
                                             <?php echo $user->brand ?>
                                         </td>
-                                        <td data-order="department">
-                                            <?php echo $user->subBrand ?>
-                                        </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
                                         </td>
@@ -638,9 +622,6 @@ include_once 'partials/header.php'
                                             <td data-order="department">
                                                 <?php echo $user->brand ?>
                                             </td>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->subBrand ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
@@ -784,7 +765,7 @@ include_once 'partials/header.php'
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
-                                                        <button type="submit" name="password" class="btn btn-primary">
+                                                        <button type="submit" name="pass" class="btn btn-primary">
                                                             Valider
                                                         </button>
                                                         <!--end::Button-->
@@ -1086,20 +1067,6 @@ include_once 'partials/header.php'
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="brand"
                                                                         value="<?php echo $user->brand ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Marque de Véhicule
-                                                                        Secondaire</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="subBrand"
-                                                                        value="<?php echo $user->subBrand ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->

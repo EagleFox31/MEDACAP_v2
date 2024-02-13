@@ -42,7 +42,8 @@ if (!isset($_SESSION['id'])) {
         $recrutmentDate = date('d-m-Y', strtotime($_POST['recrutmentDate']));
         $level = $_POST['level'];
         $manager = $_POST['manager'];
-        $password = $_POST['password'];
+
+        var_dump($subBrand);
 
         $techs = [];
 
@@ -96,11 +97,11 @@ if (!isset($_SESSION['id'])) {
                         'recrutmentDate' => $recrutmentDate,
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
+                        'department' => ucfirst($department),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
-                        'department' => ucfirst($department),
-                        'subBrandsubBrand' => $subBrand,
+                        'subBrand' => $subBrand,
                         'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => new MongoDB\BSON\ObjectId($manager),
@@ -129,11 +130,11 @@ if (!isset($_SESSION['id'])) {
                         'recrutmentDate' => $recrutmentDate,
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
+                        'department' => ucfirst($department),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
-                        'department' => ucfirst($department),
                         'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => "",
@@ -407,11 +408,11 @@ if (!isset($_SESSION['id'])) {
                         'recrutmentDate' => $recrutmentDate,
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
+                        'department' => ucfirst($department),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
-                        'department' => ucfirst($department),
                         'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => new MongoDB\BSON\ObjectId($manager),
@@ -441,11 +442,11 @@ if (!isset($_SESSION['id'])) {
                         'recrutmentDate' => $recrutmentDate,
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
+                        'department' => ucfirst($department),
                         'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
-                        'department' => ucfirst($department),
                         'role' => ucfirst($role),
                         'password' => $password_hash,
                         'manager' => "",
@@ -701,7 +702,7 @@ if (!isset($_SESSION['id'])) {
                     }
                     $success_msg = 'Manager ajouté avec succès';
                 }
-            } elseif ($profile == 'Manager (Non évalué)') {
+            } elseif ($profile == 'Manager (non évalué)') {
                 $personM = [
                     'users' => [],
                     'username' => $username,
@@ -718,11 +719,11 @@ if (!isset($_SESSION['id'])) {
                     'recrutmentDate' => $recrutmentDate,
                     'certificate' => ucfirst($certificate),
                     'subsidiary' => ucfirst($subsidiary),
+                    'department' => ucfirst($department),
                     'speciality' => ucfirst($speciality),
                     'vehicle' => $vehicle,
                     'brand' => $brand,
                     'subBrand' => $subBrand,
-                    'department' => ucfirst($department),
                     'role' => ucfirst($role),
                     'password' => $password_hash,
                     'test' => false,
@@ -747,11 +748,11 @@ if (!isset($_SESSION['id'])) {
                 'recrutmentDate' => $recrutmentDate,
                 'certificate' => ucfirst($certificate),
                 'subsidiary' => ucfirst($subsidiary),
+                'department' => ucfirst($department),
                 'speciality' => ucfirst($speciality),
                 'vehicle' => $vehicle,
                 'brand' => $brand,
                 'subBrand' => $subBrand,
-                'department' => ucfirst($department),
                 'role' => ucfirst($role),
                 'password' => $password_hash,
                 'active' => true,
@@ -823,13 +824,13 @@ if (isset($error_msg)) {
                                 <input class='form-control form-control-solid' placeholder='' name='firstName' />
                                 <!--end::Input-->
                                 <?php
-if (isset($error)) {
-        ?>
+                             if (isset($error)) {
+                                     ?>
                                 <span class='text-danger'>
                                     <?php echo $error; ?>
                                 </span>
                                 <?php
-    } ?>
+                                 } ?>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -841,13 +842,13 @@ if (isset($error)) {
                                 <input class='form-control form-control-solid' placeholder='' name='lastName' />
                                 <!--end::Input-->
                                 <?php
-if (isset($error)) {
-        ?>
+                             if (isset($error)) {
+                                     ?>
                                 <span class='text-danger'>
                                     <?php echo $error; ?>
                                 </span>
                                 <?php
-    } ?>
+                                 } ?>
                             </div>
                             <!--end::Col-->
                         </div>
@@ -1448,8 +1449,20 @@ if (isset($error)) {
                                 <option value="Boite de Vitesse">
                                     Boite de Vitesse
                                 </option>
+                                <option value="Boite de Vitesse Automatique">
+                                    Boite de Vitesse Automatique
+                                </option>
+                                <option value="Boite de Vitesse Mécanique">
+                                    Boite de Vitesse Mécanique
+                                </option>
+                                <option value="Boite de Vitesse à Variation Continue">
+                                    Boite de Vitesse à Variation Continue
+                                </option>
                                 <option value="Climatisation">
                                     Climatisation
+                                </option>
+                                <option value="Demi Arbre de Roue">
+                                    Demi Arbre de Roue
                                 </option>
                                 <option value="Direction">
                                     Direction
@@ -1637,7 +1650,7 @@ if (isset($error)) {
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <select name="subBrand" aria-label="Select a Country" data-control="select2"
+                            <select name="subBrand[]" multiple aria-label="Select a Country" data-control="select2"
                                 data-placeholder="Sélectionnez votre type de vehicule secondaire..."
                                 class="form-select form-select-solid fw-bold">
                                 <option value="">Sélectionnez votre marque de vehicule secondaire...</option>

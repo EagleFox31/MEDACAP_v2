@@ -472,11 +472,6 @@ include_once 'partials/header.php'
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Marque de Véhicule Sécondaire
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">Date de
                                             recrutement</th>
                                     </tr>
@@ -548,9 +543,6 @@ include_once 'partials/header.php'
                                         <td data-order="department">
                                             <?php echo $user->brand ?>
                                         </td>
-                                        <td data-order="department">
-                                            <?php echo $user->subBrand ?>
-                                        </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
                                         </td>
@@ -618,9 +610,6 @@ include_once 'partials/header.php'
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->brand ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->subBrand ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->recrutmentDate ?>
@@ -1066,20 +1055,6 @@ include_once 'partials/header.php'
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="brand"
                                                                         value="<?php echo $user->brand ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Marque de Véhicule
-                                                                        Secondaire</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="subBrand"
-                                                                        value="<?php echo $user->subBrand ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->

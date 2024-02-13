@@ -29,6 +29,40 @@ if (!isset($_SESSION["profile"])) {
     $countAdmins = count($countAdmin);
     $countVehicle = $vehicles->find()->toArray();
     $countVehicles = count($countVehicle);
+    $totalSavoir = $allocations->find(['type' => 'Factuel'])->toArray();
+    $totalSavoirs = count($totalSavoir);
+    $totalSavoirFaire = $allocations->find(['type' => 'Declaratif'])->toArray();
+    $totalSavoirFaires = count($totalSavoirFaire);
+    $countSavoir = $allocations->find([
+        '$and' => [
+            [
+                'type' => 'Factuel',
+                'active' => true,
+            ],
+        ],
+    ])->toArray();
+    $countSavoirs = count($countSavoir);
+    $percentageSavoir = ($countSavoirs * 100) / $totalSavoirs;
+    $countMaSavFai = $allocations->find([
+        '$and' => [
+            [
+                'type' => 'Declaratif',
+                'active' => true,
+            ],
+        ],
+    ])->toArray();
+    $countMaSavFais = count($countMaSavFai);
+    $percentageMaSavoirFaire = ($countMaSavFais * 100) / $totalSavoirFaires;
+    $countTechSavFai = $allocations->find([
+        '$and' => [
+            [
+                'type' => 'Declaratif',
+                'activeManager' => true,
+            ],
+        ],
+    ])->toArray();
+    $countTechSavFais = count($countTechSavFai);
+    $percentageTechSavoirFaire = ($countTechSavFais * 100) / $totalSavoirFaires;
     
     $resultFac = $results->aggregate([
     [
@@ -143,7 +177,7 @@ include('./partials/header.php')
                             <!--begin::Heading-->
                             <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-bolder text-gray-800 fs-2">Mes
-                                    techniciens à évaluer</span>
+                                    subordonnés à évaluer</span>
                             </h3>
                             <!--end::Heading-->
                         </div>
@@ -157,7 +191,7 @@ include('./partials/header.php')
                                         <th class="w-20px ps-0">
                                         </th>
                                         <th class="min-w-125px px-0">
-                                            Techniciens</th>
+                                            Subordonnés</th>
                                         <th class="min-w-150px px-0 text-center">
                                             Tests</th>
                                         <th class="min-w-125px">Vehicules</th>
@@ -314,7 +348,7 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    <?php if($_SESSION["test"] == true) ?>
+    <?php if($_SESSION["test"] == true) { ?>
     <!--end::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
@@ -559,6 +593,7 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <?php } ?>
     <?php } ?>
     <?php if ($_SESSION["profile"] == "Technicien") {?>
     <!--begin::Post-->
@@ -969,7 +1004,34 @@ include('./partials/header.php')
                 </div>
                 <!--end:Row-->
                 <!-- begin::Row -->
-                <canvas id="labelChart"></canvas>
+                <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
+                    <!--begin::Container-->
+                    <div class=" container-xxl ">
+                        <!--begin::Layout Builder Notice-->
+                        <div class="card mb-10">
+                            <div class="card-body d-flex align-items-center p-5 p-lg-8">
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0">
+                                    <!--begin::Header-->
+                                    <div class="card-header border-0 pt-5 pb-3">
+                                        <!--begin::Heading-->
+                                        <h3 class="card-title align-items-start flex-column">
+                                            <span class="card-label fw-bolder text-gray-800 fs-2">Taux de réalisation des différents questionnaires</span>
+                                        </h3>
+                                        <!--end::Heading-->
+                                    </div>
+                                    <!--end::Header-->
+                                    <div>
+                                        <canvas id="myChart"></canvas>
+                                    </div>
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                        </div>
+                        <!--end::Layout Builder Notice-->
+                    </div>
+                    <!--end::Container-->
+                </div>
                 <!-- end::Row -->
             </div>
             <!--end::Container-->
@@ -987,48 +1049,24 @@ include('./partials/footer.php')
 }
 ?>
 <script>
-var ctxP = document.getElementById("labelChart").getContext('2d');
-var myPieChart = new Chart(ctxP, {
-  plugins: [ChartDataLabels],
-  type: 'pie',
-  data: {
-    labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
-    datasets: [{
-      data: [210, 130, 120, 160, 120],
-      backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-      hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
-    }]
-  },
-  options: {
-    responsive: true,
-    legend: {
-      position: 'right',
-      labels: {
-        padding: 20,
-        boxWidth: 10
-      }
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Connaissances Théoriques', 'Connaissances Pratiques (Techniciens)', 'Connaissances Pratiques (Managers)'],
+      datasets: [{
+        label: 'Pourcentage de questionnaires réalisés',
+        data: [<?php echo $percentageSavoir ?>, <?php echo $percentageTechSavoirFaire ?>, <?php echo $percentageMaSavoirFaire ?>],
+        borderWidth: 1
+      }]
     },
-    plugins: {
-      datalabels: {
-        formatter: (value, ctx) => {
-          let sum = 0;
-          let dataArr = ctx.chart.data.datasets[0].data;
-          dataArr.map(data => {
-            sum += data;
-          });
-          let percentage = (value * 100 / sum).toFixed(2) + "%";
-          return percentage;
-        },
-        color: 'white',
-        labels: {
-          title: {
-            font: {
-              size: '16'
-            }
-          }
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
         }
       }
     }
-  }
-});
+  });
 </script>

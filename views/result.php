@@ -555,6 +555,267 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
+                                    $boiteAutoFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse Automatique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $boiteAutoDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse Automatique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $boiteAutoMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse Automatique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($boiteAutoFac && $boiteAutoDecla && $boiteAutoMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $boiteAutoFac->speciality?>&level=<?php echo $boiteAutoFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Boite de Vitesse Automatique
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($boiteAutoFac->score * 100 / $boiteAutoFac->total, 0) ?>%
+                                    </td>
+                                    <?php if ((($boiteAutoFac->score  * 100 ) / $boiteAutoFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facBoiteAuto">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($boiteAutoFac->score  * 100 ) / $boiteAutoFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facBoiteAuto">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo round($boiteAutoDecla->score * 100 / $boiteAutoDecla->total, 0) ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($boiteAutoMa->score * 100 / $boiteAutoMa->total, 0) ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($boiteAutoDecla->questions); $i++) { ?>
+                                    <?php if ($boiteAutoDecla->answers[$i] == "Oui" && $boiteAutoMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteAutoDecla->answers[$i] == "Non" && $boiteAutoMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteAutoDecla->answers[$i] != $boiteAutoMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfBoiteAuto">
+
+                                    </td>
+                                    <td class="text-center" id="result-rBoiteAuto">
+
+                                    </td>
+                                    <td class="text-center" id="synth-BoiteAuto">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $boiteManFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse Mécanique'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $boiteManDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse Mécanique'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $boiteManMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse Mécanique']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($boiteManFac && $boiteManDecla && $boiteManMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $boiteManFac->speciality?>&level=<?php echo $boiteManFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Boite de Vitesse Mécanique
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($boiteManFac->score * 100 / $boiteManFac->total, 0) ?>%
+                                    </td>
+                                    <?php if ((($boiteManFac->score  * 100 ) / $boiteManFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facBoiteMan">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($boiteManFac->score  * 100 ) / $boiteManFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facBoiteMan">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo round($boiteManDecla->score * 100 / $boiteManDecla->total, 0) ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($boiteManMa->score * 100 / $boiteManMa->total, 0) ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($boiteManDecla->questions); $i++) { ?>
+                                    <?php if ($boiteManDecla->answers[$i] == "Oui" && $boiteManMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteManDecla->answers[$i] == "Non" && $boiteManMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteManDecla->answers[$i] != $boiteManMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfBoiteMan">
+
+                                    </td>
+                                    <td class="text-center" id="result-rBoiteMan">
+
+                                    </td>
+                                    <td class="text-center" id="synth-BoiteMan">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $boiteVaCoFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse à Variation Continue'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $boiteVaCoDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse à Variation Continue'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $boiteVaCoMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Boite de Vitesse à Variation Continue']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($boiteVaCoFac && $boiteVaCoDecla && $boiteVaCoMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $boiteVaCoFac->speciality?>&level=<?php echo $boiteVaCoFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Boite de Vitesse Mécanique
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($boiteVaCoFac->score * 100 / $boiteVaCoFac->total, 0) ?>%
+                                    </td>
+                                    <?php if ((($boiteVaCoFac->score  * 100 ) / $boiteVaCoFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facBoiteVaCo">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($boiteVaCoFac->score  * 100 ) / $boiteVaCoFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facBoiteVaCo">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo round($boiteVaCoDecla->score * 100 / $boiteVaCoDecla->total, 0) ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($boiteVaCoMa->score * 100 / $boiteVaCoMa->total, 0) ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($boiteVaCoDecla->questions); $i++) { ?>
+                                    <?php if ($boiteVaCoDecla->answers[$i] == "Oui" && $boiteVaCoMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteVaCoDecla->answers[$i] == "Non" && $boiteVaCoMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($boiteVaCoDecla->answers[$i] != $boiteVaCoMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfBoiteVaCo">
+
+                                    </td>
+                                    <td class="text-center" id="result-rBoiteVaCo">
+
+                                    </td>
+                                    <td class="text-center" id="synth-BoiteVaCo">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
                                     $climatisationFac = $results->findOne([
                                         '$and' => [
                                             ['user' => new MongoDB\BSON\ObjectId($user)],
@@ -636,6 +897,93 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
                                     </td>
                                     <td class="text-center" id="synth-Climatisation">
+
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php
+                                    $demiFac = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Demi Arbre de Roue'],
+                                            ['type' => 'Factuel']
+                                        ]
+                                    ]);
+                                    $demiDecla = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Demi Arbre de Roue'],
+                                            ['type' => 'Declaratif']
+                                        ]
+                                    ]);
+                                    $demiMa = $results->findOne([
+                                        '$and' => [
+                                            ['user' => new MongoDB\BSON\ObjectId($user)],
+                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
+                                            ['level' => $level],
+                                            ['speciality' => 'Demi Arbre de Roue']
+                                        ]
+                                    ]);
+                                ?>
+                                <?php if ($demiFac && $demiDecla && $demiMa) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <a href="./system.php?speciality=<?php echo $demiFac->speciality?>&level=<?php echo $demiFac->level?>&user=<?php echo $technician->_id ?>"
+                                            class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
+                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Demi Arbre de Roue
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($demiFac->score * 100 / $demiFac->total, 0) ?>%
+                                    </td>
+                                    <?php if ((($demiFac->score  * 100 ) / $demiFac->total) >= 80)  { ?>
+                                    <td class="text-center" id="facDemi">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ((($demiFac->score  * 100 ) / $demiFac->total) < 80)  { ?>
+                                    <td class="text-center" id="facDemi">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        <?php echo round($demiDecla->score * 100 / $demiDecla->total, 0) ?>%
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo round($demiMa->score * 100 / $demiMa->total, 0) ?>%
+                                    </td>
+                                    <?php for ($i = 0; $i < count($demiDecla->questions); $i++) { ?>
+                                    <?php if ($demiDecla->answers[$i] == "Oui" && $demiMa->answers[$i] == "Oui") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
+                                        Maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($demiDecla->answers[$i] == "Non" && $demiMa->answers[$i] == "Non") { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php if ($demiDecla->answers[$i] != $demiMa->answers[$i]) { ?>
+                                    <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
+                                        Non maitrisé
+                                    </td>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <td class="text-center" id="result-sfDemi">
+
+                                    </td>
+                                    <td class="text-center" id="result-rDemi">
+
+                                    </td>
+                                    <td class="text-center" id="synth-Demi">
 
                                     </td>
                                 </tr>
@@ -2553,8 +2901,12 @@ const sfTransfert = []
 const sfTransversale = []
 const sfTransmission = []
 const sfBoite = []
+const sfBoiteAuto = []
+const sfBoiteMan = []
+const sfBoiteVaCo = []
 const sfAssistance = []
 const sfClimatisation = []
+const sfDemi = []
 const sfDirection = []
 const sfElectricite = []
 const sfFreinage = []
@@ -2584,8 +2936,12 @@ const tdsfTransversale = document.querySelectorAll("#sfTransversale")
 const tdsfTransfert = document.querySelectorAll("#sfTransfert")
 const tdsfTransmission = document.querySelectorAll("#sfTransmission")
 const tdsfBoite = document.querySelectorAll("#sfBoite")
+const tdsfBoiteAuto = document.querySelectorAll("#sfBoiteAuto")
+const tdsfBoiteMan = document.querySelectorAll("#sfBoiteMan")
+const tdsfBoiteVaCo = document.querySelectorAll("#sfBoiteVaCo")
 const tdsfAssistance = document.querySelectorAll("#sfAssistance")
 const tdsfClimatisation = document.querySelectorAll("#sfClimatisation")
+const tdsfDemi = document.querySelectorAll("#sfDemi")
 const tdsfDirection = document.querySelectorAll("#sfDirection")
 const tdsfElectricite = document.querySelectorAll("#sfElectricite")
 const tdsfFreinage = document.querySelectorAll("#sfFreinage")
@@ -2628,6 +2984,18 @@ const resultsfBoite = document.querySelector("#result-sfBoite")
 const synthBoite = document.querySelector("#synth-Boite")
 const resultrBoite = document.querySelector("#result-rBoite")
 const facBoite = document.querySelector("#facBoite")
+const resultsfBoiteAuto = document.querySelector("#result-sfBoiteAuto")
+const synthBoiteAuto = document.querySelector("#synth-BoiteAuto")
+const resultrBoiteAuto = document.querySelector("#result-rBoiteAuto")
+const facBoiteAuto = document.querySelector("#facBoiteAuto")
+const resultsfBoiteMan = document.querySelector("#result-sfBoiteMan")
+const synthBoiteMan = document.querySelector("#synth-BoiteMan")
+const resultrBoiteMan = document.querySelector("#result-rBoiteMan")
+const facBoiteMan = document.querySelector("#facBoiteMan")
+const resultsfBoiteVaCo = document.querySelector("#result-sfBoiteVaCo")
+const synthBoiteVaCo = document.querySelector("#synth-BoiteVaCo")
+const resultrBoiteVaCo = document.querySelector("#result-rBoiteVaCo")
+const facBoiteVaCo = document.querySelector("#facBoiteVaCo")
 const resultsfAssistance = document.querySelector("#result-sfAssistance")
 const synthAssistance = document.querySelector("#synth-Assistance")
 const resultrAssistance = document.querySelector("#result-rAssistance")
@@ -2636,6 +3004,10 @@ const resultsfClimatisation = document.querySelector("#result-sfClimatisation")
 const synthClimatisation = document.querySelector("#synth-Climatisation")
 const resultrClimatisation = document.querySelector("#result-rClimatisation")
 const facClimatisation = document.querySelector("#facClimatisation")
+const resultsfDemi = document.querySelector("#result-sfDemi")
+const synthDemi = document.querySelector("#synth-Demi")
+const resultrDemi = document.querySelector("#result-rDemi")
+const facDemi = document.querySelector("#facDemi")
 const resultsfDirection = document.querySelector("#result-sfDirection")
 const synthDirection = document.querySelector("#synth-Direction")
 const resultrDirection = document.querySelector("#result-rDirection")
@@ -2737,11 +3109,23 @@ for (let i = 0; i < tdsfTransmission.length; i++) {
 for (let i = 0; i < tdsfBoite.length; i++) {
     sfBoite.push(tdsfBoite[i].innerHTML)
 }
+for (let i = 0; i < tdsfBoiteAuto.length; i++) {
+    sfBoiteAuto.push(tdsfBoiteAuto[i].innerHTML)
+}
+for (let i = 0; i < tdsfBoiteMan.length; i++) {
+    sfBoiteMan.push(tdsfBoiteMan[i].innerHTML)
+}
+for (let i = 0; i < tdsfBoiteVaCo.length; i++) {
+    sfBoiteVaCo.push(tdsfBoiteVaCo[i].innerHTML)
+}
 for (let i = 0; i < tdsfAssistance.length; i++) {
     sfAssistance.push(tdsfAssistance[i].innerHTML)
 }
 for (let i = 0; i < tdsfClimatisation.length; i++) {
     sfClimatisation.push(tdsfClimatisation[i].innerHTML)
+}
+for (let i = 0; i < tdsfDemi.length; i++) {
+    sfDemi.push(tdsfDemi[i].innerHTML)
 }
 for (let i = 0; i < tdsfDirection.length; i++) {
     sfDirection.push(tdsfDirection[i].innerHTML)
@@ -2825,10 +3209,22 @@ const maitrisesfTransmission = sfTransmission.filter(function(str) {
 const maitrisesfBoite = sfBoite.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
+const maitrisesfBoiteAuto = sfBoiteAuto.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfBoiteMan = sfBoiteMan.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfBoiteVaCo = sfBoiteVaCo.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
 const maitrisesfAssistance = sfAssistance.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
 const maitrisesfClimatisation = sfClimatisation.filter(function(str) {
+    return str.includes(valueMaitrisé)
+})
+const maitrisesfDemi = sfDemi.filter(function(str) {
     return str.includes(valueMaitrisé)
 })
 const maitrisesfDirection = sfDirection.filter(function(str) {
@@ -2897,8 +3293,12 @@ const percentsfTransversale = ((maitrisesfTransversale.length * 100) / tdsfTrans
 const percentsfTransfert = ((maitrisesfTransfert.length * 100) / tdsfTransfert.length).toFixed(0)
 const percentsfTransmission = ((maitrisesfTransmission.length * 100) / tdsfTransmission.length).toFixed(0)
 const percentsfBoite = ((maitrisesfBoite.length * 100) / tdsfBoite.length).toFixed(0)
+const percentsfBoiteAuto = ((maitrisesfBoiteAuto.length * 100) / tdsfBoiteAuto.length).toFixed(0)
+const percentsfBoiteMan = ((maitrisesfBoiteMan.length * 100) / tdsfBoiteMan.length).toFixed(0)
+const percentsfBoiteVaCo = ((maitrisesfBoiteVaCo.length * 100) / tdsfBoiteVaCo.length).toFixed(0)
 const percentsfAssistance = ((maitrisesfAssistance.length * 100) / tdsfAssistance.length).toFixed(0)
 const percentsfClimatisation = ((maitrisesfClimatisation.length * 100) / tdsfClimatisation.length).toFixed(0)
+const percentsfDemi = ((maitrisesfDemi.length * 100) / tdsfDemi.length).toFixed(0)
 const percentsfDirection = ((maitrisesfDirection.length * 100) / tdsfDirection.length).toFixed(0)
 const percentsfElectricite = ((maitrisesfElectricite.length * 100) / tdsfElectricite.length).toFixed(0)
 const percentsfFreinage = ((maitrisesfFreinage.length * 100) / tdsfFreinage.length).toFixed(0)
@@ -2938,11 +3338,23 @@ if (resultsfTransmission) {
 if (resultsfBoite) {
     resultsfBoite.innerHTML = percentsfBoite + "%";
 }
+if (resultsfBoiteAuto) {
+    resultsfBoiteAuto.innerHTML = percentsfBoiteAuto + "%";
+}
+if (resultsfBoiteMan) {
+    resultsfBoiteMan.innerHTML = percentsfBoiteMan + "%";
+}
+if (resultsfBoiteVaCo) {
+    resultsfBoiteVaCo.innerHTML = percentsfBoiteVaCo + "%";
+}
 if (resultsfAssistance) {
     resultsfAssistance.innerHTML = percentsfAssistance + "%";
 }
 if (resultsfClimatisation) {
     resultsfClimatisation.innerHTML = percentsfClimatisation + "%";
+}
+if (resultsfDemi) {
+    resultsfDemi.innerHTML = percentsfDemi + "%";
 }
 if (resultsfDirection) {
     resultsfDirection.innerHTML = percentsfDirection + "%";
@@ -3027,6 +3439,24 @@ if (resultsfBoite && parseFloat(resultsfBoite.innerHTML) >= parseFloat(a)) {
 if (resultsfBoite && parseFloat(resultsfBoite.innerHTML) < parseFloat(a)) {
     resultrBoite.innerHTML = "Non maitrisé"
 }
+if (resultsfBoiteAuto && parseFloat(resultsfBoiteAuto.innerHTML) >= parseFloat(a)) {
+    resultrBoiteAuto.innerHTML = "Maitrisé"
+}
+if (resultsfBoiteAuto && parseFloat(resultsfBoiteAuto.innerHTML) < parseFloat(a)) {
+    resultrBoiteAuto.innerHTML = "Non maitrisé"
+}
+if (resultsfBoiteMan && parseFloat(resultsfBoiteMan.innerHTML) >= parseFloat(a)) {
+    resultrBoiteMan.innerHTML = "Maitrisé"
+}
+if (resultsfBoiteMan && parseFloat(resultsfBoiteMan.innerHTML) < parseFloat(a)) {
+    resultrBoiteMan.innerHTML = "Non maitrisé"
+}
+if (resultsfBoiteVaCo && parseFloat(resultsfBoiteVaCo.innerHTML) >= parseFloat(a)) {
+    resultrBoiteVaCo.innerHTML = "Maitrisé"
+}
+if (resultsfBoiteVaCo && parseFloat(resultsfBoiteVaCo.innerHTML) < parseFloat(a)) {
+    resultrBoiteVaCo.innerHTML = "Non maitrisé"
+}
 if (resultsfAssistance && parseFloat(resultsfAssistance.innerHTML) >= parseFloat(a)) {
     resultrAssistance.innerHTML = "Maitrisé"
 }
@@ -3038,6 +3468,12 @@ if (resultsfClimatisation && parseFloat(resultsfClimatisation.innerHTML) >= pars
 }
 if (resultsfClimatisation && parseFloat(resultsfClimatisation.innerHTML) < parseFloat(a)) {
     resultrClimatisation.innerHTML = "Non maitrisé"
+}
+if (resultsfDemi && parseFloat(resultsfDemi.innerHTML) >= parseFloat(a)) {
+    resultrDemi.innerHTML = "Maitrisé"
+}
+if (resultsfDemi && parseFloat(resultsfDemi.innerHTML) < parseFloat(a)) {
+    resultrDemi.innerHTML = "Non maitrisé"
 }
 if (resultsfDirection && parseFloat(resultsfDirection.innerHTML) >= parseFloat(a)) {
     resultrDirection.innerHTML = "Maitrisé"
@@ -3205,6 +3641,33 @@ if (facBoite && facBoite.innerText == "Non maitrisé" && (resultrBoite.innerText
 if (facBoite && facBoite.innerText != resultrBoite.innerText) {
     synthBoite.innerHTML = "Non maitrisé"
 }
+if (facBoiteAuto && facBoiteAuto.innerText == "Maitrisé" && (resultrBoiteAuto.innerText == "Maitrisé")) {
+    synthBoiteAuto.innerHTML = "Maitrisé"
+}
+if (facBoiteAuto && facBoiteAuto.innerText == "Non maitrisé" && (resultrBoiteAuto.innerText == "Non maitrisé")) {
+    synthBoiteAuto.innerHTML = "Non maitrisé"
+}
+if (facBoiteAuto && facBoiteAuto.innerText != resultrBoiteAuto.innerText) {
+    synthBoiteAuto.innerHTML = "Non maitrisé"
+}
+if (facBoiteMan && facBoiteMan.innerText == "Maitrisé" && (resultrBoiteMan.innerText == "Maitrisé")) {
+    synthBoiteMan.innerHTML = "Maitrisé"
+}
+if (facBoiteMan && facBoiteMan.innerText == "Non maitrisé" && (resultrBoiteMan.innerText == "Non maitrisé")) {
+    synthBoiteMan.innerHTML = "Non maitrisé"
+}
+if (facBoiteMan && facBoiteMan.innerText != resultrBoiteMan.innerText) {
+    synthBoiteMan.innerHTML = "Non maitrisé"
+}
+if (facBoiteVaCo && facBoiteVaCo.innerText == "Maitrisé" && (resultrBoiteVaCo.innerText == "Maitrisé")) {
+    synthBoiteVaCo.innerHTML = "Maitrisé"
+}
+if (facBoiteVaCo && facBoiteVaCo.innerText == "Non maitrisé" && (resultrBoiteVaCo.innerText == "Non maitrisé")) {
+    synthBoiteVaCo.innerHTML = "Non maitrisé"
+}
+if (facBoiteVaCo && facBoiteVaCo.innerText != resultrBoiteVaCo.innerText) {
+    synthBoiteVaCo.innerHTML = "Non maitrisé"
+}
 if (facAssistance && facAssistance.innerText == "Maitrisé" && (resultrAssistance.innerText == "Maitrisé")) {
     synthAssistance.innerHTML = "Maitrisé"
 }
@@ -3223,6 +3686,15 @@ if (facClimatisation && facClimatisation.innerText == "Non maitrisé" && (result
 }
 if (facClimatisation && facClimatisation.innerText != resultrClimatisation.innerText) {
     synthClimatisation.innerHTML = "Non maitrisé"
+}
+if (facDemi && facDemi.innerText == "Maitrisé" && (resultrDemi.innerText == "Maitrisé")) {
+    synthDemi.innerHTML = "Maitrisé"
+}
+if (facDemi && facDemi.innerText == "Non maitrisé" && (resultrDemi.innerText == "Non maitrisé")) {
+    synthDemi.innerHTML = "Non maitrisé"
+}
+if (facDemi && facDemi.innerText != resultrDemi.innerText) {
+    synthDemi.innerHTML = "Non maitrisé"
 }
 if (facDirection && facDirection.innerText == "Maitrisé" && (resultrDirection.innerText == "Maitrisé")) {
     synthDirection.innerHTML = "Maitrisé"

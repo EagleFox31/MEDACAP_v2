@@ -5965,8 +5965,20 @@ include_once 'partials/header.php'
                                 <option value="Boite de Vitesse">
                                     Boite de Vitesse
                                 </option>
+                                <option value="Boite de Vitesse Automatique">
+                                    Boite de Vitesse Automatique
+                                </option>
+                                <option value="Boite de Vitesse Mécanique">
+                                    Boite de Vitesse Mécanique
+                                </option>
+                                <option value="Boite de Vitesse à Variation Continue">
+                                    Boite de Vitesse à Variation Continue
+                                </option>
                                 <option value="Climatisation">
                                     Climatisation
+                                </option>
+                                <option value="Demi Arbre de Roue">
+                                    Demi Arbre de Roue
                                 </option>
                                 <option value="Direction">
                                     Direction

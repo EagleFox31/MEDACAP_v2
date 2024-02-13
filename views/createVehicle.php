@@ -72,6 +72,30 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             [ 'active' => true ],
         ],
     ]);
+    $boiteAuto = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Vitesse Automatique" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $boiteMeca = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Vitesse Mécanique" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $boiteVaCo = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Vitesse à Variation Continue" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
     $transfert = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Boite de Transfert" ],
@@ -83,6 +107,14 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     $climatisation = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Climatisation" ],
+            [ 'type' => $type ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $demi = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Demi Arbre de Roue" ],
             [ 'type' => $type ],
             [ 'level' => $level ],
             [ 'active' => true ],
@@ -114,7 +146,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     ]);
     $freinageElec = $quizzes->findOne([
         '$and' => [
-            [ 'speciality' => "Freinage Electronique" ],
+            [ 'speciality' => "Freinage Electromagnétique" ],
             [ 'type' => $type ],
             [ 'level' => $level ],
             [ 'active' => true ],
@@ -300,6 +332,24 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         array_push($quizCha, $boite->_id);
         array_push($quizChaBt, $boite->_id);
     }
+    if ($boiteAuto) {
+        array_push($quizVl, $boiteAuto->_id);
+        array_push($quizVls, $boiteAuto->_id);
+    }
+    if ($boiteMeca) {
+        array_push($quizBus, $boiteMeca->_id);
+        array_push($quizCam, $boiteMeca->_id);
+        array_push($quizCamTrck, $boiteMeca->_id);
+        array_push($quizCamO, $boiteMeca->_id);
+        array_push($quizVl, $boiteMeca->_id);
+        array_push($quizVls, $boiteMeca->_id);
+        array_push($quizEng, $boiteMeca->_id);
+        array_push($quizCha, $boiteMeca->_id);
+    }
+    if ($boiteVaCo) {
+        array_push($quizVl, $boiteVaCo->_id);
+        array_push($quizVls, $boiteVaCo->_id);
+    }
     if ($transfert) {
         array_push($quizBus, $transfert->_id);
         array_push($quizCam, $transfert->_id);
@@ -317,6 +367,16 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         array_push($quizEng, $climatisation->_id);
         array_push($quizCha, $climatisation->_id);
         array_push($quizChaBt, $climatisation->_id);
+    }
+    if ($demi) {
+        array_push($quizBus, $demi->_id);
+        array_push($quizCam, $demi->_id);
+        array_push($quizCamTrck, $demi->_id);
+        array_push($quizCamO, $demi->_id);
+        array_push($quizVl, $demi->_id);
+        array_push($quizVls, $demi->_id);
+        array_push($quizEng, $demi->_id);
+        array_push($quizCha, $demi->_id);
     }
     if ($direction) {
         array_push($quizBus, $direction->_id);
@@ -351,7 +411,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         array_push($quizCha, $freinage->_id);
     }
     if ($freinageElec) {
-        array_push($quizChaBt, $freinage->_id);
+        array_push($quizChaBt, $freinageElec->_id);
     }
     if ($freinageHyd) {
         array_push($quizVl, $freinageHyd->_id);
@@ -610,7 +670,6 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             $success_msg = 'Véhicule ajouté avec succès';
         }
     } elseif ($label == "Camions")  {
-
         if ($level == 'Junior' && $brand == "MERCEDES TRUCK" || $brand == "RENAULT TRUCK") {
             $vehicle = [
                 'users' => $userArr,

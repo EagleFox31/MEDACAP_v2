@@ -38,6 +38,7 @@
         href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
     <!--end::Global Stylesheets Bundle-->
     <!--Begin::Google Tag Manager -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     (function(w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -73,12 +74,12 @@
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
     <!-- Spinner Start -->
-    <!-- <div id="spinner"
+    <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Chargement...</span>
         </div>
-    </div> -->
+    </div>
     <!-- Spinner End -->
     <!--begin::Theme mode setup on page load-->
     <script>
@@ -88,7 +89,7 @@
         if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
             themeMode = document.documentElement.getAttribute(
                 "data-bs-theme-mode");
-        } else {
+        } else {  
             if (localStorage.getItem("data-bs-theme") !== null) {
                 themeMode = localStorage.getItem("data-bs-theme");
             } else {
@@ -248,19 +249,20 @@
                                             class="menu-arrow"></span></span>
                                     <!--end:Menu link-->
                                     <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
+                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
                                         <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./createQuiz.php"><span
+                                        <!-- <div class="menu-item"> -->
+                                            <!--begin:Menu link-->
+                                            <!-- <a class="menu-link" href="./createQuiz.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
                                                     class="menu-title">Ajouter
                                                     un
-                                                    Questionnaire</span></a>
+                                                    Questionnaire</span></a> -->
                                             <!--end:Menu link-->
-                                        </div>
+                                        <!-- </div> -->
                                         <!--end:Menu item-->
-                                    </div>
+                                    <!-- </div> -->
                                     <!--end:Menu sub-->
                                     <!--begin:Menu sub-->
                                     <div class="menu-sub menu-sub-accordion">
@@ -567,7 +569,7 @@
                                             <i class="ki-duotone ki-user fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
-                                            </i></span><span class="menu-title">Mes Techniciens
+                                            </i></span><span class="menu-title">Mes Subordonnés
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -587,7 +589,7 @@
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">
                                             Mes
-                                            Techniciens évalués
+                                            Subordonnés évalués
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
