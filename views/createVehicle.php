@@ -24,17 +24,25 @@ if ( isset( $_POST[ 'submit' ] ) ) {
 
     $label = $_POST[ 'label' ];
     $brand = $_POST[ 'brand' ];
-    $type = $_POST[ 'type' ];
     $level = $_POST[ 'level' ];
-    $quizBus = [];
-    $quizCam = [];
-    $quizCamTrck = [];
-    $quizCamO = [];
-    $quizCha = [];
-    $quizChaBt = [];
-    $quizEng = [];
-    $quizVl = [];
-    $quizVls = [];
+    $quizBusF = [];
+    $quizCamF = [];
+    $quizCamTrckF = [];
+    $quizCamOF = [];
+    $quizChaF = [];
+    $quizChaBtF = [];
+    $quizEngF = [];
+    $quizVlF = [];
+    $quizVlsF = [];
+    $quizBusD = [];
+    $quizCamD = [];
+    $quizCamTrckD = [];
+    $quizCamOD = [];
+    $quizChaD = [];
+    $quizChaBtD = [];
+    $quizEngD = [];
+    $quizVlD = [];
+    $quizVlsD = [];
     $userArr = [];
     $userArrR = [];
     $userArrD = [];
@@ -44,238 +52,237 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             [ 'label' => $label ],
             [ 'brand' => $brand ],
             [ 'level' => $level ],
-            [ 'type' => $type ],
         ],
     ]);
 
-    $arbre = $quizzes->findOne([
+    $arbreFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Arbre de Transmission" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $assistance = $quizzes->findOne([
+    $assistanceFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Assistance à la Conduite" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $boite = $quizzes->findOne([
+    $boiteFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Boite de Vitesse" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $boiteAuto = $quizzes->findOne([
+    $boiteAutoFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Boite de Vitesse Automatique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $boiteMeca = $quizzes->findOne([
+    $boiteMecaFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Boite de Vitesse Mécanique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $boiteVaCo = $quizzes->findOne([
+    $boiteVaCoFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Boite de Vitesse à Variation Continue" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $transfert = $quizzes->findOne([
+    $transfertFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Boite de Transfert" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $climatisation = $quizzes->findOne([
+    $climatisationFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Climatisation" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $demi = $quizzes->findOne([
+    $demiFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Demi Arbre de Roue" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $direction = $quizzes->findOne([
+    $directionFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Direction" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $electricite = $quizzes->findOne([
+    $electriciteFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Electricité et Electronique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $freinage = $quizzes->findOne([
+    $freinageFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Freinage" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $freinageElec = $quizzes->findOne([
+    $freinageElecFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Freinage Electromagnétique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $freinageHyd = $quizzes->findOne([
+    $freinageHydFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Freinage Hydraulique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $freinagePneu = $quizzes->findOne([
+    $freinagePneuFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Freinage Pneumatique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $hydraulique = $quizzes->findOne([
+    $hydrauliqueFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Hydraulique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $moteurDiesel = $quizzes->findOne([
+    $moteurDieselFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Moteur Diesel" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $moteurElec = $quizzes->findOne([
+    $moteurElecFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Moteur Electrique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $moteurEssence = $quizzes->findOne([
+    $moteurEssenceFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Moteur Essence" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $moteurThermique = $quizzes->findOne([
+    $moteurThermiqueFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Moteur Thermique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $multiplexage = $quizzes->findOne([
+    $multiplexageFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Multiplexage" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $pont = $quizzes->findOne([
+    $pontFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Pont" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $pneu = $quizzes->findOne([
+    $pneuFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Pneumatique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $reducteur = $quizzes->findOne([
+    $reducteurFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Reducteur" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $suspension = $quizzes->findOne([
+    $suspensionFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Suspension" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $suspensionLame = $quizzes->findOne([
+    $suspensionLameFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Suspension à Lame" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $suspensionRessort = $quizzes->findOne([
+    $suspensionRessortFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Suspension Ressort" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $suspensionPneu = $quizzes->findOne([
+    $suspensionPneuFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Suspension Pneumatique" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
     ]);
-    $transversale = $quizzes->findOne([
+    $transversaleFac = $quizzes->findOne([
         '$and' => [
             [ 'speciality' => "Transversale" ],
-            [ 'type' => $type ],
+            [ 'type' => 'Factuel' ],
             [ 'level' => $level ],
             [ 'active' => true ],
         ],
@@ -301,251 +308,746 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         }
     }
     
-    if ($arbre) {
-        array_push($quizBus, $arbre->_id);
-        array_push($quizCam, $arbre->_id);
-        array_push($quizCamTrck, $arbre->_id);
-        array_push($quizCamO, $arbre->_id);
-        array_push($quizEng, $arbre->_id);
-        array_push($quizVl, $arbre->_id);
-        array_push($quizVls, $arbre->_id);
+    if ($arbreFac) {
+        array_push($quizBusF, $arbreFac->_id);
+        array_push($quizCamF, $arbreFac->_id);
+        array_push($quizCamTrckF, $arbreFac->_id);
+        array_push($quizCamOF, $arbreFac->_id);
+        array_push($quizEngF, $arbreFac->_id);
+        array_push($quizVlF, $arbreFac->_id);
+        array_push($quizVlsF, $arbreFac->_id);
     }
-    if ($assistance) {
-        array_push($quizCam, $assistance->_id);
-        array_push($quizCamTrck, $assistance->_id);
-        array_push($quizCamO, $assistance->_id);
-        array_push($quizCha, $assistance->_id);
-        array_push($quizChaBt, $assistance->_id);
-        array_push($quizVl, $assistance->_id);
-        array_push($quizVls, $assistance->_id);
-        array_push($quizEng, $assistance->_id);
-        array_push($quizBus, $assistance->_id);
+    if ($assistanceFac) {
+        array_push($quizCamF, $assistanceFac->_id);
+        array_push($quizCamTrckF, $assistanceFac->_id);
+        array_push($quizCamOF, $assistanceFac->_id);
+        array_push($quizChaF, $assistanceFac->_id);
+        array_push($quizChaBtF, $assistanceFac->_id);
+        array_push($quizVlF, $assistanceFac->_id);
+        array_push($quizVlsF, $assistanceFac->_id);
+        array_push($quizEngF, $assistanceFac->_id);
+        array_push($quizBusF, $assistanceFac->_id);
     }
-    if ($boite) {
-        array_push($quizBus, $boite->_id);
-        array_push($quizCam, $boite->_id);
-        array_push($quizCamTrck, $boite->_id);
-        array_push($quizCamO, $boite->_id);
-        array_push($quizVl, $boite->_id);
-        array_push($quizVls, $boite->_id);
-        array_push($quizEng, $boite->_id);
-        array_push($quizCha, $boite->_id);
-        array_push($quizChaBt, $boite->_id);
+    if ($boiteFac) {
+        array_push($quizBusF, $boiteFac->_id);
+        array_push($quizCamF, $boiteFac->_id);
+        array_push($quizCamTrckF, $boiteFac->_id);
+        array_push($quizCamOF, $boiteFac->_id);
+        array_push($quizVlF, $boiteFac->_id);
+        array_push($quizVlsF, $boiteFac->_id);
+        array_push($quizEngF, $boiteFac->_id);
+        array_push($quizChaF, $boiteFac->_id);
+        array_push($quizChaBtF, $boiteFac->_id);
     }
-    if ($boiteAuto) {
-        array_push($quizVl, $boiteAuto->_id);
-        array_push($quizVls, $boiteAuto->_id);
+    if ($boiteAutoFac) {
+        array_push($quizVlF, $boiteAutoFac->_id);
+        array_push($quizVlsF, $boiteAutoFac->_id);
     }
-    if ($boiteMeca) {
-        array_push($quizBus, $boiteMeca->_id);
-        array_push($quizCam, $boiteMeca->_id);
-        array_push($quizCamTrck, $boiteMeca->_id);
-        array_push($quizCamO, $boiteMeca->_id);
-        array_push($quizVl, $boiteMeca->_id);
-        array_push($quizVls, $boiteMeca->_id);
-        array_push($quizEng, $boiteMeca->_id);
-        array_push($quizCha, $boiteMeca->_id);
+    if ($boiteMecaFac) {
+        array_push($quizBusF, $boiteMecaFac->_id);
+        array_push($quizCamF, $boiteMecaFac->_id);
+        array_push($quizCamTrckF, $boiteMecaFac->_id);
+        array_push($quizCamOF, $boiteMecaFac->_id);
+        array_push($quizVlF, $boiteMecaFac->_id);
+        array_push($quizVlsF, $boiteMecaFac->_id);
+        array_push($quizEngF, $boiteMecaFac->_id);
+        array_push($quizChaF, $boiteMecaFac->_id);
     }
-    if ($boiteVaCo) {
-        array_push($quizVl, $boiteVaCo->_id);
-        array_push($quizVls, $boiteVaCo->_id);
+    if ($boiteVaCoFac) {
+        array_push($quizVlF, $boiteVaCoFac->_id);
+        array_push($quizVlsF, $boiteVaCoFac->_id);
     }
-    if ($transfert) {
-        array_push($quizBus, $transfert->_id);
-        array_push($quizCam, $transfert->_id);
-        array_push($quizCamTrck, $transfert->_id);
-        array_push($quizVl, $transfert->_id);
-        array_push($quizVls, $transfert->_id);
-        array_push($quizEng, $transfert->_id);
+    if ($transfertFac) {
+        array_push($quizBusF, $transfertFac->_id);
+        array_push($quizCamF, $transfertFac->_id);
+        array_push($quizCamTrckF, $transfertFac->_id);
+        array_push($quizVlF, $transfertFac->_id);
+        array_push($quizVlsF, $transfertFac->_id);
+        array_push($quizEngF, $transfertFac->_id);
     }
-    if ($climatisation) {
-        array_push($quizBus, $climatisation->_id);
-        array_push($quizCam, $climatisation->_id);
-        array_push($quizCamTrck, $climatisation->_id);
-        array_push($quizVl, $climatisation->_id);
-        array_push($quizVls, $climatisation->_id);
-        array_push($quizEng, $climatisation->_id);
-        array_push($quizCha, $climatisation->_id);
-        array_push($quizChaBt, $climatisation->_id);
+    if ($climatisationFac) {
+        array_push($quizBusF, $climatisationFac->_id);
+        array_push($quizCamF, $climatisationFac->_id);
+        array_push($quizCamTrckF, $climatisationFac->_id);
+        array_push($quizVlF, $climatisationFac->_id);
+        array_push($quizVlsF, $climatisationFac->_id);
+        array_push($quizEngF, $climatisationFac->_id);
+        array_push($quizChaF, $climatisationFac->_id);
+        array_push($quizChaBtF, $climatisationFac->_id);
     }
-    if ($demi) {
-        array_push($quizBus, $demi->_id);
-        array_push($quizCam, $demi->_id);
-        array_push($quizCamTrck, $demi->_id);
-        array_push($quizCamO, $demi->_id);
-        array_push($quizVl, $demi->_id);
-        array_push($quizVls, $demi->_id);
-        array_push($quizEng, $demi->_id);
-        array_push($quizCha, $demi->_id);
+    if ($demiFac) {
+        array_push($quizBusF, $demiFac->_id);
+        array_push($quizCamF, $demiFac->_id);
+        array_push($quizCamTrckF, $demiFac->_id);
+        array_push($quizCamOF, $demiFac->_id);
+        array_push($quizVlF, $demiFac->_id);
+        array_push($quizVlsF, $demiFac->_id);
+        array_push($quizEngF, $demiFac->_id);
+        array_push($quizChaF, $demiFac->_id);
     }
-    if ($direction) {
-        array_push($quizBus, $direction->_id);
-        array_push($quizCam, $direction->_id);
-        array_push($quizCamTrck, $direction->_id);
-        array_push($quizCamO, $direction->_id);
-        array_push($quizVl, $direction->_id);
-        array_push($quizVls, $direction->_id);
-        array_push($quizEng, $direction->_id);
-        array_push($quizCha, $direction->_id);
-        array_push($quizChaBt, $direction->_id);
+    if ($directionFac) {
+        array_push($quizBusF, $directionFac->_id);
+        array_push($quizCamF, $directionFac->_id);
+        array_push($quizCamTrckF, $directionFac->_id);
+        array_push($quizCamOF, $directionFac->_id);
+        array_push($quizVlF, $directionFac->_id);
+        array_push($quizVlsF, $directionFac->_id);
+        array_push($quizEngF, $directionFac->_id);
+        array_push($quizChaF, $directionFac->_id);
+        array_push($quizChaBtF, $directionFac->_id);
     }
-    if ($electricite) {
-        array_push($quizBus, $electricite->_id);
-        array_push($quizCam, $electricite->_id);
-        array_push($quizCamTrck, $electricite->_id);
-        array_push($quizCamO, $electricite->_id);
-        array_push($quizVl, $electricite->_id);
-        array_push($quizVls, $electricite->_id);
-        array_push($quizEng, $electricite->_id);
-        array_push($quizCha, $electricite->_id);
-        array_push($quizChaBt, $electricite->_id);
+    if ($electriciteFac) {
+        array_push($quizBusF, $electriciteFac->_id);
+        array_push($quizCamF, $electriciteFac->_id);
+        array_push($quizCamTrckF, $electriciteFac->_id);
+        array_push($quizCamOF, $electriciteFac->_id);
+        array_push($quizVlF, $electriciteFac->_id);
+        array_push($quizVlsF, $electriciteFac->_id);
+        array_push($quizEngF, $electriciteFac->_id);
+        array_push($quizChaF, $electriciteFac->_id);
+        array_push($quizChaBtF, $electriciteFac->_id);
     }
-    if ($freinage) {
-        array_push($quizBus, $freinage->_id);
-        array_push($quizCam, $freinage->_id);
-        array_push($quizCamTrck, $freinage->_id);
-        array_push($quizCamO, $freinage->_id);
-        array_push($quizVl, $freinage->_id);
-        array_push($quizVls, $freinage->_id);
-        array_push($quizEng, $freinage->_id);
-        array_push($quizCha, $freinage->_id);
+    if ($freinageFac) {
+        array_push($quizBusF, $freinageFac->_id);
+        array_push($quizCamF, $freinageFac->_id);
+        array_push($quizCamTrckF, $freinageFac->_id);
+        array_push($quizCamOF, $freinageFac->_id);
+        array_push($quizVlF, $freinageFac->_id);
+        array_push($quizVlsF, $freinageFac->_id);
+        array_push($quizEngF, $freinageFac->_id);
+        array_push($quizChaF, $freinageFac->_id);
     }
-    if ($freinageElec) {
-        array_push($quizChaBt, $freinageElec->_id);
+    if ($freinageElecFac) {
+        array_push($quizChaBtF, $freinageElecFac->_id);
     }
-    if ($freinageHyd) {
-        array_push($quizVl, $freinageHyd->_id);
-        array_push($quizVls, $freinageHyd->_id);
-        array_push($quizEng, $freinageHyd->_id);
-        array_push($quizCha, $freinageHyd->_id);
-        array_push($quizChaBt, $freinageHyd->_id);
+    if ($freinageHydFac) {
+        array_push($quizVlF, $freinageHydFac->_id);
+        array_push($quizVlsF, $freinageHydFac->_id);
+        array_push($quizEngF, $freinageHydFac->_id);
+        array_push($quizChaF, $freinageHydFac->_id);
+        array_push($quizChaBtF, $freinageHydFac->_id);
     }
-    if ($freinagePneu) {
-        array_push($quizBus, $freinagePneu->_id);
-        array_push($quizCam, $freinagePneu->_id);
-        array_push($quizCamTrck, $freinagePneu->_id);
-        array_push($quizCamO, $freinagePneu->_id);
+    if ($freinagePneuFac) {
+        array_push($quizBusF, $freinagePneuFac->_id);
+        array_push($quizCamF, $freinagePneuFac->_id);
+        array_push($quizCamTrckF, $freinagePneuFac->_id);
+        array_push($quizCamOF, $freinagePneuFac->_id);
     }
-    if ($hydraulique) {
-        array_push($quizEng, $hydraulique->_id);
-        array_push($quizCha, $hydraulique->_id);
-        array_push($quizChaBt, $hydraulique->_id);
-        array_push($quizCam, $hydraulique->_id);
-        array_push($quizCamTrck, $hydraulique->_id);
+    if ($hydrauliqueFac) {
+        array_push($quizEngF, $hydrauliqueFac->_id);
+        array_push($quizChaF, $hydrauliqueFac->_id);
+        array_push($quizChaBtF, $hydrauliqueFac->_id);
+        array_push($quizCamF, $hydrauliqueFac->_id);
+        array_push($quizCamTrckF, $hydrauliqueFac->_id);
     }
-    if ($moteurDiesel) {
-        array_push($quizBus, $moteurDiesel->_id);
-        array_push($quizCam, $moteurDiesel->_id);
-        array_push($quizCamTrck, $moteurDiesel->_id);
-        array_push($quizCamO, $moteurDiesel->_id);
-        array_push($quizVl, $moteurDiesel->_id);
-        array_push($quizVls, $moteurDiesel->_id);
-        array_push($quizEng, $moteurDiesel->_id);
-        array_push($quizCha, $moteurDiesel->_id);
-        array_push($quizChaBt, $moteurDiesel->_id);
+    if ($moteurDieselFac) {
+        array_push($quizBusF, $moteurDieselFac->_id);
+        array_push($quizCamF, $moteurDieselFac->_id);
+        array_push($quizCamTrckF, $moteurDieselFac->_id);
+        array_push($quizCamOF, $moteurDieselFac->_id);
+        array_push($quizVlF, $moteurDieselFac->_id);
+        array_push($quizVlsF, $moteurDieselFac->_id);
+        array_push($quizEngF, $moteurDieselFac->_id);
+        array_push($quizChaF, $moteurDieselFac->_id);
+        array_push($quizChaBtF, $moteurDieselFac->_id);
     }
-    if ($moteurElec) {
-        array_push($quizVl, $moteurElec->_id);
-        array_push($quizVls, $moteurElec->_id);
-        array_push($quizCha, $moteurElec->_id);
-        array_push($quizChaBt, $moteurElec->_id);
+    if ($moteurElecFac) {
+        array_push($quizVlF, $moteurElecFac->_id);
+        array_push($quizVlsF, $moteurElecFac->_id);
+        array_push($quizChaF, $moteurElecFac->_id);
+        array_push($quizChaBtF, $moteurElecFac->_id);
     }
-    if ($moteurEssence) {
-        array_push($quizVl, $moteurEssence->_id);
-        array_push($quizVls, $moteurEssence->_id);
-        array_push($quizCha, $moteurEssence->_id);
-        array_push($quizChaBt, $moteurEssence->_id);
+    if ($moteurEssenceFac) {
+        array_push($quizVlF, $moteurEssenceFac->_id);
+        array_push($quizVlsF, $moteurEssenceFac->_id);
+        array_push($quizChaF, $moteurEssenceFac->_id);
+        array_push($quizChaBtF, $moteurEssenceFac->_id);
     }
-    if ($moteurThermique) {
-        array_push($quizBus, $moteurThermique->_id);
-        array_push($quizCam, $moteurThermique->_id);
-        array_push($quizCamTrck, $moteurThermique->_id);
-        array_push($quizCamO, $moteurThermique->_id);
-        array_push($quizVl, $moteurThermique->_id);
-        array_push($quizVls, $moteurThermique->_id);
-        array_push($quizEng, $moteurThermique->_id);
-        array_push($quizCha, $moteurThermique->_id);
+    if ($moteurThermiqueFac) {
+        array_push($quizBusF, $moteurThermiqueFac->_id);
+        array_push($quizCamF, $moteurThermiqueFac->_id);
+        array_push($quizCamTrckF, $moteurThermiqueFac->_id);
+        array_push($quizCamOF, $moteurThermiqueFac->_id);
+        array_push($quizVlF, $moteurThermiqueFac->_id);
+        array_push($quizVlsF, $moteurThermiqueFac->_id);
+        array_push($quizEngF, $moteurThermiqueFac->_id);
+        array_push($quizChaF, $moteurThermiqueFac->_id);
     }
-    if ($multiplexage) {
-        array_push($quizBus, $multiplexage->_id);
-        array_push($quizCam, $multiplexage->_id);
-        array_push($quizCamTrck, $multiplexage->_id);
-        array_push($quizCamO, $multiplexage->_id);
-        array_push($quizVl, $multiplexage->_id);
-        array_push($quizVls, $multiplexage->_id);
-        array_push($quizEng, $multiplexage->_id);
-        array_push($quizCha, $multiplexage->_id);
-        array_push($quizChaBt, $multiplexage->_id);
+    if ($multiplexageFac) {
+        array_push($quizBusF, $multiplexageFac->_id);
+        array_push($quizCamF, $multiplexageFac->_id);
+        array_push($quizCamTrckF, $multiplexageFac->_id);
+        array_push($quizCamOF, $multiplexageFac->_id);
+        array_push($quizVlF, $multiplexageFac->_id);
+        array_push($quizVlsF, $multiplexageFac->_id);
+        array_push($quizEngF, $multiplexageFac->_id);
+        array_push($quizChaF, $multiplexageFac->_id);
+        array_push($quizChaBtF, $multiplexageFac->_id);
     }
-    if ($pont) {
-        array_push($quizBus, $pont->_id);
-        array_push($quizCam, $pont->_id);
-        array_push($quizCamTrck, $pont->_id);
-        array_push($quizCamO, $pont->_id);
-        array_push($quizVl, $pont->_id);
-        array_push($quizVls, $pont->_id);
-        array_push($quizEng, $pont->_id);
-        array_push($quizCha, $pont->_id);
+    if ($pontFac) {
+        array_push($quizBusF, $pontFac->_id);
+        array_push($quizCamF, $pontFac->_id);
+        array_push($quizCamTrckF, $pontFac->_id);
+        array_push($quizCamOF, $pontFac->_id);
+        array_push($quizVlF, $pontFac->_id);
+        array_push($quizVlsF, $pontFac->_id);
+        array_push($quizEngF, $pontFac->_id);
+        array_push($quizChaF, $pontFac->_id);
 
     }
-    if ($pneu) {
-        array_push($quizBus, $pneu->_id);
-        array_push($quizCam, $pneu->_id);
-        array_push($quizCamTrck, $pneu->_id);
-        array_push($quizCamO, $pneu->_id);
-        array_push($quizVl, $pneu->_id);
-        array_push($quizVls, $pneu->_id);
-        array_push($quizEng, $pneu->_id);
-        array_push($quizCha, $pneu->_id);
+    if ($pneuFac) {
+        array_push($quizBusF, $pneuFac->_id);
+        array_push($quizCamF, $pneuFac->_id);
+        array_push($quizCamTrckF, $pneuFac->_id);
+        array_push($quizCamOF, $pneuFac->_id);
+        array_push($quizVlF, $pneuFac->_id);
+        array_push($quizVlsF, $pneuFac->_id);
+        array_push($quizEngF, $pneuFac->_id);
+        array_push($quizChaF, $pneuFac->_id);
 
     }
-    if ($reducteur) {
-        array_push($quizBus, $reducteur->_id);
-        array_push($quizCam, $reducteur->_id);
-        array_push($quizCamTrck, $reducteur->_id);
-        array_push($quizCamO, $reducteur->_id);
-        array_push($quizEng, $reducteur->_id);
-        array_push($quizCha, $reducteur->_id);
-        array_push($quizChaBt, $reducteur->_id);
+    if ($reducteurFac) {
+        array_push($quizBusF, $reducteurFac->_id);
+        array_push($quizCamF, $reducteurFac->_id);
+        array_push($quizCamTrckF, $reducteurFac->_id);
+        array_push($quizCamOF, $reducteurFac->_id);
+        array_push($quizEngF, $reducteurFac->_id);
+        array_push($quizChaF, $reducteurFac->_id);
+        array_push($quizChaBtF, $reducteurFac->_id);
     }
-    if ($suspension) {
-        array_push($quizBus, $suspension->_id);
-        array_push($quizCam, $suspension->_id);
-        array_push($quizCamTrck, $suspension->_id);
-        array_push($quizCamO, $suspension->_id);
-        array_push($quizVl, $suspension->_id);
-        array_push($quizVls, $suspension->_id);
+    if ($suspensionFac) {
+        array_push($quizBusF, $suspensionFac->_id);
+        array_push($quizCamF, $suspensionFac->_id);
+        array_push($quizCamTrckF, $suspensionFac->_id);
+        array_push($quizCamOF, $suspensionFac->_id);
+        array_push($quizVlF, $suspensionFac->_id);
+        array_push($quizVlsF, $suspensionFac->_id);
     }
-    if ($suspensionLame) {
-        array_push($quizBus, $suspensionLame->_id);
-        array_push($quizCam, $suspensionLame->_id);
-        array_push($quizCamTrck, $suspensionLame->_id);
-        array_push($quizCamO, $suspensionLame->_id);
-        array_push($quizVl, $suspensionLame->_id);
-        array_push($quizVls, $suspensionLame->_id);
+    if ($suspensionLameFac) {
+        array_push($quizBusF, $suspensionLameFac->_id);
+        array_push($quizCamF, $suspensionLameFac->_id);
+        array_push($quizCamTrckF, $suspensionLameFac->_id);
+        array_push($quizCamOF, $suspensionLameFac->_id);
+        array_push($quizVlF, $suspensionLameFac->_id);
+        array_push($quizVlsF, $suspensionLameFac->_id);
     }
-    if ($suspensionRessort) {
-        array_push($quizVl, $suspensionRessort->_id);
-        array_push($quizVls, $suspensionRessort->_id);
+    if ($suspensionRessortFac) {
+        array_push($quizVlF, $suspensionRessortFac->_id);
+        array_push($quizVlsF, $suspensionRessortFac->_id);
     }
-    if ($suspensionPneu) {
-        array_push($quizCamTrck, $suspensionPneu->_id);
-        array_push($quizVl, $suspensionPneu->_id);
+    if ($suspensionPneuFac) {
+        array_push($quizCamTrckF, $suspensionPneuFac->_id);
+        array_push($quizVlF, $suspensionPneuFac->_id);
     }
-    if ($transversale) {
-        array_push($quizBus, $transversale->_id);
-        array_push($quizCam, $transversale->_id);
-        array_push($quizCamTrck, $transversale->_id);
-        array_push($quizCamO, $transversale->_id);
-        array_push($quizVl, $transversale->_id);
-        array_push($quizVls, $transversale->_id);
-        array_push($quizEng, $transversale->_id);
-        array_push($quizCha, $transversale->_id);
-        array_push($quizChaBt, $transversale->_id);
+    if ($transversaleFac) {
+        array_push($quizBusF, $transversaleFac->_id);
+        array_push($quizCamF, $transversaleFac->_id);
+        array_push($quizCamTrckF, $transversaleFac->_id);
+        array_push($quizCamOF, $transversaleFac->_id);
+        array_push($quizVlF, $transversaleFac->_id);
+        array_push($quizVlsF, $transversaleFac->_id);
+        array_push($quizEngF, $transversaleFac->_id);
+        array_push($quizChaF, $transversaleFac->_id);
+        array_push($quizChaBtF, $transversaleFac->_id);
+    }
+    
+    $arbreDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Arbre de Transmission" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $assistanceDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Assistance à la Conduite" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $boiteDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Vitesse" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $boiteAutoDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Vitesse Automatique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $boiteMecaDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Vitesse Mécanique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $boiteVaCoDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Vitesse à Variation Continue" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $transfertDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Boite de Transfert" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $climatisationDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Climatisation" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $demiDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Demi Arbre de Roue" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $directionDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Direction" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $electriciteDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Electricité et Electronique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $freinageDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Freinage" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $freinageElecDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Freinage Electromagnétique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $freinageHydDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Freinage Hydraulique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $freinagePneuDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Freinage Pneumatique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $hydrauliqueDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Hydraulique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $moteurDieselDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Moteur Diesel" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $moteurElecDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Moteur Electrique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $moteurEssenceDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Moteur Essence" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $moteurThermiqueDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Moteur Thermique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $multiplexageDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Multiplexage" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $pontDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Pont" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $pneuDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Pneumatique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $reducteurDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Reducteur" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $suspensionDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Suspension" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $suspensionLameDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Suspension à Lame" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $suspensionRessortDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Suspension Ressort" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $suspensionPneuDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Suspension Pneumatique" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    $transversaleDecla = $quizzes->findOne([
+        '$and' => [
+            [ 'speciality' => "Transversale" ],
+            [ 'type' => 'Declaratif' ],
+            [ 'level' => $level ],
+            [ 'active' => true ],
+        ],
+    ]);
+    
+    $user = $users->find([
+        '$and' => [
+            [ 'vehicle' => $label ],
+            [ 'brand' => $brand ],
+            [ 'active' => true ],
+        ],
+    ])->toArray();
+    
+    for ($i = 0; $i < count($user); $i++) {
+        if ($user[$i]->profile == 'Technicien'  || $user[$i]->profile == 'Manager (à évaluer)') {
+            array_push($userArr, $user[$i]->_id);
+            if ($user[$i]->level == 'Senior (Réparation)' || $user[$i]->level == 'Expert (Diagnostic)') {
+                array_push($userArrR, $user[$i]->_id);
+            }
+            if ($user[$i]->level == 'Expert (Diagnostic)') {
+                array_push($userArrD, $user[$i]->_id);
+            }
+        }
+    }
+    
+    if ($arbreDecla) {
+        array_push($quizBusD, $arbreDecla->_id);
+        array_push($quizCamD, $arbreDecla->_id);
+        array_push($quizCamTrckD, $arbreDecla->_id);
+        array_push($quizCamOD, $arbreDecla->_id);
+        array_push($quizEngD, $arbreDecla->_id);
+        array_push($quizVlD, $arbreDecla->_id);
+        array_push($quizVlsD, $arbreDecla->_id);
+    }
+    if ($assistanceDecla) {
+        array_push($quizCamD, $assistanceDecla->_id);
+        array_push($quizCamTrckD, $assistanceDecla->_id);
+        array_push($quizCamOD, $assistanceDecla->_id);
+        array_push($quizChaD, $assistanceDecla->_id);
+        array_push($quizChaBtD, $assistanceDecla->_id);
+        array_push($quizVlD, $assistanceDecla->_id);
+        array_push($quizVlsD, $assistanceDecla->_id);
+        array_push($quizEngD, $assistanceDecla->_id);
+        array_push($quizBusD, $assistanceDecla->_id);
+    }
+    if ($boiteDecla) {
+        array_push($quizBusD, $boiteDecla->_id);
+        array_push($quizCamD, $boiteDecla->_id);
+        array_push($quizCamTrckD, $boiteDecla->_id);
+        array_push($quizCamOD, $boiteDecla->_id);
+        array_push($quizVlD, $boiteDecla->_id);
+        array_push($quizVlsD, $boiteDecla->_id);
+        array_push($quizEngD, $boiteDecla->_id);
+        array_push($quizChaD, $boiteDecla->_id);
+        array_push($quizChaBtD, $boiteDecla->_id);
+    }
+    if ($boiteAutoDecla) {
+        array_push($quizVlD, $boiteAutoDecla->_id);
+        array_push($quizVlsD, $boiteAutoDecla->_id);
+    }
+    if ($boiteMecaDecla) {
+        array_push($quizBusD, $boiteMecaDecla->_id);
+        array_push($quizCamD, $boiteMecaDecla->_id);
+        array_push($quizCamTrckD, $boiteMecaDecla->_id);
+        array_push($quizCamOD, $boiteMecaDecla->_id);
+        array_push($quizVlD, $boiteMecaDecla->_id);
+        array_push($quizVlsD, $boiteMecaDecla->_id);
+        array_push($quizEngD, $boiteMecaDecla->_id);
+        array_push($quizChaD, $boiteMecaDecla->_id);
+    }
+    if ($boiteVaCoDecla) {
+        array_push($quizVlD, $boiteVaCoDecla->_id);
+        array_push($quizVlsD, $boiteVaCoDecla->_id);
+    }
+    if ($transfertDecla) {
+        array_push($quizBusD, $transfertDecla->_id);
+        array_push($quizCamD, $transfertDecla->_id);
+        array_push($quizCamTrckD, $transfertDecla->_id);
+        array_push($quizVlD, $transfertDecla->_id);
+        array_push($quizVlsD, $transfertDecla->_id);
+        array_push($quizEngD, $transfertDecla->_id);
+    }
+    if ($climatisationDecla) {
+        array_push($quizBusD, $climatisationDecla->_id);
+        array_push($quizCamD, $climatisationDecla->_id);
+        array_push($quizCamTrckD, $climatisationDecla->_id);
+        array_push($quizVlD, $climatisationDecla->_id);
+        array_push($quizVlsD, $climatisationDecla->_id);
+        array_push($quizEngD, $climatisationDecla->_id);
+        array_push($quizChaD, $climatisationDecla->_id);
+        array_push($quizChaBtD, $climatisationDecla->_id);
+    }
+    if ($demiDecla) {
+        array_push($quizBusD, $demiDecla->_id);
+        array_push($quizCamD, $demiDecla->_id);
+        array_push($quizCamTrckD, $demiDecla->_id);
+        array_push($quizCamOD, $demiDecla->_id);
+        array_push($quizVlD, $demiDecla->_id);
+        array_push($quizVlsD, $demiDecla->_id);
+        array_push($quizEngD, $demiDecla->_id);
+        array_push($quizChaD, $demiDecla->_id);
+    }
+    if ($directionDecla) {
+        array_push($quizBusD, $directionDecla->_id);
+        array_push($quizCamD, $directionDecla->_id);
+        array_push($quizCamTrckD, $directionDecla->_id);
+        array_push($quizCamOD, $directionDecla->_id);
+        array_push($quizVlD, $directionDecla->_id);
+        array_push($quizVlsD, $directionDecla->_id);
+        array_push($quizEngD, $directionDecla->_id);
+        array_push($quizChaD, $directionDecla->_id);
+        array_push($quizChaBtD, $directionDecla->_id);
+    }
+    if ($electriciteDecla) {
+        array_push($quizBusD, $electriciteDecla->_id);
+        array_push($quizCamD, $electriciteDecla->_id);
+        array_push($quizCamTrckD, $electriciteDecla->_id);
+        array_push($quizCamOD, $electriciteDecla->_id);
+        array_push($quizVlD, $electriciteDecla->_id);
+        array_push($quizVlsD, $electriciteDecla->_id);
+        array_push($quizEngD, $electriciteDecla->_id);
+        array_push($quizChaD, $electriciteDecla->_id);
+        array_push($quizChaBtD, $electriciteDecla->_id);
+    }
+    if ($freinageDecla) {
+        array_push($quizBusD, $freinageDecla->_id);
+        array_push($quizCamD, $freinageDecla->_id);
+        array_push($quizCamTrckD, $freinageDecla->_id);
+        array_push($quizCamOD, $freinageDecla->_id);
+        array_push($quizVlD, $freinageDecla->_id);
+        array_push($quizVlsD, $freinageDecla->_id);
+        array_push($quizEngD, $freinageDecla->_id);
+        array_push($quizChaD, $freinageDecla->_id);
+    }
+    if ($freinageElecDecla) {
+        array_push($quizChaBtD, $freinageElecDecla->_id);
+    }
+    if ($freinageHydDecla) {
+        array_push($quizVlD, $freinageHydDecla->_id);
+        array_push($quizVlsD, $freinageHydDecla->_id);
+        array_push($quizEngD, $freinageHydDecla->_id);
+        array_push($quizChaD, $freinageHydDecla->_id);
+        array_push($quizChaBtD, $freinageHydDecla->_id);
+    }
+    if ($freinagePneuDecla) {
+        array_push($quizBusD, $freinagePneuDecla->_id);
+        array_push($quizCamD, $freinagePneuDecla->_id);
+        array_push($quizCamTrckD, $freinagePneuDecla->_id);
+        array_push($quizCamOD, $freinagePneuDecla->_id);
+    }
+    if ($hydrauliqueDecla) {
+        array_push($quizEngD, $hydrauliqueDecla->_id);
+        array_push($quizChaD, $hydrauliqueDecla->_id);
+        array_push($quizChaBtD, $hydrauliqueDecla->_id);
+        array_push($quizCamD, $hydrauliqueDecla->_id);
+        array_push($quizCamTrckD, $hydrauliqueDecla->_id);
+    }
+    if ($moteurDieselDecla) {
+        array_push($quizBusD, $moteurDieselDecla->_id);
+        array_push($quizCamD, $moteurDieselDecla->_id);
+        array_push($quizCamTrckD, $moteurDieselDecla->_id);
+        array_push($quizCamOD, $moteurDieselDecla->_id);
+        array_push($quizVlD, $moteurDieselDecla->_id);
+        array_push($quizVlsD, $moteurDieselDecla->_id);
+        array_push($quizEngD, $moteurDieselDecla->_id);
+        array_push($quizChaD, $moteurDieselDecla->_id);
+        array_push($quizChaBtD, $moteurDieselDecla->_id);
+    }
+    if ($moteurElecDecla) {
+        array_push($quizVlD, $moteurElecDecla->_id);
+        array_push($quizVlsD, $moteurElecDecla->_id);
+        array_push($quizChaD, $moteurElecDecla->_id);
+        array_push($quizChaBtD, $moteurElecDecla->_id);
+    }
+    if ($moteurEssenceDecla) {
+        array_push($quizVlD, $moteurEssenceDecla->_id);
+        array_push($quizVlsD, $moteurEssenceDecla->_id);
+        array_push($quizChaD, $moteurEssenceDecla->_id);
+        array_push($quizChaBtD, $moteurEssenceDecla->_id);
+    }
+    if ($moteurThermiqueDecla) {
+        array_push($quizBusD, $moteurThermiqueDecla->_id);
+        array_push($quizCamD, $moteurThermiqueDecla->_id);
+        array_push($quizCamTrckD, $moteurThermiqueDecla->_id);
+        array_push($quizCamOD, $moteurThermiqueDecla->_id);
+        array_push($quizVlD, $moteurThermiqueDecla->_id);
+        array_push($quizVlsD, $moteurThermiqueDecla->_id);
+        array_push($quizEngD, $moteurThermiqueDecla->_id);
+        array_push($quizChaD, $moteurThermiqueDecla->_id);
+    }
+    if ($multiplexageDecla) {
+        array_push($quizBusD, $multiplexageDecla->_id);
+        array_push($quizCamD, $multiplexageDecla->_id);
+        array_push($quizCamTrckD, $multiplexageDecla->_id);
+        array_push($quizCamOD, $multiplexageDecla->_id);
+        array_push($quizVlD, $multiplexageDecla->_id);
+        array_push($quizVlsD, $multiplexageDecla->_id);
+        array_push($quizEngD, $multiplexageDecla->_id);
+        array_push($quizChaD, $multiplexageDecla->_id);
+        array_push($quizChaBtD, $multiplexageDecla->_id);
+    }
+    if ($pontDecla) {
+        array_push($quizBusD, $pontDecla->_id);
+        array_push($quizCamD, $pontDecla->_id);
+        array_push($quizCamTrckD, $pontDecla->_id);
+        array_push($quizCamOD, $pontDecla->_id);
+        array_push($quizVlD, $pontDecla->_id);
+        array_push($quizVlsD, $pontDecla->_id);
+        array_push($quizEngD, $pontDecla->_id);
+        array_push($quizChaD, $pontDecla->_id);
+
+    }
+    if ($pneuDecla) {
+        array_push($quizBusD, $pneuDecla->_id);
+        array_push($quizCamD, $pneuDecla->_id);
+        array_push($quizCamTrckD, $pneuDecla->_id);
+        array_push($quizCamOD, $pneuDecla->_id);
+        array_push($quizVlD, $pneuDecla->_id);
+        array_push($quizVlsD, $pneuDecla->_id);
+        array_push($quizEngD, $pneuDecla->_id);
+        array_push($quizChaD, $pneuDecla->_id);
+
+    }
+    if ($reducteurDecla) {
+        array_push($quizBusD, $reducteurDecla->_id);
+        array_push($quizCamD, $reducteurDecla->_id);
+        array_push($quizCamTrckD, $reducteurDecla->_id);
+        array_push($quizCamOD, $reducteurDecla->_id);
+        array_push($quizEngD, $reducteurDecla->_id);
+        array_push($quizChaD, $reducteurDecla->_id);
+        array_push($quizChaBtD, $reducteurDecla->_id);
+    }
+    if ($suspensionDecla) {
+        array_push($quizBusD, $suspensionDecla->_id);
+        array_push($quizCamD, $suspensionDecla->_id);
+        array_push($quizCamTrckD, $suspensionDecla->_id);
+        array_push($quizCamOD, $suspensionDecla->_id);
+        array_push($quizVlD, $suspensionDecla->_id);
+        array_push($quizVlsD, $suspensionDecla->_id);
+    }
+    if ($suspensionLameDecla) {
+        array_push($quizBusD, $suspensionLameDecla->_id);
+        array_push($quizCamD, $suspensionLameDecla->_id);
+        array_push($quizCamTrckD, $suspensionLameDecla->_id);
+        array_push($quizCamOD, $suspensionLameDecla->_id);
+        array_push($quizVlD, $suspensionLameDecla->_id);
+        array_push($quizVlsD, $suspensionLameDecla->_id);
+    }
+    if ($suspensionRessortDecla) {
+        array_push($quizVlD, $suspensionRessortDecla->_id);
+        array_push($quizVlsD, $suspensionRessortDecla->_id);
+    }
+    if ($suspensionPneuDecla) {
+        array_push($quizCamTrckD, $suspensionPneuDecla->_id);
+        array_push($quizVlD, $suspensionPneuDecla->_id);
+    }
+    if ($transversaleDecla) {
+        array_push($quizBusD, $transversaleDecla->_id);
+        array_push($quizCamD, $transversaleDecla->_id);
+        array_push($quizCamTrckD, $transversaleDecla->_id);
+        array_push($quizCamOD, $transversaleDecla->_id);
+        array_push($quizVlD, $transversaleDecla->_id);
+        array_push($quizVlsD, $transversaleDecla->_id);
+        array_push($quizEngD, $transversaleDecla->_id);
+        array_push($quizChaD, $transversaleDecla->_id);
+        array_push($quizChaBtD, $transversaleDecla->_id);
     }
     
     if ( empty( $label ) ||
-    empty( $type ) ||
     empty( $level ) ||
     empty( $brand ) ) {
         $error = 'Champ obligatoire';
@@ -554,1049 +1056,1345 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     } elseif ($label == "Bus")  {
 
         if ($level == 'Junior') {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizBus,
+                'quizzes' => $quizBusF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizBus),
+                'total' => count($quizBusF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizBusD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizBusD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior') {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizBus,
+                'quizzes' => $quizBusF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizBus),
+                'total' => count($quizBusF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizBusD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizBusD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert') {
-            $vehicle = [
-                'users' => $userArrM,
-                'quizzes' => $quizBus,
+            $vehicleFac = [
+                'users' => $userArrD,
+                'quizzes' => $quizBusF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Facteul',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizBus),
+                'total' => count($quizBusF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizBusD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizBusD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         }
     } elseif ($label == "Camions")  {
         if ($level == 'Junior' && $brand == "MERCEDES TRUCK" || $brand == "RENAULT TRUCK") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizCamTrck,
+                'quizzes' => $quizCamTrckF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCamTrck),
+                'total' => count($quizCamTrckF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizCamTrckD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamTrckD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Junior' && $brand == "FUSO" || $brand == "HINO") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizCamO,
+                'quizzes' => $quizCamOF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCamO),
+                'total' => count($quizCamOF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizCamOD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamOD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Junior' && $brand == "SINOTRUK") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizCam,
+                'quizzes' => $quizCamF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCam),
+                'total' => count($quizCamF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizCamD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior' && $brand == "MERCEDES TRUCK" || $brand == "RENAULT TRUCK") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizCamTrck,
+                'quizzes' => $quizCamTrckF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCamTrck),
+                'total' => count($quizCamTrckF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizCamTrckD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamTrckD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior' && $brand == "FUSO" || $brand == "HINO") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizCamO,
+                'quizzes' => $quizCamOF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCamO),
+                'total' => count($quizCamOF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizCamOD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamOD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior' && $brand == "SINOTRUK") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizCam,
+                'quizzes' => $quizCamF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCam),
+                'total' => count($quizCamF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizCamD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert' && $brand == "MERCEDES TRUCK" || $brand == "RENAULT TRUCK") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrD,
-                'quizzes' => $quizCamTrck,
+                'quizzes' => $quizCamTrckF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCamTrck),
+                'total' => count($quizCamTrckF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizCamTrckD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamTrckD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert' && $brand == "FUSO" || $brand == "HINO") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrD,
-                'quizzes' => $quizCamO,
+                'quizzes' => $quizCamOF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCamO),
+                'total' => count($quizCamOF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizCamOD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamOD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert' && $brand == "SINOTRUK") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrD,
-                'quizzes' => $quizCam,
+                'quizzes' => $quizCamF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCam),
+                'total' => count($quizCamF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizCamD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizCamD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         }
     } elseif ($label == "Chariots") {
 
         if ($level == 'Junior' && $brand == "TOYOTA BT") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizChaBt,
+                'quizzes' => $quizChaBtF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizChaBt),
+                'total' => count($quizChaBtF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizChaBtD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizChaBtD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Junior' && $brand == "TOYOTA FORFLIT") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizCha,
+                'quizzes' => $quizChaF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCha),
+                'total' => count($quizChaF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizChaD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizChaD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior' && $brand == "TOYOTA BT")  {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizChaBt,
+                'quizzes' => $quizChaBtF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizChaBt),
+                'total' => count($quizChaBtF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizChaBtD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizChaBtD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior' && $brand == "TOYOTA FORFLIT")  {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizCha,
+                'quizzes' => $quizChaF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCha),
+                'total' => count($quizChaF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizChaD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizChaD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert' && $brand == "TOYOTA BT")  {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrD,
-                'quizzes' => $quizChaBt,
+                'quizzes' => $quizChaBtF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' =>'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizChaBt),
+                'total' => count($quizChaBtF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizChaBtD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizChaBtD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert' && $brand == "TOYOTA FORFLIT")  {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrD,
-                'quizzes' => $quizCha,
+                'quizzes' => $quizChaF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizCha),
+                'total' => count($quizChaF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizChaD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizChaD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         }
     } elseif ($label == "Engins") {
 
         if ($level == 'Junior') {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizEng,
+                'quizzes' => $quizEngF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizEng),
+                'total' => count($quizEngF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizEngD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizEngD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior') {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizEng,
+                'quizzes' => $quizEngF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizEng),
+                'total' => count($quizEngF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizEngD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizEngD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert') {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizEng,
+                'quizzes' => $quizEngF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizEng),
+                'total' => count($quizEngF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
-            for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizEngD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizEngD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
+            for ($i = 0; $i < count($userArrR); $i++) {
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         }
     } elseif ($label == "Voitures") {
 
         if ($level == 'Junior' && $brand == "SUZUKI") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizVls,
+                'quizzes' => $quizVlsF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizVls),
+                'total' => count($quizVlsF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizVlsD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizVlsD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i]),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Junior' && $brand != "SUZUKI") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArr,
-                'quizzes' => $quizVl,
+                'quizzes' => $quizVlF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizVl),
+                'total' => count($quizVlF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArr,
+                'quizzes' => $quizVlD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizVlD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
     
             for ($i = 0; $i < count($userArr); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArr[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior' && $brand == "SUZUKI") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizVls,
+                'quizzes' => $quizVlsF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizVls),
+                'total' => count($quizVlsF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizVlsD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizVlsD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Senior' && $brand != "SUZUKI") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrR,
-                'quizzes' => $quizVl,
+                'quizzes' => $quizVlF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizVl),
+                'total' => count($quizVlF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrR,
+                'quizzes' => $quizVlD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizVlD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrR); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrR[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert' && $brand == "SUZUKI") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrD,
-                'quizzes' => $quizVls,
+                'quizzes' => $quizVlsF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizVls),
+                'total' => count($quizVlsF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizVlsD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizVlsD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         } elseif ($level == 'Expert' && $brand != "SUZUKI") {
-            $vehicle = [
+            $vehicleFac = [
                 'users' => $userArrD,
-                'quizzes' => $quizVl,
+                'quizzes' => $quizVlF,
                 'label' => ucfirst( $label ),
-                'type' => $type,
+                'type' => 'Factuel',
                 'brand' => $brand,
                 'level' => ucfirst( $level ),
-                'total' => count($quizVl),
+                'total' => count($quizVlF),
                 'active' => true,
                 'created' => date("d-m-Y")
             ];
-            $result = $vehicles->insertOne( $vehicle );
+            $resultFac = $vehicles->insertOne( $vehicleFac );
+            
+            $vehicleDecla = [
+                'users' => $userArrD,
+                'quizzes' => $quizVlD,
+                'label' => ucfirst( $label ),
+                'type' => 'Declaratif',
+                'brand' => $brand,
+                'level' => ucfirst( $level ),
+                'total' => count($quizVlD),
+                'active' => true,
+                'created' => date("d-m-Y")
+            ];
+            $resultDecla = $vehicles->insertOne( $vehicleDecla );
             for ($i = 0; $i < count($userArrD); $i++) {
-                if ($type == 'Factuel') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                } elseif ($type == 'Declaratif') {
-                    $allocates = [
-                        'vehicle' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ),
-                        'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
-                        'type' => $type,
-                        'level' => $level,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-Y"),
-                    ];
-                    $allocations->insertOne( $allocates );
-                }
+                $allocateFac = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultFac->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Factuel',
+                    'level' => $level,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateFac );
+
+                $allocateDecla = [
+                    'vehicle' => new MongoDB\BSON\ObjectId( $resultDecla->getInsertedId() ),
+                    'user' => new MongoDB\BSON\ObjectId( $userArrD[$i] ),
+                    'type' => 'Declaratif',
+                    'level' => $level,
+                    'activeManager' => false,
+                    'active' => false,
+                    'created' => date("d-m-Y"),
+                ];
+                $allocations->insertOne( $allocateDecla );
             }
             $success_msg = 'Véhicule ajouté avec succès';
         }
@@ -1680,39 +2478,6 @@ include_once 'partials/header.php'
                                 </option>
                                 <option value="Voitures">
                                     Voitures
-                                </option>
-                            </select>
-                            <!--end::Input-->
-                            <?php
-                     if(isset($error)) {
-                    ?>
-                            <span class='text-danger'>
-                                <?php echo $error ?>
-                            </span>
-                            <?php
-                    }
-                    ?>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="d-flex flex-column mb-7 fv-row">
-                            <!--begin::Label-->
-                            <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Type</span>
-                                </span>
-                            </label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <select name="type" aria-label="Select a Country" data-placeholder="Sélectionnez le type..."
-                                data-dropdown-parent="#kt_modal_add_customer"
-                                class="form-select form-select-solid fw-bold">
-                                <option value="">Sélectionnez le
-                                    type...</option>
-                                <option value="Factuel">
-                                    Factuel
-                                </option>
-                                <option value="Declaratif">
-                                    Declaratif
                                 </option>
                             </select>
                             <!--end::Input-->
