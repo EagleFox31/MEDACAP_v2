@@ -491,15 +491,16 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link 2" href="#"><span class="menu-icon"><i
+                                <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link 2" href="#"><span class="menu-icon"><i
                                                 class="ki-duotone ki-code fs-2"><span class="path1"></span><span
                                                     class="path2"></span><span class="path3"></span><span
                                                     class="path4"></span></i></span><span class="menu-title">Changelog
                                             <span
-                                                class="badge badge-changelog badge-light-success bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v0.0.1</span></span></a>
+                                                class="badge badge-changelog badge-light-success bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v0.0.1</span></span></a> -->
                                     <!--end:Menu link-->
-                                </div>
+                                <!-- </div> -->
                                 <!--end:Menu item-->
                         </div>
                     </div>
@@ -630,22 +631,23 @@
                                 <!--end:Menu item-->
                                 <?php } elseif ($_SESSION['profile'] == 'Technicien') { ?>
                                 <!--begin:Menu item-->
-                                <div class="menu-item pt-5">
+                                <!-- <div class="menu-item pt-5"> -->
                                     <!--begin:Menu content-->
-                                    <div class="menu-content"><span
+                                    <!-- <div class="menu-content"><span
                                             class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
-                                    </div>
+                                    </div> -->
                                     <!--end:Menu content-->
-                                </div>
+                                <!-- </div> -->
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
+                                <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link" href="./userResult.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Evaluations Réalisés</span></a>
+                                            Evaluations Réalisés</span></a> -->
                                     <!--end:Menu link-->
-                                </div>
+                                <!-- </div> -->
                                 <!--end:Menu item-->
                                 <?php } ?>
                                 <!--begin:Menu item-->
@@ -658,15 +660,16 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link 2" href="#"><span class="menu-icon"><i
+                                <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link 2" href="#"><span class="menu-icon"><i
                                                 class="ki-duotone ki-code fs-2"><span class="path1"></span><span
                                                     class="path2"></span><span class="path3"></span><span
                                                     class="path4"></span></i></span><span class="menu-title">Changelog
                                             <span
-                                                class="badge badge-changelog badge-light-success bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v1.0.0</span></span></a>
+                                                class="badge badge-changelog badge-light-success bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v1.0.0</span></span></a> -->
                                     <!--end:Menu link-->
-                                </div>
+                                <!-- </div> -->
                                 <!--end:Menu item-->
                         </div>
                     </div>

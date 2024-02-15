@@ -183,7 +183,9 @@ if (!isset($_SESSION['id'])) {
     
     if (isset($_POST['save'])) {
         $questionsTag = $_POST['questionsTag'];
-        $time = $_POST['time'];
+        $hr = $_POST['hr'];
+        $mn = $_POST['mn'];
+        $sc = $_POST['sc'];
         $questionsTags = [];
         $body = $_POST;
         // assuming POST method, you can replace it with $_GET if it's a GET method
@@ -428,7 +430,9 @@ if (!isset($_SESSION['id'])) {
                 'quizSuspensionRessort' => $suspensionRessortID,
                 'quizSuspensionPneumatique' => $suspensionPneumatiqueID,
                 'quizTransversale' => $transversaleID,
-                'time' => $time,
+                'hour' => $hr,
+                'minute' => $mn,
+                'second' => $sc,
                 'active' => true,
                 'created' => date('d-m-y')
             ];
@@ -2104,12 +2108,9 @@ include_once 'partials/header.php'; ?>
                                 </div>
                             </div>
                             <div class="timer" style="margin-top: -45px; margin-left: 400px">
-                                <div class="time_left_txt">Durée(heure et minute)</div>
-                                <div class="timer_sec" id="timer_sec" value="<?php echo $exam['time'] ?? "180"; ?>">
+                                <div class="time_left_txt">Durée estimée</div>
+                                <div class="timer_sec" id="timer_sec">
                                 </div>
-                            </div>
-                            <div style="margin-top: -45px; margin-left: 0px">
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
                             </div>
                         </center>
                         <div class="heading" style="margin-top: 10px;">
@@ -2130,7 +2131,9 @@ include_once 'partials/header.php'; ?>
                                 de pouvoir valider le questionnaire.
                             </p>
                         <input class="hidden" type="text" name="timer" id="clock" />
-                        <input class="hidden" type="text" name="time" id="clock1" />
+                        <input class="hidden" type="text" name="hr" id="hr" />
+                        <input class="hidden" type="text" name="mn" id="mn" />
+                        <input class="hidden" type="text" name="sc" id="sc" />
                         <div class="quiz-form__quiz" style="">
                             <?php if (isset($subVehicule)) {
                             ?>
@@ -2237,6 +2240,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2298,6 +2304,9 @@ include_once 'partials/header.php'; ?>
                                 ['active' => true],
                             ],
                         ]); ?>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreFac->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                             <p class="quiz-form__question fw-bold" id="question"
@@ -2339,6 +2348,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2447,6 +2459,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2550,6 +2565,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2653,6 +2671,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2756,6 +2777,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2864,6 +2888,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -2972,6 +2999,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3080,6 +3110,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3188,6 +3221,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3296,6 +3332,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3404,6 +3443,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3512,6 +3554,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3615,6 +3660,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3723,6 +3771,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3831,6 +3882,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -3939,6 +3993,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4047,6 +4104,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4155,6 +4215,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4263,6 +4326,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4366,6 +4432,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4470,6 +4539,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4578,6 +4650,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4686,6 +4761,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4794,6 +4872,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -4902,6 +4983,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5010,6 +5094,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                               } ?>
                             <?php
@@ -5118,6 +5205,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                              } ?>
                             <?php
@@ -5228,6 +5318,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5330,6 +5423,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5438,6 +5534,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5541,6 +5640,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5644,6 +5746,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5747,6 +5852,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5855,6 +5963,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -5963,6 +6074,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6071,6 +6185,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6179,6 +6296,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6287,6 +6407,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6395,6 +6518,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6503,6 +6629,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6606,6 +6735,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6714,6 +6846,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6822,6 +6957,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -6930,6 +7068,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7038,6 +7179,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7146,6 +7290,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7254,6 +7401,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7357,6 +7507,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7461,6 +7614,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7569,6 +7725,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7677,6 +7836,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7785,6 +7947,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -7893,6 +8058,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                     } ?>
                             <?php
@@ -8001,6 +8169,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                               } ?>
                             <?php
@@ -8109,6 +8280,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php
                              } ?>
                             <?php
@@ -8384,6 +8558,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php } elseif($exam['answers'][$i] == $question->proposal3) {
                             ?>
                             <label class="quiz-form__ans">
@@ -8422,6 +8599,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php } elseif($exam['answers'][$i] == $question->proposal4) {
                             ?>
                             <label class="quiz-form__ans">
@@ -8460,6 +8640,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php } elseif($exam['answers'][$i] != $question->proposal1 || $exam['answers'][$i] != $question->proposal2 || $exam['answers'][$i] != $question->proposal3 || $exam['answers'][$i] != $question->proposal4) { ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
@@ -8497,6 +8680,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php } } } else { ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
@@ -8534,6 +8720,9 @@ include_once 'partials/header.php'; ?>
                                     <?php echo $question->proposal4; ?>
                                 </span>
                             </label>
+                            <div >
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                            </div>
                             <?php } ?>
                             <?php } ?>
                             <?php } ?>
@@ -8552,32 +8741,42 @@ include_once 'partials/header.php'; ?>
 <!--end::Body-->
 
 <script>
-const startingMinutes = document
-    .getElementById("timer_sec")
-    .getAttribute("value");
-let time = startingMinutes * 60;
+let hr = <?php echo $exam['hour'] ?? "03"; ?>;
+let mn = <?php echo $exam['minute'] ?? "00"; ?>;
+let sc = <?php echo $exam['second'] ?? "00"; ?> ; 
+// const startingMinutes = document
+//     .getElementById("timer_sec")
+//     .getAttribute("value");
+let time = Number(hr) * 3600 + Number(mn) *60 + Number(sc);
 
 const countDown = document.getElementById("timer_sec");
 
 setInterval(updateCountDown, 1000);
 
 function updateCountDown() {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
+    let hour = Math.floor(time / 3600);
+    let minutes = Math.floor((time / 60) - (hour * 60));
+    let seconds = time - ((hour * 3600) + (minutes * 60));
     time--;
     if (time > 0) {
+        hour = hour < 10 ? "0" + hour : hour;
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
-        countDown.innerHTML = `${minutes}:${seconds}`;
-        document.getElementById("clock").value = `${minutes}:${seconds}`;
-        document.getElementById("clock1").value = `${minutes}`;
+        countDown.innerHTML = `${hour}:${minutes}:${seconds}`;
+        document.getElementById("clock").value = `${hour}:${minutes}:${seconds}`;
+        document.getElementById("hr").value = `${hour}`;
+        document.getElementById("mn").value = `${minutes}`;
+        document.getElementById("sc").value = `${seconds}`;
     } else if (time < 0) {
         clearInterval(updateCountDown);
+        hour = "00";
         minutes = "00";
         seconds = "00";
-        countDown.innerHTML = `${minutes}:${seconds}`;
-        document.getElementById("clock").value = `${minutes}:${seconds}`;
-        document.getElementById("clock1").value = `${minutes}`;
+        countDown.innerHTML = `${hour}:${minutes}:${seconds}`;
+        document.getElementById("clock").value = `${hour}:${minutes}:${seconds}`;
+        document.getElementById("hr").value = `${hour}`;
+        document.getElementById("mn").value = `${minutes}`;
+        document.getElementById("sc").value = `${seconds}`;
         // document.getElementById(".submit").addEventListener("click")
     }
 }
