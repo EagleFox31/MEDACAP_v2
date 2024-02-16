@@ -100,6 +100,7 @@ include('./partials/header.php')
 <!--end::Title-->
 <!--begin::Content-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+    <?php if ($_SESSION["profile"] == "Manager") {?>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -107,7 +108,7 @@ include('./partials/header.php')
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Tableau de bord
+                    Introduction
                 </h1>
                 <!--end::Title-->
             </div>
@@ -115,7 +116,6 @@ include('./partials/header.php')
         </div>
     </div>
     <!--end::Toolbar-->
-    <?php if ($_SESSION["profile"] == "Manager") {?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
@@ -727,6 +727,21 @@ include('./partials/header.php')
     <?php } ?>
     <?php } ?>
     <?php if ($_SESSION["profile"] == "Technicien") {?>
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
+                <!--begin::Title-->
+                <h1 class="text-dark fw-bold my-1 fs-2">
+                    Introduction
+                </h1>
+                <!--end::Title-->
+            </div>
+            <!--end::Info-->
+        </div>
+    </div>
+    <!--end::Toolbar-->
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
@@ -784,7 +799,7 @@ include('./partials/header.php')
                         <div class="card-header border-0 pt-5 pb-3">
                             <!--begin::Heading-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bolder text-gray-800 fs-2">Mes
+                                <span class="card-label fw-bolder text-gray-800 fs-2" id="questionnaires">Mes
                                     Questionnaires</span>
                             </h3>
                             <!--end::Heading-->
@@ -1147,6 +1162,21 @@ include('./partials/header.php')
     <!--end::Post-->
     <?php } ?>
     <?php if ($_SESSION["profile"] == "Super Admin" || $_SESSION["profile"] == "Admin") {?>
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
+                <!--begin::Title-->
+                <h1 class="text-dark fw-bold my-1 fs-2">
+                    Tableau de bord
+                </h1>
+                <!--end::Title-->
+            </div>
+            <!--end::Info-->
+        </div>
+    </div>
+    <!--end::Toolbar-->
     <!--begin::Content-->
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Post-->

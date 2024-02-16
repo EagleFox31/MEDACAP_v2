@@ -74,12 +74,12 @@
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
     <!-- Spinner Start -->
-    <div id="spinner"
+    <!-- <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Chargement...</span>
         </div>
-    </div>
+    </div> -->
     <!-- Spinner End -->
     <!--begin::Theme mode setup on page load-->
     <script>
@@ -551,7 +551,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Tableau de Bord</span></a>
+                                            </i></span><span class="menu-title">Introduction</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--begin:Menu item-->
@@ -630,25 +630,88 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <?php } elseif ($_SESSION['profile'] == 'Technicien') { ?>
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php') { ?>
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizDeclaratif.php?brand='.$_GET["brand"].'&vehicle='.$_GET["vehicle"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
                                 <!--begin:Menu item-->
-                                <!-- <div class="menu-item pt-5"> -->
+                                <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
-                                    <!-- <div class="menu-content"><span
+                                    <div class="menu-content"><span
                                             class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
-                                    </div> -->
+                                    </div>
                                     <!--end:Menu content-->
-                                <!-- </div> -->
+                                </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
+                                <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <!-- <a class="menu-link" href="./userResult.php"><span
+                                    <a class="menu-link" href="#questionnaires"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Evaluations Réalisés</span></a> -->
+                                            Questionnaires</span></a>
                                     <!--end:Menu link-->
-                                <!-- </div> -->
+                                </div>
                                 <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./userQuizFactuel.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoirs</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php } ?>
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizFactuel.php?brand='.$_GET["brand"].'&vehicle='.$_GET["vehicle"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="#questionnaires"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
+                                            Questionnaires</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./userQuizDeclaratif.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoir-Faire</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php } ?>
+                                <?php } else { ?>
+                                    <!--begin:Menu item-->
+                                    <div class="menu-item pt-5">
+                                        <!--begin:Menu content-->
+                                        <div class="menu-content"><span
+                                                class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
+                                        </div>
+                                        <!--end:Menu content-->
+                                    </div>
+                                    <!--end:Menu item-->
+                                    <!--begin:Menu item-->
+                                    <div class="menu-item">
+                                        <!--begin:Menu link-->
+                                        <a class="menu-link" href="#questionnaires"><span
+                                                class="menu-icon">
+                                                <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
+                                                Questionnaires</span></a>
+                                        <!--end:Menu link-->
+                                    </div>
+                                    <!--end:Menu item-->
+                                <?php } ?>
                                 <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
