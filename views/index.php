@@ -83,6 +83,14 @@ if (isset( $_POST[ 'login' ] )) {
             <a href="" class="navbar-brand p-0">
                 <img class="fa fa-map-marker-alt me-3" src="../public/images/logo.png" alt="Logo">
             </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                </div>
+                <a href="#connexion" class="btn btn-primary rounded-pill py-2 px-4">Connexion</a>
+            </div>
         </nav>
         <div class="container-fluid bg-primary py-5 mb-5 hero-header">
             <div class="container py-5">
@@ -126,7 +134,7 @@ if ( isset( $error_msg ) ) {
 ?>
 
     <!-- Contact Start -->
-    <div class="container-xxl py-5">
+    <div class="container-xxl py-5" id="connexion">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">

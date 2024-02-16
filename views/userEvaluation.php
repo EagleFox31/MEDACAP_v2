@@ -2124,12 +2124,8 @@ include_once 'partials/header.php'
                     </div>
                 </div>
                 <div class="timer" style="margin-top: -45px; margin-left: 400px">
-                    <div class="time_left_txt">Durée(heure et minute)</div>
                 <div class="time_left_txt">Durée estimée</div>
                 <div class="timer_sec" id="timer_sec"></div>
-                </div>
-                <div style="margin-top: -45px; margin-left: 0px">
-                    <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
             </center>
             <div class="heading" style="margin-top: 10px;">
