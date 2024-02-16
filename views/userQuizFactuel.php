@@ -2241,7 +2241,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -2305,7 +2305,7 @@ include_once 'partials/header.php'; ?>
                             ],
                         ]); ?>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreFac->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
@@ -2349,7 +2349,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -2460,7 +2460,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -2566,7 +2566,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -2672,7 +2672,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -2778,7 +2778,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -2889,7 +2889,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3000,7 +3000,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3111,7 +3111,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3222,7 +3222,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3333,7 +3333,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3444,7 +3444,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3555,7 +3555,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3661,7 +3661,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3772,7 +3772,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3883,7 +3883,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -3994,7 +3994,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4105,7 +4105,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4216,7 +4216,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4327,7 +4327,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4433,7 +4433,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4540,7 +4540,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4651,7 +4651,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4762,7 +4762,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4873,7 +4873,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -4984,7 +4984,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -5095,7 +5095,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                               } ?>
@@ -5206,7 +5206,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                              } ?>
@@ -5319,7 +5319,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -5424,7 +5424,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -5535,7 +5535,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -5641,7 +5641,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -5747,7 +5747,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -5853,7 +5853,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -5964,7 +5964,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6075,7 +6075,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6186,7 +6186,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6297,7 +6297,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6408,7 +6408,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6519,7 +6519,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6630,7 +6630,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6736,7 +6736,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6847,7 +6847,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -6958,7 +6958,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7069,7 +7069,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7180,7 +7180,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7291,7 +7291,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7402,7 +7402,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7508,7 +7508,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7615,7 +7615,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7726,7 +7726,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7837,7 +7837,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -7948,7 +7948,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -8059,7 +8059,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                     } ?>
@@ -8170,7 +8170,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                               } ?>
@@ -8281,7 +8281,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php
                              } ?>
@@ -8559,7 +8559,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php } elseif($exam['answers'][$i] == $question->proposal3) {
                             ?>
@@ -8600,7 +8600,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php } elseif($exam['answers'][$i] == $question->proposal4) {
                             ?>
@@ -8641,7 +8641,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php } elseif($exam['answers'][$i] != $question->proposal1 || $exam['answers'][$i] != $question->proposal2 || $exam['answers'][$i] != $question->proposal3 || $exam['answers'][$i] != $question->proposal4) { ?>
                             <label class="quiz-form__ans">
@@ -8681,7 +8681,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php } } } else { ?>
                             <label class="quiz-form__ans">
@@ -8721,7 +8721,7 @@ include_once 'partials/header.php'; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Enregistrer</button>
+                                <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
                             </div>
                             <?php } ?>
                             <?php } ?>
