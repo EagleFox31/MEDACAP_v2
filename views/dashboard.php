@@ -241,8 +241,14 @@ include('./partials/header.php')
                                                 'user' => new MongoDB\BSON\ObjectId($user->_id),
                                                 'vehicle' => new MongoDB\BSON\ObjectId($vehicle->_id),
                                             ]);
-
-                                            if ($verified->activeManager == false) {
+                                            $exam = $exams->findOne([
+                                                '$and' => [
+                                                    ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                    ["vehicle" => new MongoDB\BSON\ObjectId($allocate["vehicle"])],
+                                                    ['active' => true]
+                                                ]
+                                            ]);
+                                            if ($verified) {
                                     ?>
                                     <tr>
                                         <td class="p-0">
@@ -274,14 +280,34 @@ include('./partials/header.php')
                                             </span>
                                         </td>
                                         <?php if ($allocate->level == "Junior") { ?>
-                                        <td>
-                                            <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour ouvrir le questionnaire"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                A faire
-                                            </a>
-                                        </td>
+                                        <?php if ($exam) { ?>
+                                            <td>
+                                                <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    En cours
+                                                </a>
+                                            </td>
+                                        <?php } else { ?>
+                                            <?php if ($allocate->active == false) { ?>
+                                            <td>
+                                                <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    A faire
+                                                </a>
+                                            </td>
+                                            <?php } ?>
+                                            <?php if ($allocate->active == true) { ?>
+                                            <td>
+                                                <span class="badge badge-light-success fs-7 m-1">
+                                                    Effectué
+                                                </span>
+                                            </td>
+                                            <?php } ?>
+                                        <?php } ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -296,17 +322,37 @@ include('./partials/header.php')
                                         <?php if ($allocate->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                Effectué
                                             </span>
                                         </td>
-                                        <td>
-                                            <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour ouvrir le questionnaire"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                A faire
-                                            </a>
-                                        </td>
+                                        <?php if ($exam) { ?>
+                                            <td>
+                                                <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    En cours
+                                                </a>
+                                            </td>
+                                        <?php } else { ?>
+                                            <?php if ($allocate->active == false) { ?>
+                                            <td>
+                                                <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    A faire
+                                                </a>
+                                            </td>
+                                            <?php } ?>
+                                            <?php if ($allocate->active == true) { ?>
+                                            <td>
+                                                <span class="badge badge-light-success fs-7 m-1">
+                                                    Effectué
+                                                </span>
+                                            </td>
+                                            <?php } ?>
+                                        <?php } ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
@@ -316,22 +362,42 @@ include('./partials/header.php')
                                         <?php if ($allocate->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                Effectué
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                Effectué
                                             </span>
                                         </td>
-                                        <td>
-                                            <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour ouvrir le questionnaire"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                A faire
-                                            </a>
-                                        </td>
+                                        <?php if ($exam) { ?>
+                                            <td>
+                                                <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    En cours
+                                                </a>
+                                            </td>
+                                        <?php } else { ?>
+                                            <?php if ($allocate->active == false) { ?>
+                                            <td>
+                                                <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
+                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    A faire
+                                                </a>
+                                            </td>
+                                            <?php } ?>
+                                            <?php if ($allocate->active == true) { ?>
+                                            <td>
+                                                <span class="badge badge-light-success fs-7 m-1">
+                                                    Effectué
+                                                </span>
+                                            </td>
+                                            <?php } ?>
+                                        <?php } ?>
                                         <?php } ?>
                                     </tr>
                                     <?php } ?>
@@ -409,10 +475,11 @@ include('./partials/header.php')
                                                 '$and' => [
                                                     ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                     ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true]
                                                 ]
                                             ])
                                     ?>
-                                    <?php if ($test ) { ?>
+                                    <?php if ($test) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
@@ -566,10 +633,11 @@ include('./partials/header.php')
                                                 '$and' => [
                                                     ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                     ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true]
                                                 ]
                                             ])
                                     ?>
-                                    <?php if ($test ) { ?>
+                                    <?php if ($test) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>

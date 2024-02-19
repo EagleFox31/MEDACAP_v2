@@ -646,1682 +646,1702 @@ if (!isset($_SESSION['id'])) {
                 array_push($userAnswer, $proposals[$i]);
             }
         }
-
-        $score = 0;
-        $scoreAss = 0;
-        $scoreAr = 0;
-        $scoreBoi = 0;
-        $scoreBoiA = 0;
-        $scoreBoiM = 0;
-        $scoreBoT = 0;
-        $scoreBoV = 0;
-        $scoreClim = 0;
-        $scoreDir = 0;
-        $scoreDe = 0;
-        $scoreElec = 0;
-        $scoreMoD = 0;
-        $scoreMoEl = 0;
-        $scoreMoE = 0;
-        $scoreMoT = 0;
-        $scoreHyd = 0;
-        $scoreFrei = 0;
-        $scoreFreiE = 0;
-        $scoreFreiH = 0;
-        $scoreFreiP = 0;
-        $scoreMulti = 0;
-        $scorePont = 0;
-        $scorePneu = 0;
-        $scoreRe = 0;
-        $scoreSus = 0;
-        $scoreSusH = 0;
-        $scoreSusR = 0;
-        $scoreSusP = 0;
-        $scoreTran = 0;
-        $quizQuestion = [];
-        $quizQuestionAssistance = [];
-        $quizQuestionArbre = [];
-        $quizQuestionBoite = [];
-        $quizQuestionBoiteAuto = [];
-        $quizQuestionBoiteMan = [];
-        $quizQuestionBoiteVc = [];
-        $quizQuestionTransfert = [];
-        $quizQuestionClimatisation = [];
-        $quizQuestionDirection = [];
-        $quizQuestionDemi = [];
-        $quizQuestionElectricite = [];
-        $quizQuestionFrei = [];
-        $quizQuestionFreinage = [];
-        $quizQuestionFrein = [];
-        $quizQuestionFreinElec = [];
-        $quizQuestionHydraulique = [];
-        $quizQuestionMoteurDiesel = [];
-        $quizQuestionMoteurElec = [];
-        $quizQuestionMoteurEssence = [];
-        $quizQuestionMoteurThermique = [];
-        $quizQuestionMultiplexage = [];
-        $quizQuestionPont = [];
-        $quizQuestionPneu = [];
-        $quizQuestionReducteur = [];
-        $quizQuestionSuspension = [];
-        $quizQuestionSuspensionLame = [];
-        $quizQuestionSuspensionRessort = [];
-        $quizQuestionSuspensionPneumatique = [];
-        $quizQuestionTransversale = [];
-        $answers = [];
-        $answersAssistance = [];
-        $answersArbre = [];
-        $answersBoite = [];
-        $answersBoiteAuto = [];
-        $answersBoiteMan = [];
-        $answersBoiteVc = [];
-        $answersTransfert = [];
-        $answersClimatisation = [];
-        $answersDirection = [];
-        $answersDemi = [];
-        $answersElectricite = [];
-        $answersFrei = [];
-        $answersFreinElec = [];
-        $answersFreinage = [];
-        $answersFrein = [];
-        $answersHydraulique = [];
-        $answersMoteurDiesel = [];
-        $answersMoteurElec = [];
-        $answersMoteurEssence = [];
-        $answersMoteurThermique = [];
-        $answersMultiplexage = [];
-        $answersPont = [];
-        $answersPneu = [];
-        $answersReducteur = [];
-        $answersSuspension = [];
-        $answersSuspensionLame = [];
-        $answersSuspensionRessort = [];
-        $answersSuspensionPneumatique = [];
-        $answersTransversale = [];
-        $proposal = [];
-        $proposalAssistance = [];
-        $proposalArbre = [];
-        $proposalBoite = [];
-        $proposalBoiteAuto = [];
-        $proposalBoiteMan = [];
-        $proposalBoiteVc = [];
-        $proposalTransfert = [];
-        $proposalClimatisation = [];
-        $proposalDirection = [];
-        $proposalDemi = [];
-        $proposalElectricite = [];
-        $proposalFrei = [];
-        $proposalFreinElec = [];
-        $proposalFreinage = [];
-        $proposalFrein = [];
-        $proposalHydraulique = [];
-        $proposalMoteurDiesel = [];
-        $proposalMoteurElec = [];
-        $proposalMoteurEssence = [];
-        $proposalMoteurThermique = [];
-        $proposalMultiplexage = [];
-        $proposalPont = [];
-        $proposalPneu = [];
-        $proposalReducteur = [];
-        $proposalSuspension = [];
-        $proposalSuspensionLame = [];
-        $proposalSuspensionRessort = [];
-        $proposalSuspensionPneumatique = [];
-        $proposalTransversale = [];
-
-        if (isset($_POST['quizAssistance'])) {
-            $assistanceID = $_POST['quizAssistance'];
-            $quizAssistance = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($assistanceID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+        if (count($questionsTag) != count($userAnswer)) {
+            $error_msg = "Vous n'avez pas répondu à toutes les questions, Veuillez vérifier vos réponses.";
+        } else {
+            $score = 0;
+            $scoreAss = 0;
+            $scoreAr = 0;
+            $scoreBoi = 0;
+            $scoreBoiA = 0;
+            $scoreBoiM = 0;
+            $scoreBoT = 0;
+            $scoreBoV = 0;
+            $scoreClim = 0;
+            $scoreDir = 0;
+            $scoreDe = 0;
+            $scoreElec = 0;
+            $scoreMoD = 0;
+            $scoreMoEl = 0;
+            $scoreMoE = 0;
+            $scoreMoT = 0;
+            $scoreHyd = 0;
+            $scoreFrei = 0;
+            $scoreFreiE = 0;
+            $scoreFreiH = 0;
+            $scoreFreiP = 0;
+            $scoreMulti = 0;
+            $scorePont = 0;
+            $scorePneu = 0;
+            $scoreRe = 0;
+            $scoreSus = 0;
+            $scoreSusH = 0;
+            $scoreSusR = 0;
+            $scoreSusP = 0;
+            $scoreTran = 0;
+            $quizQuestion = [];
+            $quizQuestionAssistance = [];
+            $quizQuestionArbre = [];
+            $quizQuestionBoite = [];
+            $quizQuestionBoiteAuto = [];
+            $quizQuestionBoiteMan = [];
+            $quizQuestionBoiteVc = [];
+            $quizQuestionTransfert = [];
+            $quizQuestionClimatisation = [];
+            $quizQuestionDirection = [];
+            $quizQuestionDemi = [];
+            $quizQuestionElectricite = [];
+            $quizQuestionFrei = [];
+            $quizQuestionFreinage = [];
+            $quizQuestionFrein = [];
+            $quizQuestionFreinElec = [];
+            $quizQuestionHydraulique = [];
+            $quizQuestionMoteurDiesel = [];
+            $quizQuestionMoteurElec = [];
+            $quizQuestionMoteurEssence = [];
+            $quizQuestionMoteurThermique = [];
+            $quizQuestionMultiplexage = [];
+            $quizQuestionPont = [];
+            $quizQuestionPneu = [];
+            $quizQuestionReducteur = [];
+            $quizQuestionSuspension = [];
+            $quizQuestionSuspensionLame = [];
+            $quizQuestionSuspensionRessort = [];
+            $quizQuestionSuspensionPneumatique = [];
+            $quizQuestionTransversale = [];
+            $answers = [];
+            $answersAssistance = [];
+            $answersArbre = [];
+            $answersBoite = [];
+            $answersBoiteAuto = [];
+            $answersBoiteMan = [];
+            $answersBoiteVc = [];
+            $answersTransfert = [];
+            $answersClimatisation = [];
+            $answersDirection = [];
+            $answersDemi = [];
+            $answersElectricite = [];
+            $answersFrei = [];
+            $answersFreinElec = [];
+            $answersFreinage = [];
+            $answersFrein = [];
+            $answersHydraulique = [];
+            $answersMoteurDiesel = [];
+            $answersMoteurElec = [];
+            $answersMoteurEssence = [];
+            $answersMoteurThermique = [];
+            $answersMultiplexage = [];
+            $answersPont = [];
+            $answersPneu = [];
+            $answersReducteur = [];
+            $answersSuspension = [];
+            $answersSuspensionLame = [];
+            $answersSuspensionRessort = [];
+            $answersSuspensionPneumatique = [];
+            $answersTransversale = [];
+            $proposal = [];
+            $proposalAssistance = [];
+            $proposalArbre = [];
+            $proposalBoite = [];
+            $proposalBoiteAuto = [];
+            $proposalBoiteMan = [];
+            $proposalBoiteVc = [];
+            $proposalTransfert = [];
+            $proposalClimatisation = [];
+            $proposalDirection = [];
+            $proposalDemi = [];
+            $proposalElectricite = [];
+            $proposalFrei = [];
+            $proposalFreinElec = [];
+            $proposalFreinage = [];
+            $proposalFrein = [];
+            $proposalHydraulique = [];
+            $proposalMoteurDiesel = [];
+            $proposalMoteurElec = [];
+            $proposalMoteurEssence = [];
+            $proposalMoteurThermique = [];
+            $proposalMultiplexage = [];
+            $proposalPont = [];
+            $proposalPneu = [];
+            $proposalReducteur = [];
+            $proposalSuspension = [];
+            $proposalSuspensionLame = [];
+            $proposalSuspensionRessort = [];
+            $proposalSuspensionPneumatique = [];
+            $proposalTransversale = [];
+    
+            if (isset($_POST['quizAssistance'])) {
+                $assistanceID = $_POST['quizAssistance'];
+                $quizAssistance = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($assistanceID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Assistance à la Conduite') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreAss;
-                        $proposalAssistance = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreAss += 0;
-                        $proposalAssistance = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Assistance à la Conduite') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreAss;
+                            $proposalAssistance = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreAss += 0;
+                            $proposalAssistance = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersAssistance, $proposalAssistance);
+                        array_push($quizQuestionAssistance, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionAssistance,
+                            'answers' => $answersAssistance,
+                            'quiz' => new MongoDB\BSON\ObjectId($assistanceID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreAss,
+                            'speciality' => $quizAssistance->speciality,
+                            'level' => $level,
+                            'type' => $quizAssistance->type,
+                            'total' => count($quizQuestionAssistance),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
                     }
-                    array_push($answersAssistance, $proposalAssistance);
-                    array_push($quizQuestionAssistance, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionAssistance,
-                        'answers' => $answersAssistance,
-                        'quiz' => new MongoDB\BSON\ObjectId($assistanceID),
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizArbre'])) {
+                $arbreID = $_POST['quizArbre'];
+                $quizArbre = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($arbreID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+                    if ($questionsData->speciality == 'Arbre de Transmission') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreAr;
+                            $proposalArbre = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreAr += 0;
+                            $proposalArbre = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersArbre, $proposalArbre);
+                        array_push($quizQuestionArbre, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionArbre,
+                            'answers' => $answersArbre,
+                            'quiz' => new MongoDB\BSON\ObjectId($arbreID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreAr,
+                            'speciality' => $quizArbre->speciality,
+                            'level' => $level,
+                            'type' => $quizArbre->type,
+                            'total' => count($quizQuestionArbre),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
+                    }
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizTransfert'])) {
+                $transfertID = $_POST['quizTransfert'];
+                $quizTransfert = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($transfertID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Boite de Transfert') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreBoT;
+                            $proposalTransfert = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreBoT += 0;
+                            $proposalTransfert = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersTransfert, $proposalTransfert);
+                        array_push($quizQuestionTransfert, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionTransfert,
+                            'answers' => $answersTransfert,
+                            'quiz' => new MongoDB\BSON\ObjectId($transfertID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreBoT,
+                            'speciality' => $quizTransfert->speciality,
+                            'level' => $level,
+                            'type' => $quizTransfert->type,
+                            'total' => count($quizQuestionTransfert),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
+                    }
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizBoite'])) {
+                $boiteID = $_POST['quizBoite'];
+                $quizBoite = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($boiteID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Boite de Vitesse') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreBoi;
+                            $proposalBoite = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreBoi += 0;
+                            $proposalBoite = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersBoite, $proposalBoite);
+                        array_push($quizQuestionBoite, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionBoite,
+                            'answers' => $answersBoite,
+                            'quiz' => new MongoDB\BSON\ObjectId($boiteID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreBoi,
+                            'speciality' => $quizBoite->speciality,
+                            'level' => $level,
+                            'type' => $quizBoite->type,
+                            'total' => count($quizQuestionBoite),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
+                    }
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizBoiteAuto'])) {
+                $boiteAutoID = $_POST['quizBoiteAuto'];
+                $quizBoiteAuto = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($boiteAutoID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Boite de Vitesse Automatique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreBoiA;
+                            $proposalBoiteAuto = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreBoiA += 0;
+                            $proposalBoiteAuto = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersBoiteAuto, $proposalBoiteAuto);
+                        array_push($quizQuestionBoiteAuto, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionBoiteAuto,
+                            'answers' => $answersBoiteAuto,
+                            'quiz' => new MongoDB\BSON\ObjectId($boiteAutoID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreBoiA,
+                            'speciality' => $quizBoiteAuto->speciality,
+                            'level' => $level,
+                            'type' => $quizBoiteAuto->type,
+                            'total' => count($quizQuestionBoiteAuto),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
+                    }
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizBoiteMan'])) {
+                $boiteManID = $_POST['quizBoiteMan'];
+                $quizBoiteMan = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($boiteManID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Boite de Vitesse Mécanique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreBoiM;
+                            $proposalBoiteMan = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreBoiM += 0;
+                            $proposalBoiteMan = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersBoiteMan, $proposalBoiteMan);
+                        array_push($quizQuestionBoiteMan, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionBoiteMan,
+                            'answers' => $answersBoiteMan,
+                            'quiz' => new MongoDB\BSON\ObjectId($boiteManID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreBoiM,
+                            'speciality' => $quizBoiteMan->speciality,
+                            'level' => $level,
+                            'type' => $quizBoiteMan->type,
+                            'total' => count($quizQuestionBoiteMan),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
+                    }
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizBoiteVc'])) {
+                $boiteVcID = $_POST['quizBoiteVc'];
+                $quizBoiteVc = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($boiteVcID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Boite de Vitesse Mécanique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreBoiV;
+                            $proposalBoiteVc = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreBoiV += 0;
+                            $proposalBoiteVc = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersBoiteVc, $proposalBoiteVc);
+                        array_push($quizQuestionBoiteVc, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionBoiteVc,
+                            'answers' => $answersBoiteVc,
+                            'quiz' => new MongoDB\BSON\ObjectId($boiteVcID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreBoiV,
+                            'speciality' => $quizBoiteVc->speciality,
+                            'level' => $level,
+                            'type' => $quizBoiteVc->type,
+                            'total' => count($quizQuestionBoiteVc),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
+                    }
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizClimatisation'])) {
+                $climatisationID = $_POST['quizClimatisation'];
+                $quizClimatisation = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($climatisationID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Climatisation') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreClim;
+                            $proposalClimatisation = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreClim += 0;
+                            $proposalClimatisation = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersClimatisation, $proposalClimatisation);
+                        array_push($quizQuestionClimatisation, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                            'questions' => $quizQuestionClimatisation,
+                            'answers' => $answersClimatisation,
+                            'quiz' => new MongoDB\BSON\ObjectId($climatisationID),
+                            'user' => new MongoDB\BSON\ObjectId($id),
+                            'score' => $scoreClim,
+                            'speciality' => $quizClimatisation->speciality,
+                            'level' => $level,
+                            'type' => $quizClimatisation->type,
+                            'total' => count($quizQuestionClimatisation),
+                            'time' => $time,
+                            'active' => true,
+                            'created' => date('d-m-y'),
+                        ];
+                    }
+                }
+                $insertedResult = $results->insertOne($newResult);
+            }
+            if (isset($_POST['quizDirection'])) {
+                $directionID = $_POST['quizDirection'];
+                $quizDirection = $quizzes->findOne([
+                    '$and' => [
+                        ['_id' => new MongoDB\BSON\ObjectId($directionID)],
+                        ['active' => true],
+                    ],
+                ]);
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Direction') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreDir;
+                            $proposalDirection = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreDir += 0;
+                            $proposalDirection = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersDirection, $proposalDirection);
+                        array_push($quizQuestionDirection, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionDirection,
+                        'answers' => $answersDirection,
+                        'quiz' => new MongoDB\BSON\ObjectId($directionID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreAss,
-                        'speciality' => $quizAssistance->speciality,
+                        'score' => $scoreDir,
+                        'speciality' => $quizDirection->speciality,
                         'level' => $level,
-                        'type' => $quizAssistance->type,
-                        'total' => count($quizQuestionAssistance),
+                        'type' => $quizDirection->type,
+                        'total' => count($quizQuestionDirection),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizArbre'])) {
-            $arbreID = $_POST['quizArbre'];
-            $quizArbre = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($arbreID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizDemi'])) {
+                $demiID = $_POST['quizDemi'];
+                $quizDemi = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($demiID)],
                         ['active' => true],
                     ],
                 ]);
-                if ($questionsData->speciality == 'Arbre de Transmission') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreAr;
-                        $proposalArbre = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreAr += 0;
-                        $proposalArbre = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersArbre, $proposalArbre);
-                    array_push($quizQuestionArbre, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionArbre,
-                        'answers' => $answersArbre,
-                        'quiz' => new MongoDB\BSON\ObjectId($arbreID),
+    
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Demi') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreDe;
+                            $proposalDemi = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreDir += 0;
+                            $proposalDemi = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersDemi, $proposalDemi);
+                        array_push($quizQuestionDemi, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionDemi,
+                        'answers' => $answersDemi,
+                        'quiz' => new MongoDB\BSON\ObjectId($demiID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreAr,
-                        'speciality' => $quizArbre->speciality,
+                        'score' => $scoreDe,
+                        'speciality' => $quizDemi->speciality,
                         'level' => $level,
-                        'type' => $quizArbre->type,
-                        'total' => count($quizQuestionArbre),
+                        'type' => $quizDemi->type,
+                        'total' => count($quizQuestionDemi),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizTransfert'])) {
-            $transfertID = $_POST['quizTransfert'];
-            $quizTransfert = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($transfertID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizElectricite'])) {
+                $electriciteID = $_POST['quizElectricite'];
+                $quizElectricite = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($electriciteID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Boite de Transfert') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreBoT;
-                        $proposalTransfert = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreBoT += 0;
-                        $proposalTransfert = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersTransfert, $proposalTransfert);
-                    array_push($quizQuestionTransfert, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionTransfert,
-                        'answers' => $answersTransfert,
-                        'quiz' => new MongoDB\BSON\ObjectId($transfertID),
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Electricité et Electronique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreElec;
+                            $proposalElectricite = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreElec += 0;
+                            $proposalElectricite = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersElectricite, $proposalElectricite);
+                        array_push($quizQuestionElectricite, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionElectricite,
+                        'answers' => $answersElectricite,
+                        'quiz' => new MongoDB\BSON\ObjectId($electriciteID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreBoT,
-                        'speciality' => $quizTransfert->speciality,
+                        'score' => $scoreElec,
+                        'speciality' => $quizElectricite->speciality,
                         'level' => $level,
-                        'type' => $quizTransfert->type,
-                        'total' => count($quizQuestionTransfert),
+                        'type' => $quizElectricite->type,
+                        'total' => count($quizQuestionElectricite),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizBoite'])) {
-            $boiteID = $_POST['quizBoite'];
-            $quizBoite = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($boiteID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizFrei'])) {
+                $freiID = $_POST['quizFrei'];
+                $quizFrei = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($freiID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Boite de Vitesse') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreBoi;
-                        $proposalBoite = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreBoi += 0;
-                        $proposalBoite = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersBoite, $proposalBoite);
-                    array_push($quizQuestionBoite, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionBoite,
-                        'answers' => $answersBoite,
-                        'quiz' => new MongoDB\BSON\ObjectId($boiteID),
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Freinage') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreFrei;
+                            $proposalFrei = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreFrei += 0;
+                            $proposalFrei = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersFrei, $proposalFrei);
+                        array_push($quizQuestionFrei, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionFrei,
+                        'answers' => $answersFrei,
+                        'quiz' => new MongoDB\BSON\ObjectId($freiID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreBoi,
-                        'speciality' => $quizBoite->speciality,
+                        'score' => $scoreFrei,
+                        'speciality' => $quizFrei->speciality,
                         'level' => $level,
-                        'type' => $quizBoite->type,
-                        'total' => count($quizQuestionBoite),
+                        'type' => $quizFrei->type,
+                        'total' => count($quizQuestionFrei),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizBoiteAuto'])) {
-            $boiteAutoID = $_POST['quizBoiteAuto'];
-            $quizBoiteAuto = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($boiteAutoID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizFreinageElec'])) {
+                $freinageElecID = $_POST['quizFreinageElec'];
+                $quizFreinageElec = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($freinageElecID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Boite de Vitesse Automatique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreBoiA;
-                        $proposalBoiteAuto = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreBoiA += 0;
-                        $proposalBoiteAuto = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersBoiteAuto, $proposalBoiteAuto);
-                    array_push($quizQuestionBoiteAuto, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionBoiteAuto,
-                        'answers' => $answersBoiteAuto,
-                        'quiz' => new MongoDB\BSON\ObjectId($boiteAutoID),
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Freinage Electromagnétique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreFreiE;
+                            $proposalFreinageElec = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreFreiH += 0;
+                            $proposalFreinageElec = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersFreinageElec, $proposalFreinageElec);
+                        array_push($quizQuestionFreinageElec, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionFreinageElec,
+                        'answers' => $answersFreinageElec,
+                        'quiz' => new MongoDB\BSON\ObjectId($FreinageElecID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreBoiA,
-                        'speciality' => $quizBoiteAuto->speciality,
+                        'score' => $scoreFreiE,
+                        'speciality' => $quizFreinageElec->speciality,
                         'level' => $level,
-                        'type' => $quizBoiteAuto->type,
-                        'total' => count($quizQuestionBoiteAuto),
+                        'type' => $quizFreinageElec->type,
+                        'total' => count($quizQuestionFreinageElec),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizBoiteMan'])) {
-            $boiteManID = $_POST['quizBoiteMan'];
-            $quizBoiteMan = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($boiteManID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizFreinage'])) {
+                $freinageID = $_POST['quizFreinage'];
+                $quizFreinage = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($freinageID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Boite de Vitesse Mécanique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreBoiM;
-                        $proposalBoiteMan = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreBoiM += 0;
-                        $proposalBoiteMan = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersBoiteMan, $proposalBoiteMan);
-                    array_push($quizQuestionBoiteMan, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionBoiteMan,
-                        'answers' => $answersBoiteMan,
-                        'quiz' => new MongoDB\BSON\ObjectId($boiteManID),
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Freinage Hydraulique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreFreiH;
+                            $proposalFreinage = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreFreiH += 0;
+                            $proposalFreinage = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersFreinage, $proposalFreinage);
+                        array_push($quizQuestionFreinage, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionFreinage,
+                        'answers' => $answersFreinage,
+                        'quiz' => new MongoDB\BSON\ObjectId($freinageID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreBoiM,
-                        'speciality' => $quizBoiteMan->speciality,
+                        'score' => $scoreFreiH,
+                        'speciality' => $quizFreinage->speciality,
                         'level' => $level,
-                        'type' => $quizBoiteMan->type,
-                        'total' => count($quizQuestionBoiteMan),
+                        'type' => $quizFreinage->type,
+                        'total' => count($quizQuestionFreinage),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizBoiteVc'])) {
-            $boiteVcID = $_POST['quizBoiteVc'];
-            $quizBoiteVc = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($boiteVcID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizFrein'])) {
+                $freinID = $_POST['quizFrein'];
+                $quizFrein = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($freinID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Boite de Vitesse Mécanique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreBoiV;
-                        $proposalBoiteVc = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreBoiV += 0;
-                        $proposalBoiteVc = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersBoiteVc, $proposalBoiteVc);
-                    array_push($quizQuestionBoiteVc, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionBoiteVc,
-                        'answers' => $answersBoiteVc,
-                        'quiz' => new MongoDB\BSON\ObjectId($boiteVcID),
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Freinage Pneumatique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreFreiP;
+                            $proposalFrein = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreFreiP += 0;
+                            $proposalFrein = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersFrein, $proposalFrein);
+                        array_push($quizQuestionFrein, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionFrein,
+                        'answers' => $answersFrein,
+                        'quiz' => new MongoDB\BSON\ObjectId($freinID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreBoiV,
-                        'speciality' => $quizBoiteVc->speciality,
+                        'score' => $scoreFreiP,
+                        'speciality' => $quizFrein->speciality,
                         'level' => $level,
-                        'type' => $quizBoiteVc->type,
-                        'total' => count($quizQuestionBoiteVc),
+                        'type' => $quizFrein->type,
+                        'total' => count($quizQuestionFrein),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizClimatisation'])) {
-            $climatisationID = $_POST['quizClimatisation'];
-            $quizClimatisation = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($climatisationID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizHydraulique'])) {
+                $hydrauliqueID = $_POST['quizHydraulique'];
+                $quizHydraulique = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($hydrauliqueID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Climatisation') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreClim;
-                        $proposalClimatisation = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreClim += 0;
-                        $proposalClimatisation = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersClimatisation, $proposalClimatisation);
-                    array_push($quizQuestionClimatisation, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                        'questions' => $quizQuestionClimatisation,
-                        'answers' => $answersClimatisation,
-                        'quiz' => new MongoDB\BSON\ObjectId($climatisationID),
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Hydraulique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreHyd;
+                            $proposalHydraulique = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreHyd += 0;
+                            $proposalHydraulique = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersHydraulique, $proposalHydraulique);
+                        array_push($quizQuestionHydraulique, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionHydraulique,
+                        'answers' => $answersHydraulique,
+                        'quiz' => new MongoDB\BSON\ObjectId($hydrauliqueID),
                         'user' => new MongoDB\BSON\ObjectId($id),
-                        'score' => $scoreClim,
-                        'speciality' => $quizClimatisation->speciality,
+                        'score' => $scoreHyd,
+                        'speciality' => $quizHydraulique->speciality,
                         'level' => $level,
-                        'type' => $quizClimatisation->type,
-                        'total' => count($quizQuestionClimatisation),
+                        'type' => $quizHydraulique->type,
+                        'total' => count($quizQuestionHydraulique),
                         'time' => $time,
                         'active' => true,
                         'created' => date('d-m-y'),
                     ];
+                    }
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizDirection'])) {
-            $directionID = $_POST['quizDirection'];
-            $quizDirection = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($directionID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizMoteurDiesel'])) {
+                $moteurDieselID = $_POST['quizMoteurDiesel'];
+                $quizMoteurDiesel = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($moteurDieselID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Direction') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreDir;
-                        $proposalDirection = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreDir += 0;
-                        $proposalDirection = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Moteur Diesel') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreMoD;
+                            $proposalMoteurDiesel = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreMoD += 0;
+                            $proposalMoteurDiesel = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersMoteurDiesel, $proposalMoteurDiesel);
+                        array_push($quizQuestionMoteurDiesel, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionMoteurDiesel,
+                        'answers' => $answersMoteurDiesel,
+                        'quiz' => new MongoDB\BSON\ObjectId($moteurDieselID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMoD,
+                        'speciality' => $quizMoteurDiesel->speciality,
+                        'level' => $level,
+                        'type' => $quizMoteurDiesel->type,
+                        'total' => count($quizQuestionMoteurDiesel),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersDirection, $proposalDirection);
-                    array_push($quizQuestionDirection, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionDirection,
-                    'answers' => $answersDirection,
-                    'quiz' => new MongoDB\BSON\ObjectId($directionID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreDir,
-                    'speciality' => $quizDirection->speciality,
-                    'level' => $level,
-                    'type' => $quizDirection->type,
-                    'total' => count($quizQuestionDirection),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizDemi'])) {
-            $demiID = $_POST['quizDemi'];
-            $quizDemi = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($demiID)],
-                    ['active' => true],
-                ],
-            ]);
-
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizMoteurElec'])) {
+                $moteurElecID = $_POST['quizMoteurElec'];
+                $quizMoteurElec = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($moteurElecID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Demi') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreDe;
-                        $proposalDemi = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreDir += 0;
-                        $proposalDemi = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Moteur Electrique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreMoEl;
+                            $proposalMoteurElec = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreMoEl += 0;
+                            $proposalMoteurElec = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersMoteurElec, $proposalMoteurElec);
+                        array_push($quizQuestionMoteurElec, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionMoteurElec,
+                        'answers' => $answersMoteurElec,
+                        'quiz' => new MongoDB\BSON\ObjectId($moteurElecID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMoEl,
+                        'speciality' => $quizMoteurElec->speciality,
+                        'level' => $level,
+                        'type' => $quizMoteurElec->type,
+                        'total' => count($quizQuestionMoteurElec),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersDemi, $proposalDemi);
-                    array_push($quizQuestionDemi, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionDemi,
-                    'answers' => $answersDemi,
-                    'quiz' => new MongoDB\BSON\ObjectId($demiID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreDe,
-                    'speciality' => $quizDemi->speciality,
-                    'level' => $level,
-                    'type' => $quizDemi->type,
-                    'total' => count($quizQuestionDemi),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizElectricite'])) {
-            $electriciteID = $_POST['quizElectricite'];
-            $quizElectricite = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($electriciteID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizMoteurEssence'])) {
+                $moteurEssenceID = $_POST['quizMoteurEssence'];
+                $quizMoteurEssence = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($moteurEssenceID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Electricité et Electronique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreElec;
-                        $proposalElectricite = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreElec += 0;
-                        $proposalElectricite = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Moteur Essence') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreMoE;
+                            $proposalMoteurEssence = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreMoE += 0;
+                            $proposalMoteurEssence = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersMoteurEssence, $proposalMoteurEssence);
+                        array_push($quizQuestionMoteurEssence, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionMoteurEssence,
+                        'answers' => $answersMoteurEssence,
+                        'quiz' => new MongoDB\BSON\ObjectId($moteurEssenceID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMoE,
+                        'speciality' => $quizMoteurEssence->speciality,
+                        'level' => $level,
+                        'type' => $quizMoteurEssence->type,
+                        'total' => count($quizQuestionMoteurEssence),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersElectricite, $proposalElectricite);
-                    array_push($quizQuestionElectricite, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionElectricite,
-                    'answers' => $answersElectricite,
-                    'quiz' => new MongoDB\BSON\ObjectId($electriciteID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreElec,
-                    'speciality' => $quizElectricite->speciality,
-                    'level' => $level,
-                    'type' => $quizElectricite->type,
-                    'total' => count($quizQuestionElectricite),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizFrei'])) {
-            $freiID = $_POST['quizFrei'];
-            $quizFrei = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($freiID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizMoteur'])) {
+                $moteurThermiqueID = $_POST['quizMoteur'];
+                $quizMoteurThermique = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($moteurThermiqueID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Freinage') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreFrei;
-                        $proposalFrei = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreFrei += 0;
-                        $proposalFrei = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Moteur Thermique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreMoT;
+                            $proposalMoteurThermique = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreMoE += 0;
+                            $proposalMoteurThermique = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersMoteurThermique, $proposalMoteurThermique);
+                        array_push($quizQuestionMoteurThermique, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionMoteurThermique,
+                        'answers' => $answersMoteurThermique,
+                        'quiz' => new MongoDB\BSON\ObjectId($moteurThermiqueID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMoT,
+                        'speciality' => $quizMoteurThermique->speciality,
+                        'level' => $level,
+                        'type' => $quizMoteurThermique->type,
+                        'total' => count($quizQuestionMoteurThermique),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersFrei, $proposalFrei);
-                    array_push($quizQuestionFrei, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionFrei,
-                    'answers' => $answersFrei,
-                    'quiz' => new MongoDB\BSON\ObjectId($freiID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreFrei,
-                    'speciality' => $quizFrei->speciality,
-                    'level' => $level,
-                    'type' => $quizFrei->type,
-                    'total' => count($quizQuestionFrei),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizFreinageElec'])) {
-            $freinageElecID = $_POST['quizFreinageElec'];
-            $quizFreinageElec = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($freinageElecID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizMultiplexage'])) {
+                $multiplexageID = $_POST['quizMultiplexage'];
+                $quizMultiplexage = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($multiplexageID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Freinage Electromagnétique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreFreiE;
-                        $proposalFreinageElec = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreFreiH += 0;
-                        $proposalFreinageElec = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Multiplexage') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreMulti;
+                            $proposalMultiplexage = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreMulti += 0;
+                            $proposalMultiplexage = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersMultiplexage, $proposalMultiplexage);
+                        array_push($quizQuestionMultiplexage, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionMultiplexage,
+                        'answers' => $answersMultiplexage,
+                        'quiz' => new MongoDB\BSON\ObjectId($multiplexageID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreMulti,
+                        'speciality' => $quizMultiplexage->speciality,
+                        'level' => $level,
+                        'type' => $quizMultiplexage->type,
+                        'total' => count($quizQuestionMultiplexage),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersFreinageElec, $proposalFreinageElec);
-                    array_push($quizQuestionFreinageElec, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionFreinageElec,
-                    'answers' => $answersFreinageElec,
-                    'quiz' => new MongoDB\BSON\ObjectId($FreinageElecID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreFreiE,
-                    'speciality' => $quizFreinageElec->speciality,
-                    'level' => $level,
-                    'type' => $quizFreinageElec->type,
-                    'total' => count($quizQuestionFreinageElec),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizFreinage'])) {
-            $freinageID = $_POST['quizFreinage'];
-            $quizFreinage = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($freinageID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizPont'])) {
+                $pontID = $_POST['quizPont'];
+                $quizPont = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($pontID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Freinage Hydraulique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreFreiH;
-                        $proposalFreinage = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreFreiH += 0;
-                        $proposalFreinage = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Pont') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scorePont;
+                            $proposalPont = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scorePont += 0;
+                            $proposalPont = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersPont, $proposalPont);
+                        array_push($quizQuestionPont, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionPont,
+                        'answers' => $answersPont,
+                        'quiz' => new MongoDB\BSON\ObjectId($pontID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scorePont,
+                        'speciality' => $quizPont->speciality,
+                        'level' => $level,
+                        'type' => $quizPont->type,
+                        'total' => count($quizQuestionPont),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersFreinage, $proposalFreinage);
-                    array_push($quizQuestionFreinage, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionFreinage,
-                    'answers' => $answersFreinage,
-                    'quiz' => new MongoDB\BSON\ObjectId($freinageID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreFreiH,
-                    'speciality' => $quizFreinage->speciality,
-                    'level' => $level,
-                    'type' => $quizFreinage->type,
-                    'total' => count($quizQuestionFreinage),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizFrein'])) {
-            $freinID = $_POST['quizFrein'];
-            $quizFrein = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($freinID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizPneumatique'])) {
+                $pneumatiqueID = $_POST['quizPneumatique'];
+                $quizPneumatique = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($pneumatiqueID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Freinage Pneumatique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreFreiP;
-                        $proposalFrein = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreFreiP += 0;
-                        $proposalFrein = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Pneumatique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scorePneu;
+                            $proposalPneu = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scorePneu += 0;
+                            $proposalPneu = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersPneu, $proposalPneu);
+                        array_push($quizQuestionPneu, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionPneu,
+                        'answers' => $answersPneu,
+                        'quiz' => new MongoDB\BSON\ObjectId($pneumatiqueID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scorePneu,
+                        'speciality' => $quizPneumatique->speciality,
+                        'level' => $level,
+                        'type' => $quizPneumatique->type,
+                        'total' => count($quizQuestionPneu),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersFrein, $proposalFrein);
-                    array_push($quizQuestionFrein, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionFrein,
-                    'answers' => $answersFrein,
-                    'quiz' => new MongoDB\BSON\ObjectId($freinID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreFreiP,
-                    'speciality' => $quizFrein->speciality,
-                    'level' => $level,
-                    'type' => $quizFrein->type,
-                    'total' => count($quizQuestionFrein),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizHydraulique'])) {
-            $hydrauliqueID = $_POST['quizHydraulique'];
-            $quizHydraulique = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($hydrauliqueID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizReducteur'])) {
+                $reducteurID = $_POST['quizReducteur'];
+                $quizReducteur = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($reducteurID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Hydraulique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreHyd;
-                        $proposalHydraulique = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreHyd += 0;
-                        $proposalHydraulique = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Reducteur') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreRed;
+                            $proposalReducteur = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreRed += 0;
+                            $proposalReducteur = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersReducteur, $proposalReducteur);
+                        array_push($quizQuestionReducteur, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionReducteur,
+                        'answers' => $answersReducteur,
+                        'quiz' => new MongoDB\BSON\ObjectId($reducteurID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreRed,
+                        'speciality' => $quizReducteur->speciality,
+                        'level' => $level,
+                        'type' => $quizReducteur->type,
+                        'total' => count($quizQuestionReducteur),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersHydraulique, $proposalHydraulique);
-                    array_push($quizQuestionHydraulique, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionHydraulique,
-                    'answers' => $answersHydraulique,
-                    'quiz' => new MongoDB\BSON\ObjectId($hydrauliqueID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreHyd,
-                    'speciality' => $quizHydraulique->speciality,
-                    'level' => $level,
-                    'type' => $quizHydraulique->type,
-                    'total' => count($quizQuestionHydraulique),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizMoteurDiesel'])) {
-            $moteurDieselID = $_POST['quizMoteurDiesel'];
-            $quizMoteurDiesel = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($moteurDieselID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizSuspension'])) {
+                $suspensionID = $_POST['quizSuspension'];
+                $quizSuspension = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($suspensionID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Moteur Diesel') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreMoD;
-                        $proposalMoteurDiesel = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreMoD += 0;
-                        $proposalMoteurDiesel = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Suspension') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreSus;
+                            $proposalSuspension = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreSus += 0;
+                            $proposalSuspension = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersSuspension, $proposalSuspension);
+                        array_push($quizQuestionSuspension, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionSuspension,
+                        'answers' => $answersSuspension,
+                        'quiz' => new MongoDB\BSON\ObjectId($suspensionID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreSus,
+                        'speciality' => $quizSuspension->speciality,
+                        'level' => $level,
+                        'type' => $quizSuspension->type,
+                        'total' => count($quizQuestionSuspension),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersMoteurDiesel, $proposalMoteurDiesel);
-                    array_push($quizQuestionMoteurDiesel, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionMoteurDiesel,
-                    'answers' => $answersMoteurDiesel,
-                    'quiz' => new MongoDB\BSON\ObjectId($moteurDieselID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreMoD,
-                    'speciality' => $quizMoteurDiesel->speciality,
-                    'level' => $level,
-                    'type' => $quizMoteurDiesel->type,
-                    'total' => count($quizQuestionMoteurDiesel),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizMoteurElec'])) {
-            $moteurElecID = $_POST['quizMoteurElec'];
-            $quizMoteurElec = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($moteurElecID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizSuspensionLame'])) {
+                $suspensionLameID = $_POST['quizSuspensionLame'];
+                $quizSuspensionLame = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($suspensionLameID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Moteur Electrique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreMoEl;
-                        $proposalMoteurElec = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreMoEl += 0;
-                        $proposalMoteurElec = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Suspension à Lame') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreSusL;
+                            $proposalSuspensionLame = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreSusL += 0;
+                            $proposalSuspensionLame = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersSuspensionLame, $proposalSuspensionLame);
+                        array_push($quizQuestionSuspensionLame, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionSuspensionLame,
+                        'answers' => $answersSuspensionLame,
+                        'quiz' => new MongoDB\BSON\ObjectId($suspensionLameID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreSusL,
+                        'speciality' => $quizSuspensionLame->speciality,
+                        'level' => $level,
+                        'type' => $quizSuspensionLame->type,
+                        'total' => count($quizQuestionSuspensionLame),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersMoteurElec, $proposalMoteurElec);
-                    array_push($quizQuestionMoteurElec, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionMoteurElec,
-                    'answers' => $answersMoteurElec,
-                    'quiz' => new MongoDB\BSON\ObjectId($moteurElecID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreMoEl,
-                    'speciality' => $quizMoteurElec->speciality,
-                    'level' => $level,
-                    'type' => $quizMoteurElec->type,
-                    'total' => count($quizQuestionMoteurElec),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizMoteurEssence'])) {
-            $moteurEssenceID = $_POST['quizMoteurEssence'];
-            $quizMoteurEssence = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($moteurEssenceID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizSuspensionRessort'])) {
+                $suspensionRessortID = $_POST['quizSuspensionRessort'];
+                $quizSuspensionRessort = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($suspensionRessortID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Moteur Essence') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreMoE;
-                        $proposalMoteurEssence = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreMoE += 0;
-                        $proposalMoteurEssence = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Suspension Ressort') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreSusR;
+                            $proposalSuspensionRessort = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreSusR += 0;
+                            $proposalSuspensionRessort = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersSuspensionRessort, $proposalSuspensionRessort);
+                        array_push($quizQuestionSuspensionRessort, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionSuspensionRessort,
+                        'answers' => $answersSuspensionRessort,
+                        'quiz' => new MongoDB\BSON\ObjectId($suspensionRessortID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreSusR,
+                        'speciality' => $quizSuspensionRessort->speciality,
+                        'level' => $level,
+                        'type' => $quizSuspensionRessort->type,
+                        'total' => count($quizQuestionSuspensionRessort),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersMoteurEssence, $proposalMoteurEssence);
-                    array_push($quizQuestionMoteurEssence, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionMoteurEssence,
-                    'answers' => $answersMoteurEssence,
-                    'quiz' => new MongoDB\BSON\ObjectId($moteurEssenceID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreMoE,
-                    'speciality' => $quizMoteurEssence->speciality,
-                    'level' => $level,
-                    'type' => $quizMoteurEssence->type,
-                    'total' => count($quizQuestionMoteurEssence),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizMoteur'])) {
-            $moteurThermiqueID = $_POST['quizMoteur'];
-            $quizMoteurThermique = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($moteurThermiqueID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizSuspensionPneumatique'])) {
+                $suspensionPneumatiqueID = $_POST['quizSuspensionPneumatique'];
+                $quizSuspensionPneumatique = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($suspensionPneumatiqueID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Moteur Thermique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreMoT;
-                        $proposalMoteurThermique = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreMoE += 0;
-                        $proposalMoteurThermique = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Suspension Pneumatique') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreSusT;
+                            $proposalSuspensionPneumatique = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreSusT += 0;
+                            $proposalSuspensionPneumatique = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersSuspensionPneumatique, $proposalSuspensionPneumatique);
+                        array_push($quizQuestionSuspensionPneumatique, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionSuspensionPneumatique,
+                        'answers' => $answersSuspensionPneumatique,
+                        'quiz' => new MongoDB\BSON\ObjectId($suspensionPneumatiqueID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreSusT,
+                        'speciality' => $quizSuspensionPneumatique->speciality,
+                        'level' => $level,
+                        'type' => $quizSuspensionPneumatique->type,
+                        'total' => count($quizQuestionSuspensionPneumatique),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersMoteurThermique, $proposalMoteurThermique);
-                    array_push($quizQuestionMoteurThermique, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionMoteurThermique,
-                    'answers' => $answersMoteurThermique,
-                    'quiz' => new MongoDB\BSON\ObjectId($moteurThermiqueID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreMoT,
-                    'speciality' => $quizMoteurThermique->speciality,
-                    'level' => $level,
-                    'type' => $quizMoteurThermique->type,
-                    'total' => count($quizQuestionMoteurThermique),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizMultiplexage'])) {
-            $multiplexageID = $_POST['quizMultiplexage'];
-            $quizMultiplexage = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($multiplexageID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
+            if (isset($_POST['quizTransversale'])) {
+                $transversaleID = $_POST['quizTransversale'];
+                $quizTransversale = $quizzes->findOne([
                     '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                        ['_id' => new MongoDB\BSON\ObjectId($transversaleID)],
                         ['active' => true],
                     ],
                 ]);
-
-                if ($questionsData->speciality == 'Multiplexage') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreMulti;
-                        $proposalMultiplexage = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreMulti += 0;
-                        $proposalMultiplexage = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
+                for ($i = 0; $i < count($questionsTag); ++$i) {
+                    $questionsData = $questions->findOne([
+                        '$and' => [
+                            ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
+                            ['active' => true],
+                        ],
+                    ]);
+    
+                    if ($questionsData->speciality == 'Transversale') {
+                        $answer = $questionsData->answer;
+                        if ($userAnswer[$i] === $answer) {
+                            ++$scoreTran;
+                            $proposalTransversale = 'Maitrisé';
+                            ++$score;
+                            $proposal = 'Maitrisé';
+                        } else {
+                            $scoreTran += 0;
+                            $proposalTransversale = 'Non maitrisé';
+                            $score += 0;
+                            $proposal = 'Non maitrisé';
+                        }
+                        array_push($answersTransversale, $proposalTransversale);
+                        array_push($quizQuestionTransversale, $questionsData->_id);
+                        array_push($answers, $proposal);
+                        array_push($quizQuestion, $questionsData->_id);
+    
+                        $newResult = [
+                        'questions' => $quizQuestionTransversale,
+                        'answers' => $answersTransversale,
+                        'quiz' => new MongoDB\BSON\ObjectId($transversaleID),
+                        'user' => new MongoDB\BSON\ObjectId($id),
+                        'score' => $scoreTran,
+                        'speciality' => $quizTransversale->speciality,
+                        'level' => $level,
+                        'type' => $quizTransversale->type,
+                        'total' => count($quizQuestionTransversale),
+                        'time' => $time,
+                        'active' => true,
+                        'created' => date('d-m-y'),
+                    ];
                     }
-                    array_push($answersMultiplexage, $proposalMultiplexage);
-                    array_push($quizQuestionMultiplexage, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionMultiplexage,
-                    'answers' => $answersMultiplexage,
-                    'quiz' => new MongoDB\BSON\ObjectId($multiplexageID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreMulti,
-                    'speciality' => $quizMultiplexage->speciality,
-                    'level' => $level,
-                    'type' => $quizMultiplexage->type,
-                    'total' => count($quizQuestionMultiplexage),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
                 }
+                $insertedResult = $results->insertOne($newResult);
             }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizPont'])) {
-            $pontID = $_POST['quizPont'];
-            $quizPont = $quizzes->findOne([
+            $vehicule = $vehicles->findOne([
                 '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($pontID)],
+                    ['label' => $vehicle],
+                    ['level' => $level],
+                    ['type' => 'Factuel'],
                     ['active' => true],
                 ],
             ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
-
-                if ($questionsData->speciality == 'Pont') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scorePont;
-                        $proposalPont = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scorePont += 0;
-                        $proposalPont = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersPont, $proposalPont);
-                    array_push($quizQuestionPont, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionPont,
-                    'answers' => $answersPont,
-                    'quiz' => new MongoDB\BSON\ObjectId($pontID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scorePont,
-                    'speciality' => $quizPont->speciality,
-                    'level' => $level,
-                    'type' => $quizPont->type,
-                    'total' => count($quizQuestionPont),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizPneumatique'])) {
-            $pneumatiqueID = $_POST['quizPneumatique'];
-            $quizPneumatique = $quizzes->findOne([
+    
+            $newResult = [
+                'questions' => $quizQuestion,
+                'answers' => $answers,
+                'userAnswers' => $userAnswer,
+                'user' => new MongoDB\BSON\ObjectId($id),
+                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                'score' => $score,
+                'level' => $level,
+                'type' => 'Factuel',
+                'typeR' => 'Technicien',
+                'total' => count($quizQuestion),
+                'time' => $time,
+                'active' => true,
+                'created' => date('d-m-y'),
+            ];
+            $result = $results->insertOne($newResult);
+            
+            $allocationData = $allocations->findOne([
                 '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($pneumatiqueID)],
+                    ['user' => new MongoDB\BSON\ObjectId($id)],
+                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
+                ],
+            ]);
+
+            $examData = $exams->findOne([
+                '$and' => [
+                    ['user' => new MongoDB\BSON\ObjectId($id)],
+                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
                     ['active' => true],
                 ],
             ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
+    
+            $allocationData->active = true;
+            $updatedAllocation = $allocations->updateOne(
+                ['_id' => $allocationData->_id], 
+                ['$set' => $allocationData]
+            );
 
-                if ($questionsData->speciality == 'Pneumatique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scorePneu;
-                        $proposalPneu = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scorePneu += 0;
-                        $proposalPneu = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersPneu, $proposalPneu);
-                    array_push($quizQuestionPneu, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionPneu,
-                    'answers' => $answersPneu,
-                    'quiz' => new MongoDB\BSON\ObjectId($pneumatiqueID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scorePneu,
-                    'speciality' => $quizPneumatique->speciality,
-                    'level' => $level,
-                    'type' => $quizPneumatique->type,
-                    'total' => count($quizQuestionPneu),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
+            $examData->active = false;
+            $updatedExam = $exams->updateOne(
+                ['_id' => $examData->_id], 
+                ['$set' => $examData]
+            );
+    
+            header('Location: ./dashboard.php');
         }
-        if (isset($_POST['quizReducteur'])) {
-            $reducteurID = $_POST['quizReducteur'];
-            $quizReducteur = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($reducteurID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
-
-                if ($questionsData->speciality == 'Reducteur') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreRed;
-                        $proposalReducteur = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreRed += 0;
-                        $proposalReducteur = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersReducteur, $proposalReducteur);
-                    array_push($quizQuestionReducteur, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionReducteur,
-                    'answers' => $answersReducteur,
-                    'quiz' => new MongoDB\BSON\ObjectId($reducteurID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreRed,
-                    'speciality' => $quizReducteur->speciality,
-                    'level' => $level,
-                    'type' => $quizReducteur->type,
-                    'total' => count($quizQuestionReducteur),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizSuspension'])) {
-            $suspensionID = $_POST['quizSuspension'];
-            $quizSuspension = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($suspensionID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
-
-                if ($questionsData->speciality == 'Suspension') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreSus;
-                        $proposalSuspension = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreSus += 0;
-                        $proposalSuspension = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersSuspension, $proposalSuspension);
-                    array_push($quizQuestionSuspension, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionSuspension,
-                    'answers' => $answersSuspension,
-                    'quiz' => new MongoDB\BSON\ObjectId($suspensionID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreSus,
-                    'speciality' => $quizSuspension->speciality,
-                    'level' => $level,
-                    'type' => $quizSuspension->type,
-                    'total' => count($quizQuestionSuspension),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizSuspensionLame'])) {
-            $suspensionLameID = $_POST['quizSuspensionLame'];
-            $quizSuspensionLame = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($suspensionLameID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
-
-                if ($questionsData->speciality == 'Suspension à Lame') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreSusL;
-                        $proposalSuspensionLame = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreSusL += 0;
-                        $proposalSuspensionLame = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersSuspensionLame, $proposalSuspensionLame);
-                    array_push($quizQuestionSuspensionLame, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionSuspensionLame,
-                    'answers' => $answersSuspensionLame,
-                    'quiz' => new MongoDB\BSON\ObjectId($suspensionLameID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreSusL,
-                    'speciality' => $quizSuspensionLame->speciality,
-                    'level' => $level,
-                    'type' => $quizSuspensionLame->type,
-                    'total' => count($quizQuestionSuspensionLame),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizSuspensionRessort'])) {
-            $suspensionRessortID = $_POST['quizSuspensionRessort'];
-            $quizSuspensionRessort = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($suspensionRessortID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
-
-                if ($questionsData->speciality == 'Suspension Ressort') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreSusR;
-                        $proposalSuspensionRessort = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreSusR += 0;
-                        $proposalSuspensionRessort = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersSuspensionRessort, $proposalSuspensionRessort);
-                    array_push($quizQuestionSuspensionRessort, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionSuspensionRessort,
-                    'answers' => $answersSuspensionRessort,
-                    'quiz' => new MongoDB\BSON\ObjectId($suspensionRessortID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreSusR,
-                    'speciality' => $quizSuspensionRessort->speciality,
-                    'level' => $level,
-                    'type' => $quizSuspensionRessort->type,
-                    'total' => count($quizQuestionSuspensionRessort),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizSuspensionPneumatique'])) {
-            $suspensionPneumatiqueID = $_POST['quizSuspensionPneumatique'];
-            $quizSuspensionPneumatique = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($suspensionPneumatiqueID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
-
-                if ($questionsData->speciality == 'Suspension Pneumatique') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreSusT;
-                        $proposalSuspensionPneumatique = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreSusT += 0;
-                        $proposalSuspensionPneumatique = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersSuspensionPneumatique, $proposalSuspensionPneumatique);
-                    array_push($quizQuestionSuspensionPneumatique, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionSuspensionPneumatique,
-                    'answers' => $answersSuspensionPneumatique,
-                    'quiz' => new MongoDB\BSON\ObjectId($suspensionPneumatiqueID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreSusT,
-                    'speciality' => $quizSuspensionPneumatique->speciality,
-                    'level' => $level,
-                    'type' => $quizSuspensionPneumatique->type,
-                    'total' => count($quizQuestionSuspensionPneumatique),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        if (isset($_POST['quizTransversale'])) {
-            $transversaleID = $_POST['quizTransversale'];
-            $quizTransversale = $quizzes->findOne([
-                '$and' => [
-                    ['_id' => new MongoDB\BSON\ObjectId($transversaleID)],
-                    ['active' => true],
-                ],
-            ]);
-            for ($i = 0; $i < count($questionsTag); ++$i) {
-                $questionsData = $questions->findOne([
-                    '$and' => [
-                        ['_id' => new MongoDB\BSON\ObjectId($questionsTag[$i])],
-                        ['active' => true],
-                    ],
-                ]);
-
-                if ($questionsData->speciality == 'Transversale') {
-                    $answer = $questionsData->answer;
-                    if ($userAnswer[$i] === $answer) {
-                        ++$scoreTran;
-                        $proposalTransversale = 'Maitrisé';
-                        ++$score;
-                        $proposal = 'Maitrisé';
-                    } else {
-                        $scoreTran += 0;
-                        $proposalTransversale = 'Non maitrisé';
-                        $score += 0;
-                        $proposal = 'Non maitrisé';
-                    }
-                    array_push($answersTransversale, $proposalTransversale);
-                    array_push($quizQuestionTransversale, $questionsData->_id);
-                    array_push($answers, $proposal);
-                    array_push($quizQuestion, $questionsData->_id);
-
-                    $newResult = [
-                    'questions' => $quizQuestionTransversale,
-                    'answers' => $answersTransversale,
-                    'quiz' => new MongoDB\BSON\ObjectId($transversaleID),
-                    'user' => new MongoDB\BSON\ObjectId($id),
-                    'score' => $scoreTran,
-                    'speciality' => $quizTransversale->speciality,
-                    'level' => $level,
-                    'type' => $quizTransversale->type,
-                    'total' => count($quizQuestionTransversale),
-                    'time' => $time,
-                    'active' => true,
-                    'created' => date('d-m-y'),
-                ];
-                }
-            }
-            $insertedResult = $results->insertOne($newResult);
-        }
-        $vehicule = $vehicles->findOne([
-            '$and' => [
-                ['label' => $vehicle],
-                ['level' => $level],
-                ['type' => 'Factuel'],
-                ['active' => true],
-            ],
-        ]);
-
-        $newResult = [
-            'questions' => $quizQuestion,
-            'answers' => $answers,
-            'userAnswers' => $userAnswer,
-            'user' => new MongoDB\BSON\ObjectId($id),
-            'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
-            'score' => $score,
-            'level' => $level,
-            'type' => 'Factuel',
-            'typeR' => 'Technicien',
-            'total' => count($quizQuestion),
-            'time' => $time,
-            'active' => true,
-            'created' => date('d-m-y'),
-        ];
-        $result = $results->insertOne($newResult);
-
-        $allocationData = $allocations->findOne([
-            '$and' => [
-                ['user' => new MongoDB\BSON\ObjectId($id)],
-                ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
-            ],
-        ]);
-
-        $allocationData->active = true;
-        $updatedAllocation = $allocations->updateOne(['_id' => $allocationData->_id], ['$set' => $allocationData]);
-
-        header('Location: ./dashboard.php');
     } ?>
 <?php
 include_once 'partials/header.php'; ?>
@@ -2357,7 +2377,20 @@ include_once 'partials/header.php'; ?>
                         <div class="heading" style="margin-top: 10px;">
                             <h1 class="heading__text">Questionnaire à choix multiple</h1>
                         </div>
-        
+                        
+                        <?php
+                           if (isset($error_msg)) {
+                        ?>
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <center><strong><?php echo $error_msg; ?></strong></center>
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;
+                                </span>
+                            </button>
+                        </div>
+                        <?php
+                        } ?>
+                        
                         <!-- Quiz section -->
                         <div class="quiz" style="margin-bottom: 40px;">
                             <!-- <center>
@@ -6189,14 +6222,14 @@ function updateCountDown() {
 let radio;
 const ques = document.querySelectorAll("#question");
 const submitBtn = document.querySelector("#button")
-submitBtn.classList.add("disabled")
+// submitBtn.classList.add("disabled")
 const num = document.querySelector("#num").getAttribute('value');
 const score = document.querySelector("#num");
 const cal = (num * ques.length) - <?php echo $exam['total'] ?? 0 ?>;
 score.innerHTML = `${cal}`;
-if (ques.length == <?php echo $exam['total'] ?? 0 ?>) {
-    submitBtn.classList.remove("disabled");
-}
+// if (ques.length == <?php echo $exam['total'] ?? 0 ?>) {
+//     submitBtn.classList.remove("disabled");
+// }
 
 // function checkedRadio() {
 //     const radios = document.querySelectorAll("input[type='radio']:checked");

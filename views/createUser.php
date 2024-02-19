@@ -786,8 +786,8 @@ include_once 'partials/header.php'; ?>
                 <h1 class='my-3 text-center'>Ajouter un utilisateur</h1>
 
                 <?php
-if (isset($success_msg)) {
-        ?>
+                   if (isset($success_msg)) {
+                ?>
                 <div class='alert alert-success alert-dismissible fade show' role='alert'>
                     <center><strong><?php echo $success_msg; ?></strong></center>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
@@ -796,10 +796,10 @@ if (isset($success_msg)) {
                     </button>
                 </div>
                 <?php
-    } ?>
+                   } ?>
                 <?php
-if (isset($error_msg)) {
-        ?>
+                   if (isset($error_msg)) {
+                ?>
                 <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                     <center><strong><?php echo $error_msg; ?></strong></center>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
@@ -808,7 +808,7 @@ if (isset($error_msg)) {
                     </button>
                 </div>
                 <?php
-    } ?>
+                } ?>
 
                 <form method='POST'><br>
                     <!--begin::Input group-->
