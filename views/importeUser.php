@@ -198,7 +198,6 @@ require_once '../vendor/autoload.php';
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -425,7 +424,6 @@ require_once '../vendor/autoload.php';
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -649,7 +647,6 @@ require_once '../vendor/autoload.php';
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -683,7 +680,6 @@ require_once '../vendor/autoload.php';
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -954,13 +950,12 @@ require_once '../vendor/autoload.php';
                     'gender' => $gender,
                     'level' => $level,
                     'country' => $country,
-                        'profile' => "Manager",
+                    'profile' => "Manager",
                     'birthdate' => $birthdate,
                     'recrutmentDate' => $recrutmentDate,
                     'certificate' => ucfirst($certificate),
                     'subsidiary' => ucfirst($subsidiary),
                     'department' => ucfirst($department),
-                    'speciality' => ucfirst($speciality),
                     'vehicle' => $vehicle,
                     'brand' => $brand,
                     'subBrand' => $subBrand,
@@ -972,48 +967,6 @@ require_once '../vendor/autoload.php';
                 ];
                 $user = $users->insertOne($personM);
             } elseif ($profile == 'Admin') {
-                if ($subBrand1 != "") {
-                    array_push($subBrand, $subBrand1);
-                }
-                if ($subBrand2 != "") {
-                    array_push($subBrand, $subBrand2);
-                }
-                if ($subBrand3 != "") {
-                    array_push($subBrand, $subBrand3);
-                }
-                if ($subBrand4 != "") {
-                    array_push($subBrand, $subBrand4);
-                }
-                if ($subBrand5 != "") {
-                    array_push($subBrand, $subBrand5);
-                }
-                if ($subBrand6 != "") {
-                    array_push($subBrand, $subBrand6);
-                }
-                if ($subBrand7 != "") {
-                    array_push($subBrand, $subBrand7);
-                }
-                if ($subBrand8 != "") {
-                    array_push($subBrand, $subBrand8);
-                }
-                if ($subBrand9 != "") {
-                    array_push($subBrand, $subBrand9);
-                }
-                if ($subBrand10 != "") {
-                    array_push($subBrand, $subBrand10);
-                }
-                if ($subBrand11 != "") {
-                    array_push($subBrand, $subBrand11);
-                }
-                if ($subBrand12 != "") {
-                    array_push($subBrand, $subBrand12);
-                }
-                if ($subBrand13 != "") {
-                    array_push($subBrand, $subBrand13);
-                }
-                if ($subBrand14 != "") {
-                    array_push($subBrand, $subBrand14);
-                }
                 $personA = [
                     'username' => $username,
                     'matricule' => $matricule,
@@ -1030,7 +983,6 @@ require_once '../vendor/autoload.php';
                     'certificate' => ucfirst($certificate),
                     'subsidiary' => ucfirst($subsidiary),
                     'department' => ucfirst($department),
-                    'speciality' => ucfirst($speciality),
                     'vehicle' => $vehicle,
                     'brand' => $brand,
                     'subBrand' => $subBrand,

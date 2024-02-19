@@ -34,7 +34,6 @@ if (!isset($_SESSION['id'])) {
         $password = $_POST['password'];
         $country = $_POST['country'];
         $certificate = $_POST['certificate'];
-        $speciality = $_POST['speciality'];
         $subBrand = $_POST['subBrand'];
         $vehicle = $_POST['vehicle'];
         $brand = $_POST['brand'];
@@ -59,7 +58,6 @@ if (!isset($_SESSION['id'])) {
         empty($role) ||
         empty($username) ||
         empty($matricule) ||
-        empty($speciality) ||
         empty($birthdate) ||
         empty($certificate) ||
         empty($subsidiary) ||
@@ -98,7 +96,6 @@ if (!isset($_SESSION['id'])) {
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -131,7 +128,6 @@ if (!isset($_SESSION['id'])) {
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -409,7 +405,6 @@ if (!isset($_SESSION['id'])) {
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -443,7 +438,6 @@ if (!isset($_SESSION['id'])) {
                         'certificate' => ucfirst($certificate),
                         'subsidiary' => ucfirst($subsidiary),
                         'department' => ucfirst($department),
-                        'speciality' => ucfirst($speciality),
                         'vehicle' => $vehicle,
                         'brand' => $brand,
                         'subBrand' => $subBrand,
@@ -720,7 +714,6 @@ if (!isset($_SESSION['id'])) {
                     'certificate' => ucfirst($certificate),
                     'subsidiary' => ucfirst($subsidiary),
                     'department' => ucfirst($department),
-                    'speciality' => ucfirst($speciality),
                     'vehicle' => $vehicle,
                     'brand' => $brand,
                     'subBrand' => $subBrand,
@@ -749,7 +742,6 @@ if (!isset($_SESSION['id'])) {
                 'certificate' => ucfirst($certificate),
                 'subsidiary' => ucfirst($subsidiary),
                 'department' => ucfirst($department),
-                'speciality' => ucfirst($speciality),
                 'vehicle' => $vehicle,
                 'brand' => $brand,
                 'subBrand' => $subBrand,
@@ -1412,119 +1404,6 @@ if (isset($error)) {
                             <!--begin::Input-->
                             <input type="text" class="form-control form-control-solid fw-bold" placeholder=""
                                 name="role" />
-                            <!--end::Input-->
-                            <?php
-                     if (isset($error)) {
-                         ?>
-                            <span class='text-danger'>
-                                <?php echo $error; ?>
-                            </span>
-                            <?php
-                     } ?>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="d-flex flex-column mb-7 fv-row">
-                            <!--begin::Label-->
-                            <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Spécialité</span>
-                                </span>
-                            </label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <select name="speciality" aria-label="Select a Country" data-control="select2"
-                                data-placeholder="Sélectionnez la spécialité..."
-                                class="form-select form-select-solid fw-bold">
-                                <option>Sélectionnez la
-                                    spécialité...</option>
-                                <option value="Arbre de Transmission">
-                                    Arbre de Transmission
-                                </option>
-                                <option value="Assistance à la Conduite">
-                                    Assistance à la Conduite
-                                </option>
-                                <option value="Boite de Transfert">
-                                    Boite de Transfert
-                                </option>
-                                <option value="Boite de Vitesse">
-                                    Boite de Vitesse
-                                </option>
-                                <option value="Boite de Vitesse Automatique">
-                                    Boite de Vitesse Automatique
-                                </option>
-                                <option value="Boite de Vitesse Mécanique">
-                                    Boite de Vitesse Mécanique
-                                </option>
-                                <option value="Boite de Vitesse à Variation Continue">
-                                    Boite de Vitesse à Variation Continue
-                                </option>
-                                <option value="Climatisation">
-                                    Climatisation
-                                </option>
-                                <option value="Demi Arbre de Roue">
-                                    Demi Arbre de Roue
-                                </option>
-                                <option value="Direction">
-                                    Direction
-                                </option>
-                                <option value="Electricité et Electronique">
-                                    Electricité & Electronique
-                                </option>
-                                <option value="Freinage">
-                                    Freinage
-                                </option>
-                                <option value="Freinage Electromagnétique">
-                                    Freinage Electromagnétique
-                                </option>
-                                <option value="Freinage Hydraulique">
-                                    Freinage Hydraulique
-                                </option>
-                                <option value="Freinage Pneumatique">
-                                    Freinage Pneumatique
-                                </option>
-                                <option value="Hydraulique">
-                                    Hydraulique
-                                </option>
-                                <option value="Moteur Diesel">
-                                    Moteur Diesel
-                                </option>
-                                <option value="Moteur Electrique">
-                                    Moteur Electrique
-                                </option>
-                                <option value="Moteur Essence">
-                                    Moteur Essence
-                                </option>
-                                <option value="Moteur Thermique">
-                                    Moteur Thermique
-                                </option>
-                                <option value="Multiplexage">
-                                    Multiplexage
-                                </option>
-                                <option value="Pneumatique">
-                                    Pneumatique
-                                </option>
-                                <option value="Pont">
-                                    Pont
-                                </option>
-                                <option value="Réducteur">
-                                    Réducteur
-                                </option>
-                                <option value="Suspension">
-                                    Suspension
-                                </option>
-                                <option value="Suspension à Lame">
-                                    Suspension à Lame
-                                </option>
-                                <option value="Suspension Ressort">
-                                    Suspension Ressort
-                                </option>
-                                <option value="Suspension Pneumatique">
-                                    Suspension Pneumatique
-                                </option>
-                                <option value="Transversale">
-                                    Transversale
-                                </option>
-                            </select>
                             <!--end::Input-->
                             <?php
                      if (isset($error)) {
