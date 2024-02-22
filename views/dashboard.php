@@ -127,11 +127,11 @@ include('./partials/header.php')
                     <div
                         class="d-flex h-50px w-50px h-lg-80px w-lg-80px flex-shrink-0 flex-center position-relative align-self-start align-self-lg-center mt-3 mt-lg-0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            class="text-primary h-75px w-75px h-lg-100px w-lg-100px position-absolute opacity-5">
+                            class="text-primary fw-bolder h-75px w-75px h-lg-100px w-lg-100px position-absolute opacity-5">
                             <path fill="currentColor"
                                 d="M10.2,21.23,4.91,18.17a3.58,3.58,0,0,1-1.8-3.11V8.94a3.58,3.58,0,0,1,1.8-3.11L10.2,2.77a3.62,3.62,0,0,1,3.6,0l5.29,3.06a3.58,3.58,0,0,1,1.8,3.11v6.12a3.58,3.58,0,0,1-1.8,3.11L13.8,21.23A3.62,3.62,0,0,1,10.2,21.23Z" />
                         </svg>
-                        <i class="ki-duotone ki-user fs-2x fs-lg-3x text-primary position-absolute"><span
+                        <i class="ki-duotone ki-user fs-2x fs-lg-3x text-primary fw-bolder position-absolute"><span
                                 class="path1"></span><span class="path2"></span></i>
                     </div>
                     <!--end::Icon-->
@@ -193,10 +193,8 @@ include('./partials/header.php')
                                         </th>
                                         <th class="min-w-125px px-0">
                                             Subordonnés</th>
-                                        <th class="min-w-150px px-0 text-center">
-                                            Tests</th>
-                                        <th class="min-w-125px">Vehicules</th>
-                                        <th class="min-w-125px">Marques</th>
+                                        <th class="min-w-125px px-0 text-center">
+                                            Questionnaires</th>
                                         <th class="min-w-125px">Département</th>
                                         <th class="min-w-125px">Niveau Junior</th>
                                         <th class="min-w-125px">Niveau Senior</th>
@@ -266,16 +264,6 @@ include('./partials/header.php')
                                         </td>
                                         <td>
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle->label ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle->brand ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
                                                 <?php echo $user->department ?>
                                             </span>
                                         </td>
@@ -283,7 +271,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -293,7 +281,7 @@ include('./partials/header.php')
                                             <?php if ($allocate->active == false) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -328,7 +316,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -338,7 +326,7 @@ include('./partials/header.php')
                                             <?php if ($allocate->active == false) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -373,7 +361,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -383,7 +371,7 @@ include('./partials/header.php')
                                             <?php if ($allocate->active == false) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -444,9 +432,7 @@ include('./partials/header.php')
                                         <th class="w-20px ps-0">
                                         </th>
                                         <th class="min-w-200px px-0">
-                                            Tests</th>
-                                        <th class="min-w-125px">Véhicules</th>
-                                        <th class="min-w-125px">Marques</th>
+                                            Questionnaires</th>
                                         <th class="min-w-125px">Niveau Junior</th>
                                         <th class="min-w-125px">Niveau Senior</th>
                                         <th class="min-w-125px">Niveau Expert</th>
@@ -488,21 +474,11 @@ include('./partials/header.php')
                                                 Questionnaire sur les connaissances théoriques
                                             </span>
                                         </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["label"] ?>
-                                            </span>
-                                        </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["brand"] ?>
-                                            </span>
-                                        </td>
                                         <?php if ($test->level == "Junior") { ?>
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -512,7 +488,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -547,7 +523,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -557,7 +533,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -592,7 +568,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -602,7 +578,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -646,21 +622,11 @@ include('./partials/header.php')
                                                 Questionnaire sur la maitrise de vos tâches professionnelles
                                             </span>
                                         </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["label"] ?>
-                                            </span>
-                                        </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["brand"] ?>
-                                            </span>
-                                        </td>
                                         <?php if ($test->level == "Junior") { ?>
                                             <?php if ($exam) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
@@ -670,7 +636,7 @@ include('./partials/header.php')
                                                 <?php if ($test->active == false) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         A faire
@@ -705,7 +671,7 @@ include('./partials/header.php')
                                             <?php if ($exam) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
@@ -715,7 +681,7 @@ include('./partials/header.php')
                                                 <?php if ($test->active == false) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         A faire
@@ -750,7 +716,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -760,7 +726,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -821,11 +787,11 @@ include('./partials/header.php')
                     <div
                         class="d-flex h-50px w-50px h-lg-80px w-lg-80px flex-shrink-0 flex-center position-relative align-self-start align-self-lg-center mt-3 mt-lg-0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            class="text-primary h-75px w-75px h-lg-100px w-lg-100px position-absolute opacity-5">
+                            class="text-primary fw-bolder h-75px w-75px h-lg-100px w-lg-100px position-absolute opacity-5">
                             <path fill="currentColor"
                                 d="M10.2,21.23,4.91,18.17a3.58,3.58,0,0,1-1.8-3.11V8.94a3.58,3.58,0,0,1,1.8-3.11L10.2,2.77a3.62,3.62,0,0,1,3.6,0l5.29,3.06a3.58,3.58,0,0,1,1.8,3.11v6.12a3.58,3.58,0,0,1-1.8,3.11L13.8,21.23A3.62,3.62,0,0,1,10.2,21.23Z" />
                         </svg>
-                        <i class="ki-duotone ki-user fs-2x fs-lg-3x text-primary position-absolute"><span
+                        <i class="ki-duotone ki-user fs-2x fs-lg-3x text-primary fw-bolder position-absolute"><span
                                 class="path1"></span><span class="path2"></span></i>
                     </div>
                     <!--end::Icon-->
@@ -855,6 +821,22 @@ include('./partials/header.php')
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
+                <!--begin::Title-->
+                <h1 class="text-dark fw-bold my-1 fs-2">
+                    Compétences
+                </h1>
+                <!--end::Title-->
+            </div>
+            <!--end::Info-->
+        </div>
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div class=" container-xxl ">
@@ -882,9 +864,7 @@ include('./partials/header.php')
                                         <th class="w-20px ps-0">
                                         </th>
                                         <th class="min-w-200px px-0">
-                                            Tests</th>
-                                        <th class="min-w-125px">Véhicules</th>
-                                        <th class="min-w-125px">Marques</th>
+                                            Questionnaires</th>
                                         <th class="min-w-125px">Niveau Junior</th>
                                         <th class="min-w-125px">Niveau Senior</th>
                                         <th class="min-w-125px">Niveau Expert</th>
@@ -913,6 +893,7 @@ include('./partials/header.php')
                                                 '$and' => [
                                                     ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                     ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true],
                                                 ]
                                             ])
                                     ?>
@@ -925,21 +906,11 @@ include('./partials/header.php')
                                                 Questionnaire sur les connaissances théoriques
                                             </span>
                                         </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["label"] ?>
-                                            </span>
-                                        </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["brand"] ?>
-                                            </span>
-                                        </td>
                                         <?php if ($test->level == "Junior") { ?>
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -949,7 +920,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -984,7 +955,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -994,7 +965,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -1029,7 +1000,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -1039,7 +1010,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
@@ -1070,6 +1041,7 @@ include('./partials/header.php')
                                                 '$and' => [
                                                     ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                     ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
+                                                    ['active' => true],
                                                 ]
                                             ])
                                     ?>
@@ -1082,21 +1054,11 @@ include('./partials/header.php')
                                                 Questionnaire sur la maitrise de vos tâches professionnelles
                                             </span>
                                         </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["label"] ?>
-                                            </span>
-                                        </td>
-                                        <td class="pe-0">
-                                            <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["brand"] ?>
-                                            </span>
-                                        </td>
                                         <?php if ($test->level == "Junior") { ?>
                                             <?php if ($exam) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
@@ -1106,7 +1068,7 @@ include('./partials/header.php')
                                                 <?php if ($test->active == false) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         A faire
@@ -1141,7 +1103,7 @@ include('./partials/header.php')
                                             <?php if ($exam) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
@@ -1151,7 +1113,7 @@ include('./partials/header.php')
                                                 <?php if ($test->active == false) { ?>
                                                 <td>
                                                     <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le questionnaire"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         A faire
@@ -1186,7 +1148,7 @@ include('./partials/header.php')
                                         <?php if ($exam) { ?>
                                             <td>
                                                 <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     En cours
@@ -1196,7 +1158,7 @@ include('./partials/header.php')
                                             <?php if ($test->active == false) { ?>
                                             <td>
                                                 <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
-                                                    class="btn btn-light btn-active-light-success text-success btn-sm"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire

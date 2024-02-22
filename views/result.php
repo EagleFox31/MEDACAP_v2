@@ -109,8 +109,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             <!--begin::Actions-->
             <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center">
-                    <a class="btn btn-primary" href="./detail?id=<?php echo $technician->_id ?>&level=<?php echo $level ?>" role="button">
-                            Résultats Détaillés
+                    <a class="btn btn-primary"
+                        href="./detail?id=<?php echo $technician->_id ?>&level=<?php echo $level ?>" role="button">
+                        Résultats Détaillés
                     </a>
                 </div>
             </div>
@@ -764,7 +765,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Boite de Vitesse  à Variation Continue
+                                            Boite de Vitesse à Variation Continue
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2827,7 +2828,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         <?php echo round($resultFac->score * 100 / $resultFac->total, 0); ?>%
-                                        
+
                                     </th>
                                     <th id="decision-savoir"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -3744,7 +3745,8 @@ if (facFrei && facFrei.innerText != resultrFrei.innerText) {
 if (facfreinageElec && facfreinageElec.innerText == "Maitrisé" && (resultrfreinageElec.innerText == "Maitrisé")) {
     synthfreinageElecn.innerHTML = "Maitrisé"
 }
-if (facfreinageElec && facfreinageElec.innerText == "Non maitrisé" && (resultrfreinageElec.innerText == "Non maitrisé")) {
+if (facfreinageElec && facfreinageElec.innerText == "Non maitrisé" && (resultrfreinageElec.innerText ==
+        "Non maitrisé")) {
     synthfreinageElecn.innerHTML = "Non maitrisé"
 }
 if (facfreinageElec && facfreinageElec.innerText != resultrfreinageElec.innerText) {
@@ -3789,7 +3791,8 @@ if (facMoteurEssence && facMoteurEssence.innerText == "Non maitrisé" && (result
 if (facMoteurEssence && facMoteurEssence.innerText != resultrMoteurEssence.innerText) {
     synthMoteurEssence.innerHTML = "Non maitrisé"
 }
-if (facMoteurThermique && facMoteurThermique.innerText == "Maitrisé" && (resultrMoteurThermique.innerText == "Maitrisé")) {
+if (facMoteurThermique && facMoteurThermique.innerText == "Maitrisé" && (resultrMoteurThermique.innerText ==
+        "Maitrisé")) {
     synthMoteurThermique.innerHTML = "Maitrisé"
 }
 if (facMoteurThermique && facMoteurThermique.innerText == "Non maitrisé" && (resultrMoteurThermique.innerText ==

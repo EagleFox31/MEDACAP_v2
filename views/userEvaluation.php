@@ -321,265 +321,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             $exams->insertOne($exam);
         }
     }
-    
-    if (isset($_POST['back'])) {
-        $questionsTag = $_POST['questionsTag'];
-        $time = $_POST['time'];
-        $questionsTags = [];
-        $body = $_POST;
-        // assuming POST method, you can replace it with $_GET if it's a GET method
-        $proposals = array_values($body);
-        $answers = [];
-        for ($i = 0; $i < count($questionsTag); ++$i) {
-            array_push($questionsTags, new MongoDB\BSON\ObjectId($questionsTag[$i]));
-        }
-        for ($i = 0; $i < count($proposals); ++$i) {
-            $data = $questions->findOne([
-                '$or' => [
-                    ['proposal1' => $proposals[$i]],
-                    ['proposal2' => $proposals[$i]],
-                    ['proposal3' => $proposals[$i]],
-                ],
-                'type' => 'Declarative',
-            ]);
-            if ($data) {
-                array_push($answers, $proposals[$i]);
-            }
-        }
-        
-        if (isset($_POST['quizAssistance'])) {
-            $assistanceID = new MongoDB\BSON\ObjectId($_POST['quizAssistance']);
-        }
-        if (isset($_POST['quizArbre'])) {
-            $arbreID = new MongoDB\BSON\ObjectId($_POST['quizArbre']);
-        }
-        if (isset($_POST['quizTransfert'])) {
-            $transfertID = new MongoDB\BSON\ObjectId($_POST['quizTransfert']);
-        }
-        if (isset($_POST['quizBoite'])) {
-            $boiteID = new MongoDB\BSON\ObjectId($_POST['quizBoite']);
-        }
-        if (isset($_POST['quizBoiteAuto'])) {
-            $boiteAutoID = new MongoDB\BSON\ObjectId($_POST['quizBoiteAuto']);
-        }
-        if (isset($_POST['quizBoiteMan'])) {
-            $boiteManID = new MongoDB\BSON\ObjectId($_POST['quizBoiteMan']);
-        }
-        if (isset($_POST['quizBoiteVc'])) {
-            $boiteVcID = new MongoDB\BSON\ObjectId($_POST['quizBoiteVc']);
-        }
-        if (isset($_POST['quizClimatisation'])) {
-            $climatisationID = new MongoDB\BSON\ObjectId($_POST['quizClimatisation']);
-        }
-        if (isset($_POST['quizDemi'])) {
-            $demiID = new MongoDB\BSON\ObjectId($_POST['quizDemi']);
-        }
-        if (isset($_POST['quizDirection'])) {
-            $directionID = new MongoDB\BSON\ObjectId($_POST['quizDirection']);
-        }
-        if (isset($_POST['quizElectricite'])) {
-            $electriciteID = new MongoDB\BSON\ObjectId($_POST['quizElectricite']);
-        }
-        if (isset($_POST['quizFrei'])) {
-            $freiID = new MongoDB\BSON\ObjectId($_POST['quizFrei']);
-        }
-        if (isset($_POST['quizFreinageElec'])) {
-            $freinageElecID = new MongoDB\BSON\ObjectId($_POST['quizFreinageElec']);
-        }
-        if (isset($_POST['quizFreinage'])) {
-            $freinageID = new MongoDB\BSON\ObjectId($_POST['quizFreinage']);
-        }
-        if (isset($_POST['quizFrein'])) {
-            $freinID = new MongoDB\BSON\ObjectId($_POST['quizFrein']);
-        }
-        if (isset($_POST['quizHydraulique'])) {
-            $hydrauliqueID = new MongoDB\BSON\ObjectId($_POST['quizHydraulique']);
-        }
-        if (isset($_POST['quizMoteurDiesel'])) {
-            $moteurDieselID = new MongoDB\BSON\ObjectId($_POST['quizMoteurDiesel']);
-        }
-        if (isset($_POST['quizMoteurElec'])) {
-            $moteurElecID = new MongoDB\BSON\ObjectId($_POST['quizMoteurElec']);
-        }
-        if (isset($_POST['quizMoteurEssence'])) {
-            $moteurEssenceID = new MongoDB\BSON\ObjectId($_POST['quizMoteurEssence']);
-        }
-        if (isset($_POST['quizMoteur'])) {
-            $moteurID = new MongoDB\BSON\ObjectId($_POST['quizMoteur']);
-        }
-        if (isset($_POST['quizMultiplexage'])) {
-            $multiplexageID = new MongoDB\BSON\ObjectId($_POST['quizMultiplexage']);
-        }
-        if (isset($_POST['quizPont'])) {
-            $pontID = new MongoDB\BSON\ObjectId($_POST['quizPont']);
-        }
-        if (isset($_POST['quizPneumatique'])) {
-            $pneumatiqueID = new MongoDB\BSON\ObjectId($_POST['quizPneumatique']);
-        }
-        if (isset($_POST['quizReducteur'])) {
-            $reducteurID = new MongoDB\BSON\ObjectId($_POST['quizReducteur']);
-        }
-        if (isset($_POST['quizSuspension'])) {
-            $suspensionID = new MongoDB\BSON\ObjectId($_POST['quizSuspension']);
-        }
-        if (isset($_POST['quizSuspensionLame'])) {
-            $suspensionLameID = new MongoDB\BSON\ObjectId($_POST['quizSuspensionLame']);
-        }
-        if (isset($_POST['quizSuspensionRessort'])) {
-            $suspensionRessortID = new MongoDB\BSON\ObjectId($_POST['quizSuspensionRessort']);
-        }
-        if (isset($_POST['quizSuspensionPneumatique'])) {
-            $suspensionPneumatiqueID = new MongoDB\BSON\ObjectId($_POST['quizSuspensionPneumatique']);
-        }
-        if (isset($_POST['quizTransversale'])) {
-            $transversaleID = new MongoDB\BSON\ObjectId($_POST['quizTransversale']);
-        }
-        if (!isset($_POST['quizAssistance'])) {
-            $assistanceID = null;
-        }
-        if (!isset($_POST['quizArbre'])) {
-            $arbreID = null;
-        }
-        if (!isset($_POST['quizTransfert'])) {
-            $transfertID = null;
-        }
-        if (!isset($_POST['quizBoite'])) {
-            $boiteID = null;
-        }
-        if (!isset($_POST['quizBoiteAuto'])) {
-            $boiteAutoID = null;
-        }
-        if (!isset($_POST['quizBoiteMan'])) {
-            $boiteManID = null;
-        }
-        if (!isset($_POST['quizBoiteVc'])) {
-            $boiteVcID = null;
-        }
-        if (!isset($_POST['quizClimatisation'])) {
-            $climatisationID = null;
-        }
-        if (!isset($_POST['quizDemi'])) {
-            $demiID = null;
-        }
-        if (!isset($_POST['quizDirection'])) {
-            $directionID = null;
-        }
-        if (!isset($_POST['quizFrei'])) {
-            $freiID = null;
-        }
-        if (!isset($_POST['quizFreinageElec'])) {
-            $freinageElecID = null;
-        }
-        if (!isset($_POST['quizFreinage'])) {
-            $freinageID = null;
-        }
-        if (!isset($_POST['quizFrein'])) {
-            $freinID = null;
-        }
-        if (!isset($_POST['quizHydraulique'])) {
-            $hydrauliqueID = null;
-        }
-        if (!isset($_POST['quizElectricite'])) {
-            $electriciteID = null;
-        }
-        if (!isset($_POST['quizMoteurDiesel'])) {
-            $moteurDieselID = null;
-        }
-        if (!isset($_POST['quizMoteurElec'])) {
-            $moteurElecID = null;
-        }
-        if (!isset($_POST['quizMoteurEssence'])) {
-            $moteurEssenceID = null;
-        }
-        if (!isset($_POST['quizMoteur'])) {
-            $moteurID = null;
-        }
-        if (!isset($_POST['quizMultiplexage'])) {
-            $multiplexageID = null;
-        }
-        if (!isset($_POST['quizPont'])) {
-            $pontID = null;
-        }
-        if (!isset($_POST['quizPneumatique'])) {
-            $pneumatiqueID = null;
-        }
-        if (!isset($_POST['quizReducteur'])) {
-            $reducteurID = null;
-        }
-        if (!isset($_POST['quizSuspension'])) {
-            $suspensionID = null;
-        }
-        if (!isset($_POST['quizSuspensionLame'])) {
-            $suspensionLameID = null;
-        }
-        if (!isset($_POST['quizSuspensionRessort'])) {
-            $suspensionRessortID = null;
-        }
-        if (!isset($_POST['quizSuspensionPneumatique'])) {
-            $suspensionPneumatiqueID = null;
-        }
-        if (!isset($_POST['quizTransversale'])) {
-            $transversaleID = null;
-        }
-    
-        if($exam) {
-            $exam->answers = $answers;
-            $exam->hour = $hr;
-            $exam->minute = $mn;
-            $exam->second = $sc;
-            $exam->total = count($answers);
-            $exams->updateOne(
-                [ '_id' => new MongoDB\BSON\ObjectId($exam->_id) ],
-                [ '$set' => $exam ]
-            );
-            header('Location: ./dashboard.php');
-        } else {
-            $exam = [
-                'questions' => $questionsTags,
-                'answers' => $answers,
-                'user' => new MongoDB\BSON\ObjectId($manager),
-                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
-                'quizAssistance' => $assistanceID,
-                'quizArbre' => $arbreID,
-                'quizTransfert' => $transfertID,
-                'quizBoite' => $boiteID,
-                'quizBoiteAuto' => $boiteAutoID,
-                'quizBoiteMan' => $boiteManID,
-                'quizBoiteVc' => $boiteVcID,
-                'quizClimatisation' => $climatisationID,
-                'quizDemi' => $demiID,
-                'quizDirection' => $directionID,
-                'quizElectricite' => $electriciteID,
-                'quizFrei' => $freiID,
-                'quizFreinageElec' => $freinageElecID,
-                'quizFreinage' => $freinageID,
-                'quizFrein' => $freinID,
-                'quizHydraulique' => $hydrauliqueID,
-                'quizMoteurDiesel' => $moteurDieselID,
-                'quizMoteurElec' => $moteurElecID,
-                'quizMoteurEssence' => $moteurEssenceID,
-                'quizMoteur' => $moteurID,
-                'quizMultiplexage' => $multiplexageID,
-                'quizPont' => $pontID,
-                'quizPneumatique' => $pneumatiqueID,
-                'quizReducteur' => $reducteurID,
-                'quizSuspension' => $suspensionID,
-                'quizSuspensionLame' => $suspensionLameID,
-                'quizSuspensionRessort' => $suspensionRessortID,
-                'quizSuspensionPneumatique' => $suspensionPneumatiqueID,
-                'quizTransversale' => $transversaleID,
-                'hour' => $hr,
-                'minute' => $mn,
-                'second' => $sc,
-                'total' => count($answers),
-                'active' => true,
-                'created' => date('d-m-y')
-            ];
-        
-            $exams->insertOne($exam);
-            header('Location: ./dashboard.php');
-        }
-    }
 
     if ( isset( $_POST[ 'valid' ] ) ) {
         $time = $_POST[ 'timer' ];
@@ -2259,6 +2000,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerAssistance<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -2316,6 +2065,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerArbre<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -2377,6 +2134,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerTransfert<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -2436,6 +2201,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerBoite<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -2491,6 +2264,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerBoiteAuto<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -2551,6 +2332,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerBoiteMan<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -2615,6 +2404,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerBoiteVc<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -2674,6 +2471,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerClimatisation<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -2736,6 +2541,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerDemi<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -2794,6 +2607,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerDirection<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -2856,6 +2677,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerElectricite<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -2914,6 +2743,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerFrei<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -2976,6 +2813,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerFreinageElec<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3034,6 +2879,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerFreinage<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -3096,6 +2949,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerFrein<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3154,6 +3015,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerHydraulique<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -3217,6 +3086,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerMoteurDiesel<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3275,6 +3152,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerMoteurElec<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -3338,6 +3223,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerMoteurEssence<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3397,6 +3290,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerMoteurThermique<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -3460,6 +3361,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerMultiplexage<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3518,6 +3427,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerPont<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -3580,6 +3497,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerPneu<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3638,6 +3563,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerRed<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -3701,6 +3634,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerSuspension<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3762,6 +3703,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerSuspensionLame<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3821,6 +3770,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerSuspensionRessort<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -3886,6 +3843,14 @@ include_once 'partials/header.php'
                         Il n'a jamais fait
                     </span>
                 </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerSuspensionPneumatique<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
+                    </span>
+                </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -3945,6 +3910,14 @@ include_once 'partials/header.php'
                     <span class="design"></span>
                     <span class="text">
                         Il n'a jamais fait
+                    </span>
+                </label>
+                <label class="quiz-form__ans" hidden>
+                    <input type="radio" onclick="checkedRadio()"
+                        name="answerTransversale<?php echo $i + 1; ?>"
+                        value="null" checked/>
+                    <span class="design"></span>
+                    <span class="text">
                     </span>
                 </label>
                 <div>
@@ -4267,6 +4240,14 @@ include_once 'partials/header.php'
                     Il n'a jamais fait
                 </span>
             </label>
+            <label class="quiz-form__ans" hidden>
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="null" checked/>
+                <span class="design"></span>
+                <span class="text">
+                </span>
+            </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -4298,6 +4279,14 @@ include_once 'partials/header.php'
                     Il n'a jamais fait
                 </span>
             </label>
+            <label class="quiz-form__ans" hidden>
+                <input type="radio" onclick="checkedRadio()"
+                    name="answer<?php echo $i + 1; ?>"
+                    value="null" checked/>
+                <span class="design"></span>
+                <span class="text">
+                </span>
+            </label>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
                 </div>
@@ -4305,8 +4294,8 @@ include_once 'partials/header.php'
             <?php } ?>
             <?php } ?>
             <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
-                <button type="submit" class="btn btn-secondary btn-lg" name="back">Retour</button>
-                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Terminer</button>
+                <!-- <button type="submit" class="btn btn-secondary btn-lg" name="back">Retour</button> -->
+                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Etape Suivante</button>
             </div>
         </div>
         </form>

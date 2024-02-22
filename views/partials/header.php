@@ -39,6 +39,7 @@
     <!--end::Global Stylesheets Bundle-->
     <!--Begin::Google Tag Manager -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
     (function(w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -74,12 +75,12 @@
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
     <!-- Spinner Start -->
-    <!-- <div id="spinner"
-        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div id="spinner"
+        class="show bg-transparent position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Chargement...</span>
         </div>
-    </div> -->
+    </div>
     <!-- Spinner End -->
     <!--begin::Theme mode setup on page load-->
     <script>
@@ -690,7 +691,7 @@
                                 <!--end:Menu item-->
                                 <?php } ?>
                                 <?php } elseif ($_SESSION['profile'] == 'Technicien') { ?>
-                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php#questionnaires') { ?>
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/congrat.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php#questionnaires') { ?>
                                 <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizDeclaratif.php?brand='.$_GET["brand"].'&vehicle='.$_GET["vehicle"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
@@ -716,7 +717,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userQuizFactuel.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoirs</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoir</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -764,7 +765,7 @@
                                     <!--begin:Menu item-->
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
-                                        <a class="menu-link" href="#questionnaires"><span
+                                        <a class="menu-link" href="./dashboard.php#questionnaires"><span
                                                 class="menu-icon">
                                                 <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
                                                 Questionnaires</span></a>

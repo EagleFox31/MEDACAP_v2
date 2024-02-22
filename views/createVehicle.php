@@ -299,10 +299,10 @@ if ( isset( $_POST[ 'submit' ] ) ) {
     for ($i = 0; $i < count($user); $i++) {
         if ($user[$i]->profile == 'Technicien'  || $user[$i]->profile == 'Manager (à évaluer)') {
             array_push($userArr, $user[$i]->_id);
-            if ($user[$i]->level == 'Senior (Réparation)' || $user[$i]->level == 'Expert (Diagnostic)') {
+            if ($user[$i]->level == 'Senior' || $user[$i]->level == 'Expert') {
                 array_push($userArrR, $user[$i]->_id);
             }
-            if ($user[$i]->level == 'Expert (Diagnostic)') {
+            if ($user[$i]->level == 'Expert') {
                 array_push($userArrD, $user[$i]->_id);
             }
         }

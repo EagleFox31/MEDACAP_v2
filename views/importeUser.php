@@ -213,7 +213,7 @@ require_once '../vendor/autoload.php';
                         ['_id' => new MongoDB\BSON\ObjectId($manager->_id)],
                         ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
                     );
-                        if ($level == 'Junior (Maintenance)') {
+                        if ($level == 'Junior') {
                             if ($vehicleFacJu) {
                                 $vehicles->updateOne(
                                 ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -246,7 +246,7 @@ require_once '../vendor/autoload.php';
                                 $allocations->insertOne($allocates);
                             }
                             $success_msg = 'Utilisateurs ajoutés avec succès';
-                        } elseif ($level == 'Senior (Réparation)') {
+                        } elseif ($level == 'Senior') {
                             if ($vehicleFacJu) {
                                 $vehicles->updateOne(
                                 ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -310,7 +310,7 @@ require_once '../vendor/autoload.php';
                                 $allocations->insertOne($allocates);
                             }
                             $success_msg = 'Utilisateurs ajoutés avec succès';
-                        } elseif ($level == 'Expert (Diagnostic)') {
+                        } elseif ($level == 'Expert') {
                             if ($vehicleFacJu) {
                                 $vehicles->updateOne(
                                 ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -434,7 +434,7 @@ require_once '../vendor/autoload.php';
                         'created' => date('d-m-Y'),
                     ];
                     $user = $users->insertOne($person);
-                if ($level == 'Junior (Maintenance)') {
+                if ($level == 'Junior') {
                     if ($vehicleFacJu) {
                         $vehicles->updateOne(
                         ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -467,7 +467,7 @@ require_once '../vendor/autoload.php';
                         $allocations->insertOne($allocates);
                     }
                     $success_msg = 'Utilisateurs ajoutés avec succès';
-                } elseif ($level == 'Senior (Réparation)') {
+                } elseif ($level == 'Senior') {
                     if ($vehicleFacJu) {
                         $vehicles->updateOne(
                         ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -531,7 +531,7 @@ require_once '../vendor/autoload.php';
                         $allocations->insertOne($allocates);
                     }
                     $success_msg = 'Utilisateurs ajoutés avec succès';
-                } elseif ($level == 'Expert (Diagnostic)') {
+                } elseif ($level == 'Expert') {
                     if ($vehicleFacJu) {
                         $vehicles->updateOne(
                         ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -746,7 +746,7 @@ require_once '../vendor/autoload.php';
                     ['active' => true],
                 ],
             ]);
-                if ($level == 'Junior (Maintenance)') {
+                if ($level == 'Junior') {
                     if ($vehicleFacJu) {
                         $vehicles->updateOne(
                         ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -779,7 +779,7 @@ require_once '../vendor/autoload.php';
                         $allocations->insertOne($allocates);
                     }
                     $success_msg = 'Manager ajouté avec succès';
-                } elseif ($level == 'Senior (Réparation)') {
+                } elseif ($level == 'Senior') {
                     if ($vehicleFacJu) {
                         $vehicles->updateOne(
                         ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
@@ -843,7 +843,7 @@ require_once '../vendor/autoload.php';
                         $allocations->insertOne($allocates);
                     }
                     $success_msg = 'Manager ajouté avec succès';
-                } elseif ($level == 'Expert (Diagnostic)') {
+                } elseif ($level == 'Expert') {
                     if ($vehicleFacJu) {
                         $vehicles->updateOne(
                         ['_id' => new MongoDB\BSON\ObjectId($vehicleFacJu->_id)],
