@@ -174,14 +174,14 @@ include('./partials/header.php')
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Header-->
-                        <div class="card-header border-0 pt-5 pb-3">
+                        <!-- <div class="card-header border-0 pt-5 pb-3"> -->
                             <!--begin::Heading-->
-                            <h3 class="card-title align-items-start flex-column">
+                            <!-- <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-bolder text-gray-800 fs-2">Mes
                                     subordonnés à évaluer</span>
-                            </h3>
+                            </h3> -->
                             <!--end::Heading-->
-                        </div>
+                        <!-- </div> -->
                         <!--end::Header-->
                         <!--begin::Table-->
                         <div class="table-responsive">
@@ -238,6 +238,7 @@ include('./partials/header.php')
                                             $verified = $allocations->findOne([
                                                 'user' => new MongoDB\BSON\ObjectId($user->_id),
                                                 'vehicle' => new MongoDB\BSON\ObjectId($vehicle->_id),
+                                                'active' => false
                                             ]);
                                             $exam = $exams->findOne([
                                                 '$and' => [
@@ -278,7 +279,6 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($allocate->active == false) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
@@ -287,14 +287,6 @@ include('./partials/header.php')
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($allocate->active == true) { ?>
-                                            <td>
-                                                <span class="badge badge-light-success fs-7 m-1">
-                                                    Effectué
-                                                </span>
-                                            </td>
-                                            <?php } ?>
                                         <?php } ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
@@ -323,7 +315,6 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($allocate->active == false) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
@@ -332,14 +323,6 @@ include('./partials/header.php')
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($allocate->active == true) { ?>
-                                            <td>
-                                                <span class="badge badge-light-success fs-7 m-1">
-                                                    Effectué
-                                                </span>
-                                            </td>
-                                            <?php } ?>
                                         <?php } ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
@@ -368,7 +351,6 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($allocate->active == false) { ?>
                                             <td>
                                                 <a href="./userEvaluation.php?brand=<?php echo $vehicle->brand ?>&vehicle=<?php echo $vehicle->label ?>&level=<?php echo $allocate->level ?>&user=<?php echo $user->_id ?>&id=<?php echo $manager->_id ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
@@ -377,14 +359,11 @@ include('./partials/header.php')
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($allocate->active == true) { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
                                                 </span>
                                             </td>
-                                            <?php } ?>
                                         <?php } ?>
                                         <?php } ?>
                                     </tr>
@@ -414,14 +393,14 @@ include('./partials/header.php')
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Header-->
-                        <div class="card-header border-0 pt-5 pb-3">
+                        <!-- <div class="card-header border-0 pt-5 pb-3"> -->
                             <!--begin::Heading-->
-                            <h3 class="card-title align-items-start flex-column">
+                            <!-- <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-bolder text-gray-800 fs-2">Mes
                                     Questionnaires</span>
-                            </h3>
+                            </h3> -->
                             <!--end::Heading-->
-                        </div>
+                        <!-- </div> -->
                         <!--end::Header-->
                         <!--begin::Table-->
                         <div class="table-responsive">
@@ -846,14 +825,14 @@ include('./partials/header.php')
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Header-->
-                        <div class="card-header border-0 pt-5 pb-3">
+                        <!-- <div class="card-header border-0 pt-5 pb-3"> -->
                             <!--begin::Heading-->
-                            <h3 class="card-title align-items-start flex-column">
+                            <!-- <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-bolder text-gray-800 fs-2" id="questionnaires">Mes
                                     Questionnaires</span>
-                            </h3>
+                            </h3> -->
                             <!--end::Heading-->
-                        </div>
+                        <!-- </div> -->
                         <!--end::Header-->
                         <!--begin::Table-->
                         <div class="table-responsive">

@@ -145,15 +145,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">Filiale</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">Département</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Véhicules</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Marque de véhicule</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 200px;">
@@ -197,13 +193,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                         </td>
                                         <td data-filter="email">
+                                            <?php echo $user->subsidiary ?>
+                                        </td>
+                                        <td data-filter="email">
                                             <?php echo $user->department ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $vehicle->label ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $vehicle->brand ?>
                                         </td>
                                         <?php if ($usersFactuel[$i]->active == false) { ?>
                                         <td data-filter="email">

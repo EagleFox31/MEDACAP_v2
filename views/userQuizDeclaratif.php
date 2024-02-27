@@ -339,8 +339,22 @@ if (!isset($_SESSION['id'])) {
                 array_push($userAnswer, $proposals[$i]);
             }
         }
-        if (count($questionsTag) != count($userAnswer)) {
-            $error_msg = "Vous n'avez pas répondu à toutes les questions, Veuillez vérifier vos réponses.";
+        if (count($questionsTag) != count($to)) {
+            $idxs = array_map(function ($v, $k) use ($answers) {
+                if ($v === "null") {
+                    return $k+1;
+                }
+            }, $answers, array_keys($answers));
+            for ($j = 0; $j < count($idxs); ++$j) {
+                if($idxs[$j] != null) {
+                    array_push($array, $idxs[$j]); 
+                    $error_msg = "Vous n'avez pas répondu à ".count($array)." question(s), Veuillez vérifier la ou les question(s) dont valider est en vert svp.";
+                }
+            }
+            //var_dump($array);
+            //var_dump($o);
+            //var_dump($r++);
+            //var_dump($o);
         } else {
             $scoreF = 0;
             $score = [];
@@ -1980,9 +1994,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerAssistance<?php echo $i + 1; ?>"
@@ -2056,9 +2067,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerArbre<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -2130,9 +2138,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerTransfert<?php echo $i + 1; ?>"
@@ -2206,9 +2211,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoite<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -2279,9 +2281,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoiteAuto<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -2352,9 +2351,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoiteMan<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -2425,9 +2421,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoiteVc<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -2499,9 +2492,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerClimatisation<?php echo $i + 1; ?>"
@@ -2576,9 +2566,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerDemi<?php echo $i + 1; ?>"
@@ -2653,9 +2640,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerDirection<?php echo $i + 1; ?>"
@@ -2730,9 +2714,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerElectricite<?php echo $i + 1; ?>"
@@ -2807,9 +2788,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFrei<?php echo $i + 1; ?>"
@@ -2884,9 +2862,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerfreinageElec<?php echo $i + 1; ?>"
@@ -2961,9 +2936,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFreinage<?php echo $i + 1; ?>"
@@ -3037,9 +3009,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFrein<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -3111,9 +3080,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerHydraulique<?php echo $i + 1; ?>"
@@ -3188,9 +3154,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurDiesel<?php echo $i + 1; ?>"
@@ -3265,9 +3228,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurElec<?php echo $i + 1; ?>"
@@ -3342,9 +3302,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurEssence<?php echo $i + 1; ?>"
@@ -3419,9 +3376,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteur<?php echo $i + 1; ?>"
@@ -3495,9 +3449,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMultiplexage<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -3568,9 +3519,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerPont<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -3642,9 +3590,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerPneu<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
@@ -3716,9 +3661,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerReducteur<?php echo $i + 1; ?>"
@@ -3793,9 +3735,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspension<?php echo $i + 1; ?>"
@@ -3870,9 +3809,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionLame<?php echo $i + 1; ?>"
@@ -3947,9 +3883,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionRessort<?php echo $i + 1; ?>"
@@ -4024,9 +3957,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionPneumatique<?php echo $i + 1; ?>"
@@ -4101,9 +4031,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $k++; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerTransversale<?php echo $i + 1; ?>"
@@ -4337,9 +4264,6 @@ include_once 'partials/header.php'; ?>
                                 style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
                                 <?php echo $i + 1; ?> - <?php echo $question->label; ?>
                             </p>
-                            <div style="margin-top: 50px; display: flex; justify-content: center;">
-                                <img id="image" alt="" src="../public/files/<?php echo $question->image ?? ''; ?>"> <br>
-                            </div>
                             <?php
                                 if(isset($exam['answers'][$i])) {
                             ?>
@@ -4630,6 +4554,21 @@ score.innerHTML = `${cal}`;
 //         submitBtn.classList.remove("disabled");
 //     }
 // }
+
+// function saveData(i) {
+//     let save = document.querySelector("button[name='save']");
+//     document.querySelector("#kt_content").load(location.href + "#" + i)
+// }
+
+$(window).scroll(function() {
+  sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+});
 </script>
 <?php
 include_once 'partials/footer.php'; ?>

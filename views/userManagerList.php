@@ -47,7 +47,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Listes de mes techniciens évalués
+                    Mes techniciens évalués
                 </h1>
                 <!--end::Title-->
                 <div class="card-title">
@@ -159,16 +159,6 @@ include_once 'partials/header.php'
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Département</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Véhicules</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Marques</th>
                                         <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 200px;">
@@ -225,12 +215,6 @@ include_once 'partials/header.php'
                                         </td>
                                         <td>
                                             <?php echo $user->department ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $vehicle->label ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $vehicle->brand ?>
                                         </td>
                                         <td>
                                             Questionnaire sur la maitrise tâches professionnelles des techniciens

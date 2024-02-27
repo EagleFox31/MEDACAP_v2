@@ -20,8 +20,10 @@
 <!--begin::Modals-->
 <!--end::Modals-->
 <!--begin::Scrolltop-->
-<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop = "true">
     <i class="ki-duotone ki-arrow-up"><span class="path1"></span><span class="path2"></span></i>
+</div>
+<div id="scroll_position" class="hidden">
 </div>
 <!--end::Scrolltop-->
 <!--begin::Javascript-->
@@ -284,7 +286,7 @@ function pageGenerator(getem) {
             a = array.map(i => {
                 return `<li class="paginate_button page-item" id="number">
                             <a href="#" class="page-link" data-page="${i}">${i}</a>
-                            </li>`
+                        </li>`
             });
             paginate.innerHTML = `
                         <li class="page-item previous"><a
@@ -361,4 +363,29 @@ function pageMaker(index, item_per_page, active_page) {
     });
     active_page[index - 1].classList.add("active");
 }
+
+// $(document).ready(function() {
+//     $(function(){
+//         var div = document.querySelector("#kt_content");
+//         var scroll_position = document.querySelector("#scroll_position");
+//         div.onscroll = function() {
+//             scroll_position.value = div.scrollTop;
+//         }
+//     })
+// })
+
+// var prm = Sys.WebForms.PageResquestManager.getInstance();
+
+// prm.add_endResquest(function() {
+//     $(function() {
+//         var div = document.querySelector("#kt_content");
+//         var scroll_position = document.querySelector("#scroll_position");
+//         var position = $("[id*=scroll_position]").val() != "" ? $("[id*=scroll_position]").val() != "0";
+//         div.scrollTop = position;
+//         div.onscroll = function() {
+//             scroll_position.value = div.scrollTop;
+//         }
+//     })
+// })
+
 </script>

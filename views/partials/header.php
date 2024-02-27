@@ -223,7 +223,7 @@
                                             <!--begin:Menu link--><a class="menu-link" href="./userInfo.php"><span
                                                     class="menu-bullet"><span
                                                         class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Avancement des
+                                                    class="menu-title">Etat Avancement des Tests des
                                                     Utilisateurs</span></a>
                                             <!--end:Menu link-->
                                         </div>
@@ -571,7 +571,7 @@
                                             <i class="ki-duotone ki-user fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
-                                            </i></span><span class="menu-title">Mes Subordonnés
+                                            </i></span><span class="menu-title">Etat Avancement des Tests des Techniciens
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -585,41 +585,26 @@
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/allocationManager.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerList.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerResults.php') { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
-                                            <i class="ki-duotone ki-user fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i></span><span class="menu-title">
-                                            Mes
-                                            Subordonnés évalués
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">
+                                            Mes Techniciens Evalués
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/allocationManager.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerList.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerResults.php') { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userEvaluation.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoir-Faire Subordonné</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoir-Faire Technicien</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SESSION['test'] == true) { ?>
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
-                                            class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Evaluations Réalisés</span></a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
@@ -649,8 +634,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">
-                                            Mes
-                                            Subordonnés évalués
+                                            Mes Techniciens Evalués
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -694,21 +678,11 @@
                                 <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/congrat.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php#questionnaires') { ?>
                                 <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizDeclaratif.php?brand='.$_GET["brand"].'&vehicle='.$_GET["vehicle"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
                                 <!--begin:Menu item-->
-                                <div class="menu-item pt-5">
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
-                                    </div>
-                                    <!--end:Menu content-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./dashboard.php#questionnaires"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Questionnaires</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Compétences</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -724,21 +698,11 @@
                                 <?php } ?>
                                 <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizFactuel.php?brand='.$_GET["brand"].'&vehicle='.$_GET["vehicle"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
                                 <!--begin:Menu item-->
-                                <div class="menu-item pt-5">
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
-                                    </div>
-                                    <!--end:Menu content-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./dashboard.php#questionnaires"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Questionnaires</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Compétences</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -754,21 +718,11 @@
                                 <?php } ?>
                                 <?php } else { ?>
                                     <!--begin:Menu item-->
-                                    <div class="menu-item pt-5">
-                                        <!--begin:Menu content-->
-                                        <div class="menu-content"><span
-                                                class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
-                                        </div>
-                                        <!--end:Menu content-->
-                                    </div>
-                                    <!--end:Menu item-->
-                                    <!--begin:Menu item-->
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
                                         <a class="menu-link" href="./dashboard.php#questionnaires"><span
                                                 class="menu-icon">
-                                                <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                                Questionnaires</span></a>
+                                                <i class="fas fa-book fs-2"></i></span><span class="menu-title">Compétences</span></a>
                                         <!--end:Menu link-->
                                     </div>
                                     <!--end:Menu item-->

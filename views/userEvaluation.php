@@ -73,6 +73,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
         $answers = [];
+        $to = [];
         for ($i = 0; $i < count($questionsTag); ++$i) {
             array_push($questionsTags, new MongoDB\BSON\ObjectId($questionsTag[$i]));
         }
@@ -86,6 +87,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 'type' => 'Declarative',
             ]);
             if ($data) {
+                array_push($answers, $proposals[$i]);
+                array_push($to, $proposals[$i]);
+            }
+            if ($proposals[$i] == "null") {
                 array_push($answers, $proposals[$i]);
             }
         }
@@ -270,7 +275,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             $exam->hour = $hr;
             $exam->minute = $mn;
             $exam->second = $sc;
-            $exam->total = count($answers);
+            $exam->total = count($to);
             $exams->updateOne(
                 [ '_id' => new MongoDB\BSON\ObjectId($exam->_id) ],
                 [ '$set' => $exam ]
@@ -313,7 +318,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 'hour' => $hr,
                 'minute' => $mn,
                 'second' => $sc,
-                'total' => count($answers),
+                'total' => count($to),
                 'active' => true,
                 'created' => date('d-m-y')
             ];
@@ -342,8 +347,22 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 array_push($userAnswer, $proposals[$i]);
             }
         }
-        if (count($questionsTag) != count($userAnswer)) {
-            $error_msg = "Vous n'avez pas répondu à toutes les questions, Veuillez vérifier vos réponses.";
+        if (count($questionsTag) != count($to)) {
+            $idxs = array_map(function ($v, $k) use ($answers) {
+                if ($v === "null") {
+                    return $k+1;
+                }
+            }, $answers, array_keys($answers));
+            for ($j = 0; $j < count($idxs); ++$j) {
+                if($idxs[$j] != null) {
+                    array_push($array, $idxs[$j]); 
+                    $error_msg = "Vous n'avez pas répondu à ".count($array)." question(s), Veuillez vérifier la ou les question(s) dont valider est en vert svp.";
+                }
+            }
+            //var_dump($array);
+            //var_dump($o);
+            //var_dump($r++);
+            //var_dump($o);
         } else {
             $scoreF = 0;
             $score = [];
@@ -4394,6 +4413,16 @@ score.innerHTML = `${cal}`;
 //     const cal = (num * ques.length) - radio;
 //     score.innerHTML = `${cal}`;
 // }
+
+$(window).scroll(function() {
+  sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+});
 </script>
 <?php
 include_once 'partials/footer.php'

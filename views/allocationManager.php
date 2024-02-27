@@ -157,14 +157,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             style="width: 155.266px;">Département</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Véhicules</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Marque de véhicule</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 200px;">
                                             Etat d'avancement des QCM </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
@@ -217,12 +209,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </td>
                                         <td data-filter="email">
                                             <?php echo $user->department ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $vehicle->label ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $vehicle->brand ?>
                                         </td>
                                         <?php if ($usersFactuel[$i]->active == false) { ?>
                                         <td data-filter="email">

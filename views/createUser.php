@@ -1311,13 +1311,13 @@ include_once 'partials/header.php'; ?>
               <select name="level" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez le niveau..." class="form-select form-select-solid fw-bold">
                 <option>Sélectionnez le
                   niveau...</option>
-                <option value="Junior">
+                <option <?php if (isset($_POST['submit']) && $_POST['level'] == "Junior") { echo 'selected = selected'; } ?> value="Junior">
                   Junior
                 </option>
-                <option value="Senior">
+                <option <?php if (isset($_POST['submit']) && $_POST['level'] == "Senior") { echo 'selected = selected'; } ?> value="Senior">
                   Senior
                 </option>
-                <option value="Expert">
+                <option <?php if (isset($_POST['submit']) && $_POST['level'] == "Expert") { echo 'selected = selected'; } ?> value="Expert">
                   Expert
                 </option>
               </select>
@@ -1339,10 +1339,10 @@ include_once 'partials/header.php'; ?>
               <!--end::Label-->
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid" placeholder="" name="certificate" <?php
-                                    if (isset($_POST['submit'])) {
-                                        echo 'value="'.$certificate.'"';
-                                    }
-                                     ?> />
+              if (isset($_POST['submit'])) {
+                  echo 'value="'.$certificate.'"';
+              }
+               ?> />
               <!--end::Input-->
               <?php
                      if (isset($error)) {

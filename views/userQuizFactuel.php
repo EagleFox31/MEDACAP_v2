@@ -366,7 +366,7 @@ if (!isset($_SESSION['id'])) {
         $proposals = array_values($body);
         $answers = [];
         $to = [];
-        $o = [];
+        $array = [];
         $number = [1, 2, 3, 4];
         for ($i = 0; $i < count($proposals); ++$i) {
             $data = $questions->findOne([
@@ -387,15 +387,18 @@ if (!isset($_SESSION['id'])) {
             }
         }
         if (count($questionsTag) != count($to)) {
-            for ($r = 0; $r < count($answers); ++$r) {
-                if($answers[$r] == "null") {
-                    array_push($o, $r);
-                    for ($b = 0; $b < count($o); ++$b) {
-                        $error_msg = "Vous n'avez pas répondu aux questions ".$o[$b]++.", Veuillez vérifier svp.";
-                    }
+            $idxs = array_map(function ($v, $k) use ($answers) {
+                if ($v === "null") {
+                    return $k+1;
+                }
+            }, $answers, array_keys($answers));
+            for ($j = 0; $j < count($idxs); ++$j) {
+                if($idxs[$j] != null) {
+                    array_push($array, $idxs[$j]); 
+                    $error_msg = "Vous n'avez pas répondu à ".count($array)." question(s), Veuillez vérifier la ou les question(s) dont valider est en vert svp.";
                 }
             }
-            //var_dump($r++);
+            //var_dump($array);
             //var_dump($o);
         } else {
             $score = 0;
@@ -6237,6 +6240,16 @@ score.innerHTML = `${cal}`;
 //         submitBtn.classList.remove("disabled");
 //     }
 // }
+
+$(window).scroll(function() {
+  sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+});
 </script>
 <?php
 include_once 'partials/footer.php'; ?>
