@@ -23,6 +23,7 @@ $allocations = $academy->allocations;
 
 if ( isset( $_POST[ 'update' ] ) ) {
     $id = $_POST[ 'questionID' ];
+    $ref = $_POST[ 'ref' ];
     $label = $_POST[ 'label' ];
     $proposal1 = $_POST['proposal1'];
     $proposal2 = $_POST['proposal2'];
@@ -35,6 +36,7 @@ if ( isset( $_POST[ 'update' ] ) ) {
     $image = $_FILES[ 'image' ]['name'];
     
     $question = [
+        'ref' => $ref,
         'label' => ucfirst( $label ),
         'proposal1' => ucfirst( $proposal1 ),
         'proposal2' => ucfirst( $proposal2 ),
@@ -54,6 +56,7 @@ if ( isset( $_POST[ 'update' ] ) ) {
         $questions->updateOne(
             [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
             [ '$set' => [
+                    'ref' => $ref,
                     'label' => ucfirst( $label ),
                     'proposal1' => ucfirst( $proposal1 ),
                     'proposal2' => ucfirst( $proposal2 ),
@@ -262,10 +265,12 @@ include_once 'partials/header.php'
                                             style="width: 29.8906px;">
                                             <div
                                                 class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" data-kt-check="true"
-                                                    data-kt-check-target="#kt_customers_table .form-check-input"
-                                                    value="1">
                                             </div>
+                                        </th>
+                                        <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Customer Name: activate to sort column ascending"
+                                            style="width: 125px;">Reférence
                                         </th>
                                         <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -328,6 +333,12 @@ include_once 'partials/header.php'
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
                                                     onclick="enable()" value="<?php echo $question->_id ?>">
                                             </div>
+                                        </td>
+                                        <td data-filter="search">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
+                                                class="text-gray-800 text-hover-primary mb-1">
+                                                <?php echo $question->ref ?? "" ?>
+                                            </a>
                                         </td>
                                         <td data-filter="search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
@@ -527,6 +538,19 @@ include_once 'partials/header.php'
                                                             <!--begin::User form-->
                                                             <div id="kt_modal_update_user_user_info"
                                                                 class="collapse show">
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">Reférence</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="ref"
+                                                                        value="<?php echo $question->ref ?? '' ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->

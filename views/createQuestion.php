@@ -26,6 +26,7 @@ if (!isset($_SESSION['id'])) {
         $proposal2 = $_POST['proposal2'];
         $proposal3 = $_POST['proposal3'];
         $proposal4 = $_POST['proposal4'];
+        $ref = $_POST['ref'];
         $answer = $_POST['answer'];
         $speciality = $_POST['speciality'];
         $type = $_POST['type'];
@@ -39,6 +40,7 @@ if (!isset($_SESSION['id'])) {
 
         $exist = $questions->findOne([
         '$and' => [
+            ['ref' => $ref],
             ['label' => $label],
             ['speciality' => $speciality],
             ['level' => $level],
@@ -47,6 +49,7 @@ if (!isset($_SESSION['id'])) {
     ]);
 
         if (empty($label) ||
+    empty($ref) ||
     empty($type) ||
     empty($level) ||
     empty($speciality)) {
@@ -56,6 +59,7 @@ if (!isset($_SESSION['id'])) {
         } elseif ($type == 'Factuelle') {
             $question = [
                 'image' => $image,
+                'ref' => $ref,
                 'label' => ucfirst($label),
                 'proposal1' => ucfirst($proposal1),
                 'proposal2' => ucfirst($proposal2),
@@ -1371,6 +1375,7 @@ if (!isset($_SESSION['id'])) {
         } elseif ($type == 'Declarative') {
             $question = [
                 'image' => $image,
+                'ref' => $ref,
                 'label' => ucfirst($label),
                 'proposal1' => '1-'.$speciality.'-'.$level.'-'.$label.'-1',
                 'proposal2' => '2-'.$speciality.'-'.$level.'-'.$label.'-2',
@@ -2732,13 +2737,13 @@ include_once 'partials/header.php'; ?>
                     <!--begin::Input group-->
                     <div class='fv-row mb-7'>
                         <!--begin::Label-->
-                        <label class='required form-label fw-bolder text-dark fs-6'>Libellé de la question</label>
+                        <label class='required form-label fw-bolder text-dark fs-6'>Reférence</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type='text' class='form-control form-control-solid' placeholder='' name='label'
+                        <input type='text' class='form-control form-control-solid' placeholder='' name='ref'
                         <?php
                             if (isset($_POST['submit'])) {
-                                echo 'value="'.$label.'"';
+                                echo 'value="'.$ref.'"';
                             }
                              ?> />
                         <!--end::Input-->
@@ -2750,6 +2755,29 @@ include_once 'partials/header.php'; ?>
                         </span>
                         <?php
                     } ?>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class='fv-row mb-7'>
+                        <!--begin::Label-->
+                        <label class='required form-label fw-bolder text-dark fs-6'>Libellé de la question</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type='text' class='form-control form-control-solid' placeholder='' name='label'
+                        <?php
+                        if (isset($_POST['submit'])) {
+                            echo 'value="'.$label.'"';
+                        }
+                         ?> />
+                        <!--end::Input-->
+                        <?php
+                        if (isset($error)) {
+                            ?>
+                        <span class='text-danger'>
+                            <?php echo $error; ?>
+                        </span>
+                        <?php
+                        } ?>
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
@@ -2871,7 +2899,7 @@ include_once 'partials/header.php'; ?>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input class='form-control form-control-solid' placeholder='' name='proposal4'
-                        <?php
+                            <?php
                             if (isset($_POST['submit'])) {
                                 echo 'value="'.$proposal4.'"';
                             }

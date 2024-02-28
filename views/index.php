@@ -145,7 +145,7 @@ if ( isset( $error_msg ) ) {
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
                         <img class="img-fluid position-absolute w-100 h-100"
-                            src="../public/images/IMG-20230627-WA0093.jpg" alt="" style="object-fit: cover;">
+                            src="../public/images/20230310_173722.jpg" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: 120px;">
@@ -190,20 +190,20 @@ if ( isset( $error_msg ) ) {
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">
-                    Formation</h6>
-                <h1 class="mb-5">Images des formations</h1>
+                    Images</h6>
+                <h1 class="mb-5">Quelques Images</h1>
             </div>
             <div class="row g-3">
                 <div class="col-lg-7 col-md-6">
                     <div class="row g-3">
                         <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../public/images/20230310_173722.jpg" alt="">
+                                <img class="img-fluid" src="../public/images/Cami montage.png" alt="">
                                 <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                                 </div>
                                 <div
                                     class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                    Formation Hybride Toyota</div>
+                                    Les vehicules Commercialisés</div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
@@ -213,7 +213,7 @@ if ( isset( $error_msg ) ) {
                                 </div>
                                 <div
                                     class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                    Formation DPOK</div>
+                                    Image Formation DPOK</div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
@@ -223,7 +223,7 @@ if ( isset( $error_msg ) ) {
                                 </div>
                                 <div
                                     class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                    Viste d'entreprise</div>
+                                    Image Viste d'entreprise</div>
                             </a>
                         </div>
                     </div>
@@ -235,7 +235,7 @@ if ( isset( $error_msg ) ) {
                         <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                         </div>
                         <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                            Formation Hybride Toyota</div>
+                            Image Formation Hybride Toyota</div>
                     </a>
                 </div>
             </div>

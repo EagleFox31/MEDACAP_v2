@@ -37,11 +37,13 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $proposal3 = $row["5"];
         $proposal4 = $row["6"];
         $image = $row["7"];
-        $answer = $row["8"];
-        $type = ucfirst($row["9"]);
+        $ref = $row["8"];
+        $answer = $row["9"];
+        $type = ucfirst($row["10"]);
         
         $exist = $questions->findOne([
             '$and' => [
+                [ 'ref' => $ref ],
                 [ 'label' => $label ],
                 [ 'speciality' => $speciality ],
                 [ 'level' => $level ],
@@ -55,6 +57,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         } elseif ($type == 'Factuelle') {
             $question = [
                 'image' => $image,
+                'ref' => $ref,
                 'label' => ucfirst($label),
                 'proposal1' => ucfirst($proposal1),
                 'proposal2' => ucfirst($proposal2),
@@ -1369,6 +1372,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         } elseif ($type == 'Declarative') {
             $question = [
                 'image' => $image,
+                'ref' => $ref,
                 'label' => ucfirst($label),
                 'proposal1' => '1-'.$speciality.'-'.$level.'-'.$label.'-1',
                 'proposal2' => '2-'.$speciality.'-'.$level.'-'.$label.'-2',

@@ -20,13 +20,42 @@ $quizzes = $academy->quizzes;
 $vehicles = $academy->vehicles;
 $allocations = $academy->allocations;
  
+if ( isset( $_POST[ 'quizze' ] ) ) {
+    $id = $_POST[ 'vehicleID' ];
+    $label = $_POST[ 'label' ];
+    $brand = $_POST[ 'brand' ];
+    $type = $_POST[ 'type' ];
+    $level = $_POST[ 'level' ];
+    $quiz = $_POST[ 'quizze' ]; 
+
+    $quize = [];
+    for ($i = 0; $i < count($quiz); $i++) {
+        array_push($quize, new MongoDB\BSON\ObjectId( $quiz[$i] ));
+    }
+    $vehicle = [
+        'quizzes' => $quize,
+        'label' => ucfirst( $label ),
+        'brand' => ucfirst( $brand ),
+        'type' => $type,
+        'level' => ucfirst( $level ),
+        'total' => count( $quize ),
+        'updated' => date("d-m-Y")
+    ];
+    
+    $vehicles->updateOne(
+        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
+        [ '$set' => $vehicle ]
+    );
+    $success_msg = "Véhicule modifié avec succès.";
+}
+
 if ( isset( $_POST[ 'update' ] ) ) {
     $id = $_POST[ 'vehicleID' ];
     $label = $_POST[ 'label' ];
     $brand = $_POST[ 'brand' ];
     $type = $_POST[ 'type' ];
     $level = $_POST[ 'level' ];
-    
+
     $vehicle = [
         'label' => ucfirst( $label ),
         'brand' => ucfirst( $brand ),
@@ -549,6 +578,42 @@ include_once 'partials/header.php'
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="level"
                                                                         value="<?php echo $vehicle->level ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                    <!--begin::Label-->
+                                                                    <label class="form-label fw-bolder text-dark fs-6">
+                                                                        <span>Questionnaires</span>
+                                                                        <span class="ms-1" data-bs-toggle="tooltip"
+                                                                            title="Choississez les questionnaires">
+                                                                            <i class="ki-duotone ki-information fs-7"><span
+                                                                                    class="path1"></span><span
+                                                                                    class="path2"></span><span
+                                                                                    class="path3"></span></i>
+                                                                        </span>
+                                                                    </label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <select name="quizze[]" multiple aria-label="Select a Country"
+                                                                        data-control="select2"
+                                                                        data-placeholder="Sélectionnez vos questionnaires..."
+                                                                        class="form-select form-select-solid fw-bold">
+                                                                        <?php 
+                                                                        $quizz = $quizzes->find([ 
+                                                                            '$and' => [
+                                                                                ['type' => $vehicle->type ],
+                                                                                ['active' => true],
+                                                                            ],
+                                                                        ]);
+                                                                        foreach ($quizz as $quizz) {
+                                                                        ?>
+                                                                        <option value="<?php echo $quizz->_id ?>">
+                                                                            <?php echo $quizz->label ?>
+                                                                        </option>
+                                                                        <?php } ?>
+                                                                    </select>
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->

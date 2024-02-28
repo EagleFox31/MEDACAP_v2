@@ -810,18 +810,18 @@ include_once 'partials/header.php'; ?>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input class='form-control form-control-solid' placeholder='' name='firstName' <?php
-                                    if (isset($_POST['submit'])) {
-                                        echo 'value="'.$firstName.'"';
-                                    }
-                                     ?> />
+                if (isset($_POST['submit'])) {
+                    echo 'value="'.$firstName.'"';
+                }
+                 ?> />
                 <?php
-                             if (isset($error)) {
-                                     ?>
+                if (isset($error)) {
+                        ?>
                 <span class='text-danger'>
                   <?php echo $error; ?>
                 </span>
                 <?php
-                                 } ?>
+                   } ?>
               </div>
               <!--end::Col-->
               <!--begin::Col-->
