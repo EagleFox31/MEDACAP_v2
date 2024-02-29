@@ -130,6 +130,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'brand' => $brand,
             'level' => 'Junior',
             'total' => count($facJu),
+            'test' => false,
             'active' => true,
             'created' => date("d-m-Y")
         ];
@@ -143,6 +144,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'brand' => $brand,
             'level' => 'Senior',
             'total' => count($facSe),
+            'test' => false,
             'active' => true,
             'created' => date("d-m-Y")
         ];
@@ -156,6 +158,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'brand' => $brand,
             'level' => 'Expert',
             'total' => count($facEx),
+            'test' => false,
             'active' => true,
             'created' => date("d-m-Y")
         ];
@@ -169,6 +172,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'brand' => $brand,
             'level' => 'Junior',
             'total' => count($declaJu),
+            'test' => false,
             'active' => true,
             'created' => date("d-m-Y")
         ];
@@ -182,6 +186,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'brand' => $brand,
             'level' => 'Senior',
             'total' => count($declaSe),
+            'test' => false,
             'active' => true,
             'created' => date("d-m-Y")
         ];
@@ -195,6 +200,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
             'brand' => $brand,
             'level' => 'Expert',
             'total' => count($declaEx),
+            'test' => false,
             'active' => true,
             'created' => date("d-m-Y")
         ];

@@ -18,6 +18,7 @@ if (!isset($_SESSION["profile"])) {
     $users = $academy->users;
     $quizzes = $academy->quizzes;
     $vehicles = $academy->vehicles;
+    $tests = $academy->tests;
     $exams = $academy->exams;
     $results = $academy->results;
     $allocations = $academy->allocations;
@@ -214,6 +215,7 @@ include('./partials/header.php')
                                                 [
                                                     'user' => ['$in' => $manager->users],
                                                     'type' => 'Declaratif',
+                                                    'test' => true
                                                 ],
                                             ]
                                         ])->toArray();
@@ -301,7 +303,7 @@ include('./partials/header.php')
                                         <?php } ?>
                                         <?php if ($allocate->level == "Senior") { ?>
                                         <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
+                                            <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
@@ -332,12 +334,12 @@ include('./partials/header.php')
                                         <?php } ?>
                                         <?php if ($allocate->level == "Expert") { ?>
                                         <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
+                                            <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
+                                            <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
@@ -417,34 +419,97 @@ include('./partials/header.php')
                                         <th class="min-w-125px">Niveau Expert</th>
                                     </tr>
                                     <?php
-                                        $testFac = $allocations->find([
+                                        $testFacJu = $allocations->findOne([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                 ['type' => 'Factuel'],
+                                                ['level' => 'Junior'],
+                                                ['activeTest' => true],
                                             ]
                                         ]);
-                                        $testDecla = $allocations->find([
+                                        $testFacSe = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
+                                                ['level' => 'Senior'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testFacEx = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
+                                                ['level' => 'Expert'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testDeclaJu = $allocations->findOne([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                 ['type' => 'Declaratif'],
+                                                ['level' => 'Junior'],
+                                                ['activeTest' => true],
                                             ]
                                         ]);
-                                        foreach ($testFac as $test) {
-                                            $vehicle = $vehicles->findOne([
-                                                '$and' => [
-                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ]);
-                                            $exam = $exams->findOne([
-                                                '$and' => [
-                                                    ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                    ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true]
-                                                ]
-                                            ])
+                                        $testDeclaSe = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Declaratif'],
+                                                ['level' => 'Senior'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testDeclaEx = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Declaratif'],
+                                                ['level' => 'Expert'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testJuFac = $tests->findOne([
+                                            '$and' => [
+                                                ["users" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Junior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examJuFac = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testFacJu["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testSeFac = $tests->findOne([
+                                            '$and' => [
+                                                ["users" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Senior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examSeFac = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testExFac = $tests->findOne([
+                                            '$and' => [
+                                                ["users" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Expert'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examExFac = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testFacEx["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
                                     ?>
-                                    <?php if ($test) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
@@ -453,10 +518,10 @@ include('./partials/header.php')
                                                 Questionnaire sur les connaissances théoriques
                                             </span>
                                         </td>
-                                        <?php if ($test->level == "Junior") { ?>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testFacJu) { ?>
+                                        <?php if ($examJuFac) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testFacJu["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -464,17 +529,16 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testFacJu->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?&test=<?php echo $testFacJu["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
@@ -482,26 +546,17 @@ include('./partials/header.php')
                                             </td>
                                             <?php } ?>
                                         <?php } ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
+                                        <?php } else { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($test->level == "Senior") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testFacSe) { ?>
+                                        <?php if ($examSeFac) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testFacSe["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -509,17 +564,16 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testFacSe->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testFacSe["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
@@ -527,26 +581,17 @@ include('./partials/header.php')
                                             </td>
                                             <?php } ?>
                                         <?php } ?>
+                                        <?php } else { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($test->level == "Expert") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testFacEx) { ?>
+                                        <?php if ($examExFac) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testFacEx["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -554,17 +599,16 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testFacEx->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testFacEx["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
@@ -572,27 +616,58 @@ include('./partials/header.php')
                                             </td>
                                             <?php } ?>
                                         <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
                                         <?php } ?>
                                     </tr>
-                                    <?php } ?>
-                                    <?php } ?>
                                     <?php 
-                                    foreach ($testDecla as $test) {
-                                            $vehicle = $vehicles->findOne([
-                                                '$and' => [
-                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ]);
-                                            $exam = $exams->findOne([
-                                                '$and' => [
-                                                    ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                    ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true]
-                                                ]
-                                            ])
+                                        $testJuDecla = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Junior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examJuDecla = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testDeclaJu["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testSeDecla = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Senior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examSeDecla = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testExDecla = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Expert'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examExDecla = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testDeclaEx["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
                                     ?>
-                                    <?php if ($test) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
@@ -601,100 +676,10 @@ include('./partials/header.php')
                                                 Questionnaire sur la maitrise de vos tâches professionnelles
                                             </span>
                                         </td>
-                                        <?php if ($test->level == "Junior") { ?>
-                                            <?php if ($exam) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
-                                                    </a>
-                                                </td>
-                                            <?php } else { ?>
-                                                <?php if ($test->active == false) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A faire
-                                                    </a>
-                                                </td>
-                                                <?php } ?>
-                                                <?php if ($test->active == true) { ?>
-                                                <td>
-                                                    <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
-                                                    </span>
-                                                </td>
-                                                <?php } ?>
-                                        <?php } ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
-                                        <?php } ?>
-                                        <?php if ($test->level == "Senior") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                            <?php if ($exam) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
-                                                    </a>
-                                                </td>
-                                            <?php } else { ?>
-                                                <?php if ($test->active == false) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A faire
-                                                    </a>
-                                                </td>
-                                                <?php } ?>
-                                                <?php if ($test->active == true) { ?>
-                                                <td>
-                                                    <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
-                                                    </span>
-                                                </td>
-                                                <?php } ?>
-                                        <?php } ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
-                                        <?php } ?>
-                                        <?php if ($test->level == "Expert") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testDeclaJu) { ?>
+                                        <?php if ($examJuDecla) { ?>
                                             <td>
-                                                <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testDeclaJu["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -702,28 +687,101 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testDeclaJu->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testDeclaJu["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
                                                 </span>
                                             </td>
                                             <?php } ?>
+                                        <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($testDeclaSe) { ?>
+                                        <?php if ($examSeDecla) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testDeclaSe["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    En cours
+                                                </a>
+                                            </td>
+                                        <?php } else { ?>
+                                            <?php if ($testDeclaSe->active == false) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testDeclaSe["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    A faire
+                                                </a>
+                                            </td>
+                                            <?php } else { ?>
+                                            <td>
+                                                <span class="badge badge-light-success fs-7 m-1">
+                                                    Effectué
+                                                </span>
+                                            </td>
                                             <?php } ?>
                                         <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($testDeclaEx) { ?>
+                                        <?php if ($examExDecla) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testDeclaEx["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    En cours
+                                                </a>
+                                            </td>
+                                        <?php } else { ?>
+                                            <?php if ($testDeclaEx->active == false) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testDeclaEx["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    A faire
+                                                </a>
+                                            </td>
+                                            <?php } else { ?>
+                                            <td>
+                                                <span class="badge badge-light-success fs-7 m-1">
+                                                    Effectué
+                                                </span>
+                                            </td>
+                                            <?php } ?>
+                                        <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
                                     </tr>
-                                    <?php } ?>
-                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -849,34 +907,97 @@ include('./partials/header.php')
                                         <th class="min-w-125px">Niveau Expert</th>
                                     </tr>
                                     <?php
-                                        $testFac = $allocations->find([
+                                        $testFacJu = $allocations->findOne([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                 ['type' => 'Factuel'],
+                                                ['level' => 'Junior'],
+                                                ['activeTest' => true],
                                             ]
                                         ]);
-                                        $testDecla = $allocations->find([
+                                        $testFacSe = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
+                                                ['level' => 'Senior'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testFacEx = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
+                                                ['level' => 'Expert'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testDeclaJu = $allocations->findOne([
                                             '$and' => [
                                                 ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
                                                 ['type' => 'Declaratif'],
+                                                ['level' => 'Junior'],
+                                                ['activeTest' => true],
                                             ]
                                         ]);
-                                        foreach ($testFac as $test) {
-                                            $vehicle = $vehicles->findOne([
-                                                '$and' => [
-                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ]);
-                                            $exam = $exams->findOne([
-                                                '$and' => [
-                                                    ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                    ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ])
+                                        $testDeclaSe = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Declaratif'],
+                                                ['level' => 'Senior'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testDeclaEx = $allocations->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Declaratif'],
+                                                ['level' => 'Expert'],
+                                                ['activeTest' => true],
+                                            ]
+                                        ]);
+                                        $testJuFac = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Junior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examJuFac = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testFacJu["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testSeFac = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Senior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examSeFac = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testExFac = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Expert'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examExFac = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testFacEx["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
                                     ?>
-                                    <?php if ($test ) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
@@ -885,10 +1006,10 @@ include('./partials/header.php')
                                                 Questionnaire sur les connaissances théoriques
                                             </span>
                                         </td>
-                                        <?php if ($test->level == "Junior") { ?>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testFacJu) { ?>
+                                        <?php if ($examJuFac) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testJuFac["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -896,17 +1017,16 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testFacJu->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?&test=<?php echo $testJuFac["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
@@ -914,26 +1034,17 @@ include('./partials/header.php')
                                             </td>
                                             <?php } ?>
                                         <?php } ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
+                                        <?php } else { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($test->level == "Senior") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testFacSe) { ?>
+                                        <?php if ($examSeFac) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testSeFac["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -941,17 +1052,16 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testFacSe->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testSeFac["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
@@ -959,26 +1069,17 @@ include('./partials/header.php')
                                             </td>
                                             <?php } ?>
                                         <?php } ?>
+                                        <?php } else { ?>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($test->level == "Expert") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testFacEx) { ?>
+                                        <?php if ($examExFac) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testExFac["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -986,17 +1087,16 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testFacEx->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizFactuel.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizFactuel.php?test=<?php echo $testExFac["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
@@ -1004,27 +1104,58 @@ include('./partials/header.php')
                                             </td>
                                             <?php } ?>
                                         <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
                                         <?php } ?>
                                     </tr>
-                                    <?php } ?>
-                                    <?php } ?>
                                     <?php 
-                                    foreach ($testDecla as $test) {
-                                            $vehicle = $vehicles->findOne([
-                                                '$and' => [
-                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ]);
-                                            $exam = $exams->findOne([
-                                                '$and' => [
-                                                    ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                    ["vehicle" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ])
+                                        $testJuDecla = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Junior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examJuDecla = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testDeclaJu["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testSeDecla = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Senior'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examSeDecla = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $testExDecla = $tests->findOne([
+                                            '$and' => [
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['level' => 'Expert'],
+                                                ['active' => true],
+                                            ]
+                                        ]);
+                                        $examExDecla = $exams->findOne([
+                                            '$and' => [
+                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ["test" => new MongoDB\BSON\ObjectId($testDeclaEx["_id"])],
+                                                ['active' => true],
+                                            ]
+                                        ]);
                                     ?>
-                                    <?php if ($test ) { ?>
                                     <tr>
                                         <td class="p-0">
                                         </td>
@@ -1033,100 +1164,10 @@ include('./partials/header.php')
                                                 Questionnaire sur la maitrise de vos tâches professionnelles
                                             </span>
                                         </td>
-                                        <?php if ($test->level == "Junior") { ?>
-                                            <?php if ($exam) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
-                                                    </a>
-                                                </td>
-                                            <?php } else { ?>
-                                                <?php if ($test->active == false) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A faire
-                                                    </a>
-                                                </td>
-                                                <?php } ?>
-                                                <?php if ($test->active == true) { ?>
-                                                <td>
-                                                    <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
-                                                    </span>
-                                                </td>
-                                                <?php } ?>
-                                        <?php } ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
-                                        <?php } ?>
-                                        <?php if ($test->level == "Senior") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                            <?php if ($exam) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
-                                                    </a>
-                                                </td>
-                                            <?php } else { ?>
-                                                <?php if ($test->active == false) { ?>
-                                                <td>
-                                                    <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le questionnaire"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A faire
-                                                    </a>
-                                                </td>
-                                                <?php } ?>
-                                                <?php if ($test->active == true) { ?>
-                                                <td>
-                                                    <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
-                                                    </span>
-                                                </td>
-                                                <?php } ?>
-                                        <?php } ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
-                                            </span>
-                                        </td>
-                                        <?php } ?>
-                                        <?php if ($test->level == "Expert") { ?>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                Effectué
-                                            </span>
-                                        </td>
-                                        <?php if ($exam) { ?>
+                                        <?php if ($testDeclaJu) { ?>
+                                        <?php if ($examJuDecla) { ?>
                                             <td>
-                                                <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testJuDecla["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1134,28 +1175,101 @@ include('./partials/header.php')
                                                 </a>
                                             </td>
                                         <?php } else { ?>
-                                            <?php if ($test->active == false) { ?>
+                                            <?php if ($testDeclaJu->active == false) { ?>
                                             <td>
-                                                <a href="./userQuizDeclaratif.php?brand=<?php echo $vehicle["brand"] ?>&vehicle=<?php echo $vehicle["label"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testJuDecla["_id"] ?>&level=Junior&id=<?php echo $_SESSION["id"] ?>"
                                                     class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                     title="Cliquez ici pour ouvrir le questionnaire"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                     A faire
                                                 </a>
                                             </td>
-                                            <?php } ?>
-                                            <?php if ($test->active == true) { ?>
+                                            <?php } else { ?>
                                             <td>
                                                 <span class="badge badge-light-success fs-7 m-1">
                                                     Effectué
                                                 </span>
                                             </td>
                                             <?php } ?>
+                                        <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($testDeclaSe) { ?>
+                                        <?php if ($examSeDecla) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testSeDecla["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    En cours
+                                                </a>
+                                            </td>
+                                        <?php } else { ?>
+                                            <?php if ($testDeclaSe->active == false) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testSeDecla["_id"] ?>&level=Senior&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    A faire
+                                                </a>
+                                            </td>
+                                            <?php } else { ?>
+                                            <td>
+                                                <span class="badge badge-light-success fs-7 m-1">
+                                                    Effectué
+                                                </span>
+                                            </td>
                                             <?php } ?>
                                         <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if ($testDeclaEx) { ?>
+                                        <?php if ($examExDecla) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testSeDecla["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    En cours
+                                                </a>
+                                            </td>
+                                        <?php } else { ?>
+                                            <?php if ($testDeclaEx->active == false) { ?>
+                                            <td>
+                                                <a href="./userQuizDeclaratif.php?test=<?php echo $testSeDecla["_id"] ?>&level=Expert&id=<?php echo $_SESSION["id"] ?>"
+                                                    class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                    title="Cliquez ici pour ouvrir le questionnaire"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    A faire
+                                                </a>
+                                            </td>
+                                            <?php } else { ?>
+                                            <td>
+                                                <span class="badge badge-light-success fs-7 m-1">
+                                                    Effectué
+                                                </span>
+                                            </td>
+                                            <?php } ?>
+                                        <?php } ?>
+                                        <?php } else { ?>
+                                        <td>
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
+                                        <?php } ?>
                                     </tr>
-                                    <?php } ?>
-                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>

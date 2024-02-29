@@ -75,12 +75,12 @@
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
     <!-- Spinner Start -->
-    <!-- <div id="spinner"
+    <div id="spinner"
         class="show bg-transparent position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Chargement...</span>
         </div>
-    </div> -->
+    </div>
     <!-- Spinner End -->
     <!--begin::Theme mode setup on page load-->
     <script>
@@ -369,6 +369,28 @@
                                         <!--end:Menu item-->
                                     </div>
                                     <!--end:Menu sub-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./activation.php">
+                                        <span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i>
+                                        </span>
+                                        <span class="menu-title">Activation des Tests</span>
+                                    </a>
+                                    <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
