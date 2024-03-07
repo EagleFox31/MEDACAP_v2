@@ -37,8 +37,8 @@ if ( isset( $_POST[ 'submit' ] ) ) {
         $proposal3 = $row["5"];
         $proposal4 = $row["6"];
         $image = $row["7"];
-        $ref = $row["8"];
-        $answer = $row["9"];
+        $answer = $row["8"];
+        $ref = $row["9"];
         $type = ucfirst($row["10"]);
         
         $exist = $questions->findOne([
@@ -1080,7 +1080,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ] ]
                     );
                 }
-            } elseif ($speciality == "Reducteur") {
+            } elseif ($speciality == "Réducteur") {
                 if ($bus) {
                     $bus['total']++;
                     $vehicles->updateOne(
@@ -1446,18 +1446,18 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     ['$push' => ['questions' => new MongoDB\BSON\ObjectId($result->getInsertedId())]]
                 );
             } else {
-                array_push($array, $result->getInsertedId());
                 $quiz = [
-                'questions' => [],
-                'label' => 'Tâche '.$speciality.'',
-                'type' => 'Declaratif',
-                'speciality' => ucfirst($speciality),
-                'level' => ucfirst($level),
-                'total' => 0,
-                'active' => true,
-                'created' => date('d-m-y'),
-            ];
+                    'questions' => [],
+                    'label' => 'Tâche '.$speciality.'',
+                    'type' => 'Declaratif',
+                    'speciality' => ucfirst($speciality),
+                    'level' => ucfirst($level),
+                    'total' => 0,
+                    'active' => true,
+                    'created' => date('d-m-y'),
+                ];
                 $insert = $quizzes->insertOne($quiz);
+                
                 $quizzes->updateOne(
                     [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
                     [ '$set' => [ 'total' => +1 ] ]
@@ -1466,7 +1466,6 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
                     [ '$push' => [ 'questions' => new MongoDB\BSON\ObjectId( $result->getInsertedId() ) ] ]
                 );
-
                 if ($speciality == "Arbre de Transmission") {
                 if ($bus) {
                     $bus['total']++;
@@ -1970,7 +1969,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ] ]
                     );
                 }
-            }elseif ($speciality == 'Freinage') {
+            } elseif ($speciality == 'Freinage') {
                     if ($bus) {
                         $bus['total']++;
                         $vehicles->updateOne(
@@ -1994,17 +1993,15 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                     );
                     }
                     if ($chariots) {
-                        if ($chariots->brand == 'TOYOTA FORFLIT') {
-                            $chariots['total']++;
-                            $vehicles->updateOne(
-                            ['_id' => new MongoDB\BSON\ObjectId($chariots->_id)],
-                            ['$set' => $chariots]
-                        );
-                            $vehicles->updateOne(
-                            ['_id' => new MongoDB\BSON\ObjectId($chariots->_id)],
-                            ['$push' => ['quizzes' => new MongoDB\BSON\ObjectId($insert->getInsertedId())]]
-                        );
-                        }
+                        $chariots['total']++;
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($chariots->_id)],
+                        ['$set' => $chariots]
+                    );
+                        $vehicles->updateOne(
+                        ['_id' => new MongoDB\BSON\ObjectId($chariots->_id)],
+                        ['$push' => ['quizzes' => new MongoDB\BSON\ObjectId($insert->getInsertedId())]]
+                    );
                     }
                     if ($engins) {
                         $engins['total']++;
@@ -2396,7 +2393,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                         [ '$push' => [ 'quizzes' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ] ]
                     );
                 }
-            } elseif ($speciality == "Reducteur") {
+            } elseif ($speciality == "Réducteur") {
                 if ($bus) {
                     $bus['total']++;
                     $vehicles->updateOne(
@@ -2684,7 +2681,7 @@ if ( isset( $_POST[ 'submit' ] ) ) {
                 }
             }
             }
-            $success_msg = 'Question ajoutée avec succès';
+            $success_msg = 'Questions ajoutées avec succès';
         }
     }
 }

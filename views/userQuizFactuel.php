@@ -49,14 +49,14 @@ if (!isset($_SESSION['id'])) {
     $exam = $exams->findOne([
         '$and' => [
             ['user' => new MongoDB\BSON\ObjectId($id)],
-            ['test' => new MongoDB\BSON\ObjectId($testFac->_id)],
+            ['test' => new MongoDB\BSON\ObjectId($test)],
             ['active' => true],
         ],
     ]);
     $quizTest = $tests->aggregate([
         [
             '$match' => [
-                '_id' => new MongoDB\BSON\ObjectId($testFac->_id),
+                '_id' => new MongoDB\BSON\ObjectId($test),
             ],
         ],
         [
@@ -307,7 +307,7 @@ if (!isset($_SESSION['id'])) {
                 'questions' => $questionsTags,
                 'answers' => $answers,
                 'user' => new MongoDB\BSON\ObjectId($id),
-                'test' => new MongoDB\BSON\ObjectId($testFac->_id),
+                'test' => new MongoDB\BSON\ObjectId($test),
                 'quizAssistance' => $assistanceID,
                 'quizArbre' => $arbreID,
                 'quizTransfert' => $transfertID,
@@ -356,6 +356,7 @@ if (!isset($_SESSION['id'])) {
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
         $answers = [];
+        $userAnswer = [];
         $to = [];
         $array = [];
         $number = [1, 2, 3, 4];
@@ -370,19 +371,19 @@ if (!isset($_SESSION['id'])) {
                 'type' => 'Factuelle',
             ]);
             if ($data) {
-                array_push($answers, $proposals[$i]);
+                array_push($userAnswer, $proposals[$i]);
                 array_push($to, $proposals[$i]);
             }
             if ($proposals[$i] == "null") {
-                array_push($answers, $proposals[$i]);
+                array_push($userAnswer, $proposals[$i]);
             }
         }
         if (count($questionsTag) != count($to)) {
-            $idxs = array_map(function ($v, $k) use ($answers) {
+            $idxs = array_map(function ($v, $k) use ($userAnswer) {
                 if ($v === "null") {
                     return $k+1;
                 }
-            }, $answers, array_keys($answers));
+            }, $userAnswer, array_keys($userAnswer));
             for ($j = 0; $j < count($idxs); ++$j) {
                 if($idxs[$j] != null) {
                     array_push($array, $idxs[$j]); 
@@ -2081,7 +2082,7 @@ if (!isset($_SESSION['id'])) {
 <?php
 include_once 'partials/header.php'; ?>
 <!--begin::Title-->
-<title>Questionnaires à Choix Multiples | CFAO Mobility Academy</title>
+<title>Test sur les connaissance | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -2110,7 +2111,7 @@ include_once 'partials/header.php'; ?>
                             </div>
                         </center>
                         <div class="heading" style="margin-top: 10px;">
-                            <h1 class="heading__text">Questionnaire à choix multiple</h1>
+                            <h1 class="heading__text">Test des connaissances du Niveau <?php echo $_GET['level'] ?></h1>
                         </div>
                         
                         <?php
@@ -5093,7 +5094,7 @@ include_once 'partials/header.php'; ?>
                     ]);
 
                                     if ($suspensionLameFac) {
-                        $cal = round($suspensionsLameFac['total'] * 100 / $quizTest[0]['sumTotal'], 0);
+                        $cal = round($suspensionLameFac['total'] * 100 / $quizTest[0]['sumTotal'], 0);
                         $number = round($cal, 0);
                                         $quizzSuspensionLame = $quizzes->aggregate([
                         [
@@ -6110,7 +6111,7 @@ const submitBtn = document.querySelector("#button")
 const num = document.querySelector("#num").getAttribute('value');
 const score = document.querySelector("#num");
 const cal = (num * ques.length) - <?php echo $exam['total'] ?? 0 ?>;
-score.innerHTML = `${cal}`;
+score.innerHTML = `100`;
 // if (ques.length == <?php echo $exam['total'] ?? 0 ?>) {
 //     submitBtn.classList.remove("disabled");
 // }

@@ -34,8 +34,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     ]);
     $manager = $_GET[ 'id' ];
     $level = $_GET[ 'level' ];
-    $vehicle = $_GET[ 'vehicle' ];
-    $brand = $_GET[ 'brand' ];
+    $test = $_GET[ 'test' ];
     
     $technician = $users->findOne([
         '$and' => [
@@ -44,11 +43,10 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         ],
     ]);
 
-    $vehicule = $vehicles->findOne([
+    $userTest = $tests->findOne([
         '$and' => [
-            ['users' => new MongoDB\BSON\ObjectId($id)],
-            ['label' => $vehicle],
-            ['brand' => $brand],
+            ['_id' => new MongoDB\BSON\ObjectId($test)],
+            ['user' => new MongoDB\BSON\ObjectId($id)],
             ['type' => "Declaratif"],
             ["level" => $level],
             ["active" => true]
@@ -57,11 +55,13 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
 
     $exam = $exams->findOne([
         '$and' => [
-            ['user' => new MongoDB\BSON\ObjectId($manager)],
-            ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
+            ['user' => new MongoDB\BSON\ObjectId($id)],
+            ['manager' => new MongoDB\BSON\ObjectId($manager)],
+            ['test' => new MongoDB\BSON\ObjectId($test)],
             ['active' => true],
         ],
     ]);
+    $arrQuizzes = $userTest['quizzes'];
 
     if (isset($_POST['save'])) {
         $questionsTag = $_POST['questionsTag'];
@@ -284,8 +284,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             $exam = [
                 'questions' => $questionsTags,
                 'answers' => $answers,
-                'user' => new MongoDB\BSON\ObjectId($manager),
-                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                'user' => new MongoDB\BSON\ObjectId($id),
+                'manager' => new MongoDB\BSON\ObjectId($manager),
+                'test' => new MongoDB\BSON\ObjectId($test),
                 'quizAssistance' => $assistanceID,
                 'quizArbre' => $arbreID,
                 'quizTransfert' => $transfertID,
@@ -334,6 +335,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
         $userAnswer = [];
+        $to = [];
         for ($i = 0; $i < count($proposals); ++$i) {
             $data = $questions->findOne([
                 '$or' => [
@@ -345,14 +347,18 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             ]);
             if ($data) {
                 array_push($userAnswer, $proposals[$i]);
+                array_push($to, $proposals[$i]);
+            }
+            if ($proposals[$i] == "null") {
+                array_push($userAnswer, $proposals[$i]);
             }
         }
         if (count($questionsTag) != count($to)) {
-            $idxs = array_map(function ($v, $k) use ($answers) {
+            $idxs = array_map(function ($v, $k) use ($userAnswer) {
                 if ($v === "null") {
                     return $k+1;
                 }
-            }, $answers, array_keys($answers));
+            }, $userAnswer, array_keys($userAnswer));
             for ($j = 0; $j < count($idxs); ++$j) {
                 if($idxs[$j] != null) {
                     array_push($array, $idxs[$j]); 
@@ -448,9 +454,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Assistance à la Conduite") {
                         if ($proposals[$i] == "1-Assistance à la Conduite-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreAss, "Il sait faire");
+                            array_push($scoreAss, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalAssistance, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalAssistance, "Non");
@@ -499,9 +505,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Arbre de Transmission") {
                         if ($proposals[$i] == "1-Arbre de Transmission-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreAr, "Il sait faire");
+                            array_push($scoreAr, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalArbre, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalArbre, "Non");
@@ -550,9 +556,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Boite de Transfert") {
                         if ($proposals[$i] == "1-Boite de Transfert-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreBoT, "Il sait faire");
+                            array_push($scoreBoT, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalTransfert, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalBoite, "Non");
@@ -601,9 +607,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Boite de Vitesse") {
                         if ($proposals[$i] == "1-Boite de Vitesse-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreBoi, "Il sait faire");
+                            array_push($scoreBoi, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalBoite, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalBoite, "Non");
@@ -652,9 +658,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Boite de Vitesse Automatique") {
                         if ($proposals[$i] == "1-Boite de Vitesse-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreBoiA, "Il sait faire");
+                            array_push($scoreBoiA, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalBoiteAuto, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalBoiteAuto, "Non");
@@ -703,9 +709,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Boite de Vitesse Mécanique") {
                         if ($proposals[$i] == "1-Boite de Vitesse-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreBoiM, "Il sait faire");
+                            array_push($scoreBoiM, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalBoiteMan, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalBoite, "Non");
@@ -754,9 +760,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Boite de Vitesse Mécanique") {
                         if ($proposals[$i] == "1-Boite de Vitesse-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreBoiV, "Il sait faire");
+                            array_push($scoreBoiV, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalBoiteVc, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalBoite, "Non");
@@ -805,9 +811,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Climatisation") {
                         if ($proposals[$i] == "1-Climatisation-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreClim, "Il sait faire");
+                            array_push($scoreClim, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalClimatisation, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalClimatisation, "Non");
@@ -851,9 +857,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Demi Arbre de Roue") {
                         if ($proposals[$i] == "1-Demi Arbre de Roue-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreDir, "Il sait faire");
+                            array_push($scoreDir, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalDemi, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalDemi, "Non");
@@ -897,9 +903,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Direction") {
                         if ($proposals[$i] == "1-Direction-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreDir, "Il sait faire");
+                            array_push($scoreDir, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalDirection, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalDirection, "Non");
@@ -943,9 +949,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Electricité et Electronique") {
                         if ($proposals[$i] == "1-Electricité-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreElec, "Il sait faire");
+                            array_push($scoreElec, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalElectricite, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalElectricite, "Non");
@@ -989,9 +995,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Freinage") {
                         if ($proposals[$i] == "1-Freinage-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreFrei, "Il sait faire");
+                            array_push($scoreFrei, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalFrei, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalFrei, "Non");
@@ -1035,9 +1041,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Freinage Electromagnétique") {
                         if ($proposals[$i] == "1-Freinage Electromagnétique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreFreiE, "Il sait faire");
+                            array_push($scoreFreiE, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalFreinageElec, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalFreinageElec, "Non");
@@ -1081,9 +1087,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Freinage Hydraulique") {
                         if ($proposals[$i] == "1-Freinage Hydraulique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreFreiH, "Il sait faire");
+                            array_push($scoreFreiH, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalFreinage, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalFreinage, "Non");
@@ -1127,9 +1133,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Freinage Pneumatique") {
                         if ($proposals[$i] == "1-Freinage Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreFreiP, "Il sait faire");
+                            array_push($scoreFreiP, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalFrein, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalFreinage, "Non");
@@ -1173,9 +1179,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Hydraulique") {
                         if ($proposals[$i] == "1-Hydraulique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreHyd, "Il sait faire");
+                            array_push($scoreHyd, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalHydraulique, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalHydraulique, "Non");
@@ -1219,9 +1225,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Moteur Diesel") {
                         if ($proposals[$i] == "1-Moteur Diesel-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreMoD, "Il sait faire");
+                            array_push($scoreMoD, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalMoteurDiesel, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalMoteurDiesel, "Non");
@@ -1265,9 +1271,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Moteur Electrique") {
                         if ($proposals[$i] == "1-Moteur Electrique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreMoEl, "Il sait faire");
+                            array_push($scoreMoEl, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalMoteurElec, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalMoteurElec, "Non");
@@ -1311,9 +1317,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Moteur Essence") {
                         if ($proposals[$i] == "1-Moteur Essence-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreMoE, "Il sait faire");
+                            array_push($scoreMoE, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalMoteurEssence, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalMoteurEssence, "Non");
@@ -1357,9 +1363,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Moteur Thermique") {
                         if ($proposals[$i] == "1-Moteur Thermique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreMoT, "Il sait faire");
+                            array_push($scoreMoT, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalMoteurThermique, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalMoteurThermique, "Non");
@@ -1403,9 +1409,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Multiplexage") {
                         if ($proposals[$i] == "1-Multiplexage-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreMulti, "Il sait faire");
+                            array_push($scoreMulti, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalMultiplexage, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalMultiplexage, "Non");
@@ -1449,9 +1455,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Pont") {
                         if ($proposals[$i] == "1-Pont-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scorePont, "Il sait faire");
+                            array_push($scorePont, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalPont, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalPont, "Non");
@@ -1495,9 +1501,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Pneumatique") {
                         if ($proposals[$i] == "1-Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scorePneu, "Il sait faire");
+                            array_push($scorePneu, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalPneu, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalPneu, "Non");
@@ -1541,9 +1547,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Reducteur") {
                         if ($proposals[$i] == "1-Reducteur-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scorePneu, "Il sait faire");
+                            array_push($scorePneu, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalPneu, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalPneu, "Non");
@@ -1587,9 +1593,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Suspension") {
                         if ($proposals[$i] == "1-Suspension à -".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreSus, "Il sait faire");
+                            array_push($scoreSus, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalSuspension, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalSuspension, "Non");
@@ -1633,9 +1639,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Suspension à Lame") {
                         if ($proposals[$i] == "1-Suspension à Lame-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreSusL, "Il sait faire");
+                            array_push($scoreSusL, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalSuspensionLame, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalSuspensionLame, "Non");
@@ -1679,9 +1685,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Suspension Ressort") {
                         if ($proposals[$i] == "1-Suspension Ressort-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreSusR, "Il sait faire");
+                            array_push($scoreSusR, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalSuspensionRessort, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalSuspensionRessort, "Non");
@@ -1725,9 +1731,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Suspension Pneumatique") {
                         if ($proposals[$i] == "1-Suspension Pneumatique-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreSusP, "Il sait faire");
+                            array_push($scoreSusP, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalSuspensionPneumatique, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalSuspensionPneumatique, "Non");
@@ -1771,9 +1777,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 if ($questionsData != null) {
                     if ($questionsData->speciality  == "Transversale") {
                         if ($proposals[$i] == "1-Transversale-".$questionsData->level."-".$questionsData->label."-1") {
-                            array_push($scoreTran, "Il sait faire");
+                            array_push($scoreTran, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposalTransversale, "Oui");
-                            array_push($score, "Il sait faire");
+                            array_push($score, "Il maitrise (le technicien réalise cette tâche professionnelle seul)");
                             array_push($proposal, "Oui");
                         } else {
                             array_push($proposalTransversale, "Non");
@@ -1802,14 +1808,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             }
               $insertedResult = $results->insertOne($result);
             }
-            $vehicule = $vehicles->findOne([
-                '$and' => [
-                    ['label' => $vehicle],
-                    ['level' => $level],
-                    ['type' => 'Declaratif'],
-                    ['active' => true],
-                ],
-            ]);
                 $managerAnswer = [];
                 for ($i = 0; $i < count($proposals); ++$i) {
                     $data = $questions->findOne([
@@ -1829,7 +1827,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 'answers' => $proposal,
                 'managerAnswers' => $managerAnswer,
                 'user' => new MongoDB\BSON\ObjectId($id),
-                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                'test' => new MongoDB\BSON\ObjectId($test),
                 'manager' => new MongoDB\BSON\ObjectId($manager),
                 'score' => count($score),
                 'level' => $level,
@@ -1845,26 +1843,26 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             $allocationData = $allocations->findOne([
                 '$and' => [
                     ['user' => new MongoDB\BSON\ObjectId($id)],
-                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
+                    ['test' => new MongoDB\BSON\ObjectId($test)],
                 ],
             ]);
 
             $examData = $exams->findOne([
                 '$and' => [
                     ['user' => new MongoDB\BSON\ObjectId($id)],
-                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
+                    ['test' => new MongoDB\BSON\ObjectId($test)],
                     ['active' => true],
                 ],
             ]);
     
             $allocationData->activeManager = true;
-            $updatedAllocation = $allocations->updateOne(
+            $allocations->updateOne(
                 ['_id' => $allocationData->_id], 
                 ['$set' => $allocationData]
             );
 
             $examData->active = false;
-            $updatedExam = $exams->updateOne(
+            $exams->updateOne(
                 ['_id' => $examData->_id], 
                 ['$set' => $examData]
             );
@@ -1886,7 +1884,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                     $newresult = [
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'manager' => new MongoDB\BSON\ObjectId($manager),
-                        'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                        'test' => new MongoDB\BSON\ObjectId($test),
                         'score' => $scoreF,
                         'level' => $level,
                         'type' => 'Declaratif',
@@ -1926,7 +1924,7 @@ include_once 'partials/header.php'
                 </div>
             </center>
             <div class="heading" style="margin-top: 10px;">
-              <h1 class="heading__text">Evaluation de <?php echo $user->firstName ?> <?php echo $user->lastName ?></h1>
+              <h1 class="heading__text">Evaluer les tâches professionnelles de <br> M. <?php echo $user->firstName ?> <?php echo $user->lastName ?></h1>
             </div>
             
             <?php
@@ -1956,17 +1954,6 @@ include_once 'partials/header.php'
                             <?php if (!isset($exam)) { ?>
                 <?php
                 $k = 1;
-                $existTest = $tests->findOne([
-                    '$and' => [
-                        ['user' => new MongoDB\BSON\ObjectId($id)],
-                        ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),],
-                        ['brand' => $brand],
-                        ['subBrand' => $technician->subBrand,],
-                    ],
-                ]);
-                if ($existTest) {
-                    $arrQuizzes = $existTest['quizzes'];
-                }
                 for ($j = 0; $j < count($arrQuizzes); $j++) {
                     $assistanceDecla = $quizzes->findOne([
                         '$and' => [
@@ -2000,7 +1987,7 @@ include_once 'partials/header.php'
                         name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2008,7 +1995,7 @@ include_once 'partials/header.php'
                         name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2016,7 +2003,7 @@ include_once 'partials/header.php'
                         name="answerAssistance<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2067,7 +2054,7 @@ include_once 'partials/header.php'
                         name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2075,7 +2062,7 @@ include_once 'partials/header.php'
                         name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2083,7 +2070,7 @@ include_once 'partials/header.php'
                         name="answerArbre<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2134,7 +2121,7 @@ include_once 'partials/header.php'
                         name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2142,7 +2129,7 @@ include_once 'partials/header.php'
                         name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2150,7 +2137,7 @@ include_once 'partials/header.php'
                         name="answerTransfert<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2201,7 +2188,7 @@ include_once 'partials/header.php'
                         name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2209,7 +2196,7 @@ include_once 'partials/header.php'
                         name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2217,7 +2204,7 @@ include_once 'partials/header.php'
                         name="answerBoite<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2266,7 +2253,7 @@ include_once 'partials/header.php'
                         name="answerboiteAuto<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2282,7 +2269,7 @@ include_once 'partials/header.php'
                         name="answerboiteAuto<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2334,7 +2321,7 @@ include_once 'partials/header.php'
                         name="answerboiteMan<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2350,7 +2337,7 @@ include_once 'partials/header.php'
                         name="answerboiteMan<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2404,7 +2391,7 @@ include_once 'partials/header.php'
                         name="answerBoiteVc<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2412,7 +2399,7 @@ include_once 'partials/header.php'
                         name="answerBoiteVc<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2420,7 +2407,7 @@ include_once 'partials/header.php'
                         name="answerBoiteVc<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2473,7 +2460,7 @@ include_once 'partials/header.php'
                         name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2481,7 +2468,7 @@ include_once 'partials/header.php'
                         name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2489,7 +2476,7 @@ include_once 'partials/header.php'
                         name="answerClimatisation<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2541,7 +2528,7 @@ include_once 'partials/header.php'
                         name="answerDemi<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2549,7 +2536,7 @@ include_once 'partials/header.php'
                         name="answerDemi<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2557,7 +2544,7 @@ include_once 'partials/header.php'
                         name="answerDemi<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2609,7 +2596,7 @@ include_once 'partials/header.php'
                         name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2617,7 +2604,7 @@ include_once 'partials/header.php'
                         name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2625,7 +2612,7 @@ include_once 'partials/header.php'
                         name="answerDirection<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2677,7 +2664,7 @@ include_once 'partials/header.php'
                         name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2685,7 +2672,7 @@ include_once 'partials/header.php'
                         name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2693,7 +2680,7 @@ include_once 'partials/header.php'
                         name="answerElectricite<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2745,7 +2732,7 @@ include_once 'partials/header.php'
                         name="answerFrei<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2753,7 +2740,7 @@ include_once 'partials/header.php'
                         name="answerFrei<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2761,7 +2748,7 @@ include_once 'partials/header.php'
                         name="answerFrei<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2813,7 +2800,7 @@ include_once 'partials/header.php'
                         name="answerFreinageElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2821,7 +2808,7 @@ include_once 'partials/header.php'
                         name="answerFreinageElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2829,7 +2816,7 @@ include_once 'partials/header.php'
                         name="answerFreinageElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2881,7 +2868,7 @@ include_once 'partials/header.php'
                         name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2889,7 +2876,7 @@ include_once 'partials/header.php'
                         name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2897,7 +2884,7 @@ include_once 'partials/header.php'
                         name="answerFreinage<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -2949,7 +2936,7 @@ include_once 'partials/header.php'
                         name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2957,7 +2944,7 @@ include_once 'partials/header.php'
                         name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2965,7 +2952,7 @@ include_once 'partials/header.php'
                         name="answerFrein<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3017,7 +3004,7 @@ include_once 'partials/header.php'
                         name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3025,7 +3012,7 @@ include_once 'partials/header.php'
                         name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3033,7 +3020,7 @@ include_once 'partials/header.php'
                         name="answerHydraulique<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3086,7 +3073,7 @@ include_once 'partials/header.php'
                         name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3094,7 +3081,7 @@ include_once 'partials/header.php'
                         name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3102,7 +3089,7 @@ include_once 'partials/header.php'
                         name="answerMoteurDiesel<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3154,7 +3141,7 @@ include_once 'partials/header.php'
                         name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3162,7 +3149,7 @@ include_once 'partials/header.php'
                         name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3170,7 +3157,7 @@ include_once 'partials/header.php'
                         name="answerMoteurElec<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3223,7 +3210,7 @@ include_once 'partials/header.php'
                         name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3231,7 +3218,7 @@ include_once 'partials/header.php'
                         name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3239,7 +3226,7 @@ include_once 'partials/header.php'
                         name="answerMoteurEssence<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3292,7 +3279,7 @@ include_once 'partials/header.php'
                         name="answerMoteurThermique<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3300,7 +3287,7 @@ include_once 'partials/header.php'
                         name="answerMoteurThermique<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3308,7 +3295,7 @@ include_once 'partials/header.php'
                         name="answerMoteurThermique<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3361,7 +3348,7 @@ include_once 'partials/header.php'
                         name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3369,7 +3356,7 @@ include_once 'partials/header.php'
                         name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3377,7 +3364,7 @@ include_once 'partials/header.php'
                         name="answerMultiplexage<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3429,7 +3416,7 @@ include_once 'partials/header.php'
                         name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3437,7 +3424,7 @@ include_once 'partials/header.php'
                         name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3445,7 +3432,7 @@ include_once 'partials/header.php'
                         name="answerPont<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3497,7 +3484,7 @@ include_once 'partials/header.php'
                         name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3505,7 +3492,7 @@ include_once 'partials/header.php'
                         name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3513,7 +3500,7 @@ include_once 'partials/header.php'
                         name="answerPneu<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3565,7 +3552,7 @@ include_once 'partials/header.php'
                         name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3573,7 +3560,7 @@ include_once 'partials/header.php'
                         name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3581,7 +3568,7 @@ include_once 'partials/header.php'
                         name="answerRed<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3634,7 +3621,7 @@ include_once 'partials/header.php'
                         name="answerSuspension<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3642,7 +3629,7 @@ include_once 'partials/header.php'
                         name="answerSuspension<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3650,7 +3637,7 @@ include_once 'partials/header.php'
                         name="answerSuspension<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3703,7 +3690,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3711,7 +3698,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3719,7 +3706,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionLame<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3772,7 +3759,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3780,7 +3767,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3788,7 +3775,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionRessort<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3842,7 +3829,7 @@ include_once 'partials/header.php'
                         value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3851,7 +3838,7 @@ include_once 'partials/header.php'
                         value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3859,7 +3846,7 @@ include_once 'partials/header.php'
                         name="answerSuspensionPneumatique<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -3912,7 +3899,7 @@ include_once 'partials/header.php'
                         name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal1 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il sait faire
+                        Il maitrise (le technicien réalise cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3920,7 +3907,7 @@ include_once 'partials/header.php'
                         name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal2 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sait pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3928,7 +3915,7 @@ include_once 'partials/header.php'
                         name="answerTransversale<?php echo $i + 1 ?>" value="<?php echo $question->proposal3 ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il n'a jamais fait
+                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                     </span>
                 </label>
                 <label class="quiz-form__ans" hidden>
@@ -4143,7 +4130,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal1; ?>" checked/>
                 <span class="design"></span>
                 <span class="text">
-                    Il sait faire
+                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4152,7 +4139,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal2; ?>" />
                 <span class="design"></span>
                 <span class="text">
-                    Il ne sait pas faire
+                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4161,7 +4148,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal3; ?>" />
                 <span class="design"></span>
                 <span class="text">
-                    Il n'a jamais fait
+                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                 </span>
             </label>
                 <div>
@@ -4175,7 +4162,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal1; ?>"/>
                 <span class="design"></span>
                 <span class="text">
-                    Il sait faire
+                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4184,7 +4171,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal2; ?>" checked/>
                 <span class="design"></span>
                 <span class="text">
-                    Il ne sait pas faire
+                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4193,7 +4180,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal3; ?>" />
                 <span class="design"></span>
                 <span class="text">
-                    Il n'a jamais fait
+                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                 </span>
             </label>
                 <div>
@@ -4207,7 +4194,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal1; ?>"/>
                 <span class="design"></span>
                 <span class="text">
-                    Il sait faire
+                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4216,7 +4203,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal2; ?>" />
                 <span class="design"></span>
                 <span class="text">
-                    Il ne sait pas faire
+                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4225,7 +4212,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal3; ?>" checked/>
                 <span class="design"></span>
                 <span class="text">
-                    Il n'a jamais fait
+                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                 </span>
             </label>
                 <div>
@@ -4238,7 +4225,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal1; ?>"/>
                 <span class="design"></span>
                 <span class="text">
-                    Il sait faire
+                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4247,7 +4234,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal2; ?>" />
                 <span class="design"></span>
                 <span class="text">
-                    Il ne sait pas faire
+                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4256,7 +4243,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal3; ?>"/>
                 <span class="design"></span>
                 <span class="text">
-                    Il n'a jamais fait
+                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                 </span>
             </label>
             <label class="quiz-form__ans" hidden>
@@ -4277,7 +4264,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal1; ?>"/>
                 <span class="design"></span>
                 <span class="text">
-                    Il sait faire
+                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4286,7 +4273,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal2; ?>" />
                 <span class="design"></span>
                 <span class="text">
-                    Il ne sait pas faire
+                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                 </span>
             </label>
             <label class="quiz-form__ans">
@@ -4295,7 +4282,7 @@ include_once 'partials/header.php'
                     value="<?php echo $question->proposal3; ?>"/>
                 <span class="design"></span>
                 <span class="text">
-                    Il n'a jamais fait
+                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                 </span>
             </label>
             <label class="quiz-form__ans" hidden>
@@ -4398,6 +4385,7 @@ const num = document.querySelector("#num").getAttribute('value');
 const score = document.querySelector("#num");
 const cal = (num * ques.length) - <?php echo $exam['total'] ?? 0 ?>;
 score.innerHTML = `${cal}`;
+// score.innerHTML = `100`;
 // if (ques.length == <?php echo $exam['total'] ?? 0 ?>) {
 //     submitBtn.classList.remove("disabled");
 // }

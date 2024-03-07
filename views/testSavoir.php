@@ -5,36 +5,26 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     header( 'Location: ./index.php' );
     exit();
 } else {
-    require_once '../vendor/autoload.php';
+?>
+<?php
+require_once '../vendor/autoload.php';
     
-    // Create connection
-    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+// Create connection
+$conn = new MongoDB\Client('mongodb://localhost:27017');
     
-    // Connecting in database
-    $academy = $conn->academy;
+ // Connecting in database
+ $academy = $conn->academy;
     
-    // Connecting in collections
-    $users = $academy->users;
-    $exams = $academy->exams;
-    $quizzes = $academy->quizzes;
-    $allocations = $academy->allocations;
-
-    $id = $_SESSION[ 'id' ];
-
-    $manager = $users->findOne([
-        '$and' => [
-            [
-                '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true,
-            ],
-        ]
-    ]);
+// Connecting in collections
+$users = $academy->users;
+$allocations = $academy->allocations;
+$exams = $academy->exams;
 ?>
 <?php
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Liste Collaborateurs à Evalués | CFAO Mobility Academy</title>
+<title>Liste Tests Connaissances | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -47,15 +37,15 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des collaborateurs à évaluer
-                </h1>
+                    Liste des tests sur les connaissances</h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span
-                                class="path2"></span></i> <input type="text" data-kt-customer-table-filter="search"
-                            id="search" class="form-control form-control-solid w-250px ps-12" placeholder="Recherche">
+                                class="path2"></span></i>
+                        <input type="text" id="search" class="form-control form-control-solid w-250px ps-12"
+                            placeholder="Recherche...">
                     </div>
                     <!--end::Search-->
                 </div>
@@ -94,26 +84,6 @@ include_once 'partials/header.php'
                 <!--begin::Toolbar-->
                 <!-- <div class="d-flex justify-content-end"
                             data-kt-customer-table-toolbar="base"> -->
-                <!--begin::Filter-->
-                <!-- <div class="w-150px me-3"> -->
-                <!--begin::Select2-->
-                <!-- <select id="select"
-                                    class="form-select form-select-solid"
-                                    data-control="select2"
-                                    data-hide-search="true"
-                                    data-placeholder="Etat"
-                                    data-kt-ecommerce-order-filter="etat">
-                                    <option></option>
-                                    <option value="tous">Tous
-                                    </option>
-                                    <option value="true">
-                                        Effectué</option>
-                                    <option value="false">
-                                        En attente</option>
-                                </select> -->
-                <!--end::Select2-->
-                <!-- </div> -->
-                <!--end::Filter-->
                 <!--begin::Export-->
                 <!-- <button type="button" id="excel"
                                 class="btn btn-light-primary me-3"
@@ -140,181 +110,94 @@ include_once 'partials/header.php'
                                 id="kt_customers_table">
                                 <thead>
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="w-10px pe-2 sorting_disabled" rowspan="1" colspan="1" aria-label=""
-                                            style="width: 29.8906px;">
-                                            <div
-                                                class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" data-kt-check="true"
-                                                    data-kt-check-target="#kt_customers_table .form-check-input"
-                                                    value="1">
-                                            </div>
+                                        <th class="min-w-200px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table" rowspan="3"
+                                            aria-label="Customer Name: activate to sort column ascending"
+                                            style="width: 125px;">Tests
                                         </th>
-                                        <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
+                                        <th class="min-w-150px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Techniciens</th>
-                                        <th class="min-w-250px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending" style="width: 200px;">
-                                            Tests</th>
-                                        <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
+                                            Niveau</th>
+                                        <th class="min-w-150px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Junior</th>
-                                        <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Niveau Senior</th>
-                                        <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Niveau Expert</th>
+                                            Etat</th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    foreach ($manager->users as $collaborator) {
-                                        $allocateJu = $allocations->findOne([
+                                        $allocateFacJu = $allocations->findOne([
                                             '$and' => [
-                                                ['user' => $collaborator],
-                                                ['type' => 'Declaratif'],
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
                                                 ['level' => 'Junior'],
                                                 ['activeTest' => true],
                                             ]
                                         ]);
-                                        $allocateSe = $allocations->findOne([
+                                        $allocateFacSe = $allocations->findOne([
                                             '$and' => [
-                                                ['user' => $collaborator],
-                                                ['type' => 'Declaratif'],
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
                                                 ['level' => 'Senior'],
                                                 ['activeTest' => true],
                                             ]
                                         ]);
-                                        $allocateEx = $allocations->findOne([
+                                        $allocateFacEx = $allocations->findOne([
                                             '$and' => [
-                                                ['user' => $collaborator],
-                                                ['type' => 'Declaratif'],
+                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                                                ['type' => 'Factuel'],
                                                 ['level' => 'Expert'],
                                                 ['activeTest' => true],
                                             ]
                                         ]);
-                                        $examJu = $exams->findOne([
+                                        $examJuFac = $exams->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateJu["test"])],
+                                                ['test' => new MongoDB\BSON\ObjectId($allocateFacJu["test"])],
                                                 ['active' => true],
                                             ]
                                         ]);
-                                        $examSe = $exams->findOne([
+                                        $examSeFac = $exams->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateSe["test"])],
+                                                ['test' => new MongoDB\BSON\ObjectId($allocateFacSe["test"])],
                                                 ['active' => true],
                                             ]
                                         ]);
-                                        $examEx = $exams->findOne([
+                                        $examExFac = $exams->findOne([
                                             '$and' => [
                                                 ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateEx["test"])],
+                                                ['test' => new MongoDB\BSON\ObjectId($allocateFacEx["test"])],
                                                 ['active' => true],
-                                            ]
-                                        ]);
-                                        $user = $users->findOne([
-                                            '$and' => [
-                                                [
-                                                    '_id' => new MongoDB\BSON\ObjectId($collaborator),
-                                                    'active' => true,
-                                                ],
                                             ]
                                         ]);
                                     ?>
-                                    <tr class="odd" etat="">
-                                        <td>
+                                    <tr class="odd">
+                                        <td class="text-center">
+                                            Des connaissances
                                         </td>
                                         <td class="text-center">
-                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
+                                            Junior
                                         </td>
                                         <td class="text-center">
-                                            Maitrise des tâches professionnelles
-                                        </td>
-                                        <td class="text-center">
-                                            <?php if ($allocateJu) { ?>
-                                            <?php if ($examJu) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateJu["test"] ?>&level=<?php echo $allocateJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                            <?php if ($allocateFacJu) { ?>
+                                            <?php if ($examJuFac) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacJu["test"] ?>&level=<?php echo $allocateFacJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateJu->activeManager == false) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateJu["test"] ?>&level=<?php echo $allocateJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                                <?php if ($allocateFacJu->active == false) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacJu["test"] ?>&level=<?php echo $allocateFacJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A évaluer par vous
-                                                    </a>
-                                                <?php } else { ?>
-                                                    <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
-                                                    </span>
-                                                <?php } ?>
-                                            <?php } ?>
-                                            <?php } else { ?>
-                                                <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
-                                                </span>
-                                            <?php } ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php if ($allocateSe) { ?>
-                                            <?php if ($examSe) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateSe["test"] ?>&level=<?php echo $allocateSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le test"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
-                                                    </a>
-                                            <?php } else { ?>
-                                                <?php if ($allocateSe->activeManager == false) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateSe["test"] ?>&level=<?php echo $allocateSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le test"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A évaluer par vous
-                                                    </a>
-                                                <?php } else { ?>
-                                                    <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
-                                                    </span>
-                                                <?php } ?>
-                                            <?php } ?>
-                                            <?php } else { ?>
-                                                <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
-                                                </span>
-                                            <?php } ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php if ($allocateEx) { ?>
-                                            <?php if ($examEx) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateEx["test"] ?>&level=<?php echo $allocateEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le test"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
-                                                    </a>
-                                            <?php } else { ?>
-                                                <?php if ($allocateEx->activeManager == false) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateEx["test"] ?>&level=<?php echo $allocateEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
-                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                        title="Cliquez ici pour ouvrir le test"
-                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A évaluer par vous
+                                                        A compléter par vous
                                                     </a>
                                                 <?php } else { ?>
                                                     <span class="badge badge-light-success fs-7 m-1">
@@ -330,7 +213,82 @@ include_once 'partials/header.php'
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
-                                    <?php } ?>
+                                    <tr class="odd">
+                                        <td class="text-center">
+                                            Des connaissances
+                                        </td>
+                                        <td class="text-center">
+                                            Senior
+                                        </td>
+                                        <td class="text-center">
+                                            <?php if ($allocateFacSe) { ?>
+                                            <?php if ($examSeFac) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacSe["test"] ?>&level=<?php echo $allocateFacSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                        title="Cliquez ici pour ouvrir le test"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        En cours
+                                                    </a>
+                                            <?php } else { ?>
+                                                <?php if ($allocateFacSe->active == false) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacSe["test"] ?>&level=<?php echo $allocateFacSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                        title="Cliquez ici pour ouvrir le test"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        A compléter par vous
+                                                    </a>
+                                                <?php } else { ?>
+                                                    <span class="badge badge-light-success fs-7 m-1">
+                                                        Effectué
+                                                    </span>
+                                                <?php } ?>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <span class="badge badge-light-danger fs-7 m-1">
+                                                    Non disponible
+                                                </span>
+                                            <?php } ?>
+                                        </td>
+                                        <!--end::Menu-->
+                                    </tr>
+                                    <tr class="odd">
+                                        <td class="text-center">
+                                            Des connaissances
+                                        </td>
+                                        <td class="text-center">
+                                            Expert
+                                        </td>
+                                        <td class="text-center">
+                                            <?php if ($allocateFacEx) { ?>
+                                            <?php if ($examExFac) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacEx["test"] ?>&level=<?php echo $allocateFacEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                        title="Cliquez ici pour ouvrir le test"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        En cours
+                                                    </a>
+                                            <?php } else { ?>
+                                                <?php if ($allocateFacEx->active == false) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacEx["test"] ?>&level=<?php echo $allocateFacEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                        class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                        title="Cliquez ici pour ouvrir le test"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        A compléter par vous
+                                                    </a>
+                                                <?php } else { ?>
+                                                    <span class="badge badge-light-success fs-7 m-1">
+                                                        Effectué
+                                                    </span>
+                                                <?php } ?>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <span class="badge badge-light-danger fs-7 m-1">
+                                                    Non disponible
+                                                </span>
+                                            <?php } ?>
+                                        </td>
+                                        <!--end::Menu-->
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -361,6 +319,14 @@ include_once 'partials/header.php'
                 <!--end::Card body-->
             </div>
             <!--end::Card-->
+            <!--begin::Export dropdown-->
+            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+                <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
+                    <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    Excel
+                </button>
+            </div> -->
+            <!--end::Export dropdown-->
         </div>
         <!--end::Container-->
     </div>

@@ -6,7 +6,7 @@
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted fw-semibold me-2">2024&copy;</span>
             <a href="https://keenthemes.com/" class="text-gray-800 text-hover-primary">CFAO
-                Mobility Academy Panafrican</a>
+                Mobility Academy</a>
         </div>
         <!--end::Copyright-->
     </div>

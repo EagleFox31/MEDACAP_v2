@@ -35,107 +35,49 @@ if ( isset( $_POST[ 'update' ] ) ) {
     $role = $_POST[ 'role' ];
     $gender = $_POST[ 'gender' ];
     $country = $_POST[ 'country' ];
-    $vehicle = $_POST[ 'vehicle' ];
-    $subBrand = $_POST[ 'subBrand' ];
-    $brand = $_POST[ 'brand' ];
+    $level = $_POST[ 'level' ];
     $certificate = $_POST[ 'certificate' ];
     $speciality = $_POST[ 'speciality' ];
     $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
     $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
-    $level = $_POST[ 'level' ];
-    if ($_POST[ 'manager' ]) {
-        $managerId = $_POST[ 'manager' ];
-    }
 
     $person = [
-            'username' => $username,
-            'matricule' => $matricule,
-            'firstName' => ucfirst( $firstName ),
-            'lastName' => ucfirst( $lastName ),
-            'email' => $email,
-            'phone' => $phone,
-            'gender' => $gender,
-            'level' => $level,
-            'country' => $country,
-            'birthdate' => $birthdate,
-            'recrutmentDate' => $recrutmentDate,
-            'certificate' => ucfirst( $certificate ),
-            'subsidiary' => ucfirst( $subsidiary ),
-            'speciality' => ucfirst( $speciality ),
-            'department' => ucfirst( $department ),
-            'role' => ucfirst( $role ),
-            'brand' => $brand,
-            'subBrand' => $subBrand,
-            'vehicle' => $vehicle,
-            "manager" => new MongoDB\BSON\ObjectId( $managerId ),
-            'updated' => date("d-m-Y")
-        ];
+        'username' => $username,
+        'matricule' => $matricule,
+        'firstName' => ucfirst( $firstName ),
+        'lastName' => ucfirst( $lastName ),
+        'email' => $email,
+        'phone' => $phone,
+        'gender' => $gender,
+        'level' => $level,
+        'country' => $country,
+        'birthdate' => $birthdate,
+        'recrutmentDate' => $recrutmentDate,
+        'certificate' => ucfirst( $certificate ),
+        'subsidiary' => ucfirst( $subsidiary ),
+        'speciality' => ucfirst( $speciality ),
+        'department' => ucfirst( $department ),
+        'role' => ucfirst( $role ),
+        'updated' => date("d-m-Y")
+    ];
         
-    $member = $users->findOne([
-        '$and' => [
-            [
-                '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true
-            ]
-        ]
-    ]);
+    $users->updateOne(
+        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
+        [ '$set' => $person ]
+    );
 
-    if ( $managerId  ) {
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' => $person ]
-        );
+    $success_msg = 'Collaborateur modifié avec succes.';
+}
 
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $managerId ) ],
-            [ '$addToSet' => [ 'users' => new MongoDB\BSON\ObjectId( $id ) ] ]
-        );
+if ( isset( $_POST[ 'brand' ] ) ) {
+    $id = $_POST[ 'userID' ];
+    $brand = $_POST[ 'brand' ];
 
-        if ( $member->profile == 'Technicien' ) {
-            $success_msg = 'Technicien modifié avec succes.';
-        } elseif ( $member->profile == 'Manager' ) {
-            $success_msg = 'Manager modifié avec succes.';
-        } elseif ( $member->profile == 'Admin' ) {
-            $success_msg = 'Administrateur modifié avec succes.';
-        }
-    } else {
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' =>
-                    [
-                    'username' => $username,
-                    'matricule' => $matricule,
-                    'firstName' => $firstName,
-                    'lastName' => $lastName,
-                    'email' => $email,
-                    'phone' => $phone,
-                    'gender' => $gender,
-                    'level' => $level,
-                    'country' => $country,
-                    'birthdate' => $birthdate,
-                    'recrutmentDate' => $recrutmentDate,
-                    'certificate' => $certificate,
-                    'subsidiary' => $subsidiary,
-                    'speciality' => $speciality,
-                    'department' => $department,
-                    'subRole' => $subRole,
-                    'mainRole' => $mainRole,
-                    'brand' => $brand,
-                    'vehicle' => $vehicle,
-                    'subBrand' => $subBrand,
-                    'updated' => date("d-m-Y")
-                ]
-            ]
-        );
-
-        if ( $member->profile == 'Technicien' ) {
-            $success_msg = 'Technicien modifié avec succes.';
-        } elseif ( $member->profile == 'Manager' ) {
-            $success_msg = 'Manager modifié avec succes.';
-        } elseif ( $member->profile == 'Admin' ) {
-            $success_msg = 'Administrateur modifié avec succes.';
-        }
-    }
+    $users->updateOne(
+        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
+        [ '$set' => [ 'brand' => $brand, ] ]
+    );
+    $success_msg = 'Collaborateur modifié avec succes.';
 }
 
 if (isset( $_POST['excel'] ) ) {
@@ -145,73 +87,17 @@ if (isset( $_POST['excel'] ) ) {
     $spreadsheet->setActiveSheetIndex(0);
     $activeSheet = $spreadsheet->getActiveSheet();
 
-    $activeSheet->setCellValue('A1', "Nom d'utilisateur");
-    $activeSheet->setCellValue('B1', 'Matricule');
-    $activeSheet->setCellValue('C1', 'Prénoms');
-    $activeSheet->setCellValue('D1', 'Noms');
-    $activeSheet->setCellValue('E1', 'Email');
-    $activeSheet->setCellValue('F1', 'Numéro de téléphone');
-    $activeSheet->setCellValue('G1', 'Sexe');
-    $activeSheet->setCellValue('H1', 'Date de naissance');
-    $activeSheet->setCellValue('I1', 'Niveau technique');
-    $activeSheet->setCellValue('J1', 'Pays');
-    $activeSheet->setCellValue('K1', 'Profil');
-    $activeSheet->setCellValue('L1', 'Spécialité');
-    $activeSheet->setCellValue('M1', 'Diplôme');
-    $activeSheet->setCellValue('N1', 'Filiale');
-    $activeSheet->setCellValue('O1', 'Département');
-    $activeSheet->setCellValue('P1', 'Fonction');
-    $activeSheet->setCellValue('Q1', 'Date de recrutement');
-    $activeSheet->setCellValue('R1', 'Manager');
+    $activeSheet->setCellValue('A1', 'Prénoms');
+    $activeSheet->setCellValue('B1', 'Noms');
 
     $myObj = $users->find();
     $i = 2;
     foreach ($myObj as $row) {
-        $manager = $users->findOne([ '_id'  => $row->manager ]);
-        
-        if ($manager) {
-            $activeSheet->setCellValue('A'.$i , $row->username);
-            $activeSheet->setCellValue('B'.$i , $row->matricule);
-            $activeSheet->setCellValue('C'.$i , $row->firstName);
-            $activeSheet->setCellValue('D'.$i , $row->lastName);
-            $activeSheet->setCellValue('E'.$i , $row->email);
-            $activeSheet->setCellValue('F'.$i , $row->phone);
-            $activeSheet->setCellValue('G'.$i , $row->gender);
-            $activeSheet->setCellValue('H'.$i , $row->birthdate);
-            $activeSheet->setCellValue('I'.$i , $row->level);
-            $activeSheet->setCellValue('J'.$i , $row->country);
-            $activeSheet->setCellValue('K'.$i , $row->profile);
-            $activeSheet->setCellValue('L'.$i , $row->speciality);
-            $activeSheet->setCellValue('M'.$i , $row->certificate);
-            $activeSheet->setCellValue('N'.$i , $row->subsidiary);
-            $activeSheet->setCellValue('O'.$i , $row->department);
-            $activeSheet->setCellValue('P'.$i , $row->role);
-            $activeSheet->setCellValue('Q'.$i , $row->recrutmentDate);
-            $activeSheet->setCellValue('R'.$i , $manager->firstName." ".$manager->lastName);
-            $i++;
-        } else {
-            $activeSheet->setCellValue('A'.$i , $row->username);
-            $activeSheet->setCellValue('B'.$i , $row->matricule);
-            $activeSheet->setCellValue('C'.$i , $row->firstName);
-            $activeSheet->setCellValue('D'.$i , $row->lastName);
-            $activeSheet->setCellValue('E'.$i , $row->email);
-            $activeSheet->setCellValue('F'.$i , $row->phone);
-            $activeSheet->setCellValue('G'.$i , $row->gender);
-            $activeSheet->setCellValue('H'.$i , $row->birthdate);
-            $activeSheet->setCellValue('I'.$i , $row->level);
-            $activeSheet->setCellValue('J'.$i , $row->country);
-            $activeSheet->setCellValue('K'.$i , $row->profile);
-            $activeSheet->setCellValue('L'.$i , $row->speciality);
-            $activeSheet->setCellValue('M'.$i , $row->certificate);
-            $activeSheet->setCellValue('N'.$i , $row->subsidiary);
-            $activeSheet->setCellValue('O'.$i , $row->department);
-            $activeSheet->setCellValue('P'.$i , $row->role);
-            $activeSheet->setCellValue('Q'.$i , $row->recrutmentDate);
-            $activeSheet->setCellValue('R'.$i , "Pas de manager");
-            $i++;
-        }
+        $activeSheet->setCellValue('A'.$i , $row->lastName);
+        $activeSheet->setCellValue('A'.$i , $row->firstName);
+        $i++;
     }
-    $filename = 'utilisateurs.xlsx';
+    $filename = 'collaborateurs.xlsx';
 
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename='.$filename);
@@ -219,7 +105,7 @@ if (isset( $_POST['excel'] ) ) {
     $excel_writer->save('php://output');
 }
 
-if ( isset( $_POST[ 'pass' ] ) ) {
+if ( isset( $_POST[ 'password' ] ) ) {
     // Password modification
     $id = $_POST[ 'userID' ];
     $password = $_POST[ 'password' ];
@@ -234,7 +120,7 @@ if ( isset( $_POST[ 'pass' ] ) ) {
             [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
             [ '$set' => [ 'password' => $password_hash, ] ]
         );
-        $success_msg = 'Mot de passe modifié avec succes.';
+        $success_msg = 'Collaborateur modifié avec succes.';
     }
 }
 
@@ -252,13 +138,7 @@ if ( isset( $_POST[ 'delete' ] ) ) {
     $member['active'] = false;
     $users->updateOne(['_id' => new MongoDB\BSON\ObjectId($id)], ['$set' => $member]);
 
-    if ($member['profile'] == "Technicien") {
-        $success_msg = "Technicien supprimé avec succès";
-    } elseif ($member['profile'] == "Manager") {
-        $success_msg = "Manager supprimé avec succès";
-    } elseif ($member['profile'] == "Admin") {
-        $success_msg = "Administrateur supprimé avec succès";
-    }
+    $success_msg = "Collaborateur supprimé avec succès";
 }
 
 if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
@@ -288,7 +168,7 @@ if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Liste des Utilisateurs | CFAO Mobility Academy</title>
+<title>Modifier/Supprimer un Collaborateur | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -301,7 +181,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des utilisateurs </h1>
+                    Modifier/Supprimer un collaborateur </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -510,20 +390,38 @@ include_once 'partials/header.php'
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
                                             Departement</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                        <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                        </th>
+                                            Modifier</th>
+                                        <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">
+                                            Supprimer</th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $persons = $users->find(['active' => true]);
-                                        foreach ($persons as $user) {
+                                        $manager = $users->findOne([
+                                            '$and' => [
+                                                [
+                                                    '_id' => new MongoDB\BSON\ObjectId($_SESSION['id']) ,
+                                                    'active' => true,
+                                                ]
+                                            ],
+                                        ]);
+                                        foreach ($manager->users as $person) {
+                                            $user = $users->findOne([
+                                                '$and' => [
+                                                    [
+                                                        '_id' => new MongoDB\BSON\ObjectId($person) ,
+                                                        'active' => true,
+                                                    ]
+                                                ],
+                                            ]);
                                         ?>
-                                    <?php if ($_SESSION["profile"] == "Admin") { ?>
-                                    <?php if ($user["profile" ] != "Admin" && $user["profile" ]  != "Super Admin") { ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
                                         <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -553,49 +451,12 @@ include_once 'partials/header.php'
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id ?>">
                                                 <i class="fas fa-edit fs-5"></i></button>
-                                            <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $user->_id ?>">
-                                                <i class="fas fa-trash fs-5"></i></button>
-                                        </td>
-                                    </tr>
-                                    <?php } ?>
-                                    <?php } ?>
-                                    <?php if ($_SESSION["profile"] == "Super Admin") { ?>
-                                    <?php if ($user["profile" ] != "Super Admin") { ?>
-                                    <tr class="odd" etat="<?php echo $user->active ?>">
-                                        <!-- <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $user->_id ?>">
-                                            </div>
-                                        </td> -->
-                                        <td></td>
-                                        <td data-filter="search">
-                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $user->email ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->phone ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->level ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->certificate ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->department ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id ?>">
-                                                <i class="fas fa-edit fs-5"></i></button>
                                             <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $user->_id ?>">
                                                 <i class="fas fa-trash fs-5"></i></button>
                                         </td>
                                     </tr>
-                                    <?php } ?>
-                                    <?php } ?>
                                     <!-- begin:: Modal - Confirm suspend -->
                                     <div class="modal" id="kt_modal_desactivate<?php echo $user->_id ?>" tabindex="-1"
                                         aria-hidden="true">
@@ -1004,7 +865,7 @@ include_once 'partials/header.php'
                                                                     <!--begin::Input-->
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="mainRole"
+                                                                        placeholder="" name="role"
                                                                         value="<?php echo $user->role ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
@@ -1140,53 +1001,18 @@ include_once 'partials/header.php'
                                                                         value="<?php echo $user->recrutmentDate ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
-                                                                <!--end::Input group-->
-                                                                <?php if($user->profile == "Technicien" || $user->profile == "Manager") { ?>
                                                                 <!--begin::Input group-->
-                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="form-label fw-bolder text-dark fs-6">
-                                                                        <span>Manager</span>
-                                                                        <span class="ms-1" data-bs-toggle="tooltip"
-                                                                            title="Choississez le manager de ce technicien">
-                                                                            <i class="ki-duotone ki-information fs-7"><span
-                                                                                    class="path1"></span><span
-                                                                                    class="path2"></span><span
-                                                                                    class="path3"></span></i>
-                                                                        </span>
-                                                                    </label>
+                                                                    <label class="fs-6 fw-bold mb-2">Mot de passe</label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
-                                                                    <select name="manager" aria-label="Select a Country"
-                                                                        data-control="select2"
-                                                                        data-placeholder="Sélectionnez votre manager..."
-                                                                        class="form-select form-select-solid fw-bold">
-                                                                        <?php
-                                                                            if ($user->manager) {
-                                                                            $lead = $users->findOne(['_id' => $user["manager"]]);
-                                                                        ?>
-                                                                        <option value="<?php echo $lead->_id ?>">
-                                                                            Manager
-                                                                            actuel: <?php echo $lead->firstName ?>
-                                                                            <?php echo $lead->lastName ?>
-                                                                        </option>
-                                                                        <?php } ?>
-                                                                        <?php 
-                                                                        $managers = $users->find([
-                                                                            '$and' => [['profile' => 'Manager'], ['active' => true]]
-                                                                        ]);
-                                                                        foreach ($managers as $manager) {
-                                                                        ?>
-                                                                        <option value="<?php echo $manager->_id ?>">
-                                                                            <?php echo $manager->firstName ?>
-                                                                            <?php echo $manager->lastName ?>
-                                                                        </option>
-                                                                        <?php } ?>
-                                                                    </select>
+                                                                    <input type="password"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="password"
+                                                                        value="********" />
                                                                     <!--end::Input-->
                                                                 </div>
-                                                                <!--end::Input group-->
-                                                                <?php } ?>
                                                             </div>
                                                             <!--end::User form-->
                                                         </div>
@@ -1337,14 +1163,14 @@ include_once 'partials/header.php'
             </div>
             <!--end::Card-->
             <!--begin::Export dropdown-->
-            <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
-                <form method="post">
-                    <button type="submit" name="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
-                        <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
-                        Excel
-                    </button>
-                </form>
-            </div>
+            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+            <form method="post">
+                <button type="submit" name="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
+                    <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    Excel
+                </button>
+            </form>
+            </div> -->
             <!--end::Export dropdown-->
         </div>
         <!--end::Container-->

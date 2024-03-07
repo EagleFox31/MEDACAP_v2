@@ -25,8 +25,7 @@ if (!isset($_SESSION['id'])) {
 
     $id = $_GET['id'];
     $level = $_GET['level'];
-    $vehicle = $_GET['vehicle'];
-    $brand = $_GET['brand'];
+    $test = $_GET['test'];
     $questionsTag = [];
     
     $technician = $users->findOne([
@@ -36,11 +35,10 @@ if (!isset($_SESSION['id'])) {
         ],
     ]);
         
-    $vehicule = $vehicles->findOne([
+    $testDecla = $tests->findOne([
         '$and' => [
-            ['users' => new MongoDB\BSON\ObjectId($id)],
-            ['label' => $vehicle],
-            ['brand' => $brand],
+            ['_id' => new MongoDB\BSON\ObjectId($test)],
+            ['user' => new MongoDB\BSON\ObjectId($id)],
             ['type' => 'Declaratif'],
             ['level' => $level],
             ['active' => true],
@@ -50,10 +48,11 @@ if (!isset($_SESSION['id'])) {
     $exam = $exams->findOne([
         '$and' => [
             ['user' => new MongoDB\BSON\ObjectId($id)],
-            ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
+            ['test' => new MongoDB\BSON\ObjectId($test)],
             ['active' => true],
         ],
     ]);
+    $deQuizs = $testDecla['quizzes'];
     
     if (isset($_POST['save'])) {
         $questionsTag = $_POST['questionsTag'];
@@ -277,7 +276,7 @@ if (!isset($_SESSION['id'])) {
                 'questions' => $questionsTags,
                 'answers' => $answers,
                 'user' => new MongoDB\BSON\ObjectId($id),
-                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                'test' => new MongoDB\BSON\ObjectId($test),
                 'quizAssistance' => $assistanceID,
                 'quizArbre' => $arbreID,
                 'quizTransfert' => $transfertID,
@@ -310,7 +309,7 @@ if (!isset($_SESSION['id'])) {
                 'hour' => $hr,
                 'minute' => $mn,
                 'second' => $sc,
-                'total' => count($answers),
+                'total' => count($to),
                 'active' => true,
                 'created' => date('d-m-y')
             ];
@@ -326,6 +325,7 @@ if (!isset($_SESSION['id'])) {
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
         $userAnswer = [];
+        $to = [];
         for ($i = 0; $i < count($proposals); ++$i) {
             $data = $questions->findOne([
                 '$or' => [
@@ -337,14 +337,18 @@ if (!isset($_SESSION['id'])) {
             ]);
             if ($data) {
                 array_push($userAnswer, $proposals[$i]);
+                array_push($to, $proposals[$i]);
+            }
+            if ($proposals[$i] == "null") {
+                array_push($userAnswer, $proposals[$i]);
             }
         }
         if (count($questionsTag) != count($to)) {
-            $idxs = array_map(function ($v, $k) use ($answers) {
+            $idxs = array_map(function ($v, $k) use ($userAnswer) {
                 if ($v === "null") {
                     return $k+1;
                 }
-            }, $answers, array_keys($answers));
+            }, $userAnswer, array_keys($userAnswer));
             for ($j = 0; $j < count($idxs); ++$j) {
                 if($idxs[$j] != null) {
                     array_push($array, $idxs[$j]); 
@@ -441,9 +445,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Assistance à la Conduite') {
                             if ($proposals[$i] == '1-Assistance à la Conduite-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreAss, 'Je sais faire');
+                                array_push($scoreAss, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalAssistance, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalAssistance, 'Non');
@@ -491,9 +495,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Arbre de Transmission') {
                             if ($proposals[$i] == '1-Arbre de Transmission-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreAr, 'Je sais faire');
+                                array_push($scoreAr, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalArbre, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalArbre, 'Non');
@@ -541,9 +545,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Boite de Transfert') {
                             if ($proposals[$i] == '1-Boite de Transfert-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreBoT, 'Je sais faire');
+                                array_push($scoreBoT, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalTransfert, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalTransfert, 'Non');
@@ -591,9 +595,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Boite de Vitesse') {
                             if ($proposals[$i] == '1-Boite de Vitesse-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreBoi, 'Je sais faire');
+                                array_push($scoreBoi, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalBoite, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalBoite, 'Non');
@@ -791,9 +795,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Climatisation') {
                             if ($proposals[$i] == '1-Climatisation-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreClim, 'Je sais faire');
+                                array_push($scoreClim, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalClimatisation, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalClimatisation, 'Non');
@@ -836,9 +840,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Direction') {
                             if ($proposals[$i] == '1-Direction-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreDir, 'Je sais faire');
+                                array_push($scoreDir, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalDirection, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalDirection, 'Non');
@@ -881,9 +885,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Demi Arbre de Roue') {
                             if ($proposals[$i] == '1-Demi Arbre de Roue-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreDir, 'Je sais faire');
+                                array_push($scoreDir, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalDemi, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalDemi, 'Non');
@@ -926,9 +930,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Electricité et Electronique') {
                             if ($proposals[$i] == '1-Electricité-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreElec, 'Je sais faire');
+                                array_push($scoreElec, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalElectricite, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalElectricite, 'Non');
@@ -971,9 +975,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Freinage') {
                             if ($proposals[$i] == '1-Freinage-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreFrei, 'Je sais faire');
+                                array_push($scoreFrei, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalFrei, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalFrei, 'Non');
@@ -1016,9 +1020,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Freinage Electromagnétique') {
                             if ($proposals[$i] == '1-Freinage Electromagnétique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreFreiE, 'Je sais faire');
+                                array_push($scoreFreiE, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalFreinageElec, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalFreinageElec, 'Non');
@@ -1061,9 +1065,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Freinage Hydraulique') {
                             if ($proposals[$i] == '1-Freinage Hydraulique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreFreiH, 'Je sais faire');
+                                array_push($scoreFreiH, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalFreinage, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalFreinage, 'Non');
@@ -1106,9 +1110,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Freinage Pneumatique') {
                             if ($proposals[$i] == '1-Freinage Pneumatique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreFreiP, 'Je sais faire');
+                                array_push($scoreFreiP, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalFrein, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalFreinage, 'Non');
@@ -1151,9 +1155,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Hydraulique') {
                             if ($proposals[$i] == '1-Hydraulique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreHyd, 'Je sais faire');
+                                array_push($scoreHyd, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalHydraulique, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalHydraulique, 'Non');
@@ -1196,9 +1200,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Moteur Diesel') {
                             if ($proposals[$i] == '1-Moteur Diesel-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreMoD, 'Je sais faire');
+                                array_push($scoreMoD, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalMoteurDiesel, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalMoteurDiesel, 'Non');
@@ -1241,9 +1245,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Moteur Electrique') {
                             if ($proposals[$i] == '1-Moteur Electrique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreMoEl, 'Je sais faire');
+                                array_push($scoreMoEl, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalMoteurElec, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalMoteurElec, 'Non');
@@ -1286,9 +1290,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Moteur Essence') {
                             if ($proposals[$i] == '1-Moteur Essence-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreMoE, 'Je sais faire');
+                                array_push($scoreMoE, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalMoteurEssence, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalMoteurEssence, 'Non');
@@ -1331,9 +1335,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Moteur Thermique') {
                             if ($proposals[$i] == '1-Moteur Thermique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreMoT, 'Je sais faire');
+                                array_push($scoreMoT, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalMoteurThermique, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalMoteurThermique, 'Non');
@@ -1376,9 +1380,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Multiplexage & Electronique') {
                             if ($proposals[$i] == '1-Multiplexage & Electronique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreMulti, 'Je sais faire');
+                                array_push($scoreMulti, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalMultiplexage, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalMultiplexage, 'Non');
@@ -1421,9 +1425,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Pont') {
                             if ($proposals[$i] == '1-Pont-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scorePont, 'Je sais faire');
+                                array_push($scorePont, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalPont, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalPont, 'Non');
@@ -1466,9 +1470,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Pneumatique') {
                             if ($proposals[$i] == '1-Pneumatique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scorePneu, 'Je sais faire');
+                                array_push($scorePneu, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalPneu, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalPneu, 'Non');
@@ -1511,9 +1515,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Reducteur') {
                             if ($proposals[$i] == '1-Reducteur-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scorePneu, 'Je sais faire');
+                                array_push($scorePneu, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalPneu, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalPneu, 'Non');
@@ -1556,9 +1560,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Suspension') {
                             if ($proposals[$i] == '1-Suspension-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreSus, 'Je sais faire');
+                                array_push($scoreSus, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalSuspension, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalSuspension, 'Non');
@@ -1601,9 +1605,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Suspension à Lame') {
                             if ($proposals[$i] == '1-Suspension à Lame-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreSusL, 'Je sais faire');
+                                array_push($scoreSusL, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalSuspensionLame, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalSuspensionLame, 'Non');
@@ -1646,9 +1650,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Suspension Ressort') {
                             if ($proposals[$i] == '1-Suspension Ressort-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreSusR, 'Je sais faire');
+                                array_push($scoreSusR, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalSuspensionRessort, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalSuspensionRessort, 'Non');
@@ -1691,9 +1695,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Suspension Pneumatique') {
                             if ($proposals[$i] == '1-Suspension Pneumatique-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreSusP, 'Je sais faire');
+                                array_push($scoreSusP, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalSuspensionPneumatique, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalSuspensionPneumatique, 'Non');
@@ -1736,9 +1740,9 @@ if (!isset($_SESSION['id'])) {
                     if ($questionsData != null) {
                         if ($questionsData->speciality == 'Transversale') {
                             if ($proposals[$i] == '1-Transversale-'.$questionsData->level.'-'.$questionsData->label.'-1') {
-                                array_push($scoreTran, 'Je sais faire');
+                                array_push($scoreTran, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposalTransversale, 'Oui');
-                                array_push($score, 'Je sais faire');
+                                array_push($score, 'Je maitrise (je réalise cette tâche professionnelle seul)');
                                 array_push($proposal, 'Oui');
                             } else {
                                 array_push($proposalTransversale, 'Non');
@@ -1780,7 +1784,7 @@ if (!isset($_SESSION['id'])) {
                 'answers' => $proposal,
                 'userAnswers' => $userAnswer,
                 'user' => new MongoDB\BSON\ObjectId($id),
-                'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                'test' => new MongoDB\BSON\ObjectId($test),
                 'score' => count($score),
                 'level' => $level,
                 'type' => 'Declaratif',
@@ -1795,7 +1799,7 @@ if (!isset($_SESSION['id'])) {
             $allocationData = $allocations->findOne([
                 '$and' => [
                     ['user' => new MongoDB\BSON\ObjectId($id)],
-                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
+                    ['test' => new MongoDB\BSON\ObjectId($test)],
                 ],
             ]);
 
@@ -1808,13 +1812,13 @@ if (!isset($_SESSION['id'])) {
             ]);
     
             $allocationData->active = true;
-            $updatedAllocation = $allocations->updateOne(
+            $allocations->updateOne(
                 ['_id' => $allocationData->_id], 
                 ['$set' => $allocationData]
             );
 
             $examData->active = false;
-            $updatedExam = $exams->updateOne(
+            $exams->updateOne(
                 ['_id' => $examData->_id], 
                 ['$set' => $examData]
             );
@@ -1836,7 +1840,7 @@ if (!isset($_SESSION['id'])) {
                     $newresult = [
                         'user' => new MongoDB\BSON\ObjectId($id),
                         'manager' => new MongoDB\BSON\ObjectId($managerResult->manager),
-                        'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
+                        'test' => new MongoDB\BSON\ObjectId($test),
                         'score' => $scoreF,
                         'level' => $level,
                         'type' => 'Declaratif',
@@ -1855,7 +1859,7 @@ if (!isset($_SESSION['id'])) {
 <?php
 include_once 'partials/header.php'; ?>
 <!--begin::Title-->
-<title>Tâches Professionnelles | CFAO Mobility Academy</title>
+<title>Test Tâche Professionnelle | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -1883,7 +1887,7 @@ include_once 'partials/header.php'; ?>
                             </div>
                         </center>
                         <div class="heading" style="margin-top: 10px;">
-                            <h1 class="heading__text">Questionnaire à choix multiple</h1>
+                            <h1 class="heading__text">Test des tâches professionnelles du Niveau <?php echo $_GET['level'] ?></h1>
                         </div>
                         
                         <?php
@@ -1909,7 +1913,7 @@ include_once 'partials/header.php'; ?>
                         </div>
                     </center> -->
                             <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-                                Vous devez repondre à toutes les questions avant
+                                Vous devez repondre à toutes les tâches avant
                                 de pouvoir valider le questionnaire.
                             </p>
                         <input class="hidden" type="text" name="timer" id="clock" />
@@ -1920,53 +1924,6 @@ include_once 'partials/header.php'; ?>
                             <?php if (!isset($exam)) { ?>
                         <?php
                         $k = 1;
-                        $existTest = $tests->findOne([
-                            '$and' => [
-                                ['user' => new MongoDB\BSON\ObjectId($id)],
-                                ['vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id)],
-                                ['brand' => $brand],
-                                ['subBrand' => $technician->subBrand],
-                            ],
-                        ]);
-                     if ($existTest) {
-                         $deQuizs = $existTest['quizzes'];
-                     } else {
-                         $test = [
-                             'quizzes' => $vehicule->quizzes,
-                             'user' => new MongoDB\BSON\ObjectId($id),
-                             'vehicle' => new MongoDB\BSON\ObjectId($vehicule->_id),
-                             'brand' => $brand,
-                             'subBrand' => $technician->subBrand,
-                             'total' => 0,
-                             'active' => true,
-                             'created' => date('d-m-y')
-                         ];
-                     
-                         $insert = $tests->insertOne($test);
-                         for ($n = 0; $n < count($technician['subBrand']); ++$n) {
-                             $subVehicule = $vehicles->findOne([
-                                 '$and' => [
-                                     ['brand' => $technician['subBrand'][$n]],
-                                     ['type' => 'Declaratif'],
-                                     ['level' => $level],
-                                     ['active' => true],
-                                 ],
-                             ]); 
-                             for ($a = 0; $a < count($subVehicule->quizzes); ++$a) {
-                                 $tests->updateOne(
-                                     [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
-                                     [ '$addToSet' => [ 'quizzes' => $subVehicule->quizzes[$a] ] ]
-                                 );
-                             }
-                         }
-                         $saveTest = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ]);
-                         $saveTest['total'] = count($saveTest['quizzes']);
-                         $tests->updateOne(
-                             [ '_id' => new MongoDB\BSON\ObjectId( $insert->getInsertedId() ) ],
-                             [ '$set' => $saveTest ]
-                         );
-                         $deQuizs = $saveTest['quizzes'];
-                     }
                      for ($j = 0; $j < count($deQuizs); ++$j) {
                         $assistanceDecla = $quizzes->findOne([
                             '$and' => [
@@ -2000,7 +1957,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2009,7 +1966,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2018,7 +1975,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2072,7 +2029,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerArbre<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2080,7 +2037,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerArbre<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2088,7 +2045,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerArbre<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2144,7 +2101,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2153,7 +2110,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2162,7 +2119,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2216,7 +2173,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoite<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2224,7 +2181,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoite<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2232,7 +2189,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoite<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2286,7 +2243,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteAuto<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2294,7 +2251,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteAuto<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2302,7 +2259,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteAuto<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2356,7 +2313,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteMan<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2364,7 +2321,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteMan<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2372,7 +2329,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteMan<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2426,7 +2383,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteVc<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2434,7 +2391,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteVc<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2442,7 +2399,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerBoiteVc<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2498,7 +2455,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2507,7 +2464,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2516,7 +2473,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2572,7 +2529,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2581,7 +2538,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2590,7 +2547,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2646,7 +2603,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2655,7 +2612,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2664,7 +2621,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2720,7 +2677,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2729,7 +2686,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2738,7 +2695,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2794,7 +2751,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2803,7 +2760,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2812,7 +2769,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2868,7 +2825,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2877,7 +2834,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2886,7 +2843,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2942,7 +2899,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2951,7 +2908,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2960,7 +2917,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3014,7 +2971,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerFrein<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3022,7 +2979,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerFrein<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3030,7 +2987,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerFrein<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3086,7 +3043,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3095,7 +3052,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3104,7 +3061,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3160,7 +3117,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3169,7 +3126,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3178,7 +3135,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3234,7 +3191,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3243,7 +3200,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3252,7 +3209,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3308,7 +3265,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3317,7 +3274,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3326,7 +3283,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3382,7 +3339,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3391,7 +3348,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3400,7 +3357,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3454,7 +3411,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerMultiplexage<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3462,7 +3419,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerMultiplexage<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3470,7 +3427,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerMultiplexage<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3524,7 +3481,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerPont<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3532,7 +3489,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerPont<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3540,7 +3497,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerPont<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3595,7 +3552,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerPneu<?php echo $i + 1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3603,7 +3560,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerPneu<?php echo $i + 1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3619,7 +3576,7 @@ include_once 'partials/header.php'; ?>
                                     name="answerPneu<?php echo $i + 1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <div >
@@ -3667,7 +3624,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3676,7 +3633,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3685,7 +3642,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3741,7 +3698,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3750,7 +3707,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3759,7 +3716,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3815,7 +3772,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3824,7 +3781,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3833,7 +3790,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3889,7 +3846,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3898,7 +3855,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3907,7 +3864,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3963,7 +3920,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3972,7 +3929,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3981,7 +3938,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4037,7 +3994,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4046,7 +4003,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4055,7 +4012,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4279,7 +4236,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" checked/>
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4288,7 +4245,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4297,7 +4254,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <div >
@@ -4311,7 +4268,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4320,7 +4277,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" checked/>
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4329,7 +4286,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <div >
@@ -4343,7 +4300,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4352,7 +4309,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4361,7 +4318,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" checked/>
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <div >
@@ -4374,7 +4331,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4383,7 +4340,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4392,7 +4349,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4413,7 +4370,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je sais faire
+                                    Je maitrise (je réalise cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4422,7 +4379,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne sais pas faire
+                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4431,7 +4388,7 @@ include_once 'partials/header.php'; ?>
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais fait
+                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>

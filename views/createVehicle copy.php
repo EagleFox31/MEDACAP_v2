@@ -2597,6 +2597,40 @@ include_once 'partials/header.php'
                     ?>
                         </div>
                         <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="d-flex flex-column mb-7 fv-row hidden" id="metier">
+                          <!--begin::Label-->
+                          <label class="form-label fw-bolder text-dark fs-6">
+                            <span class="required">Niveau</span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le niveau du technicien ou du manager">
+                              <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                            </span>
+                          </label>
+                          <!--end::Label-->
+                          <!--begin::Input-->
+                          <select name="level" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez le niveau..." class="form-select form-select-solid fw-bold">
+                            <option>Sélectionnez le
+                              niveau...</option>
+                            <option <?php if (isset($_POST['submit']) && $_POST['level'] == "Junior") { echo 'selected = selected'; } ?> value="Junior">
+                              Junior
+                            </option>
+                            <option <?php if (isset($_POST['submit']) && $_POST['level'] == "Senior") { echo 'selected = selected'; } ?> value="Senior">
+                              Senior
+                            </option>
+                            <option <?php if (isset($_POST['submit']) && $_POST['level'] == "Expert") { echo 'selected = selected'; } ?> value="Expert">
+                              Expert
+                            </option>
+                          </select>
+                          <!--end::Input-->
+                          <?php
+                          if (isset($error)) {
+                              ?>
+                          <span class='text-danger'>
+                            <?php echo $error; ?>
+                          </span>
+                          <?php
+                                 } ?>
+                        </div>
+                        <!--end::Input group-->
                     </div>
                     <!--end::Scroll-->
                     <!--end::Modal body-->

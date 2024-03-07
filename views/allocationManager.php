@@ -153,10 +153,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                             style="width: 155.266px;">Techniciens</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Département</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 200px;">
                                             Etat d'avancement des QCM </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
@@ -192,23 +188,12 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                                 ],
                                             ]
                                         ]);
-                                        $vehicle = $vehicles->findOne([
-                                            '$and' => [
-                                                [
-                                                    '_id' => new MongoDB\BSON\ObjectId($usersFactuel[$i][ 'vehicle' ]) ,
-                                                    'active' => true,
-                                                ],
-                                            ]
-                                        ]);
                                     ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
                                         <td>
                                         </td>
                                         <td data-filter="email">
                                             <?php echo $user->firstName ?> <?php echo $user->lastName ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $user->department ?>
                                         </td>
                                         <?php if ($usersFactuel[$i]->active == false) { ?>
                                         <td data-filter="email">

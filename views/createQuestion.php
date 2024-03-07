@@ -2740,12 +2740,7 @@ include_once 'partials/header.php'; ?>
                         <label class='required form-label fw-bolder text-dark fs-6'>Reférence</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type='text' class='form-control form-control-solid' placeholder='' name='ref'
-                        <?php
-                            if (isset($_POST['submit'])) {
-                                echo 'value="'.$ref.'"';
-                            }
-                             ?> />
+                        <input type='text' class='form-control form-control-solid' placeholder='' name='ref' />
                         <!--end::Input-->
                         <?php
                     if (isset($error)) {
@@ -2763,12 +2758,7 @@ include_once 'partials/header.php'; ?>
                         <label class='required form-label fw-bolder text-dark fs-6'>Libellé de la question</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type='text' class='form-control form-control-solid' placeholder='' name='label'
-                        <?php
-                        if (isset($_POST['submit'])) {
-                            echo 'value="'.$label.'"';
-                        }
-                         ?> />
+                        <input type='text' class='form-control form-control-solid' placeholder='' name='label' />
                         <!--end::Input-->
                         <?php
                         if (isset($error)) {
@@ -2830,12 +2820,7 @@ include_once 'partials/header.php'; ?>
                                 1</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class='form-control form-control-solid' placeholder='' name='proposal1'
-                            <?php
-                            if (isset($_POST['submit'])) {
-                                echo 'value="'.$proposal1.'"';
-                            }
-                             ?> />
+                            <input class='form-control form-control-solid' placeholder='' name='proposal1' />
                             <!--end::Input-->
                             <?php
                                 if (isset($error)) {
@@ -2854,12 +2839,7 @@ include_once 'partials/header.php'; ?>
                                 2</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class='form-control form-control-solid' placeholder='' name='proposal2'
-                        <?php
-                            if (isset($_POST['submit'])) {
-                                echo 'value="'.$proposal2.'"';
-                            }
-                             ?> />
+                            <input class='form-control form-control-solid' placeholder='' name='proposal2' />
                             <!--end::Input-->
                             <?php
                                if (isset($error)) {
@@ -2882,12 +2862,7 @@ include_once 'partials/header.php'; ?>
                                 3</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class='form-control form-control-solid' placeholder='' name='proposal3'
-                        <?php
-                            if (isset($_POST['submit'])) {
-                                echo 'value="'.$proposal3.'"';
-                            }
-                             ?> />
+                            <input class='form-control form-control-solid' placeholder='' name='proposal3' />
                             <!--end::Input-->
                         </div>
                         <!--end::Col-->
@@ -2898,12 +2873,7 @@ include_once 'partials/header.php'; ?>
                                 4</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class='form-control form-control-solid' placeholder='' name='proposal4'
-                            <?php
-                            if (isset($_POST['submit'])) {
-                                echo 'value="'.$proposal4.'"';
-                            }
-                             ?> />
+                            <input class='form-control form-control-solid' placeholder='' name='proposal4' />
                             <!--end::Input-->
                         </div>
                         <!--end::Col-->
@@ -2915,12 +2885,7 @@ include_once 'partials/header.php'; ?>
                         <label class='form-label fw-bolder text-dark fs-6'>Réponses</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type='text' class='form-control form-control-solid' placeholder='' name='answer'
-                        <?php
-                            if (isset($_POST['submit'])) {
-                                echo 'value="'.$answer.'"';
-                            }
-                             ?> />
+                        <input type='text' class='form-control form-control-solid' placeholder='' name='answer' />
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -2973,6 +2938,9 @@ include_once 'partials/header.php'; ?>
                                 </option>
                                 <option value="Freinage">
                                     Freinage
+                                </option>
+                                <option value="Freinage Electromagnétique">
+                                    Freinage Electromagnétique
                                 </option>
                                 <option value="Freinage Hydraulique">
                                     Freinage Hydraulique

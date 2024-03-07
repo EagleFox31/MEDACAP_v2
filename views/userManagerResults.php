@@ -100,7 +100,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Listes des résultats </h1>
+                    Listes des résultats des collaborateurs évalués</h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -360,12 +360,12 @@ include_once 'partials/header.php'
             </div>
             <!--end::Card-->
             <!--begin::Export dropdown-->
-            <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
                 <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
                     <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
                     Excel
                 </button>
-            </div>
+            </div> -->
             <!--end::Export dropdown-->
         </div>
         <!--end::Container-->

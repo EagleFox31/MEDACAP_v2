@@ -143,6 +143,15 @@
                             data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
                             <!--begin:Menu item-->
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+                                <!--begin:Menu item-->
+                                <div style="margin-top: -15px">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bolder text-black text-uppercase fs-4">Espace Administrateur</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div> <br>
+                                <!--end:Menu item-->
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./dashboard.php"><span
@@ -159,7 +168,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Personnels</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Personnels</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -236,7 +245,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Developpements</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Developpements</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -375,7 +384,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Compétences</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -397,7 +406,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Assignations</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Assignations</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -416,7 +425,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Résultats</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Résultats</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -438,7 +447,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Historiques</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Historiques</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -565,6 +574,27 @@
                             data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
                             <!--begin:Menu item-->
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+                                <?php if ($_SESSION['profile'] == 'Manager') { ?>
+                                <!--begin:Menu item-->
+                                <div style="margin-top: -15px">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bolder text-black text-uppercase fs-3">Espace Manager</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div> <br>
+                                <?php } ?>
+                                <?php if ($_SESSION['profile'] == 'Technicien') { ?>
+                                <!--begin:Menu item-->
+                                <div style="margin-top: -15px">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bolder text-black text-uppercase fs-3">Espace Technicien</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div> <br>
+                                <?php } ?>
+                                <!--end:Menu item-->
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./dashboard.php"><span
@@ -577,43 +607,78 @@
                                             </i></span><span class="menu-title">Introduction</span></a>
                                     <!--end:Menu link-->
                                 </div>
-                                <!--begin:Menu item-->
                                 <?php if ($_SESSION['profile'] == 'Manager') {?>
+                                <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Personnels</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Votre équipe</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
+                                <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./allocationManager.php"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./collaborators.php"><span
                                             class="menu-icon">
-                                            <i class="ki-duotone ki-user fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i></span><span class="menu-title">Etat Avancement des Tests des Techniciens
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste de vos Collaborateurs
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./createCollaborator.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Ajouter un Collaborateur
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./edit-delet.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Modifier/Supprimer un Collaborateur
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link" href="./allocationManager.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i></span><span class="menu-title">Etat Avancement des Tests des Collaborateurs
+                                        </span></a> -->
+                                    <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Compétences</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Evaluer vos Collaborateurs</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/allocationManager.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerList.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerResults.php') { ?>
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/profile.php?id='.$_SESSION['id'] && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/edit-delet.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/collaborators.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/createCollaborator.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/allocationManager.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerList.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userManagerResults.php') { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">
-                                            Mes Techniciens Evalués
+                                            Liste des Collaborateurs à Evaluer
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -623,7 +688,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userEvaluation.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoir-Faire Technicien</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Evaluer les Collaborateurs</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -631,7 +696,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Résultats</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Bilan des évaluation de vos collaborateurs</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -645,7 +710,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Résultats
+                                            </i></span><span class="menu-title">Liste des Résultats de vos Collaborateurs Evalués
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -656,7 +721,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">
-                                            Mes Techniciens Evalués
+                                            Liste des Collaborateurs à Evaluer
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -666,8 +731,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Mes
-                                            Evaluations Réalisés</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Evaluation Collaborateurs</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -676,7 +740,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-7">Résultats</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Bilan des évaluation de vos collaborateurs</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -690,41 +754,61 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Résultats
+                                            </i></span><span class="menu-title">Liste des Résultats de vos Collaborateurs Evalués
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <?php } ?>
                                 <?php } elseif ($_SESSION['profile'] == 'Technicien') { ?>
-                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/congrat.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php#questionnaires') { ?>
-                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizDeclaratif.php?brand='.$_GET["brand"].'&vehicle='.$_GET["vehicle"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link-->
-                                    <a class="menu-link" href="./dashboard.php#questionnaires"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./profile.php?id=<?php echo $_SESSION['id']; ?>"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Compétences</span></a>
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Mes Informations
+                                        </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-70">Mesure de vos Compétences</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/profile.php?id='.$_SESSION['id'] && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/testSavoir.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/testSavoirFaire.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/congrat.php' && $_SERVER['REQUEST_URI'] != '/cfao_cfr/views/dashboard.php') { ?>
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizDeclaratif.php?test='.$_GET["test"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userQuizFactuel.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoir</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Test des Connaissances</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoirFaire.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Tâches Professionnelles à Compléter par vous</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <?php } ?>
-                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizFactuel.php?brand='.$_GET["brand"].'&vehicle='.$_GET["vehicle"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
+                                <?php if ($_SERVER['REQUEST_URI'] != '/cfao_cfr/views/userQuizFactuel.php?test='.$_GET["test"].'&level='.$_GET["level"].'&id='.$_GET["id"]) { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./dashboard.php#questionnaires"><span
+                                    <a class="menu-link" href="./testSavoir.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Compétences</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Connaissances à Compléter par vous</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -733,21 +817,30 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userQuizDeclaratif.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Questionnaire Savoir-Faire</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Test des Tâches Professionnelles</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <?php } ?>
                                 <?php } else { ?>
-                                    <!--begin:Menu item-->
-                                    <div class="menu-item">
-                                        <!--begin:Menu link-->
-                                        <a class="menu-link" href="./dashboard.php#questionnaires"><span
-                                                class="menu-icon">
-                                                <i class="fas fa-book fs-2"></i></span><span class="menu-title">Compétences</span></a>
-                                        <!--end:Menu link-->
-                                    </div>
-                                    <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoir.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Connaissances à Compléter par vous</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoirFaire.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Tâches Professionnelles à Compléter par vous</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
                                 <?php } ?>
                                 <?php } ?>
                                 <!--begin:Menu item-->
@@ -992,7 +1085,7 @@
                                         <div class="menu-item px-5">
                                             <a href="./profile.php?id=<?php echo $_SESSION['id']; ?>"
                                                 class="menu-link px-5">
-                                                Profil
+                                                Mes Informations
                                             </a>
                                         </div>
                                         <!--end::Menu item-->
