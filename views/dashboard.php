@@ -44,7 +44,7 @@ if (!isset($_SESSION["profile"])) {
         ],
     ])->toArray();
     $countSavoirs = count($countSavoir);
-    //$percentageSavoir = ($countSavoirs * 100) / $totalSavoirs;
+    $percentageSavoir = ($countSavoirs * 100) / $totalSavoirs;
     $countMaSavFai = $allocations->find([
         '$and' => [
             [
@@ -54,7 +54,7 @@ if (!isset($_SESSION["profile"])) {
         ],
     ])->toArray();
     $countMaSavFais = count($countMaSavFai);
-    //$percentageMaSavoirFaire = ($countMaSavFais * 100) / $totalSavoirFaires;
+    $percentageMaSavoirFaire = ($countMaSavFais * 100) / $totalSavoirFaires;
     $countTechSavFai = $allocations->find([
         '$and' => [
             [
@@ -64,7 +64,7 @@ if (!isset($_SESSION["profile"])) {
         ],
     ])->toArray();
     $countTechSavFais = count($countTechSavFai);
-    //$percentageTechSavoirFaire = ($countTechSavFais * 100) / $totalSavoirFaires;
+    $percentageTechSavoirFaire = ($countTechSavFais * 100) / $totalSavoirFaires;
     
     $resultFac = $results->aggregate([
     [

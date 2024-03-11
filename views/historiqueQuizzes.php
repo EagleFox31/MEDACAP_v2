@@ -140,7 +140,7 @@ include_once 'partials/header.php'
             </div>
             <!--end::Info-->
             <!--begin::Actions-->
-            <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
                     <button type="button" id="questions" title="Cliquez ici pour voir la liste des questions"
                         data-bs-toggle="modal" class="btn btn-primary">
@@ -159,7 +159,7 @@ include_once 'partials/header.php'
                         Restorer
                     </button>
                 </div>
-            </div>
+            </div> -->
             <!--end::Actions-->
         </div>
     </div>
@@ -319,11 +319,6 @@ include_once 'partials/header.php'
                                             aria-label="Customer Name: activate to sort column ascending"
                                             style="width: 125px;">Questionnaires
                                         </th>
-                                        <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Description</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
@@ -338,6 +333,11 @@ include_once 'partials/header.php'
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">Niveau
+                                        </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">Restaurer
                                         </th>
                                     </tr>
                                 </thead>
@@ -358,9 +358,6 @@ include_once 'partials/header.php'
                                                 class="text-gray-800 text-hover-primary mb-1">
                                                 <?php echo $quiz->label ?>
                                             </a>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $quiz->description ?>
                                         </td>
                                         <td data-filter="phone">
                                             <?php if ($quiz->type == "Factuel") { ?>
@@ -393,6 +390,11 @@ include_once 'partials/header.php'
                                                 <?php echo $quiz->level ?>
                                             </span>
                                             <?php } ?>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $quiz->_id ?>">
+                                                <i class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></button>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->
@@ -436,7 +438,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
                                                             Voulez-vous vraiment
-                                                            restorer ce
+                                                            restaurer ce
                                                             questionnaire?
                                                         </h4>
                                                     </div>
@@ -464,261 +466,6 @@ include_once 'partials/header.php'
                                         <!-- end Modal dialog -->
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
-                                    <!--begin::Modal - Update quiz details-->
-                                    <div class="modal" id="kt_modal_update_details<?php echo $quiz->_id ?>"
-                                        tabindex="-1" aria-hidden="true">
-                                        <!--begin::Modal dialog-->
-                                        <div class="modal-dialog modal-dialog-centered mw-650px">
-                                            <!--begin::Modal content-->
-                                            <div class="modal-content">
-                                                <!--begin::Form-->
-                                                <form class="form" method="POST" id="kt_modal_update_user_form">
-                                                    <input type="hidden" name="quizID" value="<?php echo $quiz->_id ?>">
-                                                    <!--begin::Modal header-->
-                                                    <div class="modal-header" id="kt_modal_update_user_header">
-                                                        <!--begin::Modal title-->
-                                                        <h2 class="fs-2 fw-bolder">
-                                                            Modification des
-                                                            informations</h2>
-                                                        <!--end::Modal title-->
-                                                        <!--begin::Close-->
-                                                        <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                                            data-kt-users-modal-action="close" data-bs-dismiss="modal"
-                                                            data-kt-menu-dismiss="true">
-                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                            <span class="svg-icon svg-icon-1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none">
-                                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
-                                                                        height="2" rx="1"
-                                                                        transform="rotate(-45 6 17.3137)"
-                                                                        fill="black" />
-                                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                        transform="rotate(45 7.41422 6)" fill="black" />
-                                                                </svg>
-                                                            </span>
-                                                            <!--end::Svg Icon-->
-                                                        </div>
-                                                        <!--end::Close-->
-                                                    </div>
-                                                    <!--end::Modal header-->
-                                                    <!--begin::Modal body-->
-                                                    <div class="modal-body py-10 px-lg-17">
-                                                        <!--begin::Scroll-->
-                                                        <div class="d-flex flex-column scroll-y me-n7 pe-7"
-                                                            id="kt_modal_update_user_scroll" data-kt-scroll="true"
-                                                            data-kt-scroll-activate="{default: false, lg: true}"
-                                                            data-kt-scroll-max-height="auto"
-                                                            data-kt-scroll-dependencies="#kt_modal_update_user_header"
-                                                            data-kt-scroll-wrappers="#kt_modal_update_user_scroll"
-                                                            data-kt-scroll-offset="300px">
-                                                            <!--begin::User toggle-->
-                                                            <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                                                                Informations
-                                                            </div>
-                                                            <!--end::User toggle-->
-                                                            <!--begin::User form-->
-                                                            <div id="kt_modal_update_user_user_info"
-                                                                class="collapse show">
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label
-                                                                        class="fs-6 fw-bold mb-2">Questionnaire</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="label"
-                                                                        value="<?php echo $quiz->label ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Description</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="description"
-                                                                        value="<?php echo $quiz->description ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Type</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="type"
-                                                                        value="<?php echo $quiz->type ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Spécialité</span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="speciality"
-                                                                        value="<?php echo $quiz->speciality ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Niveau</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="level"
-                                                                        value="<?php echo $quiz->level ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Nombre
-                                                                        de
-                                                                        question
-                                                                        à
-                                                                        répondre</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="number"
-                                                                        value="<?php echo $quiz->number ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                            </div>
-                                                            <!--end::User form-->
-                                                        </div>
-                                                        <!--end::Scroll-->
-                                                    </div>
-                                                    <!--end::Modal body-->
-                                                    <!--begin::Modal footer-->
-                                                    <div class="modal-footer flex-center">
-                                                        <!--begin::Button-->
-                                                        <button type="reset" class="btn btn-light me-3"
-                                                            data-bs-dismiss="modal" data-kt-menu-dismiss="true"
-                                                            data-kt-users-modal-action="cancel">Annuler</button>
-                                                        <!--end::Button-->
-                                                        <!--begin::Button-->
-                                                        <button type="submit" name="update-quiz"
-                                                            class="btn btn-primary">
-                                                            Valider
-                                                        </button>
-                                                        <!--end::Button-->
-                                                    </div>
-                                                    <!--end::Modal footer-->
-                                                </form>
-                                                <!--end::Form-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Modal - Update user details-->
-                                    <!--begin::Modal - Invite Friends-->
-                                    <div class="modal fade" id="kt_modal_invite_questions<?php echo $quiz->_id ?>"
-                                        tabindex="-1" aria-hidden="true">
-                                        <!--begin::Modal dialog-->
-                                        <div class="modal-dialog mw-650px">
-                                            <!--begin::Modal content-->
-                                            <div class="modal-content">
-                                                <!--begin::Modal header-->
-                                                <div class="modal-header pb-0 border-0 justify-content-end">
-                                                    <!--begin::Close-->
-                                                    <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="ki-duotone ki-cross fs-1"><span
-                                                                class="path1"></span><span class="path2"></span></i>
-                                                    </div>
-                                                    <!--end::Close-->
-                                                </div>
-                                                <!--begin::Modal header-->
-                                                <!--begin::Modal body-->
-                                                <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                                    <!--begin::Heading-->
-                                                    <div class="text-center mb-13">
-                                                        <!--begin::Title-->
-                                                        <h1 class="mb-3">
-                                                            Liste des questions
-                                                        </h1>
-                                                        <!--end::Title-->
-                                                    </div>
-                                                    <!--end::Heading-->
-                                                    <!--begin::Users-->
-                                                    <div class="mb-10">
-                                                        <!--begin::List-->
-                                                        <div class="mh-300px scroll-y me-n7 pe-7">
-                                                            <!--begin::User-->
-                                                            <?php
-                                                                $question = $questions->find([
-                                                                    '$and' => [
-                                                                        [
-                                                                            '_id' => ['$in' => $quiz["questions"]],
-                                                                            'active' => false
-                                                                        ],
-                                                                    ],
-                                                                ]);
-                                                                foreach ($question as $question) {
-                                                            ?>
-                                                            <div
-                                                                class="d-flex flex-stack py-4 border-bottom border-gray-300 border-bottom-dashed">
-                                                                <!--begin::Details-->
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="ms-5">
-                                                                        <a href="#"
-                                                                            class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">
-                                                                            <?php echo $question->label ?>
-                                                                        </a>
-                                                                    </div>
-                                                                    <!--end::Details-->
-                                                                </div>
-                                                                <!--end::Details-->
-                                                                <!--begin::Access menu-->
-                                                                <!-- <div data-kt-menu-trigger="click">
-                                                                    <form method="POST">
-                                                                        <input type="hidden" name="questionID"
-                                                                            value="<?php echo $question->_id ?>">
-                                                                        <input type="hidden" name="quizID"
-                                                                            value="<?php echo $quiz->_id ?>">
-                                                                        <button
-                                                                            class="btn btn-light btn-active-light-primary btn-sm"
-                                                                            type="submit" name="retire-question-quiz"
-                                                                            title="Cliquez ici pour enlever la question du questionnaire">Supprimer</button> -->
-                                                                </form>
-                                                            </div>
-                                                            <!--end::Access menu-->
-                                                        </div>
-                                                        <!--end::User-->
-                                                        <?php } ?>
-                                                    </div>
-                                                    <!--end::List-->
-                                                </div>
-                                                <!--end::Users-->
-                                            </div>
-                                            <!--end::Modal body-->
-                                        </div>
-                                        <!--end::Modal content-->
-                                    </div>
-                                    <!--end::Modal dialog-->
-                        </div>
-                        <!--end::Modal - Invite Friend-->
                         <!--begin::Modal - Invite Friends-->
                         <div class="modal fade" id="kt_modal_invite_users<?php echo $quiz->_id ?>" tabindex="-1"
                             aria-hidden="true">
@@ -775,12 +522,12 @@ include_once 'partials/header.php'
         </div>
         <!--end::Card-->
         <!--begin::Export dropdown-->
-        <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+        <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
             <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
                 <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
                 Excel
             </button>
-        </div>
+        </div> -->
         <!--end::Export dropdown-->
     </div>
     <!--end::Container-->

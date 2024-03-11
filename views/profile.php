@@ -770,15 +770,6 @@ include_once 'partials/header.php'
                               <input type="text" class="form-control form-control-solid" placeholder="" name="recrutmentDate" value="<?php echo $user->recrutmentDate ?>" />
                               <!--end::Input-->
                             </div>
-                            <!--begin::Input group-->
-                            <div class="fv-row mb-7">
-                              <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Mot de passe</label>
-                              <!--end::Label-->
-                              <!--begin::Input-->
-                              <input type="password" class="form-control form-control-solid" placeholder="" name="password" value="********" />
-                              <!--end::Input-->
-                            </div>
                             <?php if($user->profile == "Technicien" || $user->test == true) { ?>
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">

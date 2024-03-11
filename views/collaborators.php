@@ -22,64 +22,6 @@ $academy = $conn->academy;
 $users = $academy->users;
 $allocations = $academy->allocations;
 
-if ( isset( $_POST[ 'update' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $firstName = $_POST[ 'firstName' ];
-    $lastName = $_POST[ 'lastName' ];
-    $email = $_POST[ 'email' ];
-    $phone = $_POST[ 'phone' ];
-    $matricule = $_POST[ 'matricule' ];
-    $username = $_POST[ 'username' ];
-    $subsidiary = $_POST[ 'subsidiary' ];
-    $department = $_POST[ 'department' ];
-    $role = $_POST[ 'role' ];
-    $gender = $_POST[ 'gender' ];
-    $country = $_POST[ 'country' ];
-    $level = $_POST[ 'level' ];
-    $certificate = $_POST[ 'certificate' ];
-    $speciality = $_POST[ 'speciality' ];
-    $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
-    $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
-
-    $person = [
-        'username' => $username,
-        'matricule' => $matricule,
-        'firstName' => ucfirst( $firstName ),
-        'lastName' => ucfirst( $lastName ),
-        'email' => $email,
-        'phone' => $phone,
-        'gender' => $gender,
-        'level' => $level,
-        'country' => $country,
-        'birthdate' => $birthdate,
-        'recrutmentDate' => $recrutmentDate,
-        'certificate' => ucfirst( $certificate ),
-        'subsidiary' => ucfirst( $subsidiary ),
-        'speciality' => ucfirst( $speciality ),
-        'department' => ucfirst( $department ),
-        'role' => ucfirst( $role ),
-        'updated' => date("d-m-Y")
-    ];
-        
-    $users->updateOne(
-        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-        [ '$set' => $person ]
-    );
-
-    $success_msg = 'Collaborateur modifié avec succes.';
-}
-
-if ( isset( $_POST[ 'brand' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $brand = $_POST[ 'brand' ];
-
-    $users->updateOne(
-        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-        [ '$set' => [ 'brand' => $brand, ] ]
-    );
-    $success_msg = 'Collaborateur modifié avec succes.';
-}
-
 if (isset( $_POST['excel'] ) ) {
     $spreadsheet = new Spreadsheet();
     $excel_writer = new Xlsx($spreadsheet);
@@ -137,70 +79,12 @@ if (isset( $_POST['excel'] ) ) {
         $activeSheet->setCellValue('R'.$i , $_SESSION['firstName']." ".$_SESSION['lastName']);
         $i++;
     }
-    $filename = 'collaborateurs.xlsx';
+    $filename = 'Collaborateurs.xlsx';
 
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename='.$filename);
     header('cache-Control: max-age=0');
     $excel_writer->save('php://output');
-}
-
-if ( isset( $_POST[ 'password' ] ) ) {
-    // Password modification
-    $id = $_POST[ 'userID' ];
-    $password = $_POST[ 'password' ];
-
-    // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
-    if ( preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
-        $error = ( 'Le mot de passe doit être au moins de six caractères contenir au moins un chiffre, une lettre majiscule' );
-    } else {
-        $password_hash = sha1( $password );
-    
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' => [ 'password' => $password_hash, ] ]
-        );
-        $success_msg = 'Collaborateur modifié avec succes.';
-    }
-}
-
-if ( isset( $_POST[ 'delete' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $member = $users->findOne([
-        '$and' => [
-            [
-                '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true
-            ]
-        ]
-    ]);
-
-    $member['active'] = false;
-    $users->updateOne(['_id' => new MongoDB\BSON\ObjectId($id)], ['$set' => $member]);
-
-    $success_msg = "Collaborateur supprimé avec succès";
-}
-
-if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $manager = $users->findOne([
-        '$and' => [
-            [
-                '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true
-            ]
-        ]
-    ]);
-
-    $membre = $users->updateOne(
-        ['_id' => new MongoDB\BSON\ObjectId($manager->_id)],
-        ['$pull' => ['users' => new MongoDB\BSON\ObjectId($id)]]
-    );
-    $user = $users->updateOne(
-        ['_id' => new MongoDB\BSON\ObjectId($id)],
-        ['$unset' => ['manager' => 1]]
-    );
-    $success_msg = "Membre retiré avec succes.";
 }
 ?>
 

@@ -75,12 +75,12 @@
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
     <!-- Spinner Start -->
-    <div id="spinner"
+    <!-- <div id="spinner"
         class="show bg-transparent position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Chargement...</span>
         </div>
-    </div>
+    </div> -->
     <!-- Spinner End -->
     <!--begin::Theme mode setup on page load-->
     <script>
@@ -154,237 +154,208 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./dashboard.php"><span
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./dashboard.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-element-11 fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Tableau de Bord</span></a>
+                                            </i></span><span class="menu-title">Tableau de Bord</span>
+                                        </a>
                                     <!--end:Menu link-->
                                 </div>
+                                <!--end:Menu link-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Personnels</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Utilisateurs</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                    <!--begin:Menu link--><span class="menu-link "><span class="menu-icon"><i
-                                                class="ki-duotone ki-user fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span
-                                            class="menu-title">Utilisateurs</span><span
-                                            class="menu-arrow"></span></span>
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./createUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Ajouter un Utilisateur
+                                        </span></a>
                                     <!--end:Menu link-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./createUser.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Ajouter
-                                                    un
-                                                    Utilisateur</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./importeUser.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Importer
-                                                    des
-                                                    Utilisateurs</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./users.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Liste des
-                                                    Utilisateurs</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./userInfo.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Etat Avancement des Tests des
-                                                    Utilisateurs</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./importeUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Importer des Utilisateurs
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./users.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste des Utilisateurs
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Modifier/Supprimer un Utilisateur
+                                        </span></a>
+                                    <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Developpements</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Questionnaires</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                    <!--begin:Menu link--><span class="menu-link"><span class="menu-icon"><i
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./quizzes.php"><span
+                                            class="menu-icon">
+                                            <i
                                                 class="ki-duotone ki-row-vertical fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span
-                                            class="menu-title">Questionnaires</span><span
-                                            class="menu-arrow"></span></span>
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste des Questionnaires
+                                        </span></a>
                                     <!--end:Menu link-->
-                                    <!--begin:Menu sub-->
-                                    <!-- <div class="menu-sub menu-sub-accordion"> -->
-                                        <!--begin:Menu item-->
-                                        <!-- <div class="menu-item"> -->
-                                            <!--begin:Menu link-->
-                                            <!-- <a class="menu-link" href="./createQuiz.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Ajouter
-                                                    un
-                                                    Questionnaire</span></a> -->
-                                            <!--end:Menu link-->
-                                        <!-- </div> -->
-                                        <!--end:Menu item-->
-                                    <!-- </div> -->
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./quizzes.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Liste des
-                                                    Questionnaires</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                    <!--begin:Menu link--><span class="menu-link"><span class="menu-icon"><i
+                                <!-- <div class="menu-item"> -->
+                                    <!--begin:Menu link-->
+                                    <!-- <a class="menu-link" href="./quizzes.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="ki-duotone ki-row-vertical fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Modifier/Supprimer une Questionnaire
+                                        </span>
+                                    </a> -->
+                                    <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-70">Questions</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./createQuestion.php"><span
+                                            class="menu-icon">
+                                            <i
                                                 class="fas fa-question fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span
-                                            class="menu-title">Questions</span><span class="menu-arrow"></span></span>
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Ajouter une Question
+                                        </span></a>
                                     <!--end:Menu link-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./createQuestion.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Ajouter
-                                                    une
-                                                    Question</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="./importeQuestion.php"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Importer
-                                                    une
-                                                    Question</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./questions.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Liste des
-                                                    Questions</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                    <!--begin:Menu link--><span class="menu-link"><span class="menu-icon">
-                                            <i class="fas fa-car-side fs-2"></i></span><span
-                                            class="menu-title">Véhicules</span><span class="menu-arrow"></span></span>
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./importeQuestion.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Importer des Questions
+                                        </span></a>
                                     <!--end:Menu link-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./createVehicle.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Ajouter
-                                                    un
-                                                    Véhicule</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link" href="./vehicles.php"><span
-                                                    class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Liste des
-                                                    Véhicules</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./questions.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste des Questions
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletQuestion.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Modifier/Supprimer une Question
+                                        </span></a>
+                                    <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Compétences</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Véhicules</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./createVehicle.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
+                                            Ajouter un Véhicule
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./vehicles.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
+                                            Liste des Véhicules
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletVehicle.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
+                                            Modifier/Supprimer un Véhicule
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-70">Activations</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -453,64 +424,50 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                    <!--begin:Menu link--><span class="menu-link "><span class="menu-icon"><i
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./historiqueUsers.php"><span
+                                            class="menu-icon">
+                                            <i
                                                 class="fas fa-history fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span
-                                            class="menu-title">Historiques</span><span class="menu-arrow"></span></span>
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste des Utilisateurs Supprimés
+                                        </span></a>
                                     <!--end:Menu link-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="./historiqueUsers.php"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Historique Utilisateurs</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="./historiqueQuizzes.php"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Historique Questionnaires</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="./historiqueQuestions.php"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Historique Questions</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <!--begin:Menu link--><a class="menu-link"
-                                                href="./historiqueVehicles.php"><span class="menu-bullet"><span
-                                                        class="bullet bullet-dot"></span></span><span
-                                                    class="menu-title">Historique Véhicules</span></a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./historiqueQuizzes.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste des Questionnaires Supprimés
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./historiqueQuestions.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste des Questions Supprimées
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./historiqueVehicles.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Liste des Véhicules Supprimés
+                                        </span></a>
+                                    <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
@@ -641,7 +598,7 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./edit-delet.php"><span
+                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletCollaborator.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">

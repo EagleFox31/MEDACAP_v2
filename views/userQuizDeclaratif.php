@@ -1887,7 +1887,7 @@ include_once 'partials/header.php'; ?>
                             </div>
                         </center>
                         <div class="heading" style="margin-top: 10px;">
-                            <h1 class="heading__text">Test des tâches professionnelles du Niveau <?php echo $_GET['level'] ?></h1>
+                            <h1 class="heading__text">Test des Tâches Professionnelles du Niveau <?php echo $_GET['level'] ?></h1>
                         </div>
                         
                         <?php

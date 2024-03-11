@@ -19,133 +19,6 @@ $academy = $conn->academy;
 $users = $academy->users;
 $allocations = $academy->allocations;
 
-if ( isset( $_POST[ 'update' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $firstName = $_POST[ 'firstName' ];
-    $lastName = $_POST[ 'lastName' ];
-    $email = $_POST[ 'email' ];
-    $phone = $_POST[ 'phone' ];
-    $matricule = $_POST[ 'matricule' ];
-    $username = $_POST[ 'username' ];
-    $subsidiary = $_POST[ 'subsidiary' ];
-    $department = $_POST[ 'department' ];
-    $role = $_POST[ 'role' ];
-    $gender = $_POST[ 'gender' ];
-    $country = $_POST[ 'country' ];
-    $brand = $_POST[ 'brand' ];
-    $vehicle = $_POST[ 'vehicle' ];
-    $subBrand = $_POST[ 'subBrand' ];
-    $certificate = $_POST[ 'certificate' ];
-    $speciality = $_POST[ 'speciality' ];
-    $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
-    $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
-    $level = $_POST[ 'level' ];
-    if ($_POST[ 'manager' ]) {
-        $managerId = $_POST[ 'manager' ];
-    }
-
-    $person = [
-            'username' => $username,
-            'matricule' => $matricule,
-            'firstName' => ucfirst( $firstName ),
-            'lastName' => ucfirst( $lastName ),
-            'email' => $email,
-            'phone' => $phone,
-            'gender' => $gender,
-            'level' => $level,
-            'country' => $country,
-            'birthdate' => $birthdate,
-            'recrutmentDate' => $recrutmentDate,
-            'certificate' => ucfirst( $certificate ),
-            'subsidiary' => ucfirst( $subsidiary ),
-            'speciality' => ucfirst( $speciality ),
-            'department' => ucfirst( $department ),
-            'role' => ucfirst( $role ),
-            'brand' => $brand,
-            'vehicle' => $vehicle,
-            'subBrand' => $subBrand,
-            "manager" => new MongoDB\BSON\ObjectId( $managerId ),
-            'updated' => date("d-m-Y")
-        ];
-        
-    $member = $users->findOne( [ '_id' => new MongoDB\BSON\ObjectId( $id ) ] );
-
-    if ( $managerId  ) {
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' => $person ]
-        );
-
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $managerId ) ],
-            [ '$addToSet' => [ 'users' => new MongoDB\BSON\ObjectId( $id ) ] ]
-        );
-
-        if ( $member->profile == 'Technicien' ) {
-            $success_msg = 'Technicien modifié avec succes.';
-        } elseif ( $member->profile == 'Manager' ) {
-            $success_msg = 'Manager modifié avec succes.';
-        } elseif ( $member->profile == 'Admin' ) {
-            $success_msg = 'Administrateur modifié avec succes.';
-        }
-    } else {
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' =>
-                    [
-                    'username' => $username,
-                    'matricule' => $matricule,
-                    'firstName' => $firstName,
-                    'lastName' => $lastName,
-                    'email' => $email,
-                    'phone' => $phone,
-                    'gender' => $gender,
-                    'level' => $level,
-                    'country' => $country,
-                    'birthdate' => $birthdate,
-                    'recrutmentDate' => $recrutmentDate,
-                    'certificate' => $certificate,
-                    'subsidiary' => $subsidiary,
-                    'speciality' => $speciality,
-                    'department' => $department,
-                    'role' => $role,
-                    'brand' => $brand,
-                    'vehicle' => $vehicle,
-                    'subBrand' => $subBrand,
-                    'updated' => date("d-m-Y")
-                ]
-            ]
-        );
-
-        if ( $member->profile == 'Technicien' ) {
-            $success_msg = 'Technicien modifié avec succes.';
-        } elseif ( $member->profile == 'Manager' ) {
-            $success_msg = 'Manager modifié avec succes.';
-        } elseif ( $member->profile == 'Admin' ) {
-            $success_msg = 'Administrateur modifié avec succes.';
-        }
-    }
-}
-
-if ( isset( $_POST[ 'password' ] ) ) {
-    // Password modification
-    $id = $_POST[ 'userID' ];
-    $password = $_POST[ 'password' ];
-    
-    // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
-    if ( ! preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
-        $error = ( 'Le mot de passe doit contenir au moins un chiffre, une lettre majiscule' );
-    } else {
-        $password_hash = sha1( $password );
-    
-        $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' => [ 'password' => $password_hash, ] ]
-        );
-        $success_msg = 'Mot de passe modifié avec succes.';
-    }
-}
-
 if ( isset( $_POST[ 'active' ] ) ) {
     $id = $_POST[ 'userID' ];
     $member = $users->findOne([
@@ -164,27 +37,6 @@ if ( isset( $_POST[ 'active' ] ) ) {
     } elseif ($member['profile'] == "Admin") {
         $success_msg = "Administrateur supprimé avec succès";
     }
-}
-
-if ( isset( $_POST[ 'retire-technician-manager' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $manager = $users->findOne([
-        '$and' => [
-            '_id' => new MongoDB\BSON\ObjectId($id),
-            'active' => true
-        ]
-    ]);
-    $collection->updateOne(['_id' => $allocation['_id']], ['$set' => $allocate]);
-
-    $membre = $users->updateOne(
-        ['_id' => new MongoDB\BSON\ObjectId($manager->_id)],
-        ['$push' => ['users' => new MongoDB\BSON\ObjectId($id)]]
-    );
-    $user = $users->updateOne(
-        ['_id' => new MongoDB\BSON\ObjectId($id)],
-        ['$unset' => ['manager' => 1]]
-    );
-    $success_msg = "Membre retiré avec succes.";
 }
 ?>
 
@@ -220,7 +72,7 @@ include_once 'partials/header.php'
             </div>
             <!--end::Info-->
             <!--begin::Actions-->
-            <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
                     <button type="button" id="users" data-bs-toggle="modal" class="btn btn-primary">
                         Liste subordonnés
@@ -244,7 +96,7 @@ include_once 'partials/header.php'
                         Restorer
                     </button>
                 </div>
-            </div>
+            </div> -->
             <!--end::Actions-->
         </div>
     </div>
@@ -385,17 +237,7 @@ include_once 'partials/header.php'
                                                 <input class="form-check-input" type="checkbox" value="1">
                                             </div>
                                         </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Username
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Matricule
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                        <th class="min-w-225px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
                                             style="width: 125px;">Prénoms et
@@ -407,33 +249,13 @@ include_once 'partials/header.php'
                                             style="width: 155.266px;">Email</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
-                                            aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Numéro de
-                                            téléphone
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">Numéro de Téléphone</th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">Niveau Technique
                                         </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Sexe</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Date de
-                                            naissance</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Profile
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Métier
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Pays</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -441,39 +263,14 @@ include_once 'partials/header.php'
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
-                                            aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Filiale
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
                                             Departement</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                        <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Fonction
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Spécialité
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Type de Véhicule
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Marque de véhicule Principale
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Date de
-                                            recrutement</th>
+                                            style="width: 152.719px;">
+                                            Restaurer</th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -484,67 +281,35 @@ include_once 'partials/header.php'
                                     <?php if ($_SESSION["profile"] == "Admin") { ?>
                                     <?php if ($user["profile" ] != "Admin" && $user["profile" ]  != "Super Admin") { ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
-                                        <td>
+                                        <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
                                                     onclick="enable()" value="<?php echo $user->_id ?>">
                                             </div>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $user->username ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $user->matricule ?>
-                                        </td>
+                                        </td> -->
+                                        <td></td>
                                         <td data-filter="search">
                                             <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                         </td>
                                         <td data-filter="email">
                                             <?php echo $user->email ?>
                                         </td>
-                                        <td data-filter="phone">
+                                        <td data-order="subsidiary">
                                             <?php echo $user->phone ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->gender ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->birthdate ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $user->profile ?>
-                                            </span>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->country ?>
-                                        </td>
-                                        <td data-order="subsidiary">
                                             <?php echo $user->certificate ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->subsidiary ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department ?>
                                         </td>
-                                        <td data-order="department">
-                                            <?php echo $user->role ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->speciality ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->vehicle ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->brand ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->recrutmentDate ?>
+                                        <td>
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id ?>">
+                                                <i class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></button>
                                         </td>
                                     </tr>
                                     <?php } ?>
@@ -552,69 +317,36 @@ include_once 'partials/header.php'
                                     <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                     <?php if ($user["profile" ] != "Super Admin") { ?>
                                     <tr class="odd" etat="<?php echo $user->active ?>">
-                                        <td>
+                                        <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
                                                     onclick="enable()" value="<?php echo $user->_id ?>">
                                             </div>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $user->username ?>
-                                        </td>
-                                        <td data-filter="email">
-                                            <?php echo $user->matricule ?>
-                                        </td>
+                                        </td> -->
+                                        <td></td>
                                         <td data-filter="search">
                                             <?php echo $user->firstName ?> <?php echo $user->lastName ?>
                                         </td>
                                         <td data-filter="email">
                                             <?php echo $user->email ?>
                                         </td>
-                                        <td data-filter="phone">
+                                        <td data-order="subsidiary">
                                             <?php echo $user->phone ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->gender ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->birthdate ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $user->profile ?>
-                                            </span>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->country ?>
-                                        </td>
-                                        <td data-order="subsidiary">
                                             <?php echo $user->certificate ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->subsidiary ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department ?>
                                         </td>
-                                        <td data-order="department">
-                                            <?php echo $user->role ?>
+                                        <td>
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $user->_id ?>">
+                                                <i class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></button>
                                         </td>
-                                        <td data-order="department">
-                                            <?php echo $user->speciality ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->vehicle ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->brand ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $user->recrutmentDate ?>
-                                        </td>
-                                    </tr>
                                     </tr>
                                     <?php } ?>
                                     <?php } ?>
@@ -632,7 +364,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Restoration
+                                                            Restauration
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -659,7 +391,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
                                                             Voulez-vous vraiment
-                                                            restorer cet
+                                                            restaurer cet
                                                             utilisateur?
                                                         </h4>
                                                     </div>
@@ -674,7 +406,7 @@ include_once 'partials/header.php'
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
-                                                        <button type="submit" name="active" class="btn btn-danger">
+                                                        <button type="submit" name="active" class="btn btn-primary">
                                                             Oui
                                                         </button>
                                                         <!--end::Button-->
@@ -688,553 +420,6 @@ include_once 'partials/header.php'
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
                                     <!--begin::Modal - Update user password-->
-                                    <div class="modal" id="kt_modal_update_password<?php echo $user->_id ?>"
-                                        tabindex="-1" aria-hidden="true">
-                                        <!--begin::Modal dialog-->
-                                        <div class="modal-dialog modal-dialog-centered mw-450px">
-                                            <!--begin::Modal content-->
-                                            <div class="modal-content">
-                                                <!--begin::Form-->
-                                                <form class="form" method="POST">
-                                                    <input type="hidden" name="userID" value="<?php echo $user->_id ?>">
-                                                    <!--begin::Modal header-->
-                                                    <div class="modal-header" id="kt_modal_update_user_header">
-                                                        <!--begin::Modal title-->
-                                                        <h2 class="fs-2 fw-bolder">
-                                                            Modification du mot
-                                                            de passe
-                                                        </h2>
-                                                        <!--end::Modal title-->
-                                                        <!--begin::Close-->
-                                                        <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                                            data-kt-users-modal-action="close" data-bs-dismiss="modal">
-                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                            <span class="svg-icon svg-icon-1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none">
-                                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
-                                                                        height="2" rx="1"
-                                                                        transform="rotate(-45 6 17.3137)"
-                                                                        fill="black" />
-                                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                        transform="rotate(45 7.41422 6)" fill="black" />
-                                                                </svg>
-                                                            </span>
-                                                            <!--end::Svg Icon-->
-                                                        </div>
-                                                        <!--end::Close-->
-                                                    </div>
-                                                    <!--end::Modal header-->
-                                                    <!--begin::Modal body-->
-                                                    <div class="modal-body py-10 px-lg-17">
-                                                        <div class="fv-row mb-7">
-                                                            <!--begin::Label-->
-                                                            <label class="fs-6 fw-bold mb-2">Mot
-                                                                de
-                                                                passe</label>
-                                                            <!--end::Label-->
-                                                            <!--begin::Input-->
-                                                            <input type="password"
-                                                                class="form-control form-control-solid"
-                                                                placeholder="Entrer le nouveau mot de passe"
-                                                                name="password" />
-                                                            <!--end::Input-->
-                                                        </div>
-                                                        <!--end::Input group-->
-                                                    </div>
-                                                    <!--end::Modal body-->
-                                                    <!--begin::Modal footer-->
-                                                    <div class="modal-footer flex-center">
-                                                        <!--begin::Button-->
-                                                        <button type="reset" class="btn btn-light me-3"
-                                                            data-bs-dismiss="modal" id="closeDesactivate"
-                                                            data-kt-users-modal-action="cancel">
-                                                            Annuler
-                                                        </button>
-                                                        <!--end::Button-->
-                                                        <!--begin::Button-->
-                                                        <button type="submit" name="password" class="btn btn-primary">
-                                                            Valider
-                                                        </button>
-                                                        <!--end::Button-->
-                                                    </div>
-                                                    <!--end::Modal footer-->
-                                                </form>
-                                                <!--end::Form-->
-                                            </div>
-                                        </div>
-                                        <!-- end Modal dialog -->
-                                    </div>
-                                    <!--end::Modal - Update user password-->
-                                    <!--begin::Modal - Update user details-->
-                                    <div class="modal" id="kt_modal_update_details<?php echo $user->_id ?>"
-                                        tabindex="-1" aria-hidden="true">
-                                        <!--begin::Modal dialog-->
-                                        <div class="modal-dialog modal-dialog-centered mw-650px">
-                                            <!--begin::Modal content-->
-                                            <div class="modal-content">
-                                                <!--begin::Form-->
-                                                <form class="form" method="POST" id="kt_modal_update_user_form">
-                                                    <input type="hidden" name="userID" value="<?php echo $user->_id ?>">
-                                                    <!--begin::Modal header-->
-                                                    <div class="modal-header" id="kt_modal_update_user_header">
-                                                        <!--begin::Modal title-->
-                                                        <h2 class="fs-2 fw-bolder">
-                                                            Modification des
-                                                            informations</h2>
-                                                        <!--end::Modal title-->
-                                                        <!--begin::Close-->
-                                                        <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                                            data-kt-users-modal-action="close" data-bs-dismiss="modal"
-                                                            data-kt-menu-dismiss="true">
-                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                            <span class="svg-icon svg-icon-1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none">
-                                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
-                                                                        height="2" rx="1"
-                                                                        transform="rotate(-45 6 17.3137)"
-                                                                        fill="black" />
-                                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                        transform="rotate(45 7.41422 6)" fill="black" />
-                                                                </svg>
-                                                            </span>
-                                                            <!--end::Svg Icon-->
-                                                        </div>
-                                                        <!--end::Close-->
-                                                    </div>
-                                                    <!--end::Modal header-->
-                                                    <!--begin::Modal body-->
-                                                    <div class="modal-body py-10 px-lg-17">
-                                                        <!--begin::Scroll-->
-                                                        <div class="d-flex flex-column scroll-y me-n7 pe-7"
-                                                            id="kt_modal_update_user_scroll" data-kt-scroll="true"
-                                                            data-kt-scroll-activate="{default: false, lg: true}"
-                                                            data-kt-scroll-max-height="auto"
-                                                            data-kt-scroll-dependencies="#kt_modal_update_user_header"
-                                                            data-kt-scroll-wrappers="#kt_modal_update_user_scroll"
-                                                            data-kt-scroll-offset="300px">
-                                                            <!--begin::User toggle-->
-                                                            <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                                                                Informations
-                                                            </div>
-                                                            <!--end::User toggle-->
-                                                            <!--begin::User form-->
-                                                            <div id="kt_modal_update_user_user_info"
-                                                                class="collapse show">
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Username</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="username"
-                                                                        value="<?php echo $user->username ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Matricule</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="matricule"
-                                                                        value="<?php echo $user->matricule ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="row g-9 mb-7">
-                                                                    <!--begin::Col-->
-                                                                    <div class="col-md-6 fv-row">
-                                                                        <!--begin::Label-->
-                                                                        <label
-                                                                            class="form-label fw-bolder text-dark fs-6">Prénoms</label>
-                                                                        <!--end::Label-->
-                                                                        <!--begin::Input-->
-                                                                        <input class="form-control form-control-solid"
-                                                                            placeholder="" name="firstName"
-                                                                            value="<?php echo $user->firstName ?>" />
-                                                                        <!--end::Input-->
-                                                                    </div>
-                                                                    <!--end::Col-->
-                                                                    <!--begin::Col-->
-                                                                    <div class="col-md-6 fv-row">
-                                                                        <!--begin::Label-->
-                                                                        <label
-                                                                            class="form-label fw-bolder text-dark fs-6">Noms</label>
-                                                                        <!--end::Label-->
-                                                                        <!--begin::Input-->
-                                                                        <input class="form-control form-control-solid"
-                                                                            placeholder="" name="lastName"
-                                                                            value="<?php echo $user->lastName ?>" />
-                                                                        <!--end::Input-->
-                                                                    </div>
-                                                                    <!--end::Col-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Email</span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="email"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="email"
-                                                                        value="<?php echo $user->email ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Sexe</span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="gender"
-                                                                        value="<?php echo $user->gender ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Numéro
-                                                                        de
-                                                                        téléphone</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="phone"
-                                                                        value="<?php echo $user->phone ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Date
-                                                                        de
-                                                                        naissance</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="birthdate"
-                                                                        value="<?php echo $user->birthdate ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Métier</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="level"
-                                                                        value="<?php echo $user->level ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Spécialité</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="speciality"
-                                                                        value="<?php echo $user->speciality ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Pays</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="country"
-                                                                        value="<?php echo $user->country ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Certificat plus
-                                                                        élévé</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="certificate"
-                                                                        value="<?php echo $user->certificate ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Filiale</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="subsidiary"
-                                                                        value="<?php echo $user->subsidiary ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Département</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="department"
-                                                                        value="<?php echo $user->department ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Fonction
-                                                                        </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="role"
-                                                                        value="<?php echo $user->role ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Type de Véhicule
-                                                                        </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="vehicle"
-                                                                        value="<?php echo $user->vehicle ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Marque de
-                                                                        Véhicule Principale</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="brand"
-                                                                        value="<?php echo $user->brand ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Date
-                                                                        de
-                                                                        recrutement</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="recrutmentDate"
-                                                                        value="<?php echo $user->recrutmentDate ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <?php if($user->profile == "Technicien" ) { ?>
-                                                                <!--begin::Input group-->
-                                                                <div class="d-flex flex-column mb-7 fv-row">
-                                                                    <!--begin::Label-->
-                                                                    <label class="form-label fw-bolder text-dark fs-6">
-                                                                        <span>Manager</span>
-                                                                        <span class="ms-1" data-bs-toggle="tooltip"
-                                                                            title="Choississez le manager de ce technicien">
-                                                                            <i class="ki-duotone ki-information fs-7"><span
-                                                                                    class="path1"></span><span
-                                                                                    class="path2"></span><span
-                                                                                    class="path3"></span></i>
-                                                                        </span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <select name="manager" aria-label="Select a Country"
-                                                                        data-control="select2"
-                                                                        data-placeholder="Sélectionnez votre manager..."
-                                                                        class="form-select form-select-solid fw-bold">
-                                                                        <?php
-                                                                            if ($user->manager) {
-                                                                            $lead = $users->findOne(['_id' => $user["manager"]]);
-                                                                        ?>
-                                                                        <option value="<?php echo $lead->_id ?>">
-                                                                            Manager
-                                                                            actuel: <?php echo $lead->firstName ?>
-                                                                            <?php echo $lead->lastName ?>
-                                                                        </option>
-                                                                        <?php } ?>
-                                                                        <?php 
-                                                                        $managers = $users->find([
-                                                                            '$and' => [['profile' => 'Manager'], ['active' => true]]
-                                                                        ]);
-                                                                        foreach ($managers as $manager) {
-                                                                        ?>
-                                                                        <option value="<?php echo $manager->_id ?>">
-                                                                            <?php echo $manager->firstName ?>
-                                                                            <?php echo $manager->lastName ?>
-                                                                        </option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <?php } ?>
-                                                            </div>
-                                                            <!--end::User form-->
-                                                        </div>
-                                                        <!--end::Scroll-->
-                                                    </div>
-                                                    <!--end::Modal body-->
-                                                    <!--begin::Modal footer-->
-                                                    <div class="modal-footer flex-center">
-                                                        <!--begin::Button-->
-                                                        <button type="reset" class="btn btn-light me-3"
-                                                            data-kt-menu-dismiss="true" data-bs-dismiss="modal"
-                                                            data-kt-users-modal-action="cancel">Annuler</button>
-                                                        <!--end::Button-->
-                                                        <!--begin::Button-->
-                                                        <button type="submit" name="update" class="btn btn-primary">
-                                                            Valider
-                                                        </button>
-                                                        <!--end::Button-->
-                                                    </div>
-                                                    <!--end::Modal footer-->
-                                                </form>
-                                                <!--end::Form-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Modal - Update user details-->
-                                    <!--begin::Modal - Invite Friends-->
-                                    <div class="modal fade" id="kt_modal_invite_users<?php echo $user->_id ?>"
-                                        tabindex="-1" aria-hidden="true">
-                                        <!--begin::Modal dialog-->
-                                        <div class="modal-dialog mw-650px">
-                                            <!--begin::Modal content-->
-                                            <div class="modal-content">
-                                                <!--begin::Modal header-->
-                                                <div class="modal-header pb-0 border-0 justify-content-end">
-                                                    <!--begin::Close-->
-                                                    <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="ki-duotone ki-cross fs-1"><span
-                                                                class="path1"></span><span class="path2"></span></i>
-                                                    </div>
-                                                    <!--end::Close-->
-                                                </div>
-                                                <!--begin::Modal header-->
-                                                <!--begin::Modal body-->
-                                                <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                                    <!--begin::Heading-->
-                                                    <div class="text-center mb-13">
-                                                        <!--begin::Title-->
-                                                        <h1 class="mb-3">
-                                                            Liste des
-                                                            techniciens
-                                                        </h1>
-                                                        <!--end::Title-->
-                                                    </div>
-                                                    <!--end::Heading-->
-                                                    <!--begin::Users-->
-                                                    <div class="mb-10">
-                                                        <!--begin::List-->
-                                                        <div class="mh-300px scroll-y me-n7 pe-7">
-                                                            <!--begin::User-->
-                                                            <?php
-                                                                $technicians = $users->find(['_id' => ['$in' => $user["users"]]]);
-                                                                foreach ($technicians as $technician) {
-                                                            ?>
-                                                            <div
-                                                                class="d-flex flex-stack py-4 border-bottom border-gray-300 border-bottom-dashed">
-                                                                <!--begin::Details-->
-                                                                <div class="d-flex align-items-center">
-                                                                    <!--begin::Avatar-->
-                                                                    <div class="symbol symbol-35px symbol-circle">
-                                                                        <img alt="Pic"
-                                                                            src="../public/assets/media/avatars/300-1.jpg" />
-                                                                    </div>
-                                                                    <!--end::Avatar -->
-                                                                    <!--begin::Details-->
-                                                                    <div class="ms-5">
-                                                                        <a href="#"
-                                                                            class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">
-                                                                            <?php echo $technician->firstName ?>
-                                                                            <?php echo $technician->lastName ?>
-                                                                        </a>
-                                                                        <div class="fw-semibold text-muted">
-                                                                            <?php echo $technician->email ?>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--end::Details-->
-                                                                </div>
-                                                                <!--end::Details-->
-                                                                <!--begin::Access menu-->
-                                                                <div data-kt-menu-trigger="click">
-                                                                    <form method="POST">
-                                                                        <input type="hidden" name="userID"
-                                                                            value="<?php echo $technician->_id ?>">
-                                                                        <button
-                                                                            class="btn btn-light btn-active-light-primary btn-sm"
-                                                                            type="submit"
-                                                                            name="retire-technician-manager">Supprimer</button>
-                                                                    </form>
-                                                                </div>
-                                                                <!--end::Access menu-->
-                                                            </div>
-                                                            <!--end::User-->
-                                                            <?php } ?>
-                                                        </div>
-                                                        <!--end::List-->
-                                                    </div>
-                                                    <!--end::Users-->
-                                                </div>
-                                                <!--end::Modal body-->
-                                            </div>
-                                            <!--end::Modal content-->
-                                        </div>
-                                        <!--end::Modal dialog-->
-                                    </div>
-                                    <!--end::Modal - Invite Friend-->
                                     <?php  
                                       }
                                     ?>
@@ -1269,12 +454,12 @@ include_once 'partials/header.php'
             </div>
             <!--end::Card-->
             <!--begin::Export dropdown-->
-            <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
                 <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
                     <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
                     Excel
                 </button>
-            </div>
+            </div> -->
             <!--end::Export dropdown-->
         </div>
         <!--end::Container-->

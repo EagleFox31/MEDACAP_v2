@@ -19,8 +19,94 @@ $users = $academy->users;
 $quizzes = $academy->quizzes;
 $vehicles = $academy->vehicles;
 $allocations = $academy->allocations;
+ 
+if ( isset( $_POST[ 'quizze' ] ) ) {
+    $id = $_POST[ 'vehicleID' ];
+    $label = $_POST[ 'label' ];
+    $brand = $_POST[ 'brand' ];
+    $type = $_POST[ 'type' ];
+    $level = $_POST[ 'level' ];
+    $quiz = $_POST[ 'quizze' ]; 
 
-if ( isset( $_POST[ 'active' ] ) ) {
+    $quize = [];
+    for ($i = 0; $i < count($quiz); $i++) {
+        array_push($quize, new MongoDB\BSON\ObjectId( $quiz[$i] ));
+    }
+    $vehicle = [
+        'quizzes' => $quize,
+        'label' => ucfirst( $label ),
+        'brand' => ucfirst( $brand ),
+        'type' => $type,
+        'level' => ucfirst( $level ),
+        'total' => count( $quize ),
+        'updated' => date("d-m-Y")
+    ];
+    
+    $vehicles->updateOne(
+        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
+        [ '$set' => $vehicle ]
+    );
+    $success_msg = "Véhicule modifié avec succès.";
+}
+
+if ( isset( $_POST[ 'update' ] ) ) {
+    $id = $_POST[ 'vehicleID' ];
+    $label = $_POST[ 'label' ];
+    $brand = $_POST[ 'brand' ];
+    $type = $_POST[ 'type' ];
+    $level = $_POST[ 'level' ];
+
+    $vehicle = [
+        'label' => ucfirst( $label ),
+        'brand' => ucfirst( $brand ),
+        'type' => $type,
+        'level' => ucfirst( $level ),
+        'updated' => date("d-m-Y")
+    ];
+    
+    $vehicles->updateOne(
+        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
+        [ '$set' => $vehicle ]
+    );
+    $success_msg = "Véhicule modifié avec succès.";
+}
+
+if ( isset( $_POST[ 'retire-quiz-vehicle' ] ) ) {
+    $quiz = $_POST[ 'quizID' ];
+    $vehicle = $_POST[ 'vehicleID' ];
+    
+    $membre = $vehicles->updateOne(
+        ['_id' => new MongoDB\BSON\ObjectId( $vehicle )],
+        ['$pull' => ['quizzes' => new MongoDB\BSON\ObjectId( $quiz )]]
+    );
+
+    $success_msg = "Questionnaire retiré avec succès.";
+}
+
+if ( isset( $_POST[ 'retire-technician-vehicle' ] ) ) {
+    $vehicle = $_POST[ 'vehicleID' ];
+    $user = $_POST[ 'userID' ];
+ 
+ $allocate = $allocations->findOne([
+     '$and' => [
+         ['quiz' => new MongoDB\BSON\ObjectId( $quiz )],
+         ['user' => new MongoDB\BSON\ObjectId( $user )]
+     ]
+ ]);
+ 
+ $allocate->active = false;
+ $allocations->updateOne(['_id' => new MongoDB\BSON\ObjectId( $allocate->_id )], ['$set' => $allocate]);
+ 
+ $quizzes->updateOne(
+     ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
+     ['$pull' => ['users' => new MongoDB\BSON\ObjectId( $user )]]
+ );
+ 
+ // Handle flash messages and success message as needed in your application.
+ $success_msg = "Personne retirée avec succes.";
+}
+
+if ( isset( $_POST[ 'delet' ] ) ) {
     $id = new MongoDB\BSON\ObjectId($_POST[ 'vehicleID' ]);
     $vehicle = $vehicles->findOne(['_id' => $id]);
     $vehicle->active = false;
@@ -32,7 +118,7 @@ if ( isset( $_POST[ 'active' ] ) ) {
 include_once 'partials/header.php'
 ?>
 <!--begin::Title-->
-<title>Liste des Véhicules Supprimés | CFAO Mobility Academy</title>
+<title>Modifier/Supprimer un Véhicule | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -45,7 +131,7 @@ include_once 'partials/header.php'
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des véhicules supprimés</h1>
+                    Modifier/Supprimer un véhicule </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -60,8 +146,8 @@ include_once 'partials/header.php'
             </div>
             <!--end::Info-->
             <!--begin::Actions-->
-            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
+            <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+                <!-- <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
                     <button type="button" id="users" title="Cliquez ici pour voir la liste des techniciens"
                         data-bs-toggle="modal" class="btn btn-primary">
                         Liste techniciens
@@ -80,12 +166,12 @@ include_once 'partials/header.php'
                     </button>
                 </div>
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="delete" title="Cliquez ici pour restorer le véhicule"
-                        data-bs-toggle="modal" class="btn btn-primary">
-                        Restorer
+                    <button type="button" id="delete" title="Cliquez ici pour supprimer le questionnaire"
+                        data-bs-toggle="modal" class="btn btn-danger">
+                        Supprimer
                     </button>
-                </div>
-            </div> -->
+                </div> -->
+            </div>
             <!--end::Actions-->
         </div>
     </div>
@@ -243,7 +329,7 @@ include_once 'partials/header.php'
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Type de Véhicules
+                                            style="width: 125px;">Véhicules
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -260,16 +346,21 @@ include_once 'partials/header.php'
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">Niveau
                                         </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                        <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Restaurer
+                                            style="width: 152.719px;">Modifier
+                                        </th>
+                                        <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">Supprimer
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $vehicle = $vehicles->find(['active' => false]);
+                                        $vehicle = $vehicles->find(['active' => true]);
                                         foreach ($vehicle as $vehicle) {
                                     ?>
                                     <tr class="odd" etat="<?php echo $vehicle->active ?>">
@@ -318,9 +409,12 @@ include_once 'partials/header.php'
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $vehicle->_id ?>">
-                                                <i class="fas fa-history fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></button>
+                                            <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $vehicle->_id ?>">
+                                                <i class="fas fa-edit fs-5"></i></button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $vehicle->_id ?>">
+                                                <i class="fas fa-trash fs-5"></i></button>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->
@@ -338,7 +432,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Restauration
+                                                            Suppréssion
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -365,7 +459,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
                                                             Voulez-vous vraiment
-                                                            restaurer ce
+                                                            supprimer ce
                                                             véhicule?
                                                         </h4>
                                                     </div>
@@ -393,6 +487,180 @@ include_once 'partials/header.php'
                                         <!-- end Modal dialog -->
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
+                                    <!--begin::Modal - Update vehicle details-->
+                                    <div class="modal" id="kt_modal_update_details<?php echo $vehicle->_id ?>"
+                                        tabindex="-1" aria-hidden="true">
+                                        <!--begin::Modal dialog-->
+                                        <div class="modal-dialog modal-dialog-centered mw-650px">
+                                            <!--begin::Modal content-->
+                                            <div class="modal-content">
+                                                <!--begin::Form-->
+                                                <form class="form" method="POST" id="kt_modal_update_user_form">
+                                                    <input type="hidden" name="vehicleID"
+                                                        value="<?php echo $vehicle->_id ?>">
+                                                    <!--begin::Modal header-->
+                                                    <div class="modal-header" id="kt_modal_update_user_header">
+                                                        <!--begin::Modal title-->
+                                                        <h2 class="fs-2 fw-bolder">
+                                                            Modification des
+                                                            informations</h2>
+                                                        <!--end::Modal title-->
+                                                        <!--begin::Close-->
+                                                        <div class="btn btn-icon btn-sm btn-active-icon-primary"
+                                                            data-kt-users-modal-action="close" data-bs-dismiss="modal"
+                                                            data-kt-menu-dismiss="true">
+                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                            <span class="svg-icon svg-icon-1">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24" fill="none">
+                                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
+                                                                        height="2" rx="1"
+                                                                        transform="rotate(-45 6 17.3137)"
+                                                                        fill="black" />
+                                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                                        transform="rotate(45 7.41422 6)" fill="black" />
+                                                                </svg>
+                                                            </span>
+                                                            <!--end::Svg Icon-->
+                                                        </div>
+                                                        <!--end::Close-->
+                                                    </div>
+                                                    <!--end::Modal header-->
+                                                    <!--begin::Modal body-->
+                                                    <div class="modal-body py-10 px-lg-17">
+                                                        <!--begin::Scroll-->
+                                                        <div class="d-flex flex-column scroll-y me-n7 pe-7"
+                                                            id="kt_modal_update_user_scroll" data-kt-scroll="true"
+                                                            data-kt-scroll-activate="{default: false, lg: true}"
+                                                            data-kt-scroll-max-height="auto"
+                                                            data-kt-scroll-dependencies="#kt_modal_update_user_header"
+                                                            data-kt-scroll-wrappers="#kt_modal_update_user_scroll"
+                                                            data-kt-scroll-offset="300px">
+                                                            <!--begin::User toggle-->
+                                                            <div class="fw-boldest fs-3 rotate collapsible mb-7">
+                                                                Informations
+                                                            </div>
+                                                            <!--end::User toggle-->
+                                                            <!--begin::User form-->
+                                                            <div id="kt_modal_update_user_user_info"
+                                                                class="collapse show">
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label
+                                                                        class="fs-6 fw-bold mb-2">Questionnaire</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="label"
+                                                                        value="<?php echo $vehicle->label ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">Type</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="type"
+                                                                        value="<?php echo $vehicle->type ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">
+                                                                        <span>Marque du véhicule</span>
+                                                                    </label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="brand"
+                                                                        value="<?php echo $vehicle->brand ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2">Niveau</label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="level"
+                                                                        value="<?php echo $vehicle->level ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                    <!--begin::Label-->
+                                                                    <label class="form-label fw-bolder text-dark fs-6">
+                                                                        <span>Questionnaires</span>
+                                                                        <span class="ms-1" data-bs-toggle="tooltip"
+                                                                            title="Choississez les questionnaires">
+                                                                            <i class="ki-duotone ki-information fs-7"><span
+                                                                                    class="path1"></span><span
+                                                                                    class="path2"></span><span
+                                                                                    class="path3"></span></i>
+                                                                        </span>
+                                                                    </label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <select name="quizze[]" multiple aria-label="Select a Country"
+                                                                        data-control="select2"
+                                                                        data-placeholder="Sélectionnez vos questionnaires..."
+                                                                        class="form-select form-select-solid fw-bold">
+                                                                        <?php 
+                                                                        $quizz = $quizzes->find([ 
+                                                                            '$and' => [
+                                                                                ['type' => $vehicle->type ],
+                                                                                ['active' => true],
+                                                                            ],
+                                                                        ]);
+                                                                        foreach ($quizz as $quizz) {
+                                                                        ?>
+                                                                        <option value="<?php echo $quizz->_id ?>">
+                                                                            <?php echo $quizz->label ?>
+                                                                        </option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                            </div>
+                                                            <!--end::User form-->
+                                                        </div>
+                                                        <!--end::Scroll-->
+                                                    </div>
+                                                    <!--end::Modal body-->
+                                                    <!--begin::Modal footer-->
+                                                    <div class="modal-footer flex-center">
+                                                        <!--begin::Button-->
+                                                        <button type="reset" class="btn btn-light me-3"
+                                                            data-bs-dismiss="modal" data-kt-menu-dismiss="true"
+                                                            data-kt-users-modal-action="cancel">Annuler</button>
+                                                        <!--end::Button-->
+                                                        <!--begin::Button-->
+                                                        <button type="submit" name="update" class="btn btn-primary">
+                                                            Valider
+                                                        </button>
+                                                        <!--end::Button-->
+                                                    </div>
+                                                    <!--end::Modal footer-->
+                                                </form>
+                                                <!--end::Form-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Modal - Update user details-->
                                     <?php } ?>
                                 </tbody>
                             </table>

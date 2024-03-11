@@ -21,64 +21,6 @@ $quizzes = $academy->quizzes;
 $questions = $academy->questions;
 $allocations = $academy->allocations;
 
-if ( isset( $_POST[ 'update' ] ) ) {
-    $id = $_POST[ 'questionID' ];
-    $label = $_POST[ 'label' ];
-    $proposal1 = $_POST['proposal1'];
-    $proposal2 = $_POST['proposal2'];
-    $proposal3 = $_POST['proposal3'];
-    $proposal4 = $_POST['proposal4'];
-    $answer = $_POST['answer'];
-    $type = $_POST[ 'type' ];
-    $speciality = $_POST[ 'speciality' ];
-    $level = $_POST[ 'level' ];
-    $image = $_FILES[ 'image' ]['name'];
-    
-    $question = [
-        'label' => ucfirst( $label ),
-        'proposal1' => ucfirst( $proposal1 ),
-        'proposal2' => ucfirst( $proposal2 ),
-        'proposal3' => ucfirst( $proposal3 ),
-        'proposal4' => ucfirst( $proposal4 ),
-        'type' => ucfirst( $type ),
-        'speciality' => ucfirst( $speciality ),
-        'level' => ucfirst( $level ),
-        'answer' => ucfirst( $answer ),
-        'updated' => date("d-m-Y")
-    ];
-    // If there is a file, update the question data with the image URL
-    if (!empty($image)) {
-        $tmp_name = $_FILES[ 'image' ][ 'tmp_name' ];
-        $folder = "../public/files/".$image;
-        move_uploaded_file($tmp_name, $folder);
-        $questions->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' => [
-                    'label' => ucfirst( $label ),
-                    'proposal1' => ucfirst( $proposal1 ),
-                    'proposal2' => ucfirst( $proposal2 ),
-                    'proposal3' => ucfirst( $proposal3 ),
-                    'proposal4' => ucfirst( $proposal4 ),
-                    'type' => ucfirst( $type ),
-                    'speciality' => ucfirst( $speciality ),
-                    'level' => ucfirst( $level ),
-                    'answer' => ucfirst( $answer ),
-                    'image' => $image,
-                    'updated' => date("d-m-Y")
-                ]
-            ]
-        );
-        $success_msg = "Question modifiée avec succès.";
-    } else {
-        // Update the question in the collection
-        $questions->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' => $question ]
-        );
-        $success_msg = "Question modifiée avec succès.";
-    }
-}
-
 if ( isset( $_POST[ 'active' ] ) ) {
     $id = new MongoDB\BSON\ObjectId($_POST[ 'questionID' ]);
     $question = $questions->findOne(['_id' => $id]);
@@ -262,20 +204,15 @@ include_once 'partials/header.php'
                                             style="width: 29.8906px;">
                                             <div
                                                 class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                                <!-- <input class="form-check-input" type="checkbox" data-kt-check="true"
                                                     data-kt-check-target="#kt_customers_table .form-check-input"
-                                                    value="1">
+                                                    value="1"> -->
                                             </div>
                                         </th>
                                         <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
                                             style="width: 125px;">Questions
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Image
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -296,25 +233,8 @@ include_once 'partials/header.php'
                                             style="width: 126.516px;">Spécialité</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
-                                            aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Proposition 1
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Proposition 2</th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">
-                                            Proposition 3
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">
-                                            Proposition 4</th>
+                                            style="width: 126.516px;">Restaurer</th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -324,19 +244,16 @@ include_once 'partials/header.php'
                                     ?>
                                     <tr class="odd" etat="<?php echo $question->active ?>">
                                         <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                            <!-- <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
                                                     onclick="enable()" value="<?php echo $question->_id ?>">
-                                            </div>
+                                            </div> -->
                                         </td>
                                         <td data-filter="search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
                                                 <?php echo $question->label ?>
                                             </a>
-                                        </td>
-                                        <td data-filter="phone">
-                                            <?php echo $question->image ?? "" ?>
                                         </td>
                                         <td data-filter="phone">
                                             <?php echo $question->answer ?? "" ?>
@@ -373,29 +290,10 @@ include_once 'partials/header.php'
                                         <td data-order="subsidiary">
                                             <?php echo $question->speciality ?>
                                         </td>
-                                        <?php if ($question->proposal1 == "1-".$question->speciality."-".$question->label."-1") { ?>
-                                        <td data-order="subsidiary">
-                                            Je connais
-                                        </td>
-                                        <?php } else { ?>
-                                        <td data-order="subsidiary">
-                                            <?php echo $question->proposal1 ?>
-                                        </td>
-                                        <?php } ?>
-                                        <?php if ($question->proposal2 == "0-".$question->speciality."-".$question->label."-0") { ?>
-                                        <td data-order="subsidiary">
-                                            Je connais pas
-                                        </td>
-                                        <?php } else { ?>
-                                        <td data-order="subsidiary">
-                                            <?php echo $question->proposal2 ?>
-                                        </td>
-                                        <?php } ?>
-                                        <td data-order="subsidiary">
-                                            <?php echo $question->proposal3 ?? "" ?>
-                                        </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $question->proposal4 ?? "" ?>
+                                        <td>
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $quiz->_id ?>">
+                                                <i class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></button>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->
@@ -413,7 +311,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Restoration
+                                                            Restauration
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -440,7 +338,7 @@ include_once 'partials/header.php'
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
                                                             Voulez-vous vraiment
-                                                            restorer cette
+                                                            restaurer cette
                                                             question?
                                                         </h4>
                                                     </div>
@@ -466,232 +364,8 @@ include_once 'partials/header.php'
                                             </div>
                                         </div>
                                         <!-- end Modal dialog -->
-
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
-                                    <!--begin::Modal - Update question details-->
-                                    <div class="modal" id="kt_modal_update_details<?php echo $question->_id ?>"
-                                        tabindex="-1" aria-hidden="true">
-                                        <!--begin::Modal dialog-->
-                                        <div class="modal-dialog modal-dialog-centered mw-650px">
-                                            <!--begin::Modal content-->
-                                            <div class="modal-content">
-                                                <!--begin::Form-->
-                                                <form class="form" enctype="multipart/form-data" method="POST"
-                                                    id="kt_modal_update_user_form">
-                                                    <input type="hidden" name="questionID"
-                                                        value="<?php echo $question->_id ?>">
-                                                    <!--begin::Modal header-->
-                                                    <div class="modal-header" id="kt_modal_update_user_header">
-                                                        <!--begin::Modal title-->
-                                                        <h2 class="fs-2 fw-bolder">
-                                                            Modification des
-                                                            informations</h2>
-                                                        <!--end::Modal title-->
-                                                        <!--begin::Close-->
-                                                        <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                                            data-kt-users-modal-action="close"
-                                                            data-kt-menu-dismiss="true" data-bs-dismiss="modal">
-                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                            <span class="svg-icon svg-icon-1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none">
-                                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
-                                                                        height="2" rx="1"
-                                                                        transform="rotate(-45 6 17.3137)"
-                                                                        fill="black" />
-                                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                        transform="rotate(45 7.41422 6)" fill="black" />
-                                                                </svg>
-                                                            </span>
-                                                            <!--end::Svg Icon-->
-                                                        </div>
-                                                        <!--end::Close-->
-                                                    </div>
-                                                    <!--end::Modal header-->
-                                                    <!--begin::Modal body-->
-                                                    <div class="modal-body py-10 px-lg-17">
-                                                        <!--begin::Scroll-->
-                                                        <div class="d-flex flex-column scroll-y me-n7 pe-7"
-                                                            id="kt_modal_update_user_scroll" data-kt-scroll="true"
-                                                            data-kt-scroll-activate="{default: false, lg: true}"
-                                                            data-kt-scroll-max-height="auto"
-                                                            data-kt-scroll-dependencies="#kt_modal_update_user_header"
-                                                            data-kt-scroll-wrappers="#kt_modal_update_user_scroll"
-                                                            data-kt-scroll-offset="300px">
-                                                            <!--begin::User toggle-->
-                                                            <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                                                                Informations
-                                                            </div>
-                                                            <!--end::User toggle-->
-                                                            <!--begin::User form-->
-                                                            <div id="kt_modal_update_user_user_info"
-                                                                class="collapse show">
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Question</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="label"
-                                                                        value="<?php echo $question->label ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Image</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="file"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="image" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">type</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="type"
-                                                                        value="<?php echo $question->type ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
-                                                                        1</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal1"
-                                                                        value="<?php echo $question->proposal1 ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
-                                                                        2</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal2"
-                                                                        value="<?php echo $question->proposal2 ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
-                                                                        3</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal3"
-                                                                        value="<?php echo $question->proposal3 ?? '' ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
-                                                                        4</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal4"
-                                                                        value="<?php echo $question->proposal4 ?? '' ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Spécialité</span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="speciality"
-                                                                        value="<?php echo $question->speciality ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Niveau</span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="level"
-                                                                        value="<?php echo $question->level ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Réponse</span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="answer"
-                                                                        value="<?php echo $question->answer ?? '' ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                            </div>
-                                                            <!--end::User form-->
-                                                        </div>
-                                                        <!--end::Scroll-->
-                                                    </div>
-                                                    <!--end::Modal body-->
-                                                    <!--begin::Modal footer-->
-                                                    <div class="modal-footer flex-center">
-                                                        <!--begin::Button-->
-                                                        <button type="reset" class="btn btn-light me-3"
-                                                            data-kt-menu-dismiss="true" data-bs-dismiss="modal"
-                                                            data-kt-users-modal-action="cancel">Annuler</button>
-                                                        <!--end::Button-->
-                                                        <!--begin::Button-->
-                                                        <button type="submit" name="update" class="btn btn-primary">
-                                                            Valider
-                                                        </button>
-                                                        <!--end::Button-->
-                                                    </div>
-                                                    <!--end::Modal footer-->
-                                                </form>
-                                                <!--end::Form-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Modal - Update user details-->
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -724,12 +398,12 @@ include_once 'partials/header.php'
             </div>
             <!--end::Card-->
             <!--begin::Export dropdown-->
-            <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
                 <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
                     <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
                     Excel
                 </button>
-            </div>
+            </div> -->
             <!--end::Export dropdown-->
         </div>
         <!--end::Container-->
