@@ -1,118 +1,148 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-require_once '../vendor/autoload.php';
 
-// Create connection
-$conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+    require_once "../vendor/autoload.php";
 
-// Connecting in database
-$academy = $conn->academy;
+    // Create connection
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
 
-// Connecting in collections
-$users = $academy->users;
-$vehicles = $academy->vehicles;
-$allocations = $academy->allocations;
+    // Connecting in database
+    $academy = $conn->academy;
 
-if ( isset( $_POST[ 'submit' ] ) ) {
-    $vehicle = $_POST['vehicle'];
-    $technicians = $_POST['technicians'];
-    
-    $vehice = $vehicles->findOne([
-        '$and' => [
-            ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
-            ['active' => true]
-        ]
-    ]);
+    // Connecting in collections
+    $users = $academy->users;
+    $vehicles = $academy->vehicles;
+    $allocations = $academy->allocations;
 
-    if (!$vehicle || !$technicians) {
-        $error_msg = 'Veuillez remplir tous les champs.';
-    } elseif ($vehice->type == 'Declaratif') {
-        for ($i = 0; $i < count($technicians); $i++) {
-            $allocateExist = $allocations->findOne([
-                '$and' => [
-                    ['user' => new MongoDB\BSON\ObjectId($technicians[$i])],
-                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicle)]
-                ]
-            ]);
-        
-            if ($allocateExist) {
-                $allocations->updateOne(
-                    ['_id' => new MongoDB\BSON\ObjectId($allocateExist->_id)],
-                    ['$set' => ['active' => false]]
-                );
-                $vehicles->updateOne(
-                    ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
-                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
-                );
-            } else {
-                $allocate = [
-                    'vehicle' => new MongoDB\BSON\ObjectId($vehicle),
-                    'user' => new MongoDB\BSON\ObjectId($technicians[$i]),
-                    'type' => $vehice->type,
-                    'level' => $vehice->level,
-                    "activeManager" => false,
-                    "active" => false,
-                    'created' => date("d-m-y")
-                ];
-            
-                $vehicles->updateOne(
-                    ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
-                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
-                );
-                $allocations->insertOne($allocate);
+    if (isset($_POST["submit"])) {
+        $vehicle = $_POST["vehicle"];
+        $technicians = $_POST["technicians"];
+
+        $vehice = $vehicles->findOne([
+            '$and' => [
+                ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
+                ["active" => true],
+            ],
+        ]);
+
+        if (!$vehicle || !$technicians) {
+            $error_msg = "Veuillez remplir tous les champs.";
+        } elseif ($vehice->type == "Declaratif") {
+            for ($i = 0; $i < count($technicians); $i++) {
+                $allocateExist = $allocations->findOne([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($technicians[$i])],
+                        ["vehicle" => new MongoDB\BSON\ObjectId($vehicle)],
+                    ],
+                ]);
+
+                if ($allocateExist) {
+                    $allocations->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $allocateExist->_id
+                            ),
+                        ],
+                        ['$set' => ["active" => false]]
+                    );
+                    $vehicles->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
+                        [
+                            '$addToSet' => [
+                                "users" => new MongoDB\BSON\ObjectId(
+                                    $technicians[$i]
+                                ),
+                            ],
+                        ]
+                    );
+                } else {
+                    $allocate = [
+                        "vehicle" => new MongoDB\BSON\ObjectId($vehicle),
+                        "user" => new MongoDB\BSON\ObjectId($technicians[$i]),
+                        "type" => $vehice->type,
+                        "level" => $vehice->level,
+                        "activeManager" => false,
+                        "active" => false,
+                        "created" => date("d-m-y"),
+                    ];
+
+                    $vehicles->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
+                        [
+                            '$addToSet' => [
+                                "users" => new MongoDB\BSON\ObjectId(
+                                    $technicians[$i]
+                                ),
+                            ],
+                        ]
+                    );
+                    $allocations->insertOne($allocate);
+                }
             }
-        }
-        $success_msg = 'Technicien(s) affecté(s) avec succès';
-    } elseif ($vehice->type == 'Factuel') {
-        for ($i = 0; $i < count($technicians); $i++) {
-            $allocateExist = $allocations->findOne([
-                '$and' => [
-                    ['user' => new MongoDB\BSON\ObjectId($technicians[$i])],
-                    ['vehicle' => new MongoDB\BSON\ObjectId($vehicle)]
-                ]
-            ]);
-        
-            if ($allocateExist) {
-                $allocateExist->active = false;
-                $allocations->updateOne(
-                    ['_id' => new MongoDB\BSON\ObjectId($allocateExist->_id)],
-                    ['$set' => ['active' => false]]
-                );
-                $vehicles->updateOne(
-                    ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
-                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
-                );
-            } else {
-                $allocate = [
-                    'vehicle' => new MongoDB\BSON\ObjectId($vehicle),
-                    'user' => new MongoDB\BSON\ObjectId($technicians[$i]),
-                    'type' => $vehice->type,
-                    'level' => $vehice->level,
-                    "active" => false,
-                    'created' => date("d-m-y")
-                ];
-            
-                $vehicles->updateOne(
-                    ['_id' => new MongoDB\BSON\ObjectId($vehicle)],
-                    ['$addToSet' => ['users' => new MongoDB\BSON\ObjectId($technicians[$i])]]
-                );
-                $allocations->insertOne($allocate);
+            $success_msg = "Technicien(s) affecté(s) avec succès";
+        } elseif ($vehice->type == "Factuel") {
+            for ($i = 0; $i < count($technicians); $i++) {
+                $allocateExist = $allocations->findOne([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($technicians[$i])],
+                        ["vehicle" => new MongoDB\BSON\ObjectId($vehicle)],
+                    ],
+                ]);
+
+                if ($allocateExist) {
+                    $allocateExist->active = false;
+                    $allocations->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $allocateExist->_id
+                            ),
+                        ],
+                        ['$set' => ["active" => false]]
+                    );
+                    $vehicles->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
+                        [
+                            '$addToSet' => [
+                                "users" => new MongoDB\BSON\ObjectId(
+                                    $technicians[$i]
+                                ),
+                            ],
+                        ]
+                    );
+                } else {
+                    $allocate = [
+                        "vehicle" => new MongoDB\BSON\ObjectId($vehicle),
+                        "user" => new MongoDB\BSON\ObjectId($technicians[$i]),
+                        "type" => $vehice->type,
+                        "level" => $vehice->level,
+                        "active" => false,
+                        "created" => date("d-m-y"),
+                    ];
+
+                    $vehicles->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
+                        [
+                            '$addToSet' => [
+                                "users" => new MongoDB\BSON\ObjectId(
+                                    $technicians[$i]
+                                ),
+                            ],
+                        ]
+                    );
+                    $allocations->insertOne($allocate);
+                }
             }
+            $success_msg = "Technicien(s) affecté(s) avec succès";
         }
-        $success_msg = 'Technicien(s) affecté(s) avec succès';
     }
-}
+    ?>
 
-?>
-
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Assigner Technicien au Test | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -131,30 +161,22 @@ include_once 'partials/header.php'
                     style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
                 <h1 class="my-3 text-center">Assigner un technicien à un test</h1>
 
-                <?php
-                 if(isset($success_msg)) {
-                ?>
+                <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <center><strong><?php echo $success_msg ?></strong></center>
+                    <center><strong><?php echo $success_msg; ?></strong></center>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <?php
-                }
-                ?>
-                <?php
-                 if(isset($error_msg)) {
-                ?>
+                <?php } ?>
+                <?php if (isset($error_msg)) { ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <center><strong><?php echo $error_msg ?></strong></center>
+                    <center><strong><?php echo $error_msg; ?></strong></center>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <?php
-                }
-                ?>
+                <?php } ?>
 
                 <form method="POST"><br>
                     <!--begin::Input group-->
@@ -178,24 +200,22 @@ include_once 'partials/header.php'
                                     <option value="">Sélectionnez le véhicule...
                                     </option>
                                     <?php
-                            $vehicle = $vehicles->find(['active' => true]);
-                            foreach ($vehicle as $vehicle) {
-                        ?>
-                                    <option value='<?php echo $vehicle->_id ?>'>
-                                        <?php echo $vehicle->label ?> (<?php echo $vehicle->brand ?>,
-                                        <?php echo $vehicle->type ?>)
+                                    $vehicle = $vehicles->find([
+                                        "active" => true,
+                                    ]);
+                                    foreach ($vehicle as $vehicle) { ?>
+                                    <option value='<?php echo $vehicle->_id; ?>'>
+                                        <?php echo $vehicle->label; ?> (<?php echo $vehicle->brand; ?>,
+                                        <?php echo $vehicle->type; ?>)
                                     </option>
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                 </select>
-                                <?php
-                     if(isset($error)) {
-                    ?>
+                                <?php if (isset($error)) { ?>
                                 <span class='text-danger'>
-                                    <?php echo $error ?>
+                                    <?php echo $error; ?>
                                 </span>
-                                <?php
-                    }
-                    ?>
+                                <?php } ?>
                                 <!--end::Input-->
                             </div>
                         </div>
@@ -218,28 +238,24 @@ include_once 'partials/header.php'
                                     class="form-select form-select-solid fw-bold">
                                     <option value="">Sélectionnez le technicien...</option>
                                     <?php
-                            $user = $users->find([
-                                '$and' => [
-                                    ['profile' => "Technicien"],
-                                    ['active' => true]
-                                ]
-                            ]);
-                            foreach ($user as $user) {
-                        ?>
-                                    <option value='<?php echo $user->_id ?>'>
-                                        <?php echo $user->firstName ?> <?php echo $user->lastName ?>
+                                    $user = $users->find([
+                                        '$and' => [
+                                            ["profile" => "Technicien"],
+                                            ["active" => true],
+                                        ],
+                                    ]);
+                                    foreach ($user as $user) { ?>
+                                    <option value='<?php echo $user->_id; ?>'>
+                                        <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                     </option>
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                 </select>
-                                <?php
-                     if(isset($error)) {
-                    ?>
+                                <?php if (isset($error)) { ?>
                                 <span class='text-danger'>
-                                    <?php echo $error ?>
+                                    <?php echo $error; ?>
                                 </span>
-                                <?php
-                    }
-                    ?>
+                                <?php } ?>
                                 <!--end::Input-->
                             </div>
                         </div>
@@ -262,7 +278,6 @@ include_once 'partials/header.php'
 </div>
 <!--end::Body-->
 
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

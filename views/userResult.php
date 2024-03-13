@@ -1,37 +1,35 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-    require_once '../vendor/autoload.php';
-    
+    require_once "../vendor/autoload.php";
+
     // Create connection
-    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
-    
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
+
     // Connecting in database
     $academy = $conn->academy;
-    
+
     // Connecting in collections
     $users = $academy->users;
     $vehicles = $academy->vehicles;
     $allocations = $academy->allocations;
 
-    $user = $_SESSION[ 'id' ];
+    $user = $_SESSION["id"];
     $technician = $users->findOne([
         '$and' => [
             [
-                '_id' => new MongoDB\BSON\ObjectId($user),
-                'active' => true,
+                "_id" => new MongoDB\BSON\ObjectId($user),
+                "active" => true,
             ],
-        ]
+        ],
     ]);
 }
 ?>
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Mes Evaluations Réalisés | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -170,29 +168,40 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $testFac = $allocations->find([
+                                    $testFac = $allocations->find([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Factuel"],
+                                            ["active" => true],
+                                        ],
+                                    ]);
+                                    $testDecla = $allocations->find([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Declaratif"],
+                                            ["active" => true],
+                                        ],
+                                    ]);
+                                    foreach ($testFac as $test) {
+                                        $vehicle = $vehicles->findOne([
                                             '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Factuel'],
-                                                ['active' => true],
-                                            ]
-                                        ]);
-                                        $testDecla = $allocations->find([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Declaratif'],
-                                                ['active' => true],
-                                            ]
-                                        ]);
-                                        foreach ($testFac as $test) {
-                                            $vehicle = $vehicles->findOne([
-                                                '$and' => [
-                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ])
-                                    ?>
-                                    <?php if ($test ) { ?>
+                                                [
+                                                    "_id" => new MongoDB\BSON\ObjectId(
+                                                        $test["vehicle"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
+                                            ],
+                                        ]); ?>
+                                    <?php if ($test) { ?>
                                     <tr>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
@@ -201,12 +210,12 @@ include_once 'partials/header.php'
                                         </td>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["label"] ?>
+                                                <?php echo $vehicle["label"]; ?>
                                             </span>
                                         </td>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["brand"] ?>
+                                                <?php echo $vehicle["brand"]; ?>
                                             </span>
                                         </td>
                                         <?php if ($test->level == "Junior") { ?>
@@ -262,17 +271,21 @@ include_once 'partials/header.php'
                                         <?php } ?>
                                     </tr>
                                     <?php } ?>
-                                    <?php } ?>
-                                    <?php 
-                                    foreach ($testDecla as $test) {
-                                            $vehicle = $vehicles->findOne([
-                                                '$and' => [
-                                                    ["_id" => new MongoDB\BSON\ObjectId($test["vehicle"])],
-                                                    ['active' => true],
-                                                ]
-                                            ])
+                                    <?php
+                                    }
                                     ?>
-                                    <?php if ($test ) { ?>
+                                    <?php foreach ($testDecla as $test) {
+                                        $vehicle = $vehicles->findOne([
+                                            '$and' => [
+                                                [
+                                                    "_id" => new MongoDB\BSON\ObjectId(
+                                                        $test["vehicle"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
+                                            ],
+                                        ]); ?>
+                                    <?php if ($test) { ?>
                                     <tr>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
@@ -281,12 +294,12 @@ include_once 'partials/header.php'
                                         </td>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["label"] ?>
+                                                <?php echo $vehicle["label"]; ?>
                                             </span>
                                         </td>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                <?php echo $vehicle["brand"] ?>
+                                                <?php echo $vehicle["brand"]; ?>
                                             </span>
                                         </td>
                                         <?php if ($test->level == "Junior") { ?>
@@ -342,7 +355,8 @@ include_once 'partials/header.php'
                                         <?php } ?>
                                     </tr>
                                     <?php } ?>
-                                    <?php } ?>
+                                    <?php
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -379,6 +393,4 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
-<?php
-include_once 'partials/footer.php'
-?>
+<?php include_once "partials/footer.php"; ?>

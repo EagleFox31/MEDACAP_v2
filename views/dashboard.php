@@ -6,10 +6,10 @@ if (!isset($_SESSION["profile"])) {
     exit();
 } else {
 
-    require_once '../vendor/autoload.php';
+    require_once "../vendor/autoload.php";
 
     // Create connection
-    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
 
     // Connecting in database
     $academy = $conn->academy;
@@ -23,85 +23,96 @@ if (!isset($_SESSION["profile"])) {
     $results = $academy->results;
     $allocations = $academy->allocations;
 
-    $countUser = $users->find(['profile' => 'Technicien'])->toArray();
+    $countUser = $users->find(["profile" => "Technicien"])->toArray();
     $countUsers = count($countUser);
-    $countManager = $users->find(['profile' => 'Manager'])->toArray();
+    $countManager = $users->find(["profile" => "Manager"])->toArray();
     $countManagers = count($countManager);
-    $countAdmin = $users->find(['profile' => 'Admin'])->toArray();
+    $countAdmin = $users->find(["profile" => "Admin"])->toArray();
     $countAdmins = count($countAdmin);
     $countVehicle = $vehicles->find()->toArray();
     $countVehicles = count($countVehicle);
-    $totalSavoir = $allocations->find(['type' => 'Factuel'])->toArray();
+    $totalSavoir = $allocations->find(["type" => "Factuel"])->toArray();
     $totalSavoirs = count($totalSavoir);
-    $totalSavoirFaire = $allocations->find(['type' => 'Declaratif'])->toArray();
+    $totalSavoirFaire = $allocations->find(["type" => "Declaratif"])->toArray();
     $totalSavoirFaires = count($totalSavoirFaire);
-    $countSavoir = $allocations->find([
-        '$and' => [
-            [
-                'type' => 'Factuel',
-                'active' => true,
-            ],
-        ],
-    ])->toArray();
-    $countSavoirs = count($countSavoir);
-    $percentageSavoir = ($countSavoirs * 100) / $totalSavoirs;
-    $countMaSavFai = $allocations->find([
-        '$and' => [
-            [
-                'type' => 'Declaratif',
-                'active' => true,
-            ],
-        ],
-    ])->toArray();
-    $countMaSavFais = count($countMaSavFai);
-    $percentageMaSavoirFaire = ($countMaSavFais * 100) / $totalSavoirFaires;
-    $countTechSavFai = $allocations->find([
-        '$and' => [
-            [
-                'type' => 'Declaratif',
-                'activeManager' => true,
-            ],
-        ],
-    ])->toArray();
-    $countTechSavFais = count($countTechSavFai);
-    $percentageTechSavoirFaire = ($countTechSavFais * 100) / $totalSavoirFaires;
-    
-    $resultFac = $results->aggregate([
-    [
-        '$match' => [
+    $countSavoir = $allocations
+        ->find([
             '$and' => [
                 [
-                    'typeR' => 'Technicien',
-                    'type' => 'Factuel',
+                    "type" => "Factuel",
+                    "active" => true,
                 ],
             ],
-        ],
-    ],
-    [
-        '$group' => [
-            '_id' => '$level',
-            'total' => ['$sum' => '$total'],
-            'score' => ['$sum' => '$score'],
-        ],
-    ],
-    [
-        '$project' => [
-            '_id' => 0,
-            'level' => '$_id',
-            'percentage' => ['$multiply' => [['$divide' => ['$score', '$total']], 100]],
-        ],
-    ],
-])->toArray();
-?>
-<?php
-include('./partials/header.php')
-?>
+        ])
+        ->toArray();
+    $countSavoirs = count($countSavoir);
+    $percentageSavoir = ($countSavoirs * 100) / $totalSavoirs;
+    $countMaSavFai = $allocations
+        ->find([
+            '$and' => [
+                [
+                    "type" => "Declaratif",
+                    "active" => true,
+                ],
+            ],
+        ])
+        ->toArray();
+    $countMaSavFais = count($countMaSavFai);
+    $percentageMaSavoirFaire = ($countMaSavFais * 100) / $totalSavoirFaires;
+    $countTechSavFai = $allocations
+        ->find([
+            '$and' => [
+                [
+                    "type" => "Declaratif",
+                    "activeManager" => true,
+                ],
+            ],
+        ])
+        ->toArray();
+    $countTechSavFais = count($countTechSavFai);
+    $percentageTechSavoirFaire = ($countTechSavFais * 100) / $totalSavoirFaires;
+
+    $resultFac = $results
+        ->aggregate([
+            [
+                '$match' => [
+                    '$and' => [
+                        [
+                            "typeR" => "Technicien",
+                            "type" => "Factuel",
+                        ],
+                    ],
+                ],
+            ],
+            [
+                '$group' => [
+                    "_id" => '$level',
+                    "total" => ['$sum' => '$total'],
+                    "score" => ['$sum' => '$score'],
+                ],
+            ],
+            [
+                '$project' => [
+                    "_id" => 0,
+                    "level" => '$_id',
+                    "percentage" => [
+                        '$multiply' => [
+                            ['$divide' => ['$score', '$total']],
+                            100,
+                        ],
+                    ],
+                ],
+            ],
+        ])
+        ->toArray();
+    ?>
+<?php include "./partials/header.php"; ?>
 <!--begin::Title-->
 <title>Tableau de Bord | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!--begin::Content-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
-    <?php if ($_SESSION["profile"] == "Manager") {?>
+    <?php if ($_SESSION["profile"] == "Manager") { ?>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -182,7 +193,7 @@ include('./partials/header.php')
     </div>
     <!--end::Post-->
     <?php } ?>
-    <?php if ($_SESSION["profile"] == "Technicien") {?>
+    <?php if ($_SESSION["profile"] == "Technicien") { ?>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -260,7 +271,10 @@ include('./partials/header.php')
     </div>
     <!--end::Post-->
     <?php } ?>
-    <?php if ($_SESSION["profile"] == "Super Admin" || $_SESSION["profile"] == "Admin") {?>
+    <?php if (
+        $_SESSION["profile"] == "Super Admin" ||
+        $_SESSION["profile"] == "Admin"
+    ) { ?>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -295,7 +309,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<?php echo $countUsers ?>">
+                                        data-kt-countup-value="<?php echo $countUsers; ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -321,7 +335,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<?php echo $countManagers ?>">
+                                        data-kt-countup-value="<?php echo $countManagers; ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -336,7 +350,7 @@ include('./partials/header.php')
                         <!--end::Card-->
                     </div>
                     <!--end::Col-->
-                    <?php if ($_SESSION["profile"] == "Super Admin") {?>
+                    <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                     <!--begin::Col-->
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <!--begin::Card-->
@@ -348,7 +362,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<?php echo $countAdmins ?>">
+                                        data-kt-countup-value="<?php echo $countAdmins; ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -376,7 +390,7 @@ include('./partials/header.php')
                                 <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
-                                        data-kt-countup-value="<?php echo $countVehicles ?>">
+                                        data-kt-countup-value="<?php echo $countVehicles; ?>">
                                     </div>
                                 </div>
                                 <!--end::Animation-->
@@ -432,9 +446,7 @@ include('./partials/header.php')
     <?php } ?>
 </div>
 <!--end::Content-->
-<?php
-include('./partials/footer.php')
-?>
+<?php include "./partials/footer.php"; ?>
 <?php
 }
 ?>
@@ -447,7 +459,7 @@ include('./partials/footer.php')
       labels: ['Connaissances Théoriques', 'Connaissances Pratiques (Techniciens)', 'Connaissances Pratiques (Managers)'],
       datasets: [{
         label: 'Pourcentage de questionnaires réalisés',
-        data: [<?php echo $percentageSavoir ?>, <?php echo $percentageTechSavoirFaire ?>, <?php echo $percentageMaSavoirFaire ?>],
+        data: [<?php echo $percentageSavoir; ?>, <?php echo $percentageTechSavoirFaire; ?>, <?php echo $percentageMaSavoirFaire; ?>],
         borderWidth: 1
       }]
     },

@@ -1,66 +1,67 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-    require_once '../vendor/autoload.php';
-        
+
+    require_once "../vendor/autoload.php";
+
     // Create connection
-    $conn = new MongoDB\Client('mongodb://localhost:27017');
-        
-     // Connecting in database
-     $academy = $conn->academy;
-        
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
+
+    // Connecting in database
+    $academy = $conn->academy;
+
     // Connecting in collections
     $users = $academy->users;
     $results = $academy->results;
 
-    $user = $_GET['user'];
-    $level = $_GET['level'];
+    $user = $_GET["user"];
+    $level = $_GET["level"];
 
     $technician = $users->findOne([
         '$and' => [
             [
-                '_id' => new MongoDB\BSON\ObjectId( $user ),
-                'active' => true,
+                "_id" => new MongoDB\BSON\ObjectId($user),
+                "active" => true,
             ],
-        ]
+        ],
     ]);
     $resultFac = $results->findOne([
         '$and' => [
-            ['user' => new MongoDB\BSON\ObjectId($user)],
-            ['type' => 'Factuel'],
-            ['typeR' => 'Technicien'],
-            ['level' => $level],
+            ["user" => new MongoDB\BSON\ObjectId($user)],
+            ["type" => "Factuel"],
+            ["typeR" => "Technicien"],
+            ["level" => $level],
         ],
     ]);
     $resultDecla = $results->findOne([
         '$and' => [
-            ['user' => new MongoDB\BSON\ObjectId($user)],
-            ['type' => 'Declaratif'],
-            ['typeR' => 'Techniciens'],
-            ['level' => $level],
+            ["user" => new MongoDB\BSON\ObjectId($user)],
+            ["type" => "Declaratif"],
+            ["typeR" => "Techniciens"],
+            ["level" => $level],
         ],
     ]);
     $resultMa = $results->findOne([
         '$and' => [
-            ['user' => new MongoDB\BSON\ObjectId($user)],
-            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-            ['typeR' => 'Managers'],
-            ['level' => $level],
+            ["user" => new MongoDB\BSON\ObjectId($user)],
+            ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
+            ["typeR" => "Managers"],
+            ["level" => $level],
         ],
     ]);
     $resultTechMa = $results->findOne([
         '$and' => [
-            ['user' => new MongoDB\BSON\ObjectId($user)],
-            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-            ['typeR' => 'Technicien - Manager'],
-            ['level' => $level],
+            ["user" => new MongoDB\BSON\ObjectId($user)],
+            ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
+            ["typeR" => "Technicien - Manager"],
+            ["level" => $level],
         ],
     ]);
-?>
+    ?>
 <title>Résultat Technicien | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
@@ -101,7 +102,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
                     Résultats de
-                    <?php echo $technician->firstName ?> <?php echo $technician->lastName ?>
+                    <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>
                 <!--end::Title-->
             </div>
@@ -110,7 +111,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
             <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center">
                     <a class="btn btn-primary"
-                        href="./detail?id=<?php echo $technician->_id ?>&level=<?php echo $level ?>" role="button">
+                        href="./detail?id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
                         Résultats Détaillés
                     </a>
                 </div>
@@ -209,38 +210,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
                                 <?php
-                                    $transmissionFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Arbre de Transmission'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $transmissionDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Arbre de Transmission'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $transmissionMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Arbre de Transmission']
-                                        ]
-                                    ]);
+                                $transmissionFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Arbre de Transmission",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $transmissionDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Arbre de Transmission",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $transmissionMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Arbre de Transmission",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($transmissionFac && $transmissionDecla && $transmissionMa) { ?>
+                                <?php if (
+                                    $transmissionFac &&
+                                    $transmissionDecla &&
+                                    $transmissionMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transmissionFac->speciality?>&level=<?php echo $transmissionFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $transmissionFac->speciality; ?>&level=<?php echo $transmissionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -248,36 +278,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($transmissionFac->score * 100 / $transmissionFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transmissionFac->score * 100) /
+                                                $transmissionFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($transmissionFac->score * 100) /
+                                            $transmissionFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facTransmission">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($transmissionFac->score  * 100 ) / $transmissionFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($transmissionFac->score * 100) /
+                                            $transmissionFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facTransmission">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($transmissionDecla->score * 100 / $transmissionDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transmissionDecla->score * 100) /
+                                                $transmissionDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($transmissionMa->score * 100 / $transmissionMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transmissionMa->score * 100) /
+                                                $transmissionMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($transmissionDecla->questions); $i++) { ?>
-                                    <?php if ($transmissionDecla->answers[$i] == "Oui" && $transmissionMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($transmissionDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $transmissionDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $transmissionMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transmissionDecla->answers[$i] == "Non" && $transmissionMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $transmissionDecla->answers[$i] ==
+                                            "Non" &&
+                                        $transmissionMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transmissionDecla->answers[$i] != $transmissionMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $transmissionDecla->answers[$i] !=
+                                        $transmissionMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
                                         Non maitrisé
                                     </td>
@@ -296,38 +362,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $assistanceConduiteFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Assistance à la Conduite'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $assistanceConduiteDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Assistance à la Conduite'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $assistanceConduiteMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Assistance à la Conduite']
-                                        ]
-                                    ]);
+                                $assistanceConduiteFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Assistance à la Conduite",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $assistanceConduiteDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Assistance à la Conduite",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $assistanceConduiteMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Assistance à la Conduite",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($assistanceConduiteFac && $assistanceConduiteDecla && $assistanceConduiteMa) { ?>
+                                <?php if (
+                                    $assistanceConduiteFac &&
+                                    $assistanceConduiteDecla &&
+                                    $assistanceConduiteMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $assistanceConduiteFac->speciality?>&level=<?php echo $assistanceConduiteFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $assistanceConduiteFac->speciality; ?>&level=<?php echo $assistanceConduiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -335,36 +430,79 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($assistanceConduiteFac->score * 100 / $assistanceConduiteFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($assistanceConduiteFac->score *
+                                                100) /
+                                                $assistanceConduiteFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($assistanceConduiteFac->score  * 100 ) / $assistanceConduiteFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($assistanceConduiteFac->score * 100) /
+                                            $assistanceConduiteFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facAssistance">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($assistanceConduiteFac->score  * 100 ) / $assistanceConduiteFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($assistanceConduiteFac->score * 100) /
+                                            $assistanceConduiteFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facAssistance">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($assistanceConduiteDecla->score * 100 / $assistanceConduiteDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($assistanceConduiteDecla->score *
+                                                100) /
+                                                $assistanceConduiteDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($assistanceConduiteMa->score * 100 / $assistanceConduiteMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($assistanceConduiteMa->score *
+                                                100) /
+                                                $assistanceConduiteMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($assistanceConduiteDecla->questions); $i++) { ?>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Oui" && $assistanceConduiteMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count(
+                                            $assistanceConduiteDecla->questions
+                                        );
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $assistanceConduiteDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $assistanceConduiteMa->answers[$i] ==
+                                            "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] == "Non" && $assistanceConduiteMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $assistanceConduiteDecla->answers[$i] ==
+                                            "Non" &&
+                                        $assistanceConduiteMa->answers[$i] ==
+                                            "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($assistanceConduiteDecla->answers[$i] != $assistanceConduiteMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $assistanceConduiteDecla->answers[$i] !=
+                                        $assistanceConduiteMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
                                         Non maitrisé
                                     </td>
@@ -383,38 +521,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $transfertFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Transfert'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $transfertDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Transfert'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $transfertMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Transfert']
-                                        ]
-                                    ]);
+                                $transfertFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Boite de Transfert"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $transfertDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Boite de Transfert"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $transfertMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Boite de Transfert"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($transfertFac && $transfertDecla && $transfertMa) { ?>
+                                <?php if (
+                                    $transfertFac &&
+                                    $transfertDecla &&
+                                    $transfertMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transfertFac->speciality?>&level=<?php echo $transfertFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $transfertFac->speciality; ?>&level=<?php echo $transfertFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -422,36 +580,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($transfertFac->score * 100 / $transfertFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transfertFac->score * 100) /
+                                                $transfertFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($transfertFac->score  * 100 ) / $transfertFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($transfertFac->score * 100) /
+                                            $transfertFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facTransfert">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($transfertFac->score  * 100 ) / $transfertFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($transfertFac->score * 100) /
+                                            $transfertFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facTransfert">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($transfertDecla->score * 100 / $transfertDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transfertDecla->score * 100) /
+                                                $transfertDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($transfertMa->score * 100 / $transfertMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transfertMa->score * 100) /
+                                                $transfertMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($transfertDecla->questions); $i++) { ?>
-                                    <?php if ($transfertDecla->answers[$i] == "Oui" && $transfertMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($transfertDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $transfertDecla->answers[$i] == "Oui" &&
+                                        $transfertMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transfertDecla->answers[$i] == "Non" && $transfertMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $transfertDecla->answers[$i] == "Non" &&
+                                        $transfertMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transfertDecla->answers[$i] != $transfertMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $transfertDecla->answers[$i] !=
+                                        $transfertMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
                                         Non maitrisé
                                     </td>
@@ -469,38 +660,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 </tr>
                                 <?php } ?>
                                 <?php
-                                    $boiteFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $boiteDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $boiteMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse']
-                                        ]
-                                    ]);
+                                $boiteFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Boite de Vitesse"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $boiteDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Boite de Vitesse"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $boiteMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Boite de Vitesse"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($boiteFac && $boiteDecla && $boiteMa) { ?>
+                                <?php if (
+                                    $boiteFac &&
+                                    $boiteDecla &&
+                                    $boiteMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteFac->speciality?>&level=<?php echo $boiteFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $boiteFac->speciality; ?>&level=<?php echo $boiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -508,36 +719,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteFac->score * 100 / $boiteFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteFac->score * 100) /
+                                                $boiteFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($boiteFac->score  * 100 ) / $boiteFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($boiteFac->score * 100) /
+                                            $boiteFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoite">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($boiteFac->score  * 100 ) / $boiteFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($boiteFac->score * 100) /
+                                            $boiteFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoite">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($boiteDecla->score * 100 / $boiteDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteDecla->score * 100) /
+                                                $boiteDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteMa->score * 100 / $boiteMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteMa->score * 100) /
+                                                $boiteMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($boiteDecla->questions); $i++) { ?>
-                                    <?php if ($boiteDecla->answers[$i] == "Oui" && $boiteMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($boiteDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $boiteDecla->answers[$i] == "Oui" &&
+                                        $boiteMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteDecla->answers[$i] == "Non" && $boiteMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $boiteDecla->answers[$i] == "Non" &&
+                                        $boiteMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteDecla->answers[$i] != $boiteMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $boiteDecla->answers[$i] !=
+                                        $boiteMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
                                         Non maitrisé
                                     </td>
@@ -556,38 +800,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $boiteAutoFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse Automatique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $boiteAutoDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse Automatique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $boiteAutoMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse Automatique']
-                                        ]
-                                    ]);
+                                $boiteAutoFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse Automatique",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $boiteAutoDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse Automatique",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $boiteAutoMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse Automatique",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($boiteAutoFac && $boiteAutoDecla && $boiteAutoMa) { ?>
+                                <?php if (
+                                    $boiteAutoFac &&
+                                    $boiteAutoDecla &&
+                                    $boiteAutoMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteAutoFac->speciality?>&level=<?php echo $boiteAutoFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $boiteAutoFac->speciality; ?>&level=<?php echo $boiteAutoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -595,36 +868,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteAutoFac->score * 100 / $boiteAutoFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteAutoFac->score * 100) /
+                                                $boiteAutoFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($boiteAutoFac->score  * 100 ) / $boiteAutoFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($boiteAutoFac->score * 100) /
+                                            $boiteAutoFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoiteAuto">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($boiteAutoFac->score  * 100 ) / $boiteAutoFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($boiteAutoFac->score * 100) /
+                                            $boiteAutoFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoiteAuto">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($boiteAutoDecla->score * 100 / $boiteAutoDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteAutoDecla->score * 100) /
+                                                $boiteAutoDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteAutoMa->score * 100 / $boiteAutoMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteAutoMa->score * 100) /
+                                                $boiteAutoMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($boiteAutoDecla->questions); $i++) { ?>
-                                    <?php if ($boiteAutoDecla->answers[$i] == "Oui" && $boiteAutoMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($boiteAutoDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $boiteAutoDecla->answers[$i] == "Oui" &&
+                                        $boiteAutoMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteAutoDecla->answers[$i] == "Non" && $boiteAutoMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $boiteAutoDecla->answers[$i] == "Non" &&
+                                        $boiteAutoMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteAutoDecla->answers[$i] != $boiteAutoMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $boiteAutoDecla->answers[$i] !=
+                                        $boiteAutoMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
                                         Non maitrisé
                                     </td>
@@ -643,38 +949,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $boiteManFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse Mécanique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $boiteManDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse Mécanique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $boiteManMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse Mécanique']
-                                        ]
-                                    ]);
+                                $boiteManFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse Mécanique",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $boiteManDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse Mécanique",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $boiteManMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse Mécanique",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($boiteManFac && $boiteManDecla && $boiteManMa) { ?>
+                                <?php if (
+                                    $boiteManFac &&
+                                    $boiteManDecla &&
+                                    $boiteManMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteManFac->speciality?>&level=<?php echo $boiteManFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $boiteManFac->speciality; ?>&level=<?php echo $boiteManFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -682,36 +1017,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteManFac->score * 100 / $boiteManFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteManFac->score * 100) /
+                                                $boiteManFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($boiteManFac->score  * 100 ) / $boiteManFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($boiteManFac->score * 100) /
+                                            $boiteManFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoiteMan">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($boiteManFac->score  * 100 ) / $boiteManFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($boiteManFac->score * 100) /
+                                            $boiteManFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoiteMan">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($boiteManDecla->score * 100 / $boiteManDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteManDecla->score * 100) /
+                                                $boiteManDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteManMa->score * 100 / $boiteManMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteManMa->score * 100) /
+                                                $boiteManMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($boiteManDecla->questions); $i++) { ?>
-                                    <?php if ($boiteManDecla->answers[$i] == "Oui" && $boiteManMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($boiteManDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $boiteManDecla->answers[$i] == "Oui" &&
+                                        $boiteManMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteManDecla->answers[$i] == "Non" && $boiteManMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $boiteManDecla->answers[$i] == "Non" &&
+                                        $boiteManMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteManDecla->answers[$i] != $boiteManMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $boiteManDecla->answers[$i] !=
+                                        $boiteManMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
                                         Non maitrisé
                                     </td>
@@ -730,38 +1098,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $boiteVaCoFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse à Variation Continue'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $boiteVaCoDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse à Variation Continue'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $boiteVaCoMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Boite de Vitesse à Variation Continue']
-                                        ]
-                                    ]);
+                                $boiteVaCoFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse à Variation Continue",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $boiteVaCoDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse à Variation Continue",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $boiteVaCoMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Boite de Vitesse à Variation Continue",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($boiteVaCoFac && $boiteVaCoDecla && $boiteVaCoMa) { ?>
+                                <?php if (
+                                    $boiteVaCoFac &&
+                                    $boiteVaCoDecla &&
+                                    $boiteVaCoMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteVaCoFac->speciality?>&level=<?php echo $boiteVaCoFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $boiteVaCoFac->speciality; ?>&level=<?php echo $boiteVaCoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -769,36 +1166,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteVaCoFac->score * 100 / $boiteVaCoFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteVaCoFac->score * 100) /
+                                                $boiteVaCoFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($boiteVaCoFac->score  * 100 ) / $boiteVaCoFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($boiteVaCoFac->score * 100) /
+                                            $boiteVaCoFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoiteVaCo">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($boiteVaCoFac->score  * 100 ) / $boiteVaCoFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($boiteVaCoFac->score * 100) /
+                                            $boiteVaCoFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facBoiteVaCo">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($boiteVaCoDecla->score * 100 / $boiteVaCoDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteVaCoDecla->score * 100) /
+                                                $boiteVaCoDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($boiteVaCoMa->score * 100 / $boiteVaCoMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($boiteVaCoMa->score * 100) /
+                                                $boiteVaCoMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($boiteVaCoDecla->questions); $i++) { ?>
-                                    <?php if ($boiteVaCoDecla->answers[$i] == "Oui" && $boiteVaCoMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($boiteVaCoDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $boiteVaCoDecla->answers[$i] == "Oui" &&
+                                        $boiteVaCoMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteVaCoDecla->answers[$i] == "Non" && $boiteVaCoMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $boiteVaCoDecla->answers[$i] == "Non" &&
+                                        $boiteVaCoMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($boiteVaCoDecla->answers[$i] != $boiteVaCoMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $boiteVaCoDecla->answers[$i] !=
+                                        $boiteVaCoMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
                                         Non maitrisé
                                     </td>
@@ -817,38 +1247,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $climatisationFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Climatisation'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $climatisationDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Climatisation'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $climatisationMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Climatisation']
-                                        ]
-                                    ]);
+                                $climatisationFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Climatisation"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $climatisationDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Climatisation"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $climatisationMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Climatisation"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($climatisationFac && $climatisationDecla && $climatisationMa) { ?>
+                                <?php if (
+                                    $climatisationFac &&
+                                    $climatisationDecla &&
+                                    $climatisationMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $climatisationFac->speciality?>&level=<?php echo $climatisationFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $climatisationFac->speciality; ?>&level=<?php echo $climatisationFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -856,36 +1306,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($climatisationFac->score * 100 / $climatisationFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($climatisationFac->score * 100) /
+                                                $climatisationFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($climatisationFac->score  * 100 ) / $climatisationFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($climatisationFac->score * 100) /
+                                            $climatisationFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facClimatisation">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($climatisationFac->score  * 100 ) / $climatisationFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($climatisationFac->score * 100) /
+                                            $climatisationFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facClimatisation">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($climatisationDecla->score * 100 / $climatisationDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($climatisationDecla->score * 100) /
+                                                $climatisationDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($climatisationMa->score * 100 / $climatisationMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($climatisationMa->score * 100) /
+                                                $climatisationMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($climatisationDecla->questions); $i++) { ?>
-                                    <?php if ($climatisationDecla->answers[$i] == "Oui" && $climatisationMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($climatisationDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $climatisationDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $climatisationMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($climatisationDecla->answers[$i] == "Non" && $climatisationMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $climatisationDecla->answers[$i] ==
+                                            "Non" &&
+                                        $climatisationMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($climatisationDecla->answers[$i] != $climatisationMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $climatisationDecla->answers[$i] !=
+                                        $climatisationMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
                                         Non maitrisé
                                     </td>
@@ -904,38 +1390,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $demiFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Demi Arbre de Roue'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $demiDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Demi Arbre de Roue'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $demiMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Demi Arbre de Roue']
-                                        ]
-                                    ]);
+                                $demiFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Demi Arbre de Roue"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $demiDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Demi Arbre de Roue"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $demiMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Demi Arbre de Roue"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($demiFac && $demiDecla && $demiMa) { ?>
+                                <?php if (
+                                    $demiFac &&
+                                    $demiDecla &&
+                                    $demiMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $demiFac->speciality?>&level=<?php echo $demiFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $demiFac->speciality; ?>&level=<?php echo $demiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -943,36 +1449,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($demiFac->score * 100 / $demiFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($demiFac->score * 100) /
+                                                $demiFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($demiFac->score  * 100 ) / $demiFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($demiFac->score * 100) /
+                                            $demiFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facDemi">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($demiFac->score  * 100 ) / $demiFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($demiFac->score * 100) /
+                                            $demiFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facDemi">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($demiDecla->score * 100 / $demiDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($demiDecla->score * 100) /
+                                                $demiDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($demiMa->score * 100 / $demiMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($demiMa->score * 100) /
+                                                $demiMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($demiDecla->questions); $i++) { ?>
-                                    <?php if ($demiDecla->answers[$i] == "Oui" && $demiMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($demiDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $demiDecla->answers[$i] == "Oui" &&
+                                        $demiMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($demiDecla->answers[$i] == "Non" && $demiMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $demiDecla->answers[$i] == "Non" &&
+                                        $demiMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($demiDecla->answers[$i] != $demiMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $demiDecla->answers[$i] !=
+                                        $demiMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
                                         Non maitrisé
                                     </td>
@@ -991,38 +1530,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $directionFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Direction'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $directionDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Direction'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $directionMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Direction']
-                                        ]
-                                    ]);
+                                $directionFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Direction"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $directionDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Direction"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $directionMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Direction"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($directionFac && $directionDecla && $directionMa) { ?>
+                                <?php if (
+                                    $directionFac &&
+                                    $directionDecla &&
+                                    $directionMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $directionFac->speciality?>&level=<?php echo $directionFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $directionFac->speciality; ?>&level=<?php echo $directionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1030,36 +1589,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($directionFac->score * 100 / $directionFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($directionFac->score * 100) /
+                                                $directionFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($directionFac->score  * 100 ) / $directionFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($directionFac->score * 100) /
+                                            $directionFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facDirection">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($directionFac->score  * 100 ) / $directionFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($directionFac->score * 100) /
+                                            $directionFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facDirection">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($directionDecla->score * 100 / $directionDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($directionDecla->score * 100) /
+                                                $directionDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($directionMa->score * 100 / $directionMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($directionMa->score * 100) /
+                                                $directionMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($directionDecla->questions); $i++) { ?>
-                                    <?php if ($directionDecla->answers[$i] == "Oui" && $directionMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($directionDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $directionDecla->answers[$i] == "Oui" &&
+                                        $directionMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($directionDecla->answers[$i] == "Non" && $directionMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $directionDecla->answers[$i] == "Non" &&
+                                        $directionMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($directionDecla->answers[$i] != $directionMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $directionDecla->answers[$i] !=
+                                        $directionMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
                                         Non maitrisé
                                     </td>
@@ -1078,38 +1670,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $electriciteFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Electricité et Electronique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $electriciteDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Electricité et Electronique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $electriciteMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Electricité et Electronique']
-                                        ]
-                                    ]);
+                                $electriciteFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Electricité et Electronique",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $electriciteDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Electricité et Electronique",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $electriciteMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Electricité et Electronique",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($electriciteFac && $electriciteDecla && $electriciteMa) { ?>
+                                <?php if (
+                                    $electriciteFac &&
+                                    $electriciteDecla &&
+                                    $electriciteMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $electriciteFac->speciality?>&level=<?php echo $electriciteFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $electriciteFac->speciality; ?>&level=<?php echo $electriciteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1117,36 +1738,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($electriciteFac->score * 100 / $electriciteFac->total, 0)?>%
+                                        <?php echo round(
+                                            ($electriciteFac->score * 100) /
+                                                $electriciteFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($electriciteFac->score  * 100 ) / $electriciteFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($electriciteFac->score * 100) /
+                                            $electriciteFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facElectricite">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($electriciteFac->score  * 100 ) / $electriciteFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($electriciteFac->score * 100) /
+                                            $electriciteFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facElectricite">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($electriciteDecla->score * 100 / $electriciteDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($electriciteDecla->score * 100) /
+                                                $electriciteDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($electriciteMa->score * 100 / $electriciteMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($electriciteMa->score * 100) /
+                                                $electriciteMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($electriciteDecla->questions); $i++) { ?>
-                                    <?php if ($electriciteDecla->answers[$i] == "Oui" && $electriciteMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($electriciteDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $electriciteDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $electriciteMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($electriciteDecla->answers[$i] == "Non" && $electriciteMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $electriciteDecla->answers[$i] ==
+                                            "Non" &&
+                                        $electriciteMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($electriciteDecla->answers[$i] != $electriciteMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $electriciteDecla->answers[$i] !=
+                                        $electriciteMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
                                         Non maitrisé
                                     </td>
@@ -1165,38 +1822,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $freiFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $freiDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $freiMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage']
-                                        ]
-                                    ]);
+                                $freiFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Freinage"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $freiDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Freinage"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $freiMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Freinage"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($freiFac && $freiDecla && $freiMa) { ?>
+                                <?php if (
+                                    $freiFac &&
+                                    $freiDecla &&
+                                    $freiMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freiFac->speciality?>&level=<?php echo $freiFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $freiFac->speciality; ?>&level=<?php echo $freiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1204,36 +1881,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round( $freiFac->score * 100 / $freiFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freiFac->score * 100) /
+                                                $freiFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($freiFac->score  * 100 ) / $freiFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($freiFac->score * 100) /
+                                            $freiFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facFrei">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($freiFac->score  * 100 ) / $freiFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($freiFac->score * 100) /
+                                            $freiFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facFrei">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($freiDecla->score * 100 / $freiDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freiDecla->score * 100) /
+                                                $freiDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($freiMa->score * 100 / $freiMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freiMa->score * 100) /
+                                                $freiMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($freiDecla->questions); $i++) { ?>
-                                    <?php if ($freiDecla->answers[$i] == "Oui" && $freiMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($freiDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $freiDecla->answers[$i] == "Oui" &&
+                                        $freiMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrei">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freiDecla->answers[$i] == "Non" && $freiMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $freiDecla->answers[$i] == "Non" &&
+                                        $freiMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrei">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freiDecla->answers[$i] != $freiMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $freiDecla->answers[$i] !=
+                                        $freiMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrei">
                                         Non maitrisé
                                     </td>
@@ -1252,38 +1962,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $freinageElecFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Electromagnétique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $freinageElecDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Electromagnétique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $freinageElecMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Electromagnétique']
-                                        ]
-                                    ]);
+                                $freinageElecFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Electromagnétique",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $freinageElecDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Electromagnétique",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $freinageElecMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Electromagnétique",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($freinageElecFac && $freinageElecDecla && $freinageElecMa) { ?>
+                                <?php if (
+                                    $freinageElecFac &&
+                                    $freinageElecDecla &&
+                                    $freinageElecMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinageElecFac->speciality?>&level=<?php echo $freinageElecFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $freinageElecFac->speciality; ?>&level=<?php echo $freinageElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1291,36 +2030,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round( $freinageElecFac->score * 100 / $freinageElecFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinageElecFac->score * 100) /
+                                                $freinageElecFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($freinageElecFac->score  * 100 ) / $freinageElecFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($freinageElecFac->score * 100) /
+                                            $freinageElecFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facfreinageElec">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($freinageElecFac->score  * 100 ) / $freinageElecFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($freinageElecFac->score * 100) /
+                                            $freinageElecFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facfreinageElec">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($freinageElecDecla->score * 100 / $freinageElecDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinageElecDecla->score * 100) /
+                                                $freinageElecDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($freinageElecMa->score * 100 / $freinageElecMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinageElecMa->score * 100) /
+                                                $freinageElecMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($freinageElecDecla->questions); $i++) { ?>
-                                    <?php if ($freinageElecDecla->answers[$i] == "Oui" && $freinageElecMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($freinageElecDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $freinageElecDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $freinageElecMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sffreinageElec">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freinageElecDecla->answers[$i] == "Non" && $freinageElecMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $freinageElecDecla->answers[$i] ==
+                                            "Non" &&
+                                        $freinageElecMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sffreinageElec">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freinageElecDecla->answers[$i] != $freinageElecMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $freinageElecDecla->answers[$i] !=
+                                        $freinageElecMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sffreinageElec">
                                         Non maitrisé
                                     </td>
@@ -1339,38 +2114,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $freinageFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Hydraulique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $freinageDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Hydraulique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $freinageMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Hydraulique']
-                                        ]
-                                    ]);
+                                $freinageFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Hydraulique",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $freinageDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Hydraulique",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $freinageMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Hydraulique",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($freinageFac && $freinageDecla && $freinageMa) { ?>
+                                <?php if (
+                                    $freinageFac &&
+                                    $freinageDecla &&
+                                    $freinageMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinageFac->speciality?>&level=<?php echo $freinageFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $freinageFac->speciality; ?>&level=<?php echo $freinageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1378,36 +2182,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round( $freinageFac->score * 100 / $freinageFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinageFac->score * 100) /
+                                                $freinageFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($freinageFac->score  * 100 ) / $freinageFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($freinageFac->score * 100) /
+                                            $freinageFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facFreinage">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($freinageFac->score  * 100 ) / $freinageFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($freinageFac->score * 100) /
+                                            $freinageFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facFreinage">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($freinageDecla->score * 100 / $freinageDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinageDecla->score * 100) /
+                                                $freinageDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($freinageMa->score * 100 / $freinageMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinageMa->score * 100) /
+                                                $freinageMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($freinageDecla->questions); $i++) { ?>
-                                    <?php if ($freinageDecla->answers[$i] == "Oui" && $freinageMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($freinageDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $freinageDecla->answers[$i] == "Oui" &&
+                                        $freinageMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freinageDecla->answers[$i] == "Non" && $freinageMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $freinageDecla->answers[$i] == "Non" &&
+                                        $freinageMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freinageDecla->answers[$i] != $freinageMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $freinageDecla->answers[$i] !=
+                                        $freinageMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
                                         Non maitrisé
                                     </td>
@@ -1426,38 +2263,67 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $freinFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Pneumatique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $freinDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Pneumatique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $freinMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Freinage Pneumatique']
-                                        ]
-                                    ]);
+                                $freinFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Pneumatique",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $freinDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Pneumatique",
+                                        ],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $freinMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Freinage Pneumatique",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($freinFac && $freinDecla && $freinMa) { ?>
+                                <?php if (
+                                    $freinFac &&
+                                    $freinDecla &&
+                                    $freinMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinFac->speciality?>&level=<?php echo $freinFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $freinFac->speciality; ?>&level=<?php echo $freinFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1465,36 +2331,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($freinFac->score * 100 / $freinFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinFac->score * 100) /
+                                                $freinFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($freinFac->score  * 100 ) / $freinFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($freinFac->score * 100) /
+                                            $freinFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facFrein">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($freinFac->score  * 100 ) / $freinFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($freinFac->score * 100) /
+                                            $freinFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facFrein">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($freinDecla->score * 100 / $freinDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinDecla->score * 100) /
+                                                $freinDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($freinMa->score * 100 / $freinMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($freinMa->score * 100) /
+                                                $freinMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($freinDecla->questions); $i++) { ?>
-                                    <?php if ($freinDecla->answers[$i] == "Oui" && $freinMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($freinDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $freinDecla->answers[$i] == "Oui" &&
+                                        $freinMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freinDecla->answers[$i] == "Non" && $freinMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $freinDecla->answers[$i] == "Non" &&
+                                        $freinMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($freinDecla->answers[$i] != $freinMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $freinDecla->answers[$i] !=
+                                        $freinMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
                                         Non maitrisé
                                     </td>
@@ -1513,38 +2412,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $hydrauliqueFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Hydraulique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $hydrauliqueDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Hydraulique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $hydrauliqueMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Hydraulique']
-                                        ]
-                                    ]);
+                                $hydrauliqueFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Hydraulique"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $hydrauliqueDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Hydraulique"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $hydrauliqueMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Hydraulique"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($hydrauliqueFac && $hydrauliqueDecla && $hydrauliqueMa) { ?>
+                                <?php if (
+                                    $hydrauliqueFac &&
+                                    $hydrauliqueDecla &&
+                                    $hydrauliqueMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $hydrauliqueFac->speciality?>&level=<?php echo $hydrauliqueFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $hydrauliqueFac->speciality; ?>&level=<?php echo $hydrauliqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1552,36 +2471,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($hydrauliqueFac->score * 100 / $hydrauliqueFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($hydrauliqueFac->score * 100) /
+                                                $hydrauliqueFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($hydrauliqueFac->score  * 100 ) / $hydrauliqueFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($hydrauliqueFac->score * 100) /
+                                            $hydrauliqueFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facHydraulique">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($hydrauliqueFac->score  * 100 ) / $hydrauliqueFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($hydrauliqueFac->score * 100) /
+                                            $hydrauliqueFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facHydraulique">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($hydrauliqueDecla->score * 100 / $hydrauliqueDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($hydrauliqueDecla->score * 100) /
+                                                $hydrauliqueDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($hydrauliqueMa->score * 100 / $hydrauliqueMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($hydrauliqueMa->score * 100) /
+                                                $hydrauliqueMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($hydrauliqueDecla->questions); $i++) { ?>
-                                    <?php if ($hydrauliqueDecla->answers[$i] == "Oui" && $hydrauliqueMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($hydrauliqueDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $hydrauliqueDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $hydrauliqueMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($hydrauliqueDecla->answers[$i] == "Non" && $hydrauliqueMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $hydrauliqueDecla->answers[$i] ==
+                                            "Non" &&
+                                        $hydrauliqueMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($hydrauliqueDecla->answers[$i] != $hydrauliqueMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $hydrauliqueDecla->answers[$i] !=
+                                        $hydrauliqueMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
                                         Non maitrisé
                                     </td>
@@ -1600,38 +2555,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $moteurDieselFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Diesel'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $moteurDieselDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Diesel'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $moteurDieselMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Diesel']
-                                        ]
-                                    ]);
+                                $moteurDieselFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Diesel"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $moteurDieselDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Diesel"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $moteurDieselMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Diesel"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($moteurDieselFac && $moteurDieselDecla && $moteurDieselMa) { ?>
+                                <?php if (
+                                    $moteurDieselFac &&
+                                    $moteurDieselDecla &&
+                                    $moteurDieselMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurDieselFac->speciality?>&level=<?php echo $moteurDieselFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $moteurDieselFac->speciality; ?>&level=<?php echo $moteurDieselFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1639,36 +2614,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurDieselFac->score * 100 / $moteurDieselFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurDieselFac->score * 100) /
+                                                $moteurDieselFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($moteurDieselFac->score  * 100 ) / $moteurDieselFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($moteurDieselFac->score * 100) /
+                                            $moteurDieselFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurDiesel">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($moteurDieselFac->score  * 100 ) / $moteurDieselFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($moteurDieselFac->score * 100) /
+                                            $moteurDieselFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurDiesel">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($moteurDieselDecla->score * 100 / $moteurDieselDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurDieselDecla->score * 100) /
+                                                $moteurDieselDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurDieselMa->score * 100 / $moteurDieselMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurDieselMa->score * 100) /
+                                                $moteurDieselMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($moteurDieselDecla->questions); $i++) { ?>
-                                    <?php if ($moteurDieselDecla->answers[$i] == "Oui" && $moteurDieselMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($moteurDieselDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $moteurDieselDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $moteurDieselMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurDieselDecla->answers[$i] == "Non" && $moteurDieselMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $moteurDieselDecla->answers[$i] ==
+                                            "Non" &&
+                                        $moteurDieselMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurDieselDecla->answers[$i] != $moteurDieselMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $moteurDieselDecla->answers[$i] !=
+                                        $moteurDieselMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
                                         Non maitrisé
                                     </td>
@@ -1687,38 +2698,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $moteurElecFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Electrique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $moteurElecDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Electrique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $moteurElecMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Electrique']
-                                        ]
-                                    ]);
+                                $moteurElecFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Electrique"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $moteurElecDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Electrique"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $moteurElecMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Electrique"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($moteurElecFac && $moteurElecDecla && $moteurElecMa) { ?>
+                                <?php if (
+                                    $moteurElecFac &&
+                                    $moteurElecDecla &&
+                                    $moteurElecMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurElecFac->speciality?>&level=<?php echo $moteurElecFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $moteurElecFac->speciality; ?>&level=<?php echo $moteurElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1726,36 +2757,71 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurElecFac->score * 100 / $moteurElecFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurElecFac->score * 100) /
+                                                $moteurElecFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($moteurElecFac->score  * 100 ) / $moteurElecFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($moteurElecFac->score * 100) /
+                                            $moteurElecFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurElec">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($moteurElecFac->score  * 100 ) / $moteurElecFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($moteurElecFac->score * 100) /
+                                            $moteurElecFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurElec">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($moteurElecDecla->score * 100 / $moteurElecDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurElecDecla->score * 100) /
+                                                $moteurElecDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurElecMa->score * 100 / $moteurElecMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurElecMa->score * 100) /
+                                                $moteurElecMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($moteurElecDecla->questions); $i++) { ?>
-                                    <?php if ($moteurElecDecla->answers[$i] == "Oui" && $moteurElecMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($moteurElecDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $moteurElecDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $moteurElecMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurElecDecla->answers[$i] == "Non" && $moteurElecMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $moteurElecDecla->answers[$i] ==
+                                            "Non" &&
+                                        $moteurElecMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurElecDecla->answers[$i] != $moteurElecMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $moteurElecDecla->answers[$i] !=
+                                        $moteurElecMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
                                         Non maitrisé
                                     </td>
@@ -1774,38 +2840,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $moteurEssenceFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Essence'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $moteurEssenceDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Essence'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $moteurEssenceMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Essence']
-                                        ]
-                                    ]);
+                                $moteurEssenceFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Essence"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $moteurEssenceDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Essence"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $moteurEssenceMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Essence"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($moteurEssenceFac && $moteurEssenceDecla && $moteurEssenceMa) { ?>
+                                <?php if (
+                                    $moteurEssenceFac &&
+                                    $moteurEssenceDecla &&
+                                    $moteurEssenceMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurEssenceFac->speciality?>&level=<?php echo $moteurEssenceFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $moteurEssenceFac->speciality; ?>&level=<?php echo $moteurEssenceFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1813,36 +2899,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurEssenceFac->score * 100 / $moteurEssenceFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurEssenceFac->score * 100) /
+                                                $moteurEssenceFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($moteurEssenceFac->score  * 100 ) / $moteurEssenceFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($moteurEssenceFac->score * 100) /
+                                            $moteurEssenceFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurEssence">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($moteurEssenceFac->score  * 100 ) / $moteurEssenceFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($moteurEssenceFac->score * 100) /
+                                            $moteurEssenceFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurEssence">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($moteurEssenceDecla->score * 100 / $moteurEssenceDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurEssenceDecla->score * 100) /
+                                                $moteurEssenceDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurEssenceMa->score * 100 / $moteurEssenceMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurEssenceMa->score * 100) /
+                                                $moteurEssenceMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($moteurEssenceDecla->questions); $i++) { ?>
-                                    <?php if ($moteurEssenceDecla->answers[$i] == "Oui" && $moteurEssenceMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($moteurEssenceDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $moteurEssenceDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $moteurEssenceMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurEssenceDecla->answers[$i] == "Non" && $moteurEssenceMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $moteurEssenceDecla->answers[$i] ==
+                                            "Non" &&
+                                        $moteurEssenceMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurEssenceDecla->answers[$i] != $moteurEssenceMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $moteurEssenceDecla->answers[$i] !=
+                                        $moteurEssenceMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
                                         Non maitrisé
                                     </td>
@@ -1861,38 +2983,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $moteurThermiqueFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Thermique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $moteurThermiqueDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Thermique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $moteurThermiqueMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Moteur Thermique']
-                                        ]
-                                    ]);
+                                $moteurThermiqueFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Thermique"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $moteurThermiqueDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Thermique"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $moteurThermiqueMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Moteur Thermique"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($moteurThermiqueFac && $moteurThermiqueDecla && $moteurThermiqueMa) { ?>
+                                <?php if (
+                                    $moteurThermiqueFac &&
+                                    $moteurThermiqueDecla &&
+                                    $moteurThermiqueMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurThermiqueFac->speciality?>&level=<?php echo $moteurThermiqueFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $moteurThermiqueFac->speciality; ?>&level=<?php echo $moteurThermiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1900,36 +3042,73 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurThermiqueFac->score * 100 / $moteurThermiqueFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurThermiqueFac->score * 100) /
+                                                $moteurThermiqueFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($moteurThermiqueFac->score  * 100 ) / $moteurThermiqueFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($moteurThermiqueFac->score * 100) /
+                                            $moteurThermiqueFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurThermique">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($moteurThermiqueFac->score  * 100 ) / $moteurThermiqueFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($moteurThermiqueFac->score * 100) /
+                                            $moteurThermiqueFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMoteurThermique">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($moteurThermiqueDecla->score * 100 / $moteurThermiqueDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurThermiqueDecla->score *
+                                                100) /
+                                                $moteurThermiqueDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($moteurThermiqueMa->score * 100 / $moteurThermiqueMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($moteurThermiqueMa->score * 100) /
+                                                $moteurThermiqueMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($moteurThermiqueDecla->questions); $i++) { ?>
-                                    <?php if ($moteurThermiqueDecla->answers[$i] == "Oui" && $moteurThermiqueMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($moteurThermiqueDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $moteurThermiqueDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $moteurThermiqueMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurThermique">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurThermiqueDecla->answers[$i] == "Non" && $moteurThermiqueMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $moteurThermiqueDecla->answers[$i] ==
+                                            "Non" &&
+                                        $moteurThermiqueMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurThermique">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($moteurThermiqueDecla->answers[$i] != $moteurThermiqueMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $moteurThermiqueDecla->answers[$i] !=
+                                        $moteurThermiqueMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurThermique">
                                         Non maitrisé
                                     </td>
@@ -1948,38 +3127,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $multiplexageFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Multiplexage'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $multiplexageDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Multiplexage'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $multiplexageMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Multiplexage']
-                                        ]
-                                    ]);
+                                $multiplexageFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Multiplexage"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $multiplexageDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Multiplexage"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $multiplexageMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Multiplexage"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($multiplexageFac && $multiplexageDecla && $multiplexageMa) { ?>
+                                <?php if (
+                                    $multiplexageFac &&
+                                    $multiplexageDecla &&
+                                    $multiplexageMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $multiplexageFac->speciality?>&level=<?php echo $multiplexageFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $multiplexageFac->speciality; ?>&level=<?php echo $multiplexageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1987,36 +3186,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($multiplexageFac->score * 100 / $multiplexageFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($multiplexageFac->score * 100) /
+                                                $multiplexageFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($multiplexageFac->score  * 100 ) / $multiplexageFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($multiplexageFac->score * 100) /
+                                            $multiplexageFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMultiplexage">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($multiplexageFac->score  * 100 ) / $multiplexageFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($multiplexageFac->score * 100) /
+                                            $multiplexageFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facMultiplexage">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($multiplexageDecla->score * 100 / $multiplexageDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($multiplexageDecla->score * 100) /
+                                                $multiplexageDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($multiplexageMa->score * 100 / $multiplexageMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($multiplexageMa->score * 100) /
+                                                $multiplexageMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($multiplexageDecla->questions); $i++) { ?>
-                                    <?php if ($multiplexageDecla->answers[$i] == "Oui" && $multiplexageMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($multiplexageDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $multiplexageDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $multiplexageMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($multiplexageDecla->answers[$i] == "Non" && $multiplexageMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $multiplexageDecla->answers[$i] ==
+                                            "Non" &&
+                                        $multiplexageMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($multiplexageDecla->answers[$i] != $multiplexageMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $multiplexageDecla->answers[$i] !=
+                                        $multiplexageMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
                                         Non maitrisé
                                     </td>
@@ -2035,38 +3270,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $pneuFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Pneumatique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $pneuDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Pneumatique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $pneuMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Pneumatique']
-                                        ]
-                                    ]);
+                                $pneuFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Pneumatique"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $pneuDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Pneumatique"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $pneuMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Pneumatique"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($pneuFac && $pneuDecla && $pneuMa) { ?>
+                                <?php if (
+                                    $pneuFac &&
+                                    $pneuDecla &&
+                                    $pneuMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $pneuFac->speciality?>&level=<?php echo $pneuFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $pneuFac->speciality; ?>&level=<?php echo $pneuFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2074,36 +3329,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($pneuFac->score * 100 / $pneuFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($pneuFac->score * 100) /
+                                                $pneuFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($pneuFac->score  * 100 ) / $pneuFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($pneuFac->score * 100) /
+                                            $pneuFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facPneu">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($pneuFac->score  * 100 ) / $pneuFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($pneuFac->score * 100) /
+                                            $pneuFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facPneu">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($pneuDecla->score * 100 / $pneuDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($pneuDecla->score * 100) /
+                                                $pneuDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($pneuMa->score * 100 / $pneuMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($pneuMa->score * 100) /
+                                                $pneuMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($pneuDecla->questions); $i++) { ?>
-                                    <?php if ($pneuDecla->answers[$i] == "Oui" && $pneuMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($pneuDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $pneuDecla->answers[$i] == "Oui" &&
+                                        $pneuMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($pneuDecla->answers[$i] == "Non" && $pneuMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $pneuDecla->answers[$i] == "Non" &&
+                                        $pneuMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($pneuDecla->answers[$i] != $pneuMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $pneuDecla->answers[$i] !=
+                                        $pneuMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
                                         Non maitrisé
                                     </td>
@@ -2122,38 +3410,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $pontFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Pont'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $pontDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Pont'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $pontMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Pont']
-                                        ]
-                                    ]);
+                                $pontFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Pont"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $pontDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Pont"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $pontMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Pont"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($pontFac && $pontDecla && $pontMa) { ?>
+                                <?php if (
+                                    $pontFac &&
+                                    $pontDecla &&
+                                    $pontMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $pontFac->speciality?>&level=<?php echo $pontFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $pontFac->speciality; ?>&level=<?php echo $pontFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2161,36 +3469,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($pontFac->score * 100 / $pontFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($pontFac->score * 100) /
+                                                $pontFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($pontFac->score  * 100 ) / $pontFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($pontFac->score * 100) /
+                                            $pontFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facPont">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($pontFac->score  * 100 ) / $pontFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($pontFac->score * 100) /
+                                            $pontFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facPont">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($pontDecla->score * 100 / $pontDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($pontDecla->score * 100) /
+                                                $pontDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($pontMa->score * 100 / $pontMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($pontMa->score * 100) /
+                                                $pontMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($pontDecla->questions); $i++) { ?>
-                                    <?php if ($pontDecla->answers[$i] == "Oui" && $pontMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($pontDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $pontDecla->answers[$i] == "Oui" &&
+                                        $pontMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPont">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($pontDecla->answers[$i] == "Non" && $pontMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $pontDecla->answers[$i] == "Non" &&
+                                        $pontMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPont">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($pontDecla->answers[$i] != $pontMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $pontDecla->answers[$i] !=
+                                        $pontMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPont">
                                         Non maitrisé
                                     </td>
@@ -2209,38 +3550,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $reducteurFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Réducteur'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $reducteurDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Réducteur'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $reducteurMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Réducteur']
-                                        ]
-                                    ]);
+                                $reducteurFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Réducteur"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $reducteurDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Réducteur"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $reducteurMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Réducteur"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($reducteurFac && $reducteurDecla && $reducteurMa) { ?>
+                                <?php if (
+                                    $reducteurFac &&
+                                    $reducteurDecla &&
+                                    $reducteurMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $reducteurFac->speciality?>&level=<?php echo $reducteurFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $reducteurFac->speciality; ?>&level=<?php echo $reducteurFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2248,36 +3609,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($reducteurFac->score * 100 / $reducteurFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($reducteurFac->score * 100) /
+                                                $reducteurFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($reducteurFac->score  * 100 ) / $reducteurFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($reducteurFac->score * 100) /
+                                            $reducteurFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facReducteur">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($reducteurFac->score  * 100 ) / $reducteurFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($reducteurFac->score * 100) /
+                                            $reducteurFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facReducteur">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($reducteurDecla->score * 100 / $reducteurDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($reducteurDecla->score * 100) /
+                                                $reducteurDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($reducteurMa->score * 100 / $reducteurMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($reducteurMa->score * 100) /
+                                                $reducteurMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($reducteurDecla->questions); $i++) { ?>
-                                    <?php if ($reducteurDecla->answers[$i] == "Oui" && $reducteurMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($reducteurDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $reducteurDecla->answers[$i] == "Oui" &&
+                                        $reducteurMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($reducteurDecla->answers[$i] == "Non" && $reducteurMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $reducteurDecla->answers[$i] == "Non" &&
+                                        $reducteurMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($reducteurDecla->answers[$i] != $reducteurMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $reducteurDecla->answers[$i] !=
+                                        $reducteurMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
                                         Non maitrisé
                                     </td>
@@ -2296,38 +3690,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $suspensionLameFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension à Lame'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $suspensionLameDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension à Lame'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $suspensionLameMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension à Lame']
-                                        ]
-                                    ]);
+                                $suspensionLameFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension à Lame"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $suspensionLameDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension à Lame"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $suspensionLameMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension à Lame"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($suspensionLameFac && $suspensionLameDecla && $suspensionLameMa) { ?>
+                                <?php if (
+                                    $suspensionLameFac &&
+                                    $suspensionLameDecla &&
+                                    $suspensionLameMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality?>&level=<?php echo $suspensionLameFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2335,36 +3749,73 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionLameFac->score * 100 / $suspensionLameFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionLameFac->score * 100) /
+                                                $suspensionLameFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($suspensionLameFac->score  * 100 ) / $suspensionLameFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($suspensionLameFac->score * 100) /
+                                            $suspensionLameFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($suspensionLameFac->score  * 100 ) / $suspensionLameFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($suspensionLameFac->score * 100) /
+                                            $suspensionLameFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($suspensionLameDecla->score * 100 / $suspensionLameDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionLameDecla->score *
+                                                100) /
+                                                $suspensionLameDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionLameMa->score * 100 / $suspensionLameMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionLameMa->score * 100) /
+                                                $suspensionLameMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($suspensionLameDecla->questions); $i++) { ?>
-                                    <?php if ($suspensionLameDecla->answers[$i] == "Oui" && $suspensionLameMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($suspensionLameDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $suspensionLameDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $suspensionLameMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionLameDecla->answers[$i] == "Non" && $suspensionLameMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $suspensionLameDecla->answers[$i] ==
+                                            "Non" &&
+                                        $suspensionLameMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionLameDecla->answers[$i] != $suspensionLameMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $suspensionLameDecla->answers[$i] !=
+                                        $suspensionLameMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
                                         Non maitrisé
                                     </td>
@@ -2383,38 +3834,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $suspensionFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $suspensionDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $suspensionMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension']
-                                        ]
-                                    ]);
+                                $suspensionFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $suspensionDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $suspensionMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($suspensionFac && $suspensionDecla && $suspensionMa) { ?>
+                                <?php if (
+                                    $suspensionFac &&
+                                    $suspensionDecla &&
+                                    $suspensionMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionFac->speciality?>&level=<?php echo $suspensionFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $suspensionFac->speciality; ?>&level=<?php echo $suspensionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2422,36 +3893,71 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionFac->score * 100 / $suspensionFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionFac->score * 100) /
+                                                $suspensionFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($suspensionFac->score  * 100 ) / $suspensionFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($suspensionFac->score * 100) /
+                                            $suspensionFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspension">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($suspensionFac->score  * 100 ) / $suspensionFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($suspensionFac->score * 100) /
+                                            $suspensionFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspension">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($suspensionDecla->score * 100 / $suspensionDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionDecla->score * 100) /
+                                                $suspensionDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionMa->score * 100 / $suspensionMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionMa->score * 100) /
+                                                $suspensionMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($suspensionDecla->questions); $i++) { ?>
-                                    <?php if ($suspensionDecla->answers[$i] == "Oui" && $suspensionMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i < count($suspensionDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $suspensionDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $suspensionMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionDecla->answers[$i] == "Non" && $suspensionMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $suspensionDecla->answers[$i] ==
+                                            "Non" &&
+                                        $suspensionMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionDecla->answers[$i] != $suspensionMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $suspensionDecla->answers[$i] !=
+                                        $suspensionMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
                                         Non maitrisé
                                     </td>
@@ -2470,38 +3976,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $suspensionLameFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension à Lame'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $suspensionLameDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension à Lame'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $suspensionLameMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension à Lame']
-                                        ]
-                                    ]);
+                                $suspensionLameFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension à Lame"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $suspensionLameDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension à Lame"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $suspensionLameMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension à Lame"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($suspensionLameFac && $suspensionLameDecla && $suspensionLameMa) { ?>
+                                <?php if (
+                                    $suspensionLameFac &&
+                                    $suspensionLameDecla &&
+                                    $suspensionLameMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality?>&level=<?php echo $suspensionLameFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2509,36 +4035,73 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionLameFac->score * 100 / $suspensionLameFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionLameFac->score * 100) /
+                                                $suspensionLameFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($suspensionLameFac->score  * 100 ) / $suspensionLameFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($suspensionLameFac->score * 100) /
+                                            $suspensionLameFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($suspensionLameFac->score  * 100 ) / $suspensionLameFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($suspensionLameFac->score * 100) /
+                                            $suspensionLameFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($suspensionLameDecla->score * 100 / $suspensionLameDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionLameDecla->score *
+                                                100) /
+                                                $suspensionLameDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionLameMa->score * 100 / $suspensionLameMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionLameMa->score * 100) /
+                                                $suspensionLameMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($suspensionLameDecla->questions); $i++) { ?>
-                                    <?php if ($suspensionLameDecla->answers[$i] == "Oui" && $suspensionLameMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($suspensionLameDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $suspensionLameDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $suspensionLameMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionLameDecla->answers[$i] == "Non" && $suspensionLameMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $suspensionLameDecla->answers[$i] ==
+                                            "Non" &&
+                                        $suspensionLameMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionLameDecla->answers[$i] != $suspensionLameMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $suspensionLameDecla->answers[$i] !=
+                                        $suspensionLameMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
                                         Non maitrisé
                                     </td>
@@ -2557,38 +4120,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $suspensionRessortFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension Ressort'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $suspensionRessortDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension Ressort'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $suspensionRessortMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension Ressort']
-                                        ]
-                                    ]);
+                                $suspensionRessortFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension Ressort"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $suspensionRessortDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension Ressort"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $suspensionRessortMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Suspension Ressort"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($suspensionRessortFac && $suspensionRessortDecla && $suspensionRessortMa) { ?>
+                                <?php if (
+                                    $suspensionRessortFac &&
+                                    $suspensionRessortDecla &&
+                                    $suspensionRessortMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionRessortFac->speciality?>&level=<?php echo $suspensionRessortFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $suspensionRessortFac->speciality; ?>&level=<?php echo $suspensionRessortFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2596,36 +4179,79 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionRessortFac->score * 100 / $suspensionRessortFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionRessortFac->score *
+                                                100) /
+                                                $suspensionRessortFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($suspensionRessortFac->score  * 100 ) / $suspensionRessortFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($suspensionRessortFac->score * 100) /
+                                            $suspensionRessortFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionRessort">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($suspensionRessortFac->score  * 100 ) / $suspensionRessortFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($suspensionRessortFac->score * 100) /
+                                            $suspensionRessortFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionRessort">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($suspensionRessortDecla->score * 100 / $suspensionRessortDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionRessortDecla->score *
+                                                100) /
+                                                $suspensionRessortDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionRessortMa->score * 100 / $suspensionRessortMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionRessortMa->score *
+                                                100) /
+                                                $suspensionRessortMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($suspensionRessortDecla->questions); $i++) { ?>
-                                    <?php if ($suspensionRessortDecla->answers[$i] == "Oui" && $suspensionRessortMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count(
+                                            $suspensionRessortDecla->questions
+                                        );
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $suspensionRessortDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $suspensionRessortMa->answers[$i] ==
+                                            "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionRessortDecla->answers[$i] == "Non" && $suspensionRessortMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $suspensionRessortDecla->answers[$i] ==
+                                            "Non" &&
+                                        $suspensionRessortMa->answers[$i] ==
+                                            "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionRessortDecla->answers[$i] != $suspensionRessortMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $suspensionRessortDecla->answers[$i] !=
+                                        $suspensionRessortMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
                                         Non maitrisé
                                     </td>
@@ -2644,38 +4270,69 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $suspensionPneumatiqueFac = $results->findOne([
+                                $suspensionPneumatiqueFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Suspension Pneumatique",
+                                        ],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $suspensionPneumatiqueDecla = $results->findOne(
+                                    [
                                         '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension Pneumatique'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $suspensionPneumatiqueDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension Pneumatique'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $suspensionPneumatiqueMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Suspension Pneumatique']
-                                        ]
-                                    ]);
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $user
+                                                ),
+                                            ],
+                                            ["level" => $level],
+                                            [
+                                                "speciality" =>
+                                                    "Suspension Pneumatique",
+                                            ],
+                                            ["type" => "Declaratif"],
+                                        ],
+                                    ]
+                                );
+                                $suspensionPneumatiqueMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        [
+                                            "speciality" =>
+                                                "Suspension Pneumatique",
+                                        ],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($suspensionPneumatiqueFac && $suspensionPneumatiqueDecla && $suspensionPneumatiqueMa) { ?>
+                                <?php if (
+                                    $suspensionPneumatiqueFac &&
+                                    $suspensionPneumatiqueDecla &&
+                                    $suspensionPneumatiqueMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionPneumatiqueFac->speciality?>&level=<?php echo $suspensionPneumatiqueFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $suspensionPneumatiqueFac->speciality; ?>&level=<?php echo $suspensionPneumatiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2683,36 +4340,85 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionPneumatiqueFac->score * 100 / $suspensionPneumatiqueFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionPneumatiqueFac->score *
+                                                100) /
+                                                $suspensionPneumatiqueFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($suspensionPneumatiqueFac->score  * 100 ) / $suspensionPneumatiqueFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($suspensionPneumatiqueFac->score *
+                                            100) /
+                                            $suspensionPneumatiqueFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionPneumatique">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($suspensionPneumatiqueFac->score  * 100 ) / $suspensionPneumatiqueFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($suspensionPneumatiqueFac->score *
+                                            100) /
+                                            $suspensionPneumatiqueFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facSuspensionPneumatique">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($suspensionPneumatiqueDecla->score * 100 / $suspensionPneumatiqueDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionPneumatiqueDecla->score *
+                                                100) /
+                                                $suspensionPneumatiqueDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($suspensionPneumatiqueMa->score * 100 / $suspensionPneumatiqueMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($suspensionPneumatiqueMa->score *
+                                                100) /
+                                                $suspensionPneumatiqueMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($suspensionPneumatiqueDecla->questions); $i++) { ?>
-                                    <?php if ($suspensionPneumatiqueDecla->answers[$i] == "Oui" && $suspensionPneumatiqueMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count(
+                                            $suspensionPneumatiqueDecla->questions
+                                        );
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $suspensionPneumatiqueDecla->answers[
+                                            $i
+                                        ] == "Oui" &&
+                                        $suspensionPneumatiqueMa->answers[$i] ==
+                                            "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionPneumatiqueDecla->answers[$i] == "Non" && $suspensionPneumatiqueMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $suspensionPneumatiqueDecla->answers[
+                                            $i
+                                        ] == "Non" &&
+                                        $suspensionPneumatiqueMa->answers[$i] ==
+                                            "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($suspensionPneumatiqueDecla->answers[$i] != $suspensionPneumatiqueMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $suspensionPneumatiqueDecla->answers[
+                                            $i
+                                        ] !=
+                                        $suspensionPneumatiqueMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
                                         Non maitrisé
                                     </td>
@@ -2731,38 +4437,58 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                    $transversaleFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Transversale'],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $transversaleDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Transversale'],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $transversaleMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => 'Transversale']
-                                        ]
-                                    ]);
+                                $transversaleFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Transversale"],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $transversaleDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Transversale"],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $transversaleMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => "Transversale"],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($transversaleFac && $transversaleDecla && $transversaleMa) { ?>
+                                <?php if (
+                                    $transversaleFac &&
+                                    $transversaleDecla &&
+                                    $transversaleMa
+                                ) { ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transversaleFac->speciality?>&level=<?php echo $transversaleFac->level?>&user=<?php echo $technician->_id ?>"
+                                        <a href="./system.php?speciality=<?php echo $transversaleFac->speciality; ?>&level=<?php echo $transversaleFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2770,36 +4496,72 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($transversaleFac->score * 100 / $transversaleFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transversaleFac->score * 100) /
+                                                $transversaleFac->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) >= 80)  { ?>
+                                    <?php if (
+                                        ($transversaleFac->score * 100) /
+                                            $transversaleFac->total >=
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facTransversale">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ((($transversaleFac->score  * 100 ) / $transversaleFac->total) < 80)  { ?>
+                                    <?php if (
+                                        ($transversaleFac->score * 100) /
+                                            $transversaleFac->total <
+                                        80
+                                    ) { ?>
                                     <td class="text-center" id="facTransversale">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round($transversaleDecla->score * 100 / $transversaleDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transversaleDecla->score * 100) /
+                                                $transversaleDecla->total,
+                                            0
+                                        ); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round($transversaleMa->score * 100 / $transversaleMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($transversaleMa->score * 100) /
+                                                $transversaleMa->total,
+                                            0
+                                        ); ?>%
                                     </td>
-                                    <?php for ($i = 0; $i < count($transversaleDecla->questions); $i++) { ?>
-                                    <?php if ($transversaleDecla->answers[$i] == "Oui" && $transversaleMa->answers[$i] == "Oui") { ?>
+                                    <?php for (
+                                        $i = 0;
+                                        $i <
+                                        count($transversaleDecla->questions);
+                                        $i++
+                                    ) { ?>
+                                    <?php if (
+                                        $transversaleDecla->answers[$i] ==
+                                            "Oui" &&
+                                        $transversaleMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] == "Non" && $transversaleMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $transversaleDecla->answers[$i] ==
+                                            "Non" &&
+                                        $transversaleMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($transversaleDecla->answers[$i] != $transversaleMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $transversaleDecla->answers[$i] !=
+                                        $transversaleMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
                                         Non maitrisé
                                     </td>
@@ -2827,7 +4589,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round($resultFac->score * 100 / $resultFac->total, 0); ?>%
+                                        <?php echo round(
+                                            ($resultFac->score * 100) /
+                                                $resultFac->total,
+                                            0
+                                        ); ?>%
 
                                     </th>
                                     <th id="decision-savoir"
@@ -2839,19 +4605,34 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round($resultDecla->score * 100 / $resultDecla->total ?? "0", 0); ?>%
+                                        <?php echo round(
+                                            ($resultDecla->score * 100) /
+                                                $resultDecla->total ??
+                                                "0",
+                                            0
+                                        ); ?>%
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round($resultMa->score * 100 / $resultMa->total ?? "0", 0); ?>%
+                                        <?php echo round(
+                                            ($resultMa->score * 100) /
+                                                $resultMa->total ??
+                                                "0",
+                                            0
+                                        ); ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round($resultTechMa->score * 100 / $resultTechMa->total ?? "0", 0); ?>%
+                                        <?php echo round(
+                                            ($resultTechMa->score * 100) /
+                                                $resultTechMa->total ??
+                                                "0",
+                                            0
+                                        ); ?>%
                                     </th>
                                     <th id="decision-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -3897,4 +5678,5 @@ if (decisionSavoir.innerHTML != decisionSavoirFaire.innerHTML) {
     synthese.innerHTML = "Non maitrisé"
 }
 </script>
-<?php } ?>
+<?php
+} ?>

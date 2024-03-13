@@ -1,219 +1,210 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
+    if (isset($_POST["submit"])) {
+        require_once "../vendor/autoload.php";
 
-if ( isset( $_POST[ 'submit' ] ) ) {
+        // Create connection
+        $conn = new MongoDB\Client("mongodb://localhost:27017");
 
-    require_once '../vendor/autoload.php';
+        // Connecting in database
+        $academy = $conn->academy;
 
-    // Create connection
-    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+        // Connecting in collections
+        $users = $academy->users;
+        $vehicles = $academy->vehicles;
+        $quizzes = $academy->quizzes;
+        $allocations = $academy->allocations;
 
-    // Connecting in database
-    $academy = $conn->academy;
+        $label = $_POST["label"];
+        $brand = strtoupper($_POST["brand"]);
+        $speciality = $_POST["speciality"];
 
-    // Connecting in collections
-    $users = $academy->users;
-    $vehicles = $academy->vehicles;
-    $quizzes = $academy->quizzes;
-    $allocations = $academy->allocations;
+        $facJu = [];
+        $facSe = [];
+        $facEx = [];
+        $declaJu = [];
+        $declaSe = [];
+        $declaEx = [];
 
-    $label = $_POST[ 'label' ];
-    $brand = strtoupper($_POST[ 'brand' ]);
-    $speciality = $_POST[ 'speciality' ];
+        $exist = $vehicles->findOne([
+            '$and' => [["label" => $label], ["brand" => $brand]],
+        ]);
 
-    $facJu = [];
-    $facSe = [];
-    $facEx = [];
-    $declaJu = [];
-    $declaSe = [];
-    $declaEx = [];
-
-    $exist = $vehicles->findOne([
-        '$and' => [
-            [ 'label' => $label ],
-            [ 'brand' => $brand ],
-        ],
-    ]);
-
-    if ($exist) {
-        $error_msg = "Ce véhicule existe déjà";
-    } else {
-        for ($i = 0; $i < count($speciality); $i++) {
-            $quizJuFac = $quizzes->findOne([
-                '$and' => [
-                    [ 'speciality' => $speciality[$i] ],
-                    [ 'type' => 'Factuel' ],
-                    [ 'level' => "Junior" ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            if ($quizJuFac) {
-                array_push($facJu, $quizJuFac->_id);
+        if ($exist) {
+            $error_msg = "Ce véhicule existe déjà";
+        } else {
+            for ($i = 0; $i < count($speciality); $i++) {
+                $quizJuFac = $quizzes->findOne([
+                    '$and' => [
+                        ["speciality" => $speciality[$i]],
+                        ["type" => "Factuel"],
+                        ["level" => "Junior"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($quizJuFac) {
+                    array_push($facJu, $quizJuFac->_id);
+                }
             }
-        }
-        for ($i = 0; $i < count($speciality); $i++) {
-            $quizJuDecla = $quizzes->findOne([
-                '$and' => [
-                    [ 'speciality' => $speciality[$i] ],
-                    [ 'type' => 'Declaratif' ],
-                    [ 'level' => "Junior" ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            if ($quizJuDecla) {
-                array_push($declaJu, $quizJuDecla->_id);
+            for ($i = 0; $i < count($speciality); $i++) {
+                $quizJuDecla = $quizzes->findOne([
+                    '$and' => [
+                        ["speciality" => $speciality[$i]],
+                        ["type" => "Declaratif"],
+                        ["level" => "Junior"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($quizJuDecla) {
+                    array_push($declaJu, $quizJuDecla->_id);
+                }
             }
-        }
-        for ($i = 0; $i < count($speciality); $i++) {
-            $quizSeFac = $quizzes->findOne([
-                '$and' => [
-                    [ 'speciality' => $speciality[$i] ],
-                    [ 'type' => 'Factuel' ],
-                    [ 'level' => "Senior" ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            if ($quizSeFac) {
-                array_push($facSe, $quizSeFac->_id);
+            for ($i = 0; $i < count($speciality); $i++) {
+                $quizSeFac = $quizzes->findOne([
+                    '$and' => [
+                        ["speciality" => $speciality[$i]],
+                        ["type" => "Factuel"],
+                        ["level" => "Senior"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($quizSeFac) {
+                    array_push($facSe, $quizSeFac->_id);
+                }
             }
-        }
-        for ($i = 0; $i < count($speciality); $i++) {
-            $quizSeDecla = $quizzes->findOne([
-                '$and' => [
-                    [ 'speciality' => $speciality[$i] ],
-                    [ 'type' => 'Declaratif' ],
-                    [ 'level' => "Senior" ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            if ($quizSeDecla) {
-                array_push($declaSe, $quizSeDecla->_id);
+            for ($i = 0; $i < count($speciality); $i++) {
+                $quizSeDecla = $quizzes->findOne([
+                    '$and' => [
+                        ["speciality" => $speciality[$i]],
+                        ["type" => "Declaratif"],
+                        ["level" => "Senior"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($quizSeDecla) {
+                    array_push($declaSe, $quizSeDecla->_id);
+                }
             }
-        }
-        for ($i = 0; $i < count($speciality); $i++) {
-            $quizExFac = $quizzes->findOne([
-                '$and' => [
-                    [ 'speciality' => $speciality[$i] ],
-                    [ 'type' => 'Factuel' ],
-                    [ 'level' => "Expert" ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            if ($quizExFac) {
-                array_push($facEx, $quizExFac->_id);
+            for ($i = 0; $i < count($speciality); $i++) {
+                $quizExFac = $quizzes->findOne([
+                    '$and' => [
+                        ["speciality" => $speciality[$i]],
+                        ["type" => "Factuel"],
+                        ["level" => "Expert"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($quizExFac) {
+                    array_push($facEx, $quizExFac->_id);
+                }
             }
-        }
-        for ($i = 0; $i < count($speciality); $i++) {
-            $quizExDecla = $quizzes->findOne([
-                '$and' => [
-                    [ 'speciality' => $speciality[$i] ],
-                    [ 'type' => 'Declaratif' ],
-                    [ 'level' => "Expert" ],
-                    [ 'active' => true ],
-                ],
-            ]);
-            if ($quizExDecla) {
-                array_push($declaEx, $quizExDecla->_id);
+            for ($i = 0; $i < count($speciality); $i++) {
+                $quizExDecla = $quizzes->findOne([
+                    '$and' => [
+                        ["speciality" => $speciality[$i]],
+                        ["type" => "Declaratif"],
+                        ["level" => "Expert"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($quizExDecla) {
+                    array_push($declaEx, $quizExDecla->_id);
+                }
             }
-        }
-    
-        $vehicleJuFac = [
-            'users' => [],
-            'quizzes' => $facJu,
-            'label' => $label,
-            'type' => 'Factuel',
-            'brand' => $brand,
-            'level' => 'Junior',
-            'total' => count($facJu),
-            'test' => false,
-            'active' => true,
-            'created' => date("d-m-Y")
-        ];
-        $vehicles->insertOne( $vehicleJuFac );
-    
-        $vehicleSeFac = [
-            'users' => [],
-            'quizzes' => $facSe,
-            'label' => $label,
-            'type' => 'Factuel',
-            'brand' => $brand,
-            'level' => 'Senior',
-            'total' => count($facSe),
-            'test' => false,
-            'active' => true,
-            'created' => date("d-m-Y")
-        ];
-        $vehicles->insertOne( $vehicleSeFac );
-    
-        $vehicleExFac = [
-            'users' => [],
-            'quizzes' => $facEx,
-            'label' => $label,
-            'type' => 'Factuel',
-            'brand' => $brand,
-            'level' => 'Expert',
-            'total' => count($facEx),
-            'test' => false,
-            'active' => true,
-            'created' => date("d-m-Y")
-        ];
-        $vehicles->insertOne( $vehicleExFac );
-    
-        $vehicleJuDecla = [
-            'users' => [],
-            'quizzes' => $declaJu,
-            'label' => $label,
-            'type' => 'Factuel',
-            'brand' => $brand,
-            'level' => 'Junior',
-            'total' => count($declaJu),
-            'test' => false,
-            'active' => true,
-            'created' => date("d-m-Y")
-        ];
-        $vehicles->insertOne( $vehicleJuDecla );
-    
-        $vehicleSeDecla = [
-            'users' => [],
-            'quizzes' => $declaSe,
-            'label' => $label,
-            'type' => 'Factuel',
-            'brand' => $brand,
-            'level' => 'Senior',
-            'total' => count($declaSe),
-            'test' => false,
-            'active' => true,
-            'created' => date("d-m-Y")
-        ];
-        $vehicles->insertOne( $vehicleSeDecla );
-    
-        $vehicleExDecla = [
-            'users' => [],
-            'quizzes' => $declaEx,
-            'label' => $label,
-            'type' => 'Factuel',
-            'brand' => $brand,
-            'level' => 'Expert',
-            'total' => count($declaEx),
-            'test' => false,
-            'active' => true,
-            'created' => date("d-m-Y")
-        ];
-        $vehicles->insertOne( $vehicleExDecla );
-        
-        $success_msg = 'Véhicule ajouté avec succès';
-    }
-}
 
-?>
-<?php
-include_once 'partials/header.php'
-?>
+            $vehicleJuFac = [
+                "users" => [],
+                "quizzes" => $facJu,
+                "label" => $label,
+                "type" => "Factuel",
+                "brand" => $brand,
+                "level" => "Junior",
+                "total" => count($facJu),
+                "test" => false,
+                "active" => true,
+                "created" => date("d-m-Y"),
+            ];
+            $vehicles->insertOne($vehicleJuFac);
+
+            $vehicleSeFac = [
+                "users" => [],
+                "quizzes" => $facSe,
+                "label" => $label,
+                "type" => "Factuel",
+                "brand" => $brand,
+                "level" => "Senior",
+                "total" => count($facSe),
+                "test" => false,
+                "active" => true,
+                "created" => date("d-m-Y"),
+            ];
+            $vehicles->insertOne($vehicleSeFac);
+
+            $vehicleExFac = [
+                "users" => [],
+                "quizzes" => $facEx,
+                "label" => $label,
+                "type" => "Factuel",
+                "brand" => $brand,
+                "level" => "Expert",
+                "total" => count($facEx),
+                "test" => false,
+                "active" => true,
+                "created" => date("d-m-Y"),
+            ];
+            $vehicles->insertOne($vehicleExFac);
+
+            $vehicleJuDecla = [
+                "users" => [],
+                "quizzes" => $declaJu,
+                "label" => $label,
+                "type" => "Factuel",
+                "brand" => $brand,
+                "level" => "Junior",
+                "total" => count($declaJu),
+                "test" => false,
+                "active" => true,
+                "created" => date("d-m-Y"),
+            ];
+            $vehicles->insertOne($vehicleJuDecla);
+
+            $vehicleSeDecla = [
+                "users" => [],
+                "quizzes" => $declaSe,
+                "label" => $label,
+                "type" => "Factuel",
+                "brand" => $brand,
+                "level" => "Senior",
+                "total" => count($declaSe),
+                "test" => false,
+                "active" => true,
+                "created" => date("d-m-Y"),
+            ];
+            $vehicles->insertOne($vehicleSeDecla);
+
+            $vehicleExDecla = [
+                "users" => [],
+                "quizzes" => $declaEx,
+                "label" => $label,
+                "type" => "Factuel",
+                "brand" => $brand,
+                "level" => "Expert",
+                "total" => count($declaEx),
+                "test" => false,
+                "active" => true,
+                "created" => date("d-m-Y"),
+            ];
+            $vehicles->insertOne($vehicleExDecla);
+
+            $success_msg = "Véhicule ajouté avec succès";
+        }
+    } ?>
+<?php include_once "partials/header.php"; ?>
 
 <!--begin::Title-->
 <title>Ajouter Véhicule | CFAO Mobility Academy</title>
@@ -233,30 +224,22 @@ include_once 'partials/header.php'
                     style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
                 <h1 class='my-3 text-center'>Ajouter un véhicule</h1>
 
-                <?php
-                 if(isset($success_msg)) {
-                ?>
+                <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <center><strong><?php echo $success_msg ?></strong></center>
+                    <center><strong><?php echo $success_msg; ?></strong></center>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <?php
-                }
-                ?>
-                <?php
-                 if(isset($error_msg)) {
-                ?>
+                <?php } ?>
+                <?php if (isset($error_msg)) { ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <center><strong><?php echo $error_msg ?></strong></center>
+                    <center><strong><?php echo $error_msg; ?></strong></center>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <?php
-                }
-                ?>
+                <?php } ?>
 
                 <form method="POST"><br>
                     <!--begin::Input group-->
@@ -270,21 +253,15 @@ include_once 'partials/header.php'
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type='text' class='form-control form-control-solid' placeholder='' name='label'
-                            <?php
-                                if (isset($_POST['submit'])) {
-                                    echo 'value="'.$label.'"';
-                                }
-                             ?> />
+                            <?php if (isset($_POST["submit"])) {
+                                echo 'value="' . $label . '"';
+                            } ?> />
                             <!--end::Input-->
-                            <?php
-                                if(isset($error)) {
-                            ?>
+                            <?php if (isset($error)) { ?>
                                     <span class='text-danger'>
-                                        <?php echo $error ?>
+                                        <?php echo $error; ?>
                                     </span>
-                            <?php
-                                }
-                            ?>
+                            <?php } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -296,21 +273,15 @@ include_once 'partials/header.php'
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type='text' class='form-control form-control-solid' placeholder='' name='brand'
-                            <?php
-                                if (isset($_POST['submit'])) {
-                                    echo 'value="'.$brand.'"';
-                                }
-                             ?> />
+                            <?php if (isset($_POST["submit"])) {
+                                echo 'value="' . $brand . '"';
+                            } ?> />
                             <!--end::Input-->
-                            <?php
-                                if(isset($error)) {
-                            ?>
+                            <?php if (isset($error)) { ?>
                                     <span class='text-danger'>
-                                        <?php echo $error ?>
+                                        <?php echo $error; ?>
                                     </span>
-                            <?php
-                                }
-                            ?>
+                            <?php } ?>
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
@@ -413,14 +384,11 @@ include_once 'partials/header.php'
                                     </option>
                                 </select>
                             <!--end::Input-->
-                            <?php
-                         if (isset($error)) {
-                             ?>
+                            <?php if (isset($error)) { ?>
                             <span class='text-danger'>
                                 <?php echo $error; ?>
                             </span>
-                            <?php
-                         } ?>
+                            <?php } ?>
                         </div>
                         <!--end::Input group-->
                     </div>
@@ -449,7 +417,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

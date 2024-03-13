@@ -1,91 +1,102 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?><?php
-require_once '../vendor/autoload.php';
-    
-// Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
-// Connecting in collections
-$users = $academy->users;
-$results = $academy->results;
 
-$id = $_SESSION[ 'id' ];
-$manager = $users->findOne(['_id' => new MongoDB\BSON\ObjectId( $id )]);
+    require_once "../vendor/autoload.php";
 
-$resultFacJu = $results->find([
-    '$and' => [
-        [   'user' => [ '$in' => $manager[ 'users' ]],
-            'level' => 'Junior',
-            'type' => 'Factuel',
-            'typeR' => 'Technicien',
-        ],
-    ]
-])->toArray();
+    // Create connection
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
 
-$resultFacSe = $results->find([
-    '$and' => [
-        [
-            'user' => [ '$in' => $manager[ 'users' ] ],
-            'level' => 'Senior',
-            'type' => 'Factuel',
-            'typeR' => 'Technicien',
-        ],
-    ]
-])->toArray();
-$resultFacEx = $results->find([
-    '$and' => [
-        [
-            'user' => [ '$in' => $manager[ 'users' ] ],
-            'level' => 'Expert',
-            'type' => 'Factuel',
-            'typeR' => 'Technicien',
-        ],
-    ]
-])->toArray();
+    // Connecting in database
+    $academy = $conn->academy;
 
-$resultDeclaJu = $results->find([
-    '$and' => [
-        [
-            'user' => [ '$in' => $manager[ 'users' ] ],
-            'level' => 'Junior',
-            'type' => 'Declaratif',
-            'typeR' => 'Technicien - Manager',
-        ],
-    ]
-])->toArray();
-$resultDeclaSe = $results->find([
-    '$and' => [
-        [
-            'user' => [ '$in' => $manager[ 'users' ] ],
-            'level' => 'Senior',
-            'type' => 'Declaratif',
-            'typeR' => 'Technicien - Manager',
-        ],
-    ]
-])->toArray();
-$resultDeclaEx = $results->find([
-    '$and' => [
-        [
-            'user' => [ '$in' => $manager[ 'users' ] ],
-            'level' => 'Expert',
-            'type' => 'Declaratif',
-            'typeR' => 'Technicien - Manager',
-        ],
-    ]
-])->toArray();
-?>
-<?php
-include_once 'partials/header.php'
-?>
+    // Connecting in collections
+    $users = $academy->users;
+    $results = $academy->results;
+
+    $id = $_SESSION["id"];
+    $manager = $users->findOne(["_id" => new MongoDB\BSON\ObjectId($id)]);
+
+    $resultFacJu = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Junior",
+                    "type" => "Factuel",
+                    "typeR" => "Technicien",
+                ],
+            ],
+        ])
+        ->toArray();
+
+    $resultFacSe = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Senior",
+                    "type" => "Factuel",
+                    "typeR" => "Technicien",
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultFacEx = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Expert",
+                    "type" => "Factuel",
+                    "typeR" => "Technicien",
+                ],
+            ],
+        ])
+        ->toArray();
+
+    $resultDeclaJu = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Junior",
+                    "type" => "Declaratif",
+                    "typeR" => "Technicien - Manager",
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaSe = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Senior",
+                    "type" => "Declaratif",
+                    "typeR" => "Technicien - Manager",
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaEx = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Expert",
+                    "type" => "Declaratif",
+                    "typeR" => "Technicien - Manager",
+                ],
+            ],
+        ])
+        ->toArray();
+    ?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Listes des Résultats | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -196,139 +207,165 @@ include_once 'partials/header.php'
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
-                                    <?php
-                                    if ($resultFacJu && $resultDeclaJu) {
-                                        for ($i = 0; $i < count($resultFacJu); $i++) {
+                                    <?php if ($resultFacJu && $resultDeclaJu) {
+                                        for (
+                                            $i = 0;
+                                            $i < count($resultFacJu);
+                                            $i++
+                                        ) {
+
                                             $user = $users->findone([
                                                 '$and' => [
                                                     [
-                                                        '_id' => new MongoDB\BSON\ObjectId( $resultFacJu[$i]['user'] ),
-                                                        'active' => true,
+                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                            $resultFacJu[$i][
+                                                                "user"
+                                                            ]
+                                                        ),
+                                                        "active" => true,
                                                     ],
-                                                ]
+                                                ],
                                             ]);
-                                            $percentageFacJu = ($resultFacJu[$i]['score'] * 100) / $resultFacJu[$i]['total'];
+                                            $percentageFacJu =
+                                                ($resultFacJu[$i]["score"] *
+                                                    100) /
+                                                $resultFacJu[$i]["total"];
                                             if ($resultDeclaJu) {
-                                                $percentageDeclaJu = ($resultDeclaJu[$i]['score'] * 100) / $resultDeclaJu[$i]['total'];
+                                                $percentageDeclaJu =
+                                                    ($resultDeclaJu[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaJu[$i]["total"];
                                             }
                                             if ($resultFacSe) {
-                                                $percentageFacSe = ($resultFacSe[$i]['score'] * 100) / $resultFacSe[$i]['total'];
+                                                $percentageFacSe =
+                                                    ($resultFacSe[$i]["score"] *
+                                                        100) /
+                                                    $resultFacSe[$i]["total"];
                                             }
                                             if ($resultDeclaSe) {
-                                                $percentageDeclaSe = ($resultDeclaSe[$i]['score'] * 100) / $resultDeclaSe[$i]['total'];
+                                                $percentageDeclaSe =
+                                                    ($resultDeclaSe[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaSe[$i]["total"];
                                             }
                                             if ($resultFacEx) {
-                                                $percentageFacEx = ($resultFacEx[$i]['score'] * 100) / $resultFacEx[$i]['total'];
+                                                $percentageFacEx =
+                                                    ($resultFacEx[$i]["score"] *
+                                                        100) /
+                                                    $resultFacEx[$i]["total"];
                                             }
                                             if ($resultDeclaEx) {
-                                                $percentageDeclaEx = ($resultDeclaEx[$i]['score'] * 100) / $resultDeclaEx[$i]['total'];
+                                                $percentageDeclaEx =
+                                                    ($resultDeclaEx[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaEx[$i]["total"];
                                             }
-                                    ?>
+                                            ?>
                                     <tr class="odd">
                                         <td class="text-center">
-                                            <?php echo $user['firstName'] ?> <?php echo $user['lastName'] ?>
+                                            <?php echo $user[
+                                                "firstName"
+                                            ]; ?> <?php echo $user[
+     "lastName"
+ ]; ?>
                                         </td>
-                                        <?php
-                                        if ($percentageFacJu >= 80 && $percentageDeclaJu >= 80) {
-                                        ?>
+                                        <?php if (
+                                            $percentageFacJu >= 80 &&
+                                            $percentageDeclaJu >= 80
+                                        ) { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id ?>"
+                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Maitrisé
                                             </a>
                                         </td>
-                                        <?php
-                                        } else {
-                                        ?>
+                                        <?php } else { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id ?>"
+                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Non maitrisé
                                             </a>
                                         </td>
-                                        <?php
-                                        }
-                                        ?>
-                                        <?php
-                                        if ($resultFacSe) {
-                                        if ($percentageFacSe >= 80 && $percentageDeclaSe >= 80) {
-                                        ?>
+                                        <?php } ?>
+                                        <?php if ($resultFacSe) {
+                                            if (
+                                                $percentageFacSe >= 80 &&
+                                                $percentageDeclaSe >= 80
+                                            ) { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id ?>"
+                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Maitrisé
                                             </a>
                                         </td>
-                                        <?php
-                                        } else{
-                                        ?>
+                                        <?php } else { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id ?>"
+                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Non maitrisé
                                             </a>
                                         </td>
-                                        <?php
-                                        }
+                                        <?php }
                                         } else {
-                                        ?>
+                                             ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <?php
-                                        }
-                                        ?>
-                                        <?php
-                                        if ($resultFacEx) {
-                                        if ($percentageFacEx >= 80 && $percentageDeclaEx >= 80) {
-                                        ?>
+                                        } ?>
+                                        <?php if ($resultFacEx) {
+                                            if (
+                                                $percentageFacEx >= 80 &&
+                                                $percentageDeclaEx >= 80
+                                            ) { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id ?>"
+                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Maitrisé
                                             </a>
                                         </td>
-                                        <?php
-                                        } else{
-                                        ?>
+                                        <?php } else { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id ?>"
+                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Non maitrisé
                                             </a>
                                         </td>
-                                        <?php
-                                        }
+                                        <?php }
                                         } else {
-                                        ?>
+                                             ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible
                                             </span>
                                         </td>
                                         <?php
-                                        }
-                                        ?>
+                                        } ?>
                                         <!--end::Menu-->
                                     </tr>
                                     <?php
                                         }
-                                        }
-                                    ?>
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -373,7 +410,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

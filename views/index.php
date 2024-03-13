@@ -1,28 +1,29 @@
 <?php
 session_start();
 
-require_once '../vendor/autoload.php';
-    
+require_once "../vendor/autoload.php";
+
 // Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
+$conn = new MongoDB\Client("mongodb://localhost:27017");
+
+// Connecting in database
+$academy = $conn->academy;
+
 // Connecting in collections
 $users = $academy->users;
-if (isset( $_POST[ 'login' ] )) {
-    $username = $_POST[ 'username' ];
-    $password = sha1($_POST[ 'password' ]);
+if (isset($_POST["login"])) {
+    $username = $_POST["username"];
+    $password = sha1($_POST["password"]);
 
     $data = [
-        'username' => $username,
-        'password' => $password
-        ];
+        "username" => $username,
+        "password" => $password,
+    ];
 
     $login = $users->findOne($data);
     if (empty($login)) {
-        $error_msg = "Nom d'utilisateur ou mot de passe incorrect. Essayez encore!!!";
+        $error_msg =
+            "Nom d'utilisateur ou mot de passe incorrect. Essayez encore!!!";
     } elseif ($login->active == false) {
         $error_msg = "Vous n'êtes plus autorisé à accéder à cette plateforme.";
     } else {
@@ -33,7 +34,7 @@ if (isset( $_POST[ 'login' ] )) {
         $_SESSION["email"] = $login["email"];
         $_SESSION["test"] = $login["test"];
         $_SESSION["id"] = $login["_id"];
-        header('Location: ./dashboard.php');
+        header("Location: ./dashboard.php");
     }
 }
 ?>
@@ -106,32 +107,24 @@ if (isset( $_POST[ 'login' ] )) {
     </div>
     <!-- Navbar & Hero End -->
 
-    <?php
-if ( isset( $success_msg ) ) {
-    ?>
+    <?php if (isset($success_msg)) { ?>
     <div class='alert alert-success alert-dismissible fade show' role='alert'>
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
             <span aria-hidden='true'>&times;
             </span>
         </button>
     </div>
-    <?php
-}
-?>
-    <?php
-if ( isset( $error_msg ) ) {
-    ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
             <span aria-hidden='true'>&times;
             </span>
         </button>
     </div>
-    <?php
-}
-?>
+    <?php } ?>
 
     <!-- Contact Start -->
     <div class="container-xxl py-5" id="connexion">

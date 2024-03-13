@@ -1,29 +1,26 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?><?php
-require_once '../vendor/autoload.php';
-    
-// Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
-// Connecting in collections
-$users = $academy->users;
- $quizzes = $academy->quizzes;
- $questions = $academy->questions;
- $allocations = $academy->allocations;
 
-?>
-<?php
-include_once 'partials/header.php'
-?>
+    require_once "../vendor/autoload.php";
+
+    // Create connection
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
+
+    // Connecting in database
+    $academy = $conn->academy;
+
+    // Connecting in collections
+    $users = $academy->users;
+    $quizzes = $academy->quizzes;
+    $questions = $academy->questions;
+    $allocations = $academy->allocations;
+    ?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste des Questionnaires | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -78,30 +75,22 @@ include_once 'partials/header.php'
     </div>
     <!--end::Toolbar-->
 
-    <?php 
-     if(isset($success_msg)) {
-    ?>
+    <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
-    <?php 
-     if(isset($error_msg)) {
-    ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
+    <?php } ?>
 
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
@@ -261,54 +250,63 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $quiz = $quizzes->find(['active' => true]);
-                                        foreach ($quiz as $quiz) {
-                                    ?>
-                                    <tr class="odd" etat="<?php echo $quiz->active ?>">
+                                    $quiz = $quizzes->find(["active" => true]);
+                                    foreach ($quiz as $quiz) { ?>
+                                    <tr class="odd" etat="<?php echo $quiz->active; ?>">
                                         <td>
                                             <!-- <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $quiz->_id ?>">
+                                                    onclick="enable()" value="<?php echo $quiz->_id; ?>">
                                             </div> -->
                                         </td>
                                         <td data-filter=" search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
-                                                <?php echo $quiz->label ?>
+                                                <?php echo $quiz->label; ?>
                                             </a>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php if ($quiz->type == "Factuel") { ?>
+                                            <?php if (
+                                                $quiz->type == "Factuel"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $quiz->type ?>
+                                                <?php echo $quiz->type; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($quiz->type == "Declaratif") { ?>
+                                            <?php if (
+                                                $quiz->type == "Declaratif"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $quiz->type ?>
+                                                <?php echo $quiz->type; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $quiz->speciality ?>
+                                            <?php echo $quiz->speciality; ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php echo $quiz->total ?>
+                                            <?php echo $quiz->total; ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php if ($quiz->level == "Junior") { ?>
+                                            <?php if (
+                                                $quiz->level == "Junior"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quiz->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($quiz->level == "Senior") { ?>
+                                            <?php if (
+                                                $quiz->level == "Senior"
+                                            ) { ?>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quiz->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($quiz->level == "Expert") { ?>
+                                            <?php if (
+                                                $quiz->level == "Expert"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quiz->level; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
@@ -316,13 +314,13 @@ include_once 'partials/header.php'
                                             <a href="#"
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                 title="Cliquez ici pour voir les questions"
-                                                 data-bs-toggle="modal" data-bs-target="#kt_modal_invite_questions<?php echo $quiz->_id ?>">
+                                                 data-bs-toggle="modal" data-bs-target="#kt_modal_invite_questions<?php echo $quiz->_id; ?>">
                                                 Voir les questions
                                             </a>
                                         </td>
                                     </tr>
                                     <!--begin::Modal - Invite Friends-->
-                                    <div class="modal fade" id="kt_modal_invite_questions<?php echo $quiz->_id ?>"
+                                    <div class="modal fade" id="kt_modal_invite_questions<?php echo $quiz->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
                                         <!--begin::Modal dialog-->
                                         <div class="modal-dialog mw-650px">
@@ -356,16 +354,25 @@ include_once 'partials/header.php'
                                                         <div class="mh-300px scroll-y me-n7 pe-7">
                                                             <!--begin::User-->
                                                             <?php
-                                                                $question = $questions->find([
+                                                            $question = $questions->find(
+                                                                [
                                                                     '$and' => [
                                                                         [
-                                                                            '_id' => ['$in' => $quiz["questions"]],
-                                                                            'active' => true
+                                                                            "_id" => [
+                                                                                '$in' =>
+                                                                                    $quiz[
+                                                                                        "questions"
+                                                                                    ],
+                                                                            ],
+                                                                            "active" => true,
                                                                         ],
                                                                     ],
-                                                                ]);
-                                                                foreach ($question as $question) {
-                                                            ?>
+                                                                ]
+                                                            );
+                                                            foreach (
+                                                                $question
+                                                                as $question
+                                                            ) { ?>
                                                             <div
                                                                 class="d-flex flex-stack py-4 border-bottom border-gray-300 border-bottom-dashed">
                                                                 <!--begin::Details-->
@@ -373,7 +380,7 @@ include_once 'partials/header.php'
                                                                     <div class="ms-5">
                                                                         <a href="#"
                                                                             class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">
-                                                                            <?php echo $question->label ?>
+                                                                            <?php echo $question->label; ?>
                                                                         </a>
                                                                     </div>
                                                                     <!--end::Details-->
@@ -383,9 +390,9 @@ include_once 'partials/header.php'
                                                                 <!-- <div data-kt-menu-trigger="click">
                                                                     <form method="POST">
                                                                         <input type="hidden" name="questionID"
-                                                                            value="<?php echo $question->_id ?>">
+                                                                            value="<?php echo $question->_id; ?>">
                                                                         <input type="hidden" name="quizID"
-                                                                            value="<?php echo $quiz->_id ?>">
+                                                                            value="<?php echo $quiz->_id; ?>">
                                                                         <button
                                                                             class="btn btn-light btn-active-light-primary btn-sm"
                                                                             type="submit" name="retire-question-quiz"
@@ -395,7 +402,8 @@ include_once 'partials/header.php'
                                                                 <!--end::Access menu-->
                                                             </div>
                                                             <!--end::User-->
-                                                            <?php } ?>
+                                                            <?php }
+                                                            ?>
                                                         </div>
                                                         <!--end::List-->
                                                     </div>
@@ -408,7 +416,8 @@ include_once 'partials/header.php'
                                         <!--end::Modal dialog-->
                                     </div>
                                     <!--end::Modal - Invite Friend-->
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -453,7 +462,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

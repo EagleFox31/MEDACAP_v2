@@ -1,14 +1,15 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id'])) {
-    header('Location: ./index.php');
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-    require_once '../vendor/autoload.php';
+
+    require_once "../vendor/autoload.php";
 
     // Create connection
-    $conn = new MongoDB\Client('mongodb://localhost:27017');
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
 
     // Connecting in database
     $academy = $conn->academy;
@@ -20,680 +21,932 @@ if (!isset($_SESSION['id'])) {
     $quizzes = $academy->quizzes;
     $allocations = $academy->allocations;
 
-    if (isset($_POST['submit'])) {
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $matricule = $_POST['matricule'];
-        $username = $_POST['username'];
-        $subsidiary = $_POST['subsidiary'];
-        $department = $_POST['department'];
-        $role = $_POST['role'];
-        $gender = $_POST['gender'];
-        $password = $_POST['password'];
-        $country = $_POST['country'];
-        $certificate = $_POST['certificate'];
-        $speciality = $_POST['speciality'];
-        $brand = $_POST['brand'];
-        $birthdate = date('d-m-Y', strtotime($_POST['birthdate']));
-        $recrutmentDate = date('d-m-Y', strtotime($_POST['recrutmentDate']));
-        $level = $_POST['level'];
+    if (isset($_POST["submit"])) {
+        $firstName = $_POST["firstName"];
+        $lastName = $_POST["lastName"];
+        $email = $_POST["email"];
+        $phone = $_POST["phone"];
+        $matricule = $_POST["matricule"];
+        $username = $_POST["username"];
+        $subsidiary = $_POST["subsidiary"];
+        $department = $_POST["department"];
+        $role = $_POST["role"];
+        $gender = $_POST["gender"];
+        $password = $_POST["password"];
+        $country = $_POST["country"];
+        $certificate = $_POST["certificate"];
+        $speciality = $_POST["speciality"];
+        $brand = $_POST["brand"];
+        $birthdate = date("d-m-Y", strtotime($_POST["birthdate"]));
+        $recrutmentDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
+        $level = $_POST["level"];
 
         $techs = [];
 
         $password_hash = sha1($password);
         $member = $users->findOne([
-        '$and' => [
-            ['username' => $username],
-            ['active' => true],
-        ],
-    ]);
-        if (empty($firstName) ||
-        empty($lastName) ||
-        empty($role) ||
-        empty($username) ||
-        empty($matricule) ||
-        empty($birthdate) ||
-        empty($certificate) ||
-        empty($subsidiary) ||
-        empty($department) ||
-        empty($recrutmentDate) ||
-        empty($gender) ||
-        empty($level) ||
-        empty($brand) ||
-        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-        preg_match('/^[\D]{15}$/', $phone) ||
-        preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password)) {
-            $error = 'Champ obligatoire';
-            $email_error = ("L'adresse email est invalide");
-            $phone_error = ('Le numéro de téléphone est invalide');
-            $password_error = ('Le mot de passe doit être au moins six caractères, un chiffre, une lettre majiscule');
+            '$and' => [["username" => $username], ["active" => true]],
+        ]);
+        if (
+            empty($firstName) ||
+            empty($lastName) ||
+            empty($role) ||
+            empty($username) ||
+            empty($matricule) ||
+            empty($birthdate) ||
+            empty($certificate) ||
+            empty($subsidiary) ||
+            empty($department) ||
+            empty($recrutmentDate) ||
+            empty($gender) ||
+            empty($level) ||
+            empty($brand) ||
+            !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+            preg_match('/^[\D]{15}$/', $phone) ||
+            preg_match(
+                '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
+                $password
+            )
+        ) {
+            $error = "Champ obligatoire";
+            $email_error = "L'adresse email est invalide";
+            $phone_error = "Le numéro de téléphone est invalide";
+            $password_error =
+                "Le mot de passe doit être au moins six caractères, un chiffre, une lettre majiscule";
         } elseif ($member) {
-          $error_msg = 'Cet utilisateur existe déjà';
+            $error_msg = "Cet utilisateur existe déjà";
         } else {
-          $person = [
-              'users' => [],
-              'username' => $username,
-              'matricule' => $matricule,
-              'firstName' => ucfirst($firstName),
-              'lastName' => ucfirst($lastName),
-              'email' => $email,
-              'phone' => +$phone,
-              'gender' => $gender,
-              'level' => $level,
-              'country' => $country,
-              'profile' => 'Technicien',
-              'birthdate' => $birthdate,
-              'recrutmentDate' => $recrutmentDate,
-              'certificate' => ucfirst($certificate),
-              'subsidiary' => ucfirst($subsidiary),
-              'department' => ucfirst($department),
-              'brand' => $brand,
-              'speciality' => $speciality,
-              'role' => ucfirst($role),
-              'password' => $password_hash,
-              'manager' => new MongoDB\BSON\ObjectId($_SESSION['id']),
-              'active' => true,
-              'created' => date('d-m-Y'),
-          ];
-          $user = $users->insertOne($person);
+            $person = [
+                "users" => [],
+                "username" => $username,
+                "matricule" => $matricule,
+                "firstName" => ucfirst($firstName),
+                "lastName" => ucfirst($lastName),
+                "email" => $email,
+                "phone" => +$phone,
+                "gender" => $gender,
+                "level" => $level,
+                "country" => $country,
+                "profile" => "Technicien",
+                "birthdate" => $birthdate,
+                "recrutmentDate" => $recrutmentDate,
+                "certificate" => ucfirst($certificate),
+                "subsidiary" => ucfirst($subsidiary),
+                "department" => ucfirst($department),
+                "brand" => $brand,
+                "speciality" => $speciality,
+                "role" => ucfirst($role),
+                "password" => $password_hash,
+                "manager" => new MongoDB\BSON\ObjectId($_SESSION["id"]),
+                "active" => true,
+                "created" => date("d-m-Y"),
+            ];
+            $user = $users->insertOne($person);
 
-          $users->updateOne(
-            ['_id' => new MongoDB\BSON\ObjectId($_SESSION['id'])],
-            ['$push' => ['users' => new MongoDB\BSON\ObjectId($user->getInsertedId())]]
-          );
-          if ($level == 'Junior') {
+            $users->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
+                [
+                    '$push' => [
+                        "users" => new MongoDB\BSON\ObjectId(
+                            $user->getInsertedId()
+                        ),
+                    ],
+                ]
+            );
+            if ($level == "Junior") {
                 $testFac = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Factuel',
-                    'level' => 'Junior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Factuel",
+                    "level" => "Junior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertFac = $tests->insertOne($testFac);
-  
+
                 $testDecla = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Declaratif',
-                    'level' => 'Junior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Declaratif",
+                    "level" => "Junior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertDecla = $tests->insertOne($testDecla);
-  
+
                 for ($n = 0; $n < count($brand); ++$n) {
-                  $vehicleFacJu = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Factuel'],
-                        ['level' => 'Junior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleFacJu) {
-                    for ($a = 0; $a < count($vehicleFacJu->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleFacJu->quizzes[$a] ] ]
-                      );
+                    $vehicleFacJu = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Factuel"],
+                            ["level" => "Junior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleFacJu) {
+                        for ($a = 0; $a < count($vehicleFacJu->quizzes); ++$a) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertFac->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFacJu->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleDeclacJu = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Declaratif'],
-                        ['level' => 'Junior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  
-                  if($vehicleDeclacJu) {
-                    for ($a = 0; $a < count($vehicleDeclacJu->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleDeclacJu->quizzes[$a] ] ]
-                      );
+
+                    $vehicleDeclacJu = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Declaratif"],
+                            ["level" => "Junior"],
+                            ["active" => true],
+                        ],
+                    ]);
+
+                    if ($vehicleDeclacJu) {
+                        for (
+                            $a = 0;
+                            $a < count($vehicleDeclacJu->quizzes);
+                            ++$a
+                        ) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertDecla->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" =>
+                                            $vehicleDeclacJu->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
                 }
-                $saveTestFac = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ]);
-                $saveTestFac['total'] = count($saveTestFac['quizzes']);
+                $saveTestFac = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertFac->getInsertedId()
+                    ),
+                ]);
+                $saveTestFac["total"] = count($saveTestFac["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ],
-                    [ '$set' => $saveTestFac ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertFac->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestFac]
                 );
-                
+
                 $allocateFac = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertFac->getInsertedId()),
-                  'type' => 'Factuel',
-                  'level' => 'Junior',
-                  'activeTest' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertFac->getInsertedId()
+                    ),
+                    "type" => "Factuel",
+                    "level" => "Junior",
+                    "activeTest" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateFac);
-  
-                $saveTestDecla = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ]);
-                $saveTestDecla['total'] = count($saveTestDecla['quizzes']);
+
+                $saveTestDecla = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertDecla->getInsertedId()
+                    ),
+                ]);
+                $saveTestDecla["total"] = count($saveTestDecla["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ],
-                    [ '$set' => $saveTestDecla ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertDecla->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestDecla]
                 );
-                
+
                 $allocateDecla = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertDecla->getInsertedId()),
-                  'type' => 'Declaratif',
-                  'level' => 'Junior',
-                  'activeTest' => false,
-                  'activeManager' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertDecla->getInsertedId()
+                    ),
+                    "type" => "Declaratif",
+                    "level" => "Junior",
+                    "activeTest" => false,
+                    "activeManager" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateDecla);
-  
-                $success_msg = 'Technicien ajouté avec succès';
-  
-          } elseif ($level == 'Senior') {
+
+                $success_msg = "Technicien ajouté avec succès";
+            } elseif ($level == "Senior") {
                 $testJuFac = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Factuel',
-                    'level' => 'Junior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Factuel",
+                    "level" => "Junior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertFac = $tests->insertOne($testJuFac);
-  
+
                 $testJuDecla = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Declaratif',
-                    'level' => 'Junior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Declaratif",
+                    "level" => "Junior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertDecla = $tests->insertOne($testJuDecla);
-  
+
                 $testSeFac = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Factuel',
-                    'level' => 'Senior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Factuel",
+                    "level" => "Senior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertSeFac = $tests->insertOne($testSeFac);
-  
+
                 $testSeDecla = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Declaratif',
-                    'level' => 'Senior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Declaratif",
+                    "level" => "Senior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertSeDecla = $tests->insertOne($testSeDecla);
-  
+
                 for ($n = 0; $n < count($brand); ++$n) {
-                  $vehicleFacJu = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Factuel'],
-                        ['level' => 'Junior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleFacJu) {
-                    for ($a = 0; $a < count($vehicleFacJu->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleFacJu->quizzes[$a] ] ]
-                      );
+                    $vehicleFacJu = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Factuel"],
+                            ["level" => "Junior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleFacJu) {
+                        for ($a = 0; $a < count($vehicleFacJu->quizzes); ++$a) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertFac->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFacJu->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleDeclacJu = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Declaratif'],
-                        ['level' => 'Junior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleDeclacJu) {
-                    for ($a = 0; $a < count($vehicleDeclacJu->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleDeclacJu->quizzes[$a] ] ]
-                      );
+
+                    $vehicleDeclacJu = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Declaratif"],
+                            ["level" => "Junior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleDeclacJu) {
+                        for (
+                            $a = 0;
+                            $a < count($vehicleDeclacJu->quizzes);
+                            ++$a
+                        ) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertDecla->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" =>
+                                            $vehicleDeclacJu->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleFacSe = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Factuel'],
-                        ['level' => 'Senior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleFacSe) {
-                    for ($a = 0; $a < count($vehicleFacSe->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertSeFac->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleFacSe->quizzes[$a] ] ]
-                      );
+
+                    $vehicleFacSe = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Factuel"],
+                            ["level" => "Senior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleFacSe) {
+                        for ($a = 0; $a < count($vehicleFacSe->quizzes); ++$a) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertSeFac->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFacSe->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleDeclacSe = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Declaratif'],
-                        ['level' => 'Senior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleDeclacSe) {
-                    for ($a = 0; $a < count($vehicleDeclacSe->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertSeDecla->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleDeclacSe->quizzes[$a] ] ]
-                      );
+
+                    $vehicleDeclacSe = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Declaratif"],
+                            ["level" => "Senior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleDeclacSe) {
+                        for (
+                            $a = 0;
+                            $a < count($vehicleDeclacSe->quizzes);
+                            ++$a
+                        ) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertSeDecla->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" =>
+                                            $vehicleDeclacSe->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
                 }
-  
-                $saveTestFac = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ]);
-                $saveTestFac['total'] = count($saveTestFac['quizzes']);
+
+                $saveTestFac = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertFac->getInsertedId()
+                    ),
+                ]);
+                $saveTestFac["total"] = count($saveTestFac["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ],
-                    [ '$set' => $saveTestFac ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertFac->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestFac]
                 );
-                
+
                 $allocateFac = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertFac->getInsertedId()),
-                  'type' => 'Factuel',
-                  'level' => 'Junior',
-                  'activeTest' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertFac->getInsertedId()
+                    ),
+                    "type" => "Factuel",
+                    "level" => "Junior",
+                    "activeTest" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateFac);
-  
-                $saveTestDecla = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ]);
-                $saveTestDecla['total'] = count($saveTestDecla['quizzes']);
+
+                $saveTestDecla = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertDecla->getInsertedId()
+                    ),
+                ]);
+                $saveTestDecla["total"] = count($saveTestDecla["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ],
-                    [ '$set' => $saveTestDecla ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertDecla->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestDecla]
                 );
-                
+
                 $allocateDecla = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertDecla->getInsertedId()),
-                  'type' => 'Declaratif',
-                  'level' => 'Junior',
-                  'activeTest' => false,
-                  'activeManager' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertDecla->getInsertedId()
+                    ),
+                    "type" => "Declaratif",
+                    "level" => "Junior",
+                    "activeTest" => false,
+                    "activeManager" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateDecla);
-  
-                $saveTestSeFac = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertSeFac->getInsertedId() ) ]);
-                $saveTestSeFac['total'] = count($saveTestSeFac['quizzes']);
+
+                $saveTestSeFac = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertSeFac->getInsertedId()
+                    ),
+                ]);
+                $saveTestSeFac["total"] = count($saveTestSeFac["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertSeFac->getInsertedId() ) ],
-                    [ '$set' => $saveTestSeFac ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertSeFac->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestSeFac]
                 );
-                
+
                 $allocateSeFac = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertSeFac->getInsertedId()),
-                  'type' => 'Factuel',
-                  'level' => 'Senior',
-                  'activeTest' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertSeFac->getInsertedId()
+                    ),
+                    "type" => "Factuel",
+                    "level" => "Senior",
+                    "activeTest" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateSeFac);
-  
-                $saveTestSeDecla = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertSeDecla->getInsertedId() ) ]);
-                $saveTestSeDecla['total'] = count($saveTestSeDecla['quizzes']);
+
+                $saveTestSeDecla = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertSeDecla->getInsertedId()
+                    ),
+                ]);
+                $saveTestSeDecla["total"] = count($saveTestSeDecla["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertSeDecla->getInsertedId() ) ],
-                    [ '$set' => $saveTestSeDecla ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertSeDecla->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestSeDecla]
                 );
-                
+
                 $allocateSeDecla = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertSeDecla->getInsertedId()),
-                  'type' => 'Declaratif',
-                  'level' => 'Senior',
-                  'activeTest' => false,
-                  'activeManager' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertSeDecla->getInsertedId()
+                    ),
+                    "type" => "Declaratif",
+                    "level" => "Senior",
+                    "activeTest" => false,
+                    "activeManager" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateSeDecla);
-  
-                $success_msg = 'Technicien ajouté avec succès';
-  
-          } elseif ($level == 'Expert') {
+
+                $success_msg = "Technicien ajouté avec succès";
+            } elseif ($level == "Expert") {
                 $testJuFac = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Factuel',
-                    'level' => 'Junior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Factuel",
+                    "level" => "Junior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertFac = $tests->insertOne($testJuFac);
-  
+
                 $testJuDecla = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Declaratif',
-                    'level' => 'Junior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Declaratif",
+                    "level" => "Junior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertDecla = $tests->insertOne($testJuDecla);
-  
+
                 $testSeFac = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Factuel',
-                    'level' => 'Senior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Factuel",
+                    "level" => "Senior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertSeFac = $tests->insertOne($testSeFac);
-  
+
                 $testSeDecla = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Declaratif',
-                    'level' => 'Senior',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Declaratif",
+                    "level" => "Senior",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertSeDecla = $tests->insertOne($testSeDecla);
-  
+
                 $testExFac = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Factuel',
-                    'level' => 'Expert',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Factuel",
+                    "level" => "Expert",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertExFac = $tests->insertOne($testExFac);
-  
+
                 $testExDecla = [
-                    'quizzes' => [],
-                    'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                    'brand' => $brand,
-                    'type' => 'Declaratif',
-                    'level' => 'Expert',
-                    'total' => 0,
-                    'active' => true,
-                    'created' => date('d-m-y')
+                    "quizzes" => [],
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "brand" => $brand,
+                    "type" => "Declaratif",
+                    "level" => "Expert",
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y"),
                 ];
                 $insertExDecla = $tests->insertOne($testExDecla);
-  
+
                 for ($n = 0; $n < count($brand); ++$n) {
-                  $vehicleFacJu = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Factuel'],
-                        ['level' => 'Junior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleFacJu) {
-                    for ($a = 0; $a < count($vehicleFacJu->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleFacJu->quizzes[$a] ] ]
-                      );
+                    $vehicleFacJu = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Factuel"],
+                            ["level" => "Junior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleFacJu) {
+                        for ($a = 0; $a < count($vehicleFacJu->quizzes); ++$a) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertFac->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFacJu->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleDeclacJu = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Declaratif'],
-                        ['level' => 'Junior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleDeclacJu) {
-                    for ($a = 0; $a < count($vehicleDeclacJu->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleDeclacJu->quizzes[$a] ] ]
-                      );
+
+                    $vehicleDeclacJu = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Declaratif"],
+                            ["level" => "Junior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleDeclacJu) {
+                        for (
+                            $a = 0;
+                            $a < count($vehicleDeclacJu->quizzes);
+                            ++$a
+                        ) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertDecla->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" =>
+                                            $vehicleDeclacJu->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleFacSe = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Factuel'],
-                        ['level' => 'Senior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleFacSe) {
-                    for ($a = 0; $a < count($vehicleFacSe->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertSeFac->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleFacSe->quizzes[$a] ] ]
-                      );
+
+                    $vehicleFacSe = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Factuel"],
+                            ["level" => "Senior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleFacSe) {
+                        for ($a = 0; $a < count($vehicleFacSe->quizzes); ++$a) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertSeFac->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFacSe->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleDeclacSe = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Declaratif'],
-                        ['level' => 'Senior'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleDeclacSe) {
-                    for ($a = 0; $a < count($vehicleDeclacSe->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertSeDecla->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleDeclacSe->quizzes[$a] ] ]
-                      );
+
+                    $vehicleDeclacSe = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Declaratif"],
+                            ["level" => "Senior"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleDeclacSe) {
+                        for (
+                            $a = 0;
+                            $a < count($vehicleDeclacSe->quizzes);
+                            ++$a
+                        ) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertSeDecla->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" =>
+                                            $vehicleDeclacSe->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-                
-                  $vehicleFacEx = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Factuel'],
-                        ['level' => 'Expert'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleFacEx) {
-                    for ($a = 0; $a < count($vehicleFacEx->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertExFac->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleFacEx->quizzes[$a] ] ]
-                      );
+
+                    $vehicleFacEx = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Factuel"],
+                            ["level" => "Expert"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleFacEx) {
+                        for ($a = 0; $a < count($vehicleFacEx->quizzes); ++$a) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertExFac->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFacEx->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
-  
-                  $vehicleDeclacEx = $vehicles->findOne([
-                    '$and' => [
-                        ['brand' => $brand[$n]],
-                        ['type' => 'Declaratif'],
-                        ['level' => 'Expert'],
-                        ['active' => true],
-                    ],
-                  ]);
-                  if($vehicleDeclacEx) {
-                    for ($a = 0; $a < count($vehicleDeclacEx->quizzes); ++$a) {
-                      $tests->updateOne(
-                          [ '_id' => new MongoDB\BSON\ObjectId( $insertExDecla->getInsertedId() ) ],
-                          [ '$addToSet' => [ 'quizzes' => $vehicleDeclacEx->quizzes[$a] ] ]
-                      );
+
+                    $vehicleDeclacEx = $vehicles->findOne([
+                        '$and' => [
+                            ["brand" => $brand[$n]],
+                            ["type" => "Declaratif"],
+                            ["level" => "Expert"],
+                            ["active" => true],
+                        ],
+                    ]);
+                    if ($vehicleDeclacEx) {
+                        for (
+                            $a = 0;
+                            $a < count($vehicleDeclacEx->quizzes);
+                            ++$a
+                        ) {
+                            $tests->updateOne(
+                                [
+                                    "_id" => new MongoDB\BSON\ObjectId(
+                                        $insertExDecla->getInsertedId()
+                                    ),
+                                ],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" =>
+                                            $vehicleDeclacEx->quizzes[$a],
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                  }
                 }
-  
-                $saveTestFac = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ]);
-                $saveTestFac['total'] = count($saveTestFac['quizzes']);
+
+                $saveTestFac = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertFac->getInsertedId()
+                    ),
+                ]);
+                $saveTestFac["total"] = count($saveTestFac["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertFac->getInsertedId() ) ],
-                    [ '$set' => $saveTestFac ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertFac->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestFac]
                 );
-                
+
                 $allocateFac = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertFac->getInsertedId()),
-                  'type' => 'Factuel',
-                  'level' => 'Junior',
-                  'activeTest' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertFac->getInsertedId()
+                    ),
+                    "type" => "Factuel",
+                    "level" => "Junior",
+                    "activeTest" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateFac);
-  
-                $saveTestDecla = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ]);
-                $saveTestDecla['total'] = count($saveTestDecla['quizzes']);
+
+                $saveTestDecla = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertDecla->getInsertedId()
+                    ),
+                ]);
+                $saveTestDecla["total"] = count($saveTestDecla["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertDecla->getInsertedId() ) ],
-                    [ '$set' => $saveTestDecla ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertDecla->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestDecla]
                 );
-                
+
                 $allocateDecla = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertDecla->getInsertedId()),
-                  'type' => 'Declaratif',
-                  'level' => 'Junior',
-                  'activeTest' => false,
-                  'activeManager' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertDecla->getInsertedId()
+                    ),
+                    "type" => "Declaratif",
+                    "level" => "Junior",
+                    "activeTest" => false,
+                    "activeManager" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateDecla);
-  
-                $saveTestSeFac = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertSeFac->getInsertedId() ) ]);
-                $saveTestSeFac['total'] = count($saveTestSeFac['quizzes']);
+
+                $saveTestSeFac = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertSeFac->getInsertedId()
+                    ),
+                ]);
+                $saveTestSeFac["total"] = count($saveTestSeFac["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertSeFac->getInsertedId() ) ],
-                    [ '$set' => $saveTestSeFac ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertSeFac->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestSeFac]
                 );
-                
+
                 $allocateSeFac = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertSeFac->getInsertedId()),
-                  'type' => 'Factuel',
-                  'level' => 'Senior',
-                  'activeTest' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertSeFac->getInsertedId()
+                    ),
+                    "type" => "Factuel",
+                    "level" => "Senior",
+                    "activeTest" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateSeFac);
-  
-                $saveTestSeDecla = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertSeDecla->getInsertedId() ) ]);
-                $saveTestSeDecla['total'] = count($saveTestSeDecla['quizzes']);
+
+                $saveTestSeDecla = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertSeDecla->getInsertedId()
+                    ),
+                ]);
+                $saveTestSeDecla["total"] = count($saveTestSeDecla["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertSeDecla->getInsertedId() ) ],
-                    [ '$set' => $saveTestSeDecla ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertSeDecla->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestSeDecla]
                 );
-                
+
                 $allocateSeDecla = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertSeDecla->getInsertedId()),
-                  'type' => 'Declaratif',
-                  'level' => 'Senior',
-                  'activeTest' => false,
-                  'activeManager' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertSeDecla->getInsertedId()
+                    ),
+                    "type" => "Declaratif",
+                    "level" => "Senior",
+                    "activeTest" => false,
+                    "activeManager" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateSeDecla);
-  
-                $saveTestExFac = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertExFac->getInsertedId() ) ]);
-                $saveTestExFac['total'] = count($saveTestExFac['quizzes']);
+
+                $saveTestExFac = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertExFac->getInsertedId()
+                    ),
+                ]);
+                $saveTestExFac["total"] = count($saveTestExFac["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertExFac->getInsertedId() ) ],
-                    [ '$set' => $saveTestExFac ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertExFac->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestExFac]
                 );
-                
+
                 $allocateExFac = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertExFac->getInsertedId()),
-                  'type' => 'Factuel',
-                  'level' => 'Expert',
-                  'activeTest' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertExFac->getInsertedId()
+                    ),
+                    "type" => "Factuel",
+                    "level" => "Expert",
+                    "activeTest" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateExFac);
-  
-                $saveTestExDecla = $tests->findOne([ '_id' => new MongoDB\BSON\ObjectId( $insertExDecla->getInsertedId() ) ]);
-                $saveTestExDecla['total'] = count($saveTestExDecla['quizzes']);
+
+                $saveTestExDecla = $tests->findOne([
+                    "_id" => new MongoDB\BSON\ObjectId(
+                        $insertExDecla->getInsertedId()
+                    ),
+                ]);
+                $saveTestExDecla["total"] = count($saveTestExDecla["quizzes"]);
                 $tests->updateOne(
-                    [ '_id' => new MongoDB\BSON\ObjectId( $insertExDecla->getInsertedId() ) ],
-                    [ '$set' => $saveTestExDecla ]
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insertExDecla->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => $saveTestExDecla]
                 );
-                
+
                 $allocateExDecla = [
-                  'user' => new MongoDB\BSON\ObjectId($user->getInsertedId()),
-                  'test' => new MongoDB\BSON\ObjectId($insertExDecla->getInsertedId()),
-                  'type' => 'Declaratif',
-                  'level' => 'Expert',
-                  'activeTest' => false,
-                  'activeManager' => false,
-                  'active' => false,
-                  'created' => date('d-m-Y'),
+                    "user" => new MongoDB\BSON\ObjectId($user->getInsertedId()),
+                    "test" => new MongoDB\BSON\ObjectId(
+                        $insertExDecla->getInsertedId()
+                    ),
+                    "type" => "Declaratif",
+                    "level" => "Expert",
+                    "activeTest" => false,
+                    "activeManager" => false,
+                    "active" => false,
+                    "created" => date("d-m-Y"),
                 ];
                 $allocations->insertOne($allocateExDecla);
-                
-                $success_msg = 'Technicien ajouté avec succès';
-  
-          }
-        }
-    } ?>
 
-<?php
-include_once 'partials/header.php'; ?>
+                $success_msg = "Technicien ajouté avec succès";
+            }
+        }
+    }
+    ?>
+
+<?php include_once "partials/header.php"; ?>
 
 <!--begin::Title-->
 <title>Ajouter Collaborateur | CFAO Mobility Academy</title>
@@ -711,9 +964,7 @@ include_once 'partials/header.php'; ?>
         <img src='../public/images/logo.png' alt='10' height='170' style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
         <h1 class='my-3 text-center'>Ajouter un collaborateur</h1>
 
-        <?php
-                   if (isset($success_msg)) {
-                ?>
+        <?php if (isset($success_msg)) { ?>
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
           <center><strong><?php echo $success_msg; ?></strong></center>
           <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
@@ -721,11 +972,8 @@ include_once 'partials/header.php'; ?>
             </span>
           </button>
         </div>
-        <?php
-                   } ?>
-        <?php
-                   if (isset($error_msg)) {
-                ?>
+        <?php } ?>
+        <?php if (isset($error_msg)) { ?>
         <div class='alert alert-danger alert-dismissible fade show' role='alert'>
           <center><strong><?php echo $error_msg; ?></strong></center>
           <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
@@ -733,8 +981,7 @@ include_once 'partials/header.php'; ?>
             </span>
           </button>
         </div>
-        <?php
-                } ?>
+        <?php } ?>
 
         <form method='POST'><br>
           <!--begin::Input group-->
@@ -748,14 +995,11 @@ include_once 'partials/header.php'; ?>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input class='form-control form-control-solid' placeholder='' name='firstName' />
-                <?php
-                if (isset($error)) {
-                        ?>
+                <?php if (isset($error)) { ?>
                 <span class='text-danger'>
                   <?php echo $error; ?>
                 </span>
-                <?php
-                   } ?>
+                <?php } ?>
               </div>
               <!--end::Col-->
               <!--begin::Col-->
@@ -766,14 +1010,11 @@ include_once 'partials/header.php'; ?>
                 <!--begin::Input-->
                 <input class='form-control form-control-solid' placeholder='' name='lastName' />
                 <!--end::Input-->
-                <?php
-                if (isset($error)) {
-                        ?>
+                <?php if (isset($error)) { ?>
                 <span class='text-danger'>
                   <?php echo $error; ?>
                 </span>
-                <?php
-                                 } ?>
+                <?php } ?>
               </div>
               <!--end::Col-->
             </div>
@@ -786,14 +1027,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type='text' class='form-control form-control-solid' placeholder='' name='username' />
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                      ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -804,14 +1042,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type='text' class='form-control form-control-solid' placeholder='' name='matricule' />
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                      ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -836,14 +1071,11 @@ include_once 'partials/header.php'; ?>
               <!--end::Input-->
             </div>
             <!--end::Input group-->
-            <?php
-               if (isset($error)) {
-            ?>
+            <?php if (isset($error)) { ?>
             <span class='text-danger'>
               <?php echo $error; ?>
             </span>
-            <?php
-              } ?>
+            <?php } ?>
             <!--begin::Input group-->
             <div class='fv-row mb-7'>
               <!--begin::Label-->
@@ -855,20 +1087,17 @@ include_once 'partials/header.php'; ?>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type='email' class='form-control form-control-solid' placeholder='' name='email' <?php
-              if (isset($_POST['submit'])) {
-                  echo 'value="'.$email.'"';
-              }
-               ?> />
+              <input type='email' class='form-control form-control-solid' placeholder='' name='email' <?php if (
+                  isset($_POST["submit"])
+              ) {
+                  echo 'value="' . $email . '"';
+              } ?> />
               <!--end::Input-->
-              <?php
-                if (isset($email_error)) {
-              ?>
+              <?php if (isset($email_error)) { ?>
               <span class='text-danger'>
                 <?php echo $email_error; ?>
               </span>
-              <?php
-               } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -880,14 +1109,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type='text' class='form-control form-control-solid' placeholder='' name='phone' />
               <!--end::Input-->
-              <?php
-                if (isset($phone_error)) {
-              ?>
+              <?php if (isset($phone_error)) { ?>
               <span class='text-danger'>
                 <?php echo $phone_error; ?>
               </span>
-              <?php
-               } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -899,14 +1125,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type='date' class='form-control form-control-solid' placeholder='' name='birthdate' />
               <!--end::Input-->
-              <?php
-                if (isset($error)) {
-              ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1165,14 +1388,11 @@ include_once 'partials/header.php'; ?>
                 <option value="Zimbabwe">Zimbabwe</option>
               </select>
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                  ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                 } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1194,14 +1414,11 @@ include_once 'partials/header.php'; ?>
                 </option>
               </select>
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                  ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1228,14 +1445,11 @@ include_once 'partials/header.php'; ?>
                 </option>
               </select>
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                  ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1281,14 +1495,11 @@ include_once 'partials/header.php'; ?>
                 </option>
               </select>
               <!--end::Input-->
-              <?php
-                     if (isset($error)) {
-                         ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1331,14 +1542,11 @@ include_once 'partials/header.php'; ?>
                 </option>
               </select>
               <!--end::Input-->
-              <?php
-                     if (isset($error)) {
-                         ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1367,14 +1575,11 @@ include_once 'partials/header.php'; ?>
                 </option>
               </select>
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                  ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1385,14 +1590,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid" placeholder="" name="certificate" />
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                  ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1403,14 +1605,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid" placeholder="" name="subsidiary" />
               <!--end::Input-->
-              <?php
-              if (isset($error)) {
-                  ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1421,14 +1620,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid fw-bold" placeholder="" name="role" />
               <!--end::Input-->
-              <?php
-                     if (isset($error)) {
-                         ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1440,14 +1636,11 @@ include_once 'partials/header.php'; ?>
               <!--begin::Input-->
               <input type="date" class="form-control form-control-solid" placeholder="" name="recrutmentDate" />
               <!--end::Input-->
-              <?php
-                     if (isset($error)) {
-                         ?>
+              <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
-              <?php
-                     } ?>
+              <?php } ?>
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
@@ -1464,22 +1657,16 @@ include_once 'partials/header.php'; ?>
                   <input class="form-control form-control-solid" type="password" placeholder="" name="password" autocomplete="off" />
                 </div>
                 <!--end::Input wrapper-->
-                <?php
-                if (isset($password_error)) {
-                    ?>
+                <?php if (isset($password_error)) { ?>
                 <span class="text-danger">
                   <?php echo $password_error; ?>
                 </span>
-                <?php
-                } ?>
-                <?php
-                     if (isset($error)) {
-                         ?>
+                <?php } ?>
+                <?php if (isset($error)) { ?>
                 <span class='text-danger'>
                   <?php echo $error; ?>
                 </span>
-                <?php
-                     } ?>
+                <?php } ?>
                 <!--begin::Meter-->
                 <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
                   <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2">
@@ -1528,10 +1715,10 @@ include_once 'partials/header.php'; ?>
   <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include "./partials/footer.php"; ?>
 <?php
-include './partials/footer.php'; ?>
-<?php
-} ?>
+}
+?>
 
 <script>
   var metier = document.querySelector('#metier');

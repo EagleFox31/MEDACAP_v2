@@ -1,28 +1,20 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?>
+     ?>
 <?php
-require_once '../vendor/autoload.php';
-    
-// Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
-// Connecting in collections
+require_once "../vendor/autoload.php"; // Create connection
+$conn = new MongoDB\Client("mongodb://localhost:27017"); // Connecting in database
+$academy = $conn->academy; // Connecting in collections
 $users = $academy->users;
 $allocations = $academy->allocations;
 $exams = $academy->exams;
 ?>
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste Tests Tâches Professionnelles | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -129,51 +121,87 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $allocateDeclaJu = $allocations->findOne([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Declaratif'],
-                                                ['level' => 'Junior'],
-                                                ['activeTest' => true],
-                                            ]
-                                        ]);
-                                        $allocateDeclaSe = $allocations->findOne([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Declaratif'],
-                                                ['level' => 'Senior'],
-                                                ['activeTest' => true],
-                                            ]
-                                        ]);
-                                        $allocateDeclaEx = $allocations->findOne([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Declaratif'],
-                                                ['level' => 'Expert'],
-                                                ['activeTest' => true],
-                                            ]
-                                        ]);
-                                        $examJuDecla = $exams->findOne([
-                                            '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateDeclaJu["test"])],
-                                                ['active' => true],
-                                            ]
-                                        ]);
-                                        $examSeDecla = $exams->findOne([
-                                            '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateDeclaSe["test"])],
-                                                ['active' => true],
-                                            ]
-                                        ]);
-                                        $examExDecla = $exams->findOne([
-                                            '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateDeclaEx["test"])],
-                                                ['active' => true],
-                                            ]
-                                        ]);
+                                    $allocateDeclaJu = $allocations->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Declaratif"],
+                                            ["level" => "Junior"],
+                                            ["activeTest" => true],
+                                        ],
+                                    ]);
+                                    $allocateDeclaSe = $allocations->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Declaratif"],
+                                            ["level" => "Senior"],
+                                            ["activeTest" => true],
+                                        ],
+                                    ]);
+                                    $allocateDeclaEx = $allocations->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Declaratif"],
+                                            ["level" => "Expert"],
+                                            ["activeTest" => true],
+                                        ],
+                                    ]);
+                                    $examJuDecla = $exams->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            [
+                                                "test" => new MongoDB\BSON\ObjectId(
+                                                    $allocateDeclaJu["test"]
+                                                ),
+                                            ],
+                                            ["active" => true],
+                                        ],
+                                    ]);
+                                    $examSeDecla = $exams->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            [
+                                                "test" => new MongoDB\BSON\ObjectId(
+                                                    $allocateDeclaSe["test"]
+                                                ),
+                                            ],
+                                            ["active" => true],
+                                        ],
+                                    ]);
+                                    $examExDecla = $exams->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            [
+                                                "test" => new MongoDB\BSON\ObjectId(
+                                                    $allocateDeclaEx["test"]
+                                                ),
+                                            ],
+                                            ["active" => true],
+                                        ],
+                                    ]);
                                     ?>
                                     <tr class="odd">
                                         <td class="text-center">
@@ -185,15 +213,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateDeclaJu) { ?>
                                             <?php if ($examJuDecla) { ?>
-                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaJu["test"] ?>&level=<?php echo $allocateDeclaJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaJu[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateDeclaJu[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateDeclaJu->active == false) { ?>
-                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaJu["test"] ?>&level=<?php echo $allocateDeclaJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                <?php if (
+                                                    $allocateDeclaJu->active ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaJu[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateDeclaJu[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -223,15 +262,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateDeclaSe) { ?>
                                             <?php if ($examSeDecla) { ?>
-                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaSe["test"] ?>&level=<?php echo $allocateDeclaSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaSe[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateDeclaSe[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateDeclaSe->active == false) { ?>
-                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaSe["test"] ?>&level=<?php echo $allocateDeclaSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                <?php if (
+                                                    $allocateDeclaSe->active ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaSe[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateDeclaSe[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -261,15 +311,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateDeclaEx) { ?>
                                             <?php if ($examExDecla) { ?>
-                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaEx["test"] ?>&level=<?php echo $allocateDeclaEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaEx[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateDeclaEx[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateDeclaEx->active == false) { ?>
-                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaEx["test"] ?>&level=<?php echo $allocateDeclaEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                <?php if (
+                                                    $allocateDeclaEx->active ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaEx[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateDeclaEx[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -333,7 +394,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

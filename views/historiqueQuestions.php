@@ -1,38 +1,29 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?>
+     ?>
 <?php
-require_once '../vendor/autoload.php';
-    
-// Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
-// Connecting in collections
+require_once "../vendor/autoload.php"; // Create connection
+$conn = new MongoDB\Client("mongodb://localhost:27017"); // Connecting in database
+$academy = $conn->academy; // Connecting in collections
 $users = $academy->users;
 $quizzes = $academy->quizzes;
 $questions = $academy->questions;
 $allocations = $academy->allocations;
-
-if ( isset( $_POST[ 'active' ] ) ) {
-    $id = new MongoDB\BSON\ObjectId($_POST[ 'questionID' ]);
-    $question = $questions->findOne(['_id' => $id]);
+if (isset($_POST["active"])) {
+    $id = new MongoDB\BSON\ObjectId($_POST["questionID"]);
+    $question = $questions->findOne(["_id" => $id]);
     $question->active = true;
     $question->updated = date("d-m-Y");
-    $questions->updateOne(['_id' => $id], ['$set' => $question]);
-    $success_msg =  "Question restorée avec succes.";
+    $questions->updateOne(["_id" => $id], ['$set' => $question]);
+    $success_msg = "Question restorée avec succes.";
 }
 ?>
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste des Questions Supprimées | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -81,30 +72,22 @@ include_once 'partials/header.php'
     </div>
     <!--end::Toolbar-->
 
-    <?php 
-     if(isset($success_msg)) {
-    ?>
+    <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php
-    }
-    ?>
-    <?php
-     if(isset($error_msg)) {
-    ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
+    <?php } ?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
@@ -239,65 +222,77 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $question = $questions->find(['active' => false]);
-                                        foreach ($question as $question) {
-                                    ?>
-                                    <tr class="odd" etat="<?php echo $question->active ?>">
+                                    $question = $questions->find([
+                                        "active" => false,
+                                    ]);
+                                    foreach ($question as $question) { ?>
+                                    <tr class="odd" etat="<?php echo $question->active; ?>">
                                         <td>
                                             <!-- <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $question->_id ?>">
+                                                    onclick="enable()" value="<?php echo $question->_id; ?>">
                                             </div> -->
                                         </td>
                                         <td data-filter="search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
-                                                <?php echo $question->label ?>
+                                                <?php echo $question->label; ?>
                                             </a>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php echo $question->answer ?? "" ?>
+                                            <?php echo $question->answer ??
+                                                ""; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php if ($question->type == "Factuelle") { ?>
+                                            <?php if (
+                                                $question->type == "Factuelle"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $question->type ?>
+                                                <?php echo $question->type; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($question->type == "Declarative") { ?>
+                                            <?php if (
+                                                $question->type == "Declarative"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $question->type ?>
+                                                <?php echo $question->type; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php if ($question->level == "Junior") { ?>
+                                            <?php if (
+                                                $question->level == "Junior"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $question->level ?>
+                                                <?php echo $question->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($question->level == "Senior") { ?>
+                                            <?php if (
+                                                $question->level == "Senior"
+                                            ) { ?>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $question->level ?>
+                                                <?php echo $question->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($question->level == "Expert") { ?>
+                                            <?php if (
+                                                $question->level == "Expert"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $question->level ?>
+                                                <?php echo $question->level; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $question->speciality ?>
+                                            <?php echo $question->speciality; ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $quiz->_id ?>">
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $quiz->_id; ?>">
                                                 <i class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></button>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->
-                                    <div class="modal" id="kt_modal_desactivate<?php echo $question->_id ?>"
+                                    <div class="modal" id="kt_modal_desactivate<?php echo $question->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
                                         <!--begin::Modal dialog-->
                                         <div class="modal-dialog modal-dialog-centered mw-450px">
@@ -306,7 +301,7 @@ include_once 'partials/header.php'
                                                 <!--begin::Form-->
                                                 <form class="form" method="POST" id="kt_modal_update_user_form">
                                                     <input type="hidden" name="questionID"
-                                                        value="<?php echo $question->_id ?>">
+                                                        value="<?php echo $question->_id; ?>">
                                                     <!--begin::Modal header-->
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
@@ -366,7 +361,8 @@ include_once 'partials/header.php'
                                         <!-- end Modal dialog -->
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -411,7 +407,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

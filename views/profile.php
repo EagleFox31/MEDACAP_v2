@@ -5,126 +5,125 @@ if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
     exit();
 } else {
-    require_once '../vendor/autoload.php';
-    
+
+    require_once "../vendor/autoload.php";
+
     // Create connection
-    $conn = new MongoDB\Client('mongodb://localhost:27017');
-    
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
+
     // Connecting in database
     $academy = $conn->academy;
-    
+
     // Connecting in collections
     $users = $academy->users;
     $allocations = $academy->allocations;
 
     $id = $_SESSION["id"];
-    
+
     $user = $users->findOne([
         '$and' => [
-                [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-                [ 'active' => true ]
-        ]
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ["active" => true],
+        ],
     ]);
-    
-?>
+    ?>
 <?php
-
-if ( isset( $_POST[ 'update' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $firstName = $_POST[ 'firstName' ];
-    $lastName = $_POST[ 'lastName' ];
-    $email = $_POST[ 'email' ];
-    $phone = $_POST[ 'phone' ];
-    $matricule = $_POST[ 'matricule' ];
-    $username = $_POST[ 'username' ];
-    $subsidiary = $_POST[ 'subsidiary' ];
-    $department = $_POST[ 'department' ];
-    $role = $_POST[ 'role' ];
-    $gender = $_POST[ 'gender' ];
-    $country = $_POST[ 'country' ];
-    $level = $_POST[ 'level' ];
-    $certificate = $_POST[ 'certificate' ];
-    $speciality = $_POST[ 'speciality' ];
-    $birthdate = date( 'd-m-Y', strtotime( $_POST[ 'birthdate' ] ) );
-    $recrutmentDate = date( 'd-m-Y', strtotime( $_POST[ 'recrutmentDate' ] ) );
-
+if (isset($_POST["update"])) {
+    $id = $_POST["userID"];
+    $firstName = $_POST["firstName"];
+    $lastName = $_POST["lastName"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $matricule = $_POST["matricule"];
+    $username = $_POST["username"];
+    $subsidiary = $_POST["subsidiary"];
+    $department = $_POST["department"];
+    $role = $_POST["role"];
+    $gender = $_POST["gender"];
+    $country = $_POST["country"];
+    $level = $_POST["level"];
+    $certificate = $_POST["certificate"];
+    $speciality = $_POST["speciality"];
+    $birthdate = date("d-m-Y", strtotime($_POST["birthdate"]));
+    $recrutmentDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
     $person = [
-        'username' => $username,
-        'matricule' => $matricule,
-        'firstName' => ucfirst( $firstName ),
-        'lastName' => ucfirst( $lastName ),
-        'email' => $email,
-        'phone' => $phone,
-        'gender' => $gender,
-        'level' => $level,
-        'country' => $country,
-        'birthdate' => $birthdate,
-        'recrutmentDate' => $recrutmentDate,
-        'certificate' => ucfirst( $certificate ),
-        'subsidiary' => ucfirst( $subsidiary ),
-        'speciality' => ucfirst( $speciality ),
-        'department' => ucfirst( $department ),
-        'role' => ucfirst( $role ),
-        'updated' => date("d-m-Y")
+        "username" => $username,
+        "matricule" => $matricule,
+        "firstName" => ucfirst($firstName),
+        "lastName" => ucfirst($lastName),
+        "email" => $email,
+        "phone" => $phone,
+        "gender" => $gender,
+        "level" => $level,
+        "country" => $country,
+        "birthdate" => $birthdate,
+        "recrutmentDate" => $recrutmentDate,
+        "certificate" => ucfirst($certificate),
+        "subsidiary" => ucfirst($subsidiary),
+        "speciality" => ucfirst($speciality),
+        "department" => ucfirst($department),
+        "role" => ucfirst($role),
+        "updated" => date("d-m-Y"),
     ];
-        
     $users->updateOne(
-        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-        [ '$set' => $person ]
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        ['$set' => $person]
     );
-
-    $success_msg = 'Collaborateur modifié avec succes.';
+    $success_msg = "Collaborateur modifié avec succes.";
 }
+if (isset($_POST["brand"])) {
+    $id = $_POST["userID"];
 
-if ( isset( $_POST[ 'brand' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $brand = $_POST[ 'brand' ];
-
+    $brand = $_POST["brand"];
     $users->updateOne(
-        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-        [ '$set' => [ 'brand' => $brand, ] ]
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        [
+            '$set' => [
+                "brand" => $brand,
+            ],
+        ]
     );
-    $success_msg = 'Collaborateur modifié avec succes.';
+    $success_msg = "Collaborateur modifié avec succes.";
 }
-
-if ( isset( $_POST[ 'password' ] ) ) {
+if (isset($_POST["password"])) {
     // Password modification
-    $id = $_POST[ 'userID' ];
-    $password = $_POST[ 'password' ];
-
-    // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
-    if ( preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
-        $error = ( 'Le mot de passe doit être au moins de six caractères contenir au moins un chiffre, une lettre majiscule' );
+    $id = $_POST["userID"];
+    $password = $_POST["password"]; // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
+    if (
+        preg_match(
+            '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
+            $password
+        )
+    ) {
+        $error =
+            "Le mot de passe doit être au moins de six caractères contenir au moins un chiffre, une lettre majiscule";
     } else {
-        $password_hash = sha1( $password );
-    
+        $password_hash = sha1($password);
         $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-            [ '$set' => [ 'password' => $password_hash, ] ]
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ['$set' => ["password" => $password_hash]]
         );
-        $success_msg = 'Collaborateur modifié avec succes.';
+        $success_msg = "Collaborateur modifié avec succes.";
     }
 }
-
-if ( isset( $_POST[ 'delete' ] ) ) {
-    $id = $_POST[ 'userID' ];
-    $member = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($id)]);
-    $member['active'] = false;
-    $users->updateOne(['_id' => new MongoDB\BSON\ObjectId($id)], ['$set' => $member]);
-
-    if ($member['profile'] == "Technicien") {
+if (isset($_POST["delete"])) {
+    $id = $_POST["userID"];
+    $member = $users->findOne(["_id" => new MongoDB\BSON\ObjectId($id)]);
+    $member["active"] = false;
+    $users->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        ['$set' => $member]
+    );
+    if ($member["profile"] == "Technicien") {
         $success_msg = "Technicien supprimé avec succès";
-    } elseif ($member['profile'] == "Manager") {
+    } elseif ($member["profile"] == "Manager") {
         $success_msg = "Manager supprimé avec succès";
-    } elseif ($member['profile'] == "Admin") {
+    } elseif ($member["profile"] == "Admin") {
         $success_msg = "Administrateur supprimé avec succès";
     }
 }
-
 ?>
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Mes Informations | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -132,30 +131,22 @@ include_once 'partials/header.php'
 
 <!--begin::Content-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
-    <?php
-         if(isset($success_msg)) {
-        ?>
+    <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php
-        }
-        ?>
-    <?php
-         if(isset($error_msg)) {
-        ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php
-        }
-        ?>
+    <?php } ?>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -199,17 +190,17 @@ include_once 'partials/header.php'
                       <div class="d-flex flex-column">
                         <!--begin::Name-->
                         <div class="d-flex align-items-center mb-2">
-                          <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1"><?php echo $user->firstName ?> <?php echo $user->lastName ?></a>
+                          <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1"><?php echo $user->firstName; ?> <?php echo $user->lastName; ?></a>
                           <a href="#"><i class="ki-duotone ki-verify fs-1 text-primary"><span class="path1"></span><span class="path2"></span></i></a>
 
-                          <a href="#" class="btn btn-sm btn-light-success fw-bold ms-2 fs-8 py-1 px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan"><?php echo $user->profile ?></a>
+                          <a href="#" class="btn btn-sm btn-light-success fw-bold ms-2 fs-8 py-1 px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan" data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan"><?php echo $user->profile; ?></a>
                         </div>
                         <!--end::Name-->
 
                         <!--begin::Info-->
                         <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
                           <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
-                            <i class="ki-duotone ki-sms fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> <?php echo $user->email ?>
+                            <i class="ki-duotone ki-sms fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> <?php echo $user->email; ?>
                           </a>
                         </div>
                         <!--end::Info-->
@@ -243,7 +234,11 @@ include_once 'partials/header.php'
                 </div>
                 <!--end::Card title-->
 
-                <?php if($_SESSION["profile"]=="Admin" || $_SESSION["profile"]=="Manager" || $_SESSION["profile"]=="Technicien" ) { ?>
+                <?php if (
+                    $_SESSION["profile"] == "Admin" ||
+                    $_SESSION["profile"] == "Manager" ||
+                    $_SESSION["profile"] == "Technicien"
+                ) { ?>
                 <!--begin::Action-->
                 <a href="#" style="background: #225e41;" 
                 data-bs-toggle="modal" data-bs-target="#kt_modal_update_details" 
@@ -263,7 +258,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->username ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->username; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -277,7 +272,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8 fv-row">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->matricule ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->matricule; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -296,7 +291,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8 d-flex align-items-center">
-                    <span class="fw-bold fs-6 text-gray-800 me-2"><?php echo $user->phone ?></span>
+                    <span class="fw-bold fs-6 text-gray-800 me-2"><?php echo $user->phone; ?></span>
                     <!-- <span class="badge badge-success">Verifié</span> -->
                   </div>
                   <!--end::Col-->
@@ -311,7 +306,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->birthdate ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->birthdate; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -325,7 +320,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->gender ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->gender; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -344,7 +339,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->country ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->country; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -358,7 +353,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->certificate ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->certificate; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -372,7 +367,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->subsidiary ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->subsidiary; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -386,7 +381,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->department ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->department; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -400,7 +395,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->role ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->role; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -414,7 +409,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->speciality ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->speciality; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -429,7 +424,7 @@ include_once 'partials/header.php'
 
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->recrutmentDate ?></span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $user->recrutmentDate; ?></span>
                   </div>
                   <!--end::Col-->
                 </div>
@@ -443,7 +438,7 @@ include_once 'partials/header.php'
                   <!--begin::Col-->
                   <div class="col-lg-8">
                   <?php foreach ($user->brand as $brand) { ?>
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $brand ?>,</span>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $brand; ?>,</span>
                   <?php } ?>
                   </div>
                   <!--end::Col-->
@@ -498,7 +493,7 @@ include_once 'partials/header.php'
                               <label class="fs-6 fw-bold mb-2">Username</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="username" value="<?php echo $user->username ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="username" value="<?php echo $user->username; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -508,7 +503,7 @@ include_once 'partials/header.php'
                               <label class="fs-6 fw-bold mb-2">Matricule</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="matricule" value="<?php echo $user->matricule ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="matricule" value="<?php echo $user->matricule; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -520,7 +515,7 @@ include_once 'partials/header.php'
                                 <label class="form-label fw-bolder text-dark fs-6">Prénoms</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input class="form-control form-control-solid" placeholder="" name="firstName" value="<?php echo $user->firstName ?>" />
+                                <input class="form-control form-control-solid" placeholder="" name="firstName" value="<?php echo $user->firstName; ?>" />
                                 <!--end::Input-->
                               </div>
                               <!--end::Col-->
@@ -530,7 +525,7 @@ include_once 'partials/header.php'
                                 <label class="form-label fw-bolder text-dark fs-6">Noms</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input class="form-control form-control-solid" placeholder="" name="lastName" value="<?php echo $user->lastName ?>" />
+                                <input class="form-control form-control-solid" placeholder="" name="lastName" value="<?php echo $user->lastName; ?>" />
                                 <!--end::Input-->
                               </div>
                               <!--end::Col-->
@@ -544,7 +539,7 @@ include_once 'partials/header.php'
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="email" class="form-control form-control-solid" placeholder="" name="email" value="<?php echo $user->email ?>" />
+                              <input type="email" class="form-control form-control-solid" placeholder="" name="email" value="<?php echo $user->email; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -556,7 +551,7 @@ include_once 'partials/header.php'
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="gender" value="<?php echo $user->gender ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="gender" value="<?php echo $user->gender; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -568,7 +563,7 @@ include_once 'partials/header.php'
                                 téléphone</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="phone" value="<?php echo $user->phone ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="phone" value="<?php echo $user->phone; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -580,7 +575,7 @@ include_once 'partials/header.php'
                                 naissance</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="birthdate" value="<?php echo $user->birthdate ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="birthdate" value="<?php echo $user->birthdate; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -590,7 +585,7 @@ include_once 'partials/header.php'
                               <label class="fs-6 fw-bold mb-2">Métier</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="level" value="<?php echo $user->level ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="level" value="<?php echo $user->level; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -600,7 +595,8 @@ include_once 'partials/header.php'
                               <label class="fs-6 fw-bold mb-2">Spécialité</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="speciality" value="<?php echo $user->speciality ?? '' ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="speciality" value="<?php echo $user->speciality ??
+                                  ""; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -610,7 +606,7 @@ include_once 'partials/header.php'
                               <label class="fs-6 fw-bold mb-2">Pays</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="country" value="<?php echo $user->country ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="country" value="<?php echo $user->country; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -621,7 +617,7 @@ include_once 'partials/header.php'
                                 élévé</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="certificate" value="<?php echo $user->certificate ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="certificate" value="<?php echo $user->certificate; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -631,7 +627,7 @@ include_once 'partials/header.php'
                               <label class="fs-6 fw-bold mb-2">Filiale</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="subsidiary" value="<?php echo $user->subsidiary ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="subsidiary" value="<?php echo $user->subsidiary; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -641,7 +637,7 @@ include_once 'partials/header.php'
                               <label class="fs-6 fw-bold mb-2">Département</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="department" value="<?php echo $user->department ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="department" value="<?php echo $user->department; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -652,13 +648,11 @@ include_once 'partials/header.php'
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="role" value="<?php echo $user->role ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="role" value="<?php echo $user->role; ?>" />
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
-                            <?php
-                                        if ($user['department'] == 'Motors') {
-                                            ?>
+                            <?php if ($user["department"] == "Motors") { ?>
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
@@ -703,12 +697,8 @@ include_once 'partials/header.php'
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
-                            <?php
-                                           }
-                                        ?>
-                            <?php
-                                        if ($user['department'] == 'Equipment') {
-                                            ?>
+                            <?php } ?>
+                            <?php if ($user["department"] == "Equipment") { ?>
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
@@ -756,9 +746,7 @@ include_once 'partials/header.php'
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
-                            <?php
-                                           }
-                                        ?>
+                            <?php } ?>
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
@@ -767,10 +755,13 @@ include_once 'partials/header.php'
                                 recrutement</label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="recrutmentDate" value="<?php echo $user->recrutmentDate ?>" />
+                              <input type="text" class="form-control form-control-solid" placeholder="" name="recrutmentDate" value="<?php echo $user->recrutmentDate; ?>" />
                               <!--end::Input-->
                             </div>
-                            <?php if($user->profile == "Technicien" || $user->test == true) { ?>
+                            <?php if (
+                                $user->profile == "Technicien" ||
+                                $user->test == true
+                            ) { ?>
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
@@ -783,27 +774,31 @@ include_once 'partials/header.php'
                               <!--end::Label-->
                               <!--begin::Input-->
                               <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez votre manager..." class="form-select form-select-solid fw-bold">
-                                <?php
-                                                    if ($user->manager) {
-                                                    $lead = $users->findOne(['_id' => $user["manager"]]);
-                                                ?>
-                                <option value="<?php echo $lead->_id ?>">
+                                <?php if ($user->manager) {
+                                    $lead = $users->findOne([
+                                        "_id" => $user["manager"],
+                                    ]); ?>
+                                <option value="<?php echo $lead->_id; ?>">
                                   Manager
-                                  actuel: <?php echo $lead->firstName ?>
-                                  <?php echo $lead->lastName ?>
+                                  actuel: <?php echo $lead->firstName; ?>
+                                  <?php echo $lead->lastName; ?>
                                 </option>
-                                <?php } ?>
-                                <?php 
-                                                $managers = $users->find([
-                                                    '$and' => [['profile' => 'Manager'], ['active' => true]]
-                                                ]);
-                                                foreach ($managers as $manager) {
-                                                ?>
-                                <option value="<?php echo $manager->_id ?>">
-                                  <?php echo $manager->firstName ?>
-                                  <?php echo $manager->lastName ?>
+                                <?php
+                                } ?>
+                                <?php
+                                $managers = $users->find([
+                                    '$and' => [
+                                        ["profile" => "Manager"],
+                                        ["active" => true],
+                                    ],
+                                ]);
+                                foreach ($managers as $manager) { ?>
+                                <option value="<?php echo $manager->_id; ?>">
+                                  <?php echo $manager->firstName; ?>
+                                  <?php echo $manager->lastName; ?>
                                 </option>
-                                <?php } ?>
+                                <?php }
+                                ?>
                               </select>
                               <!--end::Input-->
                             </div>
@@ -842,9 +837,6 @@ include_once 'partials/header.php'
         <!--end::Container-->
       </div>
       <!--end::Post-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php
-}
-?>
+} ?>

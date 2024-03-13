@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-
-include_once 'partials/header.php'
-?>
+    include_once "partials/header.php"; ?>
 <!--begin::Body-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" data-select2-id="select2-data-kt_content">
   <!--begin::Post-->
@@ -62,7 +60,6 @@ include_once 'partials/header.php'
 <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

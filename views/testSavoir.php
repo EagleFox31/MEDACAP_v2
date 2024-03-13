@@ -1,28 +1,20 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?>
+     ?>
 <?php
-require_once '../vendor/autoload.php';
-    
-// Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
-// Connecting in collections
+require_once "../vendor/autoload.php"; // Create connection
+$conn = new MongoDB\Client("mongodb://localhost:27017"); // Connecting in database
+$academy = $conn->academy; // Connecting in collections
 $users = $academy->users;
 $allocations = $academy->allocations;
 $exams = $academy->exams;
 ?>
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste Tests Connaissances | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -129,51 +121,87 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $allocateFacJu = $allocations->findOne([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Factuel'],
-                                                ['level' => 'Junior'],
-                                                ['activeTest' => true],
-                                            ]
-                                        ]);
-                                        $allocateFacSe = $allocations->findOne([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Factuel'],
-                                                ['level' => 'Senior'],
-                                                ['activeTest' => true],
-                                            ]
-                                        ]);
-                                        $allocateFacEx = $allocations->findOne([
-                                            '$and' => [
-                                                ["user" => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['type' => 'Factuel'],
-                                                ['level' => 'Expert'],
-                                                ['activeTest' => true],
-                                            ]
-                                        ]);
-                                        $examJuFac = $exams->findOne([
-                                            '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateFacJu["test"])],
-                                                ['active' => true],
-                                            ]
-                                        ]);
-                                        $examSeFac = $exams->findOne([
-                                            '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateFacSe["test"])],
-                                                ['active' => true],
-                                            ]
-                                        ]);
-                                        $examExFac = $exams->findOne([
-                                            '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateFacEx["test"])],
-                                                ['active' => true],
-                                            ]
-                                        ]);
+                                    $allocateFacJu = $allocations->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Factuel"],
+                                            ["level" => "Junior"],
+                                            ["activeTest" => true],
+                                        ],
+                                    ]);
+                                    $allocateFacSe = $allocations->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Factuel"],
+                                            ["level" => "Senior"],
+                                            ["activeTest" => true],
+                                        ],
+                                    ]);
+                                    $allocateFacEx = $allocations->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            ["type" => "Factuel"],
+                                            ["level" => "Expert"],
+                                            ["activeTest" => true],
+                                        ],
+                                    ]);
+                                    $examJuFac = $exams->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            [
+                                                "test" => new MongoDB\BSON\ObjectId(
+                                                    $allocateFacJu["test"]
+                                                ),
+                                            ],
+                                            ["active" => true],
+                                        ],
+                                    ]);
+                                    $examSeFac = $exams->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            [
+                                                "test" => new MongoDB\BSON\ObjectId(
+                                                    $allocateFacSe["test"]
+                                                ),
+                                            ],
+                                            ["active" => true],
+                                        ],
+                                    ]);
+                                    $examExFac = $exams->findOne([
+                                        '$and' => [
+                                            [
+                                                "user" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                            ],
+                                            [
+                                                "test" => new MongoDB\BSON\ObjectId(
+                                                    $allocateFacEx["test"]
+                                                ),
+                                            ],
+                                            ["active" => true],
+                                        ],
+                                    ]);
                                     ?>
                                     <tr class="odd">
                                         <td class="text-center">
@@ -185,15 +213,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateFacJu) { ?>
                                             <?php if ($examJuFac) { ?>
-                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacJu["test"] ?>&level=<?php echo $allocateFacJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacJu[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateFacJu[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateFacJu->active == false) { ?>
-                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacJu["test"] ?>&level=<?php echo $allocateFacJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                <?php if (
+                                                    $allocateFacJu->active ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacJu[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateFacJu[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -223,15 +262,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateFacSe) { ?>
                                             <?php if ($examSeFac) { ?>
-                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacSe["test"] ?>&level=<?php echo $allocateFacSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacSe[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateFacSe[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateFacSe->active == false) { ?>
-                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacSe["test"] ?>&level=<?php echo $allocateFacSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                <?php if (
+                                                    $allocateFacSe->active ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacSe[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateFacSe[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -261,15 +311,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateFacEx) { ?>
                                             <?php if ($examExFac) { ?>
-                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacEx["test"] ?>&level=<?php echo $allocateFacEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacEx[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateFacEx[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateFacEx->active == false) { ?>
-                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacEx["test"] ?>&level=<?php echo $allocateFacEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>"
+                                                <?php if (
+                                                    $allocateFacEx->active ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userQuizFactuel.php?test=<?php echo $allocateFacEx[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateFacEx[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -333,7 +394,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

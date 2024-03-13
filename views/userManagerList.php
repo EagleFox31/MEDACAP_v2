@@ -1,38 +1,37 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-    require_once '../vendor/autoload.php';
-    
+
+    require_once "../vendor/autoload.php";
+
     // Create connection
-    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
-    
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
+
     // Connecting in database
     $academy = $conn->academy;
-    
+
     // Connecting in collections
     $users = $academy->users;
     $exams = $academy->exams;
     $quizzes = $academy->quizzes;
     $allocations = $academy->allocations;
 
-    $id = $_SESSION[ 'id' ];
+    $id = $_SESSION["id"];
 
     $manager = $users->findOne([
         '$and' => [
             [
-                '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true,
+                "_id" => new MongoDB\BSON\ObjectId($id),
+                "active" => true,
             ],
-        ]
+        ],
     ]);
-?>
-<?php
-include_once 'partials/header.php'
-?>
+    ?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste Collaborateurs à Evalués | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -176,67 +175,96 @@ include_once 'partials/header.php'
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
-                                    <?php
-                                    foreach ($manager->users as $collaborator) {
+                                    <?php foreach (
+                                        $manager->users
+                                        as $collaborator
+                                    ) {
+
                                         $allocateJu = $allocations->findOne([
                                             '$and' => [
-                                                ['user' => $collaborator],
-                                                ['type' => 'Declaratif'],
-                                                ['level' => 'Junior'],
-                                                ['activeTest' => true],
-                                            ]
+                                                ["user" => $collaborator],
+                                                ["type" => "Declaratif"],
+                                                ["level" => "Junior"],
+                                                ["activeTest" => true],
+                                            ],
                                         ]);
                                         $allocateSe = $allocations->findOne([
                                             '$and' => [
-                                                ['user' => $collaborator],
-                                                ['type' => 'Declaratif'],
-                                                ['level' => 'Senior'],
-                                                ['activeTest' => true],
-                                            ]
+                                                ["user" => $collaborator],
+                                                ["type" => "Declaratif"],
+                                                ["level" => "Senior"],
+                                                ["activeTest" => true],
+                                            ],
                                         ]);
                                         $allocateEx = $allocations->findOne([
                                             '$and' => [
-                                                ['user' => $collaborator],
-                                                ['type' => 'Declaratif'],
-                                                ['level' => 'Expert'],
-                                                ['activeTest' => true],
-                                            ]
+                                                ["user" => $collaborator],
+                                                ["type" => "Declaratif"],
+                                                ["level" => "Expert"],
+                                                ["activeTest" => true],
+                                            ],
                                         ]);
                                         $examJu = $exams->findOne([
                                             '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateJu["test"])],
-                                                ['active' => true],
-                                            ]
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId(
+                                                        $_SESSION["id"]
+                                                    ),
+                                                ],
+                                                [
+                                                    "test" => new MongoDB\BSON\ObjectId(
+                                                        $allocateJu["test"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
+                                            ],
                                         ]);
                                         $examSe = $exams->findOne([
                                             '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateSe["test"])],
-                                                ['active' => true],
-                                            ]
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId(
+                                                        $_SESSION["id"]
+                                                    ),
+                                                ],
+                                                [
+                                                    "test" => new MongoDB\BSON\ObjectId(
+                                                        $allocateSe["test"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
+                                            ],
                                         ]);
                                         $examEx = $exams->findOne([
                                             '$and' => [
-                                                ['user' => new MongoDB\BSON\ObjectId($_SESSION["id"])],
-                                                ['test' => new MongoDB\BSON\ObjectId($allocateEx["test"])],
-                                                ['active' => true],
-                                            ]
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId(
+                                                        $_SESSION["id"]
+                                                    ),
+                                                ],
+                                                [
+                                                    "test" => new MongoDB\BSON\ObjectId(
+                                                        $allocateEx["test"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
+                                            ],
                                         ]);
                                         $user = $users->findOne([
                                             '$and' => [
                                                 [
-                                                    '_id' => new MongoDB\BSON\ObjectId($collaborator),
-                                                    'active' => true,
+                                                    "_id" => new MongoDB\BSON\ObjectId(
+                                                        $collaborator
+                                                    ),
+                                                    "active" => true,
                                                 ],
-                                            ]
+                                            ],
                                         ]);
-                                    ?>
+                                        ?>
                                     <tr class="odd" etat="">
                                         <td>
                                         </td>
                                         <td class="text-center">
-                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
+                                            <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td class="text-center">
                                             Maitrise des tâches professionnelles
@@ -244,15 +272,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateJu) { ?>
                                             <?php if ($examJu) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateJu["test"] ?>&level=<?php echo $allocateJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                                    <a href="./userEvaluation.php?test=<?php echo $allocateJu[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateJu[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateJu->activeManager == false) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateJu["test"] ?>&level=<?php echo $allocateJu["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                                <?php if (
+                                                    $allocateJu->activeManager ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userEvaluation.php?test=<?php echo $allocateJu[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateJu[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -273,15 +312,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateSe) { ?>
                                             <?php if ($examSe) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateSe["test"] ?>&level=<?php echo $allocateSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                                    <a href="./userEvaluation.php?test=<?php echo $allocateSe[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateSe[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateSe->activeManager == false) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateSe["test"] ?>&level=<?php echo $allocateSe["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                                <?php if (
+                                                    $allocateSe->activeManager ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userEvaluation.php?test=<?php echo $allocateSe[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateSe[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -302,15 +352,26 @@ include_once 'partials/header.php'
                                         <td class="text-center">
                                             <?php if ($allocateEx) { ?>
                                             <?php if ($examEx) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateEx["test"] ?>&level=<?php echo $allocateEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                                    <a href="./userEvaluation.php?test=<?php echo $allocateEx[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateEx[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                         En cours
                                                     </a>
                                             <?php } else { ?>
-                                                <?php if ($allocateEx->activeManager == false) { ?>
-                                                    <a href="./userEvaluation.php?test=<?php echo $allocateEx["test"] ?>&level=<?php echo $allocateEx["level"] ?>&id=<?php echo $_SESSION["id"] ?>&user=<?php echo $user["_id"] ?>"
+                                                <?php if (
+                                                    $allocateEx->activeManager ==
+                                                    false
+                                                ) { ?>
+                                                    <a href="./userEvaluation.php?test=<?php echo $allocateEx[
+                                                        "test"
+                                                    ]; ?>&level=<?php echo $allocateEx[
+    "level"
+]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -330,7 +391,8 @@ include_once 'partials/header.php'
                                         </td>
                                         <!--end::Menu-->
                                     </tr>
-                                    <?php } ?>
+                                    <?php
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -367,7 +429,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

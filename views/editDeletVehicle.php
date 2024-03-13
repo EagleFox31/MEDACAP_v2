@@ -1,122 +1,123 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?><?php
-require_once '../vendor/autoload.php';
-    
-// Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
-// Connecting in collections
-$users = $academy->users;
-$quizzes = $academy->quizzes;
-$vehicles = $academy->vehicles;
-$allocations = $academy->allocations;
- 
-if ( isset( $_POST[ 'quizze' ] ) ) {
-    $id = $_POST[ 'vehicleID' ];
-    $label = $_POST[ 'label' ];
-    $brand = $_POST[ 'brand' ];
-    $type = $_POST[ 'type' ];
-    $level = $_POST[ 'level' ];
-    $quiz = $_POST[ 'quizze' ]; 
 
-    $quize = [];
-    for ($i = 0; $i < count($quiz); $i++) {
-        array_push($quize, new MongoDB\BSON\ObjectId( $quiz[$i] ));
+    require_once "../vendor/autoload.php";
+
+    // Create connection
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
+
+    // Connecting in database
+    $academy = $conn->academy;
+
+    // Connecting in collections
+    $users = $academy->users;
+    $quizzes = $academy->quizzes;
+    $vehicles = $academy->vehicles;
+    $allocations = $academy->allocations;
+
+    if (isset($_POST["quizze"])) {
+        $id = $_POST["vehicleID"];
+        $label = $_POST["label"];
+        $brand = $_POST["brand"];
+        $type = $_POST["type"];
+        $level = $_POST["level"];
+        $quiz = $_POST["quizze"];
+
+        $quize = [];
+        for ($i = 0; $i < count($quiz); $i++) {
+            array_push($quize, new MongoDB\BSON\ObjectId($quiz[$i]));
+        }
+        $vehicle = [
+            "quizzes" => $quize,
+            "label" => ucfirst($label),
+            "brand" => ucfirst($brand),
+            "type" => $type,
+            "level" => ucfirst($level),
+            "total" => count($quize),
+            "updated" => date("d-m-Y"),
+        ];
+
+        $vehicles->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ['$set' => $vehicle]
+        );
+        $success_msg = "Véhicule modifié avec succès.";
     }
-    $vehicle = [
-        'quizzes' => $quize,
-        'label' => ucfirst( $label ),
-        'brand' => ucfirst( $brand ),
-        'type' => $type,
-        'level' => ucfirst( $level ),
-        'total' => count( $quize ),
-        'updated' => date("d-m-Y")
-    ];
-    
-    $vehicles->updateOne(
-        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-        [ '$set' => $vehicle ]
-    );
-    $success_msg = "Véhicule modifié avec succès.";
-}
 
-if ( isset( $_POST[ 'update' ] ) ) {
-    $id = $_POST[ 'vehicleID' ];
-    $label = $_POST[ 'label' ];
-    $brand = $_POST[ 'brand' ];
-    $type = $_POST[ 'type' ];
-    $level = $_POST[ 'level' ];
+    if (isset($_POST["update"])) {
+        $id = $_POST["vehicleID"];
+        $label = $_POST["label"];
+        $brand = $_POST["brand"];
+        $type = $_POST["type"];
+        $level = $_POST["level"];
 
-    $vehicle = [
-        'label' => ucfirst( $label ),
-        'brand' => ucfirst( $brand ),
-        'type' => $type,
-        'level' => ucfirst( $level ),
-        'updated' => date("d-m-Y")
-    ];
-    
-    $vehicles->updateOne(
-        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-        [ '$set' => $vehicle ]
-    );
-    $success_msg = "Véhicule modifié avec succès.";
-}
+        $vehicle = [
+            "label" => ucfirst($label),
+            "brand" => ucfirst($brand),
+            "type" => $type,
+            "level" => ucfirst($level),
+            "updated" => date("d-m-Y"),
+        ];
 
-if ( isset( $_POST[ 'retire-quiz-vehicle' ] ) ) {
-    $quiz = $_POST[ 'quizID' ];
-    $vehicle = $_POST[ 'vehicleID' ];
-    
-    $membre = $vehicles->updateOne(
-        ['_id' => new MongoDB\BSON\ObjectId( $vehicle )],
-        ['$pull' => ['quizzes' => new MongoDB\BSON\ObjectId( $quiz )]]
-    );
+        $vehicles->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ['$set' => $vehicle]
+        );
+        $success_msg = "Véhicule modifié avec succès.";
+    }
 
-    $success_msg = "Questionnaire retiré avec succès.";
-}
+    if (isset($_POST["retire-quiz-vehicle"])) {
+        $quiz = $_POST["quizID"];
+        $vehicle = $_POST["vehicleID"];
 
-if ( isset( $_POST[ 'retire-technician-vehicle' ] ) ) {
-    $vehicle = $_POST[ 'vehicleID' ];
-    $user = $_POST[ 'userID' ];
- 
- $allocate = $allocations->findOne([
-     '$and' => [
-         ['quiz' => new MongoDB\BSON\ObjectId( $quiz )],
-         ['user' => new MongoDB\BSON\ObjectId( $user )]
-     ]
- ]);
- 
- $allocate->active = false;
- $allocations->updateOne(['_id' => new MongoDB\BSON\ObjectId( $allocate->_id )], ['$set' => $allocate]);
- 
- $quizzes->updateOne(
-     ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
-     ['$pull' => ['users' => new MongoDB\BSON\ObjectId( $user )]]
- );
- 
- // Handle flash messages and success message as needed in your application.
- $success_msg = "Personne retirée avec succes.";
-}
+        $membre = $vehicles->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
+            ['$pull' => ["quizzes" => new MongoDB\BSON\ObjectId($quiz)]]
+        );
 
-if ( isset( $_POST[ 'delet' ] ) ) {
-    $id = new MongoDB\BSON\ObjectId($_POST[ 'vehicleID' ]);
-    $vehicle = $vehicles->findOne(['_id' => $id]);
-    $vehicle->active = false;
-    $vehicles->updateOne(['_id' => $id], ['$set' => $vehicle]);
-    $success_msg =  "Véhicule supprimé avec succes.";
-}
-?>
-<?php
-include_once 'partials/header.php'
-?>
+        $success_msg = "Questionnaire retiré avec succès.";
+    }
+
+    if (isset($_POST["retire-technician-vehicle"])) {
+        $vehicle = $_POST["vehicleID"];
+        $user = $_POST["userID"];
+
+        $allocate = $allocations->findOne([
+            '$and' => [
+                ["quiz" => new MongoDB\BSON\ObjectId($quiz)],
+                ["user" => new MongoDB\BSON\ObjectId($user)],
+            ],
+        ]);
+
+        $allocate->active = false;
+        $allocations->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($allocate->_id)],
+            ['$set' => $allocate]
+        );
+
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
+            ['$pull' => ["users" => new MongoDB\BSON\ObjectId($user)]]
+        );
+
+        // Handle flash messages and success message as needed in your application.
+        $success_msg = "Personne retirée avec succes.";
+    }
+
+    if (isset($_POST["delet"])) {
+        $id = new MongoDB\BSON\ObjectId($_POST["vehicleID"]);
+        $vehicle = $vehicles->findOne(["_id" => $id]);
+        $vehicle->active = false;
+        $vehicles->updateOne(["_id" => $id], ['$set' => $vehicle]);
+        $success_msg = "Véhicule supprimé avec succes.";
+    }
+    ?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Modifier/Supprimer un Véhicule | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -177,30 +178,22 @@ include_once 'partials/header.php'
     </div>
     <!--end::Toolbar-->
 
-    <?php 
-     if(isset($success_msg)) {
-    ?>
+    <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
-    <?php 
-     if(isset($error_msg)) {
-    ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
+    <?php } ?>
 
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
@@ -360,65 +353,76 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $vehicle = $vehicles->find(['active' => true]);
-                                        foreach ($vehicle as $vehicle) {
-                                    ?>
-                                    <tr class="odd" etat="<?php echo $vehicle->active ?>">
+                                    $vehicle = $vehicles->find([
+                                        "active" => true,
+                                    ]);
+                                    foreach ($vehicle as $vehicle) { ?>
+                                    <tr class="odd" etat="<?php echo $vehicle->active; ?>">
                                         <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $vehicle->_id ?>">
+                                                    onclick="enable()" value="<?php echo $vehicle->_id; ?>">
                                             </div>
                                         </td>
                                         <td data-filter=" search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
-                                                <?php echo $vehicle->label ?>
+                                                <?php echo $vehicle->label; ?>
                                             </a>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php if ($vehicle->type == "Factuel") { ?>
+                                            <?php if (
+                                                $vehicle->type == "Factuel"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $vehicle->type ?>
+                                                <?php echo $vehicle->type; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($vehicle->type == "Declaratif") { ?>
+                                            <?php if (
+                                                $vehicle->type == "Declaratif"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $vehicle->type ?>
+                                                <?php echo $vehicle->type; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $vehicle->brand ?>
+                                            <?php echo $vehicle->brand; ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php if ($vehicle->level == "Junior") { ?>
+                                            <?php if (
+                                                $vehicle->level == "Junior"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $vehicle->level ?>
+                                                <?php echo $vehicle->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($vehicle->level == "Senior") { ?>
+                                            <?php if (
+                                                $vehicle->level == "Senior"
+                                            ) { ?>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $vehicle->level ?>
+                                                <?php echo $vehicle->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($vehicle->level == "Expert") { ?>
+                                            <?php if (
+                                                $vehicle->level == "Expert"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $vehicle->level ?>
+                                                <?php echo $vehicle->level; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $vehicle->_id ?>">
+                                            <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $vehicle->_id; ?>">
                                                 <i class="fas fa-edit fs-5"></i></button>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $vehicle->_id ?>">
+                                            <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $vehicle->_id; ?>">
                                                 <i class="fas fa-trash fs-5"></i></button>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->
-                                    <div class="modal" id="kt_modal_desactivate<?php echo $vehicle->_id ?>"
+                                    <div class="modal" id="kt_modal_desactivate<?php echo $vehicle->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
                                         <!--begin::Modal dialog-->
                                         <div class="modal-dialog modal-dialog-centered mw-450px">
@@ -427,7 +431,7 @@ include_once 'partials/header.php'
                                                 <!--begin::Form-->
                                                 <form class="form" method="POST" id="kt_modal_update_user_form">
                                                     <input type="hidden" name="vehicleID"
-                                                        value="<?php echo $vehicle->_id ?>">
+                                                        value="<?php echo $vehicle->_id; ?>">
                                                     <!--begin::Modal header-->
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
@@ -488,7 +492,7 @@ include_once 'partials/header.php'
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
                                     <!--begin::Modal - Update vehicle details-->
-                                    <div class="modal" id="kt_modal_update_details<?php echo $vehicle->_id ?>"
+                                    <div class="modal" id="kt_modal_update_details<?php echo $vehicle->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
                                         <!--begin::Modal dialog-->
                                         <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -497,7 +501,7 @@ include_once 'partials/header.php'
                                                 <!--begin::Form-->
                                                 <form class="form" method="POST" id="kt_modal_update_user_form">
                                                     <input type="hidden" name="vehicleID"
-                                                        value="<?php echo $vehicle->_id ?>">
+                                                        value="<?php echo $vehicle->_id; ?>">
                                                     <!--begin::Modal header-->
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
@@ -554,7 +558,7 @@ include_once 'partials/header.php'
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="label"
-                                                                        value="<?php echo $vehicle->label ?>" />
+                                                                        value="<?php echo $vehicle->label; ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -567,7 +571,7 @@ include_once 'partials/header.php'
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="type"
-                                                                        value="<?php echo $vehicle->type ?>" />
+                                                                        value="<?php echo $vehicle->type; ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -582,7 +586,7 @@ include_once 'partials/header.php'
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="brand"
-                                                                        value="<?php echo $vehicle->brand ?>" />
+                                                                        value="<?php echo $vehicle->brand; ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -595,7 +599,7 @@ include_once 'partials/header.php'
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
                                                                         placeholder="" name="level"
-                                                                        value="<?php echo $vehicle->level ?>" />
+                                                                        value="<?php echo $vehicle->level; ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -618,19 +622,29 @@ include_once 'partials/header.php'
                                                                         data-control="select2"
                                                                         data-placeholder="Sélectionnez vos questionnaires..."
                                                                         class="form-select form-select-solid fw-bold">
-                                                                        <?php 
-                                                                        $quizz = $quizzes->find([ 
-                                                                            '$and' => [
-                                                                                ['type' => $vehicle->type ],
-                                                                                ['active' => true],
-                                                                            ],
-                                                                        ]);
-                                                                        foreach ($quizz as $quizz) {
-                                                                        ?>
-                                                                        <option value="<?php echo $quizz->_id ?>">
-                                                                            <?php echo $quizz->label ?>
+                                                                        <?php
+                                                                        $quizz = $quizzes->find(
+                                                                            [
+                                                                                '$and' => [
+                                                                                    [
+                                                                                        "type" =>
+                                                                                            $vehicle->type,
+                                                                                    ],
+                                                                                    [
+                                                                                        "active" => true,
+                                                                                    ],
+                                                                                ],
+                                                                            ]
+                                                                        );
+                                                                        foreach (
+                                                                            $quizz
+                                                                            as $quizz
+                                                                        ) { ?>
+                                                                        <option value="<?php echo $quizz->_id; ?>">
+                                                                            <?php echo $quizz->label; ?>
                                                                         </option>
-                                                                        <?php } ?>
+                                                                        <?php }
+                                                                        ?>
                                                                     </select>
                                                                     <!--end::Input-->
                                                                 </div>
@@ -661,7 +675,8 @@ include_once 'partials/header.php'
                                         </div>
                                     </div>
                                     <!--end::Modal - Update user details-->
-                                    <?php } ?>
+                                    <?php }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -706,7 +721,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

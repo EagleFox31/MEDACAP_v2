@@ -1,48 +1,39 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION["profile"] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["profile"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?>
+     ?>
 <?php
-require_once '../vendor/autoload.php';
-
-// Create connection
-$conn = new MongoDB\Client( 'mongodb://localhost:27017' );
-
+require_once "../vendor/autoload.php"; // Create connection
+$conn = new MongoDB\Client("mongodb://localhost:27017");
 // Connecting in database
-$academy = $conn->academy;
-
-// Connecting in collections
+$academy = $conn->academy; // Connecting in collections
 $users = $academy->users;
 $allocations = $academy->allocations;
-
-if ( isset( $_POST[ 'active' ] ) ) {
-    $id = $_POST[ 'userID' ];
+if (isset($_POST["active"])) {
+    $id = $_POST["userID"];
     $member = $users->findOne([
-        '$and' => [
-            '_id' => new MongoDB\BSON\ObjectId($id),
-            'active' => false
-        ]
+        '$and' => ["_id" => new MongoDB\BSON\ObjectId($id), "active" => false],
     ]);
-    $member['active'] = true;
-    $users->updateOne(['_id' => new MongoDB\BSON\ObjectId($id)], ['$set' => $member]);
-
-    if ($member['profile'] == "Technicien") {
+    $member["active"] = true;
+    $users->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        ['$set' => $member]
+    );
+    if ($member["profile"] == "Technicien") {
         $success_msg = "Technicien supprimé avec succès";
-    } elseif ($member['profile'] == "Manager") {
+    } elseif ($member["profile"] == "Manager") {
         $success_msg = "Manager supprimé avec succès";
-    } elseif ($member['profile'] == "Admin") {
+    } elseif ($member["profile"] == "Admin") {
         $success_msg = "Administrateur supprimé avec succès";
     }
 }
 ?>
 
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste des Utilisateurs Supprimés | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -102,30 +93,22 @@ include_once 'partials/header.php'
     </div>
     <!--end::Toolbar-->
 
-    <?php
-     if(isset($success_msg)) {
-    ?>
+    <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php
-    }
-    ?>
-    <?php
-     if(isset($error_msg)) {
-    ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
+    <?php } ?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
@@ -275,75 +258,85 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $persons = $users->find(['active' => false]);
-                                        foreach ($persons as $user) {
-                                        ?>
-                                    <?php if ($_SESSION["profile"] == "Admin") { ?>
-                                    <?php if ($user["profile" ] != "Admin" && $user["profile" ]  != "Super Admin") { ?>
-                                    <tr class="odd" etat="<?php echo $user->active ?>">
+                                    $persons = $users->find([
+                                        "active" => false,
+                                    ]);
+                                    foreach ($persons as $user) { ?>
+                                    <?php if (
+                                        $_SESSION["profile"] == "Admin"
+                                    ) { ?>
+                                    <?php if (
+                                        $user["profile"] != "Admin" &&
+                                        $user["profile"] != "Super Admin"
+                                    ) { ?>
+                                    <tr class="odd" etat="<?php echo $user->active; ?>">
                                         <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $user->_id ?>">
+                                                    onclick="enable()" value="<?php echo $user->_id; ?>">
                                             </div>
                                         </td> -->
                                         <td></td>
                                         <td data-filter="search">
-                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
+                                            <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email ?>
+                                            <?php echo $user->email; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->phone ?>
+                                            <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate ?>
+                                            <?php echo $user->certificate; ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->department ?>
+                                            <?php echo $user->department; ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id ?>">
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
                                                 <i class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></button>
                                         </td>
                                     </tr>
                                     <?php } ?>
                                     <?php } ?>
-                                    <?php if ($_SESSION["profile"] == "Super Admin") { ?>
-                                    <?php if ($user["profile" ] != "Super Admin") { ?>
-                                    <tr class="odd" etat="<?php echo $user->active ?>">
+                                    <?php if (
+                                        $_SESSION["profile"] == "Super Admin"
+                                    ) { ?>
+                                    <?php if (
+                                        $user["profile"] != "Super Admin"
+                                    ) { ?>
+                                    <tr class="odd" etat="<?php echo $user->active; ?>">
                                         <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $user->_id ?>">
+                                                    onclick="enable()" value="<?php echo $user->_id; ?>">
                                             </div>
                                         </td> -->
                                         <td></td>
                                         <td data-filter="search">
-                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
+                                            <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email ?>
+                                            <?php echo $user->email; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->phone ?>
+                                            <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate ?>
+                                            <?php echo $user->certificate; ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->department ?>
+                                            <?php echo $user->department; ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $user->_id ?>">
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $user->_id; ?>">
                                                 <i class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></button>
                                         </td>
@@ -351,7 +344,7 @@ include_once 'partials/header.php'
                                     <?php } ?>
                                     <?php } ?>
                                     <!-- begin:: Modal - Confirm suspend -->
-                                    <div class="modal" id="kt_modal_desactivate<?php echo $user->_id ?>" tabindex="-1"
+                                    <div class="modal" id="kt_modal_desactivate<?php echo $user->_id; ?>" tabindex="-1"
                                         aria-hidden="true">
                                         <!--begin::Modal dialog-->
                                         <div class="modal-dialog modal-dialog-centered mw-450px">
@@ -359,7 +352,7 @@ include_once 'partials/header.php'
                                             <div class="modal-content">
                                                 <!--begin::Form-->
                                                 <form class="form" method="POST" id="kt_modal_update_user_form">
-                                                    <input type="hidden" name="userID" value="<?php echo $user->_id ?>">
+                                                    <input type="hidden" name="userID" value="<?php echo $user->_id; ?>">
                                                     <!--begin::Modal header-->
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
@@ -420,8 +413,7 @@ include_once 'partials/header.php'
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
                                     <!--begin::Modal - Update user password-->
-                                    <?php  
-                                      }
+                                    <?php }
                                     ?>
                                 </tbody>
                             </table>
@@ -467,7 +459,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

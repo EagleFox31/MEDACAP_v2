@@ -1,36 +1,37 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-    require_once '../vendor/autoload.php';
-        
+
+    require_once "../vendor/autoload.php";
+
     // Create connection
-    $conn = new MongoDB\Client('mongodb://localhost:27017');
-        
-     // Connecting in database
-     $academy = $conn->academy;
-        
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
+
+    // Connecting in database
+    $academy = $conn->academy;
+
     // Connecting in collections
     $users = $academy->users;
     $questions = $academy->questions;
     $results = $academy->results;
 
-    $user = $_GET['user'];
-    $level = $_GET['level'];
-    $speciality = $_GET['speciality'];
+    $user = $_GET["user"];
+    $level = $_GET["level"];
+    $speciality = $_GET["speciality"];
 
     $technician = $users->findOne([
         '$and' => [
             [
-                '_id' => new MongoDB\BSON\ObjectId( $user ),
-                'active' => true,
+                "_id" => new MongoDB\BSON\ObjectId($user),
+                "active" => true,
             ],
-        ]
+        ],
     ]);
-?>
+    ?>
 <title>Résultat Technicien | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
@@ -82,7 +83,7 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
                     Groupe Fonctionnel:
-                    <?php echo $speciality ?>
+                    <?php echo $speciality; ?>
                 </h1>
                 <!--end::Title-->
             </div>
@@ -172,47 +173,84 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
                                 <?php
-                                    $groupeFac = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => $speciality],
-                                            ['type' => 'Factuel']
-                                        ]
-                                    ]);
-                                    $groupeDecla = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['level' => $level],
-                                            ['speciality' => $speciality],
-                                            ['type' => 'Declaratif']
-                                        ]
-                                    ]);
-                                    $groupeMa = $results->findOne([
-                                        '$and' => [
-                                            ['user' => new MongoDB\BSON\ObjectId($user)],
-                                            ['manager' => new MongoDB\BSON\ObjectId($technician->manager)],
-                                            ['level' => $level],
-                                            ['speciality' => $speciality]
-                                        ]
-                                    ]);
+                                $groupeFac = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => $speciality],
+                                        ["type" => "Factuel"],
+                                    ],
+                                ]);
+                                $groupeDecla = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => $speciality],
+                                        ["type" => "Declaratif"],
+                                    ],
+                                ]);
+                                $groupeMa = $results->findOne([
+                                    '$and' => [
+                                        [
+                                            "user" => new MongoDB\BSON\ObjectId(
+                                                $user
+                                            ),
+                                        ],
+                                        [
+                                            "manager" => new MongoDB\BSON\ObjectId(
+                                                $technician->manager
+                                            ),
+                                        ],
+                                        ["level" => $level],
+                                        ["speciality" => $speciality],
+                                    ],
+                                ]);
                                 ?>
-                                <?php if ($groupeFac && $groupeDecla && $groupeMa) { ?>
-                                <?php if (count($groupeFac->questions) < count($groupeDecla->questions)) { ?>
-                                <?php
-                                    for ($i = 0; $i < count($groupeDecla->questions); $i++) {
-                                        if (isset($groupeFac->answers[$i])) {
-                                            $questionFac = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeFac->questions[$i])]);
-                                        }
-                                        $questionDecla = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeDecla->questions[$i])]);
-                                ?>
+                                <?php if (
+                                    $groupeFac &&
+                                    $groupeDecla &&
+                                    $groupeMa
+                                ) { ?>
+                                <?php if (
+                                    count($groupeFac->questions) <
+                                    count($groupeDecla->questions)
+                                ) { ?>
+                                <?php for (
+                                    $i = 0;
+                                    $i < count($groupeDecla->questions);
+                                    $i++
+                                ) {
+
+                                    if (isset($groupeFac->answers[$i])) {
+                                        $questionFac = $questions->findOne([
+                                            "_id" => new MongoDB\BSON\ObjectId(
+                                                $groupeFac->questions[$i]
+                                            ),
+                                        ]);
+                                    }
+                                    $questionDecla = $questions->findOne([
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $groupeDecla->questions[$i]
+                                        ),
+                                    ]);
+                                    ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
-                                    <?php if (isset($groupeFac->answers[$i])) { ?>
+                                    <?php if (
+                                        isset($groupeFac->answers[$i])
+                                    ) { ?>
                                     <td class="text-center">
-                                        <?php echo $questionFac->label ?>
+                                        <?php echo $questionFac->label; ?>
                                     </td>
                                     <td class="text-center" name="savoir">
-                                        <?php echo $groupeFac->answers[$i] ?>
+                                        <?php echo $groupeFac->answers[$i]; ?>
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
@@ -221,67 +259,103 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo $questionDecla->label ?>
+                                        <?php echo $questionDecla->label; ?>
                                     </td>
                                     <td class="text-center" name="n">
-                                        <?php echo $groupeDecla->answers[$i] ?>
+                                        <?php echo $groupeDecla->answers[$i]; ?>
                                     </td>
                                     <td class="text-center" name="n1">
-                                        <?php echo $groupeMa->answers[$i] ?>
+                                        <?php echo $groupeMa->answers[$i]; ?>
                                     </td>
-                                    <?php if ($groupeDecla->answers[$i] == "Oui" && $groupeMa->answers[$i] == "Oui") { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] == "Oui" &&
+                                        $groupeMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($groupeDecla->answers[$i] == "Non" && $groupeMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] == "Non" &&
+                                        $groupeMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($groupeDecla->answers[$i] != $groupeMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] !=
+                                        $groupeMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                 </tr>
-                                <?php } ?>
-                                <?php } elseif (count($groupeFac->questions) > count($groupeDecla->questions)) { ?>
                                 <?php
-                                    for ($i = 0; $i < count($groupeFac->questions); $i++) {
-                                        $questionFac = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeFac->questions[$i])]);
-                                        if (isset($groupeDecla->answers[$i])) {
-                                            $questionDecla = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeDecla->questions[$i])]);
-                                        }
-                                ?>
+                                } ?>
+                                <?php } elseif (
+                                    count($groupeFac->questions) >
+                                    count($groupeDecla->questions)
+                                ) { ?>
+                                <?php for (
+                                    $i = 0;
+                                    $i < count($groupeFac->questions);
+                                    $i++
+                                ) {
+
+                                    $questionFac = $questions->findOne([
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $groupeFac->questions[$i]
+                                        ),
+                                    ]);
+                                    if (isset($groupeDecla->answers[$i])) {
+                                        $questionDecla = $questions->findOne([
+                                            "_id" => new MongoDB\BSON\ObjectId(
+                                                $groupeDecla->questions[$i]
+                                            ),
+                                        ]);
+                                    }
+                                    ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="text-center">
-                                        <?php echo $questionFac->label ?>
+                                        <?php echo $questionFac->label; ?>
                                     </td>
                                     <td class="text-center" name="savoir">
-                                        <?php echo $groupeFac->answers[$i] ?>
+                                        <?php echo $groupeFac->answers[$i]; ?>
                                     </td>
-                                    <?php if (isset($groupeDecla->answers[$i])) { ?>
+                                    <?php if (
+                                        isset($groupeDecla->answers[$i])
+                                    ) { ?>
                                     <td class="text-center">
-                                        <?php echo $questionDecla->label ?>
+                                        <?php echo $questionDecla->label; ?>
                                     </td>
                                     <td class="text-center" name="n">
-                                        <?php echo $groupeDecla->answers[$i] ?>
+                                        <?php echo $groupeDecla->answers[$i]; ?>
                                     </td>
                                     <td class="text-center" name="n1">
-                                        <?php echo $groupeMa->answers[$i] ?>
+                                        <?php echo $groupeMa->answers[$i]; ?>
                                     </td>
-                                    <?php if ($groupeDecla->answers[$i] == "Oui" && $groupeMa->answers[$i] == "Oui") { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] == "Oui" &&
+                                        $groupeMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($groupeDecla->answers[$i] == "Non" && $groupeMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] == "Non" &&
+                                        $groupeMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($groupeDecla->answers[$i] != $groupeMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] !=
+                                        $groupeMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Non maitrisé
                                     </td>
@@ -297,47 +371,70 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                     </td>
                                     <?php } ?>
                                 </tr>
-                                <?php } ?>
+                                <?php
+                                } ?>
                                 <?php } else { ?>
-                                <?php
-                                    for ($i = 0; $i < count($groupeDecla->questions); $i++) {
-                                        $questionFac = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeFac->questions[$i])]);
-                                        $questionDecla = $questions->findOne(['_id' => new MongoDB\BSON\ObjectId($groupeDecla->questions[$i])]);
-                                ?>
+                                <?php for (
+                                    $i = 0;
+                                    $i < count($groupeDecla->questions);
+                                    $i++
+                                ) {
+
+                                    $questionFac = $questions->findOne([
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $groupeFac->questions[$i]
+                                        ),
+                                    ]);
+                                    $questionDecla = $questions->findOne([
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $groupeDecla->questions[$i]
+                                        ),
+                                    ]);
+                                    ?>
                                 <tr class="odd" style="background-color: #a3f1ff;">
                                     <td class="text-center">
-                                        <?php echo $questionFac->label ?>
+                                        <?php echo $questionFac->label; ?>
                                     </td>
                                     <td class="text-center" name="savoir">
-                                        <?php echo $groupeFac->answers[$i] ?>
+                                        <?php echo $groupeFac->answers[$i]; ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo $questionDecla->label ?>
+                                        <?php echo $questionDecla->label; ?>
                                     </td>
                                     <td class="text-center" name="n">
-                                        <?php echo $groupeDecla->answers[$i] ?>
+                                        <?php echo $groupeDecla->answers[$i]; ?>
                                     </td>
                                     <td class="text-center" name="n1">
-                                        <?php echo $groupeMa->answers[$i] ?>
+                                        <?php echo $groupeMa->answers[$i]; ?>
                                     </td>
-                                    <?php if ($groupeDecla->answers[$i] == "Oui" && $groupeMa->answers[$i] == "Oui") { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] == "Oui" &&
+                                        $groupeMa->answers[$i] == "Oui"
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($groupeDecla->answers[$i] == "Non" && $groupeMa->answers[$i] == "Non") { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] == "Non" &&
+                                        $groupeMa->answers[$i] == "Non"
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
-                                    <?php if ($groupeDecla->answers[$i] != $groupeMa->answers[$i]) { ?>
+                                    <?php if (
+                                        $groupeDecla->answers[$i] !=
+                                        $groupeMa->answers[$i]
+                                    ) { ?>
                                     <td class="text-center" name="savoirs-faire">
                                         Non maitrisé
                                     </td>
                                     <?php } ?>
                                 </tr>
-                                <?php } ?>
-                                <?php } } ?>
+                                <?php
+                                } ?>
+                                <?php }} ?>
                                 <!--end::Menu-->
                                 <tr>
                                     <th id=""
@@ -349,7 +446,11 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round($groupeFac->score * 100 / $groupeFac->total, 0) ?>%
+                                        <?php echo round(
+                                            ($groupeFac->score * 100) /
+                                                $groupeFac->total,
+                                            0
+                                        ); ?>%
                                     </th>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -360,13 +461,21 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round($groupeDecla->score * 100 / $groupeDecla->total, 0) ?>%
+                                        <?php echo round(
+                                            ($groupeDecla->score * 100) /
+                                                $groupeDecla->total,
+                                            0
+                                        ); ?>%
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round($groupeMa->score * 100 / $groupeMa->total, 0) ?>%
+                                        <?php echo round(
+                                            ($groupeMa->score * 100) /
+                                                $groupeMa->total,
+                                            0
+                                        ); ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -455,4 +564,5 @@ resultSavoirFaire.innerHTML = percentSavoirFaire + "%";
 // resultN.innerHTML = percentN + "%";
 // resultN1.innerHTML = percentN1 + "%";
 </script>
-<?php } ?>
+<?php
+} ?>

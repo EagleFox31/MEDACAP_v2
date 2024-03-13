@@ -1,37 +1,43 @@
 <?php
-require_once '../vendor/autoload.php';
-    
+require_once "../vendor/autoload.php";
+
 // Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
+$conn = new MongoDB\Client("mongodb://localhost:27017");
+
+// Connecting in database
+$academy = $conn->academy;
+
 // Connecting in collections
 $users = $academy->users;
 
-if (isset( $_POST[ 'submit' ] )) {
-    $username = $_POST[ 'username' ];
-    $password = sha1($_POST[ 'password' ]);
-    
+if (isset($_POST["submit"])) {
+    $username = $_POST["username"];
+    $password = sha1($_POST["password"]);
+
     $member = $users->findOne([
         '$and' => [
-            'username' => $username,
-            'active' => true
-        ]
+            "username" => $username,
+            "active" => true,
+        ],
     ]);
     if (empty($username) || empty($password)) {
         $error = "Champ Obligatoire";
     } elseif (empty($member)) {
         $error_msg = "Nom d'utilisateur incorrect. Essayez encore!!!";
-    } elseif (preg_match( '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/', $password ) ) {
-        $error_msg = "Le mot de passe doit contenir au moins des lettres minuscule et majuscule, au moins  un chiffre et doit être au moins de 6 caractères.";
+    } elseif (
+        preg_match(
+            '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
+            $password
+        )
+    ) {
+        $error_msg =
+            "Le mot de passe doit contenir au moins des lettres minuscule et majuscule, au moins  un chiffre et doit être au moins de 6 caractères.";
     } else {
         $users->updateOne(
-            [ '_id' => new MongoDB\BSON\ObjectId( $member->_id ) ],
-            [ '$set' => [ 'password' => $password ] ]
+            ["_id" => new MongoDB\BSON\ObjectId($member->_id)],
+            ['$set' => ["password" => $password]]
         );
-        $success_msg = 'Mot de passe modifié avec succes.';
+        $success_msg = "Mot de passe modifié avec succes.";
     }
 }
 ?>
@@ -184,32 +190,24 @@ License: For each use you must have a valid license purchased only from above li
                 <!--end::Illustration-->
             </div>
             <!--begin::Aside-->
-            <?php
-                if ( isset( $success_msg ) ) {
-            ?>
+            <?php if (isset($success_msg)) { ?>
             <div class='alert alert-success alert-dismissible fade show' role='alert'>
-                <center><strong><?php echo $success_msg ?></strong></center>
+                <center><strong><?php echo $success_msg; ?></strong></center>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                     <span aria-hidden='true'>&times;
                     </span>
                 </button>
             </div>
-            <?php
-                }
-            ?>
-            <?php
-                if ( isset( $error_msg ) ) {
-                    ?>
+            <?php } ?>
+            <?php if (isset($error_msg)) { ?>
             <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                <center><strong><?php echo $error_msg ?></strong></center>
+                <center><strong><?php echo $error_msg; ?></strong></center>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                     <span aria-hidden='true'>&times;
                     </span>
                 </button>
             </div>
-            <?php
-                }
-            ?>
+            <?php } ?>
 
             <!--begin::Content-->
             <div class="flex-row-fluid d-flex flex-center justfiy-content-xl-first p-10">
@@ -240,15 +238,11 @@ License: For each use you must have a valid license purchased only from above li
                                 autocomplete="off" />
                         </div>
                         <!--end::Input group-->
-                        <?php
-                            if ( isset( $error ) ) {
-                        ?>
+                        <?php if (isset($error)) { ?>
                         <span class='text-danger'>
-                            <?php echo $error ?>
+                            <?php echo $error; ?>
                         </span>
-                        <?php
-                            }
-                        ?>
+                        <?php } ?>
 
                         <!--begin::Input group-->
                         <div class="mb-7 fv-row" data-kt-password-meter="true">
@@ -275,15 +269,11 @@ License: For each use you must have a valid license purchased only from above li
                                                 class="path3"></span></i> </span>
                                 </div>
                                 <!--end::Input wrapper-->
-                                <?php
-                                    if ( isset( $error ) ) {
-                                ?>
+                                <?php if (isset($error)) { ?>
                                 <span class='text-danger'>
-                                    <?php echo $error ?>
+                                    <?php echo $error; ?>
                                 </span>
-                                <?php
-                                    }
-                                ?>
+                                <?php } ?>
 
                                 <!--begin::Meter-->
                                 <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">

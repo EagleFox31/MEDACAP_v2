@@ -1,14 +1,15 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-    require_once '../vendor/autoload.php';
+
+    require_once "../vendor/autoload.php";
 
     // Create connection
-    $conn = new MongoDB\Client( 'mongodb://localhost:27017' );
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
 
     // Connecting in database
     $academy = $conn->academy;
@@ -18,20 +19,18 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     $vehicles = $academy->vehicles;
     $allocations = $academy->allocations;
 
-    $id = $_SESSION[ 'id' ];
+    $id = $_SESSION["id"];
 
     $manager = $users->findOne([
         '$and' => [
             [
-                '_id' => new MongoDB\BSON\ObjectId($id),
-                'active' => true,
+                "_id" => new MongoDB\BSON\ObjectId($id),
+                "active" => true,
             ],
-        ]
+        ],
     ]);
-?>
-<?php
-    include_once 'partials/header.php'
-?>
+    ?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Listes des Avancements | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -163,60 +162,86 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    $usersFactuel = $allocations->find([
-                                        '$and' => [
-                                            [
-                                                'user' => ['$in' => $manager[ 'users' ]],
-                                                'type' => 'Factuel',
+                                    $usersFactuel = $allocations
+                                        ->find([
+                                            '$and' => [
+                                                [
+                                                    "user" => [
+                                                        '$in' =>
+                                                            $manager["users"],
+                                                    ],
+                                                    "type" => "Factuel",
+                                                ],
                                             ],
-                                        ],
-                                    ])->toArray();
-                                    $usersDeclaratif = $allocations->find([
-                                        '$and' => [
-                                            [
-                                                'user' => ['$in' => $manager[ 'users' ]],
-                                                'type' => 'Declaratif',
+                                        ])
+                                        ->toArray();
+                                    $usersDeclaratif = $allocations
+                                        ->find([
+                                            '$and' => [
+                                                [
+                                                    "user" => [
+                                                        '$in' =>
+                                                            $manager["users"],
+                                                    ],
+                                                    "type" => "Declaratif",
+                                                ],
                                             ],
-                                        ],
-                                    ])->toArray();
-                                    for ($i = 0; $i < count($usersFactuel); $i++) {
+                                        ])
+                                        ->toArray();
+                                    for (
+                                        $i = 0;
+                                        $i < count($usersFactuel);
+                                        $i++
+                                    ) {
                                         $user = $users->findOne([
                                             '$and' => [
                                                 [
-                                                    '_id' => new MongoDB\BSON\ObjectId($usersFactuel[$i][ 'user' ]) ,
-                                                    'active' => true,
+                                                    "_id" => new MongoDB\BSON\ObjectId(
+                                                        $usersFactuel[$i][
+                                                            "user"
+                                                        ]
+                                                    ),
+                                                    "active" => true,
                                                 ],
-                                            ]
-                                        ]);
-                                    ?>
-                                    <tr class="odd" etat="<?php echo $user->active ?>">
+                                            ],
+                                        ]); ?>
+                                    <tr class="odd" etat="<?php echo $user->active; ?>">
                                         <td>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
+                                            <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
-                                        <?php if ($usersFactuel[$i]->active == false) { ?>
+                                        <?php if (
+                                            $usersFactuel[$i]->active == false
+                                        ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 En attente
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersFactuel[$i]->active == true) { ?>
+                                        <?php if (
+                                            $usersFactuel[$i]->active == true
+                                        ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersDeclaratif[$i]->active == false) { ?>
+                                        <?php if (
+                                            $usersDeclaratif[$i]->active ==
+                                            false
+                                        ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 En attente
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($usersDeclaratif[$i]->active == true) { ?>
+                                        <?php if (
+                                            $usersDeclaratif[$i]->active == true
+                                        ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 Effectué
@@ -225,7 +250,9 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
                                         <?php } ?>
                                         <!--end::Menu-->
                                     </tr>
-                                    <?php } ?>
+                                    <?php
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -262,9 +289,6 @@ if ( !isset( $_SESSION[ 'id' ] ) ) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-    ?>
-<?php
-}
-?>
+} ?>

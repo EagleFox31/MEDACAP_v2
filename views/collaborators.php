@@ -4,93 +4,84 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-if ( !isset( $_SESSION["profile"] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["profile"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?>
+     ?>
 <?php
-require_once '../vendor/autoload.php';
-
-// Create connection
-$conn = new MongoDB\Client( 'mongodb://localhost:27017' );
-
+require_once "../vendor/autoload.php"; // Create connection
+$conn = new MongoDB\Client("mongodb://localhost:27017");
 // Connecting in database
-$academy = $conn->academy;
-
-// Connecting in collections
+$academy = $conn->academy; // Connecting in collections
 $users = $academy->users;
 $allocations = $academy->allocations;
-
-if (isset( $_POST['excel'] ) ) {
+if (isset($_POST["excel"])) {
     $spreadsheet = new Spreadsheet();
     $excel_writer = new Xlsx($spreadsheet);
-
     $spreadsheet->setActiveSheetIndex(0);
     $activeSheet = $spreadsheet->getActiveSheet();
-
-    $activeSheet->setCellValue('A1', "Nom d'utilisateur");
-    $activeSheet->setCellValue('B1', 'Matricule');
-    $activeSheet->setCellValue('C1', 'Prénoms');
-    $activeSheet->setCellValue('D1', 'Noms');
-    $activeSheet->setCellValue('E1', 'Email');
-    $activeSheet->setCellValue('F1', 'Numéro de téléphone');
-    $activeSheet->setCellValue('G1', 'Sexe');
-    $activeSheet->setCellValue('H1', 'Date de naissance');
-    $activeSheet->setCellValue('I1', 'Niveau technique');
-    $activeSheet->setCellValue('J1', 'Pays');
-    $activeSheet->setCellValue('K1', 'Profil');
-    $activeSheet->setCellValue('L1', 'Spécialité');
-    $activeSheet->setCellValue('M1', 'Diplôme');
-    $activeSheet->setCellValue('N1', 'Filiale');
-    $activeSheet->setCellValue('O1', 'Département');
-    $activeSheet->setCellValue('P1', 'Fonction');
-    $activeSheet->setCellValue('Q1', 'Date de recrutement');
-    $activeSheet->setCellValue('R1', 'Manager');
-
+    $activeSheet->setCellValue("A1", "Nom d'utilisateur");
+    $activeSheet->setCellValue("B1", "Matricule");
+    $activeSheet->setCellValue("C1", "Prénoms");
+    $activeSheet->setCellValue("D1", "Noms");
+    $activeSheet->setCellValue("E1", "Email");
+    $activeSheet->setCellValue("F1", "Numéro de téléphone");
+    $activeSheet->setCellValue("G1", "Sexe");
+    $activeSheet->setCellValue("H1", "Date de naissance");
+    $activeSheet->setCellValue("I1", "Niveau technique");
+    $activeSheet->setCellValue("J1", "Pays");
+    $activeSheet->setCellValue("K1", "Profil");
+    $activeSheet->setCellValue("L1", "Spécialité");
+    $activeSheet->setCellValue("M1", "Diplôme");
+    $activeSheet->setCellValue("N1", "Filiale");
+    $activeSheet->setCellValue("O1", "Département");
+    $activeSheet->setCellValue("P1", "Fonction");
+    $activeSheet->setCellValue("Q1", "Date de recrutement");
+    $activeSheet->setCellValue("R1", "Manager");
     $myObj = $users->find([
         '$and' => [
             [
-                'manager' => new MongoDB\BSON\ObjectId($_SESSION['id']),
-                'active' => true
-            ]
-        ]
+                "manager" => new MongoDB\BSON\ObjectId($_SESSION["id"]),
+                "active" => true,
+            ],
+        ],
     ]);
     $i = 2;
+
     foreach ($myObj as $row) {
-        
-        $activeSheet->setCellValue('A'.$i , $row->username);
-        $activeSheet->setCellValue('B'.$i , $row->matricule);
-        $activeSheet->setCellValue('C'.$i , $row->firstName);
-        $activeSheet->setCellValue('D'.$i , $row->lastName);
-        $activeSheet->setCellValue('E'.$i , $row->email);
-        $activeSheet->setCellValue('F'.$i , $row->phone);
-        $activeSheet->setCellValue('G'.$i , $row->gender);
-        $activeSheet->setCellValue('H'.$i , $row->birthdate);
-        $activeSheet->setCellValue('I'.$i , $row->level);
-        $activeSheet->setCellValue('J'.$i , $row->country);
-        $activeSheet->setCellValue('K'.$i , $row->profile);
-        $activeSheet->setCellValue('L'.$i , $row->speciality);
-        $activeSheet->setCellValue('M'.$i , $row->certificate);
-        $activeSheet->setCellValue('N'.$i , $row->subsidiary);
-        $activeSheet->setCellValue('O'.$i , $row->department);
-        $activeSheet->setCellValue('P'.$i , $row->role);
-        $activeSheet->setCellValue('Q'.$i , $row->recrutmentDate);
-        $activeSheet->setCellValue('R'.$i , $_SESSION['firstName']." ".$_SESSION['lastName']);
+        $activeSheet->setCellValue("A" . $i, $row->username);
+        $activeSheet->setCellValue("B" . $i, $row->matricule);
+        $activeSheet->setCellValue("C" . $i, $row->firstName);
+        $activeSheet->setCellValue("D" . $i, $row->lastName);
+        $activeSheet->setCellValue("E" . $i, $row->email);
+        $activeSheet->setCellValue("F" . $i, $row->phone);
+        $activeSheet->setCellValue("G" . $i, $row->gender);
+        $activeSheet->setCellValue("H" . $i, $row->birthdate);
+        $activeSheet->setCellValue("I" . $i, $row->level);
+        $activeSheet->setCellValue("J" . $i, $row->country);
+        $activeSheet->setCellValue("K" . $i, $row->profile);
+        $activeSheet->setCellValue("L" . $i, $row->speciality);
+        $activeSheet->setCellValue("M" . $i, $row->certificate);
+        $activeSheet->setCellValue("N" . $i, $row->subsidiary);
+        $activeSheet->setCellValue("O" . $i, $row->department);
+        $activeSheet->setCellValue("P" . $i, $row->role);
+        $activeSheet->setCellValue("Q" . $i, $row->recrutmentDate);
+        $activeSheet->setCellValue(
+            "R" . $i,
+            $_SESSION["firstName"] . " " . $_SESSION["lastName"]
+        );
         $i++;
     }
-    $filename = 'Collaborateurs.xlsx';
-
-    header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename='.$filename);
-    header('cache-Control: max-age=0');
-    $excel_writer->save('php://output');
+    $filename = "Collaborateurs.xlsx";
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment;filename=" . $filename);
+    header("cache-Control: max-age=0");
+    $excel_writer->save("php://output");
 }
 ?>
 
-<?php
-include_once 'partials/header.php'
-?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste des Collaborateurs | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -150,30 +141,22 @@ include_once 'partials/header.php'
     </div>
     <!--end::Toolbar-->
 
-    <?php
-     if(isset($success_msg)) {
-    ?>
+    <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php
-    }
-    ?>
-    <?php
-     if(isset($error_msg)) {
-    ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php
-    }
-    ?>
+    <?php } ?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
@@ -319,53 +302,56 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $manager = $users->findOne([
+                                    $manager = $users->findOne([
+                                        '$and' => [
+                                            [
+                                                "_id" => new MongoDB\BSON\ObjectId(
+                                                    $_SESSION["id"]
+                                                ),
+                                                "active" => true,
+                                            ],
+                                        ],
+                                    ]);
+                                    foreach ($manager->users as $person) {
+                                        $user = $users->findOne([
                                             '$and' => [
                                                 [
-                                                    '_id' => new MongoDB\BSON\ObjectId($_SESSION['id']) ,
-                                                    'active' => true,
-                                                ]
-                                            ],
-                                        ]);
-                                        foreach ($manager->users as $person) {
-                                            $user = $users->findOne([
-                                                '$and' => [
-                                                    [
-                                                        '_id' => new MongoDB\BSON\ObjectId($person) ,
-                                                        'active' => true,
-                                                    ]
+                                                    "_id" => new MongoDB\BSON\ObjectId(
+                                                        $person
+                                                    ),
+                                                    "active" => true,
                                                 ],
-                                            ]);
-                                        ?>
-                                    <tr class="odd" etat="<?php echo $user->active ?>">
+                                            ],
+                                        ]); ?>
+                                    <tr class="odd" etat="<?php echo $user->active; ?>">
                                         <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $user->_id ?>">
+                                                    onclick="enable()" value="<?php echo $user->_id; ?>">
                                             </div>
                                         </td> -->
                                         <td></td>
                                         <td data-filter="search">
-                                            <?php echo $user->firstName ?> <?php echo $user->lastName ?>
+                                            <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email ?>
+                                            <?php echo $user->email; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->phone ?>
+                                            <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate ?>
+                                            <?php echo $user->certificate; ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php echo $user->department ?>
+                                            <?php echo $user->department; ?>
                                         </td>
                                     </tr>
-                                    <?php  
-                                      }
+                                    <?php
+                                    }
                                     ?>
                                 </tbody>
                             </table>
@@ -413,7 +399,6 @@ include_once 'partials/header.php'
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>

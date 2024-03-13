@@ -1,116 +1,122 @@
 <?php
 session_start();
 
-if ( !isset( $_SESSION[ 'id' ] ) ) {
-    header( 'Location: ./index.php' );
+if (!isset($_SESSION["id"])) {
+    header("Location: ./index.php");
     exit();
 } else {
-?><?php
-require_once '../vendor/autoload.php';
-    
-// Create connection
-$conn = new MongoDB\Client('mongodb://localhost:27017');
-    
- // Connecting in database
- $academy = $conn->academy;
-    
-// Connecting in collections
-$users = $academy->users;
- $quizzes = $academy->quizzes;
- $questions = $academy->questions;
- $allocations = $academy->allocations;
- 
-if ( isset( $_POST[ 'update-quiz' ] ) ) {
-    $id = $_POST[ 'quizID' ];
-    $label = $_POST[ 'label' ];
-    $description = $_POST[ 'description' ];
-    $type = $_POST[ 'type' ];
-    $speciality = $_POST[ 'speciality' ];
-    $number = $_POST[ 'number' ];
-    $level = $_POST[ 'level' ];
-    
-    $quiz = [
-        'label' => ucfirst( $label ),
-        'description' => ucfirst( $description ),
-        'type' => $type,
-        'speciality' => ucfirst( $speciality ),
-        'level' => ucfirst( $level ),
-        'number' => +$number,
-        'updated' => date("d-m-Y")
-    ];
-    
-    $quizzes->updateOne(
-        [ '_id' => new MongoDB\BSON\ObjectId( $id ) ],
-        [ '$set' => $quiz ]
-    );
-    $success_msg = "Questionnaire modifié avec succès.";
-}
 
-if ( isset( $_POST[ 'retire-question-quiz' ] ) ) {
-    $quiz = $_POST[ 'quizID' ];
-    $question = $_POST[ 'questionID' ];
-    
-    $allocate = $allocations->findOne(
-        ['$and' => [['question' => $question], ['quiz' => new MongoDB\BSON\ObjectId( $quiz )]]]
-    );
-    
-    $allocate['active'] = false;
-    $allocate['updated'] = date("d-m-Y");
-    $allocations->updateOne(
-        ['_id' => $allocate['_id']],
-        ['$set' => $allocate]
-    );
-    
-    $membre = $quizzes->updateOne(
-        ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
-        ['$push' => ['questions' => new MongoDB\BSON\ObjectId( $question )]]
-    );
-    
-    $quizzes = $quizzes->findOne(['_id' => new MongoDB\BSON\ObjectId( $quiz )]);
-    $quizzes['total']--;
-    $quizzes['updated'] = date("d-m-Y");
-    $quizzes->updateOne(
-        ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
-        ['$set' => $quizzes]
-    );
-    
-    $success_msg = "Question retirée avec succès.";
-}
+    require_once "../vendor/autoload.php";
 
-if ( isset( $_POST[ 'retire-technician-quiz' ] ) ) {
-    $quiz = $_POST[ 'quizID' ];
-    $user = $_POST[ 'userID' ];
- 
- $allocate = $allocations->findOne([
-     '$and' => [
-         ['quiz' => new MongoDB\BSON\ObjectId( $quiz )],
-         ['user' => new MongoDB\BSON\ObjectId( $user )]
-     ]
- ]);
- 
- $allocate->active = false;
- $allocations->updateOne(['_id' => new MongoDB\BSON\ObjectId( $allocate->_id )], ['$set' => $allocate]);
- 
- $quizzes->updateOne(
-     ['_id' => new MongoDB\BSON\ObjectId( $quiz )],
-     ['$push' => ['users' => new MongoDB\BSON\ObjectId( $user )]]
- );
- 
- // Handle flash messages and success message as needed in your application.
- $success_msg = "Personne retirée avec succes.";
-}
+    // Create connection
+    $conn = new MongoDB\Client("mongodb://localhost:27017");
 
-if ( isset( $_POST[ 'active' ] ) ) {
-    $id = new MongoDB\BSON\ObjectId($_POST[ 'quizID' ]);
-    $quiz = $quizzes->findOne(['_id' => $id]);
-    $quiz->active = true;
-    $quizzes->updateOne(['_id' => $id], ['$set' => $quiz]);
-    $success_msg =  "Questionnaire supprimé avec succes.";
-}
-?>
-<?php
-include_once 'partials/header.php'
-?>
+    // Connecting in database
+    $academy = $conn->academy;
+
+    // Connecting in collections
+    $users = $academy->users;
+    $quizzes = $academy->quizzes;
+    $questions = $academy->questions;
+    $allocations = $academy->allocations;
+
+    if (isset($_POST["update-quiz"])) {
+        $id = $_POST["quizID"];
+        $label = $_POST["label"];
+        $description = $_POST["description"];
+        $type = $_POST["type"];
+        $speciality = $_POST["speciality"];
+        $number = $_POST["number"];
+        $level = $_POST["level"];
+
+        $quiz = [
+            "label" => ucfirst($label),
+            "description" => ucfirst($description),
+            "type" => $type,
+            "speciality" => ucfirst($speciality),
+            "level" => ucfirst($level),
+            "number" => +$number,
+            "updated" => date("d-m-Y"),
+        ];
+
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ['$set' => $quiz]
+        );
+        $success_msg = "Questionnaire modifié avec succès.";
+    }
+
+    if (isset($_POST["retire-question-quiz"])) {
+        $quiz = $_POST["quizID"];
+        $question = $_POST["questionID"];
+
+        $allocate = $allocations->findOne([
+            '$and' => [
+                ["question" => $question],
+                ["quiz" => new MongoDB\BSON\ObjectId($quiz)],
+            ],
+        ]);
+
+        $allocate["active"] = false;
+        $allocate["updated"] = date("d-m-Y");
+        $allocations->updateOne(
+            ["_id" => $allocate["_id"]],
+            ['$set' => $allocate]
+        );
+
+        $membre = $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
+            ['$push' => ["questions" => new MongoDB\BSON\ObjectId($question)]]
+        );
+
+        $quizzes = $quizzes->findOne([
+            "_id" => new MongoDB\BSON\ObjectId($quiz),
+        ]);
+        $quizzes["total"]--;
+        $quizzes["updated"] = date("d-m-Y");
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
+            ['$set' => $quizzes]
+        );
+
+        $success_msg = "Question retirée avec succès.";
+    }
+
+    if (isset($_POST["retire-technician-quiz"])) {
+        $quiz = $_POST["quizID"];
+        $user = $_POST["userID"];
+
+        $allocate = $allocations->findOne([
+            '$and' => [
+                ["quiz" => new MongoDB\BSON\ObjectId($quiz)],
+                ["user" => new MongoDB\BSON\ObjectId($user)],
+            ],
+        ]);
+
+        $allocate->active = false;
+        $allocations->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($allocate->_id)],
+            ['$set' => $allocate]
+        );
+
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
+            ['$push' => ["users" => new MongoDB\BSON\ObjectId($user)]]
+        );
+
+        // Handle flash messages and success message as needed in your application.
+        $success_msg = "Personne retirée avec succes.";
+    }
+
+    if (isset($_POST["active"])) {
+        $id = new MongoDB\BSON\ObjectId($_POST["quizID"]);
+        $quiz = $quizzes->findOne(["_id" => $id]);
+        $quiz->active = true;
+        $quizzes->updateOne(["_id" => $id], ['$set' => $quiz]);
+        $success_msg = "Questionnaire supprimé avec succes.";
+    }
+    ?>
+<?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title>Liste des Questionnaires Supprimés | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -165,30 +171,22 @@ include_once 'partials/header.php'
     </div>
     <!--end::Toolbar-->
 
-    <?php 
-     if(isset($success_msg)) {
-    ?>
+    <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $success_msg ?></strong></center>
+        <center><strong><?php echo $success_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
-    <?php 
-     if(isset($error_msg)) {
-    ?>
+    <?php } ?>
+    <?php if (isset($error_msg)) { ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <center><strong><?php echo $error_msg ?></strong></center>
+        <center><strong><?php echo $error_msg; ?></strong></center>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <?php 
-    }
-    ?>
+    <?php } ?>
 
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
@@ -343,62 +341,71 @@ include_once 'partials/header.php'
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                        $quiz = $quizzes->find(['active' => false]);
-                                        foreach ($quiz as $quiz) {
-                                    ?>
-                                    <tr class="odd" etat="<?php echo $quiz->active ?>">
+                                    $quiz = $quizzes->find(["active" => false]);
+                                    foreach ($quiz as $quiz) { ?>
+                                    <tr class="odd" etat="<?php echo $quiz->active; ?>">
                                         <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $quiz->_id ?>">
+                                                    onclick="enable()" value="<?php echo $quiz->_id; ?>">
                                             </div>
                                         </td>
                                         <td data-filter=" search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
-                                                <?php echo $quiz->label ?>
+                                                <?php echo $quiz->label; ?>
                                             </a>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php if ($quiz->type == "Factuel") { ?>
+                                            <?php if (
+                                                $quiz->type == "Factuel"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $quiz->type ?>
+                                                <?php echo $quiz->type; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($quiz->type == "Declaratif") { ?>
+                                            <?php if (
+                                                $quiz->type == "Declaratif"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $quiz->type ?>
+                                                <?php echo $quiz->type; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $quiz->speciality ?>
+                                            <?php echo $quiz->speciality; ?>
                                         </td>
                                         <td data-order="department">
-                                            <?php if ($quiz->level == "Junior") { ?>
+                                            <?php if (
+                                                $quiz->level == "Junior"
+                                            ) { ?>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quiz->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($quiz->level == "Senior") { ?>
+                                            <?php if (
+                                                $quiz->level == "Senior"
+                                            ) { ?>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quiz->level; ?>
                                             </span>
                                             <?php } ?>
-                                            <?php if ($quiz->level == "Expert") { ?>
+                                            <?php if (
+                                                $quiz->level == "Expert"
+                                            ) { ?>
                                             <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $quiz->level ?>
+                                                <?php echo $quiz->level; ?>
                                             </span>
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $quiz->_id ?>">
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $quiz->_id; ?>">
                                                 <i class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></button>
                                         </td>
                                     </tr>
                                     <!-- begin:: Modal - Confirm suspend -->
-                                    <div class="modal" id="kt_modal_desactivate<?php echo $quiz->_id ?>" tabindex="-1"
+                                    <div class="modal" id="kt_modal_desactivate<?php echo $quiz->_id; ?>" tabindex="-1"
                                         aria-hidden="true">
                                         <!--begin::Modal dialog-->
                                         <div class="modal-dialog modal-dialog-centered mw-450px">
@@ -406,7 +413,7 @@ include_once 'partials/header.php'
                                             <div class="modal-content">
                                                 <!--begin::Form-->
                                                 <form class="form" method="POST" id="kt_modal_update_user_form">
-                                                    <input type="hidden" name="quizID" value="<?php echo $quiz->_id ?>">
+                                                    <input type="hidden" name="quizID" value="<?php echo $quiz->_id; ?>">
                                                     <!--begin::Modal header-->
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
@@ -467,7 +474,7 @@ include_once 'partials/header.php'
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
                         <!--begin::Modal - Invite Friends-->
-                        <div class="modal fade" id="kt_modal_invite_users<?php echo $quiz->_id ?>" tabindex="-1"
+                        <div class="modal fade" id="kt_modal_invite_users<?php echo $quiz->_id; ?>" tabindex="-1"
                             aria-hidden="true">
                             <!--begin::Modal dialog-->
                             <div class="modal-dialog mw-650px">
@@ -490,7 +497,8 @@ include_once 'partials/header.php'
                             <!--end::Modal dialog-->
                         </div>
                         <!--end::Modal - Invite Friend-->
-                        <?php } ?>
+                        <?php }
+                                    ?>
                         </tbody>
                         </table>
                     </div>
@@ -535,7 +543,6 @@ include_once 'partials/header.php'
 <!--end::Post-->
 </div>
 <!--end::Body-->
+<?php include_once "partials/footer.php"; ?>
 <?php
-include_once 'partials/footer.php'
-?>
-<?php } ?>
+} ?>
