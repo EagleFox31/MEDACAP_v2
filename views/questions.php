@@ -112,7 +112,7 @@ if (isset($_POST["delet"])) {
             </div>
             <!--end::Info-->
             <!--begin::Actions-->
-            <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
                     <button type="button" id="edit" title="Cliquez ici pour modifier la question" data-bs-toggle="modal"
                         class="btn btn-primary">
@@ -125,7 +125,7 @@ if (isset($_POST["delet"])) {
                         Supprimer
                     </button>
                 </div>
-            </div>
+            </div> -->
             <!--end::Actions-->
         </div>
     </div>

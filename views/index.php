@@ -169,7 +169,7 @@ if (isset($_POST["login"])) {
                             <div></div><br><br>
                             <!-- <a href="forgotPassword.php" class="link-primary fs-6 fw-bolder">Mot de passe Oublié ?</a> -->
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit" name="login">Connexion</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" name="login">Accéder à mon espace</button>
                             </div>
                         </div>
                     </form>
