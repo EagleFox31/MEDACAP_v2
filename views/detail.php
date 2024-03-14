@@ -321,7 +321,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je sais faire
+                                        Je maitrise (je réalise cette tâche professionnelle seul)
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -334,7 +334,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je ne sais pas faire
+                                        Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -347,7 +347,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je n'ai jamais fait
+                                        Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -361,7 +361,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il sais faire
+                                        Il maitrise (le technicien réalise cette tâche professionnelle)
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -374,7 +374,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il ne sais pas faire
+                                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle)
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -387,7 +387,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il n'ai jamais fait
+                                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -415,77 +415,21 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <?php if (
-                                        $groupeFac->answers[$i] == "Maitrisé" &&
+                                        isset($groupeFac->answers[$i]) == "Maitrisé" &&
                                         $groupeDecla->answers[$i] == "Oui" &&
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
                                         Maitrisé
                                     </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
+                                    <?php } elseif (
                                         $groupeDecla->answers[$i] == "Oui" &&
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        Maitrisé
                                     </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] == "Maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] == "Maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Oui"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] == "Maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Oui" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Oui" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Oui"
-                                    ) { ?>
+                                    <?php } else { ?>
                                     <td class="text-center" name="synt">
                                         Non maitrisé
                                     </td>
@@ -554,7 +498,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je sais faire
+                                        Je maitrise (je réalise cette tâche professionnelle seul)
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -567,7 +511,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je ne sais pas faire
+                                        Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -580,7 +524,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je n'ai jamais fait
+                                        Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -594,7 +538,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il sais faire
+                                        Il maitrise (le technicien réalise cette tâche professionnelle)
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -607,7 +551,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il ne sais pas faire
+                                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle)
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -620,7 +564,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il n'ai jamais fait
+                                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -649,76 +593,20 @@ if (!isset($_SESSION["id"])) {
                                     <?php } ?>
                                     <?php if (
                                         $groupeFac->answers[$i] == "Maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Oui" &&
-                                        $groupeMa->answers[$i] == "Oui"
+                                        isset($groupeDecla->answers[$i]) == "Oui" &&
+                                        isset($groupeMa->answers[$i]) == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
                                         Maitrisé
                                     </td>
-                                    <?php } ?>
-                                    <?php if (
+                                    <?php } elseif (
                                         $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Oui" &&
-                                        $groupeMa->answers[$i] == "Oui"
+                                            "Non maitrisé"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        Maitrisé
                                     </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] == "Maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] == "Maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Oui"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] == "Maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Oui" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Oui" &&
-                                        $groupeMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center" name="synt">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
-                                        $groupeMa->answers[$i] == "Oui"
-                                    ) { ?>
+                                    <?php } else { ?>
                                     <td class="text-center" name="synt">
                                         Non maitrisé
                                     </td>
@@ -792,7 +680,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je sais faire
+                                        Je maitrise (je réalise cette tâche professionnelle seul)
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -805,7 +693,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je ne sais pas faire
+                                        Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -818,7 +706,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je n'ai jamais fait
+                                        Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -832,7 +720,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il sais faire
+                                        Il maitrise (le technicien réalise cette tâche professionnelle)
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -845,7 +733,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il ne sais pas faire
+                                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle)
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -858,7 +746,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il n'ai jamais fait
+                                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
                                     </td>
                                     <?php } ?>
                                     </td>

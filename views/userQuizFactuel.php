@@ -941,28 +941,11 @@ if (!isset($_SESSION["id"])) {
         $questionsTag = $exam["questions"];
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $userAnswer = $exam->answers;
-        $to = [];
         $array = [];
-        for ($i = 0; $i < count($userAnswer); ++$i) {
-            if ($userAnswer[$i] != "null") {
-                array_push($to, $userAnswer[$i]);
-            }
-        }
-        //var_dump($userAnswer);
-        if (count($questionsTag) != count($to)) {
-            $idxs = array_map(
-                function ($v, $k) {
-                    if ($v == "null") {
-                        return $k + 1;
-                    }
-                },
-                $userAnswer,
-                array_keys($userAnswer)
-            );
-            var_dump($idxs);
-            for ($j = 0; $j < count($idxs); ++$j) {
-                if ($idxs[$j] != null) {
-                    array_push($array, $idxs[$j]);
+        if (count($questionsTag) != $exam->total) {
+            foreach ($userAnswer as $key => $answer) {
+                if ($answer == 'null') {
+                    array_push($array, $answer);
                     $error_msg =
                         "Vous n'avez pas répondu à " .
                         count($array) .

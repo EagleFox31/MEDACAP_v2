@@ -267,14 +267,21 @@ if (!isset($_SESSION["id"])) {
                                                         100) /
                                                     $resultDeclaEx[$i]["total"];
                                             }
+                                            $junior = round(($percentageFacJu + $percentageDeclaJu / 2), 0);
+                                            if ($resultDeclaSe && $resultFacSe) {
+                                                $senior = round(($percentageFacSe + $percentageDeclaSe / 2), 0);
+                                            }
+                                            if ($resultDeclaEx && $resultFacEx) {
+                                                $expert = round(($percentageFacEx + $percentageDeclaEx / 2), 0);
+                                            }
                                             ?>
                                     <tr class="odd">
                                         <td class="text-center">
                                             <?php echo $user[
                                                 "firstName"
                                             ]; ?> <?php echo $user[
-     "lastName"
- ]; ?>
+                                                "lastName"
+                                            ]; ?>
                                         </td>
                                         <td class="text-center">
                                             <?php echo $user["subsidiary"]; ?>
@@ -282,52 +289,24 @@ if (!isset($_SESSION["id"])) {
                                         <td class="text-center">
                                             <?php echo $user["department"]; ?>
                                         </td>
-                                        <?php if (
-                                            $percentageFacJu >= 80 &&
-                                            $percentageDeclaJu >= 80
-                                        ) { ?>
                                         <td class="text-center">
                                             <a href="./result.php?level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                Maitrisé
+                                                <?php echo $junior."%" ?>
                                             </a>
                                         </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id; ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                Non maitrisé
-                                            </a>
-                                        </td>
-                                        <?php } ?>
-                                        <?php if ($resultFacSe) {
-                                            if (
-                                                $percentageFacSe >= 80 &&
-                                                $percentageDeclaSe >= 80
-                                            ) { ?>
+                                        <?php if ($resultFacSe) { ?>
                                         <td class="text-center">
                                             <a href="./result.php?level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                Maitrisé
+                                                <?php echo $senior."%" ?>
                                             </a>
                                         </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id; ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                Non maitrisé
-                                            </a>
-                                        </td>
-                                        <?php }
-                                        } else {
+                                        <?php } else {
                                              ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
@@ -336,30 +315,16 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php
                                         } ?>
-                                        <?php if ($resultFacEx) {
-                                            if (
-                                                $percentageFacEx >= 80 &&
-                                                $percentageDeclaEx >= 80
-                                            ) { ?>
+                                        <?php if ($resultFacEx) { ?>
                                         <td class="text-center">
                                             <a href="./result.php?level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                Maitrisé
+                                                <?php echo $expert."%" ?>
                                             </a>
                                         </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id; ?>"
-                                                class="btn btn-light btn-active-light-success text-success btn-sm"
-                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                Non maitrisé
-                                            </a>
-                                        </td>
-                                        <?php }
-                                        } else {
+                                        <?php } else {
                                              ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">

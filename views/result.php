@@ -3690,150 +3690,6 @@ if (!isset($_SESSION["id"])) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php
-                                $suspensionLameFac = $results->findOne([
-                                    '$and' => [
-                                        [
-                                            "user" => new MongoDB\BSON\ObjectId(
-                                                $user
-                                            ),
-                                        ],
-                                        ["level" => $level],
-                                        ["speciality" => "Suspension à Lame"],
-                                        ["type" => "Factuel"],
-                                    ],
-                                ]);
-                                $suspensionLameDecla = $results->findOne([
-                                    '$and' => [
-                                        [
-                                            "user" => new MongoDB\BSON\ObjectId(
-                                                $user
-                                            ),
-                                        ],
-                                        ["level" => $level],
-                                        ["speciality" => "Suspension à Lame"],
-                                        ["type" => "Declaratif"],
-                                    ],
-                                ]);
-                                $suspensionLameMa = $results->findOne([
-                                    '$and' => [
-                                        [
-                                            "user" => new MongoDB\BSON\ObjectId(
-                                                $user
-                                            ),
-                                        ],
-                                        [
-                                            "manager" => new MongoDB\BSON\ObjectId(
-                                                $technician->manager
-                                            ),
-                                        ],
-                                        ["level" => $level],
-                                        ["speciality" => "Suspension à Lame"],
-                                    ],
-                                ]);
-                                ?>
-                                <?php if (
-                                    $suspensionLameFac &&
-                                    $suspensionLameDecla &&
-                                    $suspensionLameMa
-                                ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
-                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
-                                        aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
-                                            class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
-                                            title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
-                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Suspension à Lame
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo round(
-                                            ($suspensionLameFac->score * 100) /
-                                                $suspensionLameFac->total,
-                                            0
-                                        ); ?>%
-                                    </td>
-                                    <?php if (
-                                        ($suspensionLameFac->score * 100) /
-                                            $suspensionLameFac->total >=
-                                        80
-                                    ) { ?>
-                                    <td class="text-center" id="facSuspensionLame">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        ($suspensionLameFac->score * 100) /
-                                            $suspensionLameFac->total <
-                                        80
-                                    ) { ?>
-                                    <td class="text-center" id="facSuspensionLame">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        <?php echo round(
-                                            ($suspensionLameDecla->score *
-                                                100) /
-                                                $suspensionLameDecla->total,
-                                            0
-                                        ); ?>%
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo round(
-                                            ($suspensionLameMa->score * 100) /
-                                                $suspensionLameMa->total,
-                                            0
-                                        ); ?>%
-                                    </td>
-                                    <?php for (
-                                        $i = 0;
-                                        $i <
-                                        count($suspensionLameDecla->questions);
-                                        $i++
-                                    ) { ?>
-                                    <?php if (
-                                        $suspensionLameDecla->answers[$i] ==
-                                            "Oui" &&
-                                        $suspensionLameMa->answers[$i] == "Oui"
-                                    ) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
-                                        Maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $suspensionLameDecla->answers[$i] ==
-                                            "Non" &&
-                                        $suspensionLameMa->answers[$i] == "Non"
-                                    ) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        $suspensionLameDecla->answers[$i] !=
-                                        $suspensionLameMa->answers[$i]
-                                    ) { ?>
-                                    <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
-                                        Non maitrisé
-                                    </td>
-                                    <?php } ?>
-                                    <?php } ?>
-                                    <td class="text-center" id="result-sfSuspensionLame">
-
-                                    </td>
-                                    <td class="text-center" id="result-rSuspensionLame">
-
-                                    </td>
-                                    <td class="text-center" id="synth-SuspensionLame">
-
-                                    </td>
-                                </tr>
-                                <?php } ?>
-                                <!--end::Menu-->
-                                <?php
                                 $suspensionFac = $results->findOne([
                                     '$and' => [
                                         [
@@ -5524,11 +5380,11 @@ if (facFrei && facFrei.innerText != resultrFrei.innerText) {
     synthFrei.innerHTML = "Non maitrisé"
 }
 if (facfreinageElec && facfreinageElec.innerText == "Maitrisé" && (resultrfreinageElec.innerText == "Maitrisé")) {
-    synthfreinageElecn.innerHTML = "Maitrisé"
+    synthfreinageElec.innerHTML = "Maitrisé"
 }
 if (facfreinageElec && facfreinageElec.innerText == "Non maitrisé" && (resultrfreinageElec.innerText ==
         "Non maitrisé")) {
-    synthfreinageElecn.innerHTML = "Non maitrisé"
+    synthfreinageElec.innerHTML = "Non maitrisé"
 }
 if (facfreinageElec && facfreinageElec.innerText != resultrfreinageElec.innerText) {
     synthfreinageElec.innerHTML = "Non maitrisé"

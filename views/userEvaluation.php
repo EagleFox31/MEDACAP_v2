@@ -25,6 +25,10 @@ if (!isset($_SESSION["id"])) {
     $allocations = $academy->allocations;
 
     $id = $_GET["user"];
+    $manager = $_GET["id"];
+    $level = $_GET["level"];
+    $test = $_GET["test"];
+
     $user = $users->findone([
         '$and' => [
             [
@@ -33,9 +37,6 @@ if (!isset($_SESSION["id"])) {
             ],
         ],
     ]);
-    $manager = $_GET["id"];
-    $level = $_GET["level"];
-    $test = $_GET["test"];
 
     $technician = $users->findOne([
         '$and' => [
@@ -362,44 +363,20 @@ if (!isset($_SESSION["id"])) {
         $body = $_POST;
         // assuming POST method, you can replace it with $_GET if it's a GET method
         $proposals = array_values($body);
-        $userAnswer = [];
-        $to = [];
-        for ($i = 0; $i < count($proposals); ++$i) {
-            $data = $questions->findOne([
-                '$or' => [
-                    ["proposal1" => $proposals[$i]],
-                    ["proposal2" => $proposals[$i]],
-                    ["proposal3" => $proposals[$i]],
-                ],
-                "type" => "Declarative",
-            ]);
-            if ($data) {
-                array_push($userAnswer, $proposals[$i]);
-                array_push($to, $proposals[$i]);
-            }
-            if ($proposals[$i] == "null") {
-                array_push($userAnswer, $proposals[$i]);
-            }
-        }
-        if (count($questionsTag) != count($to)) {
-            $idxs = array_map(
-                function ($v, $k) use ($userAnswer) {
-                    if ($v === "null") {
-                        return $k + 1;
-                    }
-                },
-                $userAnswer,
-                array_keys($userAnswer)
-            );
-            for ($j = 0; $j < count($idxs); ++$j) {
-                if ($idxs[$j] != null) {
-                    array_push($array, $idxs[$j]);
+        $userAnswer = $exam->answers;
+        $array = [];
+        if (count($questionsTag) != $exam->total) {
+            foreach ($userAnswer as $key => $answer) {
+                if ($answer == 'null') {
+                    array_push($array, $answer);
                     $error_msg =
                         "Vous n'avez pas répondu à " .
                         count($array) .
                         " question(s), Veuillez vérifier la ou les question(s) dont valider est en vert svp.";
                 }
             }
+            //var_dump($array);
+            //var_dump($o);
             //var_dump($array);
             //var_dump($o);
             //var_dump($r++);
@@ -413,7 +390,7 @@ if (!isset($_SESSION["id"])) {
             $scoreBoiA = [];
             $scoreBoiM = [];
             $scoreBoT = [];
-            $scoreBoV = [];
+            $scoreBoiV = [];
             $scoreClim = [];
             $scoreDe = [];
             $scoreDir = [];
@@ -442,6 +419,7 @@ if (!isset($_SESSION["id"])) {
             $proposal = [];
             $proposalAssistance = [];
             $proposalArbre = [];
+            $proposalTransfert = [];
             $proposalBoite = [];
             $proposalBoiteAuto = [];
             $proposalBoiteMan = [];
@@ -477,12 +455,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -492,7 +470,7 @@ if (!isset($_SESSION["id"])) {
                             "Assistance à la Conduite"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Assistance à la Conduite-" .
                                     $questionsData->level .
                                     "-" .
@@ -548,12 +526,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -563,7 +541,7 @@ if (!isset($_SESSION["id"])) {
                             "Arbre de Transmission"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Arbre de Transmission-" .
                                     $questionsData->level .
                                     "-" .
@@ -617,12 +595,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -631,7 +609,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Boite de Transfert"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Transfert-" .
                                     $questionsData->level .
                                     "-" .
@@ -649,7 +627,7 @@ if (!isset($_SESSION["id"])) {
                                 );
                                 array_push($proposal, "Oui");
                             } else {
-                                array_push($proposalBoite, "Non");
+                                array_push($proposalTransfert, "Non");
                                 array_push($proposal, "Non");
                             }
 
@@ -687,19 +665,19 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Boite de Vitesse") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Vitesse-" .
                                     $questionsData->level .
                                     "-" .
@@ -753,12 +731,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -768,7 +746,7 @@ if (!isset($_SESSION["id"])) {
                             "Boite de Vitesse Automatique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Vitesse-" .
                                     $questionsData->level .
                                     "-" .
@@ -801,7 +779,7 @@ if (!isset($_SESSION["id"])) {
                                 "manager" => new MongoDB\BSON\ObjectId(
                                     $manager
                                 ),
-                                "score" => count($scoreBoi),
+                                "score" => count($scoreBoiA),
                                 "speciality" => $quizBoiteAuto->speciality,
                                 "level" => $level,
                                 "type" => $quizBoiteAuto->type,
@@ -824,12 +802,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -839,8 +817,8 @@ if (!isset($_SESSION["id"])) {
                             "Boite de Vitesse Mécanique"
                         ) {
                             if (
-                                $proposals[$i] ==
-                                "1-Boite de Vitesse-" .
+                                $userAnswer[$i] ==
+                                "1-Boite de Vitesse Mécanique-" .
                                     $questionsData->level .
                                     "-" .
                                     $questionsData->label .
@@ -857,7 +835,7 @@ if (!isset($_SESSION["id"])) {
                                 );
                                 array_push($proposal, "Oui");
                             } else {
-                                array_push($proposalBoite, "Non");
+                                array_push($proposalBoiteMan, "Non");
                                 array_push($proposal, "Non");
                             }
 
@@ -895,23 +873,23 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if (
                             $questionsData->speciality ==
-                            "Boite de Vitesse Mécanique"
+                            "Boite de Vitesse à Variation Continue"
                         ) {
                             if (
-                                $proposals[$i] ==
-                                "1-Boite de Vitesse-" .
+                                $userAnswer[$i] ==
+                                "1-Boite de Vitesse à Variation Continue-" .
                                     $questionsData->level .
                                     "-" .
                                     $questionsData->label .
@@ -928,7 +906,7 @@ if (!isset($_SESSION["id"])) {
                                 );
                                 array_push($proposal, "Oui");
                             } else {
-                                array_push($proposalBoite, "Non");
+                                array_push($proposalBoiteVc, "Non");
                                 array_push($proposal, "Non");
                             }
 
@@ -964,19 +942,19 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Climatisation") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Climatisation-" .
                                     $questionsData->level .
                                     "-" .
@@ -1029,12 +1007,12 @@ if (!isset($_SESSION["id"])) {
                 $quizDemi = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($demiID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1043,7 +1021,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Demi Arbre de Roue"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Demi Arbre de Roue-" .
                                     $questionsData->level .
                                     "-" .
@@ -1051,7 +1029,7 @@ if (!isset($_SESSION["id"])) {
                                     "-1"
                             ) {
                                 array_push(
-                                    $scoreDir,
+                                    $scoreDe,
                                     "Il maitrise (le technicien réalise cette tâche professionnelle seul)"
                                 );
                                 array_push($proposalDemi, "Oui");
@@ -1074,7 +1052,7 @@ if (!isset($_SESSION["id"])) {
                                 "manager" => new MongoDB\BSON\ObjectId(
                                     $manager
                                 ),
-                                "score" => count($scoreDir),
+                                "score" => count($scoreDe),
                                 "speciality" => $quizDemi->speciality,
                                 "level" => $level,
                                 "type" => $quizDemi->type,
@@ -1094,19 +1072,19 @@ if (!isset($_SESSION["id"])) {
                 $quizDirection = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($directionID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Direction") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Direction-" .
                                     $questionsData->level .
                                     "-" .
@@ -1159,12 +1137,12 @@ if (!isset($_SESSION["id"])) {
                 $quizElectricite = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($electriciteID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1174,8 +1152,8 @@ if (!isset($_SESSION["id"])) {
                             "Electricité et Electronique"
                         ) {
                             if (
-                                $proposals[$i] ==
-                                "1-Electricité-" .
+                                $userAnswer[$i] ==
+                                "1-Electricité et Electronique-" .
                                     $questionsData->level .
                                     "-" .
                                     $questionsData->label .
@@ -1227,19 +1205,19 @@ if (!isset($_SESSION["id"])) {
                 $quizFrei = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freiID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Freinage") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage-" .
                                     $questionsData->level .
                                     "-" .
@@ -1290,12 +1268,12 @@ if (!isset($_SESSION["id"])) {
                 $quizFreinageElec = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freinageElecID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1305,7 +1283,7 @@ if (!isset($_SESSION["id"])) {
                             "Freinage Electromagnétique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage Electromagnétique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1358,12 +1336,12 @@ if (!isset($_SESSION["id"])) {
                 $quizFreinage = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freinageID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1372,7 +1350,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Freinage Hydraulique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage Hydraulique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1425,12 +1403,12 @@ if (!isset($_SESSION["id"])) {
                 $quizFrein = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freinID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1439,7 +1417,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Freinage Pneumatique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage Pneumatique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1490,19 +1468,19 @@ if (!isset($_SESSION["id"])) {
                 $quizHydraulique = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($hydrauliqueID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Hydraulique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Hydraulique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1555,19 +1533,19 @@ if (!isset($_SESSION["id"])) {
                 $quizMoteurDiesel = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurDieselID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Diesel") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Diesel-" .
                                     $questionsData->level .
                                     "-" .
@@ -1620,19 +1598,19 @@ if (!isset($_SESSION["id"])) {
                 $quizMoteurElec = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurElecID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Electrique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Electrique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1685,19 +1663,19 @@ if (!isset($_SESSION["id"])) {
                 $quizMoteurEssence = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurEssenceID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Essence") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Essence-" .
                                     $questionsData->level .
                                     "-" .
@@ -1745,24 +1723,24 @@ if (!isset($_SESSION["id"])) {
                 }
                 $insertedResult = $results->insertOne($result);
             }
-            if (isset($_POST["quizMoteurThermique"])) {
-                $moteurThermiqueID = $_POST["quizMoteurThermique"];
+            if (isset($_POST["quizMoteur"])) {
+                $moteurThermiqueID = $_POST["quizMoteur"];
                 $quizMoteurThermique = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurThermiqueID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Thermique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Thermique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1816,19 +1794,19 @@ if (!isset($_SESSION["id"])) {
                 $quizMultiplexage = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($multiplexageID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Multiplexage") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Multiplexage-" .
                                     $questionsData->level .
                                     "-" .
@@ -1881,19 +1859,19 @@ if (!isset($_SESSION["id"])) {
                 $quizPont = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($pontID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Pont") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Pont-" .
                                     $questionsData->level .
                                     "-" .
@@ -1944,19 +1922,19 @@ if (!isset($_SESSION["id"])) {
                 $quizPneumatique = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($pneumatiqueID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Pneumatique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Pneumatique-" .
                                     $questionsData->level .
                                     "-" .
@@ -2009,19 +1987,19 @@ if (!isset($_SESSION["id"])) {
                 $quizReducteur = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($reducteurID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Reducteur") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Reducteur-" .
                                     $questionsData->level .
                                     "-" .
@@ -2074,19 +2052,19 @@ if (!isset($_SESSION["id"])) {
                 $quizSuspension = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($suspensionID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Suspension") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension à -" .
                                     $questionsData->level .
                                     "-" .
@@ -2139,19 +2117,19 @@ if (!isset($_SESSION["id"])) {
                 $quizSuspensionLame = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($suspensionLameID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Suspension à Lame") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension à Lame-" .
                                     $questionsData->level .
                                     "-" .
@@ -2204,12 +2182,12 @@ if (!isset($_SESSION["id"])) {
                 $quizSuspensionRessort = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($suspensionRessortID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -2218,7 +2196,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Suspension Ressort"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension Ressort-" .
                                     $questionsData->level .
                                     "-" .
@@ -2275,12 +2253,12 @@ if (!isset($_SESSION["id"])) {
                         $suspensionPneumatiqueID
                     ),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -2290,7 +2268,7 @@ if (!isset($_SESSION["id"])) {
                             "Suspension Pneumatique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension Pneumatique-" .
                                     $questionsData->level .
                                     "-" .
@@ -2351,19 +2329,19 @@ if (!isset($_SESSION["id"])) {
                 $quizTransversale = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($transversaleID),
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Transversale") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Transversale-" .
                                     $questionsData->level .
                                     "-" .
@@ -2412,17 +2390,17 @@ if (!isset($_SESSION["id"])) {
                 $insertedResult = $results->insertOne($result);
             }
             $managerAnswer = [];
-            for ($i = 0; $i < count($proposals); ++$i) {
+            for ($i = 0; $i < count($userAnswer); ++$i) {
                 $data = $questions->findOne([
                     '$or' => [
-                        ["proposal1" => $proposals[$i]],
-                        ["proposal2" => $proposals[$i]],
-                        ["proposal3" => $proposals[$i]],
+                        ["proposal1" => $userAnswer[$i]],
+                        ["proposal2" => $userAnswer[$i]],
+                        ["proposal3" => $userAnswer[$i]],
                     ],
                     "type" => "Declarative",
                 ]);
                 if ($data) {
-                    array_push($managerAnswer, $proposals[$i]);
+                    array_push($managerAnswer, $userAnswer[$i]);
                 }
             }
             $newResult = [
@@ -2500,7 +2478,7 @@ if (!isset($_SESSION["id"])) {
                 $insert = $results->insertOne($newresult);
             }
 
-            header("Location: ./dashboard.php");
+            header("Location: ./congrat.php");
         }
     }
     ?>
@@ -2909,7 +2887,7 @@ if (!isset($_SESSION["id"])) {
                             ["active" => true],
                         ],
                     ]); ?>
-                <input class="hidden" type="text" name="quizboiteAuto" value="<?php echo $boiteAutoDecla->_id; ?>" />
+                <input class="hidden" type="text" name="quizBoiteAuto" value="<?php echo $boiteAutoDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
@@ -2932,7 +2910,7 @@ if (!isset($_SESSION["id"])) {
                             1; ?>" value="<?php echo $question->proposal2; ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sais pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -2991,7 +2969,7 @@ if (!isset($_SESSION["id"])) {
                             ["active" => true],
                         ],
                     ]); ?>
-                <input class="hidden" type="text" name="quizboiteMan" value="<?php echo $boiteManDecla->_id; ?>" />
+                <input class="hidden" type="text" name="quizBoiteMan" value="<?php echo $boiteManDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
                     style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
@@ -3014,7 +2992,7 @@ if (!isset($_SESSION["id"])) {
                             1; ?>" value="<?php echo $question->proposal2; ?>" />
                     <span class="design"></span>
                     <span class="text">
-                        Il ne sais pas faire
+                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
                     </span>
                 </label>
                 <label class="quiz-form__ans">
@@ -3056,7 +3034,7 @@ if (!isset($_SESSION["id"])) {
                             ],
                             [
                                 "speciality" =>
-                                    "Boite de Vitesse à Vitesse Continue",
+                                    "Boite de Vitesse à Variation Continue",
                             ],
                             ["type" => "Declaratif"],
                             ["level" => $level],
@@ -3797,7 +3775,7 @@ if (!isset($_SESSION["id"])) {
                                 ),
                             ],
                             ["speciality" => "Hydraulique"],
-                            ["type" => "Declaraif"],
+                            ["type" => "Declaratif"],
                             ["level" => $level],
                             ["active" => true],
                         ],
@@ -4145,7 +4123,7 @@ if (!isset($_SESSION["id"])) {
                             ["active" => true],
                         ],
                     ]); ?>
-                <input class="hidden" type="text" name="quizMoteurThermique"
+                <input class="hidden" type="text" name="quizMoteur"
                     value="<?php echo $moteurThermiqueDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
                 <p class="quiz-form__question fw-bold" id="question"
@@ -4947,329 +4925,6059 @@ if (!isset($_SESSION["id"])) {
                     ?>
                 <?php
                 } ?>
-            <?php } elseif (isset($exam)) {
-                                for (
-                                    $i = 0;
-                                    $i < count($exam["questions"]);
-                                    ++$i
-                                ) {
-                                    $question = $questions->findone([
-                                        '$and' => [
-                                            [
-                                                "_id" => new MongoDB\BSON\ObjectId(
-                                                    $exam["questions"][$i]
-                                                ),
-                                            ],
-                                            ["active" => true],
-                                        ],
-                                    ]); ?>
-                <?php if ($exam["quizAssistance"] != null) { ?>
-                <input class="hidden" type="text" name="quizAssistance"
-                    value="<?php echo $exam["quizAssistance"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizArbre"] != null) { ?>
-                <input class="hidden" type="text" name="quizArbre"
-                    value="<?php echo $exam["quizArbre"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizTransfert"] != null) { ?>
-                <input class="hidden" type="text" name="quizTransfert"
-                    value="<?php echo $exam["quizTransfert"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizBoite"] != null) { ?>
-                <input class="hidden" type="text" name="quizBoite"
-                    value="<?php echo $exam["quizBoite"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizBoiteAuto"] != null) { ?>
-                <input class="hidden" type="text" name="quizBoiteAuto"
-                    value="<?php echo $exam["quizBoiteAuto"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizBoiteMan"] != null) { ?>
-                <input class="hidden" type="text" name="quizBoiteMan"
-                    value="<?php echo $exam["quizBoiteMan"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizClimatisation"] != null) { ?>
-                <input class="hidden" type="text" name="quizClimatisation"
-                    value="<?php echo $exam["quizClimatisation"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizDemi"] != null) { ?>
-                <input class="hidden" type="text" name="quizDemi"
-                    value="<?php echo $exam["quizDemi"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizDirection"] != null) { ?>
-                <input class="hidden" type="text" name="quizDirection"
-                    value="<?php echo $exam["quizDirection"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizElectricite"] != null) { ?>
-                <input class="hidden" type="text" name="quizElectricite"
-                    value="<?php echo $exam["quizElectricite"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizFrei"] != null) { ?>
-                <input class="hidden" type="text" name="quizFrei"
-                    value="<?php echo $exam["quizFrei"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizFreinageElec"] != null) { ?>
-                <input class="hidden" type="text" name="quizfreinageElec"
-                    value="<?php echo $exam["quizFreinageElec"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizFreinage"] != null) { ?>
-                <input class="hidden" type="text" name="quizFreinage"
-                    value="<?php echo $exam["quizFreinage"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizFrein"] != null) { ?>
-                <input class="hidden" type="text" name="quizFrein"
-                 value="<?php echo $exam["quizFrein"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizHydraulique"] != null) { ?>
-                <input class="hidden" type="text" name="quizHydraulique"
-                    value="<?php echo $exam["quizHydraulique"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizMoteurDiesel"] != null) { ?>
-                <input class="hidden" type="text" name="quizMoteurDiesel"
-                    value="<?php echo $exam["quizMoteurDiesel"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizMoteurElec"] != null) { ?>
-                <input class="hidden" type="text" name="quizMoteurElec"
-                    value="<?php echo $exam["quizMoteurElec"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizMoteurEssence"] != null) { ?>
-                <input class="hidden" type="text" name="quizMoteurEssence"
-                    value="<?php echo $exam["quizMoteurEssence"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizMoteur"] != null) { ?>
-                <input class="hidden" type="text" name="quizMoteur"
-                    value="<?php echo $exam["quizMoteur"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizMultiplexage"] != null) { ?>
-                <input class="hidden" type="text" name="quizMultiplexage"
-                    value="<?php echo $exam["quizMultiplexage"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizPont"] != null) { ?>
-                <input class="hidden" type="text" name="quizPont" 
-                value="<?php echo $exam["quizPont"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizPneumatique"] != null) { ?>
-                <input class="hidden" type="text" name="quizPneumatique"
-                    value="<?php echo $exam["quizPneumatique"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizReducteur"] != null) { ?>
-                <input class="hidden" type="text" name="quizReducteur"
-                    value="<?php echo $exam["quizReducteur"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizSuspension"] != null) { ?>
-                <input class="hidden" type="text" name="quizSuspension"
-                    value="<?php echo $exam["quizSuspension"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizSuspensionLame"] != null) { ?>
-                <input class="hidden" type="text" name="quizSuspensionLame"
-                    value="<?php echo $exam["quizSuspensionLame"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizSuspensionRessort"] != null) { ?>
-                <input class="hidden" type="text" name="quizSuspensionRessort"
-                    value="<?php echo $exam["quizSuspensionRessort"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizSuspensionPneumatique"] != null) { ?>
-                <input class="hidden" type="text" name="quizSuspensionPneumatique"
-                    value="<?php echo $exam["quizSuspensionPneumatique"]; ?>" />
-                <?php } ?>
-                <?php if ($exam["quizTransversale"] != null) { ?>
-                <input class="hidden" type="text" name="quizTransversale"
-                    value="<?php echo $exam["quizTransversale"]; ?>" />
-                <?php } ?>
-            <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-            <p class="quiz-form__question fw-bold" id="question"
-                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                <?php echo $i + 1; ?> - <?php echo $question->label; ?>
-            </p>
-            <?php if (isset($exam["answers"][$i])) { ?>
-            <?php if ($exam["questions"][$i] == $question->_id) { ?>
-            <?php if ($exam["answers"][$i] == $question->proposal1) { ?>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal1; ?>" checked/>
-                <span class="design"></span>
-                <span class="text">
-                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal2; ?>" />
-                <span class="design"></span>
-                <span class="text">
-                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal3; ?>" />
-                <span class="design"></span>
-                <span class="text">
-                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
-                </span>
-            </label>
-                <div>
-                    <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                            <?php } elseif (isset($exam)) { ?>
+                        <?php
+                        $questionExam = $exam["questions"];
+                        $k = 1;
+                        for ($j = 0; $j < count($questionExam); ++$j) {
+                            $assistanceFac = $questions->findOne([
+                                '$and' => [
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $questionExam[$j]
+                                        ),
+                                    ],
+                                    [
+                                        "speciality" =>
+                                            "Assistance à la Conduite",
+                                    ],
+                                    ["type" => "Declarative"],
+                                    ["level" => $level],
+                                    ["active" => true],
+                                ],
+                            ]);
+                            if ($assistanceFac) { ?>
+                                                    <input class="hidden" type="text" name="quizAssistance"
+                                                        value="<?php echo $exam[
+                                                            "quizAssistance"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $assistanceFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $assistanceFac->label; ?> (<?php echo $assistanceFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $assistanceFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                        <?php if (
+                                            $exam["answers"][$j] ==
+                                            $assistanceFac["proposal1"]
+                                        ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                            $exam["answers"][$j] ==
+                                            $assistanceFac["proposal2"]
+                                        ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                            $exam["answers"][$j] ==
+                                            $assistanceFac["proposal3"]
+                                        ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                             Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $assistanceFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerAssistance<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php }}
+                        }
+                        ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $arbreFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Arbre de Transmission",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($arbreFac) { ?>
+                                                    <input class="hidden" type="text" name="quizArbre" value="<?php echo $exam[
+                                                        "quizArbre"
+                                                    ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $arbreFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $arbreFac->label; ?> (<?php echo $arbreFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $arbreFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $arbreFac["proposal1"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $arbreFac["proposal2"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $arbreFac["proposal3"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                             Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerArbre<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $transfertFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Boite de Transfert",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($transfertFac) { ?>
+                                                    <input class="hidden" type="text" name="quizTransfert"
+                                                        value="<?php echo $exam[
+                                                            "quizTransfert"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $transfertFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $transfertFac->label; ?> (<?php echo $transfertFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $transfertFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $transfertFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $transfertFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $transfertFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>" value="<?php echo $transfertFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>" value="<?php echo $transfertFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>" value="<?php echo $transfertFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transfertFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransfert<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $boiteFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Boite de Vitesse",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($boiteFac) { ?>
+                                                    <input class="hidden" type="text" name="quizBoite" value="<?php echo $exam[
+                                                        "quizBoite"
+                                                    ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $boiteFac->label; ?> (<?php echo $boiteFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $boiteFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteFac["proposal1"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteFac["proposal2"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteFac["proposal3"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                             Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoite<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $boiteAutoFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Boite de Vitesse Automatique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($boiteAutoFac) { ?>
+                                                    <input class="hidden" type="text" name="quizBoiteAuto" value="<?php echo $exam[
+                                                        "quizBoiteAuto"
+                                                    ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteAutoFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $boiteAutoFac->label; ?> (<?php echo $boiteAutoFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $boiteAutoFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteAutoFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteAutoFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteAutoFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)>
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteAuto<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $boiteManFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Boite de Vitesse Mécanique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($boiteManFac) { ?>
+                                                    <input class="hidden" type="text" name="quizBoiteMan" value="<?php echo $exam[
+                                                        "quizBoiteMan"
+                                                    ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteManFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $boiteManFac->label; ?> (<?php echo $boiteManFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $boiteManFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteManFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteManFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteManFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteMan<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $boiteVcFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Boite de Vitesse à Variation Continue",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($boiteVcFac) { ?>
+                                                    <input class="hidden" type="text" name="quizBoiteVc" value="<?php echo $exam[
+                                                        "quizBoiteVc"
+                                                    ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteVcFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $boiteVcFac->label; ?> (<?php echo $boiteVcFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $boiteVcFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteVcFac["proposal1"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteVcFac["proposal2"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $boiteVcFac["proposal3"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerBoiteVc<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $climatisationFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Climatisation",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $climatisationFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizClimatisation"
+                                                        value="<?php echo $exam[
+                                                            "quizClimatisation"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $climatisationFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $climatisationFac->label; ?> (<?php echo $climatisationFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $climatisationFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $climatisationFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $climatisationFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $climatisationFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $climatisationFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerClimatisation<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $demiFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Demi Arbre de Roue",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($demiFac) { ?>
+                                                    <input class="hidden" type="text" name="quizDemi"
+                                                        value="<?php echo $exam[
+                                                            "quizDemi"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $demiFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $demiFac->label; ?> (<?php echo $demiFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $demiFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $demiFac["proposal1"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $demiFac["proposal2"]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $demiFac["proposal3"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $demiFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDemi<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $directionFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Direction",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($directionFac) { ?>
+                                                    <input class="hidden" type="text" name="quizDirection"
+                                                        value="<?php echo $exam[
+                                                            "quizDirection"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $directionFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $directionFac->label; ?> (<?php echo $directionFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $directionFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $directionFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $directionFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $directionFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $directionFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerDirection<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $electriciteFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Electricité et Electronique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $electriciteFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizElectricite"
+                                                        value="<?php echo $exam[
+                                                            "quizElectricite"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $electriciteFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $electriciteFac->label; ?> (<?php echo $electriciteFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $electriciteFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $electriciteFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $electriciteFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?> 
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $electriciteFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $electriciteFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerElectricite<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $freiFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Freinage",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($freiFac) { ?>
+                                                    <input class="hidden" type="text" name="quizFrei"
+                                                        value="<?php echo $exam[
+                                                            "quizFrei"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freiFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $freiFac->label; ?> (<?php echo $freiFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $freiFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $freiFac["proposal1"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freiFac["proposal2"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freiFac["proposal3"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freiFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrei<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $freinageElecFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Freinage Electromagnétique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $freinageElecFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizFreinageElec"
+                                                        value="<?php echo $exam[
+                                                            "quizFreinageElec"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinageElecFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $freinageElecFac->label; ?> (<?php echo $freinageElecFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $freinageElecFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $freinageElecFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freinageElecFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freinageElecFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageElecFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerfreinageElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $freinageFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Freinage Hydraulique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($freinageFac) { ?>
+                                                    <input class="hidden" type="text" name="quizFreinage"
+                                                        value="<?php echo $exam[
+                                                            "quizFreinage"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinageFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $freinageFac->label; ?> (<?php echo $freinageFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $freinageFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $freinageFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freinageFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal2; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freinageFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                           Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $freinageFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFreinage<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $freinFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Freinage Pneumatique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($freinFac) { ?>
+                                                    <input class="hidden" type="text" name="quizFrein" value="<?php echo $exam[
+                                                        "quizFrein"
+                                                    ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $freinFac->label; ?> (<?php echo $freinFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $freinFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $freinFac["proposal1"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal1; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freinFac["proposal2"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $freinFac["proposal3"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerFrein<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $hydrauliqueFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Hydraulique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $hydrauliqueFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizHydraulique"
+                                                        value="<?php echo $exam[
+                                                            "quizHydraulique"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $hydrauliqueFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $hydrauliqueFac->label; ?> (<?php echo $hydrauliqueFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $hydrauliqueFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $hydrauliqueFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $hydrauliqueFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $hydrauliqueFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $hydrauliqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerHydraulique<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $moteurDieselFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Moteur Diesel",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $moteurDieselFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizMoteurDiesel"
+                                                        value="<?php echo $exam[
+                                                            "quizMoteurDiesel"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurDieselFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $moteurDieselFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurDieselFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurDieselFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurDieselFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurDieselFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurDiesel<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $moteurElecFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Moteur Electrique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($moteurElecFac) { ?>
+                                                    <input class="hidden" type="text" name="quizMoteurElec"
+                                                        value="<?php echo $exam[
+                                                            "quizMoteurElec"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurElecFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $moteurElecFac->label; ?> (<?php echo $moteurElecFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $moteurElecFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurElecFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurElecFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurElecFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurElecFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurElec<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $moteurEssenceFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Moteur Essence",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $moteurEssenceFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizMoteurEssence"
+                                                        value="<?php echo $exam[
+                                                            "quizMoteurEssence"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurEssenceFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $moteurEssenceFac->label; ?> (<?php echo $moteurEssenceFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $moteurEssenceFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurEssenceFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurEssenceFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurEssenceFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurEssenceFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteurEssence<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $moteurFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Moteur Thermique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($moteurFac) { ?>
+                                                    <input class="hidden" type="text" name="quizMoteur"
+                                                        value="<?php echo $exam[
+                                                            "quizMoteur"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $moteurFac->label; ?> (<?php echo $moteurFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $question->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurFac["proposal1"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurFac["proposal2"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $moteurFac["proposal3"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $moteurFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMoteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $multiplexageFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Multiplexage",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $multiplexageFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizMultiplexage"
+                                                        value="<?php echo $exam[
+                                                            "quizMultiplexage"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $multiplexageFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $multiplexageFac->label; ?> (<?php echo $multiplexageFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $multiplexageFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $multiplexageFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $multiplexageFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $multiplexageFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $multiplexageFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerMultiplexage<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $pontFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Pont",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($pontFac) { ?>
+                                                    <input class="hidden" type="text" name="quizPont" value="<?php echo $exam[
+                                                        "quizPont"
+                                                    ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $pontFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $pontFac->label; ?> (<?php echo $pontFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $pontFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $pontFac["proposal1"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $pontFac["proposal2"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $pontFac["proposal3"]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal3; ?>" checked />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPont<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $pneumatiqueFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Pneumatique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $pneumatiqueFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizPneumatique"
+                                                        value="<?php echo $exam[
+                                                            "quizPneumatique"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $pneumatiqueFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $pneumatiqueFac->label; ?> (<?php echo $pneumatiqueFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $pneumatiqueFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $pneumatiqueFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $pneumatiqueFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                           Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $pneumatiqueFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerPneu<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $reducteurFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Reducteur",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($reducteurFac) { ?>
+                                                    <input class="hidden" type="text" name="quizReducteur"
+                                                        value="<?php echo $exam[
+                                                            "quizReducteur"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $reducteurFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $reducteurFac->label; ?> (<?php echo $reducteurFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $reducteurFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $reducteurFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $reducteurFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $reducteurFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $reducteurFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerReducteur<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $suspensionFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Suspension",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if ($suspensionFac) { ?>
+                                                    <input class="hidden" type="text" name="quizSuspension"
+                                                        value="<?php echo $exam[
+                                                            "quizSuspension"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $suspensionFac->label; ?> (<?php echo $suspensionFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $suspensionFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspension<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $suspensionLameFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Suspension à Lame",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $suspensionLameFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizSuspensionLame"
+                                                        value="<?php echo $exam[
+                                                            "quizSuspensionLame"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionLameFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $suspensionLameFac->label; ?> (<?php echo $suspensionLameFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $suspensionLameFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionLameFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionLameFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionLameFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionLameFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionLame<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $suspensionRessortFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Suspension Ressort",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $suspensionRessortFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizSuspensionRessort"
+                                                        value="<?php echo $exam[
+                                                            "quizSuspensionRessort"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionRessortFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $suspensionRessortFac->label; ?> (<?php echo $suspensionRessortFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $suspensionRessortFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionRessortFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionRessortFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionRessortFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionRessortFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionRessort<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $suspensionPneumatiqueFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Suspension Pneumatique",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $suspensionPneumatiqueFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizSuspensionPneumatique"
+                                                        value="<?php echo $exam[
+                                                            "quizSuspensionPneumatique"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionPneumatiqueFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $suspensionPneumatiqueFac->label; ?> (<?php echo $suspensionPneumatiqueFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $suspensionPneumatiqueFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionPneumatiqueFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal4; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            <?php echo $suspensionPneumatiqueFac->proposal4; ?>
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionPneumatiqueFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $suspensionPneumatiqueFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerSuspensionPneumatique<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } ?>
+                                                    <?php }
+                                                        ?>
+                                                    <?php
+                                                    } ?>
+                                                        
+                                                    <?php for (
+                                                        $j = 0;
+                                                        $j <
+                                                        count($questionExam);
+                                                        ++$j
+                                                    ) {
+
+                                                        $transversaleFac = $questions->findOne(
+                                                            [
+                                                                '$and' => [
+                                                                    [
+                                                                        "_id" => new MongoDB\BSON\ObjectId(
+                                                                            $questionExam[
+                                                                                $j
+                                                                            ]
+                                                                        ),
+                                                                    ],
+                                                                    [
+                                                                        "speciality" =>
+                                                                            "Transversale",
+                                                                    ],
+                                                                    [
+                                                                        "type" =>
+                                                                            "Declarative",
+                                                                    ],
+                                                                    [
+                                                                        "level" => $level,
+                                                                    ],
+                                                                    [
+                                                                        "active" => true,
+                                                                    ],
+                                                                ],
+                                                            ]
+                                                        );
+                                                        if (
+                                                            $transversaleFac
+                                                        ) { ?>
+                                                    <input class="hidden" type="text" name="quizTransversale"
+                                                        value="<?php echo $exam[
+                                                            "quizTransversale"
+                                                        ]; ?>" />
+                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $transversaleFac->_id; ?>" />
+                                                    <p class="quiz-form__question fw-bold" id="question"
+                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                        <?php echo $k++; ?> - <?php echo $transversaleFac->label; ?> (<?php echo $transversaleFac->ref; ?>)
+                                                    </p>
+                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                                        <img id="image" alt="" src="../public/files/<?php echo $transversaleFac->image ??
+                                                            ""; ?>"> <br>
+                                                    </div>
+                                                    <?php if (
+                                                        $exam["answers"][$j] ==
+                                                        $transversaleFac[
+                                                            "proposal1"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal1; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $transversaleFac[
+                                                            "proposal2"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal2; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } elseif (
+                                                        $exam["answers"][$j] ==
+                                                        $transversaleFac[
+                                                            "proposal3"
+                                                        ]
+                                                    ) { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal3; ?>" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                    </div>
+                                                    <?php } else { ?>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal1; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il maitrise (le technicien réalise cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal2; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans">
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="<?php echo $transversaleFac->proposal3; ?>" />
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                            Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                                        </span>
+                                                    </label>
+                                                    <label class="quiz-form__ans" hidden>
+                                                        <input type="radio" onclick="checkedRadio()"
+                                                            name="answerTransversale<?php echo $j +
+                                                                1; ?>"
+                                                            value="null" checked/>
+                                                        <span class="design"></span>
+                                                        <span class="text">
+                                                        </span>
+                                                    </label>
+                                                    <div >
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                    </div>     
+                            <?php } ?>
+                            <?php }
+                                                        ?>
+                            <?php
+                                                    } ?>
+                            <?php } ?>
+                            <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
+                                <!-- <button type="submit" class="btn btn-secondary btn-lg" name="back">Retour</button> -->
+                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Etape Suivante</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            <?php } elseif ($exam["answers"][$i] == $question->proposal2) { ?>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal1; ?>"/>
-                <span class="design"></span>
-                <span class="text">
-                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal2; ?>" checked/>
-                <span class="design"></span>
-                <span class="text">
-                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal3; ?>" />
-                <span class="design"></span>
-                <span class="text">
-                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
-                </span>
-            </label>
-                <div>
-                    <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
-                </div>
-            <?php } elseif ($exam["answers"][$i] == $question->proposal3) { ?>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal1; ?>"/>
-                <span class="design"></span>
-                <span class="text">
-                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal2; ?>" />
-                <span class="design"></span>
-                <span class="text">
-                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal3; ?>" checked/>
-                <span class="design"></span>
-                <span class="text">
-                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
-                </span>
-            </label>
-                <div>
-                    <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
-                </div>
-            <?php } elseif (
-                $exam["answers"][$i] != $question->proposal1 ||
-                $exam["answers"][$i] != $question->proposal2 ||
-                $exam["answers"][$i] != $question->proposal3
-            ) { ?>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal1; ?>"/>
-                <span class="design"></span>
-                <span class="text">
-                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal2; ?>" />
-                <span class="design"></span>
-                <span class="text">
-                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal3; ?>"/>
-                <span class="design"></span>
-                <span class="text">
-                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
-                </span>
-            </label>
-            <label class="quiz-form__ans" hidden>
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="null" checked/>
-                <span class="design"></span>
-                <span class="text">
-                </span>
-            </label>
-                <div>
-                    <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
-                </div>
-            <?php }}} else { ?>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal1; ?>"/>
-                <span class="design"></span>
-                <span class="text">
-                    Il maitrise (le technicien réalise cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal2; ?>" />
-                <span class="design"></span>
-                <span class="text">
-                    Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle seul)
-                </span>
-            </label>
-            <label class="quiz-form__ans">
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="<?php echo $question->proposal3; ?>"/>
-                <span class="design"></span>
-                <span class="text">
-                    Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
-                </span>
-            </label>
-            <label class="quiz-form__ans" hidden>
-                <input type="radio" onclick="checkedRadio()"
-                    name="answer<?php echo $i + 1; ?>"
-                    value="null" checked/>
-                <span class="design"></span>
-                <span class="text">
-                </span>
-            </label>
-                <div>
-                    <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
-                </div>
-            <?php } ?>
-            <?php
-                                } ?>
-            <?php
-                            } ?>
-            <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
-                <!-- <button type="submit" class="btn btn-secondary btn-lg" name="back">Retour</button> -->
-                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Etape Suivante</button>
             </div>
         </div>
-        </form>
+        <!--end::Container-->
     </div>
+    <!--end::Post-->
 </div>
+<!--end::Body-->
 <script>
 let hr = <?php echo $exam["hour"] ?? "01"; ?>;
 let mn = <?php echo $exam["minute"] ?? "00"; ?>;

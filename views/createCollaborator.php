@@ -1520,10 +1520,10 @@ if (!isset($_SESSION["id"])) {
                   CITROEN VL
                 </option>
                 <option value="MERCEDES">
-                  MERCEDES
+                  MERCEDES VL
                 </option>
                 <option value="MUTSUBISHI">
-                  MUTSUBISHI
+                  MUTSUBISHI VL
                 </option>
                 <option value="PEUGEOT">
                   PEUGEOT VL

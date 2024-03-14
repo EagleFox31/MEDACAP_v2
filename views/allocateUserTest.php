@@ -17,31 +17,31 @@ if (!isset($_SESSION["id"])) {
     // Connecting in collections
     $users = $academy->users;
     $vehicles = $academy->vehicles;
-    $allocations = $academy->allocations;
+    $tests = $academy->tests;
 
     if (isset($_POST["submit"])) {
-        $vehicle = $_POST["vehicle"];
+        $brand = $_POST["brand"];
         $technicians = $_POST["technicians"];
 
-        $vehice = $vehicles->findOne([
+        $vehicle = $vehicles->findOne([
             '$and' => [
-                ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
+                ["_id" => new MongoDB\BSON\ObjectId($brand)],
                 ["active" => true],
             ],
         ]);
 
-        if (!$vehicle || !$technicians) {
+        if (!$brand || !$technicians) {
             $error_msg = "Veuillez remplir tous les champs.";
-        } elseif ($vehice->type == "Declaratif") {
+        } elseif ($vehicle->type == "Declaratif") {
             for ($i = 0; $i < count($technicians); $i++) {
-                $allocateExist = $allocations->findOne([
+                $testExist = $tests->findOne([
                     '$and' => [
                         ["user" => new MongoDB\BSON\ObjectId($technicians[$i])],
-                        ["vehicle" => new MongoDB\BSON\ObjectId($vehicle)],
+                        ["brand" => ['$in' => $brand]],
                     ],
                 ]);
 
-                if ($allocateExist) {
+                if ($testExist) {
                     $allocations->updateOne(
                         [
                             "_id" => new MongoDB\BSON\ObjectId(
@@ -194,20 +194,19 @@ if (!isset($_SESSION["id"])) {
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <select name="vehicle" aria-label="Select a Country" data-control="select2"
-                                    data-placeholder="Sélectionnez le véhicule..."
+                                <select name="brand" aria-label="Select a Country" data-control="select2"
+                                    data-placeholder="Sélectionnez la marque de véhicule..."
                                     class="form-select form-select-solid fw-bold">
-                                    <option value="">Sélectionnez le véhicule...
+                                    <option value="">Sélectionnez la marque de véhicule...
                                     </option>
                                     <?php
                                     $vehicle = $vehicles->find([
                                         "active" => true,
                                     ]);
                                     foreach ($vehicle as $vehicle) { ?>
-                                    <option value='<?php echo $vehicle->_id; ?>'>
-                                        <?php echo $vehicle->label; ?> (<?php echo $vehicle->brand; ?>,
-                                        <?php echo $vehicle->type; ?>)
-                                    </option>
+                                        <option value='<?php echo $vehicle->_id; ?>'>
+                                            <?php echo $vehicle->brand; ?>
+                                        </option>
                                     <?php }
                                     ?>
                                 </select>

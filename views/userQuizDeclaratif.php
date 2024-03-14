@@ -349,37 +349,39 @@ if (!isset($_SESSION["id"])) {
     if (isset($_POST["valid"])) {
         $time = $_POST["timer"];
         $questionsTag = $_POST["questionsTag"];
-        $body = $_POST;
         // assuming POST method, you can replace it with $_GET if it's a GET method
-        $proposals = array_values($body);
         $userAnswer = $exam->answers;
-        $to = [];
         $array = [];
-        for ($i = 0; $i < count($userAnswer); ++$i) {
-            if ($userAnswer[$i] != "null") {
-                array_push($to, $userAnswer[$i]);
-            }
-        }
+        // for ($i = 0; $i < count($userAnswer); ++$i) {
+        //     if ($userAnswer[$i] != "null") {
+        //         array_push($to, $userAnswer[$i]);
+        //     }
+        // }
         //var_dump($userAnswer);
-        if (count($questionsTag) != count($to)) {
-            $idxs = array_map(
-                function ($v, $k) use ($userAnswer) {
-                    if ($v === "null") {
-                        return $k + 1;
-                    }
-                },
-                $userAnswer,
-                array_keys($userAnswer)
-            );
-            for ($j = 0; $j < count($idxs); ++$j) {
-                if ($idxs[$j] != null) {
-                    array_push($array, $idxs[$j]);
+        if (count($questionsTag) != $exam->total) {
+            // $idxs = array_map(
+            //     function ($v, $k) use ($userAnswer) {
+            //         if ($v === "null") {
+            //             return $k + 1;
+            //         }
+            //     },
+            //     $userAnswer,
+            //     array_keys($userAnswer)
+            // );
+            foreach ($userAnswer as $key => $answer) {
+                if ($answer == 'null') {
+                    array_push($array, $answer);
                     $error_msg =
                         "Vous n'avez pas répondu à " .
                         count($array) .
                         " question(s), Veuillez vérifier la ou les question(s) dont valider est en vert svp.";
                 }
             }
+            //for ($j = 0; $j < count($idxs); ++$j) {
+            //    if ($idxs[$j] != null) {
+            //        array_push($array, $idxs[$j]);
+            //    }
+            //}
             //var_dump($array);
             //var_dump($o);
             //var_dump($r++);
@@ -458,12 +460,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -473,7 +475,7 @@ if (!isset($_SESSION["id"])) {
                             "Assistance à la Conduite"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Assistance à la Conduite-" .
                                     $questionsData->level .
                                     "-" .
@@ -526,12 +528,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -541,7 +543,7 @@ if (!isset($_SESSION["id"])) {
                             "Arbre de Transmission"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Arbre de Transmission-" .
                                     $questionsData->level .
                                     "-" .
@@ -592,21 +594,19 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
-                        if (
-                            $questionsData->speciality == "Boite de Transfert"
-                        ) {
+                        if ($questionsData->speciality == "Boite de Transfert") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Transfert-" .
                                     $questionsData->level .
                                     "-" .
@@ -631,10 +631,8 @@ if (!isset($_SESSION["id"])) {
                             array_push($quizQuestion, $questionsData->_id);
                             $result = [
                                 "questions" => $quizTransfert->questions,
-                                "answers" => $proposalBoite,
-                                "quiz" => new MongoDB\BSON\ObjectId(
-                                    $transfertID
-                                ),
+                                "answers" => $proposalTransfert,
+                                "quiz" => new MongoDB\BSON\ObjectId($transfertID),
                                 "user" => new MongoDB\BSON\ObjectId($id),
                                 "score" => count($scoreBoT),
                                 "speciality" => $quizTransfert->speciality,
@@ -659,19 +657,19 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Boite de Vitesse") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Vitesse-" .
                                     $questionsData->level .
                                     "-" .
@@ -722,12 +720,12 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -737,16 +735,16 @@ if (!isset($_SESSION["id"])) {
                             "Boite de Vitesse Automatique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Vitesse Automatique-" .
                                     $questionsData->level .
                                     "-" .
                                     $questionsData->label .
                                     "-1"
                             ) {
-                                array_push($scoreBoiA, "il sait faire");
+                                array_push($scoreBoiA, "Je maitrise (je réalise cette tâche professionnelle seul)");
                                 array_push($proposalBoiteAuto, "Oui");
-                                array_push($score, "il sait faire");
+                                array_push($score, "Je maitrise (je réalise cette tâche professionnelle seul)");
                                 array_push($proposal, "Oui");
                             } else {
                                 array_push($proposalBoiteAuto, "Non");
@@ -761,7 +759,7 @@ if (!isset($_SESSION["id"])) {
                                     $boiteAutoID
                                 ),
                                 "user" => new MongoDB\BSON\ObjectId($id),
-                                "score" => count($scoreBoi),
+                                "score" => count($scoreBoiA),
                                 "speciality" => $quizBoiteAuto->speciality,
                                 "level" => $level,
                                 "type" => $quizBoiteAuto->type,
@@ -777,19 +775,19 @@ if (!isset($_SESSION["id"])) {
                 $insertedResult = $results->insertOne($result);
             }
             if (isset($_POST["quizBoiteMan"])) {
-                $boiteManID = $_POST["quizBoite"];
+                $boiteManID = $_POST["quizBoiteMan"];
                 $quizBoiteMan = $quizzes->findOne([
                     '$and' => [
                         ["_id" => new MongoDB\BSON\ObjectId($boiteManID)],
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -799,19 +797,19 @@ if (!isset($_SESSION["id"])) {
                             "Boite de Vitesse Mécanique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Vitesse Mécanique-" .
                                     $questionsData->level .
                                     "-" .
                                     $questionsData->label .
                                     "-1"
                             ) {
-                                array_push($scoreBoiM, "il sait faire");
+                                array_push($scoreBoiM, "Je maitrise (je réalise cette tâche professionnelle seul)");
                                 array_push($proposalBoiteMan, "Oui");
-                                array_push($score, "il sait faire");
+                                array_push($score, "Je maitrise (je réalise cette tâche professionnelle seul)");
                                 array_push($proposal, "Oui");
                             } else {
-                                array_push($proposalBoite, "Non");
+                                array_push($proposalBoiteMan, "Non");
                                 array_push($proposal, "Non");
                             }
 
@@ -839,19 +837,19 @@ if (!isset($_SESSION["id"])) {
                 $insertedResult = $results->insertOne($result);
             }
             if (isset($_POST["quizBoiteVc"])) {
-                $boiteVcID = $_POST["quizBoite"];
+                $boiteVcID = $_POST["quizBoiteVc"];
                 $quizBoiteVc = $quizzes->findOne([
                     '$and' => [
                         ["_id" => new MongoDB\BSON\ObjectId($boiteVcID)],
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); $i++) {
+                for ($i = 0; $i < count($userAnswer); $i++) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -861,19 +859,19 @@ if (!isset($_SESSION["id"])) {
                             "Boite de Vitesse à Variation Continue"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Boite de Vitesse à Variation Continue-" .
                                     $questionsData->level .
                                     "-" .
                                     $questionsData->label .
                                     "-1"
                             ) {
-                                array_push($scoreBoiV, "il sait faire");
+                                array_push($scoreBoiV, "Je maitrise (je réalise cette tâche professionnelle seul)");
                                 array_push($proposalBoiteVc, "Oui");
-                                array_push($score, "il sait faire");
+                                array_push($score, "Je maitrise (je réalise cette tâche professionnelle seul)");
                                 array_push($proposal, "Oui");
                             } else {
-                                array_push($proposalBoite, "Non");
+                                array_push($proposalBoiteVc, "Non");
                                 array_push($proposal, "Non");
                             }
 
@@ -906,19 +904,19 @@ if (!isset($_SESSION["id"])) {
                         ["active" => true],
                     ],
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Climatisation") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Climatisation-" .
                                     $questionsData->level .
                                     "-" .
@@ -968,19 +966,19 @@ if (!isset($_SESSION["id"])) {
                 $quizDirection = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($directionID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Direction") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Direction-" .
                                     $questionsData->level .
                                     "-" .
@@ -1030,12 +1028,12 @@ if (!isset($_SESSION["id"])) {
                 $quizDemi = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($demiID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1044,7 +1042,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Demi Arbre de Roue"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Demi Arbre de Roue-" .
                                     $questionsData->level .
                                     "-" .
@@ -1052,7 +1050,7 @@ if (!isset($_SESSION["id"])) {
                                     "-1"
                             ) {
                                 array_push(
-                                    $scoreDir,
+                                    $scoreDe,
                                     "Je maitrise (je réalise cette tâche professionnelle seul)"
                                 );
                                 array_push($proposalDemi, "Oui");
@@ -1072,7 +1070,7 @@ if (!isset($_SESSION["id"])) {
                                 "answers" => $proposalDemi,
                                 "quiz" => new MongoDB\BSON\ObjectId($demiID),
                                 "user" => new MongoDB\BSON\ObjectId($id),
-                                "score" => count($scoreDir),
+                                "score" => count($scoreDe),
                                 "speciality" => $quizDemi->speciality,
                                 "level" => $level,
                                 "type" => $quizDemi->type,
@@ -1092,12 +1090,12 @@ if (!isset($_SESSION["id"])) {
                 $quizElectricite = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($electriciteID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1107,7 +1105,7 @@ if (!isset($_SESSION["id"])) {
                             "Electricité et Electronique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Electricité et Electronique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1157,19 +1155,19 @@ if (!isset($_SESSION["id"])) {
                 $quizFrei = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freiID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Freinage") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage-" .
                                     $questionsData->level .
                                     "-" .
@@ -1217,12 +1215,12 @@ if (!isset($_SESSION["id"])) {
                 $quizFreinageElec = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freinageElecID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1232,7 +1230,7 @@ if (!isset($_SESSION["id"])) {
                             "Freinage Electromagnétique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage Electromagnétique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1282,12 +1280,12 @@ if (!isset($_SESSION["id"])) {
                 $quizFreinage = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freinageID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1296,7 +1294,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Freinage Hydraulique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage Hydraulique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1346,12 +1344,12 @@ if (!isset($_SESSION["id"])) {
                 $quizFrein = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($freinID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1360,7 +1358,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Freinage Pneumatique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Freinage Pneumatique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1408,19 +1406,19 @@ if (!isset($_SESSION["id"])) {
                 $quizHydraulique = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($hydrauliqueID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Hydraulique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Hydraulique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1470,19 +1468,19 @@ if (!isset($_SESSION["id"])) {
                 $quizMoteurDiesel = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurDieselID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Diesel") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Diesel-" .
                                     $questionsData->level .
                                     "-" .
@@ -1532,19 +1530,19 @@ if (!isset($_SESSION["id"])) {
                 $quizMoteurElec = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurElecID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Electrique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Electrique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1594,19 +1592,19 @@ if (!isset($_SESSION["id"])) {
                 $quizMoteurEssence = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurEssenceID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Essence") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Essence-" .
                                     $questionsData->level .
                                     "-" .
@@ -1651,24 +1649,24 @@ if (!isset($_SESSION["id"])) {
                 }
                 $insertedResult = $results->insertOne($result);
             }
-            if (isset($_POST["quizMoteurThermique"])) {
-                $moteurThermiqueID = $_POST["quizMoteurThermique"];
+            if (isset($_POST["quizMoteur"])) {
+                $moteurThermiqueID = $_POST["quizMoteur"];
                 $quizMoteurThermique = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($moteurThermiqueID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Moteur Thermique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Moteur Thermique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1719,12 +1717,12 @@ if (!isset($_SESSION["id"])) {
                 $quizMultiplexage = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($multiplexageID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -1734,7 +1732,7 @@ if (!isset($_SESSION["id"])) {
                             "Multiplexage"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Multiplexage-" .
                                     $questionsData->level .
                                     "-" .
@@ -1784,19 +1782,19 @@ if (!isset($_SESSION["id"])) {
                 $quizPont = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($pontID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Pont") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Pont-" .
                                     $questionsData->level .
                                     "-" .
@@ -1844,19 +1842,19 @@ if (!isset($_SESSION["id"])) {
                 $quizPneumatique = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($pneumatiqueID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Pneumatique") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Pneumatique-" .
                                     $questionsData->level .
                                     "-" .
@@ -1906,19 +1904,19 @@ if (!isset($_SESSION["id"])) {
                 $quizReducteur = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($reducteurID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Reducteur") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Reducteur-" .
                                     $questionsData->level .
                                     "-" .
@@ -1968,19 +1966,19 @@ if (!isset($_SESSION["id"])) {
                 $quizSuspension = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($suspensionID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Suspension") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension-" .
                                     $questionsData->level .
                                     "-" .
@@ -2030,19 +2028,19 @@ if (!isset($_SESSION["id"])) {
                 $quizSuspensionLame = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($suspensionLameID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Suspension à Lame") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension à Lame-" .
                                     $questionsData->level .
                                     "-" .
@@ -2092,12 +2090,12 @@ if (!isset($_SESSION["id"])) {
                 $quizSuspensionRessort = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($suspensionRessortID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -2106,7 +2104,7 @@ if (!isset($_SESSION["id"])) {
                             $questionsData->speciality == "Suspension Ressort"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension Ressort-" .
                                     $questionsData->level .
                                     "-" .
@@ -2160,12 +2158,12 @@ if (!isset($_SESSION["id"])) {
                         $suspensionPneumatiqueID
                     ),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
@@ -2175,7 +2173,7 @@ if (!isset($_SESSION["id"])) {
                             "Suspension Pneumatique"
                         ) {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Suspension Pneumatique-" .
                                     $questionsData->level .
                                     "-" .
@@ -2233,19 +2231,19 @@ if (!isset($_SESSION["id"])) {
                 $quizTransversale = $quizzes->findOne([
                     "_id" => new MongoDB\BSON\ObjectId($transversaleID),
                 ]);
-                for ($i = 0; $i < count($proposals); ++$i) {
+                for ($i = 0; $i < count($userAnswer); ++$i) {
                     $questionsData = $questions->findOne([
                         '$or' => [
-                            ["proposal1" => $proposals[$i]],
-                            ["proposal2" => $proposals[$i]],
-                            ["proposal3" => $proposals[$i]],
+                            ["proposal1" => $userAnswer[$i]],
+                            ["proposal2" => $userAnswer[$i]],
+                            ["proposal3" => $userAnswer[$i]],
                         ],
                     ]);
 
                     if ($questionsData != null) {
                         if ($questionsData->speciality == "Transversale") {
                             if (
-                                $proposals[$i] ==
+                                $userAnswer[$i] ==
                                 "1-Transversale-" .
                                     $questionsData->level .
                                     "-" .
@@ -2407,13 +2405,14 @@ if (!isset($_SESSION["id"])) {
                         </div>
                         
                         <?php if (isset($error_msg)) { ?>
-                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                            <center><strong><?php echo $error_msg; ?></strong></center>
-                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                <span aria-hidden='true'>&times;
-                                </span>
-                            </button>
-                        </div>
+                        <script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "<?php echo $error_msg; ?>",
+                                // footer: '<a href="#">Why do I have this issue?</a>'
+                            });
+                        </script>
                         <?php } ?>
                         
                         <!-- Quiz section -->
@@ -5116,7 +5115,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $assistanceFac->proposal1; ?>
+                                                            Je maitrise (je réalise cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5126,7 +5125,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $assistanceFac->proposal2; ?>
+                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5136,7 +5135,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $assistanceFac->proposal3; ?>
+                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5310,7 +5309,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $arbreFac->proposal1; ?>
+                                                            Je maitrise (je réalise cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5319,7 +5318,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $arbreFac->proposal2; ?>
+                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5328,7 +5327,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $arbreFac->proposal3; ?>
+                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5518,7 +5517,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $transfertFac->proposal1; ?>
+                                                            Je maitrise (je réalise cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5528,7 +5527,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $transfertFac->proposal2; ?>
+                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5538,7 +5537,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $transfertFac->proposal3; ?>
+                                                           Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5714,7 +5713,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $boiteFac->proposal1; ?>
+                                                            Je maitrise (je réalise cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5723,7 +5722,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $boiteFac->proposal2; ?>
+                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5732,7 +5731,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $boiteFac->proposal3; ?>
+                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
