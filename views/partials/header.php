@@ -644,22 +644,22 @@
                                 <!--end:Menu item-->
                                 <?php if (
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/dashboard.php" &&
+                                        "/medacap/views/dashboard.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/profile.php?id=" .
+                                        "/medacap/views/profile.php?id=" .
                                             $_SESSION["id"] &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/edit-delet.php" &&
+                                        "/medacap/views/edit-delet.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/collaborators.php" &&
+                                        "/medacap/views/collaborators.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/createCollaborator.php" &&
+                                        "/medacap/views/createCollaborator.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/allocationManager.php" &&
+                                        "/medacap/views/allocationManager.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/userManagerList.php" &&
+                                        "/medacap/views/userManagerList.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/userManagerResults.php"
+                                        "/medacap/views/userManagerResults.php"
                                 ) { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
@@ -775,22 +775,22 @@
                                 <!--end:Menu item-->
                                 <?php if (
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/dashboard.php" &&
+                                        "/medacap/views/dashboard.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/profile.php?id=" .
+                                        "/medacap/views/profile.php?id=" .
                                             $_SESSION["id"] &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/testSavoir.php" &&
+                                        "/medacap/views/testSavoir.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/testSavoirFaire.php" &&
+                                        "/medacap/views/testSavoirFaire.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/congrat.php" &&
+                                        "/medacap/views/congrat.php" &&
                                     $_SERVER["REQUEST_URI"] !=
-                                        "/cfao_cfr/views/dashboard.php"
+                                        "/medacap/views/dashboard.php"
                                 ) { ?>
                                 <?php if (
                                     $_SERVER["REQUEST_URI"] !=
-                                    "/cfao_cfr/views/userQuizDeclaratif.php?test=" .
+                                    "/medacap/views/userQuizDeclaratif.php?test=" .
                                         $_GET["test"] .
                                         "&level=" .
                                         $_GET["level"] .
@@ -818,7 +818,7 @@
                                 <?php } ?>
                                 <?php if (
                                     $_SERVER["REQUEST_URI"] !=
-                                    "/cfao_cfr/views/userQuizFactuel.php?test=" .
+                                    "/medacap/views/userQuizFactuel.php?test=" .
                                         $_GET["test"] .
                                         "&level=" .
                                         $_GET["level"] .

@@ -101,7 +101,7 @@ $exams = $academy->exams;
                                 class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                 id="kt_customers_table">
                                 <thead>
-                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
                                         <th class="min-w-200px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" rowspan="3"
                                             aria-label="Customer Name: activate to sort column ascending"

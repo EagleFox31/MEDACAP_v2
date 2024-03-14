@@ -134,7 +134,7 @@ if (!isset($_SESSION["id"])) {
                                 class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                 id="kt_customers_table">
                                 <thead>
-                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 250px;">

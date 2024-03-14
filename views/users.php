@@ -275,7 +275,7 @@ if (isset($_POST["excel"])) {
                                 class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                 id="kt_customers_table">
                                 <thead>
-                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
                                         <th class="w-10px pe-2 sorting_disabled" rowspan="1" colspan="1" aria-label=""
                                             style="width: 29.8906px;">
                                             <div
