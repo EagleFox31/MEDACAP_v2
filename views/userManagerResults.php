@@ -209,27 +209,12 @@ if (!isset($_SESSION["id"])) {
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Connaissances</th>
+                                            Pourcentage du Test des Connaissances</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Tâches Professionnelles</th>
-                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
-                                            aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Pourcentage Global</th>
-                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
-                                            aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Pourcentage Connaissances</th>
-                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
-                                            aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">
-                                            Pourcentage Tâches Professionnelles</th>
+                                            Pourcentage du Test des Tâches Professionnelles</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
@@ -239,12 +224,27 @@ if (!isset($_SESSION["id"])) {
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Connaissances</th>
+                                            Pourcentage du Test des Connaissances</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Tâches Professionnelles</th>
+                                            Pourcentage du Test des Tâches Professionnelles</th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Pourcentage Global</th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Pourcentage du Test des Connaissances</th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Pourcentage du Test des Tâches Professionnelles</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
