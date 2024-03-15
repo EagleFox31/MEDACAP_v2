@@ -112,6 +112,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacJu['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistFac) {
                     $testFac = [
@@ -132,6 +140,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleFac['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocate = [
@@ -190,6 +211,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaJu['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistDecla) {
                     $testFac = [
@@ -210,6 +239,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleDecla['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocate = [
@@ -271,6 +313,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacJu['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistFac) {
                     $testFac = [
@@ -291,6 +341,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleFac['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocate = [
@@ -349,6 +412,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaJu['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistDecla) {
                     $testFac = [
@@ -369,6 +440,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleDecla['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocate = [
@@ -428,6 +512,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacSe['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistFacSe) {
                     $testFacSe = [
@@ -448,6 +540,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleFacSe['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocateSe = [
@@ -506,6 +611,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaSe['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistDeclaSe) {
                     $testFac = [
@@ -526,6 +639,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleDeclaSe['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocateSe = [
@@ -587,8 +713,16 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacJu['quizzes'])
+                                ],
+                            ]
+                        );
                     }
-                } elseif (!$testExistFac) {
+                } elseif (!$testExistFacJu) {
                     $testFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId($user['_id']),
@@ -607,6 +741,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleFac['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocate = [
@@ -665,6 +812,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaJu['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistDecla) {
                     $testFac = [
@@ -685,6 +840,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleDecla['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocate = [
@@ -744,6 +912,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacSe['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistFacSe) {
                     $testFacSe = [
@@ -764,6 +940,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleFacSe['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocateSe = [
@@ -822,6 +1011,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaSe['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistDeclaSe) {
                     $testFac = [
@@ -842,6 +1039,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleDeclaSe['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocateSe = [
@@ -901,6 +1111,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacEx['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacEx['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistFacEx) {
                     $testFacEx = [
@@ -921,6 +1139,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleFacSe['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertEx->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertEx->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocateEx = [
@@ -979,6 +1210,14 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaEx['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaEx['quizzes'])
+                                ],
+                            ]
+                        );
                     }
                 } elseif (!$testExistDeclaEx) {
                     $testFac = [
@@ -999,6 +1238,19 @@ if (!isset($_SESSION["id"])) {
                             '$addToSet' => [
                                 "quizzes" => $vehicleDeclaEx['quizzes'][$i]
                             ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertEx->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertEx->getInsertedId())],
+                        [
+                            '$set' => $test
                         ]
                     );
                     $allocateEx = [
