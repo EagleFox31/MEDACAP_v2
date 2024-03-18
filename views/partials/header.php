@@ -182,28 +182,6 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./createUser.php"><span
-                                            class="menu-icon">
-                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">
-                                            Ajouter un Utilisateur
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./importeUser.php"><span
-                                            class="menu-icon">
-                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">
-                                            Importer des Utilisateurs
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./users.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
@@ -215,11 +193,33 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./createUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Ajouter un Utilisateur
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./editDeletUser.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             Modifier/Supprimer un Utilisateur
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./importeUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Importer des Utilisateurs
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -270,36 +270,24 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./createQuestion.php"><span
-                                            class="menu-icon">
-                                            <i
-                                                class="fas fa-question fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">
-                                            Ajouter une Question
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./importeQuestion.php"><span
-                                            class="menu-icon">
-                                            <i
-                                                class="fas fa-question fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">
-                                            Importer des Questions
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./questions.php"><span
                                             class="menu-icon">
                                             <i
                                                 class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             Liste des Questions
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./createQuestion.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Ajouter une Question
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -317,22 +305,24 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item pt-5">
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Véhicules</span>
-                                    </div>
-                                    <!--end:Menu content-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./importeQuestion.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Importer des Questions
+                                        </span></a>
+                                    <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./createVehicle.php"><span
-                                            class="menu-icon">
-                                            <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
-                                            Ajouter un Véhicule
-                                        </span></a>
-                                    <!--end:Menu link-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-70">Types de Véhicule</span>
+                                    </div>
+                                    <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
@@ -340,7 +330,17 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./vehicles.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
-                                            Liste des Véhicules
+                                            Liste des Types de Véhicule
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./createVehicle.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
+                                            Ajouter un Type de Véhicule
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -350,7 +350,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./editDeletVehicle.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
-                                            Modifier/Supprimer un Véhicule
+                                            Modifier/Supprimer un Type de Véhicule
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -381,7 +381,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Assignations</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Assignation des Tests</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -392,7 +392,17 @@
                                         <span class="menu-icon">
                                             <i class="fas fa-exchange fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i>
-                                        </span><span class="menu-title">Assignation des Tests</span></a>
+                                        </span><span class="menu-title">Ajouter des Tests à un Technicien</span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./reallocateUserTest.php">
+                                        <span class="menu-icon">
+                                            <i class="fas fa-exchange fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title">Reassignation du Précédent Test</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -400,7 +410,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Résultats</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Bilan des évaluations</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -414,7 +424,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Résultats</span></a>
+                                            </i></span><span class="menu-title">Liste des Résultats</span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -469,7 +479,20 @@
                                             <i
                                                 class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Véhicules Supprimés
+                                            Liste des Types de Véhicule Supprimés
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./historiqueResults.php"><span
+                                            class="menu-icon">
+                                            <i
+                                                class="fas fa-history fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            Historiques des Résultats
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>

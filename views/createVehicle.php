@@ -207,7 +207,7 @@ if (!isset($_SESSION["id"])) {
 <?php include_once "partials/header.php"; ?>
 
 <!--begin::Title-->
-<title>Ajouter Véhicule | CFAO Mobility Academy</title>
+<title>Ajouter Type de Véhicule | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -222,7 +222,7 @@ if (!isset($_SESSION["id"])) {
             <div class='container mt-5 w-50'>
                 <img src='../public/images/logo.png' alt='10' height='170'
                     style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
-                <h1 class='my-3 text-center'>Ajouter un véhicule</h1>
+                <h1 class='my-3 text-center'>Ajouter un type de véhicule</h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">

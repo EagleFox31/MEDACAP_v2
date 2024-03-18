@@ -30,7 +30,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Véhicules Supprimés | CFAO Mobility Academy</title>
+<title>Liste des Types de Véhicule Supprimés | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -43,7 +43,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des véhicules supprimés</h1>
+                    Liste des types de véhicule supprimés</h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->

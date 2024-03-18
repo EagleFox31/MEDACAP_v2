@@ -120,8 +120,26 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Junior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => true
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                } elseif (!$testExistFac) {
+                } elseif (!$testExistFacJu) {
                     $testFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId($user['_id']),
@@ -219,8 +237,26 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                                ["type" => 'Declaratif'],
+                                ["level" => 'Junior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
                     }
-                } elseif (!$testExistDecla) {
+                } elseif (!$testExistDeclaJu) {
                     $testFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId($user['_id']),
@@ -275,6 +311,22 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                }
+                $result = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                        ["level" => 'Junior'],
+                        ["active" => true],
+                    ],
+                ]);
+                foreach ($result as $result) {
+                    $result['active'] = false;
+                    $results->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($result->_id)],
+                        [
+                            '$set' => $result
+                        ]
+                    );
                 }
             } elseif ($user['level'] == 'Senior') {
                 if ($testExistFacJu) {
@@ -321,406 +373,24 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
-                    }
-                } elseif (!$testExistFac) {
-                    $testFac = [
-                        "quizzes" => [],
-                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
-                        "brand" => $brand,
-                        "type" => "Factuel",
-                        "level" => $vehicleFac->level,
-                        "total" => 0,
-                        "active" => true,
-                        "created" => date("d-m-y"),
-                    ];
-                    $insert = $tests->insertOne($testFac);
-
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
-                        [
-                            '$addToSet' => [
-                                "quizzes" => $vehicleFac['quizzes'][$i]
-                            ],
-                        ]
-                    );
-                    $test = $tests->findOne([
-                        '$and' => [
-                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
-                            ["active" => true],
-                        ],
-                    ]);
-                    $test['total'] = count($test['quizzes']);
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
-                        [
-                            '$set' => $test
-                        ]
-                    );
-                    $allocate = [
-                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
-                        'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
-                        'type' => 'Factuel',
-                        'level' => $vehicleFac->level,
-                        'activeTest' => false,
-                        'active' => false,
-                        'created' => date("d-m-y"),
-                    ];
-                    $allocations->insertOne($allocate);
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                    }
-                } elseif ($testExistDeclaJu) {
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
-                            [
-                                '$push' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        $vehicleDecla = $vehicles->findOne([
+                        $allocate = $allocations->findOne([
                             '$and' => [
-                                ["brand" => $brand[$i]],
-                                ["type" => 'Declaratif'],
-                                ["level" => 'Junior'],
-                                ["active" => true],
-                            ],
-                        ]);
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        for ($i = 0; $i < count($vehicleDecla['quizzes']); $i++) {
-                            $tests->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
-                                [
-                                    '$addToSet' => [
-                                        "quizzes" => $vehicleDecla['quizzes'][$i]
-                                    ],
-                                ]
-                            );
-                        }
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
-                            [
-                                '$set' => [
-                                    "total" => count($testExistDeclaJu['quizzes'])
-                                ],
-                            ]
-                        );
-                    }
-                } elseif (!$testExistDecla) {
-                    $testFac = [
-                        "quizzes" => [],
-                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
-                        "brand" => $brand,
-                        "type" => "Declaratif",
-                        'level' => 'Junior',
-                        "total" => 0,
-                        "active" => true,
-                        "created" => date("d-m-y"),
-                    ];
-                    $insert = $tests->insertOne($testFac);
-
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
-                        [
-                            '$addToSet' => [
-                                "quizzes" => $vehicleDecla['quizzes'][$i]
-                            ],
-                        ]
-                    );
-                    $test = $tests->findOne([
-                        '$and' => [
-                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
-                            ["active" => true],
-                        ],
-                    ]);
-                    $test['total'] = count($test['quizzes']);
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
-                        [
-                            '$set' => $test
-                        ]
-                    );
-                    $allocate = [
-                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
-                        'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
-                        'type' => 'Declaratif',
-                        'level' => 'Junior',
-                        'activeTest' => false,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-y"),
-                    ];
-                    $allocations->insertOne($allocate);
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                    }
-                } elseif ($testExistFacSe) {
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
-                            [
-                                '$push' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        $vehicleFacSe = $vehicles->findOne([
-                            '$and' => [
-                                ["brand" => $brand[$i]],
-                                ["type" => 'Factuel'],
-                                ["level" => 'Senior'],
-                                ["active" => true],
-                            ],
-                        ]);
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        for ($i = 0; $i < count($vehicleFacSe['quizzes']); $i++) {
-                            $tests->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
-                                [
-                                    '$addToSet' => [
-                                        "quizzes" => $vehicleFacSe['quizzes'][$i]
-                                    ],
-                                ]
-                            );
-                        }
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
-                            [
-                                '$set' => [
-                                    "total" => count($testExistFacSe['quizzes'])
-                                ],
-                            ]
-                        );
-                    }
-                } elseif (!$testExistFacSe) {
-                    $testFacSe = [
-                        "quizzes" => [],
-                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
-                        "brand" => $brand,
-                        "type" => "Factuel",
-                        'level' => 'Senior',
-                        "total" => 0,
-                        "active" => true,
-                        "created" => date("d-m-y"),
-                    ];
-                    $insertSe = $tests->insertOne($testFacSe);
-
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
-                        [
-                            '$addToSet' => [
-                                "quizzes" => $vehicleFacSe['quizzes'][$i]
-                            ],
-                        ]
-                    );
-                    $test = $tests->findOne([
-                        '$and' => [
-                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
-                            ["active" => true],
-                        ],
-                    ]);
-                    $test['total'] = count($test['quizzes']);
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
-                        [
-                            '$set' => $test
-                        ]
-                    );
-                    $allocateSe = [
-                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
-                        'test' => new MongoDB\BSON\ObjectId($insertSe->getInsertedId()),
-                        'type' => 'Factuel',
-                        'level' => 'Senior',
-                        'activeTest' => false,
-                        'active' => false,
-                        'created' => date("d-m-y"),
-                    ];
-                    $allocations->insertOne($allocateSe);
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                    }
-                } elseif ($testExistDeclaSe) {
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
-                            [
-                                '$push' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        $vehicleDeclaSe = $vehicles->findOne([
-                            '$and' => [
-                                ["brand" => $brand[$i]],
-                                ["type" => 'Declaratif'],
-                                ["level" => 'Senior'],
-                                ["active" => true],
-                            ],
-                        ]);
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        for ($i = 0; $i < count($vehicleDeclaSe['quizzes']); $i++) {
-                            $tests->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
-                                [
-                                    '$addToSet' => [
-                                        "quizzes" => $vehicleDeclaSe['quizzes'][$i]
-                                    ],
-                                ]
-                            );
-                        }
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
-                            [
-                                '$set' => [
-                                    "total" => count($testExistDeclaSe['quizzes'])
-                                ],
-                            ]
-                        );
-                    }
-                } elseif (!$testExistDeclaSe) {
-                    $testFac = [
-                        "quizzes" => [],
-                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
-                        "brand" => $brand,
-                        "type" => "Declaratif",
-                        "level" => 'Senior',
-                        "total" => 0,
-                        "active" => true,
-                        "created" => date("d-m-y"),
-                    ];
-                    $insertSe = $tests->insertOne($testFac);
-
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
-                        [
-                            '$addToSet' => [
-                                "quizzes" => $vehicleDeclaSe['quizzes'][$i]
-                            ],
-                        ]
-                    );
-                    $test = $tests->findOne([
-                        '$and' => [
-                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
-                            ["active" => true],
-                        ],
-                    ]);
-                    $test['total'] = count($test['quizzes']);
-                    $tests->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
-                        [
-                            '$set' => $test
-                        ]
-                    );
-                    $allocateSe = [
-                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
-                        'test' => new MongoDB\BSON\ObjectId($insertSe->getInsertedId()),
-                        'type' => 'Declaratif',
-                        "level" => 'Senior',
-                        'activeTest' => false,
-                        'activeManager' => false,
-                        'active' => false,
-                        'created' => date("d-m-y"),
-                    ];
-                    $allocations->insertOne($allocateSe);
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                    }
-                }
-            } else {
-                if ($testExistFacJu) {
-                    for ($i = 0; $i < count($brand); $i++) {
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
-                            [
-                                '$push' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        $vehicleFac = $vehicles->findOne([
-                            '$and' => [
-                                ["brand" => $brand[$i]],
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
                                 ["type" => 'Factuel'],
                                 ["level" => 'Junior'],
-                                ["active" => true],
                             ],
                         ]);
-                        $users->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
-                            [
-                                '$addToSet' => [
-                                    "brand" => $brand[$i]
-                                ],
-                            ]
-                        );
-                        for ($i = 0; $i < count($vehicleFac['quizzes']); $i++) {
-                            $tests->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
                                 [
-                                    '$addToSet' => [
-                                        "quizzes" => $vehicleFac['quizzes'][$i]
+                                    '$set' => [
+                                        "active" => false
                                     ],
                                 ]
                             );
                         }
-                        $tests->updateOne(
-                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
-                            [
-                                '$set' => [
-                                    "total" => count($testExistFacJu['quizzes'])
-                                ],
-                            ]
-                        );
                     }
                 } elseif (!$testExistFacJu) {
                     $testFac = [
@@ -820,6 +490,528 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Junior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
+                    }
+                } elseif (!$testExistDeclaJu) {
+                    $testFac = [
+                        "quizzes" => [],
+                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                        "brand" => $brand,
+                        "type" => "Declaratif",
+                        'level' => 'Junior',
+                        "total" => 0,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insert = $tests->insertOne($testFac);
+
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$addToSet' => [
+                                "quizzes" => $vehicleDecla['quizzes'][$i]
+                            ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
+                        ]
+                    );
+                    $allocate = [
+                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                        'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
+                        'type' => 'Declaratif',
+                        'level' => 'Junior',
+                        'activeTest' => false,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-y"),
+                    ];
+                    $allocations->insertOne($allocate);
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($testExistFacSe) {
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
+                            [
+                                '$push' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        $vehicleFacSe = $vehicles->findOne([
+                            '$and' => [
+                                ["brand" => $brand[$i]],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Senior'],
+                                ["active" => true],
+                            ],
+                        ]);
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        for ($i = 0; $i < count($vehicleFacSe['quizzes']); $i++) {
+                            $tests->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFacSe['quizzes'][$i]
+                                    ],
+                                ]
+                            );
+                        }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacSe['quizzes'])
+                                ],
+                            ]
+                        );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Senior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
+                    }
+                } elseif (!$testExistFacSe) {
+                    $testFacSe = [
+                        "quizzes" => [],
+                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                        "brand" => $brand,
+                        "type" => "Factuel",
+                        'level' => 'Senior',
+                        "total" => 0,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertSe = $tests->insertOne($testFacSe);
+
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$addToSet' => [
+                                "quizzes" => $vehicleFacSe['quizzes'][$i]
+                            ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$set' => $test
+                        ]
+                    );
+                    $allocateSe = [
+                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                        'test' => new MongoDB\BSON\ObjectId($insertSe->getInsertedId()),
+                        'type' => 'Factuel',
+                        'level' => 'Senior',
+                        'activeTest' => false,
+                        'active' => false,
+                        'created' => date("d-m-y"),
+                    ];
+                    $allocations->insertOne($allocateSe);
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($testExistDeclaSe) {
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                            [
+                                '$push' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        $vehicleDeclaSe = $vehicles->findOne([
+                            '$and' => [
+                                ["brand" => $brand[$i]],
+                                ["type" => 'Declaratif'],
+                                ["level" => 'Senior'],
+                                ["active" => true],
+                            ],
+                        ]);
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        for ($i = 0; $i < count($vehicleDeclaSe['quizzes']); $i++) {
+                            $tests->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleDeclaSe['quizzes'][$i]
+                                    ],
+                                ]
+                            );
+                        }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaSe['quizzes'])
+                                ],
+                            ]
+                        );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Senior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
+                    }
+                } elseif (!$testExistDeclaSe) {
+                    $testFac = [
+                        "quizzes" => [],
+                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                        "brand" => $brand,
+                        "type" => "Declaratif",
+                        "level" => 'Senior',
+                        "total" => 0,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertSe = $tests->insertOne($testFac);
+
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$addToSet' => [
+                                "quizzes" => $vehicleDeclaSe['quizzes'][$i]
+                            ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insertSe->getInsertedId())],
+                        [
+                            '$set' => $test
+                        ]
+                    );
+                    $allocateSe = [
+                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                        'test' => new MongoDB\BSON\ObjectId($insertSe->getInsertedId()),
+                        'type' => 'Declaratif',
+                        "level" => 'Senior',
+                        'activeTest' => false,
+                        'activeManager' => false,
+                        'active' => false,
+                        'created' => date("d-m-y"),
+                    ];
+                    $allocations->insertOne($allocateSe);
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
+                $result = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                        ["level" => 'Junior'],
+                        ["active" => true],
+                    ],
+                ]);
+                foreach ($result as $result) {
+                    $result['active'] = false;
+                    $results->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($result->_id)],
+                        [
+                            '$set' => $result
+                        ]
+                    );
+                }
+                $resultSe = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                        ["level" => 'Senior'],
+                        ["active" => true],
+                    ],
+                ]);
+                foreach ($resultSe as $resultSe) {
+                    $resultSe['active'] = false;
+                    $results->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($resultSe->_id)],
+                        [
+                            '$set' => $resultSe
+                        ]
+                    );
+                }
+            } else {
+                if ($testExistFacJu) {
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                            [
+                                '$push' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        $vehicleFac = $vehicles->findOne([
+                            '$and' => [
+                                ["brand" => $brand[$i]],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Junior'],
+                                ["active" => true],
+                            ],
+                        ]);
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        for ($i = 0; $i < count($vehicleFac['quizzes']); $i++) {
+                            $tests->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleFac['quizzes'][$i]
+                                    ],
+                                ]
+                            );
+                        }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistFacJu['quizzes'])
+                                ],
+                            ]
+                        );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistFacJu['_id'])],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Junior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
+                    }
+                } elseif (!$testExistFacJu) {
+                    $testFac = [
+                        "quizzes" => [],
+                        "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                        "brand" => $brand,
+                        "type" => "Factuel",
+                        "level" => $vehicleFac->level,
+                        "total" => 0,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insert = $tests->insertOne($testFac);
+
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$addToSet' => [
+                                "quizzes" => $vehicleFac['quizzes'][$i]
+                            ],
+                        ]
+                    );
+                    $test = $tests->findOne([
+                        '$and' => [
+                            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                            ["active" => true],
+                        ],
+                    ]);
+                    $test['total'] = count($test['quizzes']);
+                    $tests->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                        [
+                            '$set' => $test
+                        ]
+                    );
+                    $allocate = [
+                        'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                        'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
+                        'type' => 'Factuel',
+                        'level' => $vehicleFac->level,
+                        'activeTest' => false,
+                        'active' => false,
+                        'created' => date("d-m-y"),
+                    ];
+                    $allocations->insertOne($allocate);
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($testExistDeclaJu) {
+                    for ($i = 0; $i < count($brand); $i++) {
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                            [
+                                '$push' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        $vehicleDecla = $vehicles->findOne([
+                            '$and' => [
+                                ["brand" => $brand[$i]],
+                                ["type" => 'Declaratif'],
+                                ["level" => 'Junior'],
+                                ["active" => true],
+                            ],
+                        ]);
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
+                            [
+                                '$addToSet' => [
+                                    "brand" => $brand[$i]
+                                ],
+                            ]
+                        );
+                        for ($i = 0; $i < count($vehicleDecla['quizzes']); $i++) {
+                            $tests->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                                [
+                                    '$addToSet' => [
+                                        "quizzes" => $vehicleDecla['quizzes'][$i]
+                                    ],
+                                ]
+                            );
+                        }
+                        $tests->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                            [
+                                '$set' => [
+                                    "total" => count($testExistDeclaJu['quizzes'])
+                                ],
+                            ]
+                        );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistDeclaJu['_id'])],
+                                ["type" => 'Declaratif'],
+                                ["level" => 'Junior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
                     }
                 } elseif (!$testExistDecla) {
                     $testFac = [
@@ -920,6 +1112,24 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistFacSe['_id'])],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Senior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
                     }
                 } elseif (!$testExistFacSe) {
                     $testFacSe = [
@@ -1019,6 +1229,24 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistDeclaSe['_id'])],
+                                ["type" => 'Declaratif'],
+                                ["level" => 'Senior'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
                     }
                 } elseif (!$testExistDeclaSe) {
                     $testFac = [
@@ -1119,6 +1347,24 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistFacEx['_id'])],
+                                ["type" => 'Factuel'],
+                                ["level" => 'Expert'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
                     }
                 } elseif (!$testExistFacEx) {
                     $testFacEx = [
@@ -1218,6 +1464,24 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]
                         );
+                        $allocate = $allocations->findOne([
+                            '$and' => [
+                                ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                                ["test" => new MongoDB\BSON\ObjectId($testExistDeclaEx['_id'])],
+                                ["type" => 'Declaratif'],
+                                ["level" => 'Expert'],
+                            ],
+                        ]);
+                        if ($allocate['active'] == true) {
+                            $allocations->updateOne(
+                                ["_id" => new MongoDB\BSON\ObjectId($allocate['_id'])],
+                                [
+                                    '$set' => [
+                                        "active" => false
+                                    ],
+                                ]
+                            );
+                        }
                     }
                 } elseif (!$testExistDeclaEx) {
                     $testFac = [
@@ -1275,6 +1539,54 @@ if (!isset($_SESSION["id"])) {
                         );
                     }
                 }
+                $result = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                        ["level" => 'Junior'],
+                        ["active" => true],
+                    ],
+                ]);
+                foreach ($result as $result) {
+                    $result['active'] = false;
+                    $results->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($result->_id)],
+                        [
+                            '$set' => $result
+                        ]
+                    );
+                }
+                $resultSe = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                        ["level" => 'Senior'],
+                        ["active" => true],
+                    ],
+                ]);
+                foreach ($resultSe as $resultSe) {
+                    $resultSe['active'] = false;
+                    $results->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($resultSe->_id)],
+                        [
+                            '$set' => $resultSe
+                        ]
+                    );
+                }
+                $resultEx = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+                        ["level" => 'Expert'],
+                        ["active" => true],
+                    ],
+                ]);
+                foreach ($resultEx as $resultEx) {
+                    $resultEx['active'] = false;
+                    $results->updateOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($resultEx->_id)],
+                        [
+                            '$set' => $resultEx
+                        ]
+                    );
+                }
             }
             $success_msg = "Technicien(s) affecté(s) avec succès";
         }
@@ -1325,7 +1637,7 @@ if (!isset($_SESSION["id"])) {
                             <div class="d-flex flex-column mb-7 fv-row">
                                 <!--begin::Label-->
                                 <label class="form-label fw-bolder text-dark fs-6">
-                                    <span class="required">Marque de Véhicule</span>
+                                    <span class="required">Marque du Véhicule</span>
 
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Veuillez choisir le véhicule">
                                         <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span

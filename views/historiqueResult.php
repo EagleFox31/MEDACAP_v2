@@ -35,7 +35,7 @@ if (!isset($_SESSION["id"])) {
             ["type" => "Factuel"],
             ["typeR" => "Technicien"],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $resultDecla = $results->findOne([
@@ -44,7 +44,7 @@ if (!isset($_SESSION["id"])) {
             ["type" => "Declaratif"],
             ["typeR" => "Techniciens"],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $resultMa = $results->findOne([
@@ -53,7 +53,7 @@ if (!isset($_SESSION["id"])) {
             ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
             ["typeR" => "Managers"],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $resultTechMa = $results->findOne([
@@ -62,7 +62,7 @@ if (!isset($_SESSION["id"])) {
             ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
             ["typeR" => "Technicien - Manager"],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     ?>
@@ -115,7 +115,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center">
                     <a class="btn btn-primary"
-                        href="./detail?id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
+                        href="./historiqueDetail?id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
                         Résultats Détaillés
                     </a>
                 </div>
@@ -227,7 +227,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Arbre de Transmission",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $transmissionDecla = $results->findOne([
@@ -243,7 +243,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Arbre de Transmission",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $transmissionMa = $results->findOne([
@@ -263,7 +263,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Arbre de Transmission",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -277,7 +277,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transmissionFac->speciality; ?>&level=<?php echo $transmissionFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $transmissionFac->speciality; ?>&level=<?php echo $transmissionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -382,7 +382,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Assistance à la Conduite",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $assistanceConduiteDecla = $results->findOne([
@@ -398,7 +398,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Assistance à la Conduite",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $assistanceConduiteMa = $results->findOne([
@@ -418,7 +418,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Assistance à la Conduite",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -432,7 +432,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $assistanceConduiteFac->speciality; ?>&level=<?php echo $assistanceConduiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $assistanceConduiteFac->speciality; ?>&level=<?php echo $assistanceConduiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -541,7 +541,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Transfert"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $transfertDecla = $results->findOne([
@@ -554,7 +554,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Transfert"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $transfertMa = $results->findOne([
@@ -571,7 +571,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Boite de Transfert"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -585,7 +585,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transfertFac->speciality; ?>&level=<?php echo $transfertFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $transfertFac->speciality; ?>&level=<?php echo $transfertFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -683,7 +683,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Vitesse"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteDecla = $results->findOne([
@@ -696,7 +696,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Vitesse"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteMa = $results->findOne([
@@ -713,7 +713,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Boite de Vitesse"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -727,7 +727,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteFac->speciality; ?>&level=<?php echo $boiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $boiteFac->speciality; ?>&level=<?php echo $boiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -829,7 +829,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Automatique",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteAutoDecla = $results->findOne([
@@ -845,7 +845,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Automatique",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteAutoMa = $results->findOne([
@@ -865,7 +865,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Boite de Vitesse Automatique",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -879,7 +879,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteAutoFac->speciality; ?>&level=<?php echo $boiteAutoFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $boiteAutoFac->speciality; ?>&level=<?php echo $boiteAutoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -981,7 +981,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Mécanique",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteManDecla = $results->findOne([
@@ -997,7 +997,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Mécanique",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteManMa = $results->findOne([
@@ -1017,7 +1017,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Boite de Vitesse Mécanique",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -1031,7 +1031,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteManFac->speciality; ?>&level=<?php echo $boiteManFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $boiteManFac->speciality; ?>&level=<?php echo $boiteManFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1133,7 +1133,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse à Variation Continue",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteVaCoDecla = $results->findOne([
@@ -1149,7 +1149,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse à Variation Continue",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $boiteVaCoMa = $results->findOne([
@@ -1169,7 +1169,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Boite de Vitesse à Variation Continue",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -1183,7 +1183,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteVaCoFac->speciality; ?>&level=<?php echo $boiteVaCoFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $boiteVaCoFac->speciality; ?>&level=<?php echo $boiteVaCoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1282,7 +1282,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Climatisation"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $climatisationDecla = $results->findOne([
@@ -1295,7 +1295,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Climatisation"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $climatisationMa = $results->findOne([
@@ -1312,7 +1312,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Climatisation"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -1326,7 +1326,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $climatisationFac->speciality; ?>&level=<?php echo $climatisationFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $climatisationFac->speciality; ?>&level=<?php echo $climatisationFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1428,7 +1428,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Demi Arbre de Roue"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $demiDecla = $results->findOne([
@@ -1441,7 +1441,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Demi Arbre de Roue"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $demiMa = $results->findOne([
@@ -1458,7 +1458,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Demi Arbre de Roue"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -1472,7 +1472,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $demiFac->speciality; ?>&level=<?php echo $demiFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $demiFac->speciality; ?>&level=<?php echo $demiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1571,7 +1571,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Direction"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $directionDecla = $results->findOne([
@@ -1584,7 +1584,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Direction"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $directionMa = $results->findOne([
@@ -1601,7 +1601,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Direction"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -1615,7 +1615,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $directionFac->speciality; ?>&level=<?php echo $directionFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $directionFac->speciality; ?>&level=<?php echo $directionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1717,7 +1717,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Electricité et Electronique",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $electriciteDecla = $results->findOne([
@@ -1733,7 +1733,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Electricité et Electronique",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $electriciteMa = $results->findOne([
@@ -1753,7 +1753,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Electricité et Electronique",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -1767,7 +1767,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $electriciteFac->speciality; ?>&level=<?php echo $electriciteFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $electriciteFac->speciality; ?>&level=<?php echo $electriciteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1869,7 +1869,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Freinage"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freiDecla = $results->findOne([
@@ -1882,7 +1882,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Freinage"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freiMa = $results->findOne([
@@ -1899,7 +1899,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Freinage"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -1913,7 +1913,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freiFac->speciality; ?>&level=<?php echo $freiFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $freiFac->speciality; ?>&level=<?php echo $freiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2015,7 +2015,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Electromagnétique",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freinageElecDecla = $results->findOne([
@@ -2031,7 +2031,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Electromagnétique",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freinageElecMa = $results->findOne([
@@ -2051,7 +2051,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Freinage Electromagnétique",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -2065,7 +2065,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinageElecFac->speciality; ?>&level=<?php echo $freinageElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $freinageElecFac->speciality; ?>&level=<?php echo $freinageElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2170,7 +2170,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Hydraulique",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freinageDecla = $results->findOne([
@@ -2186,7 +2186,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Hydraulique",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freinageMa = $results->findOne([
@@ -2206,7 +2206,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Freinage Hydraulique",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -2220,7 +2220,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinageFac->speciality; ?>&level=<?php echo $freinageFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $freinageFac->speciality; ?>&level=<?php echo $freinageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2322,7 +2322,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Pneumatique",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freinDecla = $results->findOne([
@@ -2338,7 +2338,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Pneumatique",
                                         ],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $freinMa = $results->findOne([
@@ -2358,7 +2358,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Freinage Pneumatique",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -2372,7 +2372,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinFac->speciality; ?>&level=<?php echo $freinFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $freinFac->speciality; ?>&level=<?php echo $freinFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2471,7 +2471,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Hydraulique"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $hydrauliqueDecla = $results->findOne([
@@ -2484,7 +2484,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Hydraulique"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $hydrauliqueMa = $results->findOne([
@@ -2501,7 +2501,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Hydraulique"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -2515,7 +2515,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $hydrauliqueFac->speciality; ?>&level=<?php echo $hydrauliqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $hydrauliqueFac->speciality; ?>&level=<?php echo $hydrauliqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2617,7 +2617,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Diesel"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurDieselDecla = $results->findOne([
@@ -2630,7 +2630,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Diesel"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurDieselMa = $results->findOne([
@@ -2647,7 +2647,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Moteur Diesel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -2661,7 +2661,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurDieselFac->speciality; ?>&level=<?php echo $moteurDieselFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $moteurDieselFac->speciality; ?>&level=<?php echo $moteurDieselFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2763,7 +2763,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Electrique"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurElecDecla = $results->findOne([
@@ -2776,7 +2776,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Electrique"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurElecMa = $results->findOne([
@@ -2793,7 +2793,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Moteur Electrique"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -2807,7 +2807,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurElecFac->speciality; ?>&level=<?php echo $moteurElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $moteurElecFac->speciality; ?>&level=<?php echo $moteurElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2908,7 +2908,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Essence"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurEssenceDecla = $results->findOne([
@@ -2921,7 +2921,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Essence"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurEssenceMa = $results->findOne([
@@ -2938,7 +2938,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Moteur Essence"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -2952,7 +2952,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurEssenceFac->speciality; ?>&level=<?php echo $moteurEssenceFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $moteurEssenceFac->speciality; ?>&level=<?php echo $moteurEssenceFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3054,7 +3054,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Thermique"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurThermiqueDecla = $results->findOne([
@@ -3067,7 +3067,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Thermique"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $moteurThermiqueMa = $results->findOne([
@@ -3084,7 +3084,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Moteur Thermique"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -3098,7 +3098,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurThermiqueFac->speciality; ?>&level=<?php echo $moteurThermiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $moteurThermiqueFac->speciality; ?>&level=<?php echo $moteurThermiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3201,7 +3201,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Multiplexage"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $multiplexageDecla = $results->findOne([
@@ -3214,7 +3214,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Multiplexage"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $multiplexageMa = $results->findOne([
@@ -3231,7 +3231,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Multiplexage"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -3245,7 +3245,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $multiplexageFac->speciality; ?>&level=<?php echo $multiplexageFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $multiplexageFac->speciality; ?>&level=<?php echo $multiplexageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3347,7 +3347,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pneumatique"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $pneuDecla = $results->findOne([
@@ -3360,7 +3360,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pneumatique"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $pneuMa = $results->findOne([
@@ -3377,7 +3377,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Pneumatique"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -3391,7 +3391,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $pneuFac->speciality; ?>&level=<?php echo $pneuFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $pneuFac->speciality; ?>&level=<?php echo $pneuFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3490,7 +3490,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pont"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $pontDecla = $results->findOne([
@@ -3503,7 +3503,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pont"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $pontMa = $results->findOne([
@@ -3520,7 +3520,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Pont"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -3534,7 +3534,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $pontFac->speciality; ?>&level=<?php echo $pontFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $pontFac->speciality; ?>&level=<?php echo $pontFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3633,7 +3633,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Réducteur"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $reducteurDecla = $results->findOne([
@@ -3646,7 +3646,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Réducteur"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $reducteurMa = $results->findOne([
@@ -3663,7 +3663,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Réducteur"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -3677,7 +3677,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $reducteurFac->speciality; ?>&level=<?php echo $reducteurFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $reducteurFac->speciality; ?>&level=<?php echo $reducteurFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3776,7 +3776,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $suspensionDecla = $results->findOne([
@@ -3789,7 +3789,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $suspensionMa = $results->findOne([
@@ -3806,7 +3806,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Suspension"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -3820,7 +3820,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionFac->speciality; ?>&level=<?php echo $suspensionFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $suspensionFac->speciality; ?>&level=<?php echo $suspensionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3921,7 +3921,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension à Lame"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $suspensionLameDecla = $results->findOne([
@@ -3934,7 +3934,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension à Lame"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $suspensionLameMa = $results->findOne([
@@ -3951,7 +3951,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Suspension à Lame"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -3965,7 +3965,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -4068,7 +4068,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension Ressort"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $suspensionRessortDecla = $results->findOne([
@@ -4081,7 +4081,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension Ressort"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $suspensionRessortMa = $results->findOne([
@@ -4098,7 +4098,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Suspension Ressort"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -4112,7 +4112,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionRessortFac->speciality; ?>&level=<?php echo $suspensionRessortFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $suspensionRessortFac->speciality; ?>&level=<?php echo $suspensionRessortFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -4224,7 +4224,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Suspension Pneumatique",
                                         ],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $suspensionPneumatiqueDecla = $results->findOne(
@@ -4241,7 +4241,7 @@ if (!isset($_SESSION["id"])) {
                                                     "Suspension Pneumatique",
                                             ],
                                             ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                         ],
                                     ]
                                 );
@@ -4262,7 +4262,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Suspension Pneumatique",
                                         ],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -4276,7 +4276,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionPneumatiqueFac->speciality; ?>&level=<?php echo $suspensionPneumatiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $suspensionPneumatiqueFac->speciality; ?>&level=<?php echo $suspensionPneumatiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -4391,7 +4391,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Transversale"],
                                         ["type" => "Factuel"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $transversaleDecla = $results->findOne([
@@ -4404,7 +4404,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Transversale"],
                                         ["type" => "Declaratif"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $transversaleMa = $results->findOne([
@@ -4421,7 +4421,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => "Transversale"],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -4435,7 +4435,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transversaleFac->speciality; ?>&level=<?php echo $transversaleFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./historiqueSystem.php?speciality=<?php echo $transversaleFac->speciality; ?>&level=<?php echo $transversaleFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -4550,7 +4550,8 @@ if (!isset($_SESSION["id"])) {
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        style="width: 155.266px;">
+                                        tabindex="0" aria-controls="kt_customers_table"
+                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         <?php echo round(
                                             ($resultDecla->score * 100) /
                                                 $resultDecla->total ??

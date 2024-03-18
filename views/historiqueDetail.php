@@ -198,7 +198,7 @@ if (!isset($_SESSION["id"])) {
                                         ["type" => "Factuel"],
                                         ["typeR" => "Technicien"],
                                         ["level" => $level],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $groupeDecla = $results->findOne([
@@ -211,7 +211,7 @@ if (!isset($_SESSION["id"])) {
                                         ["type" => "Declaratif"],
                                         ["typeR" => "Techniciens"],
                                         ["level" => $level],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $groupeMa = $results->findOne([
@@ -228,7 +228,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["typeR" => "Managers"],
                                         ["level" => $level],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $groupeTechMa = $results->findOne([
@@ -245,7 +245,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["typeR" => "Technicien - Manager"],
                                         ["level" => $level],
-                                        ["active" => true],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>

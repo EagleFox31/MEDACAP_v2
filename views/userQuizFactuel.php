@@ -2859,16 +2859,16 @@ if (!isset($_SESSION["id"])) {
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
-        <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
+        <div class=" container-xxl col-sm stack-on-small " data-select2-id="select2-data-194-27hh">
             <div class="container">
                 <form class="quiz-form" method="POST">
-                        <center class="center" style="margin-top: -100px;">
-                            <div class="timer" style="margin-right: 400px;">
+                        <center class="center col-sm stack-on-small" style="margin-top: -100px;">
+                            <div class="timer col-sm stack-on-small" style="margin-right: 400px;">
                                 <div class="time_left_txt">Questions Restantes</div>
                                 <div class="timer_sec" id="num" value="1">
                                 </div>
                             </div>
-                            <div class="timer" style="margin-top: -45px; margin-left: 400px">
+                            <div class="timer" style="margin-top: -45px; margin-left: 400px ">
                                 <div class="time_left_txt">Durée estimée</div>
                                 <div class="timer_sec" id="timer_sec">
                                 </div>

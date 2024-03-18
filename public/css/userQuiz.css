@@ -237,3 +237,9 @@ input[type="radio"]:active + .design::after {
   border: 1px solid #343a40;
   user-select: none;
 }
+@media screen and (max-width: 576px){
+  .stack-on-small {
+    display: block;
+    width: 100%;
+    }
+}
