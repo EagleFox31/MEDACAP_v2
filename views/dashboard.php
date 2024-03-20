@@ -32,9 +32,17 @@ if (!isset($_SESSION["profile"])) {
     $countVehicle = $vehicles->find()->toArray();
     $countVehicles = count($countVehicle);
     $totalSavoir = $allocations->find(["type" => "Factuel"])->toArray();
-    $totalSavoirs = count($totalSavoir);
+    if (count($totalSavoir) != 0) {
+        $totalSavoirs = count($totalSavoir);
+    } else {
+        $totalSavoirs = 1;
+    }
     $totalSavoirFaire = $allocations->find(["type" => "Declaratif"])->toArray();
-    $totalSavoirFaires = count($totalSavoirFaire);
+    if (count($totalSavoirFaire) != 0) {
+        $totalSavoirFaires = count($totalSavoirFaire);
+    } else {
+        $totalSavoirFaires = 1;
+    }
     $countSavoir = $allocations
         ->find([
             '$and' => [

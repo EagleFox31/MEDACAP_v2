@@ -65,6 +65,8 @@ if (!isset($_SESSION["id"])) {
             ["active" => true],
         ],
     ]);
+    $percentageFac = ($resultFac['score'] * 100) / $resultFac['total'];
+    $percentageTechMa = ($resultTechMa['score'] * 100) / $resultTechMa['total'];
     ?>
 <title>Résultat Technicien | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -4533,8 +4535,8 @@ if (!isset($_SESSION["id"])) {
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         Résultats</th>
                                     <th id="result-savoir"
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" colspan="1" aria-controls="kt_customers_table"
+                                        class="min-w-125px sorting text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        tabindex="0" colspan="1" aria-controls="kt_customers_table" style="background-color: #007bff;"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         <?php echo round(
                                             ($resultFac->score * 100) /
@@ -4544,12 +4546,12 @@ if (!isset($_SESSION["id"])) {
 
                                     </th>
                                     <th id="decision-savoir"
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
                                     <th id="result-n1"
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
                                         style="width: 155.266px;">
                                         <?php echo round(
                                             ($resultDecla->score * 100) /
@@ -4559,7 +4561,7 @@ if (!isset($_SESSION["id"])) {
                                         ); ?>%
                                     </th>
                                     <th id="result-n1"
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         <?php echo round(
@@ -4570,8 +4572,8 @@ if (!isset($_SESSION["id"])) {
                                         ); ?>%
                                     </th>
                                     <th id="result-savoir-faire"
-                                        class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" colspan="1" aria-controls="kt_customers_table"
+                                        class="min-w-125px sorting text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        tabindex="0" colspan="1" aria-controls="kt_customers_table" style="background-color: #007bff;"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         <?php echo round(
                                             ($resultTechMa->score * 100) /
@@ -4591,6 +4593,76 @@ if (!isset($_SESSION["id"])) {
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     </th>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--end::Table-->
+                <!--begin::Table-->
+                <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer" style="margin-top: 50px">
+                    <div class="table-responsive">
+                        <table aria-describedby=""
+                            class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                            id="kt_customers_table">
+                            <thead>
+                                <tr class="text-black bg-primary fw-bold fs-7 text-uppercase gs-0">
+                                    <th>
+                                    </th>
+                                    <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
+                                        rowspan="1" colspan="1"
+                                        aria-label="Customer Name: activate to sort column ascending"
+                                        style="width: 125px;">Test des connaissances
+                                    </th>
+                                    <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
+                                        rowspan="1" colspan="1"
+                                        aria-label="Company: activate to sort column ascending"
+                                        style="width: 134.188px;">Test des tâches professionnelles
+                                    </th>
+                                    <tr></tr>
+                                    <th class="min-w-125px sorting bg-primary text-black fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
+                                        rowspan="1" colspan="1"
+                                        aria-label="Payment Method: activate to sort column ascending"
+                                        style="width: 126.516px;">Total par test
+                                    </th>
+                                    <th class="min-w-125px sorting  text-white fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
+                                        rowspan="1" colspan="1" style="background-color: #a3f1ff;"
+                                        aria-label="Created Date: activate to sort column ascending"
+                                        style="width: 152.719px;">
+                                        <?php echo round(
+                                            ($resultFac->score * 100) /
+                                                $resultFac->total,
+                                            0
+                                        ); ?>%
+                                    </th>
+                                    <th class="min-w-125px sorting  text-white fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
+                                        rowspan="1" colspan="1" style="background-color: #a3f1ff;"
+                                        aria-label="Created Date: activate to sort column ascending"
+                                        style="width: 152.719px;">
+                                        <?php echo round(
+                                            ($resultTechMa->score * 100) /
+                                                $resultTechMa->total ??
+                                                "0",
+                                            0
+                                        ); ?>%
+                                    </th>
+                                    <tr></tr>
+                                    <th class="min-w-125px bg-primary sorting text-black fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
+                                        rowspan="1" colspan="1"
+                                        aria-label="Created Date: activate to sort column ascending"
+                                        style="width: 152.719px;">Total global
+                                    </th>
+                                    <th  class="min-w-125px sorting  text-white fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
+                                        colspan="3" style="background-color: #a3f1ff;"
+                                        aria-label="Created Date: activate to sort column ascending"
+                                        style="width: 152.719px;">
+                                        <?php echo round(
+                                            ($percentageFac + $percentageTechMa) / 2,
+                                            0
+                                        ); ?>%
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="fw-semibold text-gray-600" id="table">
                             </tbody>
                         </table>
                     </div>

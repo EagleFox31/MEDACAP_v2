@@ -358,12 +358,12 @@ if (!isset($_SESSION["id"])) {
                                     ]);
                                     foreach ($vehicle as $vehicle) { ?>
                                     <tr class="odd" etat="<?php echo $vehicle->active; ?>">
-                                        <td>
+                                        <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
                                                     onclick="enable()" value="<?php echo $vehicle->_id; ?>">
                                             </div>
-                                        </td>
+                                        </td> -->
                                         <td data-filter=" search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
