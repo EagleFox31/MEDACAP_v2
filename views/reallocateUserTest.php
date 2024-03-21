@@ -110,7 +110,7 @@ if (!isset($_SESSION["id"])) {
                 <div class="d-flex flex-column mb-7 fv-row">
                     <!--begin::Label-->
                     <label class="form-label fw-bolder text-dark fs-6">
-                        <span class="required">Spécialité</span>
+                        <span class="required">Technicien</span>
                         </span>
                     </label>
                     <!--end::Label-->
