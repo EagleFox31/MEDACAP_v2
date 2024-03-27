@@ -95,6 +95,80 @@ if (!isset($_SESSION["id"])) {
             ],
         ])
         ->toArray();
+
+    $resultDeclaJuTech = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Junior",
+                    "type" => "Declaratif",
+                    "typeR" => "Techniciens",
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaSeTech = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Senior",
+                    "type" => "Declaratif",
+                    "typeR" => "Techniciens",
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaExTech = $results
+        ->find([
+            '$and' => [
+                [
+                    "user" => ['$in' => $manager["users"]],
+                    "level" => "Expert",
+                    "type" => "Declaratif",
+                    "typeR" => "Techniciens",
+                ],
+            ],
+        ])
+        ->toArray();
+
+    $resultDeclaJuMa = $results
+        ->find([
+            '$and' => [
+                [
+                    "manager" => new MongoDB\BSON\ObjectId($id),
+                    "level" => "Junior",
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaSeMa = $results
+        ->find([
+            '$and' => [
+                [
+                    "manager" => new MongoDB\BSON\ObjectId($id),
+                    "level" => "Senior",
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaExMa = $results
+        ->find([
+            '$and' => [
+                [
+                    "manager" => new MongoDB\BSON\ObjectId($id),
+                    "level" => "Expert",
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                ],
+            ],
+        ])
+        ->toArray();
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
@@ -187,20 +261,20 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-200px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" rowspan="3"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Techniciens
+                                            style="width: 125px;">Collaborateurs
                                         </th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Junior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Senior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Expert</th>
@@ -209,47 +283,62 @@ if (!isset($_SESSION["id"])) {
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Connaissances</th>
+                                            Test des Connaissances</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Tâches Professionnelles</th>
+                                            Test des Tâches Professionnelles du Technicien</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Global</th>
+                                            Test des Tâches Professionnelles du Manager</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Connaissances</th>
+                                            Global</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Tâches Professionnelles</th>
+                                            Test des Connaissances</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Global</th>
+                                            Test des Tâches Professionnelles du Technicien</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Connaissances</th>
+                                            Test des Tâches Professionnelles du Manager</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Tâches Professionnelles</th>
+                                            Global</th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Global</th>
+                                            Test des Connaissances</th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Test des Tâches Professionnelles du Technicien</th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Test des Tâches Professionnelles du Manager</th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            Global</th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -284,6 +373,22 @@ if (!isset($_SESSION["id"])) {
                                                         100) /
                                                     $resultDeclaJu[$i]["total"], 0);
                                             }
+                                            if ($resultDeclaJuTech) {
+                                                $percentageDeclaJuTech =
+                                                    round(($resultDeclaJuTech[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaJuTech[$i]["total"], 0);
+                                            }
+                                            if ($resultDeclaJuMa) {
+                                                $percentageDeclaJuMa =
+                                                    round(($resultDeclaJuMa[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaJuMa[$i]["total"], 0);
+                                            }
                                             if ($resultFacSe) {
                                                 $percentageFacSe =
                                                     round(($resultFacSe[$i]["score"] *
@@ -298,6 +403,22 @@ if (!isset($_SESSION["id"])) {
                                                         100) /
                                                     $resultDeclaSe[$i]["total"], 0);
                                             }
+                                            if ($resultDeclaSeTech) {
+                                                $percentageDeclaSeTech =
+                                                    round(($resultDeclaSeTech[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaSeTech[$i]["total"], 0);
+                                            }
+                                            if ($resultDeclaSeMa) {
+                                                $percentageDeclaSeMa =
+                                                    round(($resultDeclaSeMa[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaSeMa[$i]["total"], 0);
+                                            }
                                             if ($resultFacEx) {
                                                 $percentageFacEx =
                                                     round(($resultFacEx[$i]["score"] *
@@ -311,6 +432,22 @@ if (!isset($_SESSION["id"])) {
                                                     ] *
                                                         100) /
                                                     $resultDeclaEx[$i]["total"], 0);
+                                            }
+                                            if ($resultDeclaExTech) {
+                                                $percentageDeclaExTech =
+                                                    round(($resultDeclaExTech[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaExTech[$i]["total"], 0);
+                                            }
+                                            if ($resultDeclaExMa) {
+                                                $percentageDeclaExMa =
+                                                    round(($resultDeclaExMa[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaExMa[$i]["total"], 0);
                                             }
                                             $junior = round(($percentageFacJu + $percentageDeclaJu) / 2, 0);
                                             if ($resultDeclaSe && $resultFacSe) {
@@ -335,7 +472,12 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaJu."%" ?>
+                                                <?php echo $percentageDeclaJuTech."%" ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $percentageDeclaJuMa."%" ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
@@ -354,7 +496,12 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaSe."%" ?>
+                                                <?php echo $percentageDeclaSeTech."%" ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $percentageDeclaSeMa."%" ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
@@ -381,6 +528,11 @@ if (!isset($_SESSION["id"])) {
                                                 Non disponible
                                             </span>
                                         </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
                                         <?php } ?>
                                         <?php if ($resultFacEx) { ?>
                                         <td class="text-center">
@@ -390,7 +542,12 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaEx."%" ?>
+                                                <?php echo $percentageDeclaExTech."%" ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $percentageDeclaExMa."%" ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
@@ -403,6 +560,11 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } else {
                                              ?>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                Non disponible
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 Non disponible

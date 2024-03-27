@@ -113,16 +113,6 @@ if (!isset($_SESSION["id"])) {
                 <!--end::Title-->
             </div>
             <!--end::Info-->
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
-                <div class="d-flex justify-content-end align-items-center">
-                    <a class="btn btn-primary"
-                        href="./detail?id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
-                        Résultats Détaillés
-                    </a>
-                </div>
-            </div>
-            <!--end::Actions-->
         </div>
     </div>
     <!--end::Toolbar-->
@@ -148,6 +138,24 @@ if (!isset($_SESSION["id"])) {
                                     class="path2"></span></i> Excel
                         </button>
                         <!--end::Export-->
+                        <!--begin::Actions-->
+                        <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+                            <div class="d-flex justify-content-end align-items-center">
+                                <a class="btn btn-primary"
+                                    href="./detail.php?id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
+                                    Résultats Détaillés
+                                </a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center flex-nowrap text-nowrap py-1" style="margin-left: 10px" >
+                            <div class="d-flex justify-content-end align-items-center">
+                                <a class="btn btn-primary"
+                                    href="./brandResult.php?user=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
+                                    Résultats par marques de véhicule
+                                </a>
+                            </div>
+                        </div>
+                        <!--end::Actions-->
                     </div>
                     <!--end::Toolbar-->
                 </div>
@@ -3540,7 +3548,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Pont
+                                            Pont/Differentiel
                                         </a>
                                     </td>
                                     <td class="text-center">
