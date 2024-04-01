@@ -2674,8 +2674,8 @@ if (!isset($_SESSION["id"])) {
                 <option value="TOYOTA BT">
                   TOYOTA BT
                 </option>
-                <option value="TOYOTA FORFLIT">
-                  TOYOTA FORFLIT
+                <option value="TOYOTA FORKLIFT">
+                  TOYOTA FORKLIFT
                 </option>
               </select>
               <!--end::Input-->

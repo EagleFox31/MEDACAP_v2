@@ -359,7 +359,29 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Activations</span>
+                                            class="fw-bold text-muted text-uppercase fs-70">Seuil de Validation</span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./validation.php">
+                                        <span
+                                            class="menu-icon">
+                                            <i class="fa fa-line-chart fs-2" ></i>
+                                        </span>
+                                        <span class="menu-title">Modifier le Seuil de Validation</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-muted text-uppercase fs-70">Activation des Tests</span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -370,7 +392,7 @@
                                     <a class="menu-link" href="./activation.php">
                                         <span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i>
+                                            <i class="fa fa-line-chart fs-2" ></i>
                                         </span>
                                         <span class="menu-title">Activation des Tests</span>
                                     </a>

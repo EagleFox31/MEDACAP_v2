@@ -18,9 +18,12 @@ if (!isset($_SESSION["id"])) {
     $users = $academy->users;
     $questions = $academy->questions;
     $results = $academy->results;
+    $validations = $academy->validations;
 
     $id = $_GET["id"];
     $level = $_GET["level"];
+
+    $validate = $validations->findOne([ "active" => true ]);
 
     $technician = $users->findOne([
         '$and' => [
@@ -132,8 +135,8 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" colspan="10"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
-                                        Résultats de la mesure des connaissances théoriques
-                                        et connaissances pratiques</th>
+                                        Résultats de la mesure des connaissances
+                                        et tâches professionnelles</th>
                                 <tr></tr>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
@@ -142,11 +145,11 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances théoriques </th>
+                                    Mesure des connaissances </th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances pratiques</th>
+                                    Mesure des tâches professionnelles</th>
                                 <th class="min-w-150px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
@@ -1017,11 +1020,22 @@ const percentSavoirFaire = ((maitriseSavoirFaire.length * 100) / tdSavoirFaire.l
 const percentN = ((ouiN.length * 100) / tdN.length).toFixed(0)
 const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
 
+var level = '<?php echo $level ?>';
+if (level == 'Junior') {
+    var b = <?php echo $validate['junior'] ?>;
+}
+if (level == 'Senior') {
+    var b = <?php echo $validate['senior'] ?>;
+}
+if (level == 'Expert') {
+    var b = <?php echo $validate['expert'] ?>;
+}
+
 // resultSavoir.innerHTML = percentSavoir + "%";
-if (percentSavoirFaire >= 80) {
+if (percentSavoirFaire >= b && percentSavoir >= b) {
     resultSynt.innerHTML = "Maitrisé";
 }
-if (percentSavoirFaire < 80) {
+if (percentSavoirFaire < b && percentSavoir < b) {
     resultSynt.innerHTML = "Non maitrisé";
 }
 // resultSavoirFaire.innerHTML = percentSavoirFaire + "%";

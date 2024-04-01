@@ -37,7 +37,9 @@ if (!isset($_SESSION["id"])) {
 
         if ($exist) {
             $error_msg = "Ce véhicule existe déjà";
-        } else {
+        } elseif(empty($label) || empty($brand) || empty($speciality)) {
+            $error_msg = "Champ obligatoire";
+        }else {
             for ($i = 0; $i < count($speciality); $i++) {
                 $quizJuFac = $quizzes->findOne([
                     '$and' => [
@@ -248,19 +250,42 @@ if (!isset($_SESSION["id"])) {
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Type de véhicule</span>
+                                <span class="required">Type de Véhicule</span>
+                                </span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type='text' class='form-control form-control-solid' placeholder='' name='label'
-                            <?php if (isset($_POST["submit"])) {
-                                echo 'value="' . $label . '"';
-                            } ?> />
+                                <select name="speciality[]" multiple aria-label="Select a Country" data-control="select2"
+                                    data-placeholder="Sélectionnez le type de véhicule..."
+                                    class="form-select form-select-solid fw-bold">
+                                    <option>Sélectionnez le type de véhicule...</option>
+                                    <option value="Bâteaux">
+                                        Bâteaux
+                                    </option>
+                                    <option value="Bus">
+                                        Bus
+                                    </option>
+                                    <option value="Camions">
+                                        Camions
+                                    </option>
+                                    <option value="Chariots">
+                                        Chariots
+                                    </option>
+                                    <option value="Engins">
+                                        Engins
+                                    </option>
+                                    <option value="Motos">
+                                        Motos
+                                    </option>
+                                    <option value="Voitures">
+                                        Voitures
+                                    </option>
+                                </select>
                             <!--end::Input-->
                             <?php if (isset($error)) { ?>
-                                    <span class='text-danger'>
-                                        <?php echo $error; ?>
-                                    </span>
+                            <span class='text-danger'>
+                                <?php echo $error; ?>
+                            </span>
                             <?php } ?>
                         </div>
                         <!--end::Input group-->
@@ -272,10 +297,7 @@ if (!isset($_SESSION["id"])) {
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type='text' class='form-control form-control-solid' placeholder='' name='brand'
-                            <?php if (isset($_POST["submit"])) {
-                                echo 'value="' . $brand . '"';
-                            } ?> />
+                            <input type='text' class='form-control form-control-solid' placeholder='' name='brand'/>
                             <!--end::Input-->
                             <?php if (isset($error)) { ?>
                                     <span class='text-danger'>
@@ -362,7 +384,7 @@ if (!isset($_SESSION["id"])) {
                                         Pneumatique
                                     </option>
                                     <option value="Pont">
-                                        Pont
+                                        Pont/Différeniel
                                     </option>
                                     <option value="Réducteur">
                                         Réducteur

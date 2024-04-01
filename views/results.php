@@ -259,17 +259,17 @@ if (!isset($_SESSION["id"])) {
                                             style="width: 125px;">Departement
                                         </th> -->
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Junior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Senior</th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             Niveau Expert</th>
@@ -613,12 +613,12 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Card-->
             <!--begin::Export dropdown-->
-            <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
                 <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
                     <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
                     Excel
                 </button>
-            </div>
+            </div> -->
             <!--end::Export dropdown-->
         </div>
         <!--end::Container-->

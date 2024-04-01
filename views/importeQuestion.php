@@ -588,7 +588,7 @@ if (isset($_POST["submit"])) {
                         );
                     }
                     if ($chariots) {
-                        if ($chariots->brand == "TOYOTA FORKLIT") {
+                        if ($chariots->brand == "TOYOTA FORKLIFT") {
                             $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -836,7 +836,7 @@ if (isset($_POST["submit"])) {
                         );
                     }
                     if ($chariots) {
-                        if ($chariots->brand == "TOYOTA FORKLIT") {
+                        if ($chariots->brand == "TOYOTA FORKLIFT") {
                             $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -1789,6 +1789,31 @@ if (isset($_POST["submit"])) {
                         );
                         $vehicles->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
                             [
                                 '$push' => [
                                     "quizzes" => new MongoDB\BSON\ObjectId(
@@ -2975,7 +3000,7 @@ if (isset($_POST["submit"])) {
                         );
                     }
                     if ($chariots) {
-                        if ($chariots->brand == "TOYOTA FORKLIT") {
+                        if ($chariots->brand == "TOYOTA FORKLIFT") {
                             $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -3223,7 +3248,7 @@ if (isset($_POST["submit"])) {
                         );
                     }
                     if ($chariots) {
-                        if ($chariots->brand == "TOYOTA FORKLIT") {
+                        if ($chariots->brand == "TOYOTA FORKLIFT") {
                             $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -4176,6 +4201,31 @@ if (isset($_POST["submit"])) {
                         );
                         $vehicles->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
                             [
                                 '$push' => [
                                     "quizzes" => new MongoDB\BSON\ObjectId(

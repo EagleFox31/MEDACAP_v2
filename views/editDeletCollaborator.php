@@ -68,6 +68,7 @@ if (isset($_POST["brand"])) {
         [
             '$set' => [
                 "brand" => $brand,
+                "updated" => date("d-m-Y")
             ],
         ]
     );

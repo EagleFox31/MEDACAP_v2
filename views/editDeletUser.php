@@ -68,6 +68,7 @@ if (isset($_POST["brand"])) {
         [
             '$set' => [
                 "brand" => $brand,
+                "updated" => date("d-m-Y")
             ],
         ]
     );
@@ -109,7 +110,7 @@ if (isset($_POST["password"])) {
         $password_hash = sha1($password);
         $users->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($id)],
-            ['$set' => ["password" => $password_hash]]
+            ['$set' => ["password" => $password_hash, "updated" => date("d-m-Y")]]
         );
         $success_msg = "Collaborateur modifié avec succes.";
     }

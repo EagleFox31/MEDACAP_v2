@@ -17,9 +17,22 @@ if (!isset($_SESSION["id"])) {
     // Connecting in collections
     $users = $academy->users;
     $results = $academy->results;
+    $validations = $academy->validations;
 
     $user = $_GET["user"];
     $level = $_GET["level"];
+
+    $validate = $validations->findOne([ "active" => true ]);
+
+    if ($level == 'Junior') {
+        $seuil = $validate['qcmJunior'];
+    }
+    if ($level == 'Senior') {
+        $seuil = $validate['qcmSenior'];
+    }
+    if ($level == 'Expert') {
+        $seuil = $validate['qcmExpert'];
+    }
 
     $technician = $users->findOne([
         '$and' => [
@@ -176,8 +189,8 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" colspan="8"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
-                                        Résultats de la mesure des connaissances théoriques
-                                        et connaissances pratiques</th>
+                                        Résultats de la mesure des connaissances
+                                        et tâches professionnelles</th>
                                 <tr></tr>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
@@ -186,11 +199,11 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="2"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances théoriques</th>
+                                    Mesure des connaissances</th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances pratiques</th>
+                                    Mesure des tâches professionnelles</th>
                                 <th class="min-w-150px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
@@ -304,7 +317,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($transmissionFac->score * 100) /
                                             $transmissionFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facTransmission">
                                         Maitrisé
@@ -313,7 +326,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($transmissionFac->score * 100) /
                                             $transmissionFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facTransmission">
                                         Non maitrisé
@@ -460,7 +473,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($assistanceConduiteFac->score * 100) /
                                             $assistanceConduiteFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facAssistance">
                                         Maitrisé
@@ -469,7 +482,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($assistanceConduiteFac->score * 100) /
                                             $assistanceConduiteFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facAssistance">
                                         Non maitrisé
@@ -612,7 +625,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($transfertFac->score * 100) /
                                             $transfertFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facTransfert">
                                         Maitrisé
@@ -621,7 +634,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($transfertFac->score * 100) /
                                             $transfertFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facTransfert">
                                         Non maitrisé
@@ -754,7 +767,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteFac->score * 100) /
                                             $boiteFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoite">
                                         Maitrisé
@@ -763,7 +776,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteFac->score * 100) /
                                             $boiteFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoite">
                                         Non maitrisé
@@ -906,7 +919,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteAutoFac->score * 100) /
                                             $boiteAutoFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoiteAuto">
                                         Maitrisé
@@ -915,7 +928,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteAutoFac->score * 100) /
                                             $boiteAutoFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoiteAuto">
                                         Non maitrisé
@@ -1058,7 +1071,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteManFac->score * 100) /
                                             $boiteManFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoiteMan">
                                         Maitrisé
@@ -1067,7 +1080,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteManFac->score * 100) /
                                             $boiteManFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoiteMan">
                                         Non maitrisé
@@ -1210,7 +1223,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteVaCoFac->score * 100) /
                                             $boiteVaCoFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoiteVaCo">
                                         Maitrisé
@@ -1219,7 +1232,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($boiteVaCoFac->score * 100) /
                                             $boiteVaCoFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facBoiteVaCo">
                                         Non maitrisé
@@ -1353,7 +1366,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($climatisationFac->score * 100) /
                                             $climatisationFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facClimatisation">
                                         Maitrisé
@@ -1362,7 +1375,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($climatisationFac->score * 100) /
                                             $climatisationFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facClimatisation">
                                         Non maitrisé
@@ -1499,7 +1512,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($demiFac->score * 100) /
                                             $demiFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facDemi">
                                         Maitrisé
@@ -1508,7 +1521,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($demiFac->score * 100) /
                                             $demiFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facDemi">
                                         Non maitrisé
@@ -1642,7 +1655,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($directionFac->score * 100) /
                                             $directionFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facDirection">
                                         Maitrisé
@@ -1651,7 +1664,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($directionFac->score * 100) /
                                             $directionFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facDirection">
                                         Non maitrisé
@@ -1794,7 +1807,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($electriciteFac->score * 100) /
                                             $electriciteFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facElectricite">
                                         Maitrisé
@@ -1803,7 +1816,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($electriciteFac->score * 100) /
                                             $electriciteFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facElectricite">
                                         Non maitrisé
@@ -1940,7 +1953,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freiFac->score * 100) /
                                             $freiFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facFrei">
                                         Maitrisé
@@ -1949,7 +1962,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freiFac->score * 100) /
                                             $freiFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facFrei">
                                         Non maitrisé
@@ -2092,7 +2105,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freinageElecFac->score * 100) /
                                             $freinageElecFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facfreinageElec">
                                         Maitrisé
@@ -2101,7 +2114,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freinageElecFac->score * 100) /
                                             $freinageElecFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facfreinageElec">
                                         Non maitrisé
@@ -2247,7 +2260,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freinageFac->score * 100) /
                                             $freinageFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facFreinage">
                                         Maitrisé
@@ -2256,7 +2269,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freinageFac->score * 100) /
                                             $freinageFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facFreinage">
                                         Non maitrisé
@@ -2399,7 +2412,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freinFac->score * 100) /
                                             $freinFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facFrein">
                                         Maitrisé
@@ -2408,7 +2421,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($freinFac->score * 100) /
                                             $freinFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facFrein">
                                         Non maitrisé
@@ -2542,7 +2555,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($hydrauliqueFac->score * 100) /
                                             $hydrauliqueFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facHydraulique">
                                         Maitrisé
@@ -2551,7 +2564,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($hydrauliqueFac->score * 100) /
                                             $hydrauliqueFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facHydraulique">
                                         Non maitrisé
@@ -2688,7 +2701,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurDieselFac->score * 100) /
                                             $moteurDieselFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurDiesel">
                                         Maitrisé
@@ -2697,7 +2710,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurDieselFac->score * 100) /
                                             $moteurDieselFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurDiesel">
                                         Non maitrisé
@@ -2834,7 +2847,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurElecFac->score * 100) /
                                             $moteurElecFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurElec">
                                         Maitrisé
@@ -2843,7 +2856,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurElecFac->score * 100) /
                                             $moteurElecFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurElec">
                                         Non maitrisé
@@ -2979,7 +2992,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurEssenceFac->score * 100) /
                                             $moteurEssenceFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurEssence">
                                         Maitrisé
@@ -2988,7 +3001,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurEssenceFac->score * 100) /
                                             $moteurEssenceFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurEssence">
                                         Non maitrisé
@@ -3125,7 +3138,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurThermiqueFac->score * 100) /
                                             $moteurThermiqueFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurThermique">
                                         Maitrisé
@@ -3134,7 +3147,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($moteurThermiqueFac->score * 100) /
                                             $moteurThermiqueFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMoteurThermique">
                                         Non maitrisé
@@ -3272,7 +3285,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($multiplexageFac->score * 100) /
                                             $multiplexageFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMultiplexage">
                                         Maitrisé
@@ -3281,7 +3294,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($multiplexageFac->score * 100) /
                                             $multiplexageFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facMultiplexage">
                                         Non maitrisé
@@ -3418,7 +3431,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($pneuFac->score * 100) /
                                             $pneuFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facPneu">
                                         Maitrisé
@@ -3427,7 +3440,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($pneuFac->score * 100) /
                                             $pneuFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facPneu">
                                         Non maitrisé
@@ -3561,7 +3574,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($pontFac->score * 100) /
                                             $pontFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facPont">
                                         Maitrisé
@@ -3570,7 +3583,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($pontFac->score * 100) /
                                             $pontFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facPont">
                                         Non maitrisé
@@ -3704,7 +3717,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($reducteurFac->score * 100) /
                                             $reducteurFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facReducteur">
                                         Maitrisé
@@ -3713,7 +3726,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($reducteurFac->score * 100) /
                                             $reducteurFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facReducteur">
                                         Non maitrisé
@@ -3847,7 +3860,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($suspensionFac->score * 100) /
                                             $suspensionFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspension">
                                         Maitrisé
@@ -3856,7 +3869,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($suspensionFac->score * 100) /
                                             $suspensionFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspension">
                                         Non maitrisé
@@ -3992,7 +4005,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($suspensionLameFac->score * 100) /
                                             $suspensionLameFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
                                         Maitrisé
@@ -4001,7 +4014,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($suspensionLameFac->score * 100) /
                                             $suspensionLameFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
                                         Non maitrisé
@@ -4140,7 +4153,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($suspensionRessortFac->score * 100) /
                                             $suspensionRessortFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionRessort">
                                         Maitrisé
@@ -4149,7 +4162,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($suspensionRessortFac->score * 100) /
                                             $suspensionRessortFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionRessort">
                                         Non maitrisé
@@ -4305,7 +4318,7 @@ if (!isset($_SESSION["id"])) {
                                         ($suspensionPneumatiqueFac->score *
                                             100) /
                                             $suspensionPneumatiqueFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionPneumatique">
                                         Maitrisé
@@ -4315,7 +4328,7 @@ if (!isset($_SESSION["id"])) {
                                         ($suspensionPneumatiqueFac->score *
                                             100) /
                                             $suspensionPneumatiqueFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionPneumatique">
                                         Non maitrisé
@@ -4462,7 +4475,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($transversaleFac->score * 100) /
                                             $transversaleFac->total >=
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facTransversale">
                                         Maitrisé
@@ -4471,7 +4484,7 @@ if (!isset($_SESSION["id"])) {
                                     <?php if (
                                         ($transversaleFac->score * 100) /
                                             $transversaleFac->total <
-                                        80
+                                        $seuil
                                     ) { ?>
                                     <td class="text-center" id="facTransversale">
                                         Non maitrisé
@@ -5221,7 +5234,19 @@ if (resultsfSuspension) {
 if (resultsfSuspensionPneumatique) {
     resultsfSuspensionPneumatique.innerHTML = percentsfSuspensionPneumatique + "%";
 }
-const a = "80%";
+var level = '<?php echo $level ?>';
+if (level == 'Junior') {
+    var a = '<?php echo $validate['tacheJunior'] ?>%';
+    var b = '<?php echo $validate['qcmJunior'] ?>%';
+}
+if (level == 'Senior') {
+    var a = '<?php echo $validate['tacheSenior'] ?>%';
+    var b = '<?php echo $validate['qcmSenior'] ?>%';
+}
+if (level == 'Expert') {
+    var a = '<?php echo $validate['tacheExpert'] ?>%';
+    var b = '<?php echo $validate['qcmExpert'] ?>%';
+}
 
 if (resultsfTransversale && parseFloat(resultsfTransversale.innerHTML) >= parseFloat(a)) {
     resultrTransversale.innerHTML = "Maitrisé"
@@ -5397,10 +5422,10 @@ if (resultsfReducteur && parseFloat(resultsfReducteur.innerHTML) >= parseFloat(a
 if (resultsfReducteur && parseFloat(resultsfReducteur.innerHTML) < parseFloat(a)) {
     resultrReducteur.innerHTML = "Non maitrisé"
 }
-if (parseFloat(resultSavoir.innerHTML) >= parseFloat(a)) {
+if (parseFloat(resultSavoir.innerHTML) >= parseFloat(b)) {
     decisionSavoir.innerHTML = "Maitrisé"
 }
-if (parseFloat(resultSavoir.innerHTML) < parseFloat(a)) {
+if (parseFloat(resultSavoir.innerHTML) < parseFloat(b)) {
     decisionSavoir.innerHTML = "Non maitrisé"
 }
 if (parseFloat(resultSavoirFaire.innerHTML) >= parseFloat(a)) {
