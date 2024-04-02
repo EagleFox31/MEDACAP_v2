@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -46,7 +47,7 @@ if (!isset($_SESSION["id"])) {
             ["_id" => new MongoDB\BSON\ObjectId($id)],
             ['$set' => $vehicle]
         );
-        $success_msg = "Véhicule modifié avec succès.";
+        $success_msg = $success_vehicle_edit;
     }
 
     if (isset($_POST["update"])) {
@@ -68,7 +69,7 @@ if (!isset($_SESSION["id"])) {
             ["_id" => new MongoDB\BSON\ObjectId($id)],
             ['$set' => $vehicle]
         );
-        $success_msg = "Véhicule modifié avec succès.";
+        $success_msg = $success_vehicle_edit;
     }
 
     if (isset($_POST["retire-quiz-vehicle"])) {
@@ -114,12 +115,12 @@ if (!isset($_SESSION["id"])) {
         $vehicle = $vehicles->findOne(["_id" => $id]);
         $vehicle->active = false;
         $vehicles->updateOne(["_id" => $id], ['$set' => $vehicle]);
-        $success_msg = "Véhicule supprimé avec succes.";
+        $success_msg = $success_vehicle_delet;
     }
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Modifier/Supprimer un Véhicule | CFAO Mobility Academy</title>
+<title><?php echo $title_edit_sup_question ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -132,7 +133,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Modifier/Supprimer un véhicule </h1>
+                    <?php echo $title_edit_sup_question ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -322,32 +323,32 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Véhicules
+                                            style="width: 125px;"><?php echo $vehicle ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Type
+                                            style="width: 134.188px;"><?php echo $type ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Marque du véhicule
+                                            style="width: 126.516px;"><?php echo $brand ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau
+                                            style="width: 152.719px;"><?php echo $level ?>
                                         </th>
                                         <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Modifier
+                                            style="width: 152.719px;"><?php echo $edit ?>
                                         </th>
                                         <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Supprimer
+                                            style="width: 152.719px;"><?php echo $delete ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -364,6 +365,7 @@ if (!isset($_SESSION["id"])) {
                                                     onclick="enable()" value="<?php echo $vehicle->_id; ?>">
                                             </div>
                                         </td> -->
+                                        <td></td>
                                         <td data-filter=" search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
@@ -436,7 +438,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Suppréssion
+                                                            <?php echo $delet ?>
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -462,9 +464,7 @@ if (!isset($_SESSION["id"])) {
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
-                                                            Voulez-vous vraiment
-                                                            supprimer ce
-                                                            véhicule?
+                                                            <?php echo $delet_text ?>
                                                         </h4>
                                                     </div>
                                                     <!--end::Modal body-->
@@ -474,12 +474,12 @@ if (!isset($_SESSION["id"])) {
                                                         <button type="reset" class="btn btn-light me-3"
                                                             id="closeDesactivate" data-bs-dismiss="modal"
                                                             data-kt-users-modal-action="cancel">
-                                                            Non
+                                                            <?php echo $non ?>
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="delet" class=" btn btn-danger">
-                                                            Oui
+                                                            <?php echo $oui ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>
@@ -506,8 +506,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Modification des
-                                                            informations</h2>
+                                                            <?php echo $editer_data ?></h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
                                                         <div class="btn btn-icon btn-sm btn-active-icon-primary"
@@ -542,7 +541,7 @@ if (!isset($_SESSION["id"])) {
                                                             data-kt-scroll-offset="300px">
                                                             <!--begin::User toggle-->
                                                             <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                                                                Informations
+                                                                <?php echo $data ?>
                                                             </div>
                                                             <!--end::User toggle-->
                                                             <!--begin::User form-->
@@ -552,7 +551,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label
-                                                                        class="fs-6 fw-bold mb-2">Questionnaire</label>
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $quiz ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -565,7 +564,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Type</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $type ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -579,7 +578,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Marque du véhicule</span>
+                                                                        <span><?php echo $brand ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -593,7 +592,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Niveau</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $level ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -607,7 +606,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                     <!--begin::Label-->
                                                                     <label class="form-label fw-bolder text-dark fs-6">
-                                                                        <span>Questionnaires</span>
+                                                                        <span><?php echo $quiz ?>s</span>
                                                                         <span class="ms-1" data-bs-toggle="tooltip"
                                                                             title="Choississez les questionnaires">
                                                                             <i class="ki-duotone ki-information fs-7"><span
@@ -620,7 +619,7 @@ if (!isset($_SESSION["id"])) {
                                                                     <!--begin::Input-->
                                                                     <select name="quizze[]" multiple aria-label="Select a Country"
                                                                         data-control="select2"
-                                                                        data-placeholder="Sélectionnez vos questionnaires..."
+                                                                        data-placeholder="<?php echo $select_quiz ?>"
                                                                         class="form-select form-select-solid fw-bold">
                                                                         <?php
                                                                         $quizz = $quizzes->find(
@@ -660,11 +659,11 @@ if (!isset($_SESSION["id"])) {
                                                         <!--begin::Button-->
                                                         <button type="reset" class="btn btn-light me-3"
                                                             data-bs-dismiss="modal" data-kt-menu-dismiss="true"
-                                                            data-kt-users-modal-action="cancel">Annuler</button>
+                                                            data-kt-users-modal-action="cancel"><?php echo $annuler ?></button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="update" class="btn btn-primary">
-                                                            Valider
+                                                            <?php echo $valider ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>

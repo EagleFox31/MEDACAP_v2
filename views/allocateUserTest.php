@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -25,7 +26,7 @@ if (!isset($_SESSION["id"])) {
         $technician = $_POST["technician"];
 
         if (!$brand || !$technician) {
-            $error_msg = "Veuillez remplir tous les champs.";
+            $error_msg = $champ_obligatoire;
         } else {
             $user = $users->findOne([
                 '$and' => [
@@ -1588,14 +1589,14 @@ if (!isset($_SESSION["id"])) {
                     );
                 }
             }
-            $success_msg = "Technicien(s) affecté(s) avec succès";
+            $success_msg = $success_allocation;
         }
     }
     ?>
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Assigner Technicien au Test | CFAO Mobility Academy</title>
+<title><?php echo $title_allocateUserTest ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -1610,7 +1611,7 @@ if (!isset($_SESSION["id"])) {
             <div class="container mt-5 w-50">
                 <img src="../public/images/logo.png" alt="10" height="170"
                     style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-                <h1 class="my-3 text-center">Assigner un technicien à un test</h1>
+                <h1 class="my-3 text-center"><?php echo $allocate_test?></h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -1637,7 +1638,7 @@ if (!isset($_SESSION["id"])) {
                             <div class="d-flex flex-column mb-7 fv-row">
                                 <!--begin::Label-->
                                 <label class="form-label fw-bolder text-dark fs-6">
-                                    <span class="required">Marque du Véhicule</span>
+                                    <span class="required"><?php echo $brand ?></span>
 
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Veuillez choisir le véhicule">
                                         <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
@@ -1646,65 +1647,65 @@ if (!isset($_SESSION["id"])) {
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <select name="brand[]" multiple aria-label="Select a Country" data-control="select2"
-                                    data-placeholder="Sélectionnez la marque de véhicule..."
+                                    data-placeholder="<?php echo $select_brand ?>"
                                     class="form-select form-select-solid fw-bold">
-                                    <option value="">Sélectionnez la marque de véhicule...</option>
+                                    <option value=""><?php echo $select_brand ?></option>
                                     <option value="FUSO">
-                                      FUSO
+                                      <?php echo $fuso ?>
                                     </option>
                                     <option value="HINO">
-                                      HINO
+                                      <?php echo $hino ?>
                                     </option>
                                     <option value="JCB">
-                                      JCB
+                                      <?php echo $jcb ?>
                                     </option>
                                     <option value="KING LONG">
-                                      KING LONG
+                                      <?php echo $kingLong ?>
                                     </option>
                                     <option value="LOVOL">
-                                      LOVOL
+                                      <?php echo $lovol ?>
                                     </option>
                                     <option value="MERCEDES TRUCK">
-                                      MERCEDES TRUCK
+                                      <?php echo $mercedesTruck ?>
                                     </option>
                                     <option value="RENAULT TRUCK">
-                                      RENAULT TRUCK
+                                      <?php echo $renaultTruck ?>
                                     </option>
                                     <option value="SINOTRUCK">
-                                      SINOTRUCK
+                                      <?php echo $sinotruk ?>
                                     </option>
                                     <option value="TOYOTA BT">
-                                      TOYOTA BT
+                                      <?php echo $toyotaBT ?>
                                     </option>
-                                    <option value="TOYOTA FORFLIT">
-                                      TOYOTA FORFLIT
+                                    <option value="TOYOTA FORKLIFT">
+                                      <?php echo $toyotaForklift ?>
                                     </option>
                                     <option value="BYD">
-                                      BYD
+                                      <?php echo $byd ?>
                                     </option>
                                     <option value="CITROEN">
-                                      CITROEN VL
+                                      <?php echo $citroen ?>
                                     </option>
                                     <option value="MERCEDES">
-                                      MERCEDES VL
+                                      <?php echo $mercedes ?>
                                     </option>
                                     <option value="MUTSUBISHI">
-                                      MUTSUBISHI VL
+                                      <?php echo $mutsubishi ?>
                                     </option>
                                     <option value="PEUGEOT">
-                                      PEUGEOT VL
+                                      <?php echo $peugeot ?>
                                     </option>
                                     <option value="SUZUKI">
-                                      SUZUKI VL
+                                      <?php echo $suzuki ?>
                                     </option>
                                     <option value="TOYOTA">
-                                      TOYOTA VL
+                                      <?php echo $toyota ?>
                                     </option>
                                     <option value="YAMAHA BATEAU">
-                                      YAMAHA BATEAU
+                                      <?php echo $yamahaBateau ?>
                                     </option>
                                     <option value="YAMAHA MOTO">
-                                      YAMAHA MOTO
+                                      <?php echo $yamahaMoto ?>
                                     </option>
                                 </select>
                                 <?php if (isset($error)) { ?>
@@ -1721,7 +1722,7 @@ if (!isset($_SESSION["id"])) {
                             <div class="d-flex flex-column mb-7 fv-row">
                                 <!--begin::Label-->
                                 <label class="form-label fw-bolder text-dark fs-6">
-                                    <span class="required">Technicien</span>
+                                    <span class="required"><?php echo $technicien ?></span>
 
                                     <span class="ms-1" data-bs-toggle="tooltip" title="Veuillez choisir le technicien">
                                         <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
@@ -1730,9 +1731,9 @@ if (!isset($_SESSION["id"])) {
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <select name="technician" aria-label="Select a Country"
-                                    data-control="select2" data-placeholder="Sélectionnez le technicien..."
+                                    data-control="select2" data-placeholder=<?php echo $select_technicien ?>
                                     class="form-select form-select-solid fw-bold">
-                                    <option value="">Sélectionnez le technicien...</option>
+                                    <option value=""><?php echo $select_technicien ?></option>
                                     <?php
                                     $user = $users->find([
                                         '$and' => [
@@ -1761,7 +1762,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class="text-center" style="margin-bottom: 50px;">
                         <button type="submit" name="submit" class="btn btn-lg btn-primary">
-                            Valider
+                            <?php echo $valider; ?>
                         </button>
                     </div>
                 </form>

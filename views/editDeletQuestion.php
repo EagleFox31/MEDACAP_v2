@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -63,14 +64,14 @@ if (isset($_POST["update"])) {
                 ],
             ]
         );
-        $success_msg = "Question modifiée avec succès.";
+        $success_msg = $success_question_edit;
     } else {
         // Update the question in the collection
         $questions->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($id)],
             ['$set' => $question]
         );
-        $success_msg = "Question modifiée avec succès.";
+        $success_msg = $success_question_edit;
     }
 }
 if (isset($_POST["delet"])) {
@@ -79,12 +80,12 @@ if (isset($_POST["delet"])) {
     $question->active = false;
     $question->updated = date("d-m-Y");
     $questions->updateOne(["_id" => $id], ['$set' => $question]);
-    $success_msg = "Question supprimée avec succes.";
+    $success_msg = $success_question_delet;
 }
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Modifier/Supprimer un Question | CFAO Mobility Academy</title>
+<title><?php echo $title_edit_sup_question ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -97,7 +98,7 @@ if (isset($_POST["delet"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Modifier/Supprimer un question </h1>
+                    <?php echo $title_edit_sup_collab ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -112,7 +113,7 @@ if (isset($_POST["delet"])) {
             </div>
             <!--end::Info-->
             <!--begin::Actions-->
-            <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
+            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                 <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
                     <button type="button" id="edit" title="Cliquez ici pour modifier la question" data-bs-toggle="modal"
                         class="btn btn-primary">
@@ -125,7 +126,7 @@ if (isset($_POST["delet"])) {
                         Supprimer
                     </button>
                 </div>
-            </div>
+            </div> -->
             <!--end::Actions-->
         </div>
     </div>
@@ -251,38 +252,38 @@ if (isset($_POST["delet"])) {
                                         <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Reférence
+                                            style="width: 125px;"><?php echo $ref ?>
                                         </th>
                                         <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Questions
+                                            style="width: 125px;"><?php echo $questions ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Réponse
+                                            style="width: 134.188px;"><?php echo $answer ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Type</th>
+                                            style="width: 126.516px;"><?php echo $type ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Niveau</th>
+                                            style="width: 126.516px;"><?php echo $level ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Spécialité</th>
+                                            style="width: 126.516px;"><?php echo $speciality ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Modifier</th>
+                                            style="width: 126.516px;"><?php echo $edit ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Supprimer</th>
+                                            style="width: 126.516px;"><?php echo $delete ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -380,7 +381,7 @@ if (isset($_POST["delet"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Suppréssion
+                                                            <?php echo $delet ?>
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -406,9 +407,7 @@ if (isset($_POST["delet"])) {
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
-                                                            Voulez-vous vraiment
-                                                            supprimer cette
-                                                            question?
+                                                            <?php echo $delet_text ?>
                                                         </h4>
                                                     </div>
                                                     <!--end::Modal body-->
@@ -418,12 +417,12 @@ if (isset($_POST["delet"])) {
                                                         <button type="reset" class="btn btn-light me-3"
                                                             id="closeDesactivate" data-bs-dismiss="modal"
                                                             data-kt-users-modal-action="cancel">
-                                                            Non
+                                                            <?php echo $non ?>
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="delet" class="btn btn-danger">
-                                                            Oui
+                                                            <?php echo $oui ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>
@@ -452,8 +451,7 @@ if (isset($_POST["delet"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Modification des
-                                                            informations</h2>
+                                                            <?php echo $editer_data ?></h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
                                                         <div class="btn btn-icon btn-sm btn-active-icon-primary"
@@ -488,7 +486,7 @@ if (isset($_POST["delet"])) {
                                                             data-kt-scroll-offset="300px">
                                                             <!--begin::User toggle-->
                                                             <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                                                                Informations
+                                                                <?php echo $data ?>
                                                             </div>
                                                             <!--end::User toggle-->
                                                             <!--begin::User form-->
@@ -497,7 +495,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Reférence</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $ref ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -511,7 +509,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Question</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $label_question ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -524,7 +522,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Image</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $image ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="file"
@@ -536,7 +534,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">type</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $type ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -549,7 +547,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
                                                                         1</label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -563,7 +561,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
                                                                         2</label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -577,7 +575,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
                                                                         3</label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -592,7 +590,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Proposition
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
                                                                         4</label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -608,7 +606,7 @@ if (isset($_POST["delet"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Spécialité</span>
+                                                                        <span><?php echo $speciality ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -623,7 +621,7 @@ if (isset($_POST["delet"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Niveau</span>
+                                                                        <span><?php echo $level ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -638,7 +636,7 @@ if (isset($_POST["delet"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Réponse</span>
+                                                                        <span><?php echo $answer ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -661,11 +659,11 @@ if (isset($_POST["delet"])) {
                                                         <!--begin::Button-->
                                                         <button type="reset" class="btn btn-light me-3"
                                                             data-kt-menu-dismiss="true" data-bs-dismiss="modal"
-                                                            data-kt-users-modal-action="cancel">Annuler</button>
+                                                            data-kt-users-modal-action="cancel"><?php echo $annuler ?></button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="update" class="btn btn-primary">
-                                                            Valider
+                                                            <?php echo $valider ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>

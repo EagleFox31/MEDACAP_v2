@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -56,9 +57,9 @@ if (!isset($_SESSION["id"])) {
             empty($level) ||
             empty($speciality)
         ) {
-            $error = "Champ obligatoire";
+            $error = $champ_obligatoire;
         } elseif ($exist) {
-            $error_msg = "Cette question existe déjà.";
+            $error_msg = $error_question;
         } elseif ($type == "Factuelle") {
             $question = [
                 "image" => $image,
@@ -2472,7 +2473,7 @@ if (!isset($_SESSION["id"])) {
                     }
                 }
             }
-            $success_msg = "Question ajoutée avec succès";
+            $success_msg = $success_question;
         } elseif ($type == "Declarative") {
             $question = [
                 "image" => $image,
@@ -4887,13 +4888,13 @@ if (!isset($_SESSION["id"])) {
                     }
                 }
             }
-            $success_msg = "Question ajoutée avec succès";
+            $success_msg = $success_question;
         }
     }
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Ajouter Question | CFAO Mobility Academy</title>
+<title><?php echo $title_question ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -4907,7 +4908,7 @@ if (!isset($_SESSION["id"])) {
             <div class='container mt-5 w-50'>
                 <img src='../public/images/logo.png' alt='10' height='170'
                     style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
-                <h1 class='my-3 text-center'>Ajouter une question</h1>
+                <h1 class='my-3 text-center'><?php echo $title_question ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class='alert alert-success alert-dismissible fade show' role='alert'>
@@ -4933,7 +4934,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class='fv-row mb-7'>
                         <!--begin::Label-->
-                        <label class='required form-label fw-bolder text-dark fs-6'>Reférence</label>
+                        <label class='required form-label fw-bolder text-dark fs-6'><?php echo $ref ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='text' class='form-control form-control-solid' placeholder='' name='ref' />
@@ -4948,7 +4949,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class='fv-row mb-7'>
                         <!--begin::Label-->
-                        <label class='required form-label fw-bolder text-dark fs-6'>Libellé de la question</label>
+                        <label class='required form-label fw-bolder text-dark fs-6'><?php echo $label_question ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='text' class='form-control form-control-solid' placeholder='' name='label' />
@@ -4963,7 +4964,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class='fv-row mb-7'>
                         <!--begin::Label-->
-                        <label class='form-label fw-bolder text-dark fs-6'>Image</label>
+                        <label class='form-label fw-bolder text-dark fs-6'><?php echo $image ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='file' class='form-control form-control-solid' placeholder='' name='image' />
@@ -4974,20 +4975,19 @@ if (!isset($_SESSION["id"])) {
                     <div class='d-flex flex-column mb-7 fv-row'>
                         <!--begin::Label-->
                         <label class='form-label fw-bolder text-dark fs-6'>
-                            <span class='required'>Type</span>
+                            <span class='required'><?php echo $type ?></span>
                             </span>
                         </label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <select name='type' onchange='selectif()' aria-label='Select a Country' data-control='select2'
-                            data-placeholder='Sélectionnez votre sexe...' class='form-select form-select-solid fw-bold'>
-                            <option>Sélectionnez le type de
-                                question...</option>
+                            data-placeholder='<?php echo $select_type ?>' class='form-select form-select-solid fw-bold'>
+                            <option><?php echo $select_type ?></option>
                             <option value='Declarative'>
-                                Declarative
+                                <?php echo $tache_pro ?>
                             </option>
                             <option value='Factuelle'>
-                                Factuelle
+                                <?php echo $connaissances ?>
                             </option>
                         </select>
                         <!--end::Input-->
@@ -5003,7 +5003,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Col-->
                         <div class='col-md-6 fv-row'>
                             <!--begin::Label-->
-                            <label class='required form-label fw-bolder text-dark fs-6'>Proposition
+                            <label class='required form-label fw-bolder text-dark fs-6'><?php echo $proposal ?>
                                 1</label>
                             <!--end::Label-->
                             <!--begin::Input-->
@@ -5019,7 +5019,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Col-->
                         <div class='col-md-6 fv-row'>
                             <!--begin::Label-->
-                            <label class='required form-label fw-bolder text-dark fs-6'>Proposition
+                            <label class='required form-label fw-bolder text-dark fs-6'><?php echo $proposal ?>
                                 2</label>
                             <!--end::Label-->
                             <!--begin::Input-->
@@ -5039,7 +5039,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Col-->
                         <div class='col-md-6 fv-row'>
                             <!--begin::Label-->
-                            <label class='form-label fw-bolder text-dark fs-6'>Proposition
+                            <label class='form-label fw-bolder text-dark fs-6'><?php echo $proposal ?>
                                 3</label>
                             <!--end::Label-->
                             <!--begin::Input-->
@@ -5050,7 +5050,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Col-->
                         <div class='col-md-6 fv-row'>
                             <!--begin::Label-->
-                            <label class='form-label fw-bolder text-dark fs-6'>Proposition
+                            <label class='form-label fw-bolder text-dark fs-6'><?php echo $proposal ?>
                                 4</label>
                             <!--end::Label-->
                             <!--begin::Input-->
@@ -5063,7 +5063,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class='fv-row mb-7' id='answer'>
                         <!--begin::Label-->
-                        <label class='form-label fw-bolder text-dark fs-6'>Réponses</label>
+                        <label class='form-label fw-bolder text-dark fs-6'><?php echo $answer ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='text' class='form-control form-control-solid' placeholder='' name='answer' />
@@ -5074,102 +5074,101 @@ if (!isset($_SESSION["id"])) {
                     <div class="d-flex flex-column mb-7 fv-row">
                         <!--begin::Label-->
                         <label class="form-label fw-bolder text-dark fs-6">
-                            <span class="required">Spécialité</span>
+                            <span class="required"><?php echo $speciality ?></span>
                             </span>
                         </label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                            <select name="speciality" aria-label="Select a Country" data-control="select2"
-                                data-placeholder="Sélectionnez la spécialité..."
+                            <select name="speciality[]" aria-label="Select a Country" data-control="select2"
+                                data-placeholder="<?php echo $select_speciality ?>"
                                 class="form-select form-select-solid fw-bold">
-                                <option>Sélectionnez la
-                                    spécialité...</option>
+                                <option><?php echo $select_speciality ?></option>
                                 <option value="Arbre de Transmission">
-                                    Arbre de Transmission
+                                    <?php echo $arbre ?>
                                 </option>
                                 <option value="Assistance à la Conduite">
-                                    Assistance à la Conduite
+                                    <?php echo $assistanceConduite ?>
                                 </option>
                                 <option value="Boite de Transfert">
-                                    Boite de Transfert
+                                    <?php echo $transfert ?>
                                 </option>
                                 <option value="Boite de Vitesse">
-                                    Boite de Vitesse
+                                    <?php echo $boite_vitesse ?>
                                 </option>
                                 <option value="Boite de Vitesse Automatique">
-                                    Boite de Vitesse Automatique
+                                    <?php echo $boite_vitesse_auto ?>
                                 </option>
                                 <option value="Boite de Vitesse Mécanique">
-                                    Boite de Vitesse Mécanique
+                                    <?php echo $boite_vitesse_meca ?>
                                 </option>
                                 <option value="Boite de Vitesse à Variation Continue">
-                                    Boite de Vitesse à Variation Continue
+                                    <?php echo $boite_vitesse_VC ?>
                                 </option>
                                 <option value="Climatisation">
-                                    Climatisation
+                                    <?php echo $clim ?>
                                 </option>
                                 <option value="Demi Arbre de Roue">
-                                    Demi Arbre de Roue
+                                    <?php echo $demi ?>
                                 </option>
                                 <option value="Direction">
-                                    Direction
+                                    <?php echo $direction ?>
                                 </option>
                                 <option value="Electricité et Electronique">
-                                    Electricité & Electronique
+                                    <?php echo $elec ?>
                                 </option>
                                 <option value="Freinage">
-                                    Freinage
+                                    <?php echo $freinage ?>
                                 </option>
                                 <option value="Freinage Electromagnétique">
-                                    Freinage Electromagnétique
+                                    <?php echo $freinageElec ?>
                                 </option>
                                 <option value="Freinage Hydraulique">
-                                    Freinage Hydraulique
+                                    <?php echo $freinageHydro ?>
                                 </option>
                                 <option value="Freinage Pneumatique">
-                                    Freinage Pneumatique
+                                    <?php echo $freinagePneu ?>
                                 </option>
                                 <option value="Hydraulique">
-                                    Hydraulique
+                                    <?php echo $hydraulique ?>
                                 </option>
                                 <option value="Moteur Diesel">
-                                    Moteur Diesel
+                                    <?php echo $moteurDiesel ?>
                                 </option>
                                 <option value="Moteur Electrique">
-                                    Moteur Electrique
+                                    <?php echo $moteurElectrique ?>
                                 </option>
                                 <option value="Moteur Essence">
-                                    Moteur Essence
+                                    <?php echo $moteurEssence ?>
                                 </option>
                                 <option value="Moteur Thermique">
-                                    Moteur Thermique
+                                    <?php echo $moteurThermique ?>
                                 </option>
                                 <option value="Multiplexage">
-                                    Multiplexage
+                                    <?php echo $multiplexage ?>
                                 </option>
                                 <option value="Pneumatique">
-                                    Pneumatique
+                                   <?php echo $pneu ?>
                                 </option>
                                 <option value="Pont">
-                                    Pont
+                                    <?php echo $pont ?>
                                 </option>
                                 <option value="Réducteur">
-                                    Réducteur
+                                    <?php echo $reducteur ?>
                                 </option>
                                 <option value="Suspension">
-                                    Suspension
+                                    <?php echo $suspension ?>
                                 </option>
                                 <option value="Suspension à Lame">
-                                    Suspension à Lame
+                                    <?php echo $suspensionLame ?>
                                 </option>
                                 <option value="Suspension Ressort">
-                                    Suspension Ressort
+                                    <?php echo $suspensionRessort ?>
                                 </option>
                                 <option value="Suspension Pneumatique">
-                                    Suspension Pneumatique
+                                    <?php echo $suspensionPneu ?>
                                 </option>
                                 <option value="Transversale">
-                                    Transversale
+                                    <?php echo $transversale ?>
                                 </option>
                             </select>
                         <!--end::Input-->
@@ -5184,24 +5183,23 @@ if (!isset($_SESSION["id"])) {
                     <div class='d-flex flex-column mb-7 fv-row'>
                         <!--begin::Label-->
                         <label class='form-label fw-bolder text-dark fs-6'>
-                            <span class='required'>Niveau</span>
+                            <span class='required'><?php echo $level ?></span>
                             </span>
                         </label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <select name='level' aria-label='Select a Country'
-                            data-placeholder='Sélectionnez le niveau du questionnaire...'
+                            data-placeholder='<?php echo $select_level ?>'
                             data-dropdown-parent='#kt_modal_add_customer' class='form-select form-select-solid fw-bold'>
-                            <option value=''>Sélectionnez le
-                                niveau de la question...</option>
+                            <option value=''><?php echo $select_level ?></option>
                             <option value='Junior'>
-                                Junior
+                                <?php echo $junior ?>
                             </option>
                             <option value='Senior'>
-                                Senior
+                                <?php echo $senior ?>
                             </option>
                             <option value='Expert'>
-                                Expert
+                                <?php echo $expert ?>
                             </option>
                         </select>
                         <!--end::Input-->
@@ -5216,7 +5214,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Button-->
                         <button type='submit' name='submit' class='btn btn-primary'>
                             <span class='indicator-label'>
-                                Valider
+                                <?php echo $valider ?>
                             </span>
                             <span class='indicator-progress'>
                                 Patientez... <span class='spinner-border spinner-border-sm align-middle ms-2'></span>

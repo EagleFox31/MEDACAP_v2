@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once "language.php";
+
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -57,7 +59,7 @@ if (isset($_POST["update"])) {
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         ['$set' => $person]
     );
-    $success_msg = "Collaborateur modifié avec succes.";
+    $success_msg = $success_collab_edit;
 }
 if (isset($_POST["brand"])) {
     $id = $_POST["userID"];
@@ -72,7 +74,7 @@ if (isset($_POST["brand"])) {
             ],
         ]
     );
-    $success_msg = "Collaborateur modifié avec succes.";
+    $success_msg = $success_collab_edit;
 }
 if (isset($_POST["excel"])) {
     $spreadsheet = new Spreadsheet();
@@ -112,7 +114,7 @@ if (isset($_POST["password"])) {
             ["_id" => new MongoDB\BSON\ObjectId($id)],
             ['$set' => ["password" => $password_hash]]
         );
-        $success_msg = "Collaborateur modifié avec succes.";
+        $success_msg = $success_collab_edit;
     }
 }
 if (isset($_POST["delete"])) {
@@ -125,7 +127,7 @@ if (isset($_POST["delete"])) {
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         ['$set' => $member]
     );
-    $success_msg = "Collaborateur supprimé avec succès";
+    $success_msg = $success_collab_delet;
 }
 if (isset($_POST["retire-technician-manager"])) {
     $id = $_POST["userID"];
@@ -146,7 +148,7 @@ if (isset($_POST["retire-technician-manager"])) {
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Modifier/Supprimer un Collaborateur | CFAO Mobility Academy</title>
+<title><?php echo $title_edit_sup_collab ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -159,7 +161,7 @@ if (isset($_POST["retire-technician-manager"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Modifier/Supprimer un collaborateur </h1>
+                    <?php echo $title_edit_sup_collab ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -334,42 +336,42 @@ if (isset($_POST["retire-technician-manager"])) {
                                         <th class="min-w-225px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Prénoms et
-                                            noms
+                                            style="width: 125px;"><?php echo $prenomsNoms ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Email</th>
+                                            style="width: 155.266px;"><?php echo $email ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Numéro de Téléphone</th>
+                                            style="width: 152.719px;">
+                                            <?php echo $phoneNumber ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau Technique
+                                            style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Diplôme
+                                            style="width: 152.719px;"><?php echo $certificat ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Departement</th>
+                                            <?php echo $department ?></th>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Modifier</th>
+                                            <?php echo $edit ?></th>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Supprimer</th>
+                                            <?php echo $delete ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -444,7 +446,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Suppréssion
+                                                            <?php echo $delet ?>
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -470,9 +472,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
-                                                            Voulez-vous vraiment
-                                                            supprimer cet
-                                                            utilisateur?
+                                                            <?php echo $delet_text ?>
                                                         </h4>
                                                     </div>
                                                     <!--end::Modal body-->
@@ -482,12 +482,12 @@ if (isset($_POST["retire-technician-manager"])) {
                                                         <button type="reset" class="btn btn-light me-3"
                                                             id="closeDesactivate" data-bs-dismiss="modal"
                                                             data-kt-users-modal-action="cancel">
-                                                            Non
+                                                            <?php echo $non ?>
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="delete" class="btn btn-danger">
-                                                            Oui
+                                                            <?php echo $oui ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>
@@ -499,85 +499,6 @@ if (isset($_POST["retire-technician-manager"])) {
                                         <!-- end Modal dialog -->
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
-                                    <!--begin::Modal - Update user password-->
-                                    <div class="modal" id="kt_modal_update_password<?php echo $user->_id; ?>"
-                                        tabindex="-1" aria-hidden="true">
-                                        <!--begin::Modal dialog-->
-                                        <div class="modal-dialog modal-dialog-centered mw-450px">
-                                            <!--begin::Modal content-->
-                                            <div class="modal-content">
-                                                <!--begin::Form-->
-                                                <form class="form" method="POST">
-                                                    <input type="hidden" name="userID" value="<?php echo $user->_id; ?>">
-                                                    <!--begin::Modal header-->
-                                                    <div class="modal-header" id="kt_modal_update_user_header">
-                                                        <!--begin::Modal title-->
-                                                        <h2 class="fs-2 fw-bolder">
-                                                            Modification du mot
-                                                            de passe
-                                                        </h2>
-                                                        <!--end::Modal title-->
-                                                        <!--begin::Close-->
-                                                        <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                                            data-kt-users-modal-action="close" data-bs-dismiss="modal">
-                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                            <span class="svg-icon svg-icon-1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none">
-                                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
-                                                                        height="2" rx="1"
-                                                                        transform="rotate(-45 6 17.3137)"
-                                                                        fill="black" />
-                                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                        transform="rotate(45 7.41422 6)" fill="black" />
-                                                                </svg>
-                                                            </span>
-                                                            <!--end::Svg Icon-->
-                                                        </div>
-                                                        <!--end::Close-->
-                                                    </div>
-                                                    <!--end::Modal header-->
-                                                    <!--begin::Modal body-->
-                                                    <div class="modal-body py-10 px-lg-17">
-                                                        <div class="fv-row mb-7">
-                                                            <!--begin::Label-->
-                                                            <label class="fs-6 fw-bold mb-2">Mot
-                                                                de
-                                                                passe</label>
-                                                            <!--end::Label-->
-                                                            <!--begin::Input-->
-                                                            <input type="password"
-                                                                class="form-control form-control-solid"
-                                                                placeholder="Entrer le nouveau mot de passe"
-                                                                name="password" />
-                                                            <!--end::Input-->
-                                                        </div>
-                                                        <!--end::Input group-->
-                                                    </div>
-                                                    <!--end::Modal body-->
-                                                    <!--begin::Modal footer-->
-                                                    <div class="modal-footer flex-center">
-                                                        <!--begin::Button-->
-                                                        <button type="reset" class="btn btn-light me-3"
-                                                            data-bs-dismiss="modal" id="closeDesactivate"
-                                                            data-kt-users-modal-action="cancel">
-                                                            Annuler
-                                                        </button>
-                                                        <!--end::Button-->
-                                                        <!--begin::Button-->
-                                                        <button type="submit" name="pass" class="btn btn-primary">
-                                                            Valider
-                                                        </button>
-                                                        <!--end::Button-->
-                                                    </div>
-                                                    <!--end::Modal footer-->
-                                                </form>
-                                                <!--end::Form-->
-                                            </div>
-                                        </div>
-                                        <!-- end Modal dialog -->
-                                    </div>
-                                    <!--end::Modal - Update user password-->
                                     <!--begin::Modal - Update user details-->
                                     <div class="modal" id="kt_modal_update_details<?php echo $user->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
@@ -592,8 +513,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Modification des
-                                                            informations</h2>
+                                                            <?php echo $editer_data ?></h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
                                                         <div class="btn btn-icon btn-sm btn-active-icon-primary"
@@ -628,7 +548,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                             data-kt-scroll-offset="300px">
                                                             <!--begin::User toggle-->
                                                             <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                                                                Informations
+                                                                <?php echo $data ?>
                                                             </div>
                                                             <!--end::User toggle-->
                                                             <!--begin::User form-->
@@ -637,7 +557,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Username</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $username ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -650,7 +570,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Matricule</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $matricule ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -666,7 +586,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                     <div class="col-md-6 fv-row">
                                                                         <!--begin::Label-->
                                                                         <label
-                                                                            class="form-label fw-bolder text-dark fs-6">Prénoms</label>
+                                                                            class="form-label fw-bolder text-dark fs-6"><?php echo $prenoms ?></label>
                                                                         <!--end::Label-->
                                                                         <!--begin::Input-->
                                                                         <input class="form-control form-control-solid"
@@ -679,7 +599,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                     <div class="col-md-6 fv-row">
                                                                         <!--begin::Label-->
                                                                         <label
-                                                                            class="form-label fw-bolder text-dark fs-6">Noms</label>
+                                                                            class="form-label fw-bolder text-dark fs-6"><?php echo $noms ?></label>
                                                                         <!--end::Label-->
                                                                         <!--begin::Input-->
                                                                         <input class="form-control form-control-solid"
@@ -694,7 +614,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Email</span>
+                                                                        <span><?php echo $email ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -709,7 +629,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span>Sexe</span>
+                                                                        <span><?php echo $gender ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -723,9 +643,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Numéro
-                                                                        de
-                                                                        téléphone</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $phoneNumber ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -738,9 +656,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Date
-                                                                        de
-                                                                        naissance</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $birthdate ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -753,7 +669,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Métier</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $levelTech ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -766,7 +682,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Spécialité</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -779,7 +695,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Pays</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $country ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -792,8 +708,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Certificat plus
-                                                                        élévé</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $certificat ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -806,7 +721,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Filiale</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $filiale ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -819,7 +734,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Département</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $department ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -832,7 +747,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Fonction
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $role ?>
                                                                         </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -847,13 +762,13 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                     $user[
                                                                         "department"
                                                                     ] ==
-                                                                    "Motors"
+                                                                    "Equipment"
                                                                 ) { ?>
                                                                 <!--begin::Input group-->
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                     <!--begin::Label-->
                                                                     <label class="form-label fw-bolder text-dark fs-6">
-                                                                        <span>Marques de véhicule</span>
+                                                                        <span><?php echo $brand ?></span>
                                                                         <span class="ms-1" data-bs-toggle="tooltip"
                                                                             title="Choississez les questionnaires">
                                                                             <i class="ki-duotone ki-information fs-7"><span
@@ -864,38 +779,38 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
-                                                                    <select name="brand[]" multiple 
-                                                                    aria-label="Select a Country" 
-                                                                    data-control="select2" data-placeholder="Sélectionnez la/les marque(s) de véhicule..." 
-                                                                    class="form-select form-select-solid fw-bold">
-                                                                      <option value="">Sélectionnez la/les marque(s) de véhicule...</option>
-                                                                      <option value="BYD">
-                                                                          BYD
-                                                                        </option>
-                                                                        <option value="CITROEN">
-                                                                          CITROEN
-                                                                        </option>
-                                                                        <option value="MERCEDES">
-                                                                          MERCEDES
-                                                                        </option>
-                                                                        <option value="MUTSUBISHI">
-                                                                          MUTSUBISHI
-                                                                        </option>
-                                                                        <option value="PEUGEOT">
-                                                                          PEUGEOT
-                                                                        </option>
-                                                                        <option value="SUZUKI">
-                                                                          SUZUKI
-                                                                        </option>
-                                                                        <option value="TOYOTA">
-                                                                          TOYOTA
-                                                                        </option>
-                                                                        <option value="YAMAHA BATEAU">
-                                                                          YAMAHA BATEAU
-                                                                        </option>
-                                                                        <option value="YAMAHA MOTO">
-                                                                          YAMAHA MOTO
-                                                                        </option>
+                                                                    <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                      <option value=""><?php echo $select_brand ?></option>
+                                                                      <option value="FUSO">
+                                                                        <?php echo $fuso ?>
+                                                                      </option>
+                                                                      <option value="HINO">
+                                                                        <?php echo $hino ?>
+                                                                      </option>
+                                                                      <option value="JCB">
+                                                                        <?php echo $jcb ?>
+                                                                      </option>
+                                                                      <option value="KING LONG">
+                                                                        <?php echo $kingLong ?>
+                                                                      </option>
+                                                                      <option value="LOVOL">
+                                                                        <?php echo $lovol ?>
+                                                                      </option>
+                                                                      <option value="MERCEDES TRUCK">
+                                                                        <?php echo $mercedesTruck ?>
+                                                                      </option>
+                                                                      <option value="RENAULT TRUCK">
+                                                                        <?php echo $renaultTruck ?>
+                                                                      </option>
+                                                                      <option value="SINOTRUCK">
+                                                                        <?php echo $sinotruk ?>
+                                                                      </option>
+                                                                      <option value="TOYOTA BT">
+                                                                        <?php echo $toyotaBt ?>
+                                                                      </option>
+                                                                      <option value="TOYOTA FORKLIFT">
+                                                                        <?php echo $toyotaForklift ?>
+                                                                      </option>
                                                                     </select>
                                                                     <!--end::Input-->
                                                                 </div>
@@ -905,13 +820,13 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                     $user[
                                                                         "department"
                                                                     ] ==
-                                                                    "Equipment"
+                                                                    "Motors"
                                                                 ) { ?>
                                                                 <!--begin::Input group-->
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                     <!--begin::Label-->
                                                                     <label class="form-label fw-bolder text-dark fs-6">
-                                                                        <span>Marques de véhicule</span>
+                                                                        <span><?php echo $brand ?></span>
                                                                         <span class="ms-1" data-bs-toggle="tooltip"
                                                                             title="Choississez les questionnaires">
                                                                             <i class="ki-duotone ki-information fs-7"><span
@@ -922,40 +837,34 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
-                                                                    <select name="brand[]" multiple 
-                                                                    aria-label="Select a Country" 
-                                                                    data-control="select2" data-placeholder="Sélectionnez la/les marque(s) de véhicule..." 
-                                                                    class="form-select form-select-solid fw-bold">
-                                                                      <option value="">Sélectionnez la/les marque(s) de véhicule...</option>
-                                                                      <option value="FUSO">
-                                                                        FUSO
+                                                                    <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                      <option value=""><?php echo $select_brand ?></option>
+                                                                      <option value="BYD">
+                                                                        <?php echo $byd ?>
                                                                       </option>
-                                                                      <option value="HINO">
-                                                                        HINO
+                                                                      <option value="CITROEN">
+                                                                        <?php echo $citroen ?>
                                                                       </option>
-                                                                      <option value="JCB">
-                                                                        JCB
+                                                                      <option value="MERCEDES">
+                                                                        <?php echo $mercedes ?>
                                                                       </option>
-                                                                      <option value="KING LONG">
-                                                                        KING LONG
+                                                                      <option value="MUTSUBISHI">
+                                                                        <?php echo $mutsubishi ?>
                                                                       </option>
-                                                                      <option value="LOVOL">
-                                                                        LOVOL
+                                                                      <option value="PEUGEOT">
+                                                                        <?php echo $peugeot ?>
                                                                       </option>
-                                                                      <option value="MERCEDES TRUCK">
-                                                                        MERCEDES TRUCK
+                                                                      <option value="SUZUKI">
+                                                                        <?php echo $suzuki ?>
                                                                       </option>
-                                                                      <option value="RENAULT TRUCK">
-                                                                        RENAULT TRUCK
+                                                                      <option value="TOYOTA">
+                                                                        <?php echo $toyota ?>
                                                                       </option>
-                                                                      <option value="SINOTRUCK">
-                                                                        SINOTRUCK
+                                                                      <option value="YAMAHA BATEAU">
+                                                                        <?php echo $yamahaBateau ?>
                                                                       </option>
-                                                                      <option value="TOYOTA BT">
-                                                                        TOYOTA BT
-                                                                      </option>
-                                                                      <option value="TOYOTA FORFLIT">
-                                                                        TOYOTA FORFLIT
+                                                                      <option value="YAMAHA MOTO">
+                                                                        <?php echo $yamahaMoto ?>
                                                                       </option>
                                                                     </select>
                                                                     <!--end::Input-->
@@ -965,9 +874,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Date
-                                                                        de
-                                                                        recrutement</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $recrutmentDate ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -979,7 +886,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">Mot de passe</label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $password ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="password"
@@ -999,11 +906,11 @@ if (isset($_POST["retire-technician-manager"])) {
                                                         <!--begin::Button-->
                                                         <button type="reset" class="btn btn-light me-3"
                                                             data-kt-menu-dismiss="true" data-bs-dismiss="modal"
-                                                            data-kt-users-modal-action="cancel">Annuler</button>
+                                                            data-kt-users-modal-action="cancel"><?php echo $annuler ?></button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="update" class="btn btn-primary">
-                                                            Valider
+                                                            <?php echo $valider ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>
@@ -1038,8 +945,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                     <div class="text-center mb-13">
                                                         <!--begin::Title-->
                                                         <h1 class="mb-3">
-                                                            Liste des
-                                                            techniciens
+                                                            <?php echo $list_tech ?>
                                                         </h1>
                                                         <!--end::Title-->
                                                     </div>

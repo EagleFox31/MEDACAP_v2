@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -20,105 +21,18 @@ if (!isset($_SESSION["id"])) {
     $questions = $academy->questions;
     $allocations = $academy->allocations;
 
-    if (isset($_POST["update-quiz"])) {
-        $id = $_POST["quizID"];
-        $label = $_POST["label"];
-        $description = $_POST["description"];
-        $type = $_POST["type"];
-        $speciality = $_POST["speciality"];
-        $number = $_POST["number"];
-        $level = $_POST["level"];
-
-        $quiz = [
-            "label" => ucfirst($label),
-            "description" => ucfirst($description),
-            "type" => $type,
-            "speciality" => ucfirst($speciality),
-            "level" => ucfirst($level),
-            "number" => +$number,
-            "updated" => date("d-m-Y"),
-        ];
-
-        $quizzes->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($id)],
-            ['$set' => $quiz]
-        );
-        $success_msg = "Questionnaire modifié avec succès.";
-    }
-
-    if (isset($_POST["retire-question-quiz"])) {
-        $quiz = $_POST["quizID"];
-        $question = $_POST["questionID"];
-
-        $allocate = $allocations->findOne([
-            '$and' => [
-                ["question" => $question],
-                ["quiz" => new MongoDB\BSON\ObjectId($quiz)],
-            ],
-        ]);
-
-        $allocate["active"] = false;
-        $allocate["updated"] = date("d-m-Y");
-        $allocations->updateOne(
-            ["_id" => $allocate["_id"]],
-            ['$set' => $allocate]
-        );
-
-        $membre = $quizzes->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
-            ['$push' => ["questions" => new MongoDB\BSON\ObjectId($question)]]
-        );
-
-        $quizzes = $quizzes->findOne([
-            "_id" => new MongoDB\BSON\ObjectId($quiz),
-        ]);
-        $quizzes["total"]--;
-        $quizzes["updated"] = date("d-m-Y");
-        $quizzes->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
-            ['$set' => $quizzes]
-        );
-
-        $success_msg = "Question retirée avec succès.";
-    }
-
-    if (isset($_POST["retire-technician-quiz"])) {
-        $quiz = $_POST["quizID"];
-        $user = $_POST["userID"];
-
-        $allocate = $allocations->findOne([
-            '$and' => [
-                ["quiz" => new MongoDB\BSON\ObjectId($quiz)],
-                ["user" => new MongoDB\BSON\ObjectId($user)],
-            ],
-        ]);
-
-        $allocate->active = false;
-        $allocations->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($allocate->_id)],
-            ['$set' => $allocate]
-        );
-
-        $quizzes->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
-            ['$push' => ["users" => new MongoDB\BSON\ObjectId($user)]]
-        );
-
-        // Handle flash messages and success message as needed in your application.
-        $success_msg = "Personne retirée avec succes.";
-    }
 
     if (isset($_POST["active"])) {
         $id = new MongoDB\BSON\ObjectId($_POST["quizID"]);
         $quiz = $quizzes->findOne(["_id" => $id]);
         $quiz->active = true;
         $quizzes->updateOne(["_id" => $id], ['$set' => $quiz]);
-        $success_msg = "Questionnaire supprimé avec succes.";
+        $success_msg = $quiz_restore;
     }
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Questionnaires Supprimés | CFAO Mobility Academy</title>
+<title><?php echo $list_question_sup; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -131,7 +45,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des questionnaires supprimés </h1>
+                    <?php echo $list_question_sup; ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -315,27 +229,27 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Questionnaires
+                                            style="width: 125px;"><?php echo $quiz; ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Type
+                                            style="width: 134.188px;"><?php echo $type; ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Spécialité
+                                            style="width: 126.516px;"><?php echo $speciality; ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau
+                                            style="width: 152.719px;"><?php echo $level; ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Restaurer
+                                            style="width: 152.719px;"><?php echo $restaurer; ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -418,7 +332,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Restauration
+                                                            <?php echo $restauration; ?>
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -444,9 +358,7 @@ if (!isset($_SESSION["id"])) {
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
-                                                            Voulez-vous vraiment
-                                                            restaurer ce
-                                                            questionnaire?
+                                                            <?php echo $restore_text; ?>
                                                         </h4>
                                                     </div>
                                                     <!--end::Modal body-->
@@ -456,12 +368,12 @@ if (!isset($_SESSION["id"])) {
                                                         <button type="reset" class="btn btn-light me-3"
                                                             id="closeDesactivate" data-bs-dismiss="modal"
                                                             data-kt-users-modal-action="cancel">
-                                                            Non
+                                                            <?php echo $non; ?>
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="active" class=" btn btn-danger">
-                                                            Oui
+                                                            <?php echo $oui; ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>

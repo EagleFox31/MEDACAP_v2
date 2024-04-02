@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -66,7 +67,7 @@ if (!isset($_SESSION["id"])) {
         ],
     ]);
     ?>
-<title>Résultat Technicien | CFAO Mobility Academy</title>
+<title><?php echo $result_tech ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
 <link href="../public/images/logo-cfao.png" rel="icon">
@@ -105,7 +106,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    Résultats de
+                    <?php echo $result_to ?>
                     <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>
                 <!--end::Title-->
@@ -116,7 +117,7 @@ if (!isset($_SESSION["id"])) {
                 <div class="d-flex justify-content-end align-items-center">
                     <a class="btn btn-primary"
                         href="./historiqueDetail?id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
-                        Résultats Détaillés
+                        <?php echo $result_detail ?>
                     </a>
                 </div>
             </div>
@@ -143,7 +144,7 @@ if (!isset($_SESSION["id"])) {
                         <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
                             data-bs-target="#kt_customers_export_modal">
                             <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span
-                                    class="path2"></span></i> Excel
+                                    class="path2"></span></i> <?php echo $excel ?>
                         </button>
                         <!--end::Export-->
                     </div>
@@ -166,50 +167,49 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" colspan="8"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
-                                        Résultats de la mesure des connaissances théoriques
-                                        et connaissances pratiques</th>
+                                        <?php echo $result_mesure ?></th>
                                 <tr></tr>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
                                     aria-label="Email: activate to sort column ascending">
-                                    Groupe Fonctionnel</th>
+                                    <?php echo $groupe_fonctionnel ?></th>
                                 <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="2"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances théoriques</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances pratiques</th>
+                                    <?php echo $tache_pro ?></th>
                                 <th class="min-w-150px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Synthèse</th>
+                                    <?php echo $synthese ?></th>
                                 <tr></tr>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats</th>
+                                    <?php echo $result ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Décision</th>
+                                    <?php echo $decision ?></th>
                                 <th class="min-w-130px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Résultats technicien</th>
+                                    <?php echo $result_tech ?></th>
                                 <th class="min-w-120px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats manager</th>
+                                    <?php echo $result_manager ?></th>
                                 <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats</th>
+                                    <?php echo $result ?></th>
                                 <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Décision</th>
+                                    <?php echo $decision ?></th>
                                 <tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
@@ -281,7 +281,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Arbre de Transmission
+                                            <?php echo $arbre ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -297,7 +297,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facTransmission">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -306,7 +306,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facTransmission">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -335,7 +335,7 @@ if (!isset($_SESSION["id"])) {
                                         $transmissionMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -344,7 +344,7 @@ if (!isset($_SESSION["id"])) {
                                         $transmissionMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -352,7 +352,7 @@ if (!isset($_SESSION["id"])) {
                                         $transmissionMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransmission">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -436,7 +436,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Assistance à la conduite
+                                            <?php echo $assistanceConduite ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -453,7 +453,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facAssistance">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -462,7 +462,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facAssistance">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -496,7 +496,7 @@ if (!isset($_SESSION["id"])) {
                                             "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -506,7 +506,7 @@ if (!isset($_SESSION["id"])) {
                                             "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -514,7 +514,7 @@ if (!isset($_SESSION["id"])) {
                                         $assistanceConduiteMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfAssistance">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -589,7 +589,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Boite de Transfert
+                                            <?php echo $transfert ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -605,7 +605,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facTransfert">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -614,7 +614,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facTransfert">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -641,7 +641,7 @@ if (!isset($_SESSION["id"])) {
                                         $transfertMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -649,7 +649,7 @@ if (!isset($_SESSION["id"])) {
                                         $transfertMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -657,7 +657,7 @@ if (!isset($_SESSION["id"])) {
                                         $transfertMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransfert">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -731,7 +731,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Boite de Vitesse
+                                            <?php echo $boite_vitesse ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -747,7 +747,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoite">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -756,7 +756,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoite">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -783,7 +783,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -791,7 +791,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -799,7 +799,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoite">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -883,7 +883,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Boite de Vitesse Automatique
+                                            <?php echo $boite_vitesse_auto ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -899,7 +899,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoiteAuto">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -908,7 +908,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoiteAuto">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -935,7 +935,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteAutoMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -943,7 +943,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteAutoMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -951,7 +951,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteAutoMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteAuto">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -1035,7 +1035,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Boite de Vitesse Mécanique
+                                            <?php echo $boite_vitesse_meca ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -1051,7 +1051,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoiteMan">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1060,7 +1060,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoiteMan">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -1087,7 +1087,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteManMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1095,7 +1095,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteManMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1103,7 +1103,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteManMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteMan">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -1187,7 +1187,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Boite de Vitesse à Variation Continue
+                                            <?php echo $boite_vitesse_VC ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -1203,7 +1203,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoiteVaCo">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1212,7 +1212,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facBoiteVaCo">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -1239,7 +1239,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteVaCoMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1247,7 +1247,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteVaCoMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1255,7 +1255,7 @@ if (!isset($_SESSION["id"])) {
                                         $boiteVaCoMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfBoiteVaCo">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -1330,7 +1330,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Climatisation
+                                            <?php echo $clim ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -1346,7 +1346,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facClimatisation">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1355,7 +1355,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facClimatisation">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -1384,7 +1384,7 @@ if (!isset($_SESSION["id"])) {
                                         $climatisationMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1393,7 +1393,7 @@ if (!isset($_SESSION["id"])) {
                                         $climatisationMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1401,7 +1401,7 @@ if (!isset($_SESSION["id"])) {
                                         $climatisationMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfClimatisation">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -1476,7 +1476,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Demi Arbre de Roue
+                                            <?php echo $demi ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -1492,7 +1492,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facDemi">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1501,7 +1501,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facDemi">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -1528,7 +1528,7 @@ if (!isset($_SESSION["id"])) {
                                         $demiMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1536,7 +1536,7 @@ if (!isset($_SESSION["id"])) {
                                         $demiMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1544,7 +1544,7 @@ if (!isset($_SESSION["id"])) {
                                         $demiMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDemi">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -1619,7 +1619,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Direction
+                                            <?php echo $direction ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -1635,7 +1635,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facDirection">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1644,7 +1644,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facDirection">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -1671,7 +1671,7 @@ if (!isset($_SESSION["id"])) {
                                         $directionMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1679,7 +1679,7 @@ if (!isset($_SESSION["id"])) {
                                         $directionMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1687,7 +1687,7 @@ if (!isset($_SESSION["id"])) {
                                         $directionMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfDirection">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -1771,7 +1771,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Electricité & Electronique
+                                            <?php echo $elec ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -1787,7 +1787,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facElectricite">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1796,7 +1796,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facElectricite">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -1825,7 +1825,7 @@ if (!isset($_SESSION["id"])) {
                                         $electriciteMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1834,7 +1834,7 @@ if (!isset($_SESSION["id"])) {
                                         $electriciteMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1842,7 +1842,7 @@ if (!isset($_SESSION["id"])) {
                                         $electriciteMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfElectricite">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -1917,7 +1917,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Freinage
+                                            <?php echo $freinage ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -1933,7 +1933,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facFrei">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1942,7 +1942,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facFrei">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -1969,7 +1969,7 @@ if (!isset($_SESSION["id"])) {
                                         $freiMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrei">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1977,7 +1977,7 @@ if (!isset($_SESSION["id"])) {
                                         $freiMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrei">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -1985,7 +1985,7 @@ if (!isset($_SESSION["id"])) {
                                         $freiMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrei">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -2069,7 +2069,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Freinage Electromagnétique
+                                            <?php echo $freinageElec ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2085,7 +2085,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facfreinageElec">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2094,7 +2094,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facfreinageElec">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -2123,7 +2123,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinageElecMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sffreinageElec">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2132,7 +2132,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinageElecMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sffreinageElec">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2140,7 +2140,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinageElecMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sffreinageElec">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -2224,7 +2224,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Freinage Hydraulique
+                                            <?php echo $freinageHydro ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2240,7 +2240,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facFreinage">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2249,7 +2249,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facFreinage">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -2276,7 +2276,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinageMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2284,7 +2284,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinageMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2292,7 +2292,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinageMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFreinage">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -2376,7 +2376,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Freinage Pneumatique
+                                            <?php echo $freinagePneu ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2392,7 +2392,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facFrein">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2401,7 +2401,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facFrein">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -2428,7 +2428,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2436,7 +2436,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2444,7 +2444,7 @@ if (!isset($_SESSION["id"])) {
                                         $freinMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfFrein">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -2519,7 +2519,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Hydraulique
+                                            <?php echo $hydraulique ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2535,7 +2535,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facHydraulique">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2544,7 +2544,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facHydraulique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -2573,7 +2573,7 @@ if (!isset($_SESSION["id"])) {
                                         $hydrauliqueMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2582,7 +2582,7 @@ if (!isset($_SESSION["id"])) {
                                         $hydrauliqueMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2590,7 +2590,7 @@ if (!isset($_SESSION["id"])) {
                                         $hydrauliqueMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfHydraulique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -2665,7 +2665,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Moteur Diesel
+                                            <?php echo $moteurDiesel ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2681,7 +2681,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurDiesel">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2690,7 +2690,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurDiesel">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -2719,7 +2719,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurDieselMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2728,7 +2728,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurDieselMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2736,7 +2736,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurDieselMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurDiesel">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -2811,7 +2811,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Moteur Electrique
+                                            <?php echo $moteurElectrique ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2827,7 +2827,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurElec">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2836,7 +2836,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurElec">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -2864,7 +2864,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurElecMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2873,7 +2873,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurElecMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2881,7 +2881,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurElecMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurElec">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -2956,7 +2956,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Moteur Essence
+                                            <?php echo $moteurEssence ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -2972,7 +2972,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurEssence">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -2981,7 +2981,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurEssence">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -3010,7 +3010,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurEssenceMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3019,7 +3019,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurEssenceMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3027,7 +3027,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurEssenceMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurEssence">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -3102,7 +3102,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Moteur Thermique
+                                            <?php echo $moteurThermique ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -3118,7 +3118,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurThermique">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3127,7 +3127,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMoteurThermique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -3157,7 +3157,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurThermiqueMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurThermique">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3166,7 +3166,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurThermiqueMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurThermique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3174,7 +3174,7 @@ if (!isset($_SESSION["id"])) {
                                         $moteurThermiqueMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMoteurThermique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -3249,7 +3249,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Multiplexage
+                                            <?php echo $multiplexage ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -3265,7 +3265,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMultiplexage">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3274,7 +3274,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facMultiplexage">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -3303,7 +3303,7 @@ if (!isset($_SESSION["id"])) {
                                         $multiplexageMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3312,7 +3312,7 @@ if (!isset($_SESSION["id"])) {
                                         $multiplexageMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3320,7 +3320,7 @@ if (!isset($_SESSION["id"])) {
                                         $multiplexageMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfMultiplexage">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -3395,7 +3395,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Pneumatique
+                                            <?php echo $pneu ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -3411,7 +3411,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facPneu">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3420,7 +3420,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facPneu">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -3447,7 +3447,7 @@ if (!isset($_SESSION["id"])) {
                                         $pneuMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3455,7 +3455,7 @@ if (!isset($_SESSION["id"])) {
                                         $pneuMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3463,7 +3463,7 @@ if (!isset($_SESSION["id"])) {
                                         $pneuMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPneu">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -3538,7 +3538,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Pont
+                                            <?php echo $pont ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -3554,7 +3554,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facPont">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3563,7 +3563,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facPont">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -3590,7 +3590,7 @@ if (!isset($_SESSION["id"])) {
                                         $pontMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPont">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3598,7 +3598,7 @@ if (!isset($_SESSION["id"])) {
                                         $pontMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPont">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3606,7 +3606,7 @@ if (!isset($_SESSION["id"])) {
                                         $pontMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfPont">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -3681,7 +3681,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Réducteur
+                                            <?php echo $reducteur ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -3697,7 +3697,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facReducteur">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3706,7 +3706,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facReducteur">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -3733,7 +3733,7 @@ if (!isset($_SESSION["id"])) {
                                         $reducteurMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3741,7 +3741,7 @@ if (!isset($_SESSION["id"])) {
                                         $reducteurMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3749,7 +3749,7 @@ if (!isset($_SESSION["id"])) {
                                         $reducteurMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfReducteur">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -3824,7 +3824,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Suspension
+                                            <?php echo $suspension ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -3840,7 +3840,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspension">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3849,7 +3849,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspension">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -3877,7 +3877,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3886,7 +3886,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3894,7 +3894,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspension">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -3969,7 +3969,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Suspension à Lame
+                                            <?php echo $suspensionLame ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -3985,7 +3985,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -3994,7 +3994,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionLame">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -4024,7 +4024,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionLameMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4033,7 +4033,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionLameMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4041,7 +4041,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionLameMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionLame">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -4116,7 +4116,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Suspension Ressort
+                                            <?php echo $suspensionRessort ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -4133,7 +4133,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionRessort">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4142,7 +4142,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionRessort">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -4176,7 +4176,7 @@ if (!isset($_SESSION["id"])) {
                                             "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4186,7 +4186,7 @@ if (!isset($_SESSION["id"])) {
                                             "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4194,7 +4194,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionRessortMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionRessort">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -4280,7 +4280,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Suspension Pneumatique
+                                            <?php echo $suspensionPneu ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -4298,7 +4298,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionPneumatique">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4308,7 +4308,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facSuspensionPneumatique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -4343,7 +4343,7 @@ if (!isset($_SESSION["id"])) {
                                             "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4354,7 +4354,7 @@ if (!isset($_SESSION["id"])) {
                                             "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4364,7 +4364,7 @@ if (!isset($_SESSION["id"])) {
                                         $suspensionPneumatiqueMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfSuspensionPneumatique">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>
@@ -4439,7 +4439,7 @@ if (!isset($_SESSION["id"])) {
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Transversale
+                                            <?php echo $transversale ?>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -4455,7 +4455,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facTransversale">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4464,7 +4464,7 @@ if (!isset($_SESSION["id"])) {
                                         80
                                     ) { ?>
                                     <td class="text-center" id="facTransversale">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
@@ -4493,7 +4493,7 @@ if (!isset($_SESSION["id"])) {
                                         $transversaleMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4502,7 +4502,7 @@ if (!isset($_SESSION["id"])) {
                                         $transversaleMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -4510,7 +4510,7 @@ if (!isset($_SESSION["id"])) {
                                         $transversaleMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center hidden" name="savoirs-faire" id="sfTransversale">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } ?>

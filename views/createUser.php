@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -70,13 +71,12 @@ if (!isset($_SESSION["id"])) {
                 $password
             )
         ) {
-            $error = "Champ obligatoire";
-            $email_error = "L'adresse email est invalide";
-            $phone_error = "Le numéro de téléphone est invalide";
-            $password_error =
-                "Le mot de passe doit être au moins six caractères, un chiffre, une lettre majiscule";
+            $error = $champ_obligatoire;
+            $email_error = $email_invalid;
+            $phone_error = $phone_invalid;
+            $password_error = $password_invalid;
         } elseif ($member) {
-            $error_msg = "Cet utilisateur existe déjà";
+            $error_msg = $exist_user;
         } else {
             if ($profile == "Technicien") {
                 if ($manager) {
@@ -296,7 +296,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateDecla);
 
-                    $success_msg = "Technicien ajouté avec succès";
+                    $success_msg = $success_tech;
                 } elseif ($level == "Senior") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -600,7 +600,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
-                    $success_msg = "Technicien ajouté avec succès";
+                    $success_msg = $success_tech;
                 } elseif ($level == "Expert") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -1055,7 +1055,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = "Technicien ajouté avec succès";
+                    $success_msg = $success_tech;
                 }
             } elseif ($profile == "Manager (à évaluer)") {
                 if ($manager) {
@@ -1276,7 +1276,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateDecla);
 
-                    $success_msg = "Manager ajouté avec succès";
+                    $success_msg = $success_manager;
                 } elseif ($level == "Senior") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -1580,7 +1580,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
-                    $success_msg = "Manager ajouté avec succès";
+                    $success_msg = $success_manager;
                 } elseif ($level == "Expert") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -2035,7 +2035,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = "Manager ajouté avec succès";
+                    $success_msg = $success_manager;
                 }
             } elseif ($profile == "Manager (non évalué)") {
                 $personM = [
@@ -2090,7 +2090,7 @@ if (!isset($_SESSION["id"])) {
                     "created" => date("d-m-Y"),
                 ];
                 $users->insertOne($personA);
-                $success_msg = "Administrateur ajouté avec succès";
+                $success_msg = $success_admin;
             }
         }
     }
@@ -2099,7 +2099,7 @@ if (!isset($_SESSION["id"])) {
 <?php include_once "partials/header.php"; ?>
 
 <!--begin::Title-->
-<title>Ajouter Utilisateur | CFAO Mobility Academy</title>
+<title><?php echo $title_addUser ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -2112,7 +2112,7 @@ if (!isset($_SESSION["id"])) {
       <!--begin::Modal body-->
       <div class='container mt-5 w-50'>
         <img src='../public/images/logo.png' alt='10' height='170' style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
-        <h1 class='my-3 text-center'>Ajouter un utilisateur</h1>
+        <h1 class='my-3 text-center'><?php echo $title_addUser ?></h1>
 
         <?php if (isset($success_msg)) { ?>
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
@@ -2141,7 +2141,7 @@ if (!isset($_SESSION["id"])) {
               <!--begin::Col-->
               <div class='col-md-6 fv-row'>
                 <!--begin::Label-->
-                <label class='required form-label fw-bolder text-dark fs-6'>Prénoms</label>
+                <label class='required form-label fw-bolder text-dark fs-6'><?php echo $prenoms ?></label>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input class='form-control form-control-solid' placeholder='' name='firstName' />
@@ -2155,7 +2155,7 @@ if (!isset($_SESSION["id"])) {
               <!--begin::Col-->
               <div class='col-md-6 fv-row'>
                 <!--begin::Label-->
-                <label class='required form-label fw-bolder text-dark fs-6'>Noms</label>
+                <label class='required form-label fw-bolder text-dark fs-6'><?php echo $noms ?></label>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input class='form-control form-control-solid' placeholder='' name='lastName' />
@@ -2172,7 +2172,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class='fv-row mb-7'>
               <!--begin::Label-->
-              <label class='required form-label fw-bolder text-dark fs-6'>Nom d'utilisateur</label>
+              <label class='required form-label fw-bolder text-dark fs-6'><?php echo $username ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type='text' class='form-control form-control-solid' placeholder='' name='username' />
@@ -2187,7 +2187,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class='fv-row mb-7'>
               <!--begin::Label-->
-              <label class='required form-label fw-bolder text-dark fs-6'>Matricule</label>
+              <label class='required form-label fw-bolder text-dark fs-6'><?php echo $matricule ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type='text' class='form-control form-control-solid' placeholder='' name='matricule' />
@@ -2203,19 +2203,18 @@ if (!isset($_SESSION["id"])) {
             <div class='d-flex flex-column mb-7 fv-row'>
               <!--begin::Label-->
               <label class='form-label fw-bolder text-dark fs-6'>
-                <span class='required'>Sexe</span>
+                <span class='required'><?php echo $gender ?></span>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
               <select name='gender' aria-label='Select a Country' data-control='select2' data-placeholder='Sélectionnez votre sexe...' class='form-select form-select-solid fw-bold'>
-                <option>Sélectionnez votre
-                  sexe...</option>
+                <option><?php echo $select_gender ?></option>
                 <option value='Feminin'>
-                  Feminin
+                  <?php echo $female ?>
                 </option>
                 <option value='Masculin'>
-                  Masculin
+                  <?php echo $male ?>
                 </option>
               </select>
               <!--end::Input-->
@@ -2230,18 +2229,14 @@ if (!isset($_SESSION["id"])) {
             <div class='fv-row mb-7'>
               <!--begin::Label-->
               <label class='form-label fw-bolder text-dark fs-6'>
-                <span>Email</span>
+                <span><?php echo $email ?></span>
                 <span class='ms-1' data-bs-toggle='tooltip' title='Votre adresse email doit être active'>
                   <i class='ki-duotone ki-information fs-7'><span class='path1'></span><span class='path2'></span><span class='path3'></span></i>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type='email' class='form-control form-control-solid' placeholder='' name='email' <?php if (
-                  isset($_POST["submit"])
-              ) {
-                  echo 'value="' . $email . '"';
-              } ?> />
+              <input type='email' class='form-control form-control-solid' placeholder='' name='email' />
               <!--end::Input-->
               <?php if (isset($email_error)) { ?>
               <span class='text-danger'>
@@ -2253,8 +2248,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class='fv-row mb-7'>
               <!--begin::Label-->
-              <label class='required form-label fw-bolder text-dark fs-6'>Numéro
-                de téléphone</label>
+              <label class='required form-label fw-bolder text-dark fs-6'><?php echo $phoneNumber ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type='text' class='form-control form-control-solid' placeholder='' name='phone' />
@@ -2269,8 +2263,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class='fv-row mb-15'>
               <!--begin::Label-->
-              <label class='required form-label fw-bolder text-dark fs-6'>Date
-                de naissance</label>
+              <label class='required form-label fw-bolder text-dark fs-6'><?php echo $birthdate ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type='date' class='form-control form-control-solid' placeholder='' name='birthdate' />
@@ -2286,14 +2279,14 @@ if (!isset($_SESSION["id"])) {
             <div class='d-flex flex-column mb-7 fv-row'>
               <!--begin::Label-->
               <label class='form-label fw-bolder text-dark fs-6'>
-                <span class='required'>Pays</span> <span class='ms-1' data-bs-toggle='tooltip' title="Votre pays d'origine">
+                <span class='required'><?php echo $country ?></span> <span class='ms-1' data-bs-toggle='tooltip' title="Votre pays d'origine">
                   <i class='ki-duotone ki-information fs-7'><span class='path1'></span><span class='path2'></span><span class='path3'></span></i>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name='country' aria-label='Select a Country' data-control='select2' data-placeholder='Sélectionnez votre pays...' class='form-select form-select-solid fw-bold'>
-                <option>Sélectionnez votre pays...</option>
+              <select name='country' aria-label='Select a Country' data-control='select2' data-placeholder='<?php echo $select_country ?>' class='form-select form-select-solid fw-bold'>
+                <option><?php echo $select_country ?></option>
                 <option value='Afghanistan'>Afghanistan</option>
                 <option value='Albania'>Albania</option>
                 <option value='Algeria'>Algeria</option>
@@ -2549,26 +2542,25 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Profil</span> <span class='ms-1' data-bs-toggle='tooltip' title="Choississez le profile de l' utilisateur">
+                <span class="required"><?php echo $profil ?></span> <span class='ms-1' data-bs-toggle='tooltip' title="Choississez le profile de l' utilisateur">
                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="profile" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez le profile..." class="form-select form-select-solid fw-bold">
-                <option>Sélectionnez le
-                  profil...</option>
+              <select name="profile" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_profil ?>" class="form-select form-select-solid fw-bold">
+                <option><?php echo $select_profil ?></option>
                 <option value="Admin">
-                  Administrateur
+                  <?php echo $admin ?>
                 </option>
-                <option value="Manager (à évaluer)">
+                <!-- <option value="Manager (à évaluer)">
                   Manager (à évaluer)
-                </option>
+                </option> -->
                 <option value="Manager (non évalué)">
-                  Manager (non évalué)
+                  <?php echo $manager ?>
                 </option>
                 <option value="Technicien">
-                  Technicien
+                  <?php echo $technicien ?>
                 </option>
               </select>
               <!--end::Input-->
@@ -2583,13 +2575,13 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Département</span>
+                <span class="required"><?php echo $department ?></span>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select onchange="enableBrand(this)" name="department" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez votre département..." class="form-select form-select-solid fw-bold">
-                <option>Sélectionnez votre département...</option>
+              <select onchange="enableBrand(this)" name="department" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_department ?>" class="form-select form-select-solid fw-bold">
+                <option><?php echo $select_department ?></option>
                 <option value="Equipment">
                   Equipment
                 </option>
@@ -2609,23 +2601,22 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Niveau</span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le niveau du technicien ou du manager">
+                <span class="required"><?php echo $level ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le niveau du technicien ou du manager">
                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="level" onchange="enableSpeciality(this)" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez le niveau..." class="form-select form-select-solid fw-bold">
-                <option>Sélectionnez le
-                  niveau...</option>
+              <select name="level" onchange="enableSpeciality(this)" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_level ?>" class="form-select form-select-solid fw-bold">
+                <option><?php echo $select_level ?></option>
                 <option value="Junior">
-                  Junior
+                  <?php echo $junior ?>
                 </option>
                 <option value="Senior">
-                  Senior
+                  <?php echo $senior ?>
                 </option>
                 <option value="Expert">
-                  Expert
+                  <?php echo $expert ?>
                 </option>
               </select>
               <!--end::Input-->
@@ -2640,42 +2631,42 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row d-none"  id="brandEquipment">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Marque de véhicule</span>
+                <span class="required"><?php echo $brand ?></span>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez la/les marque(s) de véhicule..." class="form-select form-select-solid fw-bold">
-                <option value="">Sélectionnez la/les marque(s) de véhicule...</option>
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
                 <option value="FUSO">
-                  FUSO
+                  <?php echo $fuso ?>
                 </option>
                 <option value="HINO">
-                  HINO
+                  <?php echo $hino ?>
                 </option>
                 <option value="JCB">
-                  JCB
+                  <?php echo $jcb ?>
                 </option>
                 <option value="KING LONG">
-                  KING LONG
+                  <?php echo $kingLong ?>
                 </option>
                 <option value="LOVOL">
-                  LOVOL
+                  <?php echo $lovol ?>
                 </option>
                 <option value="MERCEDES TRUCK">
-                  MERCEDES TRUCK
+                  <?php echo $mercedesTruck ?>
                 </option>
                 <option value="RENAULT TRUCK">
-                  RENAULT TRUCK
+                  <?php echo $renaultTruck ?>
                 </option>
                 <option value="SINOTRUCK">
-                  SINOTRUCK
+                  <?php echo $sinotruk ?>
                 </option>
                 <option value="TOYOTA BT">
-                  TOYOTA BT
+                  <?php echo $toyotaBt ?>
                 </option>
                 <option value="TOYOTA FORKLIFT">
-                  TOYOTA FORKLIFT
+                  <?php echo $toyotaForklift ?>
                 </option>
               </select>
               <!--end::Input-->
@@ -2695,34 +2686,34 @@ if (!isset($_SESSION["id"])) {
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez la/les marque(s) de véhicule..." class="form-select form-select-solid fw-bold">
-                <option value="">Sélectionnez la/les marque(s) de véhicule...</option>
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
                 <option value="BYD">
-                  BYD
+                  <?php echo $byd ?>
                 </option>
                 <option value="CITROEN">
-                  CITROEN VL
+                  <?php echo $citroen ?>
                 </option>
                 <option value="MERCEDES">
-                  MERCEDES
+                  <?php echo $mercedes ?>
                 </option>
                 <option value="MUTSUBISHI">
-                  MUTSUBISHI
+                  <?php echo $mutsubishi ?>
                 </option>
                 <option value="PEUGEOT">
-                  PEUGEOT VL
+                  <?php echo $peugeot ?>
                 </option>
                 <option value="SUZUKI">
-                  SUZUKI VL
+                  <?php echo $suzuki ?>
                 </option>
                 <option value="TOYOTA">
-                  TOYOTA VL
+                  <?php echo $toyota ?>
                 </option>
                 <option value="YAMAHA BATEAU">
-                  YAMAHA BATEAU
+                  <?php echo $yamahaBateau ?>
                 </option>
                 <option value="YAMAHA MOTO">
-                  YAMAHA MOTO
+                  <?php echo $yamahaMoto ?>
                 </option>
               </select>
               <!--end::Input-->
@@ -2737,25 +2728,25 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row d-none" id="metier">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Spécialité</span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez la spécialité du collaborateur">
+                <span class="required"><?php echo $speciality ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez la spécialité du collaborateur">
                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="speciality" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez la spécialité du collaborateur..." class="form-select form-select-solid fw-bold">
-                <option>Sélectionnez la spécialité du collaborateur...</option>
-                <option value="Electricté">
-                  Electricté
+              <select name="speciality" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_speciality ?></option>
+                <option value="Electricté et Electronique">
+                  <?php echo $elec ?>
                 </option>
                 <option value="Hydraulique">
-                  Hydraulique
+                  <?php echo $hydraulique ?>
                 </option>
                 <option value="Moteur">
-                  Moteur
+                  <?php echo $moteur ?>
                 </option>
                 <option value="Transmission">
-                  Transmission
+                  <?php echo $transmission ?>
                 </option>
               </select>
               <!--end::Input-->
@@ -2769,7 +2760,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class="fv-row mb-7">
               <!--begin::Label-->
-              <label class="required form-label fw-bolder text-dark fs-6">Certificat plus élévé</label>
+              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $certificat ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid" placeholder="" name="certificate" />
@@ -2784,7 +2775,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class="fv-row mb-7">
               <!--begin::Label-->
-              <label class="required form-label fw-bolder text-dark fs-6">Filiale</label>
+              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $filiale ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid" placeholder="" name="subsidiary" />
@@ -2799,7 +2790,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class="fv-row mb-7">
               <!--begin::Label-->
-              <label class="required form-label fw-bolder text-dark fs-6">Fonction</label>
+              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $role ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid fw-bold" placeholder="" name="role" />
@@ -2814,8 +2805,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class="fv-row mb-7">
               <!--begin::Label-->
-              <label class="required form-label fw-bolder text-dark fs-6">Date
-                de recrutement</label>
+              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $recrutmentDate ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type="date" class="form-control form-control-solid" placeholder="" name="recrutmentDate" />
@@ -2832,9 +2822,7 @@ if (!isset($_SESSION["id"])) {
               <!--begin::Wrapper-->
               <div class="mb-1">
                 <!--begin::Label-->
-                <label class="required form-label fw-bolder text-dark fs-6">Mot
-                  de
-                  passe</label>
+                <label class="required form-label fw-bolder text-dark fs-6"><?php echo $password ?></label>
                 <!--end::Label-->
                 <!--begin::Input wrapper-->
                 <div class="position-relative mb-3">
@@ -2866,10 +2854,7 @@ if (!isset($_SESSION["id"])) {
               </div>
               <!--end::Wrapper-->
               <!--begin::Hint-->
-              <div class="text-muted">Utilisez 6
-                caractères ou plus avec un mélange de
-                lettres en majuscule et minuscule
-                &amp; de chiffres.</div>
+              <div class="text-muted"><?php echo $password_text ?></div>
               <!--end::Input group-->
             </div>
             <!--end::Input group-->
@@ -2877,14 +2862,13 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Manager</span>
+                <span class="required"><?php echo $manager ?></span>
                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le manager de cet technicien et uniquement quand le profil est technicien">
                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
               </label>
-              <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez votre manager..." class="form-select form-select-solid fw-bold">
-                <option value="">Sélectionnez votre
-                  manager...</option>
+              <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_manager ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_manager ?></option>
                   <?php
                   $manager = $users->find([
                       '$and' => [["profile" => "Manager"], ["active" => true]],
@@ -2910,7 +2894,7 @@ if (!isset($_SESSION["id"])) {
               <!--begin::Button-->
               <button type="submit" name="submit" class="btn btn-primary">
                 <span class="indicator-label">
-                  Valider
+                  <?php echo $valider ?>
                 </span>
                 <span class="indicator-progress">
                   Patientez... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>

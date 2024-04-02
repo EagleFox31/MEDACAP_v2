@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -1729,7 +1730,7 @@ if (!isset($_SESSION["id"])) {
     $percentageFac = ($resultFac['score'] * 100) / $resultFac['total'];
     $percentageTechMa = ($resultTechMa['score'] * 100) / $resultTechMa['total'];
     ?>
-<title>Résultat Technicien | CFAO Mobility Academy</title>
+<title><?php echo $result_tech; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
 <link href="../public/images/logo-cfao.png" rel="icon">
@@ -1768,7 +1769,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    Résultats par marques de véhicule de
+                    <?php echo $result_by_brand ?>
                     <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>
                 <!--end::Title-->
@@ -1796,7 +1797,7 @@ if (!isset($_SESSION["id"])) {
                         <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
                             data-bs-target="#kt_customers_export_modal">
                             <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span
-                                    class="path2"></span></i> Excel
+                                    class="path2"></span></i> <?php echo $excel ?>
                         </button>
                         <!--end::Export-->
                     </div>
@@ -1819,13 +1820,12 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" colspan="49"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
-                                        Résultats de la mesure des connaissances
-                                        et Tâches Professionnelles</th>
+                                        <?php echo $result_mesure ?></th>
                                 <tr></tr>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="5"
                                     aria-label="Email: activate to sort column ascending">
-                                    Groupe Fonctionnel</th>
+                                    <?php echo $groupe_fonctionnel ?></th>
                                 <!-- <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending">
@@ -1833,19 +1833,19 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending">
-                                    Bus</th>
+                                    <?php echo $bus ?></th>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="15"
                                     aria-label="Email: activate to sort column ascending">
-                                    Camions</th>
+                                    <?php echo $camions ?></th>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="6"
                                     aria-label="Email: activate to sort column ascending">
-                                    Chariots</th>
+                                    <?php echo $chariots ?></th>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="6"
                                     aria-label="Email: activate to sort column ascending">
-                                    Engins</th>
+                                    <?php echo $engins ?></th>
                                 <!-- <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending">
@@ -1853,7 +1853,7 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="15"
                                     aria-label="Email: activate to sort column ascending">
-                                    Véhicules Légers</th>
+                                    <?php echo $vl ?></th>
                                     <tr></tr>
                                 <!-- <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
@@ -1862,43 +1862,43 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    King Long</th>
+                                    <?php echo $kingLong ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Fuso</th>
+                                    <?php echo $fuso ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Hino</th>
+                                    <?php echo $hino ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.366px;">
-                                    Mercedes Truck</th>
+                                    <?php echo $mercedesTruck ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Renault Truck</th>
+                                    <?php echo $renaultTruck ?></th>
                                 <th class="min-w-135px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Sinotruk</th>
+                                    <?php echo $sinotruk ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Toyota BT</th>
+                                    <?php echo $toyotaBt ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Toyota Forklift</th>
+                                    <?php echo $toyotaForklift ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    JCB</th>
+                                    <?php echo $jcb ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Lovol</th>
+                                    <?php echo $lovol ?></th>
                                 <!-- <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
@@ -1910,11 +1910,11 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.366px;">
-                                    Citroen</th>
+                                    <?php echo $citroen ?></th>
                                 <th class="min-w-135px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Mercedes</th>
+                                    <?php echo $mercedes ?></th>
                                 <!-- <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
@@ -1922,15 +1922,15 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Peugeot</th>
+                                    <?php echo $peugeot ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.366px;">
-                                    Suzuki</th>
+                                    <?php echo $suzuki ?></th>
                                 <th class="min-w-135px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
-                                    Toyota</th>
+                                    <?php echo $toyota ?></th>
                                     <tr></tr>
                                 <!-- <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
@@ -1983,183 +1983,183 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Technicien</th>
+                                    <?php echo $tache_pro_tech ?></th>
                                 <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Tâches Professionnelles du Manager</th>
+                                    <?php echo $tache_pro_manager ?></th>
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
                                 <?php if (
@@ -2172,7 +2172,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Arbre de Transmission
+                                        <?php echo $arbre ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $transmissionFac
@@ -2712,7 +2712,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Assistance à la Conduite
+                                        <?php echo $assistanceConduite ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $assistanceConduiteFac
@@ -3312,7 +3312,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Boite de Transfert
+                                        <?php echo $transfert ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -3761,7 +3761,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Boite de Vitesse
+                                        <?php echo $boite_vitesse ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $boiteFac
@@ -4361,7 +4361,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Boite de Vitesse Automatique
+                                        <?php echo $boite_vitesse_auto ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -4691,7 +4691,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Boite de Vitesse Mécanique
+                                        <?php echo $boite_vitesse_meca ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $boiteManFac
@@ -5231,7 +5231,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Boite de Vitesse à Variation Continue
+                                        <?php echo $boite_vitesse_VC ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -5531,7 +5531,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Climatisation
+                                        <?php echo $clim ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $climatisationFac
@@ -6071,7 +6071,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Demi Arbre de Roue
+                                        <?php echo $demi ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $demiFac
@@ -6641,7 +6641,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Direction
+                                        <?php echo $direction ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $directionFac
@@ -7241,7 +7241,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        électricité & électronique
+                                        <?php echo $electricite ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $electriciteFac
@@ -7841,7 +7841,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Freinage
+                                        <?php echo $freinage ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $freiFac
@@ -8411,7 +8411,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Freinage électromagnétique
+                                        <?php echo $freinageElec ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -8621,7 +8621,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Freinage Hydraulique
+                                        <?php echo $freinageHydro ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -9041,7 +9041,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Freinage Pneumatique
+                                        <?php echo $freinagePneu ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $freinFac
@@ -9371,7 +9371,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Hydraulique
+                                        <?php echo $hydraulique ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -9722,6 +9722,756 @@ if (!isset($_SESSION["id"])) {
                                 <?php } ?>
                                 <!--end::Menu-->
                                 <?php if (
+                                    $moteurDieselFac &&
+                                    $moteurDieselDecla &&
+                                    $moteurDieselMa
+                                ) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <?php echo $moteurDiesel ?>
+                                    </td>
+                                    <?php if (
+                                        isset($kingLongFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $kingLongFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $kingLongDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $kingLongDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $fusoFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $fusoDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $fusoDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $hinoFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $hinoDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $hinoDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $mercedesTruckFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $mercedesTruckDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $mercedesTruckDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $renaultTruckFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $renaultTruckDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $renaultTruckDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $sinotrukFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $sinotrukDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $sinotrukDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $toyotaForfliftFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $toyotaForfliftDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $toyotaForfliftDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $jcbFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $jcbDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $jcbDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $lovolFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $lovolDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $lovolDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $citroenFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $citroenDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $citroenDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $mercedesFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $mercedesDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $mercedesDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $peugeotFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $peugeotDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $peugeotDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php if (
+                                        isset($toyotaFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $toyotaFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaDecla) && $moteurDieselDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $toyotaDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaDecla) && $moteurDieselMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $toyotaDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>  
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php if (
+                                    $moteurElecFac &&
+                                    $moteurElecDecla &&
+                                    $moteurElecMa
+                                ) { ?>
+                                <tr class="odd" style="background-color: #a3f1ff;">
+                                    <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
+                                        tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
+                                        aria-label="Email: activate to sort column ascending"
+                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        <?php echo $moteurElectrique ?>
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $moteurElecFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecFac->score * 100) / $toyotaBtFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtDecla) && $moteurElecDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecDecla->score * 100) / $toyotaBtDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtDecla) && $moteurElecMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecMa->score * 100) / $toyotaBtDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $moteurElecFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecFac->score * 100) / $toyotaForfliftFac)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftDecla) && $moteurElecDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecDecla->score * 100) / $toyotaForfliftDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftDecla) && $moteurElecMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecMa->score * 100) / $toyotaForfliftDecla)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                                <!--end::Menu-->
+                                <?php if (
                                     $moteurEssenceFac &&
                                     $moteurEssenceDecla &&
                                     $moteurEssenceMa
@@ -9731,7 +10481,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Moteur Essence
+                                        <?php echo $moteurEssence ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -10121,7 +10871,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Moteur Thermique
+                                        <?php echo $moteurThermique ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $moteurThermiqueFac
@@ -10691,7 +11441,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Multiplexage
+                                        <?php echo $multiplexage ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $multiplexageFac
@@ -11291,7 +12041,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Pneumatique
+                                        <?php echo $pneu ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $pneuFac
@@ -11891,7 +12641,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Pont/Differentiel
+                                        <?php echo $pont ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $pontFac
@@ -12461,7 +13211,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Reducteur
+                                        <?php echo $reducteur ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $reducteurFac
@@ -12911,7 +13661,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Suspension
+                                        <?php echo $suspension ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $suspensionFac
@@ -13391,7 +14141,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Suspension à Lame
+                                        <?php echo $suspensionLame ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $suspensionLameFac
@@ -13871,7 +14621,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Suspension Ressort
+                                        <?php echo $suspensionRessort ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -14171,7 +14921,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Suspension Pneumatique
+                                        <?php echo $suspensionPneu ?>
                                     </td>
                                     <td class="text-center">
                                         -
@@ -14501,7 +15251,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        Transversale
+                                        <?php echo $transversale ?>
                                     </td>
                                     <?php if (
                                         isset($kingLongFac) && $transversaleFac
@@ -15095,7 +15845,7 @@ if (!isset($_SESSION["id"])) {
                                     <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        Résultats</th>
+                                        <?php echo $result ?></th>
                                     <?php if (
                                         isset($kingLongFac)
                                     ) { ?>

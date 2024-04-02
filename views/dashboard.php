@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["profile"])) {
     header("Location: ./index.php");
@@ -116,7 +117,7 @@ if (!isset($_SESSION["profile"])) {
     ?>
 <?php include "./partials/header.php"; ?>
 <!--begin::Title-->
-<title>Tableau de Bord | CFAO Mobility Academy</title>
+<title><?php echo $tableau ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!--begin::Content-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
@@ -128,7 +129,7 @@ if (!isset($_SESSION["profile"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Introduction
+                    <?php echo $intro ?>
                 </h1>
                 <!--end::Title-->
             </div>
@@ -158,22 +159,7 @@ if (!isset($_SESSION["profile"])) {
                     <!--begin::Description-->
                     <div class="ms-6">
                         <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-                            Bienvenue sur votre espace de developpement des
-                            compétences de CFAO Mobility Academy Panafrican. <br><br>
-                            CFAO souhaite créer et adapter un parcours de
-                            développement individuel des compétences pour chacun des techniciens,
-                            afin de leurs proposer des formations correspondant à vos besoins
-                            et ceux de l'entreprise.<br><br>
-                            Pour élaborer ce parcours, nous avons besoin d'identifier les
-                            compétences actuelles des techniciens sur les trois niveaux (Junior, Senior et Expert) et
-                            nous leurs
-                            proposons de repondre
-                            aux questionnaires suivants: <br>
-                            - Questionnaires sur vos connaissances techniques, <br>
-                            - Questionnaires sur la maîtrise de vos tâches professionnelles. <br> <br>
-                            Pour s'assurer de la certitude des reponses des techniciens concernant
-                            la maitrise des tâches professionnelles, nous vous demandons d'évaluer vos techniciens
-                            sur la maitrises des tâches professionnelles.
+                            <?php echo $intro_manager ?>
                         </p>
                     </div>
                     <!--end::Description-->
@@ -209,7 +195,7 @@ if (!isset($_SESSION["profile"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Introduction
+                    <?php echo $intro ?>
                 </h1>
                 <!--end::Title-->
             </div>
@@ -239,19 +225,7 @@ if (!isset($_SESSION["profile"])) {
                     <!--begin::Description-->
                     <div class="ms-6">
                         <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-                            Bienvenue sur votre espace de developpement des
-                            compétences de CFAO Mobility Academy Panafrican. <br><br>
-                            CFAO souhaite créer et adapter un parcours de
-                            développement individuel des compétences pour chacun des techniciens,
-                            afin de vous proposer des formations correspondant à vos besoins
-                            et ceux de l'entreprise.<br><br>
-                            Pour élaborer ce parcours, nous avons besoin d'identifier vos
-                            compétences actuelles sur les trois niveaux (Junior, Senior et Expert) et nous vous
-                            proposons de repondre
-                            aux questionnaires suivants: <br>
-                            - Questionnaires sur vos connaissances théoriques, <br>
-                            - Questionnaires sur la maîtrise de vos tâches professionnelles. <br> <br>
-                            Merci de repondre intégralement à tous les questionnaires ci-dessous.
+                            <?php echo $intro_tech ?>
                         </p>
                     </div>
                     <!--end::Description-->
@@ -290,7 +264,7 @@ if (!isset($_SESSION["profile"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Tableau de bord
+                    <?php echo $tableau ?>
                 </h1>
                 <!--end::Title-->
             </div>
@@ -323,7 +297,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    Techniciens </div>
+                                    <?php echo $technicien ?>s </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>
@@ -349,7 +323,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    Managers </div>
+                                    <?php echo $manager ?>s </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>
@@ -376,7 +350,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    Administrateurs
+                                    <?php echo $admin ?>s
                                 </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
@@ -404,7 +378,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    Véhicules </div>
+                                    <?php echo $vehicle ?> </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>
@@ -428,7 +402,7 @@ if (!isset($_SESSION["profile"])) {
                                     <div class="card-header border-0 pt-5 pb-3">
                                         <!--begin::Heading-->
                                         <h3 class="card-title align-items-start flex-column">
-                                            <span class="card-label fw-bolder text-gray-800 fs-2">Taux de réalisation des différents questionnaires</span>
+                                            <span class="card-label fw-bolder text-gray-800 fs-2"><?php echo $taux_realisation ?></span>
                                         </h3>
                                         <!--end::Heading-->
                                     </div>

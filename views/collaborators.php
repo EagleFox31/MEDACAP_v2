@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once "language.php";
+
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -83,7 +85,7 @@ if (isset($_POST["excel"])) {
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Collaborateurs | CFAO Mobility Academy</title>
+<title><?php echo $title_collaborators ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -96,7 +98,7 @@ if (isset($_POST["excel"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des collaborateurs </h1>
+                    <?php echo $title_collaborators ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -271,33 +273,32 @@ if (isset($_POST["excel"])) {
                                         <th class="min-w-225px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Prénoms et
-                                            noms
+                                            style="width: 125px;"><?php echo $prenomsNoms ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Email</th>
+                                            style="width: 155.266px;"><?php echo $email ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Numéro de Téléphone</th>
+                                            <?php echo $phoneNumber ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau Technique
+                                            style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Diplôme
+                                            style="width: 152.719px;"><?php echo $certificat ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Departement</th>
+                                            <?php echo $department ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -388,7 +389,7 @@ if (isset($_POST["excel"])) {
                 <form method="post">
                     <button type="submit" name="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
                         <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
-                        Excel
+                        <?php echo $excel ?>
                     </button>
                 </form>
             </div>

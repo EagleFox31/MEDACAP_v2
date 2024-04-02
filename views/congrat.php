@@ -1,11 +1,16 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
     exit();
 } else {
     include_once "partials/header.php"; ?>
+<!--begin::Title-->
+<title><?php echo $title_congrat ?> | CFAO Mobility Academy</title>
+<!--end::Title-->
+
 <!--begin::Body-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" data-select2-id="select2-data-kt_content">
   <!--begin::Post-->
@@ -24,19 +29,18 @@ if (!isset($_SESSION["id"])) {
           <!--end::Illustration-->
 
             <!--begin::Logo-->
-            <h1 class="fw-bold fs-2qx text-gray-800 mb-7" style="margin-top:30px">Félicitations</h1>
+            <h1 class="fw-bold fs-2qx text-gray-800 mb-7" style="margin-top:30px"><?php echo $title_congrat ?></h1>
             <!--end::Logo-->
 
             <!--begin::Message-->
             <div class="fw-semibold fs-3 text-muted mb-15">
-              Vous avez terminé le questionnaire <br />
-              Merci d'avoir répondu à toutes les questions, veuillez cliquer sur <strong>Suivant</strong>.
+             <?php echo $congrat_text ?>.
             </div>
             <!--end::Message-->
 
             <!--begin::Action-->
             <div class="text-center">
-              <a href="./dashboard.php" class="btn btn-primary btn-lg fw-bold">Suivant</a>
+              <a href="./dashboard.php" class="btn btn-primary btn-lg fw-bold"><?php echo $suivant ?></a>
             </div>
             <!--end::Action-->
 

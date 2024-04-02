@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -14,18 +15,19 @@ $users = $academy->users;
 $quizzes = $academy->quizzes;
 $questions = $academy->questions;
 $allocations = $academy->allocations;
+
 if (isset($_POST["active"])) {
     $id = new MongoDB\BSON\ObjectId($_POST["questionID"]);
     $question = $questions->findOne(["_id" => $id]);
     $question->active = true;
     $question->updated = date("d-m-Y");
     $questions->updateOne(["_id" => $id], ['$set' => $question]);
-    $success_msg = "Question restorée avec succes.";
+    $success_msg = $question_restore;
 }
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Questions Supprimées | CFAO Mobility Academy</title>
+<title><?php echo $list_question_sup; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -38,7 +40,7 @@ if (isset($_POST["active"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des questions supprimées </h1>
+                    <?php echo $list_question_sup; ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -195,29 +197,29 @@ if (isset($_POST["active"])) {
                                         <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Questions
+                                            style="width: 125px;"><?php echo $question; ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Réponse
+                                            style="width: 134.188px;"><?php echo $answer; ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Type</th>
+                                            style="width: 126.516px;"><?php echo $type; ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Niveau</th>
+                                            style="width: 126.516px;"><?php echo $level; ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Spécialité</th>
+                                            style="width: 126.516px;"><?php echo $speciality; ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Restaurer</th>
+                                            style="width: 126.516px;"><?php echo $restaurer; ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -306,7 +308,7 @@ if (isset($_POST["active"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Restauration
+                                                            <?php echo $restauration; ?>
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -332,9 +334,7 @@ if (isset($_POST["active"])) {
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
-                                                            Voulez-vous vraiment
-                                                            restaurer cette
-                                                            question?
+                                                            <?php echo $restore_text ?>
                                                         </h4>
                                                     </div>
                                                     <!--end::Modal body-->
@@ -344,12 +344,12 @@ if (isset($_POST["active"])) {
                                                         <button type="reset" class="btn btn-light me-3"
                                                             id="closeDesactivate" data-bs-dismiss="modal"
                                                             data-kt-users-modal-action="cancel">
-                                                            Non
+                                                            <?php echo $non; ?>
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="active" class="btn btn-primary">
-                                                            Oui
+                                                            <?php echo $oui; ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>

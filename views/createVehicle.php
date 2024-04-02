@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -36,9 +37,9 @@ if (!isset($_SESSION["id"])) {
         ]);
 
         if ($exist) {
-            $error_msg = "Ce véhicule existe déjà";
+            $error_msg = $error_vehicle;
         } elseif(empty($label) || empty($brand) || empty($speciality)) {
-            $error_msg = "Champ obligatoire";
+            $error_msg = $champ_obligatoire;
         }else {
             for ($i = 0; $i < count($speciality); $i++) {
                 $quizJuFac = $quizzes->findOne([
@@ -203,13 +204,13 @@ if (!isset($_SESSION["id"])) {
             ];
             $vehicles->insertOne($vehicleExDecla);
 
-            $success_msg = "Véhicule ajouté avec succès";
+            $success_msg = $success_vehicle;
         }
     } ?>
 <?php include_once "partials/header.php"; ?>
 
 <!--begin::Title-->
-<title>Ajouter Type de Véhicule | CFAO Mobility Academy</title>
+<title><?php echo $title_vehicle ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -224,7 +225,7 @@ if (!isset($_SESSION["id"])) {
             <div class='container mt-5 w-50'>
                 <img src='../public/images/logo.png' alt='10' height='170'
                     style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
-                <h1 class='my-3 text-center'>Ajouter un type de véhicule</h1>
+                <h1 class='my-3 text-center'><?php echo $title_vehicle ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -250,35 +251,35 @@ if (!isset($_SESSION["id"])) {
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Type de Véhicule</span>
+                                <span class="required"><?php echo $type_vehicle ?></span>
                                 </span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
                                 <select name="speciality[]" multiple aria-label="Select a Country" data-control="select2"
-                                    data-placeholder="Sélectionnez le type de véhicule..."
+                                    data-placeholder="<?php echo $select_vehicle ?>"
                                     class="form-select form-select-solid fw-bold">
-                                    <option>Sélectionnez le type de véhicule...</option>
+                                    <option><?php echo $select_vehicle ?></option>
                                     <option value="Bâteaux">
-                                        Bâteaux
+                                        <?php echo $bateaux ?>
                                     </option>
                                     <option value="Bus">
-                                        Bus
+                                        <?php echo $bus ?>
                                     </option>
                                     <option value="Camions">
-                                        Camions
+                                        <?php echo $camions ?>
                                     </option>
                                     <option value="Chariots">
-                                        Chariots
+                                        <?php echo $chariots ?>
                                     </option>
                                     <option value="Engins">
-                                        Engins
+                                        <?php echo $engins ?>
                                     </option>
                                     <option value="Motos">
-                                        Motos
+                                        <?php echo $motos ?>
                                     </option>
                                     <option value="Voitures">
-                                        Voitures
+                                        <?php echo $vl ?>
                                     </option>
                                 </select>
                             <!--end::Input-->
@@ -293,7 +294,7 @@ if (!isset($_SESSION["id"])) {
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Marque du véhicule</span>
+                                <span class="required"><?php echo $brand ?></span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
@@ -310,101 +311,103 @@ if (!isset($_SESSION["id"])) {
                         <div class="d-flex flex-column mb-7 fv-row">
                             <!--begin::Label-->
                             <label class="form-label fw-bolder text-dark fs-6">
-                                <span class="required">Spécialité</span>
+                                <span class="required"><?php echo $speciality ?></span>
                                 </span>
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                                <select name="speciality[]" multiple aria-label="Select a Country" data-control="select2"
-                                    data-placeholder="Sélectionnez la spécialité..."
-                                    class="form-select form-select-solid fw-bold">
-                                    <option>Sélectionnez la
-                                        spécialité...</option>
-                                    <option value="Arbre de Transmission">
-                                        Arbre de Transmission
-                                    </option>
-                                    <option value="Assistance à la Conduite">
-                                        Assistance à la Conduite
-                                    </option>
-                                    <option value="Boite de Transfert">
-                                        Boite de Transfert
-                                    </option>
-                                    <option value="Boite de Vitesse">
-                                        Boite de Vitesse
-                                    </option>
-                                    <option value="Boite de Vitesse Automatique">
-                                        Boite de Vitesse Automatique
-                                    </option>
-                                    <option value="Boite de Vitesse Mécanique">
-                                        Boite de Vitesse Mécanique
-                                    </option>
-                                    <option value="Boite de Vitesse à Variation Continue">
-                                        Boite de Vitesse à Variation Continue
-                                    </option>
-                                    <option value="Climatisation">
-                                        Climatisation
-                                    </option>
-                                    <option value="Demi Arbre de Roue">
-                                        Demi Arbre de Roue
-                                    </option>
-                                    <option value="Direction">
-                                        Direction
-                                    </option>
-                                    <option value="Electricité et Electronique">
-                                        Electricité & Electronique
-                                    </option>
-                                    <option value="Freinage">
-                                        Freinage
-                                    </option>
-                                    <option value="Freinage Hydraulique">
-                                        Freinage Hydraulique
-                                    </option>
-                                    <option value="Freinage Pneumatique">
-                                        Freinage Pneumatique
-                                    </option>
-                                    <option value="Hydraulique">
-                                        Hydraulique
-                                    </option>
-                                    <option value="Moteur Diesel">
-                                        Moteur Diesel
-                                    </option>
-                                    <option value="Moteur Electrique">
-                                        Moteur Electrique
-                                    </option>
-                                    <option value="Moteur Essence">
-                                        Moteur Essence
-                                    </option>
-                                    <option value="Moteur Thermique">
-                                        Moteur Thermique
-                                    </option>
-                                    <option value="Multiplexage">
-                                        Multiplexage
-                                    </option>
-                                    <option value="Pneumatique">
-                                        Pneumatique
-                                    </option>
-                                    <option value="Pont">
-                                        Pont/Différeniel
-                                    </option>
-                                    <option value="Réducteur">
-                                        Réducteur
-                                    </option>
-                                    <option value="Suspension">
-                                        Suspension
-                                    </option>
-                                    <option value="Suspension à Lame">
-                                        Suspension à Lame
-                                    </option>
-                                    <option value="Suspension Ressort">
-                                        Suspension Ressort
-                                    </option>
-                                    <option value="Suspension Pneumatique">
-                                        Suspension Pneumatique
-                                    </option>
-                                    <option value="Transversale">
-                                        Transversale
-                                    </option>
-                                </select>
+                            <select name="speciality[]" aria-label="Select a Country" data-control="select2"
+                                data-placeholder="<?php echo $select_speciality ?>"
+                                class="form-select form-select-solid fw-bold">
+                                <option><?php echo $select_speciality ?></option>
+                                <option value="Arbre de Transmission">
+                                    <?php echo $arbre ?>
+                                </option>
+                                <option value="Assistance à la Conduite">
+                                    <?php echo $assistanceConduite ?>
+                                </option>
+                                <option value="Boite de Transfert">
+                                    <?php echo $transfert ?>
+                                </option>
+                                <option value="Boite de Vitesse">
+                                    <?php echo $boite_vitesse ?>
+                                </option>
+                                <option value="Boite de Vitesse Automatique">
+                                    <?php echo $boite_vitesse_auto ?>
+                                </option>
+                                <option value="Boite de Vitesse Mécanique">
+                                    <?php echo $boite_vitesse_meca ?>
+                                </option>
+                                <option value="Boite de Vitesse à Variation Continue">
+                                    <?php echo $boite_vitesse_VC ?>
+                                </option>
+                                <option value="Climatisation">
+                                    <?php echo $clim ?>
+                                </option>
+                                <option value="Demi Arbre de Roue">
+                                    <?php echo $demi ?>
+                                </option>
+                                <option value="Direction">
+                                    <?php echo $direction ?>
+                                </option>
+                                <option value="Electricité et Electronique">
+                                    <?php echo $elec ?>
+                                </option>
+                                <option value="Freinage">
+                                    <?php echo $freinage ?>
+                                </option>
+                                <option value="Freinage Electromagnétique">
+                                    <?php echo $freinageElec ?>
+                                </option>
+                                <option value="Freinage Hydraulique">
+                                    <?php echo $freinageHydro ?>
+                                </option>
+                                <option value="Freinage Pneumatique">
+                                    <?php echo $freinagePneu ?>
+                                </option>
+                                <option value="Hydraulique">
+                                    <?php echo $hydraulique ?>
+                                </option>
+                                <option value="Moteur Diesel">
+                                    <?php echo $moteurDiesel ?>
+                                </option>
+                                <option value="Moteur Electrique">
+                                    <?php echo $moteurElectrique ?>
+                                </option>
+                                <option value="Moteur Essence">
+                                    <?php echo $moteurEssence ?>
+                                </option>
+                                <option value="Moteur Thermique">
+                                    <?php echo $moteurThermique ?>
+                                </option>
+                                <option value="Multiplexage">
+                                    <?php echo $multiplexage ?>
+                                </option>
+                                <option value="Pneumatique">
+                                   <?php echo $pneu ?>
+                                </option>
+                                <option value="Pont">
+                                    <?php echo $pont ?>
+                                </option>
+                                <option value="Réducteur">
+                                    <?php echo $reducteur ?>
+                                </option>
+                                <option value="Suspension">
+                                    <?php echo $suspension ?>
+                                </option>
+                                <option value="Suspension à Lame">
+                                    <?php echo $suspensionLame ?>
+                                </option>
+                                <option value="Suspension Ressort">
+                                    <?php echo $suspensionRessort ?>
+                                </option>
+                                <option value="Suspension Pneumatique">
+                                    <?php echo $suspensionPneu ?>
+                                </option>
+                                <option value="Transversale">
+                                    <?php echo $transversale ?>
+                                </option>
+                            </select>
                             <!--end::Input-->
                             <?php if (isset($error)) { ?>
                             <span class='text-danger'>
@@ -421,7 +424,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Button-->
                         <button type="submit" name="submit" class=" btn btn-primary">
                             <span class="indicator-label">
-                                Valider
+                                <?php echo $valider ?>
                             </span>
                             <span class="indicator-progress">
                                 Patientez... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -34,7 +35,7 @@ if (!isset($_SESSION["id"])) {
         ],
     ]);
     ?>
-<title>Résultat Technicien | CFAO Mobility Academy</title>
+<title><?php echo $result_tech; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
 <link href="../public/images/logo-cfao.png" rel="icon">
@@ -84,7 +85,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    Résultats Détaillés de 
+                    <?php echo $result_detail ?> 
                     <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>
                 <!--end::Title-->
@@ -112,7 +113,7 @@ if (!isset($_SESSION["id"])) {
                         <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
                             data-bs-target="#kt_customers_export_modal">
                             <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span
-                                    class="path2"></span></i> Excel
+                                    class="path2"></span></i> <?php echo $excel ?> 
                         </button>
                         <!--end::Export-->
                     </div>
@@ -135,58 +136,57 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" colspan="10"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
-                                        Résultats de la mesure des connaissances
-                                        et tâches professionnelles</th>
+                                        <?php echo $result_mesure ?> </th>
                                 <tr></tr>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
                                     aria-label="Email: activate to sort column ascending">
-                                    Groupe Fonctionnel</th>
+                                    <?php echo $groupe_fonctionnel ?></th>
                                 <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances </th>
+                                    <?php echo $connaissances ?> </th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des tâches professionnelles</th>
+                                    <?php echo $tache_pro ?></th>
                                 <th class="min-w-150px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" rowspan="3"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Synthèse</th>
+                                    <?php echo $synthese ?></th>
                                 <tr></tr>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Questions</th>
+                                    <?php echo $question ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Réponses données</th>
+                                    <?php echo $given_answer ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Réponses correctes</th>
+                                    <?php echo $correct_answer ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats</th>
+                                    <?php echo $result ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Questions</th>
+                                    <?php echo $question ?></th>
                                 <th class="min-w-130px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Résultats technicien</th>
+                                    <?php echo $result_tech ?></th>
                                 <th class="min-w-120px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats manager</th>
+                                    <?php echo $result_manager ?></th>
                                 <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats</th>
+                                    <?php echo $result ?></th>
                                 <tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
@@ -328,7 +328,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je maitrise (je réalise cette tâche professionnelle seul)
+                                        <?php echo $je_maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -341,7 +341,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                       <?php echo $je_ne_maitrise_pas?>
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -354,7 +354,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                        <?php echo $jai_jamais_fait?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -368,7 +368,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il maitrise (le technicien réalise cette tâche professionnelle)
+                                        <?php echo $il_maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -381,7 +381,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle)
+                                        <?php echo $il_ne_maitrise_pas?>
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -394,7 +394,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                        <?php echo $il_na_jamais_fait?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -402,7 +402,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Maitrisé
+                                        <?php echo $maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -410,7 +410,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -418,7 +418,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -427,18 +427,18 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Maitrisé
+                                        <?php echo $maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->answers[$i] == "Oui" &&
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Maitrisé
+                                        <?php echo $maitrise?>
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                 </tr>
@@ -505,7 +505,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je maitrise (je réalise cette tâche professionnelle seul)
+                                        <?php echo $je_maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -518,7 +518,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                       <?php echo $je_ne_maitrise_pas?>
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -531,7 +531,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                        <?php echo $jai_jamais_fait?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -545,7 +545,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il maitrise (le technicien réalise cette tâche professionnelle)
+                                        <?php echo $il_maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -558,7 +558,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle)
+                                        <?php echo $il_ne_maitrise_pas?>
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -571,7 +571,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                        <?php echo $il_na_jamais_fait?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -579,7 +579,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Maitrisé
+                                        <?php echo $maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -587,7 +587,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -595,7 +595,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -604,18 +604,18 @@ if (!isset($_SESSION["id"])) {
                                         isset($groupeMa->answers[$i]) == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Maitrisé
+                                        <?php echo $maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeFac->answers[$i] ==
                                             "Non maitrisé"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Maitrisé
+                                        <?php echo $maitrise?>
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php } else { ?>
@@ -687,7 +687,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je maitrise (je réalise cette tâche professionnelle seul)
+                                        <?php echo $je_maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -700,7 +700,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                       <?php echo $je_ne_maitrise_pas?>
                                     </td>
                                     <?php } elseif (
                                         $groupeDecla->userAnswers[$i] ==
@@ -713,7 +713,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n">
-                                        Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                        <?php echo $jai_jamais_fait?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -727,7 +727,7 @@ if (!isset($_SESSION["id"])) {
                                             "-1"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il maitrise (le technicien réalise cette tâche professionnelle)
+                                        <?php echo $il_maitrise?>
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -740,7 +740,7 @@ if (!isset($_SESSION["id"])) {
                                             "-2"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il ne maitrise pas (le technicien ne réalise pas cette tâche professionnelle)
+                                        <?php echo $il_ne_maitrise_pas?>
                                     </td>
                                     <?php } elseif (
                                         $groupeMa->managerAnswers[$i] ==
@@ -753,7 +753,7 @@ if (!isset($_SESSION["id"])) {
                                             "-3"
                                     ) { ?>
                                     <td class="text-center" name="n1">
-                                        Il n'a jamais réalisé cette tâche professionnelle dans l'atelier
+                                        <?php echo $il_na_jamais_fait?>
                                     </td>
                                     <?php } ?>
                                     </td>
@@ -762,7 +762,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Maitrisé
+                                        <?php echo $maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -770,7 +770,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -778,7 +778,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoir-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -797,7 +797,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -806,7 +806,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -816,7 +816,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -825,7 +825,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -834,7 +834,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -844,17 +844,16 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
                                         $groupeFac->answers[$i] ==
-                                            "Non maitrisé" &&
-                                        $groupeDecla->answers[$i] == "Non" &&
+                                            "Non maitrisé" && $groupeDecla->answers[$i] == "Non" &&
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="synt">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise?>
                                     </td>
                                     <?php } ?>
                                 </tr>
@@ -867,7 +866,7 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        Résultats</th>
+                                        <?php echo $result?></th>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
@@ -897,7 +896,7 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        Résultats</th>
+                                        <?php echo $result ?></th>
                                     <th id="result-n"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
