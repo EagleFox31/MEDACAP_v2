@@ -28,8 +28,7 @@
     <!--begin::Vendor Stylesheets(used for this page only)-->
     <link href="../public/assets/plugins/custom/leaflet/leaflet.bundle.css" rel="stylesheet" type="text/css" />
     <link href="../public/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!--end::Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="../public/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
@@ -68,6 +67,8 @@
     <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 
 </head>
 <!--end::Head-->
@@ -151,7 +152,7 @@
                                 <div style="margin-top: -15px">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bolder text-black text-uppercase fs-4">Espace Administrateur</span>
+                                            class="fw-bolder text-black text-uppercase fs-4"><?php echo $admin_space ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div> <br>
@@ -166,7 +167,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Tableau de Bord</span>
+                                            </i></span><span class="menu-title"><?php echo $tableau ?></span>
                                         </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -175,7 +176,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Utilisateurs</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $ussers ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -186,7 +187,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Utilisateurs
+                                            <?php echo $list_user ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -197,7 +198,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Ajouter un Utilisateur
+                                            <?php echo $title_addUser ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -208,7 +209,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Modifier/Supprimer un Utilisateur
+                                            <?php echo $title_edit_sup_user ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -219,7 +220,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Importer des Utilisateurs
+                                            <?php echo $import_user ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -228,7 +229,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Questionnaires</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $quizs ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -240,7 +241,7 @@
                                             <i
                                                 class="ki-duotone ki-row-vertical fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Questionnaires
+                                            <?php echo $list_quiz ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -263,7 +264,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Questions</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $question ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -275,7 +276,7 @@
                                             <i
                                                 class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Questions
+                                            <?php echo $list_question ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -287,7 +288,7 @@
                                             <i
                                                 class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Ajouter une Question
+                                            <?php echo $title_question ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -299,7 +300,7 @@
                                             <i
                                                 class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Modifier/Supprimer une Question
+                                            <?php echo $title_edit_sup_question ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -311,7 +312,7 @@
                                             <i
                                                 class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Importer des Questions
+                                            <?php echo $import_question ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -320,7 +321,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Types de Véhicule</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $type_vehicle ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -330,7 +331,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./vehicles.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
-                                            Liste des Types de Véhicule
+                                            <?php echo $list_type_vehicule ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -340,7 +341,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./createVehicle.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
-                                            Ajouter un Type de Véhicule
+                                            <?php echo $title_vehicle ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -350,7 +351,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./editDeletVehicle.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-car-side fs-2"></i></span><span class="menu-title">
-                                            Modifier/Supprimer un Type de Véhicule
+                                            <?php echo $title_edit_sup_vehicle ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -359,7 +360,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Seuil de Validation</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $seuil_validation ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -372,7 +373,7 @@
                                             class="menu-icon">
                                             <i class="fa fa-line-chart fs-2" ></i>
                                         </span>
-                                        <span class="menu-title">Modifier le Seuil de Validation</span>
+                                        <span class="menu-title"><?php echo $edit_validation ?></span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -381,7 +382,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Activation des Tests</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $title_activation ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -394,7 +395,7 @@
                                             class="menu-icon">
                                             <i class="fa fa-line-chart fs-2" ></i>
                                         </span>
-                                        <span class="menu-title">Activation des Tests</span>
+                                        <span class="menu-title"><?php echo $title_activation ?></span>
                                     </a>
                                     <!--end:Menu link-->
                                 </div>
@@ -403,7 +404,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Assignation des Tests</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $assignation_test ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -414,7 +415,7 @@
                                         <span class="menu-icon">
                                             <i class="fas fa-exchange fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i>
-                                        </span><span class="menu-title">Ajouter des Tests à un Technicien</span></a>
+                                        </span><span class="menu-title"><?php echo $add_test_tech ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -424,7 +425,7 @@
                                         <span class="menu-icon">
                                             <i class="fas fa-exchange fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i>
-                                        </span><span class="menu-title">Reassignation du Précédent Test</span></a>
+                                        </span><span class="menu-title"><?php echo $reassigne_test ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -432,7 +433,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Bilan des évaluations</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $bilan_evaluation ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -446,7 +447,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Liste des Résultats</span></a>
+                                            </i></span><span class="menu-title"><?php echo $list_result ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -454,7 +455,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Historiques</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $historiques ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -466,7 +467,7 @@
                                             <i
                                                 class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Utilisateurs Supprimés
+                                            <?php echo $list_user_sup ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -478,7 +479,7 @@
                                             <i
                                                 class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Questionnaires Supprimés
+                                            <?php echo $list_quiz_sup ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -489,7 +490,7 @@
                                             class="menu-icon">
                                             <i class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Questions Supprimées
+                                            <?php echo $list_question_sup ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -501,7 +502,7 @@
                                             <i
                                                 class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste des Types de Véhicule Supprimés
+                                            <?php echo $list_vehicle_sup ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -514,7 +515,7 @@
                                             <i
                                                 class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Historiques des Résultats
+                                            <?php echo $histo_result ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -590,7 +591,7 @@
                                 <div style="margin-top: -15px">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bolder text-black text-uppercase fs-3">Espace Manager</span>
+                                            class="fw-bolder text-black text-uppercase fs-3"><?php echo $manager_space ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div> <br>
@@ -602,7 +603,7 @@
                                 <div style="margin-top: -15px">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bolder text-black text-uppercase fs-3">Espace Technicien</span>
+                                            class="fw-bolder text-black text-uppercase fs-3"><?php echo $tech_space ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div> <br>
@@ -617,7 +618,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Introduction</span></a>
+                                            </i></span><span class="menu-title"><?php echo $intro ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <?php if (
@@ -627,7 +628,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Votre équipe</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $your_team ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -638,7 +639,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Liste de vos Collaborateurs
+                                            <?php echo $your_collaborators?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -649,7 +650,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Ajouter un Collaborateur
+                                            <?php echo $title_addCollab ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -660,7 +661,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Modifier/Supprimer un Collaborateur
+                                            <?php echo $title_edit_sup_collab ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -682,7 +683,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Evaluer vos Collaborateurs</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $evaluer_collab ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -711,7 +712,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">
-                                            Liste des Collaborateurs à Evaluer
+                                            <?php echo $list_evalue_collab ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -721,7 +722,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userEvaluation.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Evaluer les Collaborateurs</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $evalue_collab ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -729,7 +730,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Bilan des évaluation de vos collaborateurs</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $bilan_evaluation_collab ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -743,7 +744,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Liste des Résultats de vos Collaborateurs Evalués
+                                            </i></span><span class="menu-title"><?php echo $list_result_collab_evaluer ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -754,7 +755,7 @@
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
                                             class="menu-icon">
                                             <i class="fas fa-book fs-2"></i></span><span class="menu-title">
-                                            Liste des Collaborateurs à Evaluer
+                                            <?php echo $list_evalue_collab ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -764,7 +765,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Evaluation Collaborateurs</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $evaluation_collab ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -773,7 +774,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Bilan des évaluation de vos collaborateurs</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $bilan_evaluation_collab ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -787,7 +788,7 @@
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title">Liste des Résultats de vos Collaborateurs Evalués
+                                            </i></span><span class="menu-title"><?php echo $list_result_collab_evaluer ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -804,7 +805,7 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Mes Informations
+                                            <?php echo $my_info ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
@@ -813,7 +814,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70">Mesure de vos Compétences</span>
+                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $mesure_compentence ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -847,7 +848,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userQuizFactuel.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Test des Connaissances</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_connaissances ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -856,7 +857,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./testSavoirFaire.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Tâches Professionnelles à Compléter par vous</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -875,7 +876,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./testSavoir.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Connaissances à Compléter par vous</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $list_test_con ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -884,7 +885,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./userQuizDeclaratif.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Test des Tâches Professionnelles</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_tache_pro ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -895,7 +896,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./testSavoir.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Connaissances à Compléter par vous</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $list_test_con ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -904,7 +905,7 @@
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./testSavoirFaire.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title">Liste des Tests des Tâches Professionnelles à Compléter par vous</span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
@@ -1063,7 +1064,7 @@
                                                         <div class="d-flex flex-column">
                                                             <div
                                                                 class="fw-bolder d-flex align-items-center text-black fs-5">
-                                                                Salut, <?php echo $_SESSION[
+                                                                <?php echo $salut ?>, <?php echo $_SESSION[
                                                                     "firstName"
                                                                 ]; ?>
                                                                 <span
@@ -1094,7 +1095,7 @@
                                                 "id"
                                             ]; ?>"
                                                 class="menu-link px-5">
-                                                Mes Informations
+                                                <?php echo $my_info ?>
                                             </a>
                                         </div>
                                         <!--end::Menu item-->
@@ -1107,10 +1108,10 @@
                                             data-kt-menu-placement="left-start" data-kt-menu-offset="-15px, 0">
                                             <a href="#" class="menu-link px-5">
                                                 <span class="menu-title position-relative">
-                                                    Langue
+                                                    <?php echo $langue ?>
                                                     <span
                                                         class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                                                        Français <img class="w-15px h-15px rounded-1 ms-2"
+                                                        <?php echo $francais ?> <img class="w-15px h-15px rounded-1 ms-2"
                                                             src="../public/assets/media/flags/france.svg" alt="" />
                                                     </span>
                                                 </span>
@@ -1138,7 +1139,7 @@
                                                             <img class="rounded-1"
                                                                 src="../public/assets/media/flags/france.svg" alt="" />
                                                         </span>
-                                                        Français
+                                                        <?php echo $francais ?>
                                                     </a>
                                                 </div>
                                                 <!--end::Menu item-->
@@ -1149,7 +1150,7 @@
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
                                             <a href="./logout.php" class="menu-link px-5">
-                                                Déconnexion
+                                                <?php echo $deconnexion ?>
                                             </a>
                                         </div>
                                         <!--end::Menu item-->

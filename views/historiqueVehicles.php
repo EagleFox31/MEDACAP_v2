@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -30,7 +31,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Types de Véhicule Supprimés | CFAO Mobility Academy</title>
+<title><?php echo $list_vehicle_sup ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -43,7 +44,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des types de véhicule supprimés</h1>
+                    <?php echo $list_vehicle_sup ?></h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -233,27 +234,27 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Type de Véhicules
+                                            style="width: 125px;"><?php echo $type_vehicle ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Type
+                                            style="width: 134.188px;"><?php echo $type ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Marque du véhicule
+                                            style="width: 126.516px;"><?php echo $brand ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau
+                                            style="width: 152.719px;"><?php echo $level ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Restaurer
+                                            style="width: 152.719px;"><?php echo $restaurer ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -339,7 +340,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Restauration
+                                                            <?php echo $restauration ?>
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -365,9 +366,7 @@ if (!isset($_SESSION["id"])) {
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
-                                                            Voulez-vous vraiment
-                                                            restaurer ce
-                                                            véhicule?
+                                                            <?php echo $restore_text ?>
                                                         </h4>
                                                     </div>
                                                     <!--end::Modal body-->
@@ -377,12 +376,12 @@ if (!isset($_SESSION["id"])) {
                                                         <button type="reset" class="btn btn-light me-3"
                                                             id="closeDesactivate" data-bs-dismiss="modal"
                                                             data-kt-users-modal-action="cancel">
-                                                            Non
+                                                            <?php echo $non ?>
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="delet" class=" btn btn-danger">
-                                                            Oui
+                                                            <?php echo $oui ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 require_once "../vendor/autoload.php";
 
@@ -22,10 +23,9 @@ if (isset($_POST["login"])) {
 
     $login = $users->findOne($data);
     if (empty($login)) {
-        $error_msg =
-            "Nom d'utilisateur ou mot de passe incorrect. Essayez encore!!!";
+        $error_msg = $error_username_pass;
     } elseif ($login->active == false) {
-        $error_msg = "Vous n'êtes plus autorisé à accéder à cette plateforme.";
+        $error_msg = $error_authentication;
     } else {
         $_SESSION["username"] = $login["username"];
         $_SESSION["profile"] = $login["profile"];
@@ -98,8 +98,7 @@ if (isset($_POST["login"])) {
                 <div class="row justify-content-center py-5">
                     <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
                         <h4 class="display-3 text-white mb-3 animated slideInDown">
-                            Bienvenue sur l'espace de developpement des
-                            compétences de CFAO Mobility Academy Panafrican.</h4>
+                            <?php echo $index ?></h4>
                     </div>
                 </div>
             </div>
@@ -131,8 +130,8 @@ if (isset($_POST["login"])) {
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">
-                    Connexion</h6>
-                <h1 class="mb-5">Connectez-vous</h1>
+                    <?php echo $connexion ?></h6>
+                <h1 class="mb-5"><?php echo $connectez_vous ?></h1>
             </div>
             <div class="row g-4">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
@@ -148,7 +147,7 @@ if (isset($_POST["login"])) {
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="subject" name="username"
                                         placeholder="Subject">
-                                    <label for="subject">Nom d'utilisateur</label>
+                                    <label for="subject"><?php echo $username ?></label>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -163,13 +162,13 @@ if (isset($_POST["login"])) {
                                                 class="path4"></span></i> <i class="ki-duotone ki-eye d-none fs-1"><span
                                                 class="path1"></span><span class="path2"></span><span
                                                 class="path3"></span></i> </span>
-                                    <label for="subject">Mot de passe</label>
+                                    <label for="subject"><?php echo $password ?></label>
                                 </div>
                             </div>
                             <div></div><br><br>
                             <!-- <a href="forgotPassword.php" class="link-primary fs-6 fw-bolder">Mot de passe Oublié ?</a> -->
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit" name="login">Accéder à mon espace</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" name="login"><?php echo $acceder ?></button>
                             </div>
                         </div>
                     </form>
@@ -183,8 +182,8 @@ if (isset($_POST["login"])) {
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">
-                    Images</h6>
-                <h1 class="mb-5">Quelques Images</h1>
+                    <?php echo $image ?></h6>
+                <h1 class="mb-5"><?php echo $some_image ?></h1>
             </div>
             <div class="row g-3">
                 <div class="col-lg-7 col-md-6">
@@ -196,7 +195,7 @@ if (isset($_POST["login"])) {
                                 </div>
                                 <div
                                     class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                    Les vehicules Commercialisés</div>
+                                    <?php echo $vehicle_com ?></div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
@@ -206,7 +205,7 @@ if (isset($_POST["login"])) {
                                 </div>
                                 <div
                                     class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                    Image Formation DPOK</div>
+                                    <?php echo $formation_dpok ?></div>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
@@ -216,7 +215,7 @@ if (isset($_POST["login"])) {
                                 </div>
                                 <div
                                     class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                    Image Viste d'entreprise</div>
+                                    <?php echo $visit_entreprise ?></div>
                             </a>
                         </div>
                     </div>
@@ -228,7 +227,7 @@ if (isset($_POST["login"])) {
                         <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                         </div>
                         <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                            Image Formation Hybride Toyota</div>
+                            <?php echo $formation_toyota ?></div>
                     </a>
                 </div>
             </div>

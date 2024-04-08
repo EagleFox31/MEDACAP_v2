@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -23,7 +24,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Listes des Avancements | CFAO Mobility Academy</title>
+<title><?php echo $list_avancement ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -36,7 +37,7 @@ if (!isset($_SESSION["id"])) {
             <div class='d-flex flex-column align-items-start justify-content-center flex-wrap me-2'>
                 <!--begin::Title-->
                 <h1 class='text-dark fw-bold my-1 fs-2'>
-                    Etat d'avancement des tests des utilisateurs</h1>
+                    <?php echo $etat_avancement_user ?></h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -140,23 +141,23 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Utilisateurs</th>
+                                            style="width: 155.266px;"><?php echo $ussers ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Filiale</th>
+                                            style="width: 155.266px;"><?php echo $filiale ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Département</th>
+                                            style="width: 155.266px;"><?php echo $department ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 200px;">
-                                            Etat d'avancement des QCM </th>
+                                            <?php echo $etat_avanacement_qcm ?> </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 200px;">
-                                            Etat d'avancement des Tâches </th>
+                                            <?php echo $etat_avanacement_tache ?> </th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -219,7 +220,7 @@ if (!isset($_SESSION["id"])) {
                                         ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                En attente
+                                                <?php echo $en_attente ?>
                                             </span>
                                         </td>
                                         <?php } ?>
@@ -228,7 +229,7 @@ if (!isset($_SESSION["id"])) {
                                         ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <?php } ?>
@@ -238,7 +239,7 @@ if (!isset($_SESSION["id"])) {
                                         ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                En attente
+                                                <?php echo $en_attente ?>
                                             </span>
                                         </td>
                                         <?php } ?>
@@ -247,7 +248,7 @@ if (!isset($_SESSION["id"])) {
                                         ) { ?>
                                         <td data-filter="email">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <?php } ?>

@@ -1397,6 +1397,18 @@ if (!isset($_SESSION["id"])) {
               </label>
               <!--end::Label-->
               <!--begin::Input-->
+              <!-- <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" type="radio" value="Equipment" id="equip">
+                <label class="form-check-label text-black">
+                  Equipment
+                </label>
+              </div> <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" value="Motors" id="motors">
+                <label class="form-check-label text-black">
+                  Motors
+                </label>
+              </div> -->
               <select onchange="enableBrand(this)" name="department" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_department ?>" class="form-select form-select-solid fw-bold">
                 <option><?php echo $select_department ?></option>
                 <option value="Equipment">
@@ -1404,6 +1416,9 @@ if (!isset($_SESSION["id"])) {
                 </option>
                 <option value="Motors">
                   Motors
+                </option>
+                <option value="Equipment, Motors">
+                  Equipment & Motors
                 </option>
               </select>
               <!--end::Input-->
@@ -1415,16 +1430,16 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row">
+            <!-- <div class="d-flex flex-column mb-7 fv-row"> -->
               <!--begin::Label-->
-              <label class="form-label fw-bolder text-dark fs-6">
+              <!-- <label class="form-label fw-bolder text-dark fs-6">
                 <span class="required"><?php echo $level ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le niveau du technicien ou du manager">
                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
-              </label>
+              </label> -->
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="level" onchange="enableSpeciality(this)" aria-label="<?php echo $select_level ?>" class="form-select form-select-solid fw-bold">
+              <!-- <select name="level" onchange="enableSpeciality(this)" aria-label="<?php echo $select_level ?>" class="form-select form-select-solid fw-bold">
                 <option><?php echo $select_level ?></option>
                 <option value="Junior">
                   <?php echo $junior ?>
@@ -1435,20 +1450,35 @@ if (!isset($_SESSION["id"])) {
                 <option value="Expert">
                   <?php echo $expert ?>
                 </option>
-              </select>
+              </select> -->
               <!--end::Input-->
-              <?php if (isset($error)) { ?>
+              <!-- <?php if (isset($error)) { ?>
               <span class='text-danger'>
                 <?php echo $error; ?>
               </span>
               <?php } ?>
-            </div>
+            </div> -->
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row d-none"  id="brandEquipment">
+            <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $brand ?></span>
+                <span class="required"><?php echo $level ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" type="radio" name="level" value="Junior" id="junior">
+                <label class="form-check-label text-black">
+                  <?php echo $junior ?>
+                </label>
+              </div>
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentJu">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $junior ?></span>
                 </span>
               </label>
               <!--end::Label-->
@@ -1495,7 +1525,138 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row d-none" id="brandMotors">
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandMotorsJu">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $junior ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEqMoJu">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $junior ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" type="radio" name="level" value="Senior" id="senior">
+                <label class="form-check-label text-black">
+                  <?php echo $senior ?>
+                </label>
+              </div>
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentSe">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
                 <span class="required"><?php echo $brand ?></span>
@@ -1504,7 +1665,317 @@ if (!isset($_SESSION["id"])) {
               <!--end::Label-->
               <!--begin::Input-->
               <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?> <?php echo $senior ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandMotorsSe">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $senior ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
                 <option value=""><?php echo $select_brand ?></option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEqMoSe">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $senior ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" type="radio" name="level" value="Expert" id="expert">
+                <label class="form-check-label text-black">
+                  <?php echo $expert ?>
+                </label>
+              </div>
+            </div> 
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentEx">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $expert ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandMotorsEx">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $expert ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEqMoEx">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $expert ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
                 <option value="BYD">
                   <?php echo $byd ?>
                 </option>
@@ -1708,16 +2179,116 @@ if (!isset($_SESSION["id"])) {
 
 <script>
   var metier = document.querySelector('#metier');
-  var brandMotors = document.querySelector('#brandMotors');
-  var brandEquipment = document.querySelector('#brandEquipment');
+  var brandMotorsJu = document.querySelector('#brandMotorsJu');
+  var brandEquipmentJu = document.querySelector('#brandEquipmentJu');
+  var brandEqMoJu = document.querySelector('#brandEqMoJu');
+  var brandMotorsSe = document.querySelector('#brandMotorsSe');
+  var brandEquipmentSe = document.querySelector('#brandEquipmentSe');
+  var brandEqMoSe = document.querySelector('#brandEqMoSe');
+  var brandMotorsEx = document.querySelector('#brandMotorsEx');
+  var brandEquipmentEx = document.querySelector('#brandEquipmentEx');
+  var brandEqMoEx = document.querySelector('#brandEqMoEx');
 
   function enableBrand(answer) {
+    var junior = document.querySelector('#junior');
+    var senior = document.querySelector('#senior');
+    var expert = document.querySelector('#expert');
     if(answer.value == 'Motors') {
-      brandMotors.classList.remove('d-none');
-      brandEquipment.classList.add('d-none');
+      if(junior.checked) {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(senior.checked) {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.remove('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(expert.checked) {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.remove('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.remove('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      }
+    } else if(answer.value == 'Equipment') {
+      if(junior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(senior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.remove('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(expert.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.remove('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.remove('d-none');
+        brandEqMoEx.classList.add('d-none');
+      }
     } else {
-      brandEquipment.classList.remove('d-none')
-      brandMotors.classList.add('d-none');
+      if(junior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.remove('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(senior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.remove('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.remove('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(expert.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.remove('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.remove('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.remove('d-none');
+      }
     }
   }
   function enableSpeciality(answer) {

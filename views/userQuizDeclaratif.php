@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -374,7 +375,7 @@ if (!isset($_SESSION["id"])) {
                     $error_msg =
                         "Vous n'avez pas répondu à " .
                         count($array) .
-                        " question(s), Veuillez vérifier la ou les question(s) dont valider est en vert svp.";
+                        " question(s), Veuillez vérifier la ou les question(s) dont <?php echo $valider ?> est en vert svp.";
                 }
             }
             //for ($j = 0; $j < count($idxs); ++$j) {
@@ -2371,7 +2372,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Test Tâche Professionnelle | CFAO Mobility Academy</title>
+<title><?php echo $test_tache_pro ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -2388,18 +2389,18 @@ if (!isset($_SESSION["id"])) {
                 <form class="quiz-form" method="POST">
                         <center class="center" style="margin-top: -100px;">
                             <div class="timer" style="margin-right: 400px;">
-                                <div class="time_left_txt">Questions Restantes</div>
+                                <div class="time_left_txt"><?php echo $left_questions ?></div>
                                 <div class="timer_sec" id="num" value="1">
                                 </div>
                             </div>
                             <div class="timer" style="margin-top: -45px; margin-left: 400px">
-                                <div class="time_left_txt">Durée estimée</div>
+                                <div class="time_left_txt"><?php echo $duree ?></div>
                                 <div class="timer_sec" id="timer_sec">
                                 </div>
                             </div>
                         </center>
                         <div class="heading" style="margin-top: 10px;">
-                            <h1 class="heading__text">Test des Tâches Professionnelles du Niveau <?php echo $_GET[
+                            <h1 class="heading__text"><?php echo $test_tache_pro ?> <?php echo $_GET[
                                 "level"
                             ]; ?></h1>
                         </div>
@@ -2425,8 +2426,7 @@ if (!isset($_SESSION["id"])) {
                         </div>
                     </center> -->
                             <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-                                Vous devez repondre à toutes les tâches avant
-                                de pouvoir valider le questionnaire.
+                                <?php echo $text_tache ?>
                             </p>
                         <input class="hidden" type="text" name="timer" id="clock" />
                         <input class="hidden" type="text" name="hr" id="hr" />
@@ -2481,7 +2481,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2490,7 +2490,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2499,7 +2499,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2511,7 +2511,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                     } ?>
@@ -2568,7 +2568,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2577,7 +2577,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2586,7 +2586,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2598,7 +2598,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2653,7 +2653,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2662,7 +2662,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2671,7 +2671,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2683,7 +2683,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2736,7 +2736,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2745,7 +2745,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2754,7 +2754,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2766,7 +2766,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2823,7 +2823,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2832,7 +2832,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2841,7 +2841,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2853,7 +2853,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2910,7 +2910,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2919,7 +2919,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2928,7 +2928,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2940,7 +2940,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2997,7 +2997,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3006,7 +3006,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3015,7 +3015,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3027,7 +3027,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3083,7 +3083,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3093,7 +3093,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3103,7 +3103,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3116,7 +3116,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3170,7 +3170,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3179,7 +3179,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3188,7 +3188,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3200,7 +3200,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3255,7 +3255,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3264,7 +3264,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3273,7 +3273,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3285,7 +3285,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3344,7 +3344,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3354,7 +3354,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3364,7 +3364,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3377,7 +3377,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3431,7 +3431,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3440,7 +3440,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3449,7 +3449,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3461,7 +3461,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3520,7 +3520,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3530,7 +3530,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3540,7 +3540,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3553,7 +3553,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3611,7 +3611,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3620,7 +3620,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3629,7 +3629,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3641,7 +3641,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3697,7 +3697,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3706,7 +3706,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3715,7 +3715,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3727,7 +3727,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3783,7 +3783,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3793,7 +3793,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3803,7 +3803,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3816,7 +3816,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3872,7 +3872,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3882,7 +3882,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3892,7 +3892,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3905,7 +3905,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3960,7 +3960,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3969,7 +3969,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3978,7 +3978,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3990,7 +3990,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4046,7 +4046,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4056,7 +4056,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4066,7 +4066,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4079,7 +4079,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4134,7 +4134,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4143,7 +4143,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4152,7 +4152,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4164,7 +4164,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4218,7 +4218,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4227,7 +4227,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4236,7 +4236,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4249,7 +4249,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4302,7 +4302,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4311,7 +4311,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4320,7 +4320,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4332,7 +4332,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4387,7 +4387,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4396,7 +4396,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4413,11 +4413,11 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4472,7 +4472,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4481,7 +4481,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4490,7 +4490,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4502,7 +4502,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4559,7 +4559,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4568,7 +4568,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4577,7 +4577,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4589,7 +4589,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4645,7 +4645,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4655,7 +4655,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4665,7 +4665,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4678,7 +4678,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4734,7 +4734,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4744,7 +4744,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4754,7 +4754,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4767,7 +4767,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4830,7 +4830,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4840,7 +4840,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4850,7 +4850,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4863,7 +4863,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4919,7 +4919,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je maitrise (je réalise cette tâche professionnelle seul)
+                                    <?php echo $je_maitrise ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4929,7 +4929,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                    <?php echo $je_ne_maitrise_pas ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4939,7 +4939,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                    <?php echo $jai_jamais_fait ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4952,7 +4952,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                             </div>
                             <?php
                             } ?>
@@ -5007,7 +5007,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5017,7 +5017,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5027,11 +5027,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                             $exam["answers"][$j] ==
@@ -5044,7 +5044,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5054,7 +5054,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5064,11 +5064,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                             $exam["answers"][$j] ==
@@ -5081,7 +5081,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5091,7 +5091,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5101,11 +5101,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5115,7 +5115,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5125,7 +5125,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5135,7 +5135,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5148,7 +5148,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php }}
                         }
@@ -5210,7 +5210,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5219,7 +5219,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5228,11 +5228,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5244,7 +5244,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5253,7 +5253,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5262,11 +5262,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5278,7 +5278,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5287,7 +5287,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5296,11 +5296,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5309,7 +5309,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5318,7 +5318,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5327,7 +5327,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5340,7 +5340,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -5408,7 +5408,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5418,7 +5418,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5428,11 +5428,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5447,7 +5447,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5457,7 +5457,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5467,11 +5467,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5485,7 +5485,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $transfertFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5494,7 +5494,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $transfertFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5503,11 +5503,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $transfertFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5517,7 +5517,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5527,7 +5527,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5537,7 +5537,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                           Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                           <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5550,7 +5550,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -5614,7 +5614,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5623,7 +5623,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5632,11 +5632,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5648,7 +5648,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5657,7 +5657,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5666,11 +5666,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5682,7 +5682,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5691,7 +5691,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5700,11 +5700,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5713,7 +5713,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5722,7 +5722,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5731,7 +5731,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5744,7 +5744,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     </div>
                                                     <?php } ?>
@@ -5811,7 +5811,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5820,7 +5820,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5829,11 +5829,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5847,7 +5847,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5856,7 +5856,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5865,11 +5865,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5883,7 +5883,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)>
+                                                            <?php echo $je_maitrise ?>>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5892,7 +5892,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5901,11 +5901,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5914,7 +5914,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5923,7 +5923,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5932,7 +5932,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5945,7 +5945,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -6011,7 +6011,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6020,7 +6020,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6029,11 +6029,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6047,7 +6047,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6056,7 +6056,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6065,11 +6065,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6083,7 +6083,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6092,7 +6092,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6101,11 +6101,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6114,7 +6114,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6123,7 +6123,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6132,7 +6132,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6145,7 +6145,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -6209,7 +6209,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6218,7 +6218,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6227,11 +6227,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6243,7 +6243,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6252,7 +6252,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6261,11 +6261,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6277,7 +6277,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6286,7 +6286,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6295,11 +6295,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6308,7 +6308,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6317,7 +6317,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6326,7 +6326,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6339,7 +6339,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -6409,7 +6409,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6419,7 +6419,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6429,11 +6429,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6448,7 +6448,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6458,7 +6458,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6468,11 +6468,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6487,7 +6487,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6497,7 +6497,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6507,11 +6507,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6521,7 +6521,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6531,7 +6531,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6541,7 +6541,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6554,7 +6554,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -6620,7 +6620,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6630,7 +6630,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6640,11 +6640,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6657,7 +6657,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6667,7 +6667,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6677,11 +6677,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6694,7 +6694,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6704,7 +6704,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6714,11 +6714,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6728,7 +6728,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6738,7 +6738,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6748,7 +6748,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6761,7 +6761,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -6829,7 +6829,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6839,7 +6839,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6849,11 +6849,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6868,7 +6868,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6878,7 +6878,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6888,11 +6888,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6907,7 +6907,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6917,7 +6917,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6927,11 +6927,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6941,7 +6941,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6951,7 +6951,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6961,7 +6961,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6974,7 +6974,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -7044,7 +7044,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7054,7 +7054,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7064,11 +7064,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7083,7 +7083,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7093,7 +7093,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7103,11 +7103,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7122,7 +7122,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7132,7 +7132,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7142,11 +7142,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7156,7 +7156,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7166,7 +7166,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7176,7 +7176,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7189,7 +7189,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -7255,7 +7255,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7265,7 +7265,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7275,11 +7275,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7292,7 +7292,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7302,7 +7302,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7312,11 +7312,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7329,7 +7329,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7339,7 +7339,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7349,11 +7349,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7363,7 +7363,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7373,7 +7373,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7383,7 +7383,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7396,7 +7396,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -7466,7 +7466,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7476,7 +7476,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7486,11 +7486,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7505,7 +7505,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7515,7 +7515,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7525,11 +7525,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7544,7 +7544,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7554,7 +7554,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7564,11 +7564,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7578,7 +7578,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7588,7 +7588,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7598,7 +7598,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7611,7 +7611,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -7679,7 +7679,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7689,7 +7689,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7699,11 +7699,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7718,7 +7718,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7728,7 +7728,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7738,11 +7738,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7757,7 +7757,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7767,7 +7767,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7777,11 +7777,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                           Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                           <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7791,7 +7791,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7801,7 +7801,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7811,7 +7811,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7824,7 +7824,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -7888,7 +7888,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7897,7 +7897,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7906,11 +7906,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7922,7 +7922,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7931,7 +7931,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7940,11 +7940,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7956,7 +7956,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7965,7 +7965,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7974,11 +7974,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7987,7 +7987,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7996,7 +7996,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8005,7 +8005,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8018,7 +8018,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -8088,7 +8088,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8098,7 +8098,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8108,11 +8108,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8127,7 +8127,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8137,7 +8137,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8147,11 +8147,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8166,7 +8166,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8176,7 +8176,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8186,11 +8186,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8200,7 +8200,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8210,7 +8210,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8220,7 +8220,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8233,7 +8233,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -8303,7 +8303,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8313,7 +8313,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8323,11 +8323,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8342,7 +8342,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8352,7 +8352,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8362,11 +8362,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8381,7 +8381,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8391,7 +8391,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8401,11 +8401,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8415,7 +8415,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8425,7 +8425,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8435,7 +8435,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8448,7 +8448,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -8516,7 +8516,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8526,7 +8526,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8536,11 +8536,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8555,7 +8555,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8565,7 +8565,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8575,11 +8575,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8594,7 +8594,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8604,7 +8604,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8614,11 +8614,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8628,7 +8628,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8638,7 +8638,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8648,7 +8648,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8661,7 +8661,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -8731,7 +8731,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8741,7 +8741,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8751,11 +8751,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8770,7 +8770,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8780,7 +8780,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8790,11 +8790,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8809,7 +8809,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8819,7 +8819,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8829,11 +8829,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8843,7 +8843,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8853,7 +8853,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8863,7 +8863,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8876,7 +8876,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -8942,7 +8942,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8952,7 +8952,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8962,11 +8962,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8979,7 +8979,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8989,7 +8989,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8999,11 +8999,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9016,7 +9016,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9026,7 +9026,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9036,11 +9036,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9050,7 +9050,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9060,7 +9060,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9070,7 +9070,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9083,7 +9083,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9153,7 +9153,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9163,7 +9163,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9173,11 +9173,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9192,7 +9192,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9202,7 +9202,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9212,11 +9212,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9231,7 +9231,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9241,7 +9241,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9251,11 +9251,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9265,7 +9265,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9275,7 +9275,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9285,7 +9285,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9298,7 +9298,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9362,7 +9362,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9371,7 +9371,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9380,11 +9380,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9396,7 +9396,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9405,7 +9405,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9414,11 +9414,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9430,7 +9430,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9439,7 +9439,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9448,11 +9448,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9461,7 +9461,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9470,7 +9470,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9479,7 +9479,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9492,7 +9492,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9561,7 +9561,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9570,7 +9570,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9579,11 +9579,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9597,7 +9597,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9606,7 +9606,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                           Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                           <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9615,11 +9615,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9633,7 +9633,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9642,7 +9642,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9651,11 +9651,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9664,7 +9664,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9673,7 +9673,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9682,7 +9682,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9695,7 +9695,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9763,7 +9763,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9773,7 +9773,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9783,11 +9783,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9802,7 +9802,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9812,7 +9812,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9822,11 +9822,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9841,7 +9841,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9851,7 +9851,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9861,11 +9861,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9875,7 +9875,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9885,7 +9885,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9895,7 +9895,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9908,7 +9908,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9976,7 +9976,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9986,7 +9986,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9996,11 +9996,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10015,7 +10015,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10025,7 +10025,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10035,11 +10035,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10054,7 +10054,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10064,7 +10064,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10074,11 +10074,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10088,7 +10088,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10098,7 +10098,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10108,7 +10108,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10121,7 +10121,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -10191,7 +10191,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10201,7 +10201,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10211,11 +10211,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10230,7 +10230,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10240,7 +10240,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10250,11 +10250,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10269,7 +10269,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10279,7 +10279,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10289,11 +10289,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10303,7 +10303,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10313,7 +10313,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10323,7 +10323,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10336,7 +10336,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -10406,7 +10406,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10416,7 +10416,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10426,11 +10426,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10445,7 +10445,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10455,7 +10455,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10465,11 +10465,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10484,7 +10484,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10494,7 +10494,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10504,11 +10504,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10518,7 +10518,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10528,7 +10528,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10538,7 +10538,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10551,7 +10551,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -10621,7 +10621,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10631,7 +10631,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10641,7 +10641,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10655,7 +10655,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10670,7 +10670,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10680,7 +10680,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10690,11 +10690,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10709,7 +10709,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10719,7 +10719,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10729,11 +10729,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10743,7 +10743,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10753,7 +10753,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10763,7 +10763,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10776,7 +10776,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -10847,7 +10847,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10857,7 +10857,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10867,11 +10867,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10886,7 +10886,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10896,7 +10896,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10906,11 +10906,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10925,7 +10925,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10935,7 +10935,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10945,11 +10945,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10959,7 +10959,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je maitrise (je réalise cette tâche professionnelle seul)
+                                                            <?php echo $je_maitrise ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10969,7 +10969,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je ne maitrise pas (je ne réalise pas cette tâche professionnelle seul)
+                                                            <?php echo $je_ne_maitrise_pas ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10979,7 +10979,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            Je n'ai jamais réalisé cette tâche professionnelle dans l'atelier
+                                                            <?php echo $jai_jamais_fait ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10992,7 +10992,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>        
                             <?php } ?>
                             <?php }
@@ -11002,7 +11002,7 @@ if (!isset($_SESSION["id"])) {
                             <?php } ?>
                             <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
                                 <!-- <button type="submit" class="btn btn-secondary btn-lg" name="back">Retour</button> -->
-                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Etape Suivante</button>
+                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid"><?php echo $next ?></button>
                             </div>
                         </div>
                     </form>

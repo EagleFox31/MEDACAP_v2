@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -24,7 +25,7 @@ if (!isset($_SESSION["id"])) {
         $technician = $_POST["technician"];
 
         if (!$technician) {
-            $error_msg = "Veuillez le technicien à reassigner ses tests.";
+            $error_msg = $error_reallocation;
         } else {
             $user = $users->findOne([
                 '$and' => [
@@ -64,14 +65,14 @@ if (!isset($_SESSION["id"])) {
                     ]
                 );
             }
-            $success_msg = "Technicien(s) reassigné(s) avec succès";
+            $success_msg = $success_reallocation;
         }
     }
     ?>
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Reassigner Test Technicien | CFAO Mobility Academy</title>
+<title><?php echo $title_reallocation ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -86,7 +87,7 @@ if (!isset($_SESSION["id"])) {
             <div class="container mt-5 w-50">
                 <img src="../public/images/logo.png" alt="10" height="170"
                     style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-                <h1 class="my-3 text-center">Reassigner le précédent test d'un technicien</h1>
+                <h1 class="my-3 text-center"><?php echo $reallocation_tech ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -110,15 +111,15 @@ if (!isset($_SESSION["id"])) {
                 <div class="d-flex flex-column mb-7 fv-row">
                     <!--begin::Label-->
                     <label class="form-label fw-bolder text-dark fs-6">
-                        <span class="required">Technicien</span>
+                        <span class="required"><?php echo $technicien ?></span>
                         </span>
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
                     <select name="technician" aria-label="Select a Country"
-                        data-control="select2" data-placeholder="Sélectionnez le technicien..."
+                        data-control="select2" data-placeholder="<?php echo $select_tech ?>"
                         class="form-select form-select-solid fw-bold">
-                        <option value="">Sélectionnez le technicien...</option>
+                        <option value=""><?php echo $select_tech ?></option>
                         <?php
                         $user = $users->find([
                             '$and' => [
@@ -143,7 +144,7 @@ if (!isset($_SESSION["id"])) {
                 <!--end::Input group-->
                 <div class="text-center" style="margin-bottom: 50px;">
                     <button type="submit" name="submit" class="btn btn-lg btn-primary">
-                        Valider
+                        <?php echo $valider ?>
                     </button>
                 </div>
             </form>

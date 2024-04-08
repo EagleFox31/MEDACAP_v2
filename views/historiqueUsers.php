@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["profile"])) {
     header("Location: ./index.php");
@@ -35,7 +36,7 @@ if (isset($_POST["active"])) {
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Utilisateurs Supprimés | CFAO Mobility Academy</title>
+<title><?php echo $list_user_sup ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -48,7 +49,7 @@ if (isset($_POST["active"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des utilisateurs supprimés </h1>
+                    <?php echo $list_user_sup ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -223,37 +224,36 @@ if (isset($_POST["active"])) {
                                         <th class="min-w-225px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Prénoms et
-                                            noms
+                                            style="width: 125px;"><?php echo $prenomsNoms ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Email</th>
+                                            style="width: 155.266px;"><?php echo $email ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Numéro de Téléphone</th>
+                                            style="width: 152.719px;"><?php echo $phoneNumber ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau Technique
+                                            style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Diplôme
+                                            style="width: 152.719px;"><?php echo $certificat ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Departement</th>
+                                            <?php echo $department ?></th>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Restaurer</th>
+                                            <?php echo $restaurer ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -357,7 +357,7 @@ if (isset($_POST["active"])) {
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
                                                         <h2 class="fs-2 fw-bolder">
-                                                            Restauration
+                                                            <?php echo $restauration ?>
                                                         </h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
@@ -383,9 +383,7 @@ if (isset($_POST["active"])) {
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <h4>
-                                                            Voulez-vous vraiment
-                                                            restaurer cet
-                                                            utilisateur?
+                                                            <?php echo $restore_text ?>
                                                         </h4>
                                                     </div>
                                                     <!--end::Modal body-->
@@ -395,12 +393,12 @@ if (isset($_POST["active"])) {
                                                         <button type="reset" class="btn btn-light me-3"
                                                             id="closeDesactivate" data-bs-dismiss="modal"
                                                             data-kt-users-modal-action="cancel">
-                                                            Non
+                                                            <?php echo $non ?>
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
                                                         <button type="submit" name="active" class="btn btn-primary">
-                                                            Oui
+                                                            <?php echo $oui ?>
                                                         </button>
                                                         <!--end::Button-->
                                                     </div>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -84,7 +85,7 @@ if (isset($_POST["delet"])) {
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Questions | CFAO Mobility Academy</title>
+<title><?php echo $list_question ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -97,7 +98,7 @@ if (isset($_POST["delet"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des questions </h1>
+                    <?php echo $list_question ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -251,30 +252,30 @@ if (isset($_POST["delet"])) {
                                         <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Reférence
+                                            style="width: 125px;"><?php echo $ref ?>
                                         </th>
                                         <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Questions
+                                            style="width: 125px;"><?php echo $question ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Réponse
+                                            style="width: 134.188px;"><?php echo $answer ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Type</th>
+                                            style="width: 126.516px;"><?php echo $type ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Niveau</th>
+                                            style="width: 126.516px;"><?php echo $level ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Spécialité</th>
+                                            style="width: 126.516px;"><?php echo $speciality ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">

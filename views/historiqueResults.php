@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -95,7 +96,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Listes des Résultats | CFAO Mobility Academy</title>
+<title><?php echo $list_result ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -108,7 +109,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Listes des résultats </h1>
+                    <?php echo $list_result ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -184,7 +185,7 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-200px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" rowspan="3"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Techniciens
+                                            style="width: 125px;"><?php echo $technicien ?>
                                         </th>
                                         <!-- <th class="min-w-200px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" rowspan="3"
@@ -200,63 +201,63 @@ if (!isset($_SESSION["id"])) {
                                             aria-controls="kt_customers_table" colspan="3"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Junior</th>
+                                            <?php echo $level ?> <?php echo $junior ?></th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" colspan="3"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Senior</th>
+                                            <?php echo $level ?> <?php echo $senior ?></th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" colspan="3"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Expert</th>
+                                            <?php echo $level ?> <?php echo $expert ?></th>
                                         <tr></tr>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Connaissances</th>
+                                            <?php echo $connaissances ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Tâches Professionnelles</th>
+                                            <?php echo $tache_pro ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Global</th>
+                                            <?php echo $global ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Connaissances</th>
+                                            <?php echo $connaissances ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Tâches Professionnelles</th>
+                                            <?php echo $tache_pro ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Global</th>
+                                            <?php echo $global ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Connaissances</th>
+                                            <?php echo $connaissances ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage du Test des Tâches Professionnelles</th>
+                                            <?php echo $tache_pro ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Pourcentage Global</th>
+                                            <?php echo $global ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -381,17 +382,17 @@ if (!isset($_SESSION["id"])) {
                                         <?php } else { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <?php } ?>
@@ -418,17 +419,17 @@ if (!isset($_SESSION["id"])) {
                                              ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <?php

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -45,7 +46,7 @@ if (isset($_POST["submit"])) {
             ],
         ]);
         if ($exist) {
-            $error_msg = "Cette question " . $label . " existe déjà.";
+            $error_msg = $error_question;
         } elseif ($type == "Factuelle") {
             $question = [
                 "image" => $image,
@@ -2456,7 +2457,7 @@ if (isset($_POST["submit"])) {
                     }
                 }
             }
-            $success_msg = "Question ajoutée avec succès";
+            $success_msg = $success_question;
         } elseif ($type == "Declarative") {
             $question = [
                 "image" => $image,
@@ -4868,14 +4869,14 @@ if (isset($_POST["submit"])) {
                     }
                 }
             }
-            $success_msg = "Questions ajoutées avec succès";
+            $success_msg = $success_question;
         }
     }
 }
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Importer Questions | CFAO Mobility Academy</title>
+<title><?php echo $import_question ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -4890,7 +4891,7 @@ if (isset($_POST["submit"])) {
             <div class="container mt-5 w-50">
                 <img src="../public/images/logo.png" alt="10" height="170"
                     style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-                <h1 class="my-3 text-center">Importer des questions</h1>
+                <h1 class="my-3 text-center"><?php echo $import_question ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -4914,7 +4915,7 @@ if (isset($_POST["submit"])) {
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="required form-label fw-bolder text-dark fs-6">Importer des questions via
-                            Excel</label>
+                            <?php echo $excel ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="file" class="form-control form-control-solid" placeholder="" name="excel" />
@@ -4925,7 +4926,7 @@ if (isset($_POST["submit"])) {
                         <!--begin::Button-->
                         <button type="submit" name="submit" class="btn btn-primary">
                             <span class="indicator-label">
-                                Valider
+                                <?php echo $valider ?>
                             </span>
                             <span class="indicator-progress">
                                 Patientez... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>

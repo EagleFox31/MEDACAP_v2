@@ -251,16 +251,16 @@ if (!isset($_SESSION["id"])) {
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Customer Name: activate to sort column ascending"
-                                                style="width: 125px;"><?php echo $level_junior ?>
+                                                style="width: 125px;"><?php echo $level ?> <?php echo $junior ?>
                                             </th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Email: activate to sort column ascending"
-                                                style="width: 155.266px;"><?php echo $level_senior ?></th>
+                                                style="width: 155.266px;"><?php echo $level ?> <?php echo $senior ?></th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Created Date: activate to sort column ascending"
-                                                style="width: 152.719px;"><?php echo $level_expert ?></th>
+                                                style="width: 152.719px;"><?php echo $level ?> <?php echo $expert ?></th>
                                         </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600" id="table">

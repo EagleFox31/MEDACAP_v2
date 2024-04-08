@@ -1,6 +1,5 @@
 <?php
 session_start();
-include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -1729,6 +1728,7 @@ if (!isset($_SESSION["id"])) {
 
     $percentageFac = ($resultFac['score'] * 100) / $resultFac['total'];
     $percentageTechMa = ($resultTechMa['score'] * 100) / $resultTechMa['total'];
+    include_once "language.php";
     ?>
 <title><?php echo $result_tech; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->

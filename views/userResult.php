@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -31,7 +32,7 @@ if (!isset($_SESSION["id"])) {
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Mes Evaluations Réalisés | CFAO Mobility Academy</title>
+<title><?php echo $title_userResult ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -44,7 +45,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Mes évaluations réalisés</h1>
+                    <?php echo $title_userResult ?></h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -138,31 +139,31 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 250px;">
-                                            Tests</th>
+                                            <?php echo $test ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Véhicules</th>
+                                            <?php echo $vehicle ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Marques</th>
+                                            <?php echo $brand ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Niveau Junior
+                                            style="width: 155.266px;"><?php echo $level ?> <?php echo $junior ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Senior</th>
+                                            <?php echo $level ?> <?php echo $senior ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Niveau Expert
+                                            style="width: 155.266px;"><?php echo $level ?> <?php echo $expert ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -205,7 +206,7 @@ if (!isset($_SESSION["id"])) {
                                     <tr>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                Questionnaire sur les connaissances théoriques
+                                                <?php echo $connaissances ?>
                                             </span>
                                         </td>
                                         <td class="pe-0">
@@ -221,51 +222,51 @@ if (!isset($_SESSION["id"])) {
                                         <?php if ($test->level == "Junior") { ?>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <?php } ?>
                                         <?php if ($test->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <?php } ?>
                                         <?php if ($test->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <?php } ?>
@@ -289,7 +290,7 @@ if (!isset($_SESSION["id"])) {
                                     <tr>
                                         <td class="pe-0">
                                             <span class="text-gray-800 fw-bolder fs-5 d-block">
-                                                Questionnaire sur la maitrise de vos tâches professionnelles
+                                                <?php echo $tache_pro ?>
                                             </span>
                                         </td>
                                         <td class="pe-0">
@@ -305,51 +306,51 @@ if (!isset($_SESSION["id"])) {
                                         <?php if ($test->level == "Junior") { ?>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <?php } ?>
                                         <?php if ($test->level == "Senior") { ?>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-danger fs-7 m-1">
-                                                Non disponible
+                                                <?php echo $non_disponible ?>
                                             </span>
                                         </td>
                                         <?php } ?>
                                         <?php if ($test->level == "Expert") { ?>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                Effectué
+                                                <?php echo $effectue ?>
                                             </span>
                                         </td>
                                         <?php } ?>

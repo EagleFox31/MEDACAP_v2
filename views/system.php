@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -32,7 +33,7 @@ if (!isset($_SESSION["id"])) {
         ],
     ]);
     ?>
-<title>Résultat Technicien | CFAO Mobility Academy</title>
+<title><?php echo $result_tech; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
 <link href="../public/images/logo-cfao.png" rel="icon">
@@ -82,13 +83,13 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    Résultats de
+                    <?php echo $result_to ?>
                     <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>
                 <!--end::Title-->
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    Groupe Fonctionnel:
+                    <?php echo $groupe_fonctionnel ?>:
                     <?php echo $speciality; ?>
                 </h1>
                 <!--end::Title-->
@@ -116,7 +117,7 @@ if (!isset($_SESSION["id"])) {
                         <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
                             data-bs-target="#kt_customers_export_modal">
                             <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span
-                                    class="path2"></span></i> Excel
+                                    class="path2"></span></i> <?php echo $excel ?>
                         </button>
                         <!--end::Export-->
                     </div>
@@ -139,42 +140,41 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" colspan="6"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
-                                        Résultats de la mesure des connaissances
-                                        et tâches professionnelles</th>
+                                        <?php echo $result_mesure ?></th>
                                 <tr></tr>
                                 <th class="min-w-400px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="2"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des connaissances</th>
+                                    <?php echo $connaissances ?></th>
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Mesure des tâches professionnelles</th>
+                                    <?php echo $tache_pro ?></th>
                                 <tr></tr>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Questions</th>
+                                    <?php echo $question ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats</th>
+                                    <?php echo $result ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Questions</th>
+                                    <?php echo $question ?></th>
                                 <th class="min-w-130px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
-                                    Résultats technicien</th>
+                                    <?php echo $result_tech ?></th>
                                 <th class="min-w-120px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats manager</th>
+                                    <?php echo $result_manager ?></th>
                                 <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    Résultats</th>
+                                    <?php echo $result ?></th>
                                 <tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
@@ -278,7 +278,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -286,7 +286,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -294,7 +294,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                 </tr>
@@ -347,7 +347,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -355,7 +355,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -363,7 +363,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } else { ?>
@@ -418,7 +418,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Maitrisé
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -426,7 +426,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -434,7 +434,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        Non maitrisé
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                 </tr>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -949,7 +950,7 @@ if (!isset($_SESSION["id"])) {
                     $error_msg =
                         "Vous n'avez pas répondu à " .
                         count($array) .
-                        " question(s), Veuillez vérifier la ou les question(s) dont valider est en vert svp.";
+                        " question(s), Veuillez vérifier la ou les question(s) dont <?php echo $valider ?> est en vert svp.";
                 }
             }
             //var_dump($array);
@@ -2846,7 +2847,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Test sur les connaissance | CFAO Mobility Academy</title>
+<title><?php echo $test_connaissances ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -2864,18 +2865,18 @@ if (!isset($_SESSION["id"])) {
                 <form class="quiz-form" method="POST">
                         <center class="center col-sm stack-on-small" style="margin-top: -100px;">
                             <div class="timer col-sm stack-on-small" style="margin-right: 400px;">
-                                <div class="time_left_txt">Questions Restantes</div>
+                                <div class="time_left_txt"><?php echo $left_questions ?></div>
                                 <div class="timer_sec" id="num" value="1">
                                 </div>
                             </div>
                             <div class="timer" style="margin-top: -45px; margin-left: 400px ">
-                                <div class="time_left_txt">Durée estimée</div>
+                                <div class="time_left_txt"><?php echo $duree ?></div>
                                 <div class="timer_sec" id="timer_sec">
                                 </div>
                             </div>
                         </center>
                         <div class="heading" style="margin-top: 10px;">
-                            <h1 class="heading__text">Test des Connaissances du Niveau <?php echo $_GET[
+                            <h1 class="heading__text"><?php echo $test_con_level ?> <?php echo $_GET[
                                 "level"
                             ]; ?></h1>
                         </div>
@@ -2900,8 +2901,7 @@ if (!isset($_SESSION["id"])) {
                         </div>
                     </center> -->
                             <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-                                Vous devez repondre à toutes les questions avant
-                                de pouvoir valider le questionnaire.
+                                <?php echo $text_connaissance ?>
                             </p>
                         <input class="hidden" type="text" name="timer" id="clock" />
                         <input class="hidden" type="text" name="hr" id="hr" />
@@ -3058,7 +3058,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -3241,7 +3241,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -3428,7 +3428,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -3610,7 +3610,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -3792,7 +3792,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -3974,7 +3974,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -4156,7 +4156,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -4343,7 +4343,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -4530,7 +4530,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -4717,7 +4717,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -4894,7 +4894,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -5071,7 +5071,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -5248,7 +5248,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -5425,7 +5425,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -5597,7 +5597,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -5774,7 +5774,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -5951,7 +5951,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -6128,7 +6128,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -6305,7 +6305,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -6482,7 +6482,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -6659,7 +6659,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -6831,7 +6831,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -7004,7 +7004,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -7181,7 +7181,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -7358,7 +7358,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -7537,7 +7537,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -7716,7 +7716,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -7895,7 +7895,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -8073,7 +8073,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php
                                                     } ?>
@@ -8162,7 +8162,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                             $exam["answers"][$j] ==
@@ -8209,7 +8209,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                             $exam["answers"][$j] ==
@@ -8256,7 +8256,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                             $exam["answers"][$j] ==
@@ -8303,7 +8303,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8356,7 +8356,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php }}
                         }
@@ -8449,7 +8449,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8492,7 +8492,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8535,7 +8535,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8578,7 +8578,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8627,7 +8627,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -8729,7 +8729,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8778,7 +8778,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8823,7 +8823,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8872,7 +8872,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8925,7 +8925,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9020,7 +9020,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9063,7 +9063,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9106,7 +9106,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9149,7 +9149,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9198,7 +9198,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     </div>
                                                     <?php } ?>
@@ -9296,7 +9296,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9341,7 +9341,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9386,7 +9386,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9431,7 +9431,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9480,7 +9480,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9577,7 +9577,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9622,7 +9622,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9667,7 +9667,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9712,7 +9712,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9761,7 +9761,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -9856,7 +9856,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9899,7 +9899,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9942,7 +9942,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9985,7 +9985,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10034,7 +10034,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -10138,7 +10138,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10187,7 +10187,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10236,7 +10236,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10285,7 +10285,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10338,7 +10338,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -10438,7 +10438,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10485,7 +10485,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10532,7 +10532,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10579,7 +10579,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10632,7 +10632,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -10734,7 +10734,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10783,7 +10783,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10832,7 +10832,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10881,7 +10881,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10934,7 +10934,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -11038,7 +11038,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11087,7 +11087,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11136,7 +11136,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11185,7 +11185,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -11238,7 +11238,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -11338,7 +11338,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11385,7 +11385,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11432,7 +11432,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11479,7 +11479,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -11532,7 +11532,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -11636,7 +11636,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11685,7 +11685,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11734,7 +11734,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11783,7 +11783,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -11836,7 +11836,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -11938,7 +11938,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -11987,7 +11987,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12036,7 +12036,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12085,7 +12085,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -12138,7 +12138,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -12233,7 +12233,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12276,7 +12276,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12319,7 +12319,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12362,7 +12362,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -12411,7 +12411,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -12515,7 +12515,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12564,7 +12564,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12613,7 +12613,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12662,7 +12662,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -12715,7 +12715,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -12819,7 +12819,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12868,7 +12868,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12917,7 +12917,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -12966,7 +12966,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -13019,7 +13019,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -13121,7 +13121,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13170,7 +13170,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13219,7 +13219,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13268,7 +13268,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -13321,7 +13321,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -13425,7 +13425,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13474,7 +13474,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13523,7 +13523,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13572,7 +13572,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -13625,7 +13625,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -13725,7 +13725,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13772,7 +13772,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13819,7 +13819,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -13866,7 +13866,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -13919,7 +13919,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -14023,7 +14023,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14072,7 +14072,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14121,7 +14121,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14170,7 +14170,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -14223,7 +14223,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -14318,7 +14318,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14361,7 +14361,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14404,7 +14404,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14447,7 +14447,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -14496,7 +14496,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -14596,7 +14596,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14641,7 +14641,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14686,7 +14686,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14731,7 +14731,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -14780,7 +14780,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -14882,7 +14882,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14931,7 +14931,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -14980,7 +14980,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15029,7 +15029,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -15082,7 +15082,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -15184,7 +15184,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15233,7 +15233,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15282,7 +15282,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15331,7 +15331,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -15384,7 +15384,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -15488,7 +15488,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15537,7 +15537,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15586,7 +15586,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15635,7 +15635,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -15688,7 +15688,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -15792,7 +15792,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15841,7 +15841,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15890,7 +15890,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -15939,7 +15939,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -15992,7 +15992,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -16096,7 +16096,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -16145,7 +16145,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -16194,7 +16194,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -16243,7 +16243,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -16296,7 +16296,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -16401,7 +16401,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -16450,7 +16450,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -16499,7 +16499,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -16548,7 +16548,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -16601,7 +16601,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save">Valider</button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
@@ -16611,7 +16611,7 @@ if (!isset($_SESSION["id"])) {
                                                     <?php } ?>
                             <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
                                 <!-- <button type="submit" class="btn btn-secondary btn-lg" name="back">Retour</button> -->
-                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">Etape Suivante</button>
+                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid"><?php echo $next ?></button>
                             </div>
                         </div>
                     </form>

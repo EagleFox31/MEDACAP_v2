@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -33,7 +34,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste Collaborateurs à Evalués | CFAO Mobility Academy</title>
+<title><?php echo $list_evalue_collab ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -46,7 +47,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des collaborateurs à évaluer
+                    <?php echo $list_evalue_collab ?>
                 </h1>
                 <!--end::Title-->
                 <div class="card-title">
@@ -152,26 +153,26 @@ if (!isset($_SESSION["id"])) {
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Techniciens</th>
+                                            <?php echo $technicien ?></th>
                                         <th class="min-w-250px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending" style="width: 200px;">
-                                            Tests</th>
+                                            <?php echo $test ?></th>
                                         <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Junior</th>
+                                            <?php echo $level ?> <?php echo $junior ?></th>
                                         <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Senior</th>
+                                            <?php echo $level ?> <?php echo $senior ?></th>
                                         <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau Expert</th>
+                                            <?php echo $level ?> <?php echo $expert ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -267,7 +268,7 @@ if (!isset($_SESSION["id"])) {
                                             <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td class="text-center">
-                                            Maitrise des tâches professionnelles
+                                            <?php echo $maitrise_tache_pro ?>
                                         </td>
                                         <td class="text-center">
                                             <?php if ($allocateJu) { ?>
@@ -275,12 +276,12 @@ if (!isset($_SESSION["id"])) {
                                                     <a href="./userEvaluation.php?test=<?php echo $allocateJu[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateJu[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
+                                                        <?php echo $en_cours ?>
                                                     </a>
                                             <?php } else { ?>
                                                 <?php if (
@@ -290,22 +291,22 @@ if (!isset($_SESSION["id"])) {
                                                     <a href="./userEvaluation.php?test=<?php echo $allocateJu[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateJu[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A évaluer par vous
+                                                        <?php echo $evaluer_par_vous ?>
                                                     </a>
                                                 <?php } else { ?>
                                                     <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
+                                                        <?php echo $effectue ?>
                                                     </span>
                                                 <?php } ?>
                                             <?php } ?>
                                             <?php } else { ?>
                                                 <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
+                                                    <?php echo $non_disponible ?>
                                                 </span>
                                             <?php } ?>
                                         </td>
@@ -315,12 +316,12 @@ if (!isset($_SESSION["id"])) {
                                                     <a href="./userEvaluation.php?test=<?php echo $allocateSe[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateSe[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
+                                                        <?php echo $en_cours ?>
                                                     </a>
                                             <?php } else { ?>
                                                 <?php if (
@@ -330,22 +331,22 @@ if (!isset($_SESSION["id"])) {
                                                     <a href="./userEvaluation.php?test=<?php echo $allocateSe[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateSe[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A évaluer par vous
+                                                        <?php echo $evaluer_par_vous ?>
                                                     </a>
                                                 <?php } else { ?>
                                                     <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
+                                                        <?php echo $effectue ?>
                                                     </span>
                                                 <?php } ?>
                                             <?php } ?>
                                             <?php } else { ?>
                                                 <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
+                                                    <?php echo $non_disponible ?>
                                                 </span>
                                             <?php } ?>
                                         </td>
@@ -355,12 +356,12 @@ if (!isset($_SESSION["id"])) {
                                                     <a href="./userEvaluation.php?test=<?php echo $allocateEx[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateEx[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
+                                                        <?php echo $en_cours ?>
                                                     </a>
                                             <?php } else { ?>
                                                 <?php if (
@@ -370,22 +371,22 @@ if (!isset($_SESSION["id"])) {
                                                     <a href="./userEvaluation.php?test=<?php echo $allocateEx[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateEx[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>&user=<?php echo $user["_id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A évaluer par vous
+                                                        <?php echo $evaluer_par_vous ?>
                                                     </a>
                                                 <?php } else { ?>
                                                     <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
+                                                        <?php echo $effectue ?>
                                                     </span>
                                                 <?php } ?>
                                             <?php } ?>
                                             <?php } else { ?>
                                                 <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
+                                                    <?php echo $non_disponible ?>
                                                 </span>
                                             <?php } ?>
                                         </td>

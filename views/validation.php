@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -27,7 +28,7 @@ if (!isset($_SESSION["id"])) {
 
         $exist = $validations->findOne([ "active" => true]);
         if (empty($qcmJunior) || empty($qcmSenior) || empty($qcmExpert) || empty($tacheJunior) || empty($tacheSenior) || empty($tacheExpert)) {
-            $error = "Veuillez d'abord remplir au moins un vide.";
+            $error = $champ_obligatoire;
         } else {
             if ($exist) {
                 if ($qcmJunior) {
@@ -199,7 +200,7 @@ if (!isset($_SESSION["id"])) {
                     );
                 }
             }
-            $success_msg = "Seuil de validation des tests modifié avec succes.";
+            $success_msg = $success_seuil_validation;
         }
 
     }
@@ -207,7 +208,7 @@ if (!isset($_SESSION["id"])) {
 <?php include_once "partials/header.php"; ?>
 
 <!--begin::Title-->
-<title>Seuil de Validation des Tests | CFAO Mobility Academy</title>
+<title><?php echo $seuil_validation ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -225,7 +226,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Table-->
-                        <h1 class='my-3 text-center'>Seuil de validation des tests actuel</h1><br><br>
+                        <h1 class='my-3 text-center'><?php echo $seuil_validation ?></h1><br><br>
                         <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="table-responsive">
                                 <table aria-describedby=""
@@ -243,21 +244,21 @@ if (!isset($_SESSION["id"])) {
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Customer Name: activate to sort column ascending"
-                                                style="width: 125px;">Tests
+                                                style="width: 125px;"><?php echo $test ?>
                                             </th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Customer Name: activate to sort column ascending"
-                                                style="width: 125px;">Seuil Niveau Junior
+                                                style="width: 125px;"><?php echo $level ?> <?php echo $junior ?>
                                             </th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Email: activate to sort column ascending"
-                                                style="width: 155.266px;">Seuil Niveau Senior</th>
+                                                style="width: 155.266px;"><?php echo $level ?> <?php echo $senior ?></th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Created Date: activate to sort column ascending"
-                                                style="width: 152.719px;">Seuil Niveau Expert</th>
+                                                style="width: 152.719px;"><?php echo $level ?> <?php echo $expert ?></th>
                                         </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600" id="table">
@@ -273,7 +274,7 @@ if (!isset($_SESSION["id"])) {
                                             </td> -->
                                             <td></td>
                                             <td class="text-center">
-                                                Connaissances
+                                                <?php echo $connaissances ?>
                                             </td>
                                             <td class="text-center">
                                                 <?php echo $validates->qcmJunior; ?>
@@ -294,7 +295,7 @@ if (!isset($_SESSION["id"])) {
                                             </td> -->
                                             <td></td>
                                             <td class="text-center">
-                                                Tâches professionnelles
+                                                <?php echo $tache_pro ?>
                                             </td>
                                             <td class="text-center">
                                                 <?php echo $validates->tacheJunior; ?>
@@ -314,7 +315,7 @@ if (!isset($_SESSION["id"])) {
                         <!--end::Table-->
                     </div>
                     <!--end::Card body--><br><br>
-                    <h1 class='my-3 text-center'>Modifier le seuil de validation des tests</h1>
+                    <h1 class='my-3 text-center'><?php echo $edit_valivation ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -354,21 +355,21 @@ if (!isset($_SESSION["id"])) {
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Customer Name: activate to sort column ascending"
-                                                style="width: 125px;">Tests
+                                                style="width: 125px;"><?php echo $test ?>
                                             </th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Customer Name: activate to sort column ascending"
-                                                style="width: 125px;">Seuil Niveau Junior
+                                                style="width: 125px;"><?php echo $level ?> <?php echo $junior ?>
                                             </th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Email: activate to sort column ascending"
-                                                style="width: 155.266px;">Seuil Niveau Senior</th>
+                                                style="width: 155.266px;"><?php echo $level ?> <?php echo $senior ?></th>
                                             <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Created Date: activate to sort column ascending"
-                                                style="width: 152.719px;">Seuil Niveau Expert</th>
+                                                style="width: 152.719px;"><?php echo $level ?> <?php echo $expert ?></th>
                                         </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600" id="table">
@@ -384,7 +385,7 @@ if (!isset($_SESSION["id"])) {
                                             </td> -->
                                             <td></td>
                                             <td class="text-center">
-                                                Connaissances
+                                                <?php echo $connaissances ?>
                                             </td>
                                             <td class="text-center">
                                                 <input class='form-control form-control-solid' placeholder='' name='qcmJunior' />
@@ -405,7 +406,7 @@ if (!isset($_SESSION["id"])) {
                                             </td> -->
                                             <td></td>
                                             <td class="text-center">
-                                                Tâches professionnelles
+                                                <?php echo $tache_pro ?>
                                             </td>
                                             <td class="text-center">
                                                 <input class='form-control form-control-solid' placeholder='' name='tacheJunior' />
@@ -432,7 +433,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Button-->
                         <button type="submit" name="submit" class=" btn btn-primary">
                             <span class="indicator-label">
-                                Valider
+                                <?php echo $valider ?>
                             </span>
                             <span class="indicator-progress">
                                 Patientez... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>

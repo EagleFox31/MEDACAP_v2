@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -69,7 +70,7 @@ if (isset($_POST["update"])) {
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         ['$set' => $person]
     );
-    $success_msg = "Collaborateur modifié avec succes.";
+    $success_msg = $success_user_edit;
 }
 if (isset($_POST["brand"])) {
     $id = $_POST["userID"];
@@ -83,7 +84,7 @@ if (isset($_POST["brand"])) {
             ],
         ]
     );
-    $success_msg = "Collaborateur modifié avec succes.";
+    $success_msg = $success_user_edit;
 }
 if (isset($_POST["password"])) {
     // Password modification
@@ -95,15 +96,14 @@ if (isset($_POST["password"])) {
             $password
         )
     ) {
-        $error =
-            "Le mot de passe doit être au moins de six caractères contenir au moins un chiffre, une lettre majiscule";
+        $error = $password_invalid;
     } else {
         $password_hash = sha1($password);
         $users->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($id)],
             ['$set' => ["password" => $password_hash]]
         );
-        $success_msg = "Collaborateur modifié avec succes.";
+        $success_msg = $success_user_edit;
     }
 }
 if (isset($_POST["delete"])) {
@@ -114,18 +114,12 @@ if (isset($_POST["delete"])) {
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         ['$set' => $member]
     );
-    if ($member["profile"] == "Technicien") {
-        $success_msg = "Technicien supprimé avec succès";
-    } elseif ($member["profile"] == "Manager") {
-        $success_msg = "Manager supprimé avec succès";
-    } elseif ($member["profile"] == "Admin") {
-        $success_msg = "Administrateur supprimé avec succès";
-    }
+    $success_msg = $success_user_delet;
 }
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Mes Informations | CFAO Mobility Academy</title>
+<title><?php echo $data ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -154,7 +148,7 @@ if (isset($_POST["delete"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bolder my-1 fs-2">
-                    Mes informations
+                    <?php echo $data ?>
                 </h1>
                 <!--end::Title-->
             </div>
@@ -242,7 +236,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Action-->
                 <a href="#" style="background: #225e41;" 
                 data-bs-toggle="modal" data-bs-target="#kt_modal_update_details" 
-                class="btn btn-sm btn-success align-self-center">Modifier</a>
+                class="btn btn-sm btn-success align-self-center"><?php echo $edit ?></a>
                 <!--end::Action-->
                 <?php } ?>
               </div>
@@ -253,7 +247,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Row-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Nom d'utilisateur</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $username ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -267,7 +261,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Matricule</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $matricule ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -282,7 +276,7 @@ if (isset($_POST["delete"])) {
                 <div class="row mb-7">
                   <!--begin::Label-->
                   <label class="col-lg-4 fw-semibold text-muted">
-                    Numéro de téléphone
+                    <?php echo $phoneNumber ?>
 
                     <span class="ms-1" data-bs-toggle="tooltip" title="Le numéro de téléphone doit être actif">
                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> </span>
@@ -301,7 +295,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Date de naissance</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $birthdate ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -315,7 +309,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Sexe</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $gender ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -330,7 +324,7 @@ if (isset($_POST["delete"])) {
                 <div class="row mb-7">
                   <!--begin::Label-->
                   <label class="col-lg-4 fw-semibold text-muted">
-                    Pays
+                    <?php echo $country ?>
 
                     <span class="ms-1" data-bs-toggle="tooltip" title="Country of origination">
                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> </span>
@@ -348,7 +342,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Certificat le plus élevé</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $certificat ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -362,7 +356,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Filiale</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $filiale ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -376,7 +370,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Département</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $department ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -390,7 +384,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Fonction</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $role ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -404,7 +398,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Spécialité</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $speciality ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -419,7 +413,7 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Date de recrutement</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $recrutmentDate ?></label>
                   <!--end::Label-->
 
                   <!--begin::Col-->
@@ -433,12 +427,12 @@ if (isset($_POST["delete"])) {
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted">Marques de Véhicule</label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?></label>
                   <!--end::Label-->
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                  <?php foreach ($user->brand as $brand) { ?>
-                    <span class="fw-bold fs-6 text-gray-800"><?php echo $brand; ?>,</span>
+                  <?php foreach ($user['brand'] as $userBrands) { ?>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $userBrands ?>,</span>
                   <?php } ?>
                   </div>
                   <!--end::Col-->
@@ -459,8 +453,7 @@ if (isset($_POST["delete"])) {
                       <!--begin::Modal header-->
                       <div class="modal-header" id="kt_modal_update_user_header">
                         <!--begin::Modal title-->
-                        <h2 class="fs-2 fw-bolder">Modification des
-                          informations</h2>
+                        <h2 class="fs-2 fw-bolder"><?php echo $editer_data ?></h2>
                         <!--end::Modal title-->
                         <!--begin::Close-->
                         <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close" data-bs-dismiss="modal" data-kt-menu-dismiss="true">
@@ -482,7 +475,7 @@ if (isset($_POST["delete"])) {
                         <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_user_header" data-kt-scroll-wrappers="#kt_modal_update_user_scroll" data-kt-scroll-offset="300px">
                           <!--begin::User toggle-->
                           <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                            Informations
+                            <?php echo $data ?>
                           </div>
                           <!--end::User toggle-->
                           <!--begin::User form-->
@@ -490,7 +483,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Username</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $username ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="username" value="<?php echo $user->username; ?>" />
@@ -500,7 +493,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Matricule</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $matricule ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="matricule" value="<?php echo $user->matricule; ?>" />
@@ -512,7 +505,7 @@ if (isset($_POST["delete"])) {
                               <!--begin::Col-->
                               <div class="col-md-6 fv-row">
                                 <!--begin::Label-->
-                                <label class="form-label fw-bolder text-dark fs-6">Prénoms</label>
+                                <label class="form-label fw-bolder text-dark fs-6"><?php echo $prenoms ?></label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input class="form-control form-control-solid" placeholder="" name="firstName" value="<?php echo $user->firstName; ?>" />
@@ -522,7 +515,7 @@ if (isset($_POST["delete"])) {
                               <!--begin::Col-->
                               <div class="col-md-6 fv-row">
                                 <!--begin::Label-->
-                                <label class="form-label fw-bolder text-dark fs-6">Noms</label>
+                                <label class="form-label fw-bolder text-dark fs-6"><?php echo $noms ?></label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input class="form-control form-control-solid" placeholder="" name="lastName" value="<?php echo $user->lastName; ?>" />
@@ -535,7 +528,7 @@ if (isset($_POST["delete"])) {
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
                               <label class="fs-6 fw-bold mb-2">
-                                <span>Email</span>
+                                <span><?php echo $email ?></span>
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
@@ -547,7 +540,7 @@ if (isset($_POST["delete"])) {
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
                               <label class="fs-6 fw-bold mb-2">
-                                <span>Sexe</span>
+                                <span><?php echo $gender ?></span>
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
@@ -558,9 +551,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Numéro
-                                de
-                                téléphone</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $phoneNumber ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="phone" value="<?php echo $user->phone; ?>" />
@@ -570,9 +561,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Date
-                                de
-                                naissance</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $birthdate ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="birthdate" value="<?php echo $user->birthdate; ?>" />
@@ -582,7 +571,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Métier</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $levelTech ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="level" value="<?php echo $user->level; ?>" />
@@ -592,7 +581,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Spécialité</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="speciality" value="<?php echo $user->speciality ??
@@ -603,7 +592,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Pays</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $country ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="country" value="<?php echo $user->country; ?>" />
@@ -613,8 +602,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Certificat plus
-                                élévé</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $certificat ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="certificate" value="<?php echo $user->certificate; ?>" />
@@ -624,7 +612,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Filiale</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $filiale ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="subsidiary" value="<?php echo $user->subsidiary; ?>" />
@@ -634,7 +622,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Département</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $depatment ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="department" value="<?php echo $user->department; ?>" />
@@ -644,7 +632,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Fonction
+                              <label class="fs-6 fw-bold mb-2"><?php echo $role ?>
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
@@ -657,41 +645,41 @@ if (isset($_POST["delete"])) {
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
                               <label class="form-label fw-bolder text-dark fs-6">
-                                <span>Marques de véhicule</span>
+                                <span><?php echo $brand ?></span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
                                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                 </span>
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez la/les marque(s) de véhicule..." class="form-select form-select-solid fw-bold">
-                                <option value="">Sélectionnez la/les marque(s) de véhicule...</option>
+                              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                <option value=""><?php echo $select_brand ?></option>
                                 <option value="BYD">
-                                  BYD
+                                  <?php echo $byd ?>
                                 </option>
                                 <option value="CITROEN">
-                                  CITROEN
+                                  <?php echo $citroen ?>
                                 </option>
                                 <option value="MERCEDES">
-                                  MERCEDES
+                                  <?php echo $mercedes ?>
                                 </option>
                                 <option value="MUTSUBISHI">
-                                  MUTSUBISHI
+                                  <?php echo $mutsubishi ?>
                                 </option>
                                 <option value="PEUGEOT">
-                                  PEUGEOT
+                                  <?php echo $peugeot ?>
                                 </option>
                                 <option value="SUZUKI">
-                                  SUZUKI
+                                  <?php echo $suzuki ?>
                                 </option>
                                 <option value="TOYOTA">
-                                  TOYOTA
+                                  <?php echo $toyota ?>
                                 </option>
                                 <option value="YAMAHA BATEAU">
-                                  YAMAHA BATEAU
+                                  <?php echo $yamahaBateau ?>
                                 </option>
                                 <option value="YAMAHA MOTO">
-                                  YAMAHA MOTO
+                                  <?php echo $yamahaMoto ?>
                                 </option>
                               </select>
                               <!--end::Input-->
@@ -703,44 +691,44 @@ if (isset($_POST["delete"])) {
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
                               <label class="form-label fw-bolder text-dark fs-6">
-                                <span>Marques de véhicule</span>
+                                <span><?php echo $brand ?></span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
                                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                 </span>
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez la/les marque(s) de véhicule..." class="form-select form-select-solid fw-bold">
-                                <option value="">Sélectionnez la/les marque(s) de véhicule...</option>
+                              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                <option value=""><?php echo $select_brand ?></option>
                                 <option value="FUSO">
-                                  FUSO
+                                  <?php echo $fuso ?>
                                 </option>
                                 <option value="HINO">
-                                  HINO
+                                  <?php echo $hino ?>
                                 </option>
                                 <option value="JCB">
-                                  JCB
+                                  <?php echo $jcb ?>
                                 </option>
                                 <option value="KING LONG">
-                                  KING LONG
+                                  <?php echo $kingLong ?>
                                 </option>
                                 <option value="LOVOL">
-                                  LOVOL
+                                  <?php echo $lovol ?>
                                 </option>
                                 <option value="MERCEDES TRUCK">
-                                  MERCEDES TRUCK
+                                  <?php echo $mercedesTruck ?>
                                 </option>
                                 <option value="RENAULT TRUCK">
-                                  RENAULT TRUCK
+                                  <?php echo $renaultTruck ?>
                                 </option>
                                 <option value="SINOTRUCK">
-                                  SINOTRUCK
+                                  <?php echo $sinotruk ?>
                                 </option>
                                 <option value="TOYOTA BT">
-                                  TOYOTA BT
+                                  <?php echo $toyotaBt ?>
                                 </option>
-                                <option value="TOYOTA FORFLIT">
-                                  TOYOTA FORFLIT
+                                <option value="TOYOTA FORKLIFT">
+                                  <?php echo $toyotaForklift ?>
                                 </option>
                               </select>
                               <!--end::Input-->
@@ -750,9 +738,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2">Date
-                                de
-                                recrutement</label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $recrutmantDate ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="recrutmentDate" value="<?php echo $user->recrutmentDate; ?>" />
@@ -766,7 +752,7 @@ if (isset($_POST["delete"])) {
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
                               <label class="form-label fw-bolder text-dark fs-6">
-                                <span>Manager</span>
+                                <span><?php echo $manager ?></span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le manager de ce technicien">
                                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                 </span>
@@ -779,8 +765,7 @@ if (isset($_POST["delete"])) {
                                         "_id" => $user["manager"],
                                     ]); ?>
                                 <option value="<?php echo $lead->_id; ?>">
-                                  Manager
-                                  actuel: <?php echo $lead->firstName; ?>
+                                  <?php echo $manager_actuel ?>: <?php echo $lead->firstName; ?>
                                   <?php echo $lead->lastName; ?>
                                 </option>
                                 <?php
@@ -817,7 +802,7 @@ if (isset($_POST["delete"])) {
                         <!--end::Button-->
                         <!--begin::Button-->
                         <button type="submit" name="update" class="btn btn-primary">
-                          Valider
+                          <?php echo $valider ?>
                         </button>
                         <!--end::Button-->
                       </div>

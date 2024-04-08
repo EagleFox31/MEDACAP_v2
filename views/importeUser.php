@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -344,7 +345,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateDecla);
 
-                    $success_msg = "Technicien ajouté avec succès";
+                    $success_msg = $success_tech;
                 } elseif ($level == "Senior") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -648,7 +649,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
-                    $success_msg = "Technicien ajouté avec succès";
+                    $success_msg = $success_tech;
                 } elseif ($level == "Expert") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -1103,7 +1104,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = "Technicien ajouté avec succès";
+                    $success_msg = $success_tech;
                 }
             } elseif ($profile == "Manager (à évaluer)") {
                 if ($usernameManager) {
@@ -1325,7 +1326,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateDecla);
 
-                    $success_msg = "Manager ajouté avec succès";
+                    $success_msg = $success_manager;
                 } elseif ($level == "Senior") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -1629,7 +1630,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
-                    $success_msg = "Manager ajouté avec succès";
+                    $success_msg = $success_manager;
                 } elseif ($level == "Expert") {
                     $testJuFac = [
                         "quizzes" => [],
@@ -2084,7 +2085,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = "Manager ajouté avec succès";
+                    $success_msg = $success_manager;
                 }
             } elseif ($profile == "Manager (non évalué)") {
                 $personM = [
@@ -2137,7 +2138,7 @@ if (!isset($_SESSION["id"])) {
                     "created" => date("d-m-Y"),
                 ];
                 $users->insertOne($personA);
-                $success_msg = "Utilisateurs ajoutés avec succès";
+                $success_msg = $success_admin;
             }
         }
     }
@@ -2145,7 +2146,7 @@ if (!isset($_SESSION["id"])) {
 <?php include_once "partials/header.php"; ?>
 
 <!--begin::Title-->
-<title>Importer Utilisateurs | CFAO Mobility Academy</title>
+<title><?php echo $import_user ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
@@ -2160,7 +2161,7 @@ if (!isset($_SESSION["id"])) {
             <div class="container mt-5 w-50">
                 <img src="../public/images/logo.png" alt="10" height="170"
                     style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-                <h1 class="my-3 text-center">Importer des utilisateurs</h1>
+                <h1 class="my-3 text-center"><?php echo $import_user ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -2184,7 +2185,7 @@ if (!isset($_SESSION["id"])) {
                     <div class='fv-row mb-7'>
                         <!--begin::Label-->
                         <label class='required form-label fw-bolder text-dark fs-6'>Importer des utilisateurs via
-                            Excel</label>
+                            <?php echo $excel ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='file' class='form-control form-control-solid' placeholder='' name='excel' />
@@ -2195,7 +2196,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Button-->
                         <button type='submit' name='submit' class='btn btn-primary'>
                             <span class='indicator-label'>
-                                Valider
+                                <?php echo $valider ?>
                             </span>
                             <span class='indicator-progress'>
                                 Patientez... <span class='spinner-border spinner-border-sm align-middle ms-2'></span>

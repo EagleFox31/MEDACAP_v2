@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -22,7 +23,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Types de Véhicule | CFAO Mobility Academy</title>
+<title><?php echo $list_vehicle ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -35,7 +36,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des Types de véhicule </h1>
+                    <?php echo $list_vehicle ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -225,27 +226,27 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Véhicules
+                                            style="width: 125px;"><?php echo $vehicle ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;">Type
+                                            style="width: 134.188px;"><?php echo $type ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;">Marque du véhicule
+                                            style="width: 126.516px;"><?php echo $brand ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau
+                                            style="width: 152.719px;"><?php echo $level ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Listes des questionnaire
+                                            style="width: 152.719px;"><?php echo $list_quiz ?>
                                         </th>
                                     </tr>
                                 </thead>
@@ -256,12 +257,12 @@ if (!isset($_SESSION["id"])) {
                                     ]);
                                     foreach ($vehicle as $vehicle) { ?>
                                     <tr class="odd" etat="<?php echo $vehicle->active; ?>">
-                                        <!-- <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <td>
+                                            <!-- <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
                                                     onclick="enable()" value="<?php echo $vehicle->_id; ?>">
-                                            </div>
-                                        </td> -->
+                                            </div> -->
+                                        </td>
                                         <td data-filter=" search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
@@ -315,7 +316,7 @@ if (!isset($_SESSION["id"])) {
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                 title="Cliquez ici pour voir les questions"
                                                  data-bs-toggle="modal" data-bs-target="#kt_modal_invite_questions<?php echo $vehicle->_id; ?>">
-                                                Voir les questionnaires
+                                                <?php echo $voir_quiz ?>
                                             </a>
                                         </td>
                                     </tr>
@@ -343,7 +344,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div class="text-center mb-13">
                                                         <!--begin::Title-->
                                                         <h1 class="mb-3">
-                                                            Liste des questionnaires
+                                                            <?php echo $list_quiz ?>
                                                         </h1>
                                                         <!--end::Title-->
                                                     </div>

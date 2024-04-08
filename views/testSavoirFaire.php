@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
@@ -16,7 +17,7 @@ $exams = $academy->exams;
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste Tests Tâches Professionnelles | CFAO Mobility Academy</title>
+<title><?php echo $list_test_tache_pro ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -29,7 +30,7 @@ $exams = $academy->exams;
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                   Liste des tests sur les tâches professionnelles </h1>
+                   <?php echo $list_test_tache_pro ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -105,18 +106,18 @@ $exams = $academy->exams;
                                         <th class="min-w-200px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" rowspan="3"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Tests
+                                            style="width: 125px;"><?php echo $test ?>
                                         </th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Niveau</th>
+                                            <?php echo $level ?></th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            Etat</th>
+                                            <?php echo $etat ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -205,10 +206,10 @@ $exams = $academy->exams;
                                     ?>
                                     <tr class="odd">
                                         <td class="text-center">
-                                            Des tâches professionnelles
+                                            <?php echo $tache_pro ?>
                                         </td>
                                         <td class="text-center">
-                                            Junior
+                                            <?php echo $junior ?>
                                         </td>
                                         <td class="text-center">
                                             <?php if ($allocateDeclaJu) { ?>
@@ -216,12 +217,12 @@ $exams = $academy->exams;
                                                     <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaJu[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateDeclaJu[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
+                                                        <?php echo $en_cours ?>
                                                     </a>
                                             <?php } else { ?>
                                                 <?php if (
@@ -231,22 +232,22 @@ $exams = $academy->exams;
                                                     <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaJu[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateDeclaJu[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A compléter par vous
+                                                        <?php echo $completer_par_vous ?>
                                                     </a>
                                                 <?php } else { ?>
                                                     <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
+                                                        <?php echo $effectue ?>
                                                     </span>
                                                 <?php } ?>
                                             <?php } ?>
                                             <?php } else { ?>
                                                 <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
+                                                    <?php echo $non_disponible ?>
                                                 </span>
                                             <?php } ?>
                                         </td>
@@ -254,10 +255,10 @@ $exams = $academy->exams;
                                     </tr>
                                     <tr class="odd">
                                         <td class="text-center">
-                                            Des tâches professionnelles
+                                            <?php echo $tache_pro ?>
                                         </td>
                                         <td class="text-center">
-                                            Senior
+                                            <?php echo $senior ?>
                                         </td>
                                         <td class="text-center">
                                             <?php if ($allocateDeclaSe) { ?>
@@ -265,12 +266,12 @@ $exams = $academy->exams;
                                                     <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaSe[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateDeclaSe[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
+                                                        <?php echo $en_cours ?>
                                                     </a>
                                             <?php } else { ?>
                                                 <?php if (
@@ -280,22 +281,22 @@ $exams = $academy->exams;
                                                     <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaSe[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateDeclaSe[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A compléter par vous
+                                                        <?php echo $completer_par_vous ?>
                                                     </a>
                                                 <?php } else { ?>
                                                     <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
+                                                        <?php echo $effectue ?>
                                                     </span>
                                                 <?php } ?>
                                             <?php } ?>
                                             <?php } else { ?>
                                                 <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
+                                                    <?php echo $non_disponible ?>
                                                 </span>
                                             <?php } ?>
                                         </td>
@@ -303,10 +304,10 @@ $exams = $academy->exams;
                                     </tr>
                                     <tr class="odd">
                                         <td class="text-center">
-                                            Des tâches professionnelles
+                                            <?php echo $tache_pro ?>
                                         </td>
                                         <td class="text-center">
-                                            Expert
+                                            <?php echo $expert ?>
                                         </td>
                                         <td class="text-center">
                                             <?php if ($allocateDeclaEx) { ?>
@@ -314,12 +315,12 @@ $exams = $academy->exams;
                                                     <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaEx[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateDeclaEx[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        En cours
+                                                        <?php echo $en_cours ?>
                                                     </a>
                                             <?php } else { ?>
                                                 <?php if (
@@ -329,22 +330,22 @@ $exams = $academy->exams;
                                                     <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaEx[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateDeclaEx[
-    "level"
-]; ?>&id=<?php echo $_SESSION["id"]; ?>"
+                                                        "level"
+                                                    ]; ?>&id=<?php echo $_SESSION["id"]; ?>"
                                                         class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                         title="Cliquez ici pour ouvrir le test"
                                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                        A compléter par vous
+                                                        <?php echo $completer_par_vous ?>
                                                     </a>
                                                 <?php } else { ?>
                                                     <span class="badge badge-light-success fs-7 m-1">
-                                                        Effectué
+                                                        <?php echo $effectue ?>
                                                     </span>
                                                 <?php } ?>
                                             <?php } ?>
                                             <?php } else { ?>
                                                 <span class="badge badge-light-danger fs-7 m-1">
-                                                    Non disponible
+                                                    <?php echo $non_disponible ?>
                                                 </span>
                                             <?php } ?>
                                         </td>

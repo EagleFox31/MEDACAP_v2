@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once "language.php";
+
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -98,7 +100,7 @@ if (isset($_POST["excel"])) {
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title>Liste des Utilisateurs | CFAO Mobility Academy</title>
+<title><?php echo $list_user ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -111,7 +113,7 @@ if (isset($_POST["excel"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    Liste des utilisateurs </h1>
+                    <?php echo $list_user ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -286,37 +288,36 @@ if (isset($_POST["excel"])) {
                                         <th class="min-w-225px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Prénoms et
-                                            noms
+                                            style="width: 125px;"><?php echo $prenomsNoms ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;">Email</th>
+                                            style="width: 155.266px;"><?php echo $email ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Numéro de Téléphone</th>
+                                            style="width: 152.719px;"><?php echo $phoneNumber ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Niveau Technique
+                                            style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">Diplôme
+                                            style="width: 152.719px;"><?php echo $certificat ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Departement</th>
+                                            <?php echo $department ?></th>
                                         <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            Liste des Collaborateurs</th>
+                                            <?php echo $title_collaborators ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -361,7 +362,7 @@ if (isset($_POST["excel"])) {
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                 title="Cliquez ici pour voir les collaborateurs"
                                                  data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
-                                                Voir les collaborateurs
+                                                <?php echo $voir_collab ?>
                                             </a>
                                         </td>
                                     </tr>
@@ -404,7 +405,7 @@ if (isset($_POST["excel"])) {
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
                                                 title="Cliquez ici pour voir les collaborateurs"
                                                  data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
-                                                Voir les collaborateurs
+                                                <?php echo $voir_collab ?>
                                             </a>
                                         </td>
                                     </tr>
@@ -432,7 +433,7 @@ if (isset($_POST["excel"])) {
                                                     <div class="text-center mb-13">
                                                         <!--begin::Title-->
                                                         <h1 class="mb-3">
-                                                            Liste des collaborateurs
+                                                            <?php echo $title_collaborators ?>
                                                         </h1>
                                                         <!--end::Title-->
                                                     </div>
