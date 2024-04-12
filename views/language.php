@@ -304,5 +304,6 @@ $reparation = "Réparation";
 $diagnostic = "Diagnostic";
 $questionType = "Questions";
 $userManager = "Manager";
+$agence = "Agence";
 
 include_once "language.php";

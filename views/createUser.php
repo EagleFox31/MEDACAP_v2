@@ -33,6 +33,7 @@ if (!isset($_SESSION["id"])) {
         $departement = $_POST["department"];
         $fonction = $_POST["role"];
         $profile = $_POST["profile"];
+        $agency = $_POST["agency"];
         $sex = $_POST["gender"];
         $passWord = $_POST["password"];
         $pays = $_POST["country"];
@@ -70,6 +71,7 @@ if (!isset($_SESSION["id"])) {
             empty($departement) ||
             empty($recrutementDate) ||
             empty($pays) ||
+            empty($agency) ||
             empty($sex) ||
             empty($level) ||
             empty($brandJunior) ||
@@ -105,11 +107,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutementDate,
                         "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($departement),
-                        "brandJunior" => $brandJunior,
+                        "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "speciality" => $specialite,
+                        "specialitySenior" => $specialitySenior,
+                        "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "manager" => new MongoDB\BSON\ObjectId($managerId),
@@ -144,11 +148,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutementDate,
                         "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($departement),
                         "brandJunior" => $brandJunior,
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "speciality" => $specialite,
+                        "specialitySenior" => $specialitySenior,
+                        "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "manager" => "",
@@ -1132,11 +1138,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutementDate,
                         "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($departement),
                         "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "speciality" => $specialite,
+                        "specialitySenior" => $specialitySenior,
+                        "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "manager" => new MongoDB\BSON\ObjectId($managerId),
@@ -1171,11 +1179,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutementDate,
                         "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($departement),
                         "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "speciality" => $specialite,
+                        "specialitySenior" => $specialitySenior,
+                        "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "manager" => "",
@@ -2158,8 +2168,10 @@ if (!isset($_SESSION["id"])) {
                     "recrutmentDate" => $recrutementDate,
                     "certificate" => ucfirst($certificate), 
                     "subsidiary" => ucfirst($subsidiary),
+                    "agency" => ucfirst($agency),
                     "department" => ucfirst($departement),
-                    "speciality" => $specialite,
+                    "specialitySenior" => $specialitySenior,
+                    "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($fonction),
                     "password" => $password_hash,
                     "active" => true,
@@ -2183,8 +2195,10 @@ if (!isset($_SESSION["id"])) {
                     "recrutmentDate" => $recrutementDate,
                     "certificate" => ucfirst($certificate), 
                     "subsidiary" => ucfirst($subsidiary),
+                    "agency" => ucfirst($agency),
                     "department" => ucfirst($departement),
-                    "speciality" => $specialite,
+                    "specialitySenior" => $specialitySenior,
+                    "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($fonction),
                     "password" => $password_hash,
                     "active" => true,
@@ -3070,6 +3084,42 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" id="metierSe">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $speciality ?> <?php echo $senior ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez la spécialité du collaborateur">
+                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="specialitySenior" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_speciality ?></option>
+                <option value="Boite de Vitesse">
+                  <?php echo $boite_vitesse ?>
+                </option>
+                <option value="Electricté et Electronique">
+                  <?php echo $elec ?>
+                </option>
+                <option value="Hydraulique">
+                  <?php echo $hydraulique ?>
+                </option>
+                <option value="Moteur">
+                  <?php echo $moteur ?>
+                </option>
+                <option value="Transmission">
+                  <?php echo $transmission ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
               <div class="form-check" style="margin-top: 10px">
                 <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Expert" id="expert">
                 <label class="form-check-label text-black">
@@ -3253,17 +3303,20 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row d-none" id="metier">
+            <div class="d-flex flex-column mb-7 fv-row d-none" id="metierEx">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $speciality ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez la spécialité du collaborateur">
+                <span class="required"><?php echo $speciality ?> <?php echo $expert ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez la spécialité du collaborateur">
                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="speciality" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+              <select name="specialityExpert" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
                 <option value=""><?php echo $select_speciality ?></option>
+                <option value="Boite de Vitesse">
+                  <?php echo $boite_vitesse ?>
+                </option>
                 <option value="Electricté et Electronique">
                   <?php echo $elec ?>
                 </option>
@@ -3307,6 +3360,21 @@ if (!isset($_SESSION["id"])) {
               <!--end::Label-->
               <!--begin::Input-->
               <input type="text" class="form-control form-control-solid" name="subsidiary" />
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="fv-row mb-7">
+              <!--begin::Label-->
+              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $agence ?></label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <input type="text" class="form-control form-control-solid" name="agency" />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -3447,7 +3515,8 @@ if (!isset($_SESSION["id"])) {
 ?>
 
 <script>
-  var metier = document.querySelector('#metier');
+  var metierSe = document.querySelector('#metierSe');
+  var metierEx = document.querySelector('#metierEx');
   var brandMotorsJu = document.querySelector('#brandMotorsJu');
   var brandEquipmentJu = document.querySelector('#brandEquipmentJu');
   var brandEqMoJu = document.querySelector('#brandEqMoJu');
@@ -3530,7 +3599,7 @@ if (!isset($_SESSION["id"])) {
         brandEquipmentEx.classList.remove('d-none');
         brandEqMoEx.classList.add('d-none');
       }
-    } else {
+    } else if(departValue == 'Equipment, Motors') {
       if(junior.checked) {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.add('d-none');
@@ -3563,10 +3632,12 @@ if (!isset($_SESSION["id"])) {
         brandEqMoEx.classList.remove('d-none');
       }
     }
-    if(!junior.checked) {
-      metier.classList.remove('d-none');
-    } else {
-      metier.classList.add('d-none')
+    if(senior.checked) {
+      metierSe.classList.remove('d-none');
+      metierEx.classList.add('d-none');
+    } else if(expert.checked){
+      metierSe.classList.add('d-none');
+      metierEx.classList.remove('d-none');
     }
   }
 
