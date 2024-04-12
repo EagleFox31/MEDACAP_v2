@@ -44,7 +44,7 @@ if (isset($_POST["login"])) {
 
 <head>
     <meta charset="utf-8">
-    <title>CFAO Mobility Academy Panafrican</title>
+    <title>CFAO Mobility Academy</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -90,7 +90,7 @@ if (isset($_POST["login"])) {
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                 </div>
-                <a href="#connexion" class="btn btn-primary rounded-pill py-2 px-4">Connexion</a>
+                <a href="#connexion" class="btn btn-primary rounded-pill py-2 px-4"><?php echo $connexion ?></a>
             </div>
         </nav>
         <div class="container-fluid bg-primary py-5 mb-5 hero-header">
@@ -146,22 +146,14 @@ if (isset($_POST["login"])) {
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="subject" name="username"
-                                        placeholder="Subject">
+                                        placeholder="Username">
                                     <label for="subject"><?php echo $username ?></label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="subject" name="password"
-                                        placeholder="Subject">
-                                    <span
-                                        class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
-                                        data-kt-password-meter-control="visibility">
-                                        <i class="ki-duotone ki-eye-slash fs-1"><span class="path1"></span><span
-                                                class="path2"></span><span class="path3"></span><span
-                                                class="path4"></span></i> <i class="ki-duotone ki-eye d-none fs-1"><span
-                                                class="path1"></span><span class="path2"></span><span
-                                                class="path3"></span></i> </span>
+                                        placeholder="Password">
                                     <label for="subject"><?php echo $password ?></label>
                                 </div>
                             </div>

@@ -127,9 +127,8 @@ if (!isset($_SESSION["id"])) {
         <!--begin::Container-->
         <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
             <!--begin::Modal body-->
-            <div class='container mt-5 w-50'>
-                <img src='../public/images/logo.png' alt='10' height='170'
-                    style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
+            <div class="container mt-5 w-50 text-center">
+                <img src="../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Table-->

@@ -22,8 +22,8 @@ if (!isset($_SESSION["id"])) {
         $allocations = $academy->allocations;
 
         $label = $_POST["label"];
-        $brand = strtoupper($_POST["brand"]);
-        $speciality = $_POST["speciality"];
+        $brands = strtoupper($_POST["brand"]);
+        $specialite = $_POST["speciality"];
 
         $facJu = [];
         $facSe = [];
@@ -33,18 +33,18 @@ if (!isset($_SESSION["id"])) {
         $declaEx = [];
 
         $exist = $vehicles->findOne([
-            '$and' => [["label" => $label], ["brand" => $brand]],
+            '$and' => [["label" => $label], ["brand" => $brands]],
         ]);
 
         if ($exist) {
             $error_msg = $error_vehicle;
-        } elseif(empty($label) || empty($brand) || empty($speciality)) {
-            $error_msg = $champ_obligatoire;
+        } elseif(empty($label) || empty($brands) || empty($specialite)) {
+            $error = $champ_obligatoire;
         }else {
-            for ($i = 0; $i < count($speciality); $i++) {
+            for ($i = 0; $i < count($specialite); $i++) {
                 $quizJuFac = $quizzes->findOne([
                     '$and' => [
-                        ["speciality" => $speciality[$i]],
+                        ["speciality" => $specialite[$i]],
                         ["type" => "Factuel"],
                         ["level" => "Junior"],
                         ["active" => true],
@@ -54,10 +54,10 @@ if (!isset($_SESSION["id"])) {
                     array_push($facJu, $quizJuFac->_id);
                 }
             }
-            for ($i = 0; $i < count($speciality); $i++) {
+            for ($i = 0; $i < count($specialite); $i++) {
                 $quizJuDecla = $quizzes->findOne([
                     '$and' => [
-                        ["speciality" => $speciality[$i]],
+                        ["speciality" => $specialite[$i]],
                         ["type" => "Declaratif"],
                         ["level" => "Junior"],
                         ["active" => true],
@@ -67,10 +67,10 @@ if (!isset($_SESSION["id"])) {
                     array_push($declaJu, $quizJuDecla->_id);
                 }
             }
-            for ($i = 0; $i < count($speciality); $i++) {
+            for ($i = 0; $i < count($specialite); $i++) {
                 $quizSeFac = $quizzes->findOne([
                     '$and' => [
-                        ["speciality" => $speciality[$i]],
+                        ["speciality" => $specialite[$i]],
                         ["type" => "Factuel"],
                         ["level" => "Senior"],
                         ["active" => true],
@@ -80,10 +80,10 @@ if (!isset($_SESSION["id"])) {
                     array_push($facSe, $quizSeFac->_id);
                 }
             }
-            for ($i = 0; $i < count($speciality); $i++) {
+            for ($i = 0; $i < count($specialite); $i++) {
                 $quizSeDecla = $quizzes->findOne([
                     '$and' => [
-                        ["speciality" => $speciality[$i]],
+                        ["speciality" => $specialite[$i]],
                         ["type" => "Declaratif"],
                         ["level" => "Senior"],
                         ["active" => true],
@@ -93,10 +93,10 @@ if (!isset($_SESSION["id"])) {
                     array_push($declaSe, $quizSeDecla->_id);
                 }
             }
-            for ($i = 0; $i < count($speciality); $i++) {
+            for ($i = 0; $i < count($specialite); $i++) {
                 $quizExFac = $quizzes->findOne([
                     '$and' => [
-                        ["speciality" => $speciality[$i]],
+                        ["speciality" => $specialite[$i]],
                         ["type" => "Factuel"],
                         ["level" => "Expert"],
                         ["active" => true],
@@ -106,10 +106,10 @@ if (!isset($_SESSION["id"])) {
                     array_push($facEx, $quizExFac->_id);
                 }
             }
-            for ($i = 0; $i < count($speciality); $i++) {
+            for ($i = 0; $i < count($specialite); $i++) {
                 $quizExDecla = $quizzes->findOne([
                     '$and' => [
-                        ["speciality" => $speciality[$i]],
+                        ["speciality" => $specialite[$i]],
                         ["type" => "Declaratif"],
                         ["level" => "Expert"],
                         ["active" => true],
@@ -125,7 +125,7 @@ if (!isset($_SESSION["id"])) {
                 "quizzes" => $facJu,
                 "label" => $label,
                 "type" => "Factuel",
-                "brand" => $brand,
+                "brand" => $brands,
                 "level" => "Junior",
                 "total" => count($facJu),
                 "test" => false,
@@ -139,7 +139,7 @@ if (!isset($_SESSION["id"])) {
                 "quizzes" => $facSe,
                 "label" => $label,
                 "type" => "Factuel",
-                "brand" => $brand,
+                "brand" => $brands,
                 "level" => "Senior",
                 "total" => count($facSe),
                 "test" => false,
@@ -153,7 +153,7 @@ if (!isset($_SESSION["id"])) {
                 "quizzes" => $facEx,
                 "label" => $label,
                 "type" => "Factuel",
-                "brand" => $brand,
+                "brand" => $brands,
                 "level" => "Expert",
                 "total" => count($facEx),
                 "test" => false,
@@ -167,7 +167,7 @@ if (!isset($_SESSION["id"])) {
                 "quizzes" => $declaJu,
                 "label" => $label,
                 "type" => "Factuel",
-                "brand" => $brand,
+                "brand" => $brands,
                 "level" => "Junior",
                 "total" => count($declaJu),
                 "test" => false,
@@ -181,7 +181,7 @@ if (!isset($_SESSION["id"])) {
                 "quizzes" => $declaSe,
                 "label" => $label,
                 "type" => "Factuel",
-                "brand" => $brand,
+                "brand" => $brands,
                 "level" => "Senior",
                 "total" => count($declaSe),
                 "test" => false,
@@ -195,7 +195,7 @@ if (!isset($_SESSION["id"])) {
                 "quizzes" => $declaEx,
                 "label" => $label,
                 "type" => "Factuel",
-                "brand" => $brand,
+                "brand" => $brands,
                 "level" => "Expert",
                 "total" => count($declaEx),
                 "test" => false,
@@ -222,9 +222,8 @@ if (!isset($_SESSION["id"])) {
         <!--begin::Container-->
         <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
             <!--begin::Modal body-->
-            <div class='container mt-5 w-50'>
-                <img src='../public/images/logo.png' alt='10' height='170'
-                    style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
+            <div class="container mt-5 w-50">
+                <img src="../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
                 <h1 class='my-3 text-center'><?php echo $title_vehicle ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
@@ -256,7 +255,7 @@ if (!isset($_SESSION["id"])) {
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                                <select name="speciality[]" multiple aria-label="Select a Country" data-control="select2"
+                                <select name="label" multiple aria-label="Select a Country" data-control="select2"
                                     data-placeholder="<?php echo $select_vehicle ?>"
                                     class="form-select form-select-solid fw-bold">
                                     <option><?php echo $select_vehicle ?></option>
@@ -316,7 +315,7 @@ if (!isset($_SESSION["id"])) {
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <select name="speciality[]" aria-label="Select a Country" data-control="select2"
+                            <select name="speciality" aria-label="Select a Country" data-control="select2"
                                 data-placeholder="<?php echo $select_speciality ?>"
                                 class="form-select form-select-solid fw-bold">
                                 <option><?php echo $select_speciality ?></option>

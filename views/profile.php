@@ -17,6 +17,8 @@ if (!isset($_SESSION["id"])) {
 
     // Connecting in collections
     $users = $academy->users;
+    $tests = $academy->tests;
+    $vehicles = $academy->vehicles;
     $allocations = $academy->allocations;
 
     $id = $_SESSION["id"];
@@ -38,7 +40,6 @@ if (isset($_POST["update"])) {
     $matricule = $_POST["matricule"];
     $username = $_POST["username"];
     $subsidiary = $_POST["subsidiary"];
-    $department = $_POST["department"];
     $role = $_POST["role"];
     $gender = $_POST["gender"];
     $country = $_POST["country"];
@@ -62,7 +63,6 @@ if (isset($_POST["update"])) {
         "certificate" => ucfirst($certificate),
         "subsidiary" => ucfirst($subsidiary),
         "speciality" => ucfirst($speciality),
-        "department" => ucfirst($department),
         "role" => ucfirst($role),
         "updated" => date("d-m-Y"),
     ];
@@ -72,15 +72,853 @@ if (isset($_POST["update"])) {
     );
     $success_msg = $success_user_edit;
 }
-if (isset($_POST["brand"])) {
+if (isset($_POST["department"])) {
+  $id = $_POST["userID"];
+  $department = $_POST["department"];
+  
+  $users->updateOne(
+      ["_id" => new MongoDB\BSON\ObjectId($id)],
+      ['$set' => ['departement' => $department] ]
+  );
+  $success_msg = $success_user_edit;
+}
+
+if (isset($_POST["brandJu"])) {
     $id = $_POST["userID"];
 
-    $brand = $_POST["brand"];
+    $brand = $_POST["brandJu"];
     $users->updateOne(
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         [
             '$set' => [
+                "brandJunior" => $brand,
+            ],
+        ]
+    );
+    $testFac = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Factuel"],
+            ["level" => "Junior"],
+            ["active" => true],
+        ],
+    ]);
+    $testDecla = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Declaratif"],
+            ["level" => "Junior"],
+            ["active" => true],
+        ],
+    ]);
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
                 "brand" => $brand,
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $brand,
+            ],
+        ]
+    );
+    for ($n = 0; $n < count($brand); ++$n) {
+      $vehicleFac = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $brand[$n]],
+              ["type" => "Factuel"],
+              ["level" => "Junior"],
+              ["active" => true],
+          ],
+      ]);
+      $vehicleDecla = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $brand[$n]],
+              ["type" => "Declaratif"],
+              ["level" => "Junior"],
+              ["active" => true],
+          ],
+      ]);
+      if ($vehicleFac) {
+          for (
+              $a = 0;
+              $a < count($vehicleFac->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testFac["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleFac->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+      if ($vehicleDecla) {
+          for (
+              $a = 0;
+              $a < count($vehicleDecla->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testDecla["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleDecla->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+    }
+    $saveTestFac = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFac["_id"]
+        ),
+    ]);
+    $saveTestDecla = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDecla["_id"]
+        ),
+    ]);
+    
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFac["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFac["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDecla["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDecla["quizzes"])
+            ],
+        ]
+    );
+    $success_msg = $success_user_edit;
+}
+
+if (isset($_POST["brandSe"])) {
+    $id = $_POST["userID"];
+
+    $brand = $_POST["brandSe"];
+    $users->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        [
+            '$set' => [
+                "brandSenior" => $brand,
+            ],
+        ]
+    );
+    foreach ($brand as $bran) {
+      $users->updateOne(
+          ["_id" => new MongoDB\BSON\ObjectId($id)],
+          [
+              '$addToSet' => [
+                  "brandJunior" => $bran,
+              ],
+          ]
+      );
+    }
+    $user = $users->findOne([
+        '$and' => [
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ["active" => true],
+        ],
+    ]);
+    $testFac = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Factuel"],
+            ["level" => "Junior"],
+            ["active" => true],
+        ],
+    ]);
+    $testDecla = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Declaratif"],
+            ["level" => "Junior"],
+            ["active" => true],
+        ],
+    ]);
+    $testFacSe = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Factuel"],
+            ["level" => "Senior"],
+            ["active" => true],
+        ],
+    ]);
+    $testDeclaSe = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Declaratif"],
+            ["level" => "Senior"],
+            ["active" => true],
+        ],
+    ]);
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandJunior'],
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandJunior'],
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $brand,
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $brand,
+            ],
+        ]
+    );
+    $saveTestFac = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFac["_id"]
+        ),
+    ]);
+    $saveTestDecla = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDecla["_id"]
+        ),
+    ]);
+    for ($n = 0; $n < count($saveTestFac["brand"]); ++$n) {
+      $vehicleFac = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $saveTestFac["brand"][$n]],
+              ["type" => "Factuel"],
+              ["level" => "Junior"],
+              ["active" => true],
+          ],
+      ]);
+      $vehicleDecla = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $saveTestDecla["brand"][$n]],
+              ["type" => "Declaratif"],
+              ["level" => "Junior"],
+              ["active" => true],
+          ],
+      ]);
+      if ($vehicleFac) {
+          for (
+              $a = 0;
+              $a < count($vehicleFac->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testFac["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleFac->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+      if ($vehicleDecla) {
+          for (
+              $a = 0;
+              $a < count($vehicleDecla->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testDecla["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleDecla->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+    }
+    for ($n = 0; $n < count($brand); ++$n) {
+      $vehicleFacSe = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $brand[$n]],
+              ["type" => "Factuel"],
+              ["level" => "Senior"],
+              ["active" => true],
+          ],
+      ]);
+      $vehicleDeclaSe = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $brand[$n]],
+              ["type" => "Declaratif"],
+              ["level" => "Senior"],
+              ["active" => true],
+          ],
+      ]);
+      if ($vehicleFacSe) {
+          for (
+              $a = 0;
+              $a < count($vehicleFacSe->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testFacSe["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleFacSe->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+      if ($vehicleDeclaSe) {
+          for (
+              $a = 0;
+              $a < count($vehicleDeclaSe->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testDeclaSe["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleDeclaSe->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+    }
+    $saveTestFacJu = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFac["_id"]
+        ),
+    ]);
+    $saveTestDeclaJu = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDecla["_id"]
+        ),
+    ]);
+    $saveTestFacSe = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFacSe["_id"]
+        ),
+    ]);
+    $saveTestDeclaSe = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDeclaSe["_id"]
+        ),
+    ]);
+    
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFacJu["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFacJu["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaJu["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDeclaJu["quizzes"])
+            ],
+        ]
+    );
+
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFacSe["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFacSe["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaSe["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDeclaSe["quizzes"])
+            ],
+        ]
+    );
+    $success_msg = $success_user_edit;
+}
+
+if (isset($_POST["brandEx"])) {
+    $id = $_POST["userID"];
+
+    $brand = $_POST["brandEx"];
+    $users->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        [
+            '$set' => [
+                "brandExpert" => $brand,
+            ],
+        ]
+    );
+    foreach ($brand as $bran) {
+      $users->updateOne(
+          ["_id" => new MongoDB\BSON\ObjectId($id)],
+          [
+              '$addToSet' => [
+                  "brandJunior" => $bran,
+              ],
+          ]
+      );
+      $users->updateOne(
+          ["_id" => new MongoDB\BSON\ObjectId($id)],
+          [
+              '$addToSet' => [
+                  "brandSenior" => $bran,
+              ],
+          ]
+      );
+    }
+    $user = $users->findOne([
+        '$and' => [
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ["active" => true],
+        ],
+    ]);
+    $testFac = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Factuel"],
+            ["level" => "Junior"],
+            ["active" => true],
+        ],
+    ]);
+    $testDecla = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Declaratif"],
+            ["level" => "Junior"],
+            ["active" => true],
+        ],
+    ]);
+    $testFacSe = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Factuel"],
+            ["level" => "Senior"],
+            ["active" => true],
+        ],
+    ]);
+    $testDeclaSe = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Declaratif"],
+            ["level" => "Senior"],
+            ["active" => true],
+        ],
+    ]);
+    $testFacEx = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Factuel"],
+            ["level" => "Expert"],
+            ["active" => true],
+        ],
+    ]);
+    $testDeclaEx = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
+            ["type" => "Declaratif"],
+            ["level" => "Expert"],
+            ["active" => true],
+        ],
+    ]);
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandJunior'],
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandJunior'],
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandSenior'],
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandSenior'],
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFacEx["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $brand,
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDeclaEx["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $brand,
+            ],
+        ]
+    );
+    $saveTestFac = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFac["_id"]
+        ),
+    ]);
+    $saveTestDecla = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDecla["_id"]
+        ),
+    ]);
+    $saveTestFacSe = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFacSe["_id"]
+        ),
+    ]);
+    $saveTestDeclaSe = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDeclaSe["_id"]
+        ),
+    ]);
+
+    for ($n = 0; $n < count($saveTestFac["brand"]); ++$n) {
+      $vehicleFac = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $saveTestFac["brand"][$n]],
+              ["type" => "Factuel"],
+              ["level" => "Junior"],
+              ["active" => true],
+          ],
+      ]);
+      $vehicleDecla = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $saveTestDecla["brand"][$n]],
+              ["type" => "Declaratif"],
+              ["level" => "Junior"],
+              ["active" => true],
+          ],
+      ]);
+      if ($vehicleFac) {
+          for (
+              $a = 0;
+              $a < count($vehicleFac->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testFac["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleFac->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+      if ($vehicleDecla) {
+          for (
+              $a = 0;
+              $a < count($vehicleDecla->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testDecla["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleDecla->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+    }
+    for ($n = 0; $n < count($$saveTestFacSe["brand"]); ++$n) {
+      $vehicleFacSe = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $$saveTestFacSe["brand"][$n]],
+              ["type" => "Factuel"],
+              ["level" => "Senior"],
+              ["active" => true],
+          ],
+      ]);
+      $vehicleDeclaSe = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $$saveTestDeclaSe["brand"][$n]],
+              ["type" => "Declaratif"],
+              ["level" => "Senior"],
+              ["active" => true],
+          ],
+      ]);
+      if ($vehicleFacSe) {
+          for (
+              $a = 0;
+              $a < count($vehicleFacSe->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testFacSe["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleFacSe->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+      if ($vehicleDeclaSe) {
+          for (
+              $a = 0;
+              $a < count($vehicleDeclaSe->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testDeclaSe["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleDeclaSe->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+    }
+    for ($n = 0; $n < count($brand); ++$n) {
+      $vehicleFacEx = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $brand[$n]],
+              ["type" => "Factuel"],
+              ["level" => "Senior"],
+              ["active" => true],
+          ],
+      ]);
+      $vehicleDeclaEx = $vehicles->findOne([
+          '$and' => [
+              ["brand" => $brand[$n]],
+              ["type" => "Declaratif"],
+              ["level" => "Senior"],
+              ["active" => true],
+          ],
+      ]);
+      if ($vehicleFacEx) {
+          for (
+              $a = 0;
+              $a < count($vehicleFacEx->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testFacSe["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleFacEx->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+      if ($vehicleDeclaEx) {
+          for (
+              $a = 0;
+              $a < count($vehicleDeclaEx->quizzes);
+              ++$a
+          ) {
+              $tests->updateOne(
+                  [
+                      "_id" => new MongoDB\BSON\ObjectId(
+                          $testDeclaEx["_id"]
+                      ),
+                  ],
+                  [
+                      '$addToSet' => [
+                          "quizzes" =>
+                              $vehicleDeclaEx->quizzes[$a],
+                      ],
+                  ]
+              );
+          }
+      }
+    }
+    $saveTestFacJu = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFac["_id"]
+        ),
+    ]);
+    $saveTestDeclaJu = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDecla["_id"]
+        ),
+    ]);
+    $saveTestFacSeSe = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFacSe["_id"]
+        ),
+    ]);
+    $saveTestDeclaSeSe = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDeclaSe["_id"]
+        ),
+    ]);
+    $saveTestFacEx = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFacEx["_id"]
+        ),
+    ]);
+    $saveTestDeclaEx = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDeclaEx["_id"]
+        ),
+    ]);
+    
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFacJu["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFacJu["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaJu["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDeclaJu["quizzes"])
+            ],
+        ]
+    );
+
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFacSeSe["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFacSeSe["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaSeSe["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDeclaSeSe["quizzes"])
+            ],
+        ]
+    );
+
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFacEx["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFacEx["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaEx["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDeclaEx["quizzes"])
             ],
         ]
     );
@@ -89,7 +927,8 @@ if (isset($_POST["brand"])) {
 if (isset($_POST["password"])) {
     // Password modification
     $id = $_POST["userID"];
-    $password = $_POST["password"]; // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
+    $password = $_POST["password"]; 
+    // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
     if (
         preg_match(
             '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
@@ -424,20 +1263,99 @@ if (isset($_POST["delete"])) {
                 </div>
                 <!--end::Input group-->
 
+                <?php if ($_SESSION["profile"] == "Technicien") { ?>
                 <!--begin::Input group-->
                 <div class="row mb-7">
                   <!--begin::Label-->
-                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?></label>
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?> <?php echo $junior ?></label>
                   <!--end::Label-->
                   <!--begin::Col-->
                   <div class="col-lg-8">
-                  <?php foreach ($user['brand'] as $userBrands) { ?>
+                  <?php foreach ($user['brandJunior'] as $userBrands) { ?>
                     <span class="fw-bold fs-6 text-gray-800"><?php echo $userBrands ?>,</span>
                   <?php } ?>
                   </div>
                   <!--end::Col-->
                 </div>
                 <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                  <!--begin::Label-->
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?> <?php echo $senior ?></label>
+                  <!--end::Label-->
+                  <!--begin::Col-->
+                  <div class="col-lg-8">
+                  <?php foreach ($user['brandSenior'] as $userBrands) { ?>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $userBrands ?>,</span>
+                  <?php } ?>
+                  </div>
+                  <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                  <!--begin::Label-->
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?> <?php echo $expert ?></label>
+                  <!--end::Label-->
+                  <!--begin::Col-->
+                  <div class="col-lg-8">
+                  <?php foreach ($user['brandExpert'] as $userBrands) { ?>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $userBrands ?>,</span>
+                  <?php } ?>
+                  </div>
+                  <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                <?php } ?>
+
+                <?php if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == true) { ?>
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                  <!--begin::Label-->
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?> <?php echo $junior ?></label>
+                  <!--end::Label-->
+                  <!--begin::Col-->
+                  <div class="col-lg-8">
+                  <?php foreach ($user['brandJunior'] as $userBrands) { ?>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $userBrands ?>,</span>
+                  <?php } ?>
+                  </div>
+                  <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                  <!--begin::Label-->
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?> <?php echo $senior ?></label>
+                  <!--end::Label-->
+                  <!--begin::Col-->
+                  <div class="col-lg-8">
+                  <?php foreach ($user['brandSenior'] as $userBrands) { ?>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $userBrands ?>,</span>
+                  <?php } ?>
+                  </div>
+                  <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                
+                <!--begin::Input group-->
+                <div class="row mb-7">
+                  <!--begin::Label-->
+                  <label class="col-lg-4 fw-semibold text-muted"><?php echo $brand ?> <?php echo $expert ?></label>
+                  <!--end::Label-->
+                  <!--begin::Col-->
+                  <div class="col-lg-8">
+                  <?php foreach ($user['brandExpert'] as $userBrands) { ?>
+                    <span class="fw-bold fs-6 text-gray-800"><?php echo $userBrands ?>,</span>
+                  <?php } ?>
+                  </div>
+                  <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                <?php } ?>
 
               </div>
               <!--end::Card body-->
@@ -620,12 +1538,28 @@ if (isset($_POST["delete"])) {
                             </div>
                             <!--end::Input group-->
                             <!--begin::Input group-->
-                            <div class="fv-row mb-7">
+                            <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2"><?php echo $depatment ?></label>
+                              <label class="form-label fw-bolder text-dark fs-6">
+                                <span><?php echo $department ?></span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                </span>
+                              </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <input type="text" class="form-control form-control-solid" placeholder="" name="department" value="<?php echo $user->department; ?>" />
+                              <select name="department" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_department ?>" class="form-select form-select-solid fw-bold">
+                                <option value=""><?php echo $select_department ?></option>
+                                <option value="Equipment">
+                                  Equipment
+                                </option>
+                                <option value="Motors">
+                                  Motors
+                                </option>
+                                <option value="Equipment, Motors">
+                                  Equipment, Motors
+                                </option>
+                              </select>
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -640,20 +1574,198 @@ if (isset($_POST["delete"])) {
                               <!--end::Input-->
                             </div>
                             <!--end::Input group-->
-                            <?php if ($user["department"] == "Motors") { ?>
+                            <?php if ($_SESSION["profile"] == "Technicien") { ?>
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
                               <label class="form-label fw-bolder text-dark fs-6">
-                                <span><?php echo $brand ?></span>
+                                <span><?php echo $brand ?> <?php echo $expert ?></span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
                                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                 </span>
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                              <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
                                 <option value=""><?php echo $select_brand ?></option>
+                                <option value="FUSO">
+                                  <?php echo $fuso ?>
+                                </option>
+                                <option value="HINO">
+                                  <?php echo $hino ?>
+                                </option>
+                                <option value="JCB">
+                                  <?php echo $jcb ?>
+                                </option>
+                                <option value="KING LONG">
+                                  <?php echo $kingLong ?>
+                                </option>
+                                <option value="LOVOL">
+                                  <?php echo $lovol ?>
+                                </option>
+                                <option value="MERCEDES TRUCK">
+                                  <?php echo $mercedesTruck ?>
+                                </option>
+                                <option value="RENAULT TRUCK">
+                                  <?php echo $renaultTruck ?>
+                                </option>
+                                <option value="SINOTRUCK">
+                                  <?php echo $sinotruk ?>
+                                </option>
+                                <option value="TOYOTA BT">
+                                  <?php echo $toyotaBt ?>
+                                </option>
+                                <option value="TOYOTA FORKLIFT">
+                                  <?php echo $toyotaForklift ?>
+                                </option>
+                                <option value="BYD">
+                                  <?php echo $byd ?>
+                                </option>
+                                <option value="CITROEN">
+                                  <?php echo $citroen ?>
+                                </option>
+                                <option value="MERCEDES">
+                                  <?php echo $mercedes ?>
+                                </option>
+                                <option value="MUTSUBISHI">
+                                  <?php echo $mutsubishi ?>
+                                </option>
+                                <option value="PEUGEOT">
+                                  <?php echo $peugeot ?>
+                                </option>
+                                <option value="SUZUKI">
+                                  <?php echo $suzuki ?>
+                                </option>
+                                <option value="TOYOTA">
+                                  <?php echo $toyota ?>
+                                </option>
+                                <option value="YAMAHA BATEAU">
+                                  <?php echo $yamahaBateau ?>
+                                </option>
+                                <option value="YAMAHA MOTO">
+                                  <?php echo $yamahaMoto ?>
+                                </option>
+                              </select>
+                              <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                              <!--begin::Label-->
+                              <label class="form-label fw-bolder text-dark fs-6">
+                                <span><?php echo $brand ?> <?php echo $expert ?></span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                </span>
+                              </label>
+                              <!--end::Label-->
+                              <!--begin::Input-->
+                              <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                <option value=""><?php echo $select_brand ?></option>
+                                <option value="FUSO">
+                                  <?php echo $fuso ?>
+                                </option>
+                                <option value="HINO">
+                                  <?php echo $hino ?>
+                                </option>
+                                <option value="JCB">
+                                  <?php echo $jcb ?>
+                                </option>
+                                <option value="KING LONG">
+                                  <?php echo $kingLong ?>
+                                </option>
+                                <option value="LOVOL">
+                                  <?php echo $lovol ?>
+                                </option>
+                                <option value="MERCEDES TRUCK">
+                                  <?php echo $mercedesTruck ?>
+                                </option>
+                                <option value="RENAULT TRUCK">
+                                  <?php echo $renaultTruck ?>
+                                </option>
+                                <option value="SINOTRUCK">
+                                  <?php echo $sinotruk ?>
+                                </option>
+                                <option value="TOYOTA BT">
+                                  <?php echo $toyotaBt ?>
+                                </option>
+                                <option value="TOYOTA FORKLIFT">
+                                  <?php echo $toyotaForklift ?>
+                                </option>
+                                <option value="BYD">
+                                  <?php echo $byd ?>
+                                </option>
+                                <option value="CITROEN">
+                                  <?php echo $citroen ?>
+                                </option>
+                                <option value="MERCEDES">
+                                  <?php echo $mercedes ?>
+                                </option>
+                                <option value="MUTSUBISHI">
+                                  <?php echo $mutsubishi ?>
+                                </option>
+                                <option value="PEUGEOT">
+                                  <?php echo $peugeot ?>
+                                </option>
+                                <option value="SUZUKI">
+                                  <?php echo $suzuki ?>
+                                </option>
+                                <option value="TOYOTA">
+                                  <?php echo $toyota ?>
+                                </option>
+                                <option value="YAMAHA BATEAU">
+                                  <?php echo $yamahaBateau ?>
+                                </option>
+                                <option value="YAMAHA MOTO">
+                                  <?php echo $yamahaMoto ?>
+                                </option>
+                              </select>
+                              <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                              <!--begin::Label-->
+                              <label class="form-label fw-bolder text-dark fs-6">
+                                <span><?php echo $brand ?> <?php echo $expert ?></span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                </span>
+                              </label>
+                              <!--end::Label-->
+                              <!--begin::Input-->
+                              <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                <option value=""><?php echo $select_brand ?></option>
+                                <option value="FUSO">
+                                  <?php echo $fuso ?>
+                                </option>
+                                <option value="HINO">
+                                  <?php echo $hino ?>
+                                </option>
+                                <option value="JCB">
+                                  <?php echo $jcb ?>
+                                </option>
+                                <option value="KING LONG">
+                                  <?php echo $kingLong ?>
+                                </option>
+                                <option value="LOVOL">
+                                  <?php echo $lovol ?>
+                                </option>
+                                <option value="MERCEDES TRUCK">
+                                  <?php echo $mercedesTruck ?>
+                                </option>
+                                <option value="RENAULT TRUCK">
+                                  <?php echo $renaultTruck ?>
+                                </option>
+                                <option value="SINOTRUCK">
+                                  <?php echo $sinotruk ?>
+                                </option>
+                                <option value="TOYOTA BT">
+                                  <?php echo $toyotaBt ?>
+                                </option>
+                                <option value="TOYOTA FORKLIFT">
+                                  <?php echo $toyotaForklift ?>
+                                </option>
                                 <option value="BYD">
                                   <?php echo $byd ?>
                                 </option>
@@ -686,19 +1798,19 @@ if (isset($_POST["delete"])) {
                             </div>
                             <!--end::Input group-->
                             <?php } ?>
-                            <?php if ($user["department"] == "Equipment") { ?>
+                            <?php if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == true) { ?>
                             <!--begin::Input group-->
                             <div class="d-flex flex-column mb-7 fv-row">
                               <!--begin::Label-->
                               <label class="form-label fw-bolder text-dark fs-6">
-                                <span><?php echo $brand ?></span>
+                                <span><?php echo $brand ?> <?php echo $expert ?></span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
                                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                 </span>
                               </label>
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                              <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
                                 <option value=""><?php echo $select_brand ?></option>
                                 <option value="FUSO">
                                   <?php echo $fuso ?>
@@ -730,6 +1842,181 @@ if (isset($_POST["delete"])) {
                                 <option value="TOYOTA FORKLIFT">
                                   <?php echo $toyotaForklift ?>
                                 </option>
+                                <option value="BYD">
+                                  <?php echo $byd ?>
+                                </option>
+                                <option value="CITROEN">
+                                  <?php echo $citroen ?>
+                                </option>
+                                <option value="MERCEDES">
+                                  <?php echo $mercedes ?>
+                                </option>
+                                <option value="MUTSUBISHI">
+                                  <?php echo $mutsubishi ?>
+                                </option>
+                                <option value="PEUGEOT">
+                                  <?php echo $peugeot ?>
+                                </option>
+                                <option value="SUZUKI">
+                                  <?php echo $suzuki ?>
+                                </option>
+                                <option value="TOYOTA">
+                                  <?php echo $toyota ?>
+                                </option>
+                                <option value="YAMAHA BATEAU">
+                                  <?php echo $yamahaBateau ?>
+                                </option>
+                                <option value="YAMAHA MOTO">
+                                  <?php echo $yamahaMoto ?>
+                                </option>
+                              </select>
+                              <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                              <!--begin::Label-->
+                              <label class="form-label fw-bolder text-dark fs-6">
+                                <span><?php echo $brand ?> <?php echo $expert ?></span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                </span>
+                              </label>
+                              <!--end::Label-->
+                              <!--begin::Input-->
+                              <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                <option value=""><?php echo $select_brand ?></option>
+                                <option value="FUSO">
+                                  <?php echo $fuso ?>
+                                </option>
+                                <option value="HINO">
+                                  <?php echo $hino ?>
+                                </option>
+                                <option value="JCB">
+                                  <?php echo $jcb ?>
+                                </option>
+                                <option value="KING LONG">
+                                  <?php echo $kingLong ?>
+                                </option>
+                                <option value="LOVOL">
+                                  <?php echo $lovol ?>
+                                </option>
+                                <option value="MERCEDES TRUCK">
+                                  <?php echo $mercedesTruck ?>
+                                </option>
+                                <option value="RENAULT TRUCK">
+                                  <?php echo $renaultTruck ?>
+                                </option>
+                                <option value="SINOTRUCK">
+                                  <?php echo $sinotruk ?>
+                                </option>
+                                <option value="TOYOTA BT">
+                                  <?php echo $toyotaBt ?>
+                                </option>
+                                <option value="TOYOTA FORKLIFT">
+                                  <?php echo $toyotaForklift ?>
+                                </option>
+                                <option value="BYD">
+                                  <?php echo $byd ?>
+                                </option>
+                                <option value="CITROEN">
+                                  <?php echo $citroen ?>
+                                </option>
+                                <option value="MERCEDES">
+                                  <?php echo $mercedes ?>
+                                </option>
+                                <option value="MUTSUBISHI">
+                                  <?php echo $mutsubishi ?>
+                                </option>
+                                <option value="PEUGEOT">
+                                  <?php echo $peugeot ?>
+                                </option>
+                                <option value="SUZUKI">
+                                  <?php echo $suzuki ?>
+                                </option>
+                                <option value="TOYOTA">
+                                  <?php echo $toyota ?>
+                                </option>
+                                <option value="YAMAHA BATEAU">
+                                  <?php echo $yamahaBateau ?>
+                                </option>
+                                <option value="YAMAHA MOTO">
+                                  <?php echo $yamahaMoto ?>
+                                </option>
+                              </select>
+                              <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                              <!--begin::Label-->
+                              <label class="form-label fw-bolder text-dark fs-6">
+                                <span><?php echo $brand ?> <?php echo $expert ?></span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                </span>
+                              </label>
+                              <!--end::Label-->
+                              <!--begin::Input-->
+                              <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                <option value=""><?php echo $select_brand ?></option>
+                                <option value="FUSO">
+                                  <?php echo $fuso ?>
+                                </option>
+                                <option value="HINO">
+                                  <?php echo $hino ?>
+                                </option>
+                                <option value="JCB">
+                                  <?php echo $jcb ?>
+                                </option>
+                                <option value="KING LONG">
+                                  <?php echo $kingLong ?>
+                                </option>
+                                <option value="LOVOL">
+                                  <?php echo $lovol ?>
+                                </option>
+                                <option value="MERCEDES TRUCK">
+                                  <?php echo $mercedesTruck ?>
+                                </option>
+                                <option value="RENAULT TRUCK">
+                                  <?php echo $renaultTruck ?>
+                                </option>
+                                <option value="SINOTRUCK">
+                                  <?php echo $sinotruk ?>
+                                </option>
+                                <option value="TOYOTA BT">
+                                  <?php echo $toyotaBt ?>
+                                </option>
+                                <option value="TOYOTA FORKLIFT">
+                                  <?php echo $toyotaForklift ?>
+                                </option>
+                                <option value="BYD">
+                                  <?php echo $byd ?>
+                                </option>
+                                <option value="CITROEN">
+                                  <?php echo $citroen ?>
+                                </option>
+                                <option value="MERCEDES">
+                                  <?php echo $mercedes ?>
+                                </option>
+                                <option value="MUTSUBISHI">
+                                  <?php echo $mutsubishi ?>
+                                </option>
+                                <option value="PEUGEOT">
+                                  <?php echo $peugeot ?>
+                                </option>
+                                <option value="SUZUKI">
+                                  <?php echo $suzuki ?>
+                                </option>
+                                <option value="TOYOTA">
+                                  <?php echo $toyota ?>
+                                </option>
+                                <option value="YAMAHA BATEAU">
+                                  <?php echo $yamahaBateau ?>
+                                </option>
+                                <option value="YAMAHA MOTO">
+                                  <?php echo $yamahaMoto ?>
+                                </option>
                               </select>
                               <!--end::Input-->
                             </div>
@@ -738,7 +2025,7 @@ if (isset($_POST["delete"])) {
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                               <!--begin::Label-->
-                              <label class="fs-6 fw-bold mb-2"><?php echo $recrutmantDate ?></label>
+                              <label class="fs-6 fw-bold mb-2"><?php echo $recrutmentDate ?></label>
                               <!--end::Label-->
                               <!--begin::Input-->
                               <input type="text" class="form-control form-control-solid" placeholder="" name="recrutmentDate" value="<?php echo $user->recrutmentDate; ?>" />
@@ -749,17 +2036,17 @@ if (isset($_POST["delete"])) {
                                 $user->test == true
                             ) { ?>
                             <!--begin::Input group-->
-                            <div class="d-flex flex-column mb-7 fv-row">
+                            <!-- <div class="d-flex flex-column mb-7 fv-row"> -->
                               <!--begin::Label-->
-                              <label class="form-label fw-bolder text-dark fs-6">
+                              <!-- <label class="form-label fw-bolder text-dark fs-6">
                                 <span><?php echo $manager ?></span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le manager de ce technicien">
                                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                 </span>
-                              </label>
+                              </label> -->
                               <!--end::Label-->
                               <!--begin::Input-->
-                              <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez votre manager..." class="form-select form-select-solid fw-bold">
+                              <!-- <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez votre manager..." class="form-select form-select-solid fw-bold">
                                 <?php if ($user->manager) {
                                     $lead = $users->findOne([
                                         "_id" => $user["manager"],
@@ -784,9 +2071,9 @@ if (isset($_POST["delete"])) {
                                 </option>
                                 <?php }
                                 ?>
-                              </select>
+                              </select> -->
                               <!--end::Input-->
-                            </div>
+                            <!-- </div> -->
                             <!--end::Input group-->
                             <?php } ?>
                           </div>

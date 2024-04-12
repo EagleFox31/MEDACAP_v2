@@ -25,50 +25,59 @@ if (!isset($_SESSION["id"])) {
     if (isset($_POST["submit"])) {
         $firstName = $_POST["firstName"];
         $lastName = $_POST["lastName"];
-        $email = $_POST["email"];
+        $emailAddress = $_POST["email"];
         $phone = $_POST["phone"];
-        $matricule = $_POST["matricule"];
-        $username = $_POST["username"];
+        $matriculation = $_POST["matricule"];
+        $userName = $_POST["username"];
         $subsidiary = $_POST["subsidiary"];
-        $department = $_POST["department"];
-        $role = $_POST["role"];
+        $departement = $_POST["department"];
+        $fonction = $_POST["role"];
         $profile = $_POST["profile"];
-        $gender = $_POST["gender"];
-        $password = $_POST["password"];
-        $country = $_POST["country"];
+        $sex = $_POST["gender"];
+        $passWord = $_POST["password"];
+        $pays = $_POST["country"];
         $certificate = $_POST["certificate"];
-        $speciality = $_POST["speciality"];
-        $brand = $_POST["brand"];
-        $birthdate = date("d-m-Y", strtotime($_POST["birthdate"]));
-        $recrutmentDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
+        $specialite = $_POST["speciality"];
+        $birthDate = date("d-m-Y", strtotime($_POST["birthdate"]));
+        $recrutementDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
         $level = $_POST["level"];
-        $manager = $_POST["manager"];
+        $managerId = $_POST["manager"];
+        if (isset($_POST["brandJu"])) {
+          $brandJunior = $_POST["brandJu"];
+        }
+        if (isset($_POST["brandSe"])) {
+          $brandSenior = $_POST["brandSe"];
+        }
+        if (isset($_POST["brandEx"])) {
+          $brandExpert = $_POST["brandEx"];
+        }
 
         $techs = [];
 
-        $password_hash = sha1($password);
+        $password_hash = sha1($passWord);
         $member = $users->findOne([
-            '$and' => [["username" => $username], ["active" => true]],
+            '$and' => [["username" => $userName], ["active" => true]],
         ]);
         if (
             empty($firstName) ||
             empty($lastName) ||
-            empty($role) ||
-            empty($username) ||
-            empty($matricule) ||
-            empty($birthdate) ||
+            empty($fonction) ||
+            empty($userName) ||
+            empty($matriculation) ||
+            empty($birthDate) ||
             empty($certificate) ||
             empty($subsidiary) ||
-            empty($department) ||
-            empty($recrutmentDate) ||
-            empty($gender) ||
+            empty($departement) ||
+            empty($recrutementDate) ||
+            empty($pays) ||
+            empty($sex) ||
             empty($level) ||
-            empty($brand) ||
-            !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+            empty($brandJunior) ||
+            !filter_var($emailAddress, FILTER_VALIDATE_EMAIL) ||
             preg_match('/^[\D]{15}$/', $phone) ||
             preg_match(
                 '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
-                $password
+                $passWord
             )
         ) {
             $error = $champ_obligatoire;
@@ -82,32 +91,34 @@ if (!isset($_SESSION["id"])) {
                 if ($manager) {
                     $personT = [
                         "users" => [],
-                        "username" => $username,
-                        "matricule" => $matricule,
+                        "username" => $userName,
+                        "matricule" => $matriculation,
                         "firstName" => ucfirst($firstName),
                         "lastName" => ucfirst($lastName),
-                        "email" => $email,
+                        "email" => $emailAddress,
                         "phone" => +$phone,
-                        "gender" => $gender,
+                        "gender" => $sex,
                         "level" => $level,
-                        "country" => $country,
+                        "country" => $pays,
                         "profile" => $profile,
-                        "birthdate" => $birthdate,
-                        "recrutmentDate" => $recrutmentDate,
-                        "certificate" => ucfirst($certificate),
+                        "birthdate" => $birthDate,
+                        "recrutmentDate" => $recrutementDate,
+                        "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
-                        "department" => ucfirst($department),
-                        "brand" => $brand,
-                        "speciality" => $speciality,
-                        "role" => ucfirst($role),
+                        "department" => ucfirst($departement),
+                        "brandJunior" => $brandJunior,
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
+                        "speciality" => $specialite,
+                        "role" => ucfirst($fonction),
                         "password" => $password_hash,
-                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "manager" => new MongoDB\BSON\ObjectId($managerId),
                         "active" => true,
                         "created" => date("d-m-Y"),
                     ];
                     $user = $users->insertOne($personT);
                     $users->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($manager)],
+                        ["_id" => new MongoDB\BSON\ObjectId($managerId)],
                         [
                             '$push' => [
                                 "users" => new MongoDB\BSON\ObjectId(
@@ -119,24 +130,26 @@ if (!isset($_SESSION["id"])) {
                 } else {
                     $personT = [
                         "users" => [],
-                        "username" => $username,
-                        "matricule" => $matricule,
+                        "username" => $userName,
+                        "matricule" => $matriculation,
                         "firstName" => ucfirst($firstName),
                         "lastName" => ucfirst($lastName),
-                        "email" => $email,
+                        "email" => $emailAddress,
                         "phone" => +$phone,
-                        "gender" => $gender,
+                        "gender" => $sex,
                         "level" => $level,
-                        "country" => $country,
+                        "country" => $pays,
                         "profile" => $profile,
-                        "birthdate" => $birthdate,
-                        "recrutmentDate" => $recrutmentDate,
-                        "certificate" => ucfirst($certificate),
+                        "birthdate" => $birthDate,
+                        "recrutmentDate" => $recrutementDate,
+                        "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
-                        "department" => ucfirst($department),
-                        "brand" => $brand,
-                        "speciality" => $speciality,
-                        "role" => ucfirst($role),
+                        "department" => ucfirst($departement),
+                        "brandJunior" => $brandJunior,
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
+                        "speciality" => $specialite,
+                        "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "manager" => "",
                         "active" => true,
@@ -144,13 +157,48 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $user = $users->insertOne($personT);
                 }
+                if (isset($_POST["brandEx"])) {
+                    for ($i = 0; $i < count($brandExpert); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandSenior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
+                if (isset($_POST["brandSe"])) {
+                    for ($i = 0; $i < count($brandSenior); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandSenior[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
                 if ($level == "Junior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -164,7 +212,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -173,10 +221,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertDecla = $tests->insertOne($testDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -206,7 +254,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -298,12 +346,15 @@ if (!isset($_SESSION["id"])) {
 
                     $success_msg = $success_tech;
                 } elseif ($level == "Senior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -317,7 +368,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -331,7 +382,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -345,7 +396,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -354,10 +405,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -387,7 +438,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -414,10 +465,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -447,7 +499,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -602,12 +654,15 @@ if (!isset($_SESSION["id"])) {
 
                     $success_msg = $success_tech;
                 } elseif ($level == "Expert") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -621,7 +676,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -635,7 +690,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -649,7 +704,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -663,7 +718,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Factuel",
                         "level" => "Expert",
                         "total" => 0,
@@ -677,7 +732,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Declaratif",
                         "level" => "Expert",
                         "total" => 0,
@@ -686,10 +741,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertExDecla = $tests->insertOne($testExDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -719,7 +774,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -746,10 +801,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -779,7 +835,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -806,10 +862,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($brandExpert); ++$n) {
                         $vehicleFacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -839,7 +896,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -1061,33 +1118,34 @@ if (!isset($_SESSION["id"])) {
                 if ($manager) {
                     $personM = [
                         "users" => [],
-                        "username" => $username,
-                        "matricule" => $matricule,
+                        "username" => $userName,
+                        "matricule" => $matriculation,
                         "firstName" => ucfirst($firstName),
                         "lastName" => ucfirst($lastName),
-                        "email" => $email,
+                        "email" => $emailAddress,
                         "phone" => +$phone,
-                        "gender" => $gender,
+                        "gender" => $sex,
                         "level" => $level,
-                        "country" => $country,
+                        "country" => $pays,
                         "profile" => "Manager",
-                        "birthdate" => $birthdate,
-                        "recrutmentDate" => $recrutmentDate,
-                        "certificate" => ucfirst($certificate),
+                        "birthdate" => $birthDate,
+                        "recrutmentDate" => $recrutementDate,
+                        "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
-                        "department" => ucfirst($department),
-                        "brand" => $brand,
-                        "speciality" => $speciality,
-                        "role" => ucfirst($role),
+                        "department" => ucfirst($departement),
+                        "brandJunior" => $brandJunior ?? [],
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
+                        "speciality" => $specialite,
+                        "role" => ucfirst($fonction),
                         "password" => $password_hash,
-                        "manager" => new MongoDB\BSON\ObjectId($manager),
-                        "test" => true,
+                        "manager" => new MongoDB\BSON\ObjectId($managerId),
                         "active" => true,
                         "created" => date("d-m-Y"),
                     ];
                     $user = $users->insertOne($personM);
                     $users->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($manager)],
+                        ["_id" => new MongoDB\BSON\ObjectId($managerId)],
                         [
                             '$push' => [
                                 "users" => new MongoDB\BSON\ObjectId(
@@ -1099,24 +1157,26 @@ if (!isset($_SESSION["id"])) {
                 } else {
                     $personM = [
                         "users" => [],
-                        "username" => $username,
-                        "matricule" => $matricule,
+                        "username" => $userName,
+                        "matricule" => $matriculation,
                         "firstName" => ucfirst($firstName),
                         "lastName" => ucfirst($lastName),
-                        "email" => $email,
+                        "email" => $emailAddress,
                         "phone" => +$phone,
-                        "gender" => $gender,
+                        "gender" => $sex,
                         "level" => $level,
-                        "country" => $country,
-                        "profile" => $profile,
-                        "birthdate" => $birthdate,
-                        "recrutmentDate" => $recrutmentDate,
-                        "certificate" => ucfirst($certificate),
+                        "country" => $pays,
+                        "profile" => "Manager",
+                        "birthdate" => $birthDate,
+                        "recrutmentDate" => $recrutementDate,
+                        "certificate" => ucfirst($certificate), 
                         "subsidiary" => ucfirst($subsidiary),
-                        "department" => ucfirst($department),
-                        "brand" => $brand,
-                        "speciality" => $speciality,
-                        "role" => ucfirst($role),
+                        "department" => ucfirst($departement),
+                        "brandJunior" => $brandJunior ?? [],
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
+                        "speciality" => $specialite,
+                        "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "manager" => "",
                         "active" => true,
@@ -1124,13 +1184,48 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $user = $users->insertOne($personM);
                 }
+                if (isset($_POST["brandEx"])) {
+                    for ($i = 0; $i < count($brandExpert); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandSenior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
+                if (isset($_POST["brandSe"])) {
+                    for ($i = 0; $i < count($brandSenior); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandSenior[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
                 if ($level == "Junior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -1144,7 +1239,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -1153,10 +1248,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertDecla = $tests->insertOne($testDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1186,7 +1281,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1276,14 +1371,17 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateDecla);
 
-                    $success_msg = $success_manager;
+                    $success_msg = $success_tech;
                 } elseif ($level == "Senior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -1297,7 +1395,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -1311,7 +1409,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -1325,7 +1423,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -1334,10 +1432,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1367,7 +1465,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1394,10 +1492,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1427,7 +1526,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1580,14 +1679,17 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
-                    $success_msg = $success_manager;
+                    $success_msg = $success_tech;
                 } elseif ($level == "Expert") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -1601,7 +1703,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -1615,7 +1717,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -1629,7 +1731,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -1643,7 +1745,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Factuel",
                         "level" => "Expert",
                         "total" => 0,
@@ -1657,7 +1759,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Declaratif",
                         "level" => "Expert",
                         "total" => 0,
@@ -1666,10 +1768,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertExDecla = $tests->insertOne($testExDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1699,7 +1801,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1726,10 +1828,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1759,7 +1862,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1786,10 +1889,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($brandExpert); ++$n) {
                         $vehicleFacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -1819,7 +1923,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -2035,31 +2139,29 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = $success_manager;
+                    $success_msg = $success_tech;
                 }
             } elseif ($profile == "Manager (non évalué)") {
                 $personM = [
                     "users" => [],
-                    "username" => $username,
-                    "matricule" => $matricule,
+                    "username" => $userName,
+                    "matricule" => $matriculation,
                     "firstName" => ucfirst($firstName),
                     "lastName" => ucfirst($lastName),
-                    "email" => $email,
+                    "email" => $emailAddress,
                     "phone" => +$phone,
-                    "gender" => $gender,
+                    "gender" => $sex,
                     "level" => $level,
-                    "country" => $country,
+                    "country" => $pays,
                     "profile" => "Manager",
-                    "birthdate" => $birthdate,
-                    "recrutmentDate" => $recrutmentDate,
-                    "certificate" => ucfirst($certificate),
+                    "birthdate" => $birthDate,
+                    "recrutmentDate" => $recrutementDate,
+                    "certificate" => ucfirst($certificate), 
                     "subsidiary" => ucfirst($subsidiary),
-                    "department" => ucfirst($department),
-                    "brand" => $brand,
-                    "speciality" => $speciality,
-                    "role" => ucfirst($role),
+                    "department" => ucfirst($departement),
+                    "speciality" => $specialite,
+                    "role" => ucfirst($fonction),
                     "password" => $password_hash,
-                    "test" => false,
                     "active" => true,
                     "created" => date("d-m-Y"),
                 ];
@@ -2067,24 +2169,23 @@ if (!isset($_SESSION["id"])) {
             } elseif ($profile == "Admin") {
                 $personA = [
                     "users" => [],
-                    "username" => $username,
-                    "matricule" => $matricule,
+                    "username" => $userName,
+                    "matricule" => $matriculation,
                     "firstName" => ucfirst($firstName),
                     "lastName" => ucfirst($lastName),
-                    "email" => $email,
+                    "email" => $emailAddress,
                     "phone" => +$phone,
-                    "gender" => $gender,
-                    "level" => "Non applicable",
-                    "country" => $country,
+                    "gender" => $sex,
+                    "level" => $level,
+                    "country" => $pays,
                     "profile" => $profile,
-                    "birthdate" => $birthdate,
-                    "recrutmentDate" => $recrutmentDate,
-                    "certificate" => ucfirst($certificate),
+                    "birthdate" => $birthDate,
+                    "recrutmentDate" => $recrutementDate,
+                    "certificate" => ucfirst($certificate), 
                     "subsidiary" => ucfirst($subsidiary),
-                    "department" => ucfirst($department),
-                    "brand" => $brand,
-                    "speciality" => $speciality,
-                    "role" => ucfirst($role),
+                    "department" => ucfirst($departement),
+                    "speciality" => $specialite,
+                    "role" => ucfirst($fonction),
                     "password" => $password_hash,
                     "active" => true,
                     "created" => date("d-m-Y"),
@@ -2109,9 +2210,9 @@ if (!isset($_SESSION["id"])) {
   <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
     <!--begin::Container-->
     <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
-      <!--begin::Modal body-->
-      <div class='container mt-5 w-50'>
-        <img src='../public/images/logo.png' alt='10' height='170' style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
+        <!--begin::Modal body-->
+        <div class="container mt-5 w-50">
+            <img src="../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
         <h1 class='my-3 text-center'><?php echo $title_addUser ?></h1>
 
         <?php if (isset($success_msg)) { ?>
@@ -2144,7 +2245,7 @@ if (!isset($_SESSION["id"])) {
                 <label class='required form-label fw-bolder text-dark fs-6'><?php echo $prenoms ?></label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input class='form-control form-control-solid' placeholder='' name='firstName' />
+                <input class='form-control form-control-solid' name='firstName' />
                 <?php if (isset($error)) { ?>
                 <span class='text-danger'>
                   <?php echo $error; ?>
@@ -2158,7 +2259,7 @@ if (!isset($_SESSION["id"])) {
                 <label class='required form-label fw-bolder text-dark fs-6'><?php echo $noms ?></label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input class='form-control form-control-solid' placeholder='' name='lastName' />
+                <input class='form-control form-control-solid' name='lastName' />
                 <!--end::Input-->
                 <?php if (isset($error)) { ?>
                 <span class='text-danger'>
@@ -2175,7 +2276,7 @@ if (!isset($_SESSION["id"])) {
               <label class='required form-label fw-bolder text-dark fs-6'><?php echo $username ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type='text' class='form-control form-control-solid' placeholder='' name='username' />
+              <input type='text' class='form-control form-control-solid' name='username' />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -2190,7 +2291,7 @@ if (!isset($_SESSION["id"])) {
               <label class='required form-label fw-bolder text-dark fs-6'><?php echo $matricule ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type='text' class='form-control form-control-solid' placeholder='' name='matricule' />
+              <input type='text' class='form-control form-control-solid' name='matricule' />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -2236,7 +2337,7 @@ if (!isset($_SESSION["id"])) {
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type='email' class='form-control form-control-solid' placeholder='' name='email' />
+              <input type='email' class='form-control form-control-solid' name='email' />
               <!--end::Input-->
               <?php if (isset($email_error)) { ?>
               <span class='text-danger'>
@@ -2251,7 +2352,7 @@ if (!isset($_SESSION["id"])) {
               <label class='required form-label fw-bolder text-dark fs-6'><?php echo $phoneNumber ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type='text' class='form-control form-control-solid' placeholder='' name='phone' />
+              <input type='text' class='form-control form-control-solid' name='phone' />
               <!--end::Input-->
               <?php if (isset($phone_error)) { ?>
               <span class='text-danger'>
@@ -2266,7 +2367,7 @@ if (!isset($_SESSION["id"])) {
               <label class='required form-label fw-bolder text-dark fs-6'><?php echo $birthdate ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type='date' class='form-control form-control-solid' placeholder='' name='birthdate' />
+              <input type='date' class='form-control form-control-solid' name='birthdate' />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -2579,7 +2680,6 @@ if (!isset($_SESSION["id"])) {
                 </span>
               </label>
               <!--end::Label-->
-              <!--begin::Input-->
               <select onchange="enableBrand(this)" name="department" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_department ?>" class="form-select form-select-solid fw-bold">
                 <option><?php echo $select_department ?></option>
                 <option value="Equipment">
@@ -2588,6 +2688,9 @@ if (!isset($_SESSION["id"])) {
                 <option value="Motors">
                   Motors
                 </option>
+                <option value="Equipment, Motors">
+                  Equipment & Motors
+                </option>
               </select>
               <!--end::Input-->
               <?php if (isset($error)) { ?>
@@ -2596,47 +2699,31 @@ if (!isset($_SESSION["id"])) {
               </span>
               <?php } ?>
             </div>
-            <!--end::Input group-->
             <!--begin::Input group-->
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $level ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le niveau du technicien ou du manager">
-                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                <span class="required"><?php echo $levelTech ?></span>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="level" onchange="enableSpeciality(this)" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_level ?>" class="form-select form-select-solid fw-bold">
-                <option><?php echo $select_level ?></option>
-                <option value="Junior">
-                  <?php echo $junior ?>
-                </option>
-                <option value="Senior">
-                  <?php echo $senior ?>
-                </option>
-                <option value="Expert">
-                  <?php echo $expert ?>
-                </option>
-              </select>
-              <!--end::Input-->
-              <?php if (isset($error)) { ?>
-              <span class='text-danger'>
-                <?php echo $error; ?>
-              </span>
-              <?php } ?>
-            </div>
-            <!--end::Input group-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Junior" id="junior">
+                <label class="form-check-label text-black">
+                  <?php echo $junior ?> (<?php echo $maintenance ?>)
+                </label>
+              </div>
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row d-none"  id="brandEquipment">
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentJu">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $brand ?></span>
+                <span class="required"><?php echo $brand ?> <?php echo $junior ?></span>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+              <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
                 <option value=""><?php echo $select_brand ?></option>
                 <option value="FUSO">
                   <?php echo $fuso ?>
@@ -2678,16 +2765,457 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row d-none" id="brandMotors">
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandMotorsJu">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required">Marque de véhicule</span>
+                <span class="required"><?php echo $brand ?> <?php echo $junior ?></span>
                 </span>
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="brand[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+              <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
                 <option value=""><?php echo $select_brand ?></option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEqMoJu">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $junior ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Senior" id="senior">
+                <label class="form-check-label text-black">
+                  <?php echo $senior ?> (<?php echo $reparation ?>)
+                </label>
+              </div>
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentSe">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?> <?php echo $senior ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandMotorsSe">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $senior ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEqMoSe">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $senior ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Expert" id="expert">
+                <label class="form-check-label text-black">
+                  <?php echo $expert ?> (<?php echo $diagnostic ?>)
+                </label>
+              </div>
+            </div> 
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentEx">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $expert ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandMotorsEx">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $expert ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="BYD">
+                  <?php echo $byd ?>
+                </option>
+                <option value="CITROEN">
+                  <?php echo $citroen ?>
+                </option>
+                <option value="MERCEDES">
+                  <?php echo $mercedes ?>
+                </option>
+                <option value="MUTSUBISHI">
+                  <?php echo $mutsubishi ?>
+                </option>
+                <option value="PEUGEOT">
+                  <?php echo $peugeot ?>
+                </option>
+                <option value="SUZUKI">
+                  <?php echo $suzuki ?>
+                </option>
+                <option value="TOYOTA">
+                  <?php echo $toyota ?>
+                </option>
+                <option value="YAMAHA BATEAU">
+                  <?php echo $yamahaBateau ?>
+                </option>
+                <option value="YAMAHA MOTO">
+                  <?php echo $yamahaMoto ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEqMoEx">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $brand ?> <?php echo $expert ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_brand ?></option>
+                <option value="FUSO">
+                  <?php echo $fuso ?>
+                </option>
+                <option value="HINO">
+                  <?php echo $hino ?>
+                </option>
+                <option value="JCB">
+                  <?php echo $jcb ?>
+                </option>
+                <option value="KING LONG">
+                  <?php echo $kingLong ?>
+                </option>
+                <option value="LOVOL">
+                  <?php echo $lovol ?>
+                </option>
+                <option value="MERCEDES TRUCK">
+                  <?php echo $mercedesTruck ?>
+                </option>
+                <option value="RENAULT TRUCK">
+                  <?php echo $renaultTruck ?>
+                </option>
+                <option value="SINOTRUCK">
+                  <?php echo $sinotruk ?>
+                </option>
+                <option value="TOYOTA BT">
+                  <?php echo $toyotaBt ?>
+                </option>
+                <option value="TOYOTA FORKLIFT">
+                  <?php echo $toyotaForklift ?>
+                </option>
                 <option value="BYD">
                   <?php echo $byd ?>
                 </option>
@@ -2763,7 +3291,7 @@ if (!isset($_SESSION["id"])) {
               <label class="required form-label fw-bolder text-dark fs-6"><?php echo $certificat ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type="text" class="form-control form-control-solid" placeholder="" name="certificate" />
+              <input type="text" class="form-control form-control-solid" name="certificate" />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -2778,7 +3306,7 @@ if (!isset($_SESSION["id"])) {
               <label class="required form-label fw-bolder text-dark fs-6"><?php echo $filiale ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type="text" class="form-control form-control-solid" placeholder="" name="subsidiary" />
+              <input type="text" class="form-control form-control-solid" name="subsidiary" />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -2793,7 +3321,7 @@ if (!isset($_SESSION["id"])) {
               <label class="required form-label fw-bolder text-dark fs-6"><?php echo $role ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type="text" class="form-control form-control-solid fw-bold" placeholder="" name="role" />
+              <input type="text" class="form-control form-control-solid fw-bold" name="role" />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -2808,7 +3336,7 @@ if (!isset($_SESSION["id"])) {
               <label class="required form-label fw-bolder text-dark fs-6"><?php echo $recrutmentDate ?></label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type="date" class="form-control form-control-solid" placeholder="" name="recrutmentDate" />
+              <input type="date" class="form-control form-control-solid" name="recrutmentDate" />
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>
@@ -2826,7 +3354,7 @@ if (!isset($_SESSION["id"])) {
                 <!--end::Label-->
                 <!--begin::Input wrapper-->
                 <div class="position-relative mb-3">
-                  <input class="form-control form-control-solid" type="password" placeholder="" name="password" autocomplete="off" />
+                  <input class="form-control form-control-solid" type="password" name="password" autocomplete="off" />
                 </div>
                 <!--end::Input wrapper-->
                 <?php if (isset($password_error)) { ?>
@@ -2920,23 +3448,126 @@ if (!isset($_SESSION["id"])) {
 
 <script>
   var metier = document.querySelector('#metier');
-  var brandMotors = document.querySelector('#brandMotors');
-  var brandEquipment = document.querySelector('#brandEquipment');
+  var brandMotorsJu = document.querySelector('#brandMotorsJu');
+  var brandEquipmentJu = document.querySelector('#brandEquipmentJu');
+  var brandEqMoJu = document.querySelector('#brandEqMoJu');
+  var brandMotorsSe = document.querySelector('#brandMotorsSe');
+  var brandEquipmentSe = document.querySelector('#brandEquipmentSe');
+  var brandEqMoSe = document.querySelector('#brandEqMoSe');
+  var brandMotorsEx = document.querySelector('#brandMotorsEx');
+  var brandEquipmentEx = document.querySelector('#brandEquipmentEx');
+  var brandEqMoEx = document.querySelector('#brandEqMoEx');
 
   function enableBrand(answer) {
-    if(answer.value == 'Motors') {
-      brandMotors.classList.remove('d-none');
-      brandEquipment.classList.add('d-none');
-    } else {
-      brandEquipment.classList.remove('d-none')
-      brandMotors.classList.add('d-none');
-    }
+    checkedRa(answer.value);
   }
-  function enableSpeciality(answer) {
-    if(answer.value != 'Junior') {
+
+  function checkedRa(departValue) {
+    var junior = document.querySelector('#junior');
+    var senior = document.querySelector('#senior');
+    var expert = document.querySelector('#expert');
+    if(departValue == 'Motors') {
+      if(junior.checked) {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(senior.checked) {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.remove('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(expert.checked) {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.remove('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.remove('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      }
+    } else if(departValue == 'Equipment') {
+      if(junior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(senior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.remove('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(expert.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.remove('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.remove('d-none');
+        brandEqMoEx.classList.add('d-none');
+      }
+    } else {
+      if(junior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.remove('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(senior.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.remove('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.remove('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(expert.checked) {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.remove('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.remove('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.remove('d-none');
+      }
+    }
+    if(!junior.checked) {
       metier.classList.remove('d-none');
     } else {
       metier.classList.add('d-none')
     }
   }
+
 </script>

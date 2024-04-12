@@ -299,5 +299,10 @@ $langue = "Langue";
 $francais = "Français";
 $deconnexion = "Deconnexion";
 $edit_validation = "Modifier le Seuil de Validation des Tests";
+$maintenance = "Maintenance";
+$reparation = "Réparation";
+$diagnostic = "Diagnostic";
+$questionType = "Questions";
+$userManager = "Manager";
 
 include_once "language.php";

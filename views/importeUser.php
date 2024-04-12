@@ -26,8 +26,13 @@ if (!isset($_SESSION["id"])) {
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
         $data = $spreadsheet->getActiveSheet()->toArray();
 
+        // remove header
+        unset($data[0]);
+
         foreach ($data as $row) {
-            $brand = [];
+            $brandJunior = [];
+            $brandSenior = [];
+            $brandExpert = [];
 
             $username = $row["0"];
             $matricule = $row["1"];
@@ -48,62 +53,176 @@ if (!isset($_SESSION["id"])) {
             $recrutmentDate = date($row["16"]);
             $usernameManager = $row["17"];
             $password = sha1($row["18"]);
-            $subBrand1 = strtoupper($row["19"]);
-            $subBrand2 = strtoupper($row["20"]);
-            $subBrand3 = strtoupper($row["21"]);
-            $subBrand4 = strtoupper($row["22"]);
-            $subBrand5 = strtoupper($row["23"]);
-            $subBrand6 = strtoupper($row["24"]);
-            $subBrand7 = strtoupper($row["25"]);
-            $subBrand8 = strtoupper($row["26"]);
-            $subBrand9 = strtoupper($row["27"]);
-            $subBrand10 = strtoupper($row["28"]);
-            $subBrand11 = strtoupper($row["29"]);
-            $subBrand12 = strtoupper($row["30"]);
-            $subBrand13 = strtoupper($row["31"]);
-            $subBrand14 = strtoupper($row["32"]);
 
-            if ($subBrand1 != "") {
-                array_push($brand, $subBrand1);
+            if (isset($row["19"]) != "") {
+                $subBrand1 = strtoupper($row["19"]);
+                array_push($brandJunior, $subBrand1);
             }
-            if ($subBrand2 != "") {
-                array_push($brand, $subBrand2);
+            if (isset($row["20"]) != "") {
+                $subBrand2 = strtoupper($row["20"]);
+                array_push($brandJunior, $subBrand2);
             }
-            if ($subBrand3 != "") {
-                array_push($brand, $subBrand3);
+            if (isset($row["21"]) != "") {
+                $subBrand3 = strtoupper($row["21"]);
+                array_push($brandJunior, $subBrand3);
             }
-            if ($subBrand4 != "") {
-                array_push($brand, $subBrand4);
+            if (isset($row["22"]) != "") {
+                $subBrand4 = strtoupper($row["22"]);
+                array_push($brandJunior, $subBrand4);
             }
-            if ($subBrand5 != "") {
-                array_push($brand, $subBrand5);
+            if (isset($row["23"]) != "") {
+                $subBrand5 = strtoupper($row["23"]);
+                array_push($brandJunior, $subBrand5);
             }
-            if ($subBrand6 != "") {
-                array_push($brand, $subBrand6);
+            if (isset($row["24"]) != "") {
+                $subBrand6 = strtoupper($row["24"]);
+                array_push($brandJunior, $subBrand6);
             }
-            if ($subBrand7 != "") {
-                array_push($brand, $subBrand7);
+            if (isset($row["25"]) != "") {
+                $subBrand7 = strtoupper($row["25"]);
+                array_push($brandJunior, $subBrand7);
             }
-            if ($subBrand8 != "") {
-                array_push($brand, $subBrand8);
+            if (isset($row["26"]) != "") {
+                $subBrand8 = strtoupper($row["26"]);
+                array_push($brandJunior, $subBrand8);
             }
-            if ($subBrand9 != "") {
-                array_push($brand, $subBrand9);
+            if (isset($row["27"]) != "") {
+                $subBrand9 = strtoupper($row["27"]);
+                array_push($brandJunior, $subBrand9);
             }
-            if ($subBrand10 != "") {
-                array_push($brand, $subBrand10);
+            if (isset($row["28"]) != "") {
+                $subBrand10 = strtoupper($row["28"]);
+                array_push($brandJunior, $subBrand10);
             }
-            if ($subBrand11 != "") {
-                array_push($brand, $subBrand11);
+            if (isset($row["29"]) != "") {
+                $subBrand11 = strtoupper($row["29"]);
+                array_push($brandJunior, $subBrand11);
             }
-            if ($subBrand12 != "") {
-                array_push($brand, $subBrand12);
+            if (isset($row["30"]) != "") {
+                $subBrand12 = strtoupper($row["30"]);
+                array_push($brandJunior, $subBrand12);
             }
-            if ($subBrand13 != "") {
-                array_push($brand, $subBrand13);
+            if (isset($row["31"]) != "") {
+                $subBrand13 = strtoupper($row["31"]);
+                array_push($brandJunior, $subBrand13);
             }
-            if ($subBrand14 != "") {
-                array_push($brand, $subBrand14);
+            if (isset($row["32"]) != "") {
+                $subBrand14 = strtoupper($row["32"]);
+                array_push($brandJunior, $subBrand14);
+            }
+
+            if (isset($row["33"]) != "") {
+                $subBrand1 = strtoupper($row["33"]);
+                array_push($brandSenior, $subBrand1);
+            }
+            if (isset($row["34"]) != "") {
+                $subBrand2 = strtoupper($row["34"]);
+                array_push($brandSenior, $subBrand2);
+            }
+            if (isset($row["35"]) != "") {
+                $subBrand3 = strtoupper($row["35"]);
+                array_push($brandSenior, $subBrand3);
+            }
+            if (isset($row["36"]) != "") {
+                $subBrand4 = strtoupper($row["36"]);
+                array_push($brandSenior, $subBrand4);
+            }
+            if (isset($row["37"]) != "") {
+                $subBrand5 = strtoupper($row["37"]);
+                array_push($brandSenior, $subBrand5);
+            }
+            if (isset($row["38"]) != "") {
+                $subBrand6 = strtoupper($row["38"]);
+                array_push($brandSenior, $subBrand6);
+            }
+            if (isset($row["39"]) != "") {
+                $subBrand7 = strtoupper($row["39"]);
+                array_push($brandSenior, $subBrand7);
+            }
+            if (isset($row["40"]) != "") {
+                $subBrand8 = strtoupper($row["40"]);
+                array_push($brandSenior, $subBrand8);
+            }
+            if (isset($row["41"]) != "") {
+                $subBrand9 = strtoupper($row["41"]);
+                array_push($brandSenior, $subBrand9);
+            }
+            if (isset($row["42"]) != "") {
+                $subBrand10 = strtoupper($row["42"]);
+                array_push($brandSenior, $subBrand10);
+            }
+            if (isset($row["43"]) != "") {
+                $subBrand11 = strtoupper($row["43"]);
+                array_push($brandSenior, $subBrand11);
+            }
+            if (isset($row["44"]) != "") {
+                $subBrand12 = strtoupper($row["44"]);
+                array_push($brandSenior, $subBrand12);
+            }
+            if (isset($row["45"]) != "") {
+                $subBrand13 = strtoupper($row["45"]);
+                array_push($brandSenior, $subBrand13);
+            }
+            if (isset($row["46"]) != "") {
+                $subBrand14 = strtoupper($row["46"]);
+                array_push($brandSenior, $subBrand14);
+            }
+
+            if (isset($row["47"]) != "") {
+                $subBrand1 = strtoupper($row["47"]);
+                array_push($brandExpert, $subBrand1);
+            }
+            if (isset($row["48"]) != "") {
+                $subBrand2 = strtoupper($row["48"]);
+                array_push($brandExpert, $subBrand2);
+            }
+            if (isset($row["49"]) != "") {
+                $subBrand3 = strtoupper($row["49"]);
+                array_push($brandExpert, $subBrand3);
+            }
+            if (isset($row["50"]) != "") {
+                $subBrand4 = strtoupper($row["50"]);
+                array_push($brandExpert, $subBrand4);
+            }
+            if (isset($row["51"]) != "") {
+                $subBrand5 = strtoupper($row["51"]);
+                array_push($brandExpert, $subBrand5);
+            }
+            if (isset($row["52"]) != "") {
+                $subBrand6 = strtoupper($row["52"]);
+                array_push($brandExpert, $subBrand6);
+            }
+            if (isset($row["53"]) != "") {
+                $subBrand7 = strtoupper($row["53"]);
+                array_push($brandExpert, $subBrand7);
+            }
+            if (isset($row["54"]) != "") {
+                $subBrand8 = strtoupper($row["54"]);
+                array_push($brandExpert, $subBrand8);
+            }
+            if (isset($row["55"]) != "") {
+                $subBrand9 = strtoupper($row["55"]);
+                array_push($brandExpert, $subBrand9);
+            }
+            if (isset($row["56"]) != "") {
+                $subBrand10 = strtoupper($row["56"]);
+                array_push($brandExpert, $subBrand10);
+            }
+            if (isset($row["57"]) != "") {
+                $subBrand11 = strtoupper($row["57"]);
+                array_push($brandExpert, $subBrand11);
+            }
+            if (isset($row["58"]) != "") {
+                $subBrand12 = strtoupper($row["58"]);
+                array_push($brandExpert, $subBrand12);
+            }
+            if (isset($row["59"]) != "") {
+                $subBrand13 = strtoupper($row["59"]);
+                array_push($brandExpert, $subBrand13);
+            }
+            if (isset($row["60"]) != "") {
+                $subBrand14 = strtoupper($row["60"]);
+                array_push($brandExpert, $subBrand14);
             }
 
             $member = $users->findOne([
@@ -145,7 +264,9 @@ if (!isset($_SESSION["id"])) {
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
                         "department" => ucfirst($department),
-                        "brand" => $brand,
+                        "brandJunior" => $brandJunior ?? [],
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
                         "speciality" => $speciality,
                         "role" => ucfirst($role),
                         "password" => $password,
@@ -183,7 +304,9 @@ if (!isset($_SESSION["id"])) {
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
                         "department" => ucfirst($department),
-                        "brand" => $brand,
+                        "brandJunior" => $brandJunior ?? [],
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
                         "speciality" => $speciality,
                         "role" => ucfirst($role),
                         "password" => $password,
@@ -193,13 +316,48 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $user = $users->insertOne($person);
                 }
+                if (isset($_POST["brandEx"])) {
+                    for ($i = 0; $i < count($brandExpert); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandSenior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
+                if (isset($_POST["brandSe"])) {
+                    for ($i = 0; $i < count($brandSenior); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandSenior[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
                 if ($level == "Junior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -213,7 +371,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -222,10 +380,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertDecla = $tests->insertOne($testDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -255,7 +413,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -347,12 +505,15 @@ if (!isset($_SESSION["id"])) {
 
                     $success_msg = $success_tech;
                 } elseif ($level == "Senior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -366,7 +527,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -380,7 +541,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -394,7 +555,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -403,10 +564,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -436,7 +597,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -463,10 +624,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -496,7 +658,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -651,12 +813,15 @@ if (!isset($_SESSION["id"])) {
 
                     $success_msg = $success_tech;
                 } elseif ($level == "Expert") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -670,7 +835,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -684,7 +849,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -698,7 +863,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -712,7 +877,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Factuel",
                         "level" => "Expert",
                         "total" => 0,
@@ -726,7 +891,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Declaratif",
                         "level" => "Expert",
                         "total" => 0,
@@ -735,10 +900,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertExDecla = $tests->insertOne($testExDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -768,7 +933,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -795,10 +960,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -828,7 +994,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -855,10 +1021,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($brandExpert); ++$n) {
                         $vehicleFacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -888,7 +1055,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -1125,7 +1292,9 @@ if (!isset($_SESSION["id"])) {
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
                         "department" => ucfirst($department),
-                        "brand" => $brand,
+                        "brandJunior" => $brandJunior ?? [],
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
                         "speciality" => $speciality,
                         "role" => ucfirst($role),
                         "password" => $password,
@@ -1163,7 +1332,9 @@ if (!isset($_SESSION["id"])) {
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
                         "department" => ucfirst($department),
-                        "brand" => $brand,
+                        "brandJunior" => $brandJunior ?? [],
+                        "brandSenior" => $brandSenior ?? [],
+                        "brandExpert" => $brandExpert ?? [],
                         "speciality" => $speciality,
                         "role" => ucfirst($role),
                         "password" => $password,
@@ -1174,13 +1345,48 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $user = $users->insertOne($personM);
                 }
+                if (isset($_POST["brandEx"])) {
+                    for ($i = 0; $i < count($brandExpert); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandSenior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandExpert[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
+                if (isset($_POST["brandSe"])) {
+                    for ($i = 0; $i < count($brandSenior); $i++) {
+                        $users->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                            [
+                                '$addToSet' => [
+                                    "brandJunior" => $brandSenior[$i]
+                                ],
+                            ]
+                        );
+                    }
+                }
                 if ($level == "Junior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -1194,7 +1400,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandJunior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -1203,10 +1409,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertDecla = $tests->insertOne($testDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1236,7 +1442,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1326,14 +1532,17 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateDecla);
 
-                    $success_msg = $success_manager;
+                    $success_msg = $success_tech;
                 } elseif ($level == "Senior") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -1347,7 +1556,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -1361,7 +1570,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -1375,7 +1584,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -1384,10 +1593,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1417,7 +1626,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1444,10 +1653,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1477,7 +1687,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1630,14 +1840,17 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
-                    $success_msg = $success_manager;
+                    $success_msg = $success_tech;
                 } elseif ($level == "Expert") {
+                    $person = $users->findOne(
+                        ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
+                    );
                     $testJuFac = [
                         "quizzes" => [],
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Junior",
                         "total" => 0,
@@ -1651,7 +1864,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Junior",
                         "total" => 0,
@@ -1665,7 +1878,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Factuel",
                         "level" => "Senior",
                         "total" => 0,
@@ -1679,7 +1892,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $person['brandSenior'],
                         "type" => "Declaratif",
                         "level" => "Senior",
                         "total" => 0,
@@ -1693,7 +1906,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Factuel",
                         "level" => "Expert",
                         "total" => 0,
@@ -1707,7 +1920,7 @@ if (!isset($_SESSION["id"])) {
                         "user" => new MongoDB\BSON\ObjectId(
                             $user->getInsertedId()
                         ),
-                        "brand" => $brand,
+                        "brand" => $brandExpert,
                         "type" => "Declaratif",
                         "level" => "Expert",
                         "total" => 0,
@@ -1716,10 +1929,10 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $insertExDecla = $tests->insertOne($testExDecla);
 
-                    for ($n = 0; $n < count($brand); ++$n) {
+                    for ($n = 0; $n < count($person['brandJunior']); ++$n) {
                         $vehicleFacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1749,7 +1962,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacJu = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandJunior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Junior"],
                                 ["active" => true],
@@ -1776,10 +1989,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1809,7 +2023,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacSe = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $person['brandSenior'][$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Senior"],
                                 ["active" => true],
@@ -1836,10 +2050,11 @@ if (!isset($_SESSION["id"])) {
                                 );
                             }
                         }
-
+                    }
+                    for ($n = 0; $n < count($brandExpert); ++$n) {
                         $vehicleFacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Factuel"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -1869,7 +2084,7 @@ if (!isset($_SESSION["id"])) {
 
                         $vehicleDeclacEx = $vehicles->findOne([
                             '$and' => [
-                                ["brand" => $brand[$n]],
+                                ["brand" => $brandExpert[$n]],
                                 ["type" => "Declaratif"],
                                 ["level" => "Expert"],
                                 ["active" => true],
@@ -2085,7 +2300,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = $success_manager;
+                    $success_msg = $success_tech;
                 }
             } elseif ($profile == "Manager (non évalué)") {
                 $personM = [
@@ -2104,7 +2319,6 @@ if (!isset($_SESSION["id"])) {
                     "certificate" => ucfirst($certificate),
                     "subsidiary" => ucfirst($subsidiary),
                     "department" => ucfirst($department),
-                    "brand" => $brand,
                     "speciality" => $speciality,
                     "role" => ucfirst($role),
                     "password" => $password,
@@ -2130,7 +2344,6 @@ if (!isset($_SESSION["id"])) {
                     "certificate" => ucfirst($certificate),
                     "subsidiary" => ucfirst($subsidiary),
                     "department" => ucfirst($department),
-                    "brand" => $brand,
                     "speciality" => $speciality,
                     "role" => ucfirst($role),
                     "password" => $password,
@@ -2158,9 +2371,8 @@ if (!isset($_SESSION["id"])) {
         <!--begin::Container-->
         <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
             <!--begin::Modal body-->
-            <div class="container mt-5 w-50">
-                <img src="../public/images/logo.png" alt="10" height="170"
-                    style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+            <div class="container mt-5 w-50 text-center">
+                <img src="../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
                 <h1 class="my-3 text-center"><?php echo $import_user ?></h1>
 
                 <?php if (isset($success_msg)) { ?>

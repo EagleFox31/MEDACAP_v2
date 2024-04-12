@@ -387,5 +387,15 @@ function pageMaker(index, item_per_page, active_page) {
 //         }
 //     })
 // })
+// Function to handle closing of the alert message
+document.addEventListener('DOMContentLoaded', function() {
+    const closeButtons = document.querySelectorAll('.alert .close');
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const alert = this.closest('.alert');
+            alert.remove();
+        });
+    });
+});
 
 </script>

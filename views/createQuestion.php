@@ -28,12 +28,12 @@ if (!isset($_SESSION["id"])) {
         $proposal2 = $_POST["proposal2"];
         $proposal3 = $_POST["proposal3"];
         $proposal4 = $_POST["proposal4"];
-        $ref = $_POST["ref"];
-        $answer = $_POST["answer"];
-        $speciality = $_POST["speciality"];
-        $type = $_POST["type"];
-        $level = $_POST["level"];
-        $image = $_FILES["image"]["name"];
+        $reference = $_POST["ref"];
+        $reponse = $_POST["answer"];
+        $specialite = $_POST["speciality"];
+        $types = $_POST["type"];
+        $levels = $_POST["level"];
+        $pic = $_FILES["image"]["name"];
         $tmp_name = $_FILES["image"]["tmp_name"];
         $folder = "../public/files/" . $image;
         move_uploaded_file($tmp_name, $folder);
@@ -42,37 +42,37 @@ if (!isset($_SESSION["id"])) {
 
         $exist = $questions->findOne([
             '$and' => [
-                ["ref" => $ref],
+                ["ref" => $reference],
                 ["label" => $label],
-                ["speciality" => $speciality],
-                ["level" => $level],
-                ["type" => $type],
+                ["speciality" => $specialite],
+                ["level" => $levels],
+                ["type" => $types],
             ],
         ]);
 
         if (
             empty($label) ||
-            empty($ref) ||
-            empty($type) ||
-            empty($level) ||
-            empty($speciality)
+            empty($reference) ||
+            empty($types) ||
+            empty($levels) ||
+            empty($specialite)
         ) {
             $error = $champ_obligatoire;
         } elseif ($exist) {
             $error_msg = $error_question;
-        } elseif ($type == "Factuelle") {
+        } elseif ($types == "Factuelle") {
             $question = [
-                "image" => $image,
-                "ref" => $ref,
+                "image" => $pic,
+                "ref" => $reference,
                 "label" => ucfirst($label),
                 "proposal1" => ucfirst($proposal1),
                 "proposal2" => ucfirst($proposal2),
                 "proposal3" => ucfirst($proposal3),
                 "proposal4" => ucfirst($proposal4),
-                "answer" => ucfirst($answer),
-                "speciality" => ucfirst($speciality),
-                "type" => $type,
-                "level" => $level,
+                "answer" => ucfirst($reponse),
+                "speciality" => ucfirst($specialite),
+                "type" => $types,
+                "level" => $levels,
                 "active" => true,
                 "created" => date("d-m-y"),
             ];
@@ -80,8 +80,8 @@ if (!isset($_SESSION["id"])) {
 
             $quizz = $quizzes->findOne([
                 '$and' => [
-                    ["speciality" => $speciality],
-                    ["level" => $level],
+                    ["speciality" => $specialite],
+                    ["level" => $levels],
                     ["type" => "Factuel"],
                     ["active" => true],
                 ],
@@ -90,7 +90,7 @@ if (!isset($_SESSION["id"])) {
             $bus = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Bus"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Factuel"],
                     ["active" => true],
                 ],
@@ -98,7 +98,7 @@ if (!isset($_SESSION["id"])) {
             $camions = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Camions"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Factuel"],
                     ["active" => true],
                 ],
@@ -106,7 +106,7 @@ if (!isset($_SESSION["id"])) {
             $chariots = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Chariots"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Factuel"],
                     ["active" => true],
                 ],
@@ -114,7 +114,7 @@ if (!isset($_SESSION["id"])) {
             $engins = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Engins"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Factuel"],
                     ["active" => true],
                 ],
@@ -122,7 +122,7 @@ if (!isset($_SESSION["id"])) {
             $voitures = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Voitures"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Factuel"],
                     ["active" => true],
                 ],
@@ -148,10 +148,10 @@ if (!isset($_SESSION["id"])) {
                 array_push($array, $result->getInsertedId());
                 $quiz = [
                     "questions" => [],
-                    "label" => "QCM " . $speciality . "",
+                    "label" => "QCM " . $specialite . "",
                     "type" => "Factuel",
-                    "speciality" => ucfirst($speciality),
-                    "level" => ucfirst($level),
+                    "speciality" => ucfirst($specialite),
+                    "level" => ucfirst($levels),
                     "total" => 0,
                     "active" => true,
                     "created" => date("d-m-y"),
@@ -180,7 +180,7 @@ if (!isset($_SESSION["id"])) {
                     ]
                 );
 
-                if ($speciality == "Arbre de Transmission") {
+                if ($specialite == "Arbre de Transmission") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -257,7 +257,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Assistance à la Conduite") {
+                } elseif ($specialite == "Assistance à la Conduite") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -359,7 +359,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Transfert") {
+                } elseif ($specialite == "Boite de Transfert") {
                     if ($camions) {
                         if (
                             $camions->brand == "RENAULT TRUCK" ||
@@ -441,7 +441,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Vitesse") {
+                } elseif ($specialite == "Boite de Vitesse") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -543,7 +543,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Vitesse Automatique") {
+                } elseif ($specialite == "Boite de Vitesse Automatique") {
                     if ($voitures) {
                         $voitures["total"]++;
                         $vehicles->updateOne(
@@ -569,7 +569,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Vitesse Mécanique") {
+                } elseif ($specialite == "Boite de Vitesse Mécanique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -674,7 +674,7 @@ if (!isset($_SESSION["id"])) {
                         );
                     }
                 } elseif (
-                    $speciality == "Boite de Vitesse à Variation Continue"
+                    $specialite == "Boite de Vitesse à Variation Continue"
                 ) {
                     if ($voitures) {
                         $voitures["total"]++;
@@ -701,7 +701,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Climatisation") {
+                } elseif ($specialite == "Climatisation") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -817,7 +817,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Demi Arbre de Roue") {
+                } elseif ($specialite == "Demi Arbre de Roue") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -921,7 +921,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Direction") {
+                } elseif ($specialite == "Direction") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1023,7 +1023,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Electricité et Electronique") {
+                } elseif ($specialite == "Electricité et Electronique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1125,7 +1125,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Freinage") {
+                } elseif ($specialite == "Freinage") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1227,7 +1227,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Freinage Electromagnétique") {
+                } elseif ($specialite == "Freinage Electromagnétique") {
                     if ($chariots) {
                         if ($chariots->brand == "TOYOTA BT") {
                             $chariots["total"]++;
@@ -1255,7 +1255,7 @@ if (!isset($_SESSION["id"])) {
                             );
                         }
                     }
-                } elseif ($speciality == "Freinage Hydraulique") {
+                } elseif ($specialite == "Freinage Hydraulique") {
                     if ($chariots) {
                         $chariots["total"]++;
                         $vehicles->updateOne(
@@ -1323,7 +1323,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Freinage Pneumatique") {
+                } elseif ($specialite == "Freinage Pneumatique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1358,7 +1358,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Hydraulique") {
+                } elseif ($specialite == "Hydraulique") {
                     if ($camions) {
                         if (
                             $camions->brand == "RENAULT TRUCK" ||
@@ -1432,7 +1432,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Diesel") {
+                } elseif ($specialite == "Moteur Diesel") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1534,7 +1534,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Electrique") {
+                } elseif ($specialite == "Moteur Electrique") {
                     if ($chariots) {
                         $chariots["total"]++;
                         $vehicles->updateOne(
@@ -1585,7 +1585,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Essence") {
+                } elseif ($specialite == "Moteur Essence") {
                     if ($chariots) {
                         $chariots["total"]++;
                         $vehicles->updateOne(
@@ -1636,7 +1636,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Thermique") {
+                } elseif ($specialite == "Moteur Thermique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1738,7 +1738,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Multiplexage") {
+                } elseif ($specialite == "Multiplexage") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1840,7 +1840,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Pont") {
+                } elseif ($specialite == "Pont") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1944,7 +1944,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Reducteur") {
+                } elseif ($specialite == "Reducteur") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2021,7 +2021,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Pneumatique") {
+                } elseif ($specialite == "Pneumatique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2123,7 +2123,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension") {
+                } elseif ($specialite == "Suspension") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2225,7 +2225,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension à Lame") {
+                } elseif ($specialite == "Suspension à Lame") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2285,7 +2285,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension Ressort") {
+                } elseif ($specialite == "Suspension Ressort") {
                     if ($voitures) {
                         $voitures["total"]++;
                         $vehicles->updateOne(
@@ -2311,7 +2311,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension Pneumatique") {
+                } elseif ($specialite == "Suspension Pneumatique") {
                     if ($camions) {
                         if (
                             ($camions && $camions->brand == "RENAULT TRUCK") ||
@@ -2369,7 +2369,7 @@ if (!isset($_SESSION["id"])) {
                             );
                         }
                     }
-                } elseif ($speciality == "Transversale") {
+                } elseif ($specialite == "Transversale") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2474,18 +2474,18 @@ if (!isset($_SESSION["id"])) {
                 }
             }
             $success_msg = $success_question;
-        } elseif ($type == "Declarative") {
+        } elseif ($types == "Declarative") {
             $question = [
                 "image" => $image,
                 "ref" => $ref,
                 "label" => ucfirst($label),
                 "proposal1" =>
-                    "1-" . $speciality . "-" . $level . "-" . $label . "-1",
+                    "1-" . $specialite . "-" . $levels . "-" . $label . "-1",
                 "proposal2" =>
-                    "2-" . $speciality . "-" . $level . "-" . $label . "-2",
+                    "2-" . $specialite . "-" . $levels . "-" . $label . "-2",
                 "proposal3" =>
-                    "3-" . $speciality . "-" . $level . "-" . $label . "-3",
-                "speciality" => ucfirst($speciality),
+                    "3-" . $specialite . "-" . $levels . "-" . $label . "-3",
+                "speciality" => ucfirst($specialite),
                 "type" => $type,
                 "level" => $level,
                 "active" => true,
@@ -2495,8 +2495,8 @@ if (!isset($_SESSION["id"])) {
             $result = $questions->insertOne($question);
             $quizz = $quizzes->findOne([
                 '$and' => [
-                    ["speciality" => $speciality],
-                    ["level" => $level],
+                    ["speciality" => $specialite],
+                    ["level" => $levels],
                     ["type" => "Declaratif"],
                     ["active" => true],
                 ],
@@ -2505,7 +2505,7 @@ if (!isset($_SESSION["id"])) {
             $bus = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Bus"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Declaratif"],
                     ["active" => true],
                 ],
@@ -2513,7 +2513,7 @@ if (!isset($_SESSION["id"])) {
             $camions = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Camions"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Declaratif"],
                     ["active" => true],
                 ],
@@ -2521,7 +2521,7 @@ if (!isset($_SESSION["id"])) {
             $chariots = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Chariots"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Declaratif"],
                     ["active" => true],
                 ],
@@ -2529,7 +2529,7 @@ if (!isset($_SESSION["id"])) {
             $engins = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Engins"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Declaratif"],
                     ["active" => true],
                 ],
@@ -2537,7 +2537,7 @@ if (!isset($_SESSION["id"])) {
             $voitures = $vehicles->findOne([
                 '$and' => [
                     ["label" => "Voitures"],
-                    ["level" => $level],
+                    ["level" => $levels],
                     ["type" => "Declaratif"],
                     ["active" => true],
                 ],
@@ -2563,9 +2563,9 @@ if (!isset($_SESSION["id"])) {
                 array_push($array, $result->getInsertedId());
                 $quiz = [
                     "questions" => [],
-                    "label" => "Tâche " . $speciality . "",
+                    "label" => "Tâche " . $specialite . "",
                     "type" => "Declaratif",
-                    "speciality" => ucfirst($speciality),
+                    "speciality" => ucfirst($specialite),
                     "level" => ucfirst($level),
                     "total" => 0,
                     "active" => true,
@@ -2595,7 +2595,7 @@ if (!isset($_SESSION["id"])) {
                     ]
                 );
 
-                if ($speciality == "Arbre de Transmission") {
+                if ($specialite == "Arbre de Transmission") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2672,7 +2672,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Assistance à la Conduite") {
+                } elseif ($specialite == "Assistance à la Conduite") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2774,7 +2774,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Transfert") {
+                } elseif ($specialite == "Boite de Transfert") {
                     if ($camions) {
                         if (
                             $camions->brand == "RENAULT TRUCK" ||
@@ -2856,7 +2856,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Vitesse") {
+                } elseif ($specialite == "Boite de Vitesse") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -2958,7 +2958,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Vitesse Automatique") {
+                } elseif ($specialite == "Boite de Vitesse Automatique") {
                     if ($voitures) {
                         $voitures["total"]++;
                         $vehicles->updateOne(
@@ -2984,7 +2984,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Boite de Vitesse Mécanique") {
+                } elseif ($specialite == "Boite de Vitesse Mécanique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3089,7 +3089,7 @@ if (!isset($_SESSION["id"])) {
                         );
                     }
                 } elseif (
-                    $speciality == "Boite de Vitesse à Variation Continue"
+                    $specialite == "Boite de Vitesse à Variation Continue"
                 ) {
                     if ($voitures) {
                         $voitures["total"]++;
@@ -3116,7 +3116,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Climatisation") {
+                } elseif ($specialite == "Climatisation") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3232,7 +3232,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Demi Arbre de Roue") {
+                } elseif ($specialite == "Demi Arbre de Roue") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3336,7 +3336,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Direction") {
+                } elseif ($specialite == "Direction") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3438,7 +3438,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Electricité et Electronique") {
+                } elseif ($specialite == "Electricité et Electronique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3540,7 +3540,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Freinage") {
+                } elseif ($specialite == "Freinage") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3642,7 +3642,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Freinage Electromagnétique") {
+                } elseif ($specialite == "Freinage Electromagnétique") {
                     if ($chariots) {
                         if ($chariots->brand == "TOYOTA BT") {
                             $chariots["total"]++;
@@ -3670,7 +3670,7 @@ if (!isset($_SESSION["id"])) {
                             );
                         }
                     }
-                } elseif ($speciality == "Freinage Hydraulique") {
+                } elseif ($specialite == "Freinage Hydraulique") {
                     if ($chariots) {
                         $chariots["total"]++;
                         $vehicles->updateOne(
@@ -3738,7 +3738,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Freinage Pneumatique") {
+                } elseif ($specialite == "Freinage Pneumatique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3773,7 +3773,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Hydraulique") {
+                } elseif ($specialite == "Hydraulique") {
                     if ($camions) {
                         if (
                             $camions->brand == "RENAULT TRUCK" ||
@@ -3847,7 +3847,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Diesel") {
+                } elseif ($specialite == "Moteur Diesel") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -3949,7 +3949,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Electrique") {
+                } elseif ($specialite == "Moteur Electrique") {
                     if ($chariots) {
                         $chariots["total"]++;
                         $vehicles->updateOne(
@@ -4000,7 +4000,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Essence") {
+                } elseif ($specialite == "Moteur Essence") {
                     if ($chariots) {
                         $chariots["total"]++;
                         $vehicles->updateOne(
@@ -4051,7 +4051,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Moteur Thermique") {
+                } elseif ($specialite == "Moteur Thermique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4153,7 +4153,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Multiplexage") {
+                } elseif ($specialite == "Multiplexage") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4255,7 +4255,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Pont") {
+                } elseif ($specialite == "Pont") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4359,7 +4359,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Reducteur") {
+                } elseif ($specialite == "Reducteur") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4436,7 +4436,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Pneumatique") {
+                } elseif ($specialite == "Pneumatique") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4538,7 +4538,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension") {
+                } elseif ($specialite == "Suspension") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4640,7 +4640,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension à Lame") {
+                } elseif ($specialite == "Suspension à Lame") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4700,7 +4700,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension Ressort") {
+                } elseif ($specialite == "Suspension Ressort") {
                     if ($voitures) {
                         $voitures["total"]++;
                         $vehicles->updateOne(
@@ -4726,7 +4726,7 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($speciality == "Suspension Pneumatique") {
+                } elseif ($specialite == "Suspension Pneumatique") {
                     if ($camions) {
                         if (
                             ($camions && $camions->brand == "RENAULT TRUCK") ||
@@ -4784,7 +4784,7 @@ if (!isset($_SESSION["id"])) {
                             );
                         }
                     }
-                } elseif ($speciality == "Transversale") {
+                } elseif ($specialite == "Transversale") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -4905,9 +4905,8 @@ if (!isset($_SESSION["id"])) {
         <!--begin::Container-->
         <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
             <!--begin::Modal body-->
-            <div class='container mt-5 w-50'>
-                <img src='../public/images/logo.png' alt='10' height='170'
-                    style='display: block; margin-left: auto; margin-right: auto; width: 50%;'>
+            <div class="container mt-5 w-50">
+                <img src="../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
                 <h1 class='my-3 text-center'><?php echo $title_question ?></h1>
 
                 <?php if (isset($success_msg)) { ?>
@@ -5079,7 +5078,7 @@ if (!isset($_SESSION["id"])) {
                         </label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                            <select name="speciality[]" aria-label="Select a Country" data-control="select2"
+                            <select name="speciality" aria-label="Select a Country" data-control="select2"
                                 data-placeholder="<?php echo $select_speciality ?>"
                                 class="form-select form-select-solid fw-bold">
                                 <option><?php echo $select_speciality ?></option>

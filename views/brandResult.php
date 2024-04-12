@@ -29,54 +29,64 @@ if (!isset($_SESSION["id"])) {
             ],
         ],
     ]);
+
+    if ($level == "Junior") {
+        $brand = $technician['brandJunior'];
+    }
+    if ($level == "Senior") {
+        $brand = $technician['brandSenior'];
+    }
+    if ($level == "Expert") {
+        $brand = $technician['brandExpert'];
+    }
     for (
         $i = 0;
-        $i < count($technician['brand']);
+        $i < count($brand);
         $i++
     ) {
-        if ($technician['brand'][$i] == 'KING LONG') {
+        if ($brand[$i] == 'KING LONG') {
             $kingLong = 'KING LONG';
         }
-        if ($technician['brand'][$i] == 'FUSO') {
+        if ($brand[$i] == 'FUSO') {
             $fuso = 'FUSO';
         }
-        if ($technician['brand'][$i] == 'HINO') {
+        if ($brand[$i] == 'HINO') {
             $hino = 'HINO';
         }
-        if ($technician['brand'][$i] == 'MERCEDES TRUCK') {
+        if ($brand[$i] == 'MERCEDES TRUCK') {
             $mercedesTruck = 'MERCEDES TRUCK';
         }
-        if ($technician['brand'][$i] == 'RENAULT TRUCK') {
+        if ($brand[$i] == 'RENAULT TRUCK') {
             $renaultTruck = 'RENAULT TRUCK';
         }
-        if ($technician['brand'][$i] == 'SINOTRUK') {
+        if ($brand[$i] == 'SINOTRUK') {
             $sinotruk = 'SINOTRUK';
         }
-        if ($technician['brand'][$i] == 'TOYOTA BT') {
+        if ($brand[$i] == 'TOYOTA BT') {
             $toyotaBt = 'TOYOTA BT';
         }
-        if ($technician['brand'][$i] == 'TOYOTA FORKLIFT') {
+        if ($brand[$i] == 'TOYOTA FORKLIFT') {
             $toyotaForflift = 'TOYOTA FORKLIFT';
         }
-        if ($technician['brand'][$i] == 'JCB') {
+        if ($brand[$i] == 'JCB') {
             $jcb = 'JCB';
         }
-        if ($technician['brand'][$i] == 'LOVOL') {
+        if ($brand[$i] == 'LOVOL') {
             $hino = 'LOVOL';
         }
-        if ($technician['brand'][$i] == 'CITROEN') {
+        if ($brand[$i] == 'CITROEN') {
             $citroen = 'CITROEN';
         }
-        if ($technician['brand'][$i] == 'MERCEDES') {
+        if ($brand[$i] == 'MERCEDES') {
             $mercedes = 'MERCEDES';
         }
-        if ($technician['brand'][$i] == 'PEUGEOT') {
+        if ($brand[$i] == 'PEUGEOT') {
             $peugeot = 'PEUGEOT';
         }
-        if ($technician['brand'][$i] == 'SUZUKI') {
+        if ($brand[$i] == 'SUZUKI') {
             $suzuki = 'SUZUKI';
         }
-        if ($technician['brand'][$i] == 'TOYOTA') {
+        if ($brand[$i] == 'TOYOTA') {
             $toyota = 'TOYOTA';
         }
     }
