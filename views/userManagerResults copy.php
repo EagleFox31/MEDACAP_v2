@@ -265,20 +265,81 @@ if (!isset($_SESSION["id"])) {
                                             style="width: 125px;"><?php echo $collaborators ?>
                                         </th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $global ?> <?php echo $level ?> <?php echo $junior ?></th>
+                                            <?php echo $level ?> <?php echo $junior ?></th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $global ?> <?php echo $level ?> <?php echo $senior ?></th>
+                                            <?php echo $level ?> <?php echo $senior ?></th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table" colspan="4"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $level ?> <?php echo $expert ?></th>
+                                        <tr></tr>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $global ?> <?php echo $level ?> <?php echo $expert ?></th>
+                                            <?php echo $connaissances ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_tech ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_manager ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $global ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $connaissances ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_tech ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_manager ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $global ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $connaissances ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_tech ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_manager ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $global ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -405,7 +466,7 @@ if (!isset($_SESSION["id"])) {
                                                 "lastName"
                                             ]; ?>
                                         </td>
-                                        <!-- <td class="text-center">
+                                        <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacJu."%" ?>
                                             </span>
@@ -419,7 +480,7 @@ if (!isset($_SESSION["id"])) {
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaJuMa."%" ?>
                                             </span>
-                                        </td> -->
+                                        </td>
                                         <td class="text-center">
                                             <a href="./result.php?level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
@@ -429,7 +490,7 @@ if (!isset($_SESSION["id"])) {
                                             </a>
                                         </td>
                                         <?php if ($resultFacSe) { ?>
-                                        <!-- <td class="text-center">
+                                        <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacSe."%" ?>
                                             </span>
@@ -443,7 +504,7 @@ if (!isset($_SESSION["id"])) {
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaSeMa."%" ?>
                                             </span>
-                                        </td> -->
+                                        </td>
                                         <td class="text-center">
                                             <a href="./result.php?level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
@@ -453,11 +514,6 @@ if (!isset($_SESSION["id"])) {
                                             </a>
                                         </td>
                                         <?php } else { ?>
-                                        <!-- <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
-                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>
@@ -467,7 +523,12 @@ if (!isset($_SESSION["id"])) {
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>
                                             </span>
-                                        </td> -->
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $non_disponible ?>
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>
@@ -475,7 +536,7 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } ?>
                                         <?php if ($resultFacEx) { ?>
-                                        <!-- <td class="text-center">
+                                        <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacEx."%" ?>
                                             </span>
@@ -489,7 +550,7 @@ if (!isset($_SESSION["id"])) {
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaExMa."%" ?>
                                             </span>
-                                        </td> -->
+                                        </td>
                                         <td class="text-center">
                                             <a href="./result.php?level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
@@ -500,11 +561,6 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } else {
                                              ?>
-                                        <!-- <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
-                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>
@@ -514,7 +570,12 @@ if (!isset($_SESSION["id"])) {
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>
                                             </span>
-                                        </td> -->
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $non_disponible ?>
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>

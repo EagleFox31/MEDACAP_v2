@@ -2665,9 +2665,11 @@ if (!isset($_SESSION["id"])) {
               <!--begin::Input-->
               <select name="profile" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_profil ?>" class="form-select form-select-solid fw-bold">
                 <option><?php echo $select_profil ?></option>
+                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                 <option value="Admin">
                   <?php echo $admin ?>
                 </option>
+              <?php } ?>
                 <!-- <option value="Manager (à évaluer)">
                   Manager (à évaluer)
                 </option> -->

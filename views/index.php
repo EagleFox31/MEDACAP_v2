@@ -34,6 +34,7 @@ if (isset($_POST["login"])) {
         $_SESSION["email"] = $login["email"];
         $_SESSION["test"] = $login["test"];
         $_SESSION["id"] = $login["_id"];
+        $_SESSION["subsidiary"] = $login["subsidiary"];
         header("Location: ./dashboard.php");
     }
 }

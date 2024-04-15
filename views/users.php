@@ -331,7 +331,7 @@ if (isset($_POST["excel"])) {
                                     ) { ?>
                                     <?php if (
                                         $user["profile"] != "Admin" &&
-                                        $user["profile"] != "Super Admin"
+                                        $user["profile"] != "Super Admin" && $_SESSION["subsidiary"] == $user["subsidiary"]
                                     ) { ?>
                                     <tr class="odd" etat="<?php echo $user->active; ?>">
                                         <!-- <td>
@@ -359,6 +359,9 @@ if (isset($_POST["excel"])) {
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
                                         </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager"
+                                        ) { ?>
                                         <td data-order="department">
                                             <a href="#"
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
@@ -367,6 +370,7 @@ if (isset($_POST["excel"])) {
                                                 <?php echo $voir_collab ?>
                                             </a>
                                         </td>
+                                        <?php } ?>
                                     </tr>
                                     <?php } ?>
                                     <?php } ?>
@@ -402,6 +406,9 @@ if (isset($_POST["excel"])) {
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
                                         </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager"
+                                        ) { ?>
                                         <td data-order="department">
                                             <a href="#"
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
@@ -410,7 +417,10 @@ if (isset($_POST["excel"])) {
                                                 <?php echo $voir_collab ?>
                                             </a>
                                         </td>
+                                        <?php } ?>
                                     </tr>
+                                    <?php } ?>
+                                    <?php } ?>
                                     <!--begin::Modal - Invite Friends-->
                                     <div class="modal fade" id="kt_modal_update_details<?php echo $user->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
@@ -508,8 +518,6 @@ if (isset($_POST["excel"])) {
                                         <!--end::Modal dialog-->
                                     </div>
                                     <!--end::Modal - Invite Friend-->
-                                    <?php } ?>
-                                    <?php } ?>
                                     <?php }
                                     ?>
                                 </tbody>

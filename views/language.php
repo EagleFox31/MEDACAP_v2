@@ -305,5 +305,6 @@ $diagnostic = "Diagnostic";
 $questionType = "Questions";
 $userManager = "Manager";
 $agence = "Agence";
+$super_admin_space = "Espace Super Admin";
 
 include_once "language.php";

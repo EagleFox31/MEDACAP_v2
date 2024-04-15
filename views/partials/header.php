@@ -148,11 +148,24 @@
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
                                 <!--begin:Menu item-->
                                 <div style="margin-top: -15px">
+                                    <?php if (
+                                        $_SESSION["profile"] == "Super Admin"
+                                    ) { ?>
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bolder text-black text-uppercase fs-4"><?php echo $super_admin_space ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                    <?php } ?>
+                                    <?php if (
+                                        $_SESSION["profile"] == "Admin"
+                                    ) { ?>
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
                                             class="fw-bolder text-black text-uppercase fs-4"><?php echo $admin_space ?></span>
                                     </div>
                                     <!--end:Menu content-->
+                                    <?php } ?>
                                 </div> <br>
                                 <!--end:Menu item-->
                                 <!--begin:Menu link-->
@@ -212,6 +225,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./importeUser.php"><span
@@ -223,6 +237,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
@@ -303,6 +318,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./importeQuestion.php"><span
@@ -315,6 +331,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
