@@ -38,7 +38,8 @@ if (!isset($_SESSION["id"])) {
         $passWord = $_POST["password"];
         $pays = $_POST["country"];
         $certificate = $_POST["certificate"];
-        $specialite = $_POST["speciality"];
+        $specialitySenior = $_POST["specialitySenior"];
+        $specialityExpert = $_POST["specialityExpert"];
         $birthDate = date("d-m-Y", strtotime($_POST["birthdate"]));
         $recrutementDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
         $level = $_POST["level"];
@@ -3356,12 +3357,81 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="fv-row mb-7">
+            <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
-              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $filiale ?></label>
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $filiale ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="<?php echo $select_subsidiary ?>">
+                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                </span>
+              </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <input type="text" class="form-control form-control-solid" name="subsidiary" />
+              <select name="subsidiary" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_subsidiary ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_subsidiary ?></option>
+                <option value="CAMEROON MOTORS INDUSTRIES">
+                  <?php echo $cami ?>
+                </option>
+                <option value="CFAO MOTORS BENIN">
+                  <?php echo $cfao_benin ?>
+                </option>
+                <option value="CFAO MOTORS BURKINA">
+                  <?php echo $cfao_burkina ?>
+                </option>
+                <option value="CFAO MOTORS CENTRAFRIQUE">
+                  <?php echo $cfao_centrafrique ?>
+                </option>
+                <option value="CFAO MOTORS CONGO">
+                  <?php echo $cfao_congo ?>
+                </option>
+                <option value="CFAO MOTORS COTE D'IVOIRE">
+                  <?php echo $cfao_cote_divoire ?>
+                </option>
+                <option value="CFAO MOTORS GABON">
+                  <?php echo $cfao_gabon ?>
+                </option>
+                <option value="CFAO (GAMBIA) LIMITED">
+                  <?php echo $cfao_gambia ?>
+                </option>
+                <option value="CFAO MOTORS GHANA">
+                  <?php echo $cfao_ghana ?>
+                </option>
+                <option value="CFAO MOTORS GUINEE">
+                  <?php echo $cfao_guinee ?>
+                </option>
+                <option value="CFAO MOTORS GUINEE BISSAU">
+                  <?php echo $cfao_guinee_bissau ?>
+                </option>
+                <option value="CFAO MOTORS GUINEA EQUATORIAL">
+                  <?php echo $cfao_guinee_equatorial ?>
+                </option>
+                <option value="CFAO MOTORS MADAGASCAR">
+                  <?php echo $cfao_madagascar ?>
+                </option>
+                <option value="CFAO MOTORS MALI">
+                  <?php echo $cfao_mali ?>
+                </option>
+                <option value="CFAO MOTORS NIGER">
+                  <?php echo $cfao_niger ?>
+                </option>
+                <option value="CFAO MOTORS NIGERIA">
+                  <?php echo $cfao_nigeria ?>
+                </option>
+                <option value="CFAO MOTORS RDC">
+                  <?php echo $cfao_rdc ?>
+                </option>
+                <option value="CFAO MOTORS SENEGAL">
+                  <?php echo $cfao_senegal ?>
+                </option>
+                <option value="CFAO MOTORS TCHAD">
+                  <?php echo $cfao_tchad ?>
+                </option>
+                <option value="CFAO MOTORS TOGO">
+                  <?php echo $cfao_togo ?>
+                </option>
+                <option value="COMPAGNIE MAURITANIENNE DE DISTRIBUTION AUTOMOBILE">
+                  <?php echo $cfao_cmda ?>
+                </option>
+              </select>
               <!--end::Input-->
               <?php if (isset($error)) { ?>
               <span class='text-danger'>

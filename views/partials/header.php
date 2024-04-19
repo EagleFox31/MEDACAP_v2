@@ -137,6 +137,28 @@
                 <!--begin::Aside menu-->
                 <div class="aside-menu flex-column-fluid ps-3 pe-1">
                     <!--begin::Aside Menu-->
+                    <!--begin:Menu item-->
+                    <div style="margin-top: -15px">
+                        <?php if (
+                            $_SESSION["profile"] == "Super Admin"
+                        ) { ?>
+                        <!--begin:Menu content-->
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $super_admin_space ?></span>
+                        </div>
+                        <!--end:Menu content-->
+                        <?php } ?>
+                        <?php if (
+                            $_SESSION["profile"] == "Admin"
+                        ) { ?>
+                        <!--begin:Menu content-->
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $admin_space ?></span>
+                        </div>
+                        <!--end:Menu content-->
+                        <?php } ?>
+                    </div> <br>
+                    <!--end:Menu item-->
                     <!--begin::Menu-->
                     <div class="menu menu-sub-indention menu-column menu-rounded menu-title-gray-600 menu-icon-gray-400 menu-active-bg menu-state-primary menu-arrow-gray-500 fw-semibold fs-6 my-5 mt-lg-2 mb-lg-0"
                         id="kt_aside_menu" data-kt-menu="true">
@@ -146,28 +168,6 @@
                             data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
                             <!--begin:Menu item-->
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
-                                <!--begin:Menu item-->
-                                <div style="margin-top: -15px">
-                                    <?php if (
-                                        $_SESSION["profile"] == "Super Admin"
-                                    ) { ?>
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content"><span
-                                            class="fw-bolder text-black text-uppercase fs-4"><?php echo $super_admin_space ?></span>
-                                    </div>
-                                    <!--end:Menu content-->
-                                    <?php } ?>
-                                    <?php if (
-                                        $_SESSION["profile"] == "Admin"
-                                    ) { ?>
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content"><span
-                                            class="fw-bolder text-black text-uppercase fs-4"><?php echo $admin_space ?></span>
-                                    </div>
-                                    <!--end:Menu content-->
-                                    <?php } ?>
-                                </div> <br>
-                                <!--end:Menu item-->
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
@@ -590,6 +590,33 @@
                 <!--begin::Aside menu-->
                 <div class="aside-menu flex-column-fluid ps-3 pe-1">
                     <!--begin::Aside Menu-->
+                    <!--begin:Menu item-->
+                    <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+                        <?php if (
+                            $_SESSION["profile"] == "Manager"
+                        ) { ?>
+                        <!--begin:Menu item-->
+                        <div style="margin-top: -15px">
+                            <!--begin:Menu content-->
+                            <div class="menu-content text-center"><span
+                                    class="fw-bolder text-black text-uppercase fs-3"><?php echo $manager_space ?></span>
+                            </div>
+                            <!--end:Menu content-->
+                        </div> <br>
+                        <?php } ?>
+                        <?php if (
+                            $_SESSION["profile"] == "Technicien"
+                        ) { ?>
+                        <!--begin:Menu item-->
+                        <div style="margin-top: -15px">
+                            <!--begin:Menu content-->
+                            <div class="menu-content text-center"><span
+                                    class="fw-bolder text-black text-uppercase fs-3"><?php echo $tech_space ?></span>
+                            </div>
+                            <!--end:Menu content-->
+                        </div> <br>
+                        <?php } ?>
+                        <!--end:Menu item-->
                     <!--begin::Menu-->
                     <div class="menu menu-sub-indention menu-column menu-rounded menu-title-gray-600 menu-icon-gray-400 menu-active-bg menu-state-primary menu-arrow-gray-500 fw-semibold fs-6 my-5 mt-lg-2 mb-lg-0"
                         id="kt_aside_menu" data-kt-menu="true">
@@ -597,33 +624,6 @@
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
                             data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="20px"
                             data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
-                            <!--begin:Menu item-->
-                            <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
-                                <?php if (
-                                    $_SESSION["profile"] == "Manager"
-                                ) { ?>
-                                <!--begin:Menu item-->
-                                <div style="margin-top: -15px">
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content"><span
-                                            class="fw-bolder text-black text-uppercase fs-3"><?php echo $manager_space ?></span>
-                                    </div>
-                                    <!--end:Menu content-->
-                                </div> <br>
-                                <?php } ?>
-                                <?php if (
-                                    $_SESSION["profile"] == "Technicien"
-                                ) { ?>
-                                <!--begin:Menu item-->
-                                <div style="margin-top: -15px">
-                                    <!--begin:Menu content-->
-                                    <div class="menu-content"><span
-                                            class="fw-bolder text-black text-uppercase fs-3"><?php echo $tech_space ?></span>
-                                    </div>
-                                    <!--end:Menu content-->
-                                </div> <br>
-                                <?php } ?>
-                                <!--end:Menu item-->
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./dashboard.php"><span

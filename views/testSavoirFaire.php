@@ -173,36 +173,40 @@ $exams = $academy->exams;
                                             ["active" => true],
                                         ],
                                     ]);
-                                    $examSeDecla = $exams->findOne([
-                                        '$and' => [
-                                            [
-                                                "user" => new MongoDB\BSON\ObjectId(
-                                                    $_SESSION["id"]
-                                                ),
+                                    if (isset($allocateDeclaSe)) {
+                                        $examSeDecla = $exams->findOne([
+                                            '$and' => [
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId(
+                                                        $_SESSION["id"]
+                                                    ),
+                                                ],
+                                                [
+                                                    "test" => new MongoDB\BSON\ObjectId(
+                                                        $allocateDeclaSe["test"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
                                             ],
-                                            [
-                                                "test" => new MongoDB\BSON\ObjectId(
-                                                    $allocateDeclaSe["test"]
-                                                ),
+                                        ]);
+                                    }
+                                    if (isset($allocateDeclaEx)) {
+                                        $examExDecla = $exams->findOne([
+                                            '$and' => [
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId(
+                                                        $_SESSION["id"]
+                                                    ),
+                                                ],
+                                                [
+                                                    "test" => new MongoDB\BSON\ObjectId(
+                                                        $allocateDeclaEx["test"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
                                             ],
-                                            ["active" => true],
-                                        ],
-                                    ]);
-                                    $examExDecla = $exams->findOne([
-                                        '$and' => [
-                                            [
-                                                "user" => new MongoDB\BSON\ObjectId(
-                                                    $_SESSION["id"]
-                                                ),
-                                            ],
-                                            [
-                                                "test" => new MongoDB\BSON\ObjectId(
-                                                    $allocateDeclaEx["test"]
-                                                ),
-                                            ],
-                                            ["active" => true],
-                                        ],
-                                    ]);
+                                        ]);
+                                    }
                                     ?>
                                     <tr class="odd">
                                         <td class="text-center">

@@ -220,36 +220,40 @@ if (!isset($_SESSION["id"])) {
                                                 ["active" => true],
                                             ],
                                         ]);
-                                        $examSe = $exams->findOne([
-                                            '$and' => [
-                                                [
-                                                    "user" => new MongoDB\BSON\ObjectId(
-                                                        $_SESSION["id"]
-                                                    ),
+                                        if (isset($allocateSe)) {
+                                            $examSe = $exams->findOne([
+                                                '$and' => [
+                                                    [
+                                                        "user" => new MongoDB\BSON\ObjectId(
+                                                            $_SESSION["id"]
+                                                        ),
+                                                    ],
+                                                    [
+                                                        "test" => new MongoDB\BSON\ObjectId(
+                                                            $allocateSe["test"]
+                                                        ),
+                                                    ],
+                                                    ["active" => true],
                                                 ],
-                                                [
-                                                    "test" => new MongoDB\BSON\ObjectId(
-                                                        $allocateSe["test"]
-                                                    ),
+                                            ]);
+                                        }
+                                        if (isset($allocateEx)) {
+                                            $examEx = $exams->findOne([
+                                                '$and' => [
+                                                    [
+                                                        "user" => new MongoDB\BSON\ObjectId(
+                                                            $_SESSION["id"]
+                                                        ),
+                                                    ],
+                                                    [
+                                                        "test" => new MongoDB\BSON\ObjectId(
+                                                            $allocateEx["test"]
+                                                        ),
+                                                    ],
+                                                    ["active" => true],
                                                 ],
-                                                ["active" => true],
-                                            ],
-                                        ]);
-                                        $examEx = $exams->findOne([
-                                            '$and' => [
-                                                [
-                                                    "user" => new MongoDB\BSON\ObjectId(
-                                                        $_SESSION["id"]
-                                                    ),
-                                                ],
-                                                [
-                                                    "test" => new MongoDB\BSON\ObjectId(
-                                                        $allocateEx["test"]
-                                                    ),
-                                                ],
-                                                ["active" => true],
-                                            ],
-                                        ]);
+                                            ]);
+                                        }
                                         $user = $users->findOne([
                                             '$and' => [
                                                 [

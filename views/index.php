@@ -35,6 +35,7 @@ if (isset($_POST["login"])) {
         $_SESSION["test"] = $login["test"];
         $_SESSION["id"] = $login["_id"];
         $_SESSION["subsidiary"] = $login["subsidiary"];
+        $_SESSION["department"] = $login["department"];
         header("Location: ./dashboard.php");
     }
 }
@@ -135,10 +136,10 @@ if (isset($_POST["login"])) {
                 <h1 class="mb-5"><?php echo $connectez_vous ?></h1>
             </div>
             <div class="row g-4">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 450px;">
                     <div class="position-relative h-100">
                         <img class="img-fluid position-absolute w-100 h-100"
-                            src="../public/images/20230310_173722.jpg" alt="" style="object-fit: cover;">
+                            src="../public/images/1713436729177.jpg" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: 120px;">
@@ -222,6 +223,50 @@ if (isset($_POST["login"])) {
                         <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
                             <?php echo $formation_toyota ?></div>
                     </a>
+                </div>
+                <div class="row g-3">
+                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                        <a class="position-relative d-block overflow-hidden" href="">
+                            <img class="img-fluid" src="../public/images/1713437002306.jpg" alt="">
+                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                            </div>
+                            <div
+                                class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                                <?php echo $formation_sodecoton ?></div>
+                        </a>
+                    </div>
+                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                        <a class="position-relative d-block overflow-hidden" href="">
+                            <img class="img-fluid" src="../public/images/1713437002315.jpg" alt="">
+                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                            </div>
+                            <div
+                                class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                                <?php echo $formation_sodecoton ?></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                        <a class="position-relative d-block overflow-hidden" href="">
+                            <img class="img-fluid" src="../public/images/IMG_9092.JPG" alt="">
+                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                            </div>
+                            <div
+                                class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                                <?php echo $formation_nigeria ?></div>
+                        </a>
+                    </div>
+                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                        <a class="position-relative d-block overflow-hidden" href="">
+                            <img class="img-fluid" src="../public/images/IMG_20240326_134909_294.jpg" alt="">
+                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                            </div>
+                            <div
+                                class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                                <?php echo $formation_nigeria ?></div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

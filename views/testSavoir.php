@@ -173,36 +173,40 @@ $exams = $academy->exams;
                                             ["active" => true],
                                         ],
                                     ]);
-                                    $examSeFac = $exams->findOne([
-                                        '$and' => [
-                                            [
-                                                "user" => new MongoDB\BSON\ObjectId(
-                                                    $_SESSION["id"]
-                                                ),
+                                    if (isset($allocateFacSe)) {
+                                        $examSeFac = $exams->findOne([
+                                            '$and' => [
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId(
+                                                        $_SESSION["id"]
+                                                    ),
+                                                ],
+                                                [
+                                                    "test" => new MongoDB\BSON\ObjectId(
+                                                        $allocateFacSe["test"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
                                             ],
-                                            [
-                                                "test" => new MongoDB\BSON\ObjectId(
-                                                    $allocateFacSe["test"]
-                                                ),
+                                        ]);
+                                    }
+                                    if (isset($allocateFacEx)) {
+                                        $examExFac = $exams->findOne([
+                                            '$and' => [
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId(
+                                                        $_SESSION["id"]
+                                                    ),
+                                                ],
+                                                [
+                                                    "test" => new MongoDB\BSON\ObjectId(
+                                                        $allocateFacEx["test"]
+                                                    ),
+                                                ],
+                                                ["active" => true],
                                             ],
-                                            ["active" => true],
-                                        ],
-                                    ]);
-                                    $examExFac = $exams->findOne([
-                                        '$and' => [
-                                            [
-                                                "user" => new MongoDB\BSON\ObjectId(
-                                                    $_SESSION["id"]
-                                                ),
-                                            ],
-                                            [
-                                                "test" => new MongoDB\BSON\ObjectId(
-                                                    $allocateFacEx["test"]
-                                                ),
-                                            ],
-                                            ["active" => true],
-                                        ],
-                                    ]);
+                                        ]);
+                                    }
                                     ?>
                                     <tr class="odd">
                                         <td class="text-center">

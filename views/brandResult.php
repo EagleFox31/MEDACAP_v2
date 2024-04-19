@@ -1615,10 +1615,335 @@ if (!isset($_SESSION["id"])) {
     $suspensionPneumatiqueScoreMa = $suspensionPneumatiqueMa->score ?? 0;
     $transversaleScoreMa = $transversaleMa->score;
 
+    $percentageFac = ($resultFac['score'] * 100) / $resultFac['total'];
+    $percentageTechMa = ($resultTechMa['score'] * 100) / $resultTechMa['total'];
+    
+    $scoreTransmission = 0;
+    if (isset($transmissionDecla)) {
+        for ($i = 0; $i < count($transmissionDecla["answers"]); ++$i) {
+            if (
+                $transmissionDecla["answers"][$i] == "Oui" &&
+                $transmissionMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreTransmission;
+            }
+        }
+    }
+    $scoreTransfert = 0;
+    if (isset($transfertDecla)) {
+        for ($i = 0; $i < count($transfertDecla["answers"]); ++$i) {
+            if (
+                $transfertDecla["answers"][$i] == "Oui" &&
+                $transfertMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreTransfert;
+            }
+        }
+    }
+    $scoreAssistance= 0;
+    if (isset($assistanceConduiteDecla)) {
+        for ($i = 0; $i < count($assistanceConduiteDecla["answers"]); ++$i) {
+            if (
+                $assistanceConduiteDecla["answers"][$i] == "Oui" &&
+                $assistanceConduiteMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreAssistance;
+            }
+        }
+    }
+    $scoreBoite = 0;
+    if (isset($boiteDecla)) {
+        for ($i = 0; $i < count($boiteDecla["answers"]); ++$i) {
+            if (
+                $boiteDecla["answers"][$i] == "Oui" &&
+                $boiteMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreBoite;
+            }
+        }
+    }
+    $scoreBoiteMan = 0;
+    if (isset($boiteManDecla)) {
+        for ($i = 0; $i < count($boiteManDecla["answers"]); ++$i) {
+            if (
+                $boiteManDecla["answers"][$i] == "Oui" &&
+                $boiteManMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreBoiteMan;
+            }
+        }
+    }
+    $scoreBoiteAuto = 0;
+    if (isset($boiteAutoDecla)) {
+        for ($i = 0; $i < count($boiteAutoDecla["answers"]); ++$i) {
+            if (
+                $boiteAutoDecla["answers"][$i] == "Oui" &&
+                $boiteAutoMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreBoiteAuto;
+            }
+        }
+    }
+    $scoreBoiteVaCo = 0;
+    if (isset($boiteVaCoDecla)) {
+        for ($i = 0; $i < count($boiteVaCoDecla["answers"]); ++$i) {
+            if (
+                $boiteVaCoDecla["answers"][$i] == "Oui" &&
+                $boiteVaCoMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreBoiteVaCo;
+            }
+        }
+    }
+    $scoreClim = 0;
+    if (isset($climatisationDecla)) {
+        for ($i = 0; $i < count($climatisationDecla["answers"]); ++$i) {
+            if (
+                $climatisationDecla["answers"][$i] == "Oui" &&
+                $climatisationMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreClim;
+            }
+        }
+    }
+    $scoreDemi = 0;
+    if (isset($demiDecla)) {
+        for ($i = 0; $i < count($demiDecla["answers"]); ++$i) {
+            if (
+                $demiDecla["answers"][$i] == "Oui" &&
+                $demiMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreDemi;
+            }
+        }
+    }
+    $scoreDirection = 0;
+    if (isset($directionDecla)) {
+        for ($i = 0; $i < count($directionDecla["answers"]); ++$i) {
+            if (
+                $directionDecla["answers"][$i] == "Oui" &&
+                $directionMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreDirection;
+            }
+        }
+    }
+    $scoreElectricite = 0;
+    if (isset($electriciteDecla)) {
+        for ($i = 0; $i < count($electriciteDecla["answers"]); ++$i) {
+            if (
+                $electriciteDecla["answers"][$i] == "Oui" &&
+                $electriciteMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreElectricite;
+            }
+        }
+    }
+    $scoreFrein = 0;
+    if (isset($freiDecla)) {
+        for ($i = 0; $i < count($freiDecla["answers"]); ++$i) {
+            if (
+                $freiDecla["answers"][$i] == "Oui" &&
+                $freiMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreFrein;
+            }
+        }
+    }
+    $scoreFreinElec = 0;
+    if (isset($freinageElecDecla)) {
+        for ($i = 0; $i < count($freinageElecDecla["answers"]); ++$i) {
+            if (
+                $freinageElecDecla["answers"][$i] == "Oui" &&
+                $freinageElecMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreFreinElec;
+            }
+        }
+    }
+    $scoreFreinHydro = 0;
+    if (isset($freinageDecla)) {
+        for ($i = 0; $i < count($freinageDecla["answers"]); ++$i) {
+            if (
+                $freinageDecla["answers"][$i] == "Oui" &&
+                $freinageMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreFreinHydro;
+            }
+        }
+    }
+    $scoreFreinPneu = 0;
+    if (isset($freinDecla)) {
+        for ($i = 0; $i < count($freinDecla["answers"]); ++$i) {
+            if (
+                $freinDecla["answers"][$i] == "Oui" &&
+                $freinMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreFreinPneu;
+            }
+        }
+    }
+    $scoreHydro = 0;
+    if (isset($hydrauliqueDecla)) {
+        for ($i = 0; $i < count($hydrauliqueDecla["answers"]); ++$i) {
+            if (
+                $hydrauliqueDecla["answers"][$i] == "Oui" &&
+                $hydrauliqueMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreHydro;
+            }
+        }
+    }
+    $scoreMoteurDiesel = 0;
+    if (isset($moteurDieselDecla)) {
+        for ($i = 0; $i < count($moteurDieselDecla["answers"]); ++$i) {
+            if (
+                $moteurDieselDecla["answers"][$i] == "Oui" &&
+                $moteurDieselMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreMoteurDiesel;
+            }
+        }
+    }
+    $scoreMoteurElec = 0;
+    if (isset($moteurElecDecla)) {
+        for ($i = 0; $i < count($moteurElecDecla["answers"]); ++$i) {
+            if (
+                $moteurElecDecla["answers"][$i] == "Oui" &&
+                $moteurElecMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreMoteurElec;
+            }
+        }
+    }
+    $scoreMoteurEssence = 0;
+    if (isset($moteurEssenceDecla)) {
+        for ($i = 0; $i < count($moteurEssenceDecla["answers"]); ++$i) {
+            if (
+                $moteurEssenceDecla["answers"][$i] == "Oui" &&
+                $moteurEssenceMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreMoteurEssence;
+            }
+        }
+    }
+    $scoreMoteurThermique = 0;
+    if (isset($moteurThermiqueDecla)) {
+        for ($i = 0; $i < count($moteurThermiqueDecla["answers"]); ++$i) {
+            if (
+                $moteurThermiqueDecla["answers"][$i] == "Oui" &&
+                $moteurThermiqueMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreMoteurThermique;
+            }
+        }
+    }
+    $scoreMultiplexage = 0;
+    if (isset($multiplexageDecla)) {
+        for ($i = 0; $i < count($multiplexageDecla["answers"]); ++$i) {
+            if (
+                $multiplexageDecla["answers"][$i] == "Oui" &&
+                $multiplexageMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreMultiplexage;
+            }
+        }
+    }
+    $scorePneu = 0;
+    if (isset($pneuDecla)) {
+        for ($i = 0; $i < count($pneuDecla["answers"]); ++$i) {
+            if (
+                $pneuDecla["answers"][$i] == "Oui" &&
+                $pneuMa["answers"][$i] == "Oui"
+            ) {
+                ++$scorePneu;
+            }
+        }
+    }
+    $scorePont = 0;
+    if (isset($pontDecla)) {
+        for ($i = 0; $i < count($pontDecla["answers"]); ++$i) {
+            if (
+                $pontDecla["answers"][$i] == "Oui" &&
+                $pontMa["answers"][$i] == "Oui"
+            ) {
+                ++$scorePont;
+            }
+        }
+    }
+    $scoreRed = 0;
+    if (isset($reducteurDecla)) {
+        for ($i = 0; $i < count($reducteurDecla["answers"]); ++$i) {
+            if (
+                $reducteurDecla["answers"][$i] == "Oui" &&
+                $reducteurMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreRed;
+            }
+        }
+    }
+    $scoreSuspension = 0;
+    if (isset($suspensionDecla)) {
+        for ($i = 0; $i < count($suspensionDecla["answers"]); ++$i) {
+            if (
+                $suspensionDecla["answers"][$i] == "Oui" &&
+                $suspensionMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreSuspension;
+            }
+        }
+    }
+    $scoreSuspensionLame = 0;
+    if (isset($suspensionLameDecla)) {
+        for ($i = 0; $i < count($suspensionLameDecla["answers"]); ++$i) {
+            if (
+                $suspensionLameDecla["answers"][$i] == "Oui" &&
+                $suspensionLameMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreSuspensionLame;
+            }
+        }
+    }
+    $scoreSuspensionRessort = 0;
+    if (isset($suspensionRessortDecla)) {
+        for ($i = 0; $i < count($suspensionRessortDecla["answers"]); ++$i) {
+            if (
+                $suspensionRessortDecla["answers"][$i] == "Oui" &&
+                $suspensionRessortMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreSuspensionRessort;
+            }
+        }
+    }
+    $scoreSuspensionPneu = 0;
+    if (isset($pneuDecla)) {
+        for ($i = 0; $i < count($suspensionPneumatiqueDecla["answers"]); ++$i) {
+            if (
+                $suspensionPneumatiqueDecla["answers"][$i] == "Oui" &&
+                $suspensionPneumatiqueMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreSuspensionPneu;
+            }
+        }
+    }
+    $scoreTransversale = 0;
+    if (isset($transversaleDecla)) {
+        for ($i = 0; $i < count($transversaleDecla["answers"]); ++$i) {
+            if (
+                $transversaleDecla["answers"][$i] == "Oui" &&
+                $transversaleMa["answers"][$i] == "Oui"
+            ) {
+                ++$scoreTransversale;
+            }
+        }
+    }
+    
     if (isset($toyota) == 'TOYOTA') {
         $toyotaFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
         $toyotaDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
     
+        $toyotaScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        
         $toyotaScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
         $toyotaScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
         $toyotaScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
@@ -1626,6 +1951,8 @@ if (!isset($_SESSION["id"])) {
     if (isset($suzuki) == 'SUZUKI') {
         $suzukiFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $transversaleTotalFac;
         $suzukiDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $transversaleTotalDecla;
+        
+        $suzukiScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreTransversale;
         
         $suzukiScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $transversaleScoreFac;
         $suzukiScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $transversaleScoreDecla;
@@ -1635,6 +1962,8 @@ if (!isset($_SESSION["id"])) {
         $mercedesFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
         $mercedesDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
         
+        $mercedesScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        
         $mercedesScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
         $mercedesScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
         $mercedesScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
@@ -1643,6 +1972,8 @@ if (!isset($_SESSION["id"])) {
         $peugeotFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
         $peugeotDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
 
+        $peugeotScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        
         $peugeotScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
         $peugeotScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
         $peugeotScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
@@ -1651,6 +1982,8 @@ if (!isset($_SESSION["id"])) {
         $citroenFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
         $citroenDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
 
+        $citroenScore = $scoreTransmission + $scoreAssistance + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        
         $citroenScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
         $citroenScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
         $citroenScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
@@ -1658,6 +1991,8 @@ if (!isset($_SESSION["id"])) {
     if (isset($kingLong) == 'KING LONG') {
         $kingLongFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $transversaleTotalFac;
         $kingLongDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $transversaleTotalDecla;
+        
+        $kingLongScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinPneu + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreTransversale;
         
         $kingLongScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $transversaleScoreFac;
         $kingLongScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $transversaleScoreDecla;
@@ -1667,6 +2002,8 @@ if (!isset($_SESSION["id"])) {
         $fusoFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $boiteTotalFac + $boiteManTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $transversaleTotalFac;
         $fusoDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $transversaleTotalDecla;
         
+        $fusoScore = $scoreTransmission + $scoreAssistance + $scoreBoite + $scoreBoiteMan + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinPneu + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreSuspension + $scoreSuspensionLame + $scoreTransversale;
+        
         $fusoScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $boiteScoreFac + $boiteManScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $transversaleScoreFac;
         $fusoScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $transversaleScoreDecla;
         $fusoScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $boiteScoreMa + $boiteManScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinScoreMa + $moteurDieselScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $reducteurScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $transversaleScoreMa;
@@ -1674,6 +2011,8 @@ if (!isset($_SESSION["id"])) {
     if (isset($hino) == 'HINO') {
         $hinoFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $boiteTotalFac + $boiteManTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $transversaleTotalFac;
         $hinoDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $transversaleTotalDecla;
+        
+        $hinoScore = $scoreTransmission + $scoreAssistance + $scoreBoite + $scoreBoiteMan + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinPneu + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreSuspension + $scoreSuspensionLame + $scoreTransversale;
         
         $hinoScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $boiteScoreFac + $boiteManScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $transversaleScoreFac;
         $hinoScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $transversaleScoreDecla;
@@ -1683,6 +2022,8 @@ if (!isset($_SESSION["id"])) {
         $renaultTruckFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
         $renaultTruckDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
         
+        $renaultTruckScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinPneu + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionPneu + $scoreTransversale;
+        
         $renaultTruckScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinScoreFac +  $hydrauliqueScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
         $renaultTruckScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinScoreDecla +  $hydrauliqueScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
         $renaultTruckScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinScoreMa +  $hydrauliqueScoreMa + $moteurDieselScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $reducteurScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
@@ -1690,6 +2031,8 @@ if (!isset($_SESSION["id"])) {
     if (isset($mercedesTruck) == 'MERCEDES TRUCK') {
         $mercedesTruckFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
         $mercedesTruckDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
+        
+        $mercedesTruckScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinPneu + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionPneu + $scoreTransversale;
         
         $mercedesTruckScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinScoreFac +  $hydrauliqueScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
         $mercedesTruckScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinScoreDecla +  $hydrauliqueScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
@@ -1699,6 +2042,8 @@ if (!isset($_SESSION["id"])) {
         $sinotrukFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $transversaleTotalFac;
         $sinotrukDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $transversaleTotalDecla;
         
+        $sinotrukScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinPneu + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreSuspension + $scoreSuspensionLame + $scoreTransversale;
+        
         $sinotrukScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinScoreFac +  $hydrauliqueScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $transversaleScoreFac;
         $sinotrukScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinScoreDecla +  $hydrauliqueScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $transversaleScoreDecla;
         $sinotrukScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinScoreMa +  $hydrauliqueScoreMa + $moteurDieselScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $reducteurScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $transversaleScoreMa;
@@ -1706,6 +2051,8 @@ if (!isset($_SESSION["id"])) {
     if (isset($jcb) == 'JCB') {
         $jcbFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $transversaleTotalFac;
         $jcbDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $transversaleTotalDecla;
+        
+        $jcbScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreTransversale;
         
         $jcbScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac +  $hydrauliqueScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $transversaleScoreFac;
         $jcbScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla +  $hydrauliqueScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $transversaleScoreDecla;
@@ -1715,6 +2062,8 @@ if (!isset($_SESSION["id"])) {
         $lovolFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $transversaleTotalFac;
         $lovolDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $transversaleTotalDecla;
         
+        $lovolScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreTransversale;
+        
         $lovolScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac +  $hydrauliqueScoreFac + $moteurDieselScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $transversaleScoreFac;
         $lovolScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla +  $hydrauliqueScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $transversaleScoreDecla;
         $lovolScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa +  $hydrauliqueScoreMa + $moteurDieselScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $reducteurScoreMa + $transversaleScoreMa;
@@ -1722,6 +2071,8 @@ if (!isset($_SESSION["id"])) {
     if (isset($toyotaBt) == 'TOYOTA BT') {
         $toyotaBtFac = $assistanceConduiteTotalFac + $boiteTotalFac + $climatisationTotalFac + $directionTotalFac + $electriciteTotalFac + $freinageElecTotalFac + $freinageTotalFac +  $hydrauliqueTotalFac + $moteurElecTotalFac + $multiplexageTotalFac + $pneuTotalFac + $reducteurTotalFac + $transversaleTotalFac;
         $toyotaBtDecla = $assistanceConduiteTotalDecla + $boiteTotalDecla + $climatisationTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freinageElecTotalDecla + $freinageTotalDecla +  $hydrauliqueTotalDecla + $moteurElecTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $reducteurTotalDecla + $transversaleTotalDecla;
+        
+        $toyotaBtScore = $scoreAssistance + $scoreBoite + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFreinElec + $scoreFreinHydro + $scoreMoteurElec + $scoreMultiplexage + $scorePneu + $scoreRed + $scoreTransversale;
         
         $toyotaBtScoreFac = $assistanceConduiteScoreFac + $boiteScoreFac + $climatisationScoreFac + $directionScoreFac + $electriciteScoreFac + $freinageElecScoreFac + $freinageScoreFac +  $hydrauliqueScoreFac + $moteurElecScoreFac + $multiplexageScoreFac + $pneuScoreFac + $reducteurScoreFac + $transversaleScoreFac;
         $toyotaBtScoreDecla = $assistanceConduiteScoreDecla + $boiteScoreDecla + $climatisationScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freinageElecScoreDecla + $freinageScoreDecla +  $hydrauliqueScoreDecla + $moteurElecScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $reducteurScoreDecla + $transversaleScoreDecla;
@@ -1731,13 +2082,12 @@ if (!isset($_SESSION["id"])) {
         $toyotaForfliftFac = $assistanceConduiteTotalFac + $boiteTotalFac + $boiteAutoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageElecTotalFac + $freinageTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurElecTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $transversaleTotalFac;
         $toyotaForfliftDecla = $assistanceConduiteTotalDecla + $boiteTotalDecla + $boiteAutoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageElecTotalDecla + $freinageTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurElecTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $transversaleTotalDecla;
         
+        $toyotaForkliftScore = $scoreAssistance + $scoreBoite + $scoBoiteAuto + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinElec + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreTransversale;
+        
         $toyotaForfliftScoreFac = $assistanceConduiteScoreFac + $boiteScoreFac + $boiteAutoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageElecScoreFac + $freinageScoreFac +  $hydrauliqueScoreFac + $moteurDieselScoreFac + $moteurElecScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $transversaleScoreFac;
         $toyotaForfliftScoreDecla = $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteAutoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageElecScoreDecla + $freinageScoreDecla +  $hydrauliqueScoreDecla + $moteurDieselScoreDecla + $moteurElecScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $transversaleScoreDecla;
         $toyotaForfliftScoreMa = $assistanceConduiteScoreMa + $boiteScoreMa + $boiteAutoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageElecScoreMa + $freinageScoreMa +  $hydrauliqueScoreMa + $moteurDieselScoreMa + $moteurElecScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $reducteurScoreMa + $transversaleScoreMa;
     }
-
-    $percentageFac = ($resultFac['score'] * 100) / $resultFac['total'];
-    $percentageTechMa = ($resultTechMa['score'] * 100) / $resultTechMa['total'];
     include_once "language.php";
     ?>
 <title><?php echo $result_tech; ?> | CFAO Mobility Academy</title>
@@ -1827,7 +2177,7 @@ if (!isset($_SESSION["id"])) {
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold text-uppercase gs-0">
                                     <th class="min-w-125px sorting bg-primary text-white text-center table-light"
-                                        tabindex="0" aria-controls="kt_customers_table" colspan="49"
+                                        tabindex="0" aria-controls="kt_customers_table" colspan="65"
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; font-size: 20px; ">
                                         <?php echo $result_mesure ?></th>
@@ -1837,108 +2187,112 @@ if (!isset($_SESSION["id"])) {
                                     aria-label="Email: activate to sort column ascending">
                                     <?php echo $groupe_fonctionnel ?></th>
                                 <!-- <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending">
                                     Bâteaux</th> -->
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending">
                                     <?php echo $bus ?></th>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="15"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="20"
                                     aria-label="Email: activate to sort column ascending">
                                     <?php echo $camions ?></th>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="6"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="8"
                                     aria-label="Email: activate to sort column ascending">
                                     <?php echo $chariots ?></th>
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="6"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="8"
                                     aria-label="Email: activate to sort column ascending">
                                     <?php echo $engins ?></th>
                                 <!-- <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending">
                                     Moto</th> -->
                                 <th class="min-w-10px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="15"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="20"
                                     aria-label="Email: activate to sort column ascending">
                                     <?php echo $vl ?></th>
+                                <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4" rowspan="3"
+                                    aria-label="Email: activate to sort column ascending">
+                                    <?php echo $synthese ?></th>
                                     <tr></tr>
                                 <!-- <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     Yamaha</th> -->
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $kingLong ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $fuso ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $hino ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.366px;">
                                     <?php echo $mercedesTruck ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $renaultTruck ?></th>
                                 <th class="min-w-135px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $sinotruk ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $toyotaBt ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $toyotaForklift ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $jcb ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $lovol ?></th>
                                 <!-- <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     Yamaha</th> -->
                                 <!-- <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     BYD</th> -->
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.366px;">
                                     <?php echo $citroen ?></th>
                                 <th class="min-w-135px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $mercedes ?></th>
                                 <!-- <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     Mitsubishi</th> -->
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $peugeot ?></th>
                                 <th class="min-w-135px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.366px;">
                                     <?php echo $suzuki ?></th>
                                 <th class="min-w-135px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                    tabindex="0" aria-controls="kt_customers_table" colspan="3"
+                                    tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.366px;">
                                     <?php echo $toyota ?></th>
                                     <tr></tr>
@@ -2002,6 +2356,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2014,6 +2372,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2026,6 +2388,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2038,6 +2404,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2050,6 +2420,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2062,6 +2436,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2074,6 +2452,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2086,6 +2468,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2098,6 +2484,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2110,6 +2500,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2122,6 +2516,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2134,6 +2532,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2146,6 +2548,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2158,6 +2564,10 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
@@ -2170,6 +2580,26 @@ if (!isset($_SESSION["id"])) {
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                     <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
+                                <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 175.266px;">
+                                    <?php echo $connaissances ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $tache_pro_tech ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $tache_pro_manager ?></th>
+                                <th class="min-w-125px sorting  bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                    tabindex="0" aria-controls="kt_customers_table"
+                                    aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
+                                    <?php echo $global ?></th>
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
                                 <?php if (
@@ -2189,7 +2619,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $kingLongFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2202,7 +2632,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $kingLongDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2215,7 +2645,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $kingLongDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2228,7 +2671,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $fusoFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2241,7 +2684,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $fusoDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2254,7 +2697,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $fusoDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2267,7 +2723,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $hinoFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2280,7 +2736,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $hinoDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2293,7 +2749,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $hinoDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2306,7 +2775,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2319,7 +2788,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2332,7 +2801,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2345,7 +2827,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $renaultTruckFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2358,7 +2840,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2371,7 +2853,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2384,7 +2879,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $sinotrukFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2397,7 +2892,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2410,7 +2905,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $sinotrukDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2423,13 +2931,16 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <td class="text-center">
                                         -
-                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
                                     <td class="text-center">
                                         -
+                                    <td class="text-center">
+                                        -
                                     </td>
+                                    <td class="text-center">
+                                        -
                                     <td class="text-center">
                                         -
                                     </td>
@@ -2441,7 +2952,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $jcbFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2454,7 +2965,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $jcbDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2467,7 +2978,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $jcbDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2480,7 +3004,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $lovolFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2493,7 +3017,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $lovolDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2506,7 +3030,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $lovolDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2519,7 +3056,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $citroenFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2532,7 +3069,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $citroenDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2545,7 +3082,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $citroenDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2558,7 +3108,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $mercedesFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2571,7 +3121,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $mercedesDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2584,7 +3134,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $mercedesDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2597,7 +3160,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $peugeotFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2610,7 +3173,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $peugeotDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2623,7 +3186,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $peugeotDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2636,7 +3212,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $suzukiFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2649,7 +3225,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $suzukiDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2662,9 +3238,22 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $suzukiDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
                                     ?>%
                                     </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
+                                    ?>%
+                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
@@ -2675,7 +3264,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionFac->score * 100) / $toyotaFac)
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2688,7 +3277,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionDecla->score * 100) / $toyotaDecla)
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2701,7 +3290,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transmissionMa->score * 100) / $toyotaDecla)
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $transmissionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2709,6 +3311,26 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>  
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($transmissionFac->score * 100) / $transmissionFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($transmissionDecla->score * 100) / $transmissionDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($transmissionMa->score * 100) / $transmissionMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transmissionFac->score * 100) / $transmissionFac->total + ($scoreTransmission * 100) / $transmissionDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -2729,7 +3351,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $kingLongFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2742,7 +3364,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $kingLongDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2755,7 +3377,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $kingLongDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2768,7 +3403,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $fusoFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2781,7 +3416,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $fusoDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2794,7 +3429,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $fusoDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2807,7 +3455,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $hinoFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2820,7 +3468,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $hinoDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2833,7 +3481,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $hinoDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2846,7 +3507,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2859,7 +3520,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2872,7 +3533,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2885,7 +3559,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $renaultTruckFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2894,11 +3568,11 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <?php if (
-                                        isset($renaultTruckDecla) && $assistanceConduiteDecla
+                                        isset($kingLongDecla) && $assistanceConduiteDecla
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2911,7 +3585,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2924,7 +3611,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $sinotrukFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2937,7 +3624,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2950,7 +3637,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $sinotrukDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2963,7 +3663,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $toyotaBtFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2976,7 +3676,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -2989,7 +3689,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3002,7 +3715,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3015,7 +3728,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3028,7 +3741,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3041,7 +3767,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $jcbFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3054,7 +3780,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $jcbDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3067,7 +3793,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $jcbDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3080,7 +3819,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $lovolFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3093,7 +3832,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $lovolDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3106,7 +3845,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $lovolDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3119,7 +3871,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $citroenFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3132,7 +3884,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $citroenDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3145,7 +3897,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $citroenDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3158,7 +3923,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $mercedesFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3171,7 +3936,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $mercedesDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3184,7 +3949,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $mercedesDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3197,7 +3975,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $peugeotFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3210,7 +3988,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $peugeotDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3223,7 +4001,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $peugeotDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3236,7 +4027,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $suzukiFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3249,7 +4040,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $suzukiDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3262,7 +4053,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $suzukiDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3275,7 +4079,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteFac->score * 100) / $toyotaFac)
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3288,7 +4092,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteDecla->score * 100) / $toyotaDecla)
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3301,14 +4105,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($assistanceConduiteMa->score * 100) / $toyotaDecla)
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $assistanceConduiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($assistanceConduiteDecla->score * 100) / $assistanceConduiteDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($assistanceConduiteMa->score * 100) / $assistanceConduiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($assistanceConduiteFac->score * 100) / $assistanceConduiteFac->total + ($scoreAssistance * 100) / $assistanceConduiteDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -3351,12 +4188,21 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($mercedesTruckFac) && $transfertFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3369,7 +4215,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3382,7 +4228,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3395,7 +4254,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $renaultTruckFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3408,7 +4267,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3421,7 +4280,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3434,7 +4306,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $sinotrukFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3447,7 +4319,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3460,7 +4332,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $sinotrukDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3468,6 +4340,25 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -3491,7 +4382,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $jcbFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3504,7 +4395,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $jcbDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3517,7 +4408,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $jcbDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3530,7 +4434,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $lovolFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3543,7 +4447,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $lovolDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3556,7 +4460,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $lovolDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3569,7 +4486,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $citroenFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3582,7 +4499,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $citroenDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3595,7 +4512,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $citroenDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3608,7 +4538,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $mercedesFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3621,7 +4551,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $mercedesDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3634,7 +4564,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $mercedesDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3647,7 +4590,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $peugeotFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3660,7 +4603,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $peugeotDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3673,7 +4616,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $peugeotDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3686,7 +4642,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $suzukiFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3699,7 +4655,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $suzukiDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3712,7 +4668,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $suzukiDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3725,7 +4694,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertFac->score * 100) / $toyotaFac)
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3738,7 +4707,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertDecla->score * 100) / $toyotaDecla)
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3751,14 +4720,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transfertMa->score * 100) / $toyotaDecla)
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $transfertFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?> 
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($transfertFac->score * 100) / $transfertFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($transfertDecla->score * 100) / $transfertDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($transfertMa->score * 100) / $transfertMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($transfertFac->score * 100) / $transfertFac->total + ($scoreTransfert * 100) / $transfertDecla->total) / 2)
+                                    ?>%
+                                    </td> 
                                 </tr>
                                 <?php } ?>
                                 <?php if (
@@ -3778,7 +4780,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $kingLongFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3791,7 +4793,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $kingLongDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3804,7 +4806,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $kingLongDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3817,7 +4832,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $fusoFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3830,7 +4845,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $fusoDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3843,7 +4858,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $fusoDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3856,7 +4884,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $hinoFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3869,7 +4897,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $hinoDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3882,7 +4910,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $hinoDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3895,7 +4936,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3908,7 +4949,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3921,7 +4962,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3934,7 +4988,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $renaultTruckFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3947,7 +5001,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3960,7 +5014,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3969,11 +5023,24 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <?php if (
-                                        isset($sinotrukFac) && $boiteFac
+                                        isset($renaultTruckFac) && $boiteFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $sinotrukFac)
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukkingLongFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3986,7 +5053,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -3999,7 +5066,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $sinotrukDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4012,7 +5092,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $toyotaBtFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4025,7 +5105,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4038,7 +5118,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4051,7 +5144,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4064,7 +5157,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4077,7 +5170,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4090,7 +5196,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $jcbFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4103,7 +5209,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $jcbDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4116,7 +5222,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $jcbDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4129,7 +5248,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $lovolFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4142,7 +5261,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $lovolDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4155,7 +5274,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $lovolDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4168,7 +5300,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $citroenFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4181,7 +5313,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $citroenDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4194,7 +5326,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $citroenDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4207,7 +5352,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $mercedesFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4220,7 +5365,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $mercedesDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4233,7 +5378,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $mercedesDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4246,7 +5404,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $peugeotFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4259,7 +5417,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $peugeotDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4272,7 +5430,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $peugeotDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4285,7 +5456,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $suzukiFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4298,7 +5469,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $suzukiDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4311,7 +5482,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $suzukiDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4324,7 +5508,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteFac->score * 100) / $toyotaFac)
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4337,7 +5521,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteDecla->score * 100) / $toyotaDecla)
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4350,14 +5534,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteMa->score * 100) / $toyotaDecla)
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $boiteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteFac->score * 100) / $boiteFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteDecla->score * 100) / $boiteDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteMa->score * 100) / $boiteMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteFac->score * 100) / $boiteFac->total + ($scoreBoite * 100) / $boiteDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -4436,12 +5653,33 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($toyotaForfliftFac) && $boiteAutoFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($boiteAutoFac->score * 100) / $boiteAutoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4454,7 +5692,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($boiteAutoDecla->score * 100) / $boiteAutoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4467,7 +5705,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($boiteAutoMa->score * 100) / $boiteAutoMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4475,6 +5713,25 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $boiteAutoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteAutoFac->score * 100) / $boiteAutoFac->total + ($scoreBoiteAuto * 100) / $boiteAutoDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -4498,7 +5755,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoFac->score * 100) / $citroenFac)
+                                    ceil(($boiteAutoFac->score * 100) / $boiteAutoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4511,7 +5768,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoDecla->score * 100) / $citroenDecla)
+                                    ceil(($boiteAutoDecla->score * 100) / $boiteAutoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4524,7 +5781,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoMa->score * 100) / $citroenDecla)
+                                    ceil(($boiteAutoMa->score * 100) / $boiteAutoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $boiteAutoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteAutoFac->score * 100) / $boiteAutoFac->total + ($scoreBoiteAuto * 100) / $boiteAutoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4537,7 +5807,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoFac->score * 100) / $mercedesFac)
+                                    ceil(($boiteAutoFac->score * 100) / $boiteAutoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4550,7 +5820,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoDecla->score * 100) / $mercedesDecla)
+                                    ceil(($boiteAutoDecla->score * 100) / $boiteAutoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4563,7 +5833,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoMa->score * 100) / $mercedesDecla)
+                                    ceil(($boiteAutoMa->score * 100) / $boiteAutoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $boiteAutoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteAutoFac->score * 100) / $boiteAutoFac->total + ($scoreBoiteAuto * 100) / $boiteAutoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4576,7 +5859,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoFac->score * 100) / $peugeotFac)
+                                    ceil(($boiteAutoFac->score * 100) / $boiteAutoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4589,7 +5872,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoDecla->score * 100) / $peugeotDecla)
+                                    ceil(($boiteAutoDecla->score * 100) / $boiteAutoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4602,7 +5885,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoMa->score * 100) / $peugeotDecla)
+                                    ceil(($boiteAutoMa->score * 100) / $boiteAutoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $boiteAutoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteAutoFac->score * 100) / $boiteAutoFac->total + ($scoreBoiteAuto * 100) / $boiteAutoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4615,7 +5911,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoFac->score * 100) / $suzukiFac)
+                                    ceil(($boiteAutoFac->score * 100) / $boiteAutoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4628,7 +5924,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoDecla->score * 100) / $suzukiDecla)
+                                    ceil(($boiteAutoDecla->score * 100) / $boiteAutoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4641,7 +5937,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoMa->score * 100) / $suzukiDecla)
+                                    ceil(($boiteAutoMa->score * 100) / $boiteAutoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $boiteAutoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteAutoFac->score * 100) / $boiteAutoFac->total + ($scoreBoiteAuto * 100) / $boiteAutoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4654,7 +5963,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoFac->score * 100) / $toyotaFac)
+                                    ceil(($boiteAutoFac->score * 100) / $boiteAutoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4667,7 +5976,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoDecla->score * 100) / $toyotaDecla)
+                                    ceil(($boiteAutoDecla->score * 100) / $boiteAutoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4680,14 +5989,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteAutoMa->score * 100) / $toyotaDecla)
+                                    ceil(($boiteAutoMa->score * 100) / $boiteAutoMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $boiteAutoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteAutoFac->score * 100) / $boiteAutoFac->total + ($scoreBoiteAuto * 100) / $boiteAutoDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteAutoFac->score * 100) / $boiteAutoFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteAutoDecla->score * 100) / $boiteAutoDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteAutoMa->score * 100) / $boiteAutoMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteAutoFac->score * 100) / $boiteAutoFac->total + ($scoreBoiteAuto * 100) / $boiteAutoDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -4708,7 +6050,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $kingLongFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4721,7 +6063,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $kingLongDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4734,7 +6076,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $kingLongDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4747,7 +6102,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $fusoFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4760,7 +6115,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $fusoDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4773,7 +6128,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $fusoDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4782,11 +6137,24 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <?php if (
-                                        isset($hinoFac) && $boiteManFac
+                                        isset($fusoFac) && $boiteManFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $hinoFac)
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinogFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4799,7 +6167,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $hinoDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4812,7 +6180,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $hinoDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4825,7 +6206,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4838,7 +6219,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4851,7 +6232,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4864,7 +6258,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $renaultTruckFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4877,7 +6271,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4890,7 +6284,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4903,7 +6310,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $sinotrukFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4916,7 +6323,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4929,7 +6336,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $sinotrukDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4937,6 +6344,25 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -4960,7 +6386,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $jcbFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4973,7 +6399,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $jcbDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4986,7 +6412,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $jcbDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -4999,7 +6438,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $lovolFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5012,7 +6451,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $lovolDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5025,7 +6464,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $lovolDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5038,7 +6490,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $citroenFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5051,7 +6503,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $citroenDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5064,7 +6516,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $citroenDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5077,7 +6542,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $mercedesFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5090,7 +6555,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $mercedesDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5103,7 +6568,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $mercedesDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5116,7 +6594,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $peugeotFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5129,7 +6607,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $peugeotDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5142,7 +6620,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $peugeotDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5155,7 +6646,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $suzukiFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5168,7 +6659,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $suzukiDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5181,7 +6672,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $suzukiDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5194,7 +6698,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManFac->score * 100) / $toyotaFac)
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5207,7 +6711,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManDecla->score * 100) / $toyotaDecla)
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5220,14 +6724,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteManMa->score * 100) / $toyotaDecla)
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $boiteManFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteManFac->score * 100) / $boiteManFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteManDecla->score * 100) / $boiteManDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteManMa->score * 100) / $boiteManMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteManFac->score * 100) / $boiteManFac->total + ($scoreBoiteMan * 100) / $boiteManDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -5333,12 +6870,42 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($citroenFac) && $boiteVaCoFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoFac->score * 100) / $citroenFac)
+                                    ceil(($boiteVaCoFac->score * 100) / $boiteVaCoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5351,7 +6918,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoDecla->score * 100) / $citroenDecla)
+                                    ceil(($boiteVaCoDecla->score * 100) / $boiteVaCoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5364,7 +6931,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoMa->score * 100) / $citroenDecla)
+                                    ceil(($boiteVaCoMa->score * 100) / $boiteVaCoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $boiteVaCoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteVaCoFac->score * 100) / $boiteVaCoFac->total + ($scoreBoiteVaCo * 100) / $boiteVaCoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5377,7 +6957,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoFac->score * 100) / $mercedesFac)
+                                    ceil(($boiteVaCoFac->score * 100) / $boiteVaCoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5390,7 +6970,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoDecla->score * 100) / $mercedesDecla)
+                                    ceil(($boiteVaCoDecla->score * 100) / $boiteVaCoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5403,7 +6983,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoMa->score * 100) / $mercedesDecla)
+                                    ceil(($boiteVaCoMa->score * 100) / $boiteVaCoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $boiteVaCoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteVaCoFac->score * 100) / $boiteVaCoFac->total + ($scoreBoiteVaCo * 100) / $boiteVaCoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5416,7 +7009,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoFac->score * 100) / $peugeotFac)
+                                    ceil(($boiteVaCoFac->score * 100) / $boiteVaCoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5429,7 +7022,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoDecla->score * 100) / $peugeotDecla)
+                                    ceil(($boiteVaCoDecla->score * 100) / $boiteVaCoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5442,7 +7035,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoMa->score * 100) / $peugeotDecla)
+                                    ceil(($boiteVaCoMa->score * 100) / $boiteVaCoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $boiteVaCoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteVaCoFac->score * 100) / $boiteVaCoFac->total + ($scoreBoiteVaCo * 100) / $boiteVaCoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5455,7 +7061,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoFac->score * 100) / $suzukiFac)
+                                    ceil(($boiteVaCoFac->score * 100) / $boiteVaCoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5468,7 +7074,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoDecla->score * 100) / $suzukiDecla)
+                                    ceil(($boiteVaCoDecla->score * 100) / $boiteVaCoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5481,7 +7087,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoMa->score * 100) / $suzukiDecla)
+                                    ceil(($boiteVaCoMa->score * 100) / $boiteVaCoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $boiteVaCoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteVaCoFac->score * 100) / $boiteVaCoFac->total + ($scoreBoiteVaCo * 100) / $boiteVaCoDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5494,7 +7113,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoFac->score * 100) / $toyotaFac)
+                                    ceil(($boiteVaCoFac->score * 100) / $boiteVaCoFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5507,7 +7126,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoDecla->score * 100) / $toyotaDecla)
+                                    ceil(($boiteVaCoDecla->score * 100) / $boiteVaCoDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5520,14 +7139,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($boiteVaCoMa->score * 100) / $toyotaDecla)
+                                    ceil(($boiteVaCoMa->score * 100) / $boiteVaCoMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $boiteVaCoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteVaCoFac->score * 100) / $boiteVaCoFac->total + ($scoreBoiteVaCo * 100) / $boiteVaCoDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteVaCoFac->score * 100) / $boiteVaCoFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteVaCoDecla->score * 100) / $boiteVaCoDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteVaCoMa->score * 100) / $boiteVaCoMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($boiteVaCoFac->score * 100) / $boiteVaCoFac->total + ($scoreBoiteVaCo * 100) / $boiteVaCoDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -5544,11 +7196,50 @@ if (!isset($_SESSION["id"])) {
                                         <?php echo $clim ?>
                                     </td>
                                     <?php if (
+                                        isset($kingLongFac) && $boiteVaCoFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteVaCoFac->score * 100) / $boiteVaCoFac->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongDecla) && $boiteVaCoDecla
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteVaCoDecla->score * 100) / $boiteVaCoDecla->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongDecla) && $boiteVaCoMa
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($boiteVaCoMa->score * 100) / $boiteVaCoMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
                                         isset($kingLongFac) && $climatisationFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $kingLongFac)
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5556,32 +7247,12 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $climatisationDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $climatisationMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($climatisationMa->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -5605,7 +7276,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5618,7 +7289,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5631,7 +7302,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5644,7 +7328,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $renaultTruckFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5657,7 +7341,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5670,7 +7354,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5683,7 +7380,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $sinotrukFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5696,7 +7393,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5709,7 +7406,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $sinotrukDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5722,7 +7432,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $toyotaBtFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5735,7 +7445,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5748,7 +7458,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5761,7 +7484,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5774,7 +7497,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5787,7 +7510,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5800,7 +7536,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $jcbFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5813,7 +7549,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $jcbDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5826,7 +7562,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $jcbDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5839,7 +7588,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $lovolFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5852,7 +7601,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $lovolDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5865,7 +7614,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $lovolDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5878,7 +7640,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $citroenFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5891,7 +7653,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $citroenDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5904,7 +7666,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $citroenDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5917,7 +7692,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $mercedesFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5930,7 +7705,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $mercedesDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5943,7 +7718,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $mercedesDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5956,7 +7744,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $peugeotFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5969,7 +7757,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $peugeotDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5982,7 +7770,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $peugeotDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -5995,7 +7796,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $suzukiFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6008,7 +7809,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $suzukiDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6021,7 +7822,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $suzukiDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6034,7 +7848,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationFac->score * 100) / $toyotaFac)
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6047,7 +7861,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationDecla->score * 100) / $toyotaDecla)
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6060,14 +7874,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($climatisationMa->score * 100) / $toyotaDecla)
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $climatisationFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($climatisationFac->score * 100) / $climatisationFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($climatisationDecla->score * 100) / $climatisationDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($climatisationMa->score * 100) / $climatisationMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($climatisationFac->score * 100) / $climatisationFac->total + ($scoreClim * 100) / $climatisationDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -6088,7 +7935,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $kingLongFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6101,7 +7948,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $kingLongDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6114,7 +7961,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $kingLongDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6127,7 +7987,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $fusoFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6140,7 +8000,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $fusoDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6153,7 +8013,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $fusoDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6166,7 +8039,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $hinoFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6179,7 +8052,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $hinoDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6192,7 +8065,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $hinoDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6205,7 +8091,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6218,7 +8104,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6231,7 +8117,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6244,7 +8143,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $renaultTruckFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6257,7 +8156,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6270,7 +8169,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6283,7 +8195,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $sinotrukFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6296,7 +8208,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6309,7 +8221,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $sinotrukDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6317,6 +8229,22 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -6331,7 +8259,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6344,7 +8272,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6357,7 +8285,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6370,7 +8311,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $jcbFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6383,7 +8324,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $jcbDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6396,7 +8337,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $jcbDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6409,7 +8363,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $lovolFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6422,7 +8376,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $lovolDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6435,7 +8389,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $lovolDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6448,7 +8415,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $citroenFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6461,7 +8428,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $citroenDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6474,7 +8441,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $citroenDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6487,7 +8467,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $mercedesFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6500,7 +8480,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $mercedesDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6513,7 +8493,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $mercedesDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6526,7 +8519,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $peugeotFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6539,7 +8532,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $peugeotDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6552,7 +8545,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $peugeotDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6565,7 +8571,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $suzukiFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6578,7 +8584,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $suzukiDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6591,7 +8597,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $suzukiDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6604,7 +8623,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiFac->score * 100) / $toyotaFac)
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6617,7 +8636,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiDecla->score * 100) / $toyotaDecla)
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6630,14 +8649,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($demiMa->score * 100) / $toyotaDecla)
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $demiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($demiFac->score * 100) / $demiFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($demiDecla->score * 100) / $demiDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($demiMa->score * 100) / $demiMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($demiFac->score * 100) / $demiFac->total + ($scoreDemi * 100) / $demiDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -6658,7 +8710,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $kingLongFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6671,7 +8723,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $kingLongDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6684,7 +8736,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $kingLongDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6693,11 +8745,24 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <?php if (
-                                        isset($fusoFac) && $directionFac
+                                        isset($kingLongFac) && $directionFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $fusoFac)
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusokingLongFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6710,7 +8775,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $fusoDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6723,7 +8788,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $fusoDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6736,7 +8814,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $hinoFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6749,7 +8827,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $hinoDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6762,7 +8840,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $hinoDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6775,7 +8866,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6788,7 +8879,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6801,7 +8892,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6814,7 +8918,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $renaultTruckFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6827,7 +8931,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6840,7 +8944,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6853,7 +8970,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $sinotrukFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6866,7 +8983,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6879,7 +8996,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $sinotrukDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6892,7 +9022,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $toyotaBtFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6905,7 +9035,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6918,7 +9048,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6931,7 +9074,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6944,7 +9087,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6957,7 +9100,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6970,7 +9126,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $jcbFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6983,7 +9139,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $jcbDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -6996,7 +9152,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $jcbDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7009,7 +9178,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $lovolFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7022,7 +9191,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $lovolDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7035,7 +9204,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $lovolDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7048,7 +9230,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $citroenFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7061,7 +9243,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $citroenDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7074,7 +9256,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $citroenDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7087,7 +9282,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $mercedesFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7100,7 +9295,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $mercedesDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7113,7 +9308,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $mercedesDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7126,7 +9334,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $peugeotFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7139,7 +9347,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $peugeotDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7152,7 +9360,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $peugeotDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7165,7 +9386,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $suzukiFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7178,7 +9399,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $suzukiDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7191,7 +9412,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $suzukiDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7204,7 +9438,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionFac->score * 100) / $toyotaFac)
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7217,7 +9451,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionDecla->score * 100) / $toyotaDecla)
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7230,14 +9464,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($directionMa->score * 100) / $toyotaDecla)
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $directionFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?> 
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($directionFac->score * 100) / $directionFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($directionDecla->score * 100) / $directionDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($directionMa->score * 100) / $directionMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($directionFac->score * 100) / $directionFac->total + ($scoreDirection * 100) / $directionDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -7258,7 +9525,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $kingLongFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7271,7 +9538,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $kingLongDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7284,7 +9551,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $kingLongDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7297,7 +9577,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $fusoFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7310,7 +9590,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $fusoDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7323,7 +9603,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $fusoDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7336,7 +9629,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $hinoFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7349,7 +9642,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $hinoDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7362,7 +9655,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $hinoDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7375,7 +9681,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7388,7 +9694,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7401,7 +9707,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7414,7 +9733,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $renaultTruckFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7427,7 +9746,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7440,7 +9759,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7453,7 +9785,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $sinotrukFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7466,7 +9798,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7479,7 +9811,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $sinotrukDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7492,7 +9837,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $toyotaBtFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7505,7 +9850,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7518,7 +9863,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7527,11 +9872,24 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <?php if (
-                                        isset($toyotaForfliftFac) && $electriciteFac
+                                        isset($toyotaBtFac) && $electriciteFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $toyotaForfliftFac)
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($ktoyotaForfliftFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7544,7 +9902,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7557,7 +9915,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7570,7 +9941,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $jcbFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7583,7 +9954,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $jcbDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7596,7 +9967,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $jcbDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7609,7 +9993,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $lovolFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7622,7 +10006,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $lovolDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7635,7 +10019,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $lovolDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7648,7 +10045,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $citroenFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7661,7 +10058,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $citroenDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7674,7 +10071,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $citroenDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7687,7 +10097,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $mercedesFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7700,7 +10110,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $mercedesDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7713,7 +10123,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $mercedesDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7726,7 +10149,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $peugeotFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7739,7 +10162,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $peugeotDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7752,7 +10175,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $peugeotDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7765,7 +10201,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $suzukiFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7778,7 +10214,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $suzukiDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7791,7 +10227,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $suzukiDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7804,7 +10253,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteFac->score * 100) / $toyotaFac)
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7817,7 +10266,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteDecla->score * 100) / $toyotaDecla)
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7830,14 +10279,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($electriciteMa->score * 100) / $toyotaDecla)
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $electriciteFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($electriciteFac->score * 100) / $electriciteFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($electriciteDecla->score * 100) / $electriciteDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($electriciteMa->score * 100) / $electriciteMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($electriciteFac->score * 100) / $electriciteFac->total + ($scoreElectricite * 100) / $electriciteDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -7858,7 +10340,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $kingLongFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7871,7 +10353,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $kingLongDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7884,7 +10366,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $kingLongDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7897,7 +10392,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $fusoFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7910,7 +10405,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $fusoDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7923,7 +10418,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $fusoDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7936,7 +10444,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $hinoFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7949,7 +10457,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $hinoDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7962,7 +10470,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $hinoDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7975,7 +10496,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -7988,7 +10509,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8001,7 +10522,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8014,7 +10548,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $renaultTruckFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8027,7 +10561,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8040,7 +10574,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8053,7 +10600,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $sinotrukFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8066,7 +10613,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8079,7 +10626,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $sinotrukDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8087,6 +10634,22 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -8101,7 +10664,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8114,7 +10677,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8127,7 +10690,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8140,7 +10716,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $jcbFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8153,7 +10729,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $jcbDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8166,7 +10742,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $jcbDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8179,7 +10768,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $lovolFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8192,7 +10781,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $lovolDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8205,7 +10794,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $lovolDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8218,7 +10820,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $citroenFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8231,7 +10833,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $citroenDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8244,7 +10846,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $citroenDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8257,7 +10872,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $mercedesFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8270,7 +10885,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $mercedesDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8283,7 +10898,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $mercedesDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8296,7 +10924,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $peugeotFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8309,7 +10937,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $peugeotDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8322,7 +10950,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $peugeotDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8335,7 +10976,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $suzukiFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8348,7 +10989,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $suzukiDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8361,7 +11002,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $suzukiDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8374,7 +11028,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiFac->score * 100) / $toyotaFac)
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8387,7 +11041,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiDecla->score * 100) / $toyotaDecla)
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8400,14 +11054,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freiMa->score * 100) / $toyotaDecla)
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $freiFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freiFac->score * 100) / $freiFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freiDecla->score * 100) / $freiDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freiMa->score * 100) / $freiMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freiFac->score * 100) / $freiFac->total + ($scoreFrein * 100) / $freiDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -8477,12 +11164,30 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($toyotaBtFac) && $freinageElecFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageElecFac->score * 100) / $toyotaBtFac)
+                                    ceil(($freinageElecFac->score * 100) / $freinageElecFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8495,7 +11200,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageElecDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($freinageElecDecla->score * 100) / $freinageElecDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8508,7 +11213,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageElecMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($freinageElecMa->score * 100) / $freinageElecMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $freinageElecFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageElecFac->score * 100) / $freinageElecFac->total + ($scoreFreinElec * 100) / $freinageElecDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8521,7 +11239,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageElecFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($freinageElecFac->score * 100) / $freinageElecFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8534,7 +11252,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageElecDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($freinageElecDecla->score * 100) / $freinageElecDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8547,7 +11265,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageElecMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($freinageElecMa->score * 100) / $freinageElecMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $freinageElecFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageElecFac->score * 100) / $freinageElecFac->total + ($scoreFreinElec * 100) / $freinageElecDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8617,7 +11348,48 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <td class="text-center">
                                         -
-                                    </td> 
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freinageElecFac->score * 100) / $freinageElecFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freinageElecDecla->score * 100) / $freinageElecDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freinageElecMa->score * 100) / $freinageElecMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageElecFac->score * 100) / $freinageElecFac->total + ($scoreFreinElec * 100) / $freinageElecDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -8687,12 +11459,30 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($toyotaBtFac) && $freinageFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $toyotaBtFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8705,7 +11495,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8718,7 +11508,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8731,7 +11534,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8744,7 +11547,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8757,7 +11560,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8770,7 +11586,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $jcbFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8783,7 +11599,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $jcbDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8796,7 +11612,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $jcbDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8809,7 +11638,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $lovolFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8822,7 +11651,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $lovolDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8835,7 +11664,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $lovolDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8848,7 +11690,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $citroenFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8861,7 +11703,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $citroenDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8874,7 +11716,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $citroenDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8887,7 +11742,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $mercedesFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8900,7 +11755,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $mercedesDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8913,7 +11768,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $mercedesDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8926,7 +11794,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $peugeotFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8939,7 +11807,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $peugeotDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8952,7 +11820,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $peugeotDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8965,7 +11846,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $suzukiFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8978,7 +11859,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $suzukiDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -8991,7 +11872,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $suzukiDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9004,7 +11898,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageFac->score * 100) / $toyotaFac)
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9017,7 +11911,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageDecla->score * 100) / $toyotaDecla)
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9030,14 +11924,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinageMa->score * 100) / $toyotaDecla)
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $freinageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freinageFac->score * 100) / $freinageFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freinageDecla->score * 100) / $freinageDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($freinageMa->score * 100) / $freinageMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($freinageElecFac->score * 100) / $freinageElecFac->total + ($scoreFreinElec * 100) / $freinageElecDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -9058,33 +11985,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinFac->score * 100) / $kingLongFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $freinDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinDecla->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $freinMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinMa->score * 100) / $kingLongDecla)
+                                    ceil((($freinFac->score * 100) / $freinFac->total + ($scoreFreinPneu * 100) / $freinDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9097,33 +11998,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinFac->score * 100) / $fusoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $freinDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinDecla->score * 100) / $fusoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $freinMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinMa->score * 100) / $fusoDecla)
+                                    ceil((($freinFac->score * 100) / $freinFac->total + ($scoreFreinPneu * 100) / $freinDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9136,33 +12011,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinFac->score * 100) / $hinoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $freinDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinDecla->score * 100) / $hinoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $freinMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinMa->score * 100) / $hinoDecla)
+                                    ceil((($freinFac->score * 100) / $freinFac->total + ($scoreFreinPneu * 100) / $freinDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9175,33 +12024,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinFac->score * 100) / $mercedesTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $freinDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinDecla->score * 100) / $mercedesTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $freinMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinMa->score * 100) / $mercedesTruckDecla)
+                                    ceil((($freinFac->score * 100) / $freinFac->total + ($scoreFreinPneu * 100) / $freinDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9214,33 +12037,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinFac->score * 100) / $renaultTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $freinDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinDecla->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $freinMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinMa->score * 100) / $renaultTruckDecla)
+                                    ceil((($freinFac->score * 100) / $freinFac->total + ($scoreFreinPneu * 100) / $freinDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9253,7 +12050,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinFac->score * 100) / $sinotrukFac)
+                                    ceil((($freinFac->score * 100) / $freinFac->total + ($scoreFreinPneu * 100) / $freinDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9261,112 +12058,37 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $freinDecla
-                                    ) { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($freinDecla->score * 100) / $sinotrukDecla)
+                                    ceil((($freinFac->score * 100) / $freinFac->total + ($scoreFreinPneu * 100) / $freinDecla->total) / 2)
                                     ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $freinMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($freinMa->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
                                     </td>
                                 </tr>
                                 <?php } ?>
@@ -9410,12 +12132,21 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($mercedesTruckFac) && $hydrauliqueFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9428,7 +12159,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9441,7 +12172,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $hydrauliqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9454,7 +12198,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueFac->score * 100) / $renaultTruckFac)
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9467,7 +12211,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9480,7 +12224,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $hydrauliqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9493,7 +12250,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueFac->score * 100) / $sinotrukFac)
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9506,7 +12263,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9519,7 +12276,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueMa->score * 100) / $sinotrukDecla)
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $hydrauliqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9532,7 +12302,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueFac->score * 100) / $toyotaBtFac)
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9545,7 +12315,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9558,7 +12328,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $hydrauliqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9571,7 +12354,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9584,7 +12367,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9597,7 +12380,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $hydrauliqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9610,7 +12406,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueFac->score * 100) / $jcbFac)
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9623,7 +12419,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueDecla->score * 100) / $jcbDecla)
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9636,7 +12432,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueMa->score * 100) / $jcbDecla)
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $hydrauliqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9649,7 +12458,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueFac->score * 100) / $lovolFac)
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9662,7 +12471,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueDecla->score * 100) / $lovolDecla)
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9675,7 +12484,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($hydrauliqueMa->score * 100) / $lovolDecla)
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $hydrauliqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9727,7 +12549,42 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <td class="text-center">
                                         -
-                                    </td> 
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($hydrauliqueFac->score * 100) / $hydrauliqueFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($hydrauliqueDecla->score * 100) / $hydrauliqueDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($hydrauliqueMa->score * 100) / $hydrauliqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($hydrauliqueFac->score * 100) / $hydrauliqueFac->total + ($scoreHydro * 100) / $hydrauliqueDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -9748,7 +12605,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $kingLongFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9761,7 +12618,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $kingLongDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9774,7 +12631,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $kingLongDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9783,11 +12640,24 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <?php if (
-                                        isset($fusoFac) && $moteurDieselFac
+                                        isset($kingLongFac) && $moteurDieselFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $fusoFac)
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9800,7 +12670,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $fusoDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9813,7 +12683,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $fusoDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9826,7 +12709,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $hinoFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9839,7 +12722,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $hinoDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9852,7 +12735,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $hinoDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9865,7 +12761,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9878,7 +12774,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9891,7 +12787,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9904,7 +12813,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $renaultTruckFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9917,7 +12826,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9930,7 +12839,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9943,7 +12865,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $sinotrukFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9956,7 +12878,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9969,7 +12891,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $sinotrukDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -9977,6 +12899,22 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -9991,7 +12929,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10004,7 +12942,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10017,7 +12955,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10030,7 +12981,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $jcbFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10043,7 +12994,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $jcbDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10056,7 +13007,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $jcbDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10069,7 +13033,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $lovolFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10082,7 +13046,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $lovolDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10095,7 +13059,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $lovolDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10108,7 +13085,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $citroenFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10121,7 +13098,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $citroenDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10134,7 +13111,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $citroenDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10147,7 +13137,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $mercedesFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10160,7 +13150,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $mercedesDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10173,7 +13163,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $mercedesDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10186,7 +13189,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $peugeotFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10199,7 +13202,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $peugeotDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10212,7 +13215,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $peugeotDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10220,6 +13223,22 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -10234,7 +13253,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselFac->score * 100) / $toyotaFac)
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10247,7 +13266,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselDecla->score * 100) / $toyotaDecla)
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10260,7 +13279,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurDieselMa->score * 100) / $toyotaDecla)
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $moteurDieselFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10268,6 +13300,26 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>  
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselFac->score * 100) / $moteurDieselFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselDecla->score * 100) / $moteurDieselDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurDieselMa->score * 100) / $moteurDieselMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurDieselFac->score * 100) / $moteurDieselFac->total + ($scoreMoteurDiesel * 100) / $moteurDieselDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -10337,12 +13389,30 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($toyotaBtFac) && $moteurElecFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurElecFac->score * 100) / $toyotaBtFac)
+                                    ceil(($moteurElecFac->score * 100) / $moteurElecFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10355,7 +13425,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurElecDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($moteurElecDecla->score * 100) / $moteurElecDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10368,7 +13438,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurElecMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($moteurElecMa->score * 100) / $moteurElecMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $moteurElecFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurElecFac->score * 100) / $moteurElecFac->total + ($scoreMoteurElec * 100) / $moteurElecDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10381,7 +13464,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurElecFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($moteurElecFac->score * 100) / $moteurElecFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10394,7 +13477,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurElecDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurElecDecla->score * 100) / $moteurElecDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10407,7 +13490,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurElecMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurElecMa->score * 100) / $moteurElecMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $moteurElecFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurElecFac->score * 100) / $moteurElecFac->total + ($scoreMoteurElec * 100) / $moteurElecDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10477,6 +13573,47 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <td class="text-center">
                                         -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecFac->score * 100) / $moteurElecFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecDecla->score * 100) / $moteurElecDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurElecMa->score * 100) / $moteurElecMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurElecFac->score * 100) / $moteurElecFac->total + ($scoreMoteurElec * 100) / $moteurElecDecla->total) / 2)
+                                    ?>%
                                     </td>
                                 </tr>
                                 <?php } ?>
@@ -10556,12 +13693,33 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <?php if (
                                         isset($toyotaForfliftFac) && $moteurEssenceFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10574,7 +13732,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10587,7 +13745,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10600,7 +13771,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $jcbFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10613,7 +13784,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $jcbDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10626,7 +13797,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $jcbDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10639,7 +13823,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $lovolFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10652,7 +13836,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $lovolDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10665,7 +13849,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $lovolDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10678,7 +13875,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $citroenFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10691,7 +13888,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $citroenDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10704,7 +13901,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $citroenDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10717,7 +13927,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $mercedesFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10730,7 +13940,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $mercedesDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10743,7 +13953,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $mercedesDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10756,7 +13979,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $peugeotFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10769,7 +13992,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $peugeotDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10782,7 +14005,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $peugeotDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10795,7 +14031,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $suzukiFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10808,7 +14044,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $suzukiDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10821,7 +14057,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $suzukiDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10834,7 +14083,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceFac->score * 100) / $toyotaFac)
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10847,7 +14096,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceDecla->score * 100) / $toyotaDecla)
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10860,14 +14109,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurEssenceMa->score * 100) / $toyotaDecla)
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $moteurEssenceFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurEssenceFac->score * 100) / $moteurEssenceFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurEssenceDecla->score * 100) / $moteurEssenceDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurEssenceMa->score * 100) / $moteurEssenceMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurEssenceFac->score * 100) / $moteurEssenceFac->total + ($scoreMoteurEssence * 100) / $moteurEssenceDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -10888,7 +14170,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $kingLongFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10901,7 +14183,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $kingLongDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10914,7 +14196,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $kingLongDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10927,7 +14222,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $fusoFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10940,7 +14235,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $fusoDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10953,7 +14248,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $fusoDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10966,7 +14274,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $hinoFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10979,7 +14287,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $hinoDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -10992,7 +14300,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $hinoDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11005,7 +14326,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11018,7 +14339,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11031,7 +14352,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11044,7 +14378,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $renaultTruckFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11057,7 +14391,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11070,7 +14404,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11083,7 +14430,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $sinotrukFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11096,7 +14443,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11109,7 +14456,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $sinotrukDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11117,6 +14464,22 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -11131,7 +14494,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11144,7 +14507,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11157,7 +14520,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11170,7 +14546,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $jcbFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11183,7 +14559,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $jcbDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11196,7 +14572,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $jcbDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11209,7 +14598,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $lovolFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11222,7 +14611,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $lovolDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11235,7 +14624,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $lovolDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11248,7 +14650,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $citroenFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11261,7 +14663,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $citroenDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11274,7 +14676,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $citroenDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11287,7 +14702,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $mercedesFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11300,7 +14715,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $mercedesDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11313,7 +14728,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $mercedesDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11326,7 +14754,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $peugeotFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11339,7 +14767,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $peugeotDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11352,7 +14780,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $peugeotDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11365,7 +14806,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $suzukiFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11378,7 +14819,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $suzukiDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11391,7 +14832,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $suzukiDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11404,7 +14858,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueFac->score * 100) / $toyotaFac)
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11417,7 +14871,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueDecla->score * 100) / $toyotaDecla)
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11430,14 +14884,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($moteurThermiqueMa->score * 100) / $toyotaDecla)
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $moteurThermiqueFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurThermiqueDecla->score * 100) / $moteurThermiqueDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($moteurThermiqueMa->score * 100) / $moteurThermiqueMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($moteurThermiqueFac->score * 100) / $moteurThermiqueFac->total + ($scoreMoteurThermique * 100) / $moteurThermiqueDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -11458,7 +14945,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $kingLongFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11471,7 +14958,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $kingLongDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11484,7 +14971,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $kingLongDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11497,7 +14997,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $fusoFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11510,7 +15010,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $fusoDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11523,7 +15023,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $fusoDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11536,7 +15049,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $hinoFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11549,7 +15062,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $hinoDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11562,7 +15075,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $hinoDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11575,7 +15101,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11588,7 +15114,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11601,7 +15127,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11614,7 +15153,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $renaultTruckFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11627,7 +15166,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11640,7 +15179,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11653,7 +15205,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $sinotrukFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11666,7 +15218,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11679,7 +15231,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $sinotrukDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11692,7 +15257,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $toyotaBtFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11705,7 +15270,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11718,7 +15283,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11731,7 +15309,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11744,7 +15322,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11757,7 +15335,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11770,7 +15361,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $jcbFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11783,7 +15374,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $jcbDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11796,7 +15387,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $jcbDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11809,7 +15413,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $lovolFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11822,7 +15426,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $lovolDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11835,7 +15439,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $lovolDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11848,7 +15465,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $citroenFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11861,7 +15478,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $citroenDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11874,7 +15491,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $citroenDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11887,7 +15517,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $mercedesFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11900,7 +15530,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $mercedesDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11913,7 +15543,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $mercedesDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11926,7 +15569,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $peugeotFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11939,7 +15582,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $peugeotDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11952,7 +15595,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $peugeotDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11965,7 +15621,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $suzukiFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11978,7 +15634,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $suzukiDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -11991,7 +15647,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $suzukiDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12004,7 +15673,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageFac->score * 100) / $toyotaFac)
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12017,7 +15686,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageDecla->score * 100) / $toyotaDecla)
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12030,14 +15699,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($multiplexageMa->score * 100) / $toyotaDecla)
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $multiplexageFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?> 
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($multiplexageFac->score * 100) / $multiplexageFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($multiplexageDecla->score * 100) / $multiplexageDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($multiplexageMa->score * 100) / $multiplexageMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($multiplexageFac->score * 100) / $multiplexageFac->total + ($scoreMultiplexage * 100) / $multiplexageDecla->total) / 2)
+                                    ?>%
+                                    </td> 
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -12058,7 +15760,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $kingLongFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12071,7 +15773,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $kingLongDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12084,7 +15786,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $kingLongDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($kingLongFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12097,7 +15812,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $fusoFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12110,7 +15825,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $fusoDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12123,7 +15838,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $fusoDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($fusoFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12136,7 +15864,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $hinoFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12149,7 +15877,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $hinoDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12162,7 +15890,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $hinoDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($hinoFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12175,7 +15916,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $mercedesTruckFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12188,7 +15929,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $mercedesTruckDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12201,7 +15942,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $mercedesTruckDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesTruckFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12214,7 +15968,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $renaultTruckFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12227,7 +15981,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $renaultTruckDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12240,7 +15994,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $renaultTruckDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($renaultTruckFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12253,7 +16020,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $sinotrukFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12266,7 +16033,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $sinotrukDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12279,7 +16046,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $sinotrukDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($sinotrukFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12292,7 +16072,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $toyotaBtFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12305,7 +16085,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $toyotaBtDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12318,7 +16098,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $toyotaBtDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaBtFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12331,7 +16124,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $toyotaForfliftFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12344,7 +16137,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12357,7 +16150,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaForfliftFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12370,7 +16176,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $jcbFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12383,7 +16189,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $jcbDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12396,7 +16202,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $jcbDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($jcbFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12409,7 +16228,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $lovolFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12422,7 +16241,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $lovolDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12435,7 +16254,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $lovolDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($lovolFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12448,7 +16280,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $citroenFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12461,7 +16293,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $citroenDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12474,7 +16306,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $citroenDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($citroenFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12487,7 +16332,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $mercedesFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12500,7 +16345,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $mercedesDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12513,7 +16358,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $mercedesDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($mercedesFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12526,7 +16384,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $peugeotFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12539,7 +16397,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $peugeotDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12552,7 +16410,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $peugeotDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($peugeotFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12565,7 +16436,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $suzukiFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12578,7 +16449,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $suzukiDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12591,7 +16462,20 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $suzukiDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($suzukiFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12604,7 +16488,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuFac->score * 100) / $toyotaFac)
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12617,7 +16501,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuDecla->score * 100) / $toyotaDecla)
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12630,14 +16514,47 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pneuMa->score * 100) / $toyotaDecla)
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <?php } ?>  
+                                    <?php } ?>
+                                    <?php if (
+                                        isset($toyotaFac) && $pneuFac
+                                    ) { ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
+                                    ?>%
+                                    </td>
+                                    <?php } else { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <?php } ?>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($pneuFac->score * 100) / $pneuFac->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($pneuDecla->score * 100) / $pneuDecla->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil(($pneuMa->score * 100) / $pneuMa->total)
+                                    ?>%
+                                    </td>
+                                    <td class="text-center">
+                                    <?php echo
+                                    ceil((($pneuFac->score * 100) / $pneuFac->total + ($scorePneu * 100) / $pneuDecla->total) / 2)
+                                    ?>%
+                                    </td>
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -12658,33 +16575,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $kingLongFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $kingLongDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12697,33 +16588,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $fusoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $fusoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $fusoDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12736,33 +16601,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $hinoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $hinoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $hinoDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12775,33 +16614,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $mercedesTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $mercedesTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $mercedesTruckDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12814,33 +16627,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $renaultTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $renaultTruckDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12853,7 +16640,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $sinotrukFac)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12861,38 +16648,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -12901,33 +16656,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $toyotaForfliftFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaForfliftDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $toyotaForfliftDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaForfliftDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12940,33 +16669,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $jcbFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($jcbDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $jcbDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($jcbDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $jcbDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -12979,33 +16682,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $lovolFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($lovolDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $lovolDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($lovolDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $lovolDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13018,33 +16695,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $citroenFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $citroenDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $citroenDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13057,33 +16708,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $mercedesFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $mercedesDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $mercedesDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13096,33 +16721,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $peugeotFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $peugeotDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $peugeotDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13135,33 +16734,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $suzukiFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $pontDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontDecla->score * 100) / $suzukiDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $suzukiDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13174,7 +16747,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontFac->score * 100) / $toyotaFac)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13182,32 +16755,11 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $pontDecla
-                                    ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($pontDecla->score * 100) / $toyotaDecla)
+                                    ceil((($pontFac->score * 100) / $pontFac->total + ($scorePont * 100) / $pontDecla->total) / 2)
                                     ?>%
                                     </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $pontMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($pontMa->score * 100) / $toyotaDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>  
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -13228,33 +16780,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $kingLongFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $kingLongDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13267,33 +16793,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $fusoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $fusoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $fusoDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13306,33 +16806,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $hinoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $hinoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $hinoDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13345,33 +16819,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $mercedesTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $mercedesTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $mercedesTruckDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13384,33 +16832,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $renaultTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $renaultTruckDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13423,33 +16845,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $sinotrukFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $sinotrukDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13462,33 +16858,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $toyotaBtFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaBtDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $toyotaBtDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaBtDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $toyotaBtDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13501,33 +16871,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $toyotaForfliftFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaForfliftDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $toyotaForfliftDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaForfliftDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13540,33 +16884,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $jcbFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($jcbDecla) && $reducteurDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $jcbDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($jcbDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $jcbDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13579,7 +16897,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurFac->score * 100) / $lovolFac)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13587,76 +16905,25 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($lovolDecla) && $reducteurDecla
-                                    ) { ?>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                    <td class="text-center">
+                                        -
+                                    </td>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($reducteurDecla->score * 100) / $lovolDecla)
+                                    ceil((($reducteurFac->score * 100) / $reducteurFac->total + ($scoreRed * 100) / $reducteurDecla->total) / 2)
                                     ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($lovolDecla) && $reducteurMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($reducteurMa->score * 100) / $lovolDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
                                     </td>
                                 </tr>
                                 <?php } ?>
@@ -13678,33 +16945,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $kingLongFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $kingLongDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13717,33 +16958,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $fusoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $fusoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $fusoDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13756,33 +16971,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $hinoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $hinoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $hinoDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13795,33 +16984,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $mercedesTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $mercedesTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $mercedesTruckDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13834,33 +16997,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $renaultTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $renaultTruckDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13873,7 +17010,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $sinotrukFac)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13881,56 +17018,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -13948,33 +17035,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $citroenFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $citroenDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $citroenDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -13987,33 +17048,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $mercedesFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $mercedesDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $mercedesDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14026,33 +17061,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $peugeotFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $peugeotDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $peugeotDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14065,33 +17074,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $suzukiFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $suspensionDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $suzukiDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $suzukiDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14104,7 +17087,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionFac->score * 100) / $toyotaFac)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14112,32 +17095,11 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionDecla
-                                    ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionDecla->score * 100) / $toyotaDecla)
+                                    ceil((($suspensionFac->score * 100) / $suspensionFac->total + ($scoreSuspension * 100) / $suspensionDecla->total) / 2)
                                     ?>%
                                     </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionMa->score * 100) / $toyotaDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>  
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -14158,33 +17120,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $kingLongFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $kingLongDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14197,33 +17133,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $fusoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $fusoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $fusoDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14236,33 +17146,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $hinoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $hinoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $hinoDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14275,33 +17159,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $mercedesTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $mercedesTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $mercedesTruckDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14314,33 +17172,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $renaultTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $renaultTruckDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14353,7 +17185,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $sinotrukFac)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14361,56 +17193,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -14428,33 +17210,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $citroenFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $citroenDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $citroenDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14467,33 +17223,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $mercedesFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $mercedesDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $mercedesDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14506,33 +17236,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $peugeotFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $peugeotDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $peugeotDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14545,33 +17249,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $suzukiFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $suspensionLameDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $suzukiDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $suzukiDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14584,7 +17262,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameFac->score * 100) / $toyotaFac)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14592,32 +17270,11 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionLameDecla
-                                    ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionLameDecla->score * 100) / $toyotaDecla)
+                                    ceil((($suspensionLameFac->score * 100) / $suspensionLameFac->total + ($scoreSuspensionLame * 100) / $suspensionLameDecla->total) / 2)
                                     ?>%
                                     </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionLameMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionLameMa->score * 100) / $toyotaDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>  
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -14663,98 +17320,12 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
                                     <?php if (
                                         isset($citroenFac) && $suspensionRessortFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionRessortFac->score * 100) / $citroenFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionRessortDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortDecla->score * 100) / $citroenDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionRessortMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortMa->score * 100) / $citroenDecla)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14767,33 +17338,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionRessortFac->score * 100) / $mercedesFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionRessortDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortDecla->score * 100) / $mercedesDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionRessortMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortMa->score * 100) / $mercedesDecla)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14806,33 +17351,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionRessortFac->score * 100) / $peugeotFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionRessortDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortDecla->score * 100) / $peugeotDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionRessortMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortMa->score * 100) / $peugeotDecla)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14845,33 +17364,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionRessortFac->score * 100) / $suzukiFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $suspensionRessortDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortDecla->score * 100) / $suzukiDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $suspensionRessortMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortMa->score * 100) / $suzukiDecla)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14884,7 +17377,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionRessortFac->score * 100) / $toyotaFac)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -14892,32 +17385,11 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionRessortDecla
-                                    ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionRessortDecla->score * 100) / $toyotaDecla)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionRessortMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionRessortMa->score * 100) / $toyotaDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>  
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -14942,56 +17414,12 @@ if (!isset($_SESSION["id"])) {
                                     <td class="text-center">
                                         -
                                     </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
                                     <?php if (
                                         isset($mercedesTruckFac) && $suspensionPneumatiqueFac
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionPneumatiqueFac->score * 100) / $mercedesTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $suspensionPneumatiqueDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueDecla->score * 100) / $mercedesTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $suspensionPneumatiqueMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueMa->score * 100) / $mercedesTruckDecla)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15004,7 +17432,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionPneumatiqueFac->score * 100) / $renaultTruckFac)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15012,62 +17440,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $suspensionPneumatiqueDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueDecla->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $suspensionPneumatiqueMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueMa->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -15088,33 +17460,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionPneumatiqueFac->score * 100) / $citroenFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionPneumatiqueDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueDecla->score * 100) / $citroenDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $suspensionPneumatiqueMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueMa->score * 100) / $citroenDecla)
+                                    ceil((($suspensionPneumatiqueFac->score * 100) / $suspensionPneumatiqueFac->total + ($scoreSuspensionPneu * 100) / $suspensionPneumatiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15127,33 +17473,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionPneumatiqueFac->score * 100) / $mercedesFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionPneumatiqueDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueDecla->score * 100) / $mercedesDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $suspensionPneumatiqueMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueMa->score * 100) / $mercedesDecla)
+                                    ceil((($suspensionPneumatiqueFac->score * 100) / $suspensionPneumatiqueFac->total + ($scoreSuspensionPneu * 100) / $suspensionPneumatiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15166,7 +17486,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionPneumatiqueFac->score * 100) / $peugeotFac)
+                                    ceil((($suspensionPneumatiqueFac->score * 100) / $suspensionPneumatiqueFac->total + ($scoreSuspensionPneu * 100) / $suspensionPneumatiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15174,38 +17494,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionPneumatiqueDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueDecla->score * 100) / $peugeotDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $suspensionPneumatiqueMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueMa->score * 100) / $peugeotDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <td class="text-center">
-                                        -
-                                    </td>
                                     <td class="text-center">
                                         -
                                     </td>
@@ -15214,7 +17502,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionPneumatiqueFac->score * 100) / $toyotaFac)
+                                    ceil((($suspensionPneumatiqueFac->score * 100) / $suspensionPneumatiqueFac->total + ($scoreSuspensionPneu * 100) / $suspensionPneumatiqueDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15222,32 +17510,11 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionPneumatiqueDecla
-                                    ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($suspensionPneumatiqueDecla->score * 100) / $toyotaDecla)
+                                    ceil((($suspensionRessortFac->score * 100) / $suspensionRessortFac->total + ($scoreSuspensionRessort * 100) / $suspensionRessortDecla->total) / 2)
                                     ?>%
                                     </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $suspensionPneumatiqueMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($suspensionPneumatiqueMa->score * 100) / $toyotaDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>  
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -15268,33 +17535,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $kingLongFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $kingLongDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $kingLongDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15307,33 +17548,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $fusoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $fusoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $fusoDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15346,33 +17561,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $hinoFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $hinoDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $hinoDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15385,33 +17574,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $mercedesTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $mercedesTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $mercedesTruckDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15424,33 +17587,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $renaultTruckFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $renaultTruckDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $renaultTruckDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15463,33 +17600,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $sinotrukFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $sinotrukDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinotrukDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $sinotrukDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15502,33 +17613,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $toyotaBtFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaBtDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $toyotaBtDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaBtDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $toyotaBtDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15541,33 +17626,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $toyotaForfliftFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaForfliftDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $toyotaForfliftDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaForfliftDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $toyotaForfliftDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15580,33 +17639,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $jcbFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($jcbDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $jcbDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($jcbDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $jcbDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15619,33 +17652,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $lovolFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($lovolDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $lovolDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($lovolDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $lovolDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15658,33 +17665,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $citroenFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $citroenDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $citroenDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15697,33 +17678,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $mercedesFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $mercedesDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $mercedesDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15736,33 +17691,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $peugeotFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $peugeotDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $peugeotDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15775,33 +17704,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $suzukiFac)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $transversaleDecla
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $suzukiDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $suzukiDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15814,7 +17717,7 @@ if (!isset($_SESSION["id"])) {
                                     ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleFac->score * 100) / $toyotaFac)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
                                     <?php } else { ?>
@@ -15822,32 +17725,11 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </td>
                                     <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $transversaleDecla
-                                    ) { ?>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil(($transversaleDecla->score * 100) / $toyotaDecla)
+                                    ceil((($transversaleFac->score * 100) / $transversaleFac->total + ($scoreTransversale * 100) / $transversaleDecla->total) / 2)
                                     ?>%
                                     </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla) && $transversaleMa
-                                    ) { ?>
-                                    <td class="text-center">
-                                    <?php echo
-                                    ceil(($transversaleMa->score * 100) / $toyotaDecla)
-                                    ?>%
-                                    </td>
-                                    <?php } else { ?>
-                                    <td class="text-center">
-                                        -
-                                    </td>
-                                    <?php } ?>  
                                 </tr>
                                 <?php } ?>
                                 <!--end::Menu-->
@@ -15863,7 +17745,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($kingLongScoreFac * 100) / $kingLongFac)
+                                            ceil((($kingLongScoreFac * 100) / $kingLongFac + ($kingLongScore * 100) / $kingLongDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -15873,40 +17755,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($kingLongDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($kingLongScoreDecla * 100) / $kingLongDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($kingLongDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($kingLongScoreMa * 100) / $kingLongDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($fusoFac)
                                     ) { ?>
@@ -15914,7 +17762,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($fusoScoreFac * 100) / $fusoFac)
+                                            ceil((($fusoScoreFac * 100) / $fusoFac + ($fusoScore * 100) / $fusoDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -15924,40 +17772,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($fusoDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($fusoScoreDecla * 100) / $fusoDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($fusoDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($fusoScoreMa * 100) / $fusoDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($hinoFac)
                                     ) { ?>
@@ -15965,7 +17779,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($hinoScoreFac * 100) / $hinoFac)
+                                            ceil((($hinoScoreFac * 100) / $hinoFac + ($hinoScore * 100) / $hinoDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -15975,40 +17789,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($hinoDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($hinoScoreDecla * 100) / $hinoDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($hinoDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($hinoScoreMa * 100) / $hinoDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($mercedesTruckFac)
                                     ) { ?>
@@ -16016,7 +17796,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($mercedesTruckScoreFac * 100) / $mercedesTruckFac)
+                                            ceil((($mercedesTruckFac * 100) / $mercedesTruckFac + ($mercedesTruckScore * 100) / $mercedesTruckDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16026,40 +17806,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($mercedesTruckDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($mercedesTruckScoreDecla * 100) / $mercedesTruckDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesTruckDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($mercedesTruckScoreMa * 100) / $mercedesTruckDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($renaultTruckFac)
                                     ) { ?>
@@ -16067,7 +17813,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($renaultTruckScoreFac * 100) / $renaultTruckFac)
+                                            ceil((($renaultTruckScoreFac * 100) / $renaultTruckFac + ($renaultTruckScore * 100) / $renaultTruckDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16077,40 +17823,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($renaultTruckDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($renaultTruckScoreDecla * 100) / $renaultTruckDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($renaultTruckDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($renaultTruckScoreMa * 100) / $renaultTruckDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($sinoTrukFac)
                                     ) { ?>
@@ -16118,7 +17830,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($sinoTrukScoreFac * 100) / $sinoTrukFac)
+                                            ceil((($sinotrukFac * 100) / $sinotrukFac + ($sinotrukScore * 100) / $sinotrukDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16128,40 +17840,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($sinoTrukDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($sinoTrukScoreDecla * 100) / $sinoTrukDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($sinoTrukDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($sinoTrukScoreMa * 100) / $sinoTrukDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($toyotaBtFac)
                                     ) { ?>
@@ -16169,7 +17847,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($toyotaBtScoreFac * 100) / $toyotaBtFac)
+                                            ceil((($toyotaBtScoreFac * 100) / $toyotaBtFac + ($toyotaBtScore * 100) / $toyotaBtDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16179,40 +17857,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($toyotaBtDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($toyotaBtScoreDecla * 100) / $toyotaBtDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaBtDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($toyotaBtScoreMa * 100) / $toyotaBtDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($toyotaForfliftFac)
                                     ) { ?>
@@ -16220,7 +17864,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($toyotaForfliftScoreFac * 100) / $toyotaForfliftFac)
+                                            ceil((($toyotaForfliftScoreFac * 100) / $toyotaForfliftFac + ($toyotaForfliftScore * 100) / $toyotaForfliftDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16230,40 +17874,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($toyotaForfliftDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($toyotaForfliftScoreDecla * 100) / $toyotaForfliftDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaForfliftDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($toyotaForfliftScoreMa * 100) / $toyotaForfliftDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($jcbFac)
                                     ) { ?>
@@ -16271,7 +17881,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($jcbScoreFac * 100) / $jcbFac)
+                                            ceil((($jcbScoreFac * 100) / $jcbFac + ($jcbScore * 100) / $jcbDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16281,40 +17891,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($jcbDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($jcbScoreDecla * 100) / $jcbDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($jcbDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($jcbScoreMa * 100) / $jcbDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($lovolFac)
                                     ) { ?>
@@ -16322,7 +17898,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($lovolScoreFac * 100) / $lovolFac)
+                                            ceil((($lovolScoreFac * 100) / $lovolFac + ($lovolScore * 100) / $lovolDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16332,40 +17908,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($lovolDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($lovolScoreDecla * 100) / $lovolDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($lovolDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($lovolScoreMa * 100) / $lovolDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($citroenFac)
                                     ) { ?>
@@ -16373,7 +17915,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($citroenScoreFac * 100) / $citroenFac)
+                                            ceil((($citroenScoreFac * 100) / $citroenFac + ($citroenScore * 100) / $citroenDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16383,40 +17925,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($citroenDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($citroenScoreDecla * 100) / $citroenDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($citroenDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($citroenScoreMa * 100) / $citroenDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($mercedesFac)
                                     ) { ?>
@@ -16424,7 +17932,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($mercedesScoreFac * 100) / $mercedesFac)
+                                            ceil((($mercedesScoreFac * 100) / $mercedesFac + ($mercedesScore * 100) / $mercedesDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16434,40 +17942,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($mercedesDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($mercedesScoreDecla * 100) / $mercedesDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($mercedesDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($mercedesScoreMa * 100) / $mercedesDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($peugeotFac)
                                     ) { ?>
@@ -16475,7 +17949,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($peugeotScoreFac * 100) / $peugeotFac)
+                                            ceil((($peugeotScoreFac * 100) / $peugeotFac + ($peugeotScore * 100) / $peugeotDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16485,40 +17959,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($peugeotDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($peugeotScoreDecla * 100) / $peugeotDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($peugeotDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($peugeotScoreMa * 100) / $peugeotDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($suzukiFac)
                                     ) { ?>
@@ -16526,7 +17966,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($suzukiScoreFac * 100) / $suzukiFac)
+                                            ceil((($suzukiScoreFac * 100) / $suzukiFac + ($suzukiScore * 100) / $suzukiDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16536,40 +17976,6 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($suzukiDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($suzukiScoreDecla * 100) / $suzukiDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($suzukiDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($suzukiScoreMa * 100) / $suzukiDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                     <?php if (
                                         isset($toyotaFac)
                                     ) { ?>
@@ -16577,7 +17983,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil(($toyotaScoreFac * 100) / $toyotaFac)
+                                            ceil((($toyotaScoreFac * 100) / $toyotaFac + ($toyotaScore * 100) / $toyotaDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>
@@ -16587,40 +17993,13 @@ if (!isset($_SESSION["id"])) {
                                         -
                                     </th>
                                     <?php } ?> 
-                                    <?php if (
-                                        isset($toyotaDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($toyotaScoreDecla * 100) / $toyotaDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
+                                    <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
+                                        tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
+                                        <?php echo
+                                        ceil((($resultFac->score * 100) / $resultFac->total + ($resultTechMa->score * 100) / $resultTechMa->total) / 2)
+                                        ?>%
                                     </th>
-                                    <?php } ?>
-                                    <?php if (
-                                        isset($toyotaDecla)
-                                    ) { ?>
-                                        <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
-                                            tabindex="0" colspan="1" aria-controls="kt_customers_table"
-                                            aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                            <?php echo
-                                            ceil(($toyotaScoreMa * 100) / $toyotaDecla)
-                                            ?>%
-                                        </th>
-                                    <?php } else { ?>
-                                    <th class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
-                                        tabindex="0" aria-controls="kt_customers_table"
-                                        aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        -
-                                    </th>
-                                    <?php } ?>
                                 </tr>
                             </tbody>
                         </table>

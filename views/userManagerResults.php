@@ -421,7 +421,7 @@ if (!isset($_SESSION["id"])) {
                                             </span>
                                         </td> -->
                                         <td class="text-center">
-                                            <a href="./result.php?level=Junior&user=<?php echo $user->_id; ?>"
+                                            <a href="./managerBrandResult.php?level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -445,7 +445,7 @@ if (!isset($_SESSION["id"])) {
                                             </span>
                                         </td> -->
                                         <td class="text-center">
-                                            <a href="./result.php?level=Senior&user=<?php echo $user->_id; ?>"
+                                            <a href="./managerBrandResult.php?level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -491,7 +491,7 @@ if (!isset($_SESSION["id"])) {
                                             </span>
                                         </td> -->
                                         <td class="text-center">
-                                            <a href="./result.php?level=Expert&user=<?php echo $user->_id; ?>"
+                                            <a href="./managerBrandResult.php?level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">

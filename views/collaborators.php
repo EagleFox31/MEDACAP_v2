@@ -18,6 +18,7 @@ $conn = new MongoDB\Client("mongodb://localhost:27017");
 $academy = $conn->academy; // Connecting in collections
 $users = $academy->users;
 $allocations = $academy->allocations;
+
 if (isset($_POST["excel"])) {
     $spreadsheet = new Spreadsheet();
     $excel_writer = new Xlsx($spreadsheet);
@@ -34,13 +35,14 @@ if (isset($_POST["excel"])) {
     $activeSheet->setCellValue("I1", "Niveau technique");
     $activeSheet->setCellValue("J1", "Pays");
     $activeSheet->setCellValue("K1", "Profil");
-    $activeSheet->setCellValue("L1", "Spécialité");
-    $activeSheet->setCellValue("M1", "Diplôme");
-    $activeSheet->setCellValue("N1", "Filiale");
-    $activeSheet->setCellValue("O1", "Département");
-    $activeSheet->setCellValue("P1", "Fonction");
-    $activeSheet->setCellValue("Q1", "Date de recrutement");
-    $activeSheet->setCellValue("R1", "Manager");
+    $activeSheet->setCellValue("L1", "Spécialité Junior");
+    $activeSheet->setCellValue("M1", "Spécialité Senior");
+    $activeSheet->setCellValue("N1", "Diplôme");
+    $activeSheet->setCellValue("O1", "Filiale");
+    $activeSheet->setCellValue("P1", "Département");
+    $activeSheet->setCellValue("Q1", "Fonction");
+    $activeSheet->setCellValue("R1", "Date de recrutement");
+    $activeSheet->setCellValue("S1", "Manager");
     $myObj = $users->find([
         '$and' => [
             [
@@ -50,30 +52,33 @@ if (isset($_POST["excel"])) {
         ],
     ]);
     $i = 2;
-
     foreach ($myObj as $row) {
-        $activeSheet->setCellValue("A" . $i, $row->username);
-        $activeSheet->setCellValue("B" . $i, $row->matricule);
-        $activeSheet->setCellValue("C" . $i, $row->firstName);
-        $activeSheet->setCellValue("D" . $i, $row->lastName);
-        $activeSheet->setCellValue("E" . $i, $row->email);
-        $activeSheet->setCellValue("F" . $i, $row->phone);
-        $activeSheet->setCellValue("G" . $i, $row->gender);
-        $activeSheet->setCellValue("H" . $i, $row->birthdate);
-        $activeSheet->setCellValue("I" . $i, $row->level);
-        $activeSheet->setCellValue("J" . $i, $row->country);
-        $activeSheet->setCellValue("K" . $i, $row->profile);
-        $activeSheet->setCellValue("L" . $i, $row->speciality);
-        $activeSheet->setCellValue("M" . $i, $row->certificate);
-        $activeSheet->setCellValue("N" . $i, $row->subsidiary);
-        $activeSheet->setCellValue("O" . $i, $row->department);
-        $activeSheet->setCellValue("P" . $i, $row->role);
-        $activeSheet->setCellValue("Q" . $i, $row->recrutmentDate);
-        $activeSheet->setCellValue(
-            "R" . $i,
-            $_SESSION["firstName"] . " " . $_SESSION["lastName"]
-        );
-        $i++;
+        $manager = $users->findOne(["_id" => $row->manager]);
+        if ($manager) {
+            $activeSheet->setCellValue("A" . $i, $row->username);
+            $activeSheet->setCellValue("B" . $i, $row->matricule);
+            $activeSheet->setCellValue("C" . $i, $row->firstName);
+            $activeSheet->setCellValue("D" . $i, $row->lastName);
+            $activeSheet->setCellValue("E" . $i, $row->email);
+            $activeSheet->setCellValue("F" . $i, $row->phone);
+            $activeSheet->setCellValue("G" . $i, $row->gender);
+            $activeSheet->setCellValue("H" . $i, $row->birthdate);
+            $activeSheet->setCellValue("I" . $i, $row->level);
+            $activeSheet->setCellValue("J" . $i, $row->country);
+            $activeSheet->setCellValue("K" . $i, $row->profile);
+            $activeSheet->setCellValue("L" . $i, $row->specialityJunior);
+            $activeSheet->setCellValue("M" . $i, $row->specialitySenior);
+            $activeSheet->setCellValue("N" . $i, $row->certificate);
+            $activeSheet->setCellValue("O" . $i, $row->subsidiary);
+            $activeSheet->setCellValue("P" . $i, $row->department);
+            $activeSheet->setCellValue("Q" . $i, $row->role);
+            $activeSheet->setCellValue("R" . $i, $row->recrutmentDate);
+            $activeSheet->setCellValue(
+                "S" . $i,
+                $_SESSION["firstName"] . " " . $_SESSION["lastName"]
+            );
+            $i++;
+        }
     }
     $filename = "Collaborateurs.xlsx";
     header("Content-Type: application/vnd.ms-excel");
