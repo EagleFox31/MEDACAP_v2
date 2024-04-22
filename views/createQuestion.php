@@ -33,6 +33,10 @@ if (!isset($_SESSION["id"])) {
         $specialite = $_POST["speciality"];
         $types = $_POST["type"];
         $levels = $_POST["level"];
+        if (isset($_POST["title"])) {
+            $title = $_POST["title"];
+        }
+
         $pic = $_FILES["image"]["name"];
         $tmp_name = $_FILES["image"]["tmp_name"];
         $folder = "../public/files/" . $image;
@@ -2475,9 +2479,11 @@ if (!isset($_SESSION["id"])) {
             }
             $success_msg = $success_question;
         } elseif ($types == "Declarative") {
+            if ($levels == "Expert") {
             $question = [
                 "image" => $image,
                 "ref" => $ref,
+                "title" => ucfirst($title),
                 "label" => ucfirst($label),
                 "proposal1" =>
                     "1-" . $specialite . "-" . $levels . "-" . $label . "-1",
@@ -2493,6 +2499,27 @@ if (!isset($_SESSION["id"])) {
             ];
 
             $result = $questions->insertOne($question);
+            if ($levels == "Expert") {
+            } else {
+                $question = [
+                    "image" => $image,
+                    "ref" => $ref,
+                    "label" => ucfirst($label),
+                    "proposal1" =>
+                        "1-" . $specialite . "-" . $levels . "-" . $label . "-1",
+                    "proposal2" =>
+                        "2-" . $specialite . "-" . $levels . "-" . $label . "-2",
+                    "proposal3" =>
+                        "3-" . $specialite . "-" . $levels . "-" . $label . "-3",
+                    "speciality" => ucfirst($specialite),
+                    "type" => $type,
+                    "level" => $level,
+                    "active" => true,
+                    "created" => date("d-m-y"),
+                ];
+    
+                $result = $questions->insertOne($question);
+            }
             $quizz = $quizzes->findOne([
                 '$and' => [
                     ["speciality" => $specialite],
@@ -4952,6 +4979,21 @@ if (!isset($_SESSION["id"])) {
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='text' class='form-control form-control-solid' placeholder='' name='label' />
+                        <!--end::Input-->
+                        <?php if (isset($error)) { ?>
+                        <span class='text-danger'>
+                            <?php echo $error; ?>
+                        </span>
+                        <?php } ?>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class='fv-row mb-7'>
+                        <!--begin::Label-->
+                        <label class='required form-label fw-bolder text-dark fs-6'><?php echo $title_question ?></label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type='text' class='form-control form-control-solid' placeholder='' name='title' />
                         <!--end::Input-->
                         <?php if (isset($error)) { ?>
                         <span class='text-danger'>

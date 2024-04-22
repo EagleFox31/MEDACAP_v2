@@ -24,15 +24,17 @@ if (isset($_POST["submit"])) {
     foreach ($data as $row) {
         $level = ucfirst($row["0"]);
         $speciality = ucfirst($row["1"]);
-        $label = $row["2"];
-        $proposal1 = $row["3"];
-        $proposal2 = $row["4"];
-        $proposal3 = $row["5"];
-        $proposal4 = $row["6"];
-        $image = $row["7"];
-        $answer = $row["8"];
-        $ref = $row["9"];
-        $type = ucfirst($row["10"]);
+        $title = $row["2"];
+        $label = $row["3"];
+        $proposal1 = $row["4"];
+        $proposal2 = $row["5"];
+        $proposal3 = $row["6"];
+        $proposal4 = $row["7"];
+        $image = $row["8"];
+        $answer = $row["9"];
+        $ref = $row["10"];
+        $type = ucfirst($row["11"]);
+
         $exist = $questions->findOne([
             '$and' => [
                 ["ref" => $ref],
@@ -2459,23 +2461,44 @@ if (isset($_POST["submit"])) {
             }
             $success_msg = $success_question;
         } elseif ($type == "Declarative") {
-            $question = [
-                "image" => $image,
-                "ref" => $ref,
-                "label" => ucfirst($label),
-                "proposal1" =>
-                    "1-" . $speciality . "-" . $level . "-" . $label . "-1",
-                "proposal2" =>
-                    "2-" . $speciality . "-" . $level . "-" . $label . "-2",
-                "proposal3" =>
-                    "3-" . $speciality . "-" . $level . "-" . $label . "-3",
-                "speciality" => ucfirst($speciality),
-                "type" => $type,
-                "level" => $level,
-                "active" => true,
-                "created" => date("d-m-y"),
-            ];
-            $result = $questions->insertOne($question);
+            if ($level == "Expert") {
+                $question = [
+                    "image" => $image,
+                    "ref" => $ref,
+                    "title" => ucfirst($title),
+                    "label" => ucfirst($label),
+                    "proposal1" =>
+                        "1-" . $speciality . "-" . $level . "-" . $label . "-1",
+                    "proposal2" =>
+                        "2-" . $speciality . "-" . $level . "-" . $label . "-2",
+                    "proposal3" =>
+                        "3-" . $speciality . "-" . $level . "-" . $label . "-3",
+                    "speciality" => ucfirst($speciality),
+                    "type" => $type,
+                    "level" => $level,
+                    "active" => true,
+                    "created" => date("d-m-y"),
+                ];
+                $result = $questions->insertOne($question);
+            } else {
+                $question = [
+                    "image" => $image,
+                    "ref" => $ref,
+                    "label" => ucfirst($label),
+                    "proposal1" =>
+                        "1-" . $speciality . "-" . $level . "-" . $label . "-1",
+                    "proposal2" =>
+                        "2-" . $speciality . "-" . $level . "-" . $label . "-2",
+                    "proposal3" =>
+                        "3-" . $speciality . "-" . $level . "-" . $label . "-3",
+                    "speciality" => ucfirst($speciality),
+                    "type" => $type,
+                    "level" => $level,
+                    "active" => true,
+                    "created" => date("d-m-y"),
+                ];
+                $result = $questions->insertOne($question);
+            }
             $quizz = $quizzes->findOne([
                 '$and' => [
                     ["speciality" => $speciality],

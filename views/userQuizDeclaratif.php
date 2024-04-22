@@ -370,7 +370,7 @@ if (!isset($_SESSION["id"])) {
             //     array_keys($userAnswer)
             // );
             foreach ($userAnswer as $key => $answer) {
-                if ($answer == 'null') {
+                if ($answer == "null") {
                     array_push($array, $answer);
                     $error_msg =
                         "Vous n'avez pas répondu à " .
@@ -605,7 +605,9 @@ if (!isset($_SESSION["id"])) {
                     ]);
 
                     if ($questionsData != null) {
-                        if ($questionsData->speciality == "Boite de Transfert") {
+                        if (
+                            $questionsData->speciality == "Boite de Transfert"
+                        ) {
                             if (
                                 $userAnswer[$i] ==
                                 "1-Boite de Transfert-" .
@@ -633,7 +635,9 @@ if (!isset($_SESSION["id"])) {
                             $result = [
                                 "questions" => $quizTransfert->questions,
                                 "answers" => $proposalTransfert,
-                                "quiz" => new MongoDB\BSON\ObjectId($transfertID),
+                                "quiz" => new MongoDB\BSON\ObjectId(
+                                    $transfertID
+                                ),
                                 "user" => new MongoDB\BSON\ObjectId($id),
                                 "score" => count($scoreBoT),
                                 "speciality" => $quizTransfert->speciality,
@@ -743,9 +747,15 @@ if (!isset($_SESSION["id"])) {
                                     $questionsData->label .
                                     "-1"
                             ) {
-                                array_push($scoreBoiA, "Je maitrise (je réalise cette tâche professionnelle seul)");
+                                array_push(
+                                    $scoreBoiA,
+                                    "Je maitrise (je réalise cette tâche professionnelle seul)"
+                                );
                                 array_push($proposalBoiteAuto, "Oui");
-                                array_push($score, "Je maitrise (je réalise cette tâche professionnelle seul)");
+                                array_push(
+                                    $score,
+                                    "Je maitrise (je réalise cette tâche professionnelle seul)"
+                                );
                                 array_push($proposal, "Oui");
                             } else {
                                 array_push($proposalBoiteAuto, "Non");
@@ -805,9 +815,15 @@ if (!isset($_SESSION["id"])) {
                                     $questionsData->label .
                                     "-1"
                             ) {
-                                array_push($scoreBoiM, "Je maitrise (je réalise cette tâche professionnelle seul)");
+                                array_push(
+                                    $scoreBoiM,
+                                    "Je maitrise (je réalise cette tâche professionnelle seul)"
+                                );
                                 array_push($proposalBoiteMan, "Oui");
-                                array_push($score, "Je maitrise (je réalise cette tâche professionnelle seul)");
+                                array_push(
+                                    $score,
+                                    "Je maitrise (je réalise cette tâche professionnelle seul)"
+                                );
                                 array_push($proposal, "Oui");
                             } else {
                                 array_push($proposalBoiteMan, "Non");
@@ -867,9 +883,15 @@ if (!isset($_SESSION["id"])) {
                                     $questionsData->label .
                                     "-1"
                             ) {
-                                array_push($scoreBoiV, "Je maitrise (je réalise cette tâche professionnelle seul)");
+                                array_push(
+                                    $scoreBoiV,
+                                    "Je maitrise (je réalise cette tâche professionnelle seul)"
+                                );
                                 array_push($proposalBoiteVc, "Oui");
-                                array_push($score, "Je maitrise (je réalise cette tâche professionnelle seul)");
+                                array_push(
+                                    $score,
+                                    "Je maitrise (je réalise cette tâche professionnelle seul)"
+                                );
                                 array_push($proposal, "Oui");
                             } else {
                                 array_push($proposalBoiteVc, "Non");
@@ -1728,10 +1750,7 @@ if (!isset($_SESSION["id"])) {
                     ]);
 
                     if ($questionsData != null) {
-                        if (
-                            $questionsData->speciality ==
-                            "Multiplexage"
-                        ) {
+                        if ($questionsData->speciality == "Multiplexage") {
                             if (
                                 $userAnswer[$i] ==
                                 "1-Multiplexage-" .
@@ -2372,7 +2391,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title><?php echo $test_tache_pro ?> | CFAO Mobility Academy</title>
+<title><?php echo $test_tache_pro; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -2389,20 +2408,20 @@ if (!isset($_SESSION["id"])) {
                 <form class="quiz-form" method="POST">
                         <center class="center" style="margin-top: -100px;">
                             <div class="timer" style="margin-right: 400px;">
-                                <div class="time_left_txt"><?php echo $left_questions ?></div>
+                                <div class="time_left_txt"><?php echo $left_questions; ?></div>
                                 <div class="timer_sec" id="num" value="1">
                                 </div>
                             </div>
                             <div class="timer" style="margin-top: -45px; margin-left: 400px">
-                                <div class="time_left_txt"><?php echo $duree ?></div>
+                                <div class="time_left_txt"><?php echo $duree; ?></div>
                                 <div class="timer_sec" id="timer_sec">
                                 </div>
                             </div>
                         </center>
                         <div class="heading" style="margin-top: 10px;">
-                            <h1 class="heading__text"><?php echo $test_tache_pro ?> <?php echo $_GET[
-                                "level"
-                            ]; ?></h1>
+                            <h1 class="heading__text"><?php echo $test_tache_pro; ?> <?php echo $_GET[
+     "level"
+ ]; ?></h1>
                         </div>
                         
                         <?php if (isset($error_msg)) { ?>
@@ -2426,7 +2445,7 @@ if (!isset($_SESSION["id"])) {
                         </div>
                     </center> -->
                             <p class="list-unstyled text-gray-600 fw-semibold fs-6 p-0 m-0">
-                                <?php echo $text_tache ?>
+                                <?php echo $text_tache; ?>
                             </p>
                         <input class="hidden" type="text" name="timer" id="clock" />
                         <input class="hidden" type="text" name="hr" id="hr" />
@@ -2457,7 +2476,7 @@ if (!isset($_SESSION["id"])) {
                             if ($assistanceDecla) {
                                 $arrQuestions =
                                     $assistanceDecla["questions"]; ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $assistanceConduite ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $assistanceConduite; ?></h1>
                     <?php for ($i = 0; $i < count($arrQuestions); ++$i) {
                         $question = $questions->findone([
                             '$and' => [
@@ -2472,17 +2491,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizAssistance"
                                 value="<?php echo $assistanceDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerAssistance<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2491,7 +2521,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2500,7 +2530,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2512,7 +2542,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                     } ?>
@@ -2522,7 +2552,7 @@ if (!isset($_SESSION["id"])) {
                             <?php
                         }
                         ?>
-                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $arbre ?></h1>
+                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $arbre; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $arbreDecla = $quizzes->findOne([
@@ -2560,17 +2590,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerArbre<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2579,7 +2620,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2588,7 +2629,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2600,7 +2641,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2609,7 +2650,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transfert ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $transfert; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $transfertDecla = $quizzes->findOne([
@@ -2646,17 +2687,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizTransfert"
                                 value="<?php echo $transfertDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerTransfert<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2665,7 +2717,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2674,7 +2726,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2686,7 +2738,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2695,7 +2747,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteDecla = $quizzes->findOne([
@@ -2730,17 +2782,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizBoite" value="<?php echo $boiteDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoite<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2749,7 +2812,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2758,7 +2821,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2770,7 +2833,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2779,7 +2842,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_auto ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse_auto; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteAutoDecla = $quizzes->findOne([
@@ -2818,17 +2881,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizBoiteAuto" value="<?php echo $boiteAutoDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoiteAuto<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2837,7 +2911,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2846,7 +2920,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2858,7 +2932,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2867,7 +2941,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_meca ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse_meca; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteManDecla = $quizzes->findOne([
@@ -2906,17 +2980,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizBoiteMan" value="<?php echo $boiteManDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoiteMan<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2925,7 +3010,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -2934,7 +3019,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -2946,7 +3031,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -2955,7 +3040,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_VC ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse_VC; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteVcDecla = $quizzes->findOne([
@@ -2994,17 +3079,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizBoiteVc" value="<?php echo $boiteVcDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerBoiteVc<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3013,7 +3109,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3022,7 +3118,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3034,7 +3130,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3043,7 +3139,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $clim ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $clim; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $climatisationDecla = $quizzes->findOne([
@@ -3080,10 +3176,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizClimatisation"
                                 value="<?php echo $climatisationDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerClimatisation<?php echo $i +
@@ -3091,7 +3198,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3101,7 +3208,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3111,7 +3218,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3124,7 +3231,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3133,7 +3240,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $demi ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $demi; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $demiDecla = $quizzes->findOne([
@@ -3169,17 +3276,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizDemi"
                                 value="<?php echo $demiDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerDemi<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3188,7 +3306,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3197,7 +3315,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3209,7 +3327,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3218,7 +3336,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $direction ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $direction; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $directionDecla = $quizzes->findOne([
@@ -3255,17 +3373,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizDirection"
                                 value="<?php echo $directionDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerDirection<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3274,7 +3403,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3283,7 +3412,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3295,7 +3424,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3304,7 +3433,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $electricite ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $electricite; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $electriciteDecla = $quizzes->findOne([
@@ -3344,10 +3473,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizElectricite"
                                 value="<?php echo $electriciteDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerElectricite<?php echo $i +
@@ -3355,7 +3495,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3365,7 +3505,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3375,7 +3515,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3388,7 +3528,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3397,7 +3537,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinage ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinage; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freiDecla = $quizzes->findOne([
@@ -3433,17 +3573,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizFrei"
                                 value="<?php echo $freiDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFrei<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3452,7 +3603,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3461,7 +3612,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3473,7 +3624,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3482,7 +3633,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageElec ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinageElec; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freinageElecDecla = $quizzes->findOne([
@@ -3522,10 +3673,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizFreinageElec"
                                 value="<?php echo $freinageElecDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerfreinageElec<?php echo $i +
@@ -3533,7 +3695,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3543,7 +3705,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3553,7 +3715,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3566,7 +3728,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3575,7 +3737,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageHydro ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinageHydro; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freinageDecla = $quizzes->findOne([
@@ -3615,17 +3777,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizFreinage"
                                 value="<?php echo $freinageDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFreinage<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3634,7 +3807,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3643,7 +3816,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3655,7 +3828,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3664,7 +3837,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinagePneu ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinagePneu; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freinDecla = $quizzes->findOne([
@@ -3702,17 +3875,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizFrein" value="<?php echo $freinDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerFrein<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3721,7 +3905,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3730,7 +3914,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3742,7 +3926,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3751,7 +3935,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $hydraulique ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $hydraulique; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $hydrauliqueDecla = $quizzes->findOne([
@@ -3788,10 +3972,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizHydraulique"
                                 value="<?php echo $hydrauliqueDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerHydraulique<?php echo $i +
@@ -3799,7 +3994,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3809,7 +4004,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3819,7 +4014,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3832,7 +4027,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3841,7 +4036,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurDiesel ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurDiesel; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurDieselDecla = $quizzes->findOne([
@@ -3878,10 +4073,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizMoteurDiesel"
                                 value="<?php echo $moteurDieselDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurDiesel<?php echo $i +
@@ -3889,7 +4095,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3899,7 +4105,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3909,7 +4115,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -3922,7 +4128,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -3931,7 +4137,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurElectrique ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurElectrique; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurElecDecla = $quizzes->findOne([
@@ -3968,17 +4174,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizMoteurElec"
                                 value="<?php echo $moteurElecDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurElec<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3987,7 +4204,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -3996,7 +4213,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4008,7 +4225,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4017,7 +4234,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurEssence ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurEssence; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurEssenceDecla = $quizzes->findOne([
@@ -4054,10 +4271,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizMoteurEssence"
                                 value="<?php echo $moteurEssenceDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteurEssence<?php echo $i +
@@ -4065,7 +4293,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4075,7 +4303,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4085,7 +4313,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4098,7 +4326,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4107,7 +4335,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurThermique ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurThermique; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurDecla = $quizzes->findOne([
@@ -4144,17 +4372,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizMoteur"
                                 value="<?php echo $moteurDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMoteur<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4163,7 +4402,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4172,7 +4411,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4184,7 +4423,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4193,7 +4432,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $multiplexage ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $multiplexage; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $MultiplexageDecla = $quizzes->findOne([
@@ -4229,17 +4468,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizMultiplexage" value="<?php echo $multiplexageDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerMultiplexage<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4248,7 +4498,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4257,7 +4507,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4270,7 +4520,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4279,7 +4529,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pont ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $pont; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $pontDecla = $quizzes->findOne([
@@ -4314,17 +4564,28 @@ if (!isset($_SESSION["id"])) {
                                 ]); ?>
                             <input class="hidden" type="text" name="quizPont" value="<?php echo $pontDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerPont<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4333,7 +4594,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4342,7 +4603,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4354,7 +4615,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4363,7 +4624,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pneu ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $pneu; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $pneumatiqueDecla = $quizzes->findOne([
@@ -4400,17 +4661,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizPneumatique"
                                 value="<?php echo $pneumatiqueDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerPneu<?php echo $i +
                                         1; ?>" value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4419,7 +4691,7 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4436,11 +4708,11 @@ if (!isset($_SESSION["id"])) {
                                         1; ?>" value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4449,7 +4721,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $reducteur ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $reducteur; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $reducteurDecla = $quizzes->findOne([
@@ -4486,17 +4758,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizReducteur"
                                 value="<?php echo $reducteurDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerReducteur<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4505,7 +4788,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4514,7 +4797,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4526,7 +4809,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4535,7 +4818,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspension ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspension; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionDecla = $quizzes->findOne([
@@ -4574,17 +4857,28 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizSuspension"
                                 value="<?php echo $suspensionDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspension<?php echo $i + 1; ?>"
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4593,7 +4887,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4602,7 +4896,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4614,7 +4908,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4623,7 +4917,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionLame ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspensionLame; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionLameDecla = $quizzes->findOne([
@@ -4660,10 +4954,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizSuspensionLame"
                                 value="<?php echo $suspensionLameDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionLame<?php echo $i +
@@ -4671,7 +4976,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4681,7 +4986,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4691,7 +4996,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4704,7 +5009,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4713,7 +5018,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionRessort ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspensionRessort; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionRessortDecla = $quizzes->findOne([
@@ -4750,10 +5055,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizSuspensionRessort"
                                 value="<?php echo $suspensionRessortDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionRessort<?php echo $i +
@@ -4761,7 +5077,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4771,7 +5087,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4781,7 +5097,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4794,7 +5110,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4803,7 +5119,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionPneu ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspensionPneu; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionPneumatiqueDecla = $quizzes->findOne(
@@ -4847,10 +5163,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizSuspensionPneumatique"
                                 value="<?php echo $suspensionPneumatiqueDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerSuspensionPneumatique<?php echo $i +
@@ -4858,7 +5185,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4868,7 +5195,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4878,7 +5205,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4891,7 +5218,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4900,7 +5227,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
-                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transversale ?></h1>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $transversale; ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $transversaleDecla = $quizzes->findOne([
@@ -4937,10 +5264,21 @@ if (!isset($_SESSION["id"])) {
                             <input class="hidden" type="text" name="quizTransversale"
                                 value="<?php echo $transversaleDecla->_id; ?>" />
                             <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                            <p class="quiz-form__question fw-bold" id="question"
-                                style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                <?php echo $k++; ?> - <?php echo $question->label; ?>
-                            </p>
+                            <?php if ($level == "Expert") { ?>
+                                <p class="fw-bold"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->title; ?>
+                                </p>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } else { ?>
+                                <p class="quiz-form__question fw-bold" id="question"
+                                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                    <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                                </p>
+                            <?php } ?>
                             <label class="quiz-form__ans">
                                 <input type="radio" onclick="checkedRadio()"
                                     name="answerTransversale<?php echo $i +
@@ -4948,7 +5286,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal1; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_maitrise ?>
+                                    <?php echo $je_maitrise; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4958,7 +5296,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal2; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $je_ne_maitrise_pas ?>
+                                    <?php echo $je_ne_maitrise_pas; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans">
@@ -4968,7 +5306,7 @@ if (!isset($_SESSION["id"])) {
                                     value="<?php echo $question->proposal3; ?>" />
                                 <span class="design"></span>
                                 <span class="text">
-                                    <?php echo $jai_jamais_fait ?>
+                                    <?php echo $jai_jamais_fait; ?>
                                 </span>
                             </label>
                             <label class="quiz-form__ans" hidden>
@@ -4981,7 +5319,7 @@ if (!isset($_SESSION["id"])) {
                                 </span>
                             </label>
                             <div >
-                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                             </div>
                             <?php
                             } ?>
@@ -4993,8 +5331,9 @@ if (!isset($_SESSION["id"])) {
                             <?php } elseif (isset($exam)) { ?>
                         <?php
                         $questionExam = $exam["questions"];
-                        $k = 1; ?>
-                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $assistanceConduite ?></h1>
+                        $k = 1;
+                        ?>
+                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $assistanceConduite; ?></h1>
                         <?php for ($j = 0; $j < count($questionExam); ++$j) {
                             $assistanceFac = $questions->findOne([
                                 '$and' => [
@@ -5013,18 +5352,29 @@ if (!isset($_SESSION["id"])) {
                                 ],
                             ]);
                             if ($assistanceFac) { ?>
-                                                    <input class="hidden" type="text" name="quizAssistance"
-                                                        value="<?php echo $exam[
-                                                            "quizAssistance"
-                                                        ]; ?>" />
-                                                    <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $assistanceFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $assistanceFac->label; ?> (<?php echo $assistanceFac->ref; ?>)
-                                                    </p>
-                                                    <div style="margin-top: 30px; display: flex; justify-content: center;">
-                                                        <img id="image" alt="" src="../public/files/<?php echo $assistanceFac->image ??
-                                                            ""; ?>"> <br>
+                                <input class="hidden" type="text" name="quizAssistance"
+                                    value="<?php echo $exam[
+                                        "quizAssistance"
+                                    ]; ?>" />
+                                <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $assistanceFac->_id; ?>" />
+                                <?php if ($level == "Expert") { ?>
+                                    <p class="fw-bold"
+                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                        <?php echo $assistanceFac->title; ?>
+                                    </p>
+                                    <p class="quiz-form__question fw-bold" id="question"
+                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                        <?php echo $assistanceFac->label; ?> (<?php echo $assistanceFac->ref; ?>)
+                                    </p>
+                                <?php } else { ?>
+                                    <p class="quiz-form__question fw-bold" id="question"
+                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                        <?php echo $k++; ?> - <?php echo $assistanceFac->label; ?> (<?php echo $assistanceFac->ref; ?>)
+                                    </p>
+                                <?php } ?>
+                                <div style="margin-top: 30px; display: flex; justify-content: center;">
+                                    <img id="image" alt="" src="../public/files/<?php echo $assistanceFac->image ??
+                                        ""; ?>"> <br>
                                                     </div>
                                         <?php if (
                                             $exam["answers"][$j] ==
@@ -5037,7 +5387,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5047,7 +5397,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5057,11 +5407,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                             $exam["answers"][$j] ==
@@ -5074,7 +5424,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5084,7 +5434,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5094,11 +5444,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                             $exam["answers"][$j] ==
@@ -5111,7 +5461,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5121,7 +5471,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5131,11 +5481,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5145,7 +5495,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5155,7 +5505,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5165,7 +5515,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $assistanceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5178,12 +5528,11 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php }}
-                        }
-                        ?>
-                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $arbre ?></h1>
+                        } ?>
+                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $arbre; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5223,10 +5572,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizArbre"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $arbreFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $arbreFac->label; ?> (<?php echo $arbreFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $aarbreFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $aarbreFac->label; ?> (<?php echo $aarbreFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $aarbreFac->label; ?> (<?php echo $aarbreFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $arbreFac->image ??
                                                             ""; ?>"> <br>
@@ -5241,7 +5601,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5250,7 +5610,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5259,11 +5619,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5275,7 +5635,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5284,7 +5644,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5293,11 +5653,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5309,7 +5669,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5318,7 +5678,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5327,11 +5687,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5340,7 +5700,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5349,7 +5709,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5358,7 +5718,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $arbreFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5371,14 +5731,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transfert ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $transfert; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5419,10 +5779,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizTransfert"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $transfertFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $transfertFac->label; ?> (<?php echo $transfertFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transfertFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transfertFac->label; ?> (<?php echo $transfertFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $transfertFac->label; ?> (<?php echo $transfertFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $transfertFac->image ??
                                                             ""; ?>"> <br>
@@ -5440,7 +5811,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5450,7 +5821,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5460,11 +5831,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5479,7 +5850,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5489,7 +5860,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5499,11 +5870,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5517,7 +5888,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $transfertFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5526,7 +5897,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $transfertFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5535,11 +5906,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $transfertFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5549,7 +5920,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5559,7 +5930,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5569,7 +5940,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transfertFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                           <?php echo $jai_jamais_fait ?>
+                                                           <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5582,14 +5953,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5629,10 +6000,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoite"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteFac->label; ?> (<?php echo $boiteFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteFac->label; ?> (<?php echo $boiteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteFac->label; ?> (<?php echo $boiteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteFac->image ??
                                                             ""; ?>"> <br>
@@ -5647,7 +6029,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5656,7 +6038,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5665,11 +6047,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5681,7 +6063,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5690,7 +6072,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5699,11 +6081,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5715,7 +6097,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5724,7 +6106,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5733,11 +6115,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5746,7 +6128,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5755,7 +6137,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5764,7 +6146,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5777,7 +6159,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     </div>
                                                     <?php } ?>
@@ -5785,7 +6167,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_auto ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse_auto; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5825,10 +6207,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoiteAuto"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteAutoFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteAutoFac->label; ?> (<?php echo $boiteAutoFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteAutoFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteAutoFac->label; ?> (<?php echo $boiteAutoFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteAutoFac->label; ?> (<?php echo $boiteAutoFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteAutoFac->image ??
                                                             ""; ?>"> <br>
@@ -5845,7 +6238,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5854,7 +6247,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5863,11 +6256,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5881,7 +6274,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5890,7 +6283,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5899,11 +6292,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -5917,7 +6310,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>>
+                                                            <?php echo $je_maitrise; ?>>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5926,7 +6319,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5935,11 +6328,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -5948,7 +6341,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5957,7 +6350,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -5966,7 +6359,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteAutoFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -5979,14 +6372,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_meca ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse_meca; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6026,10 +6419,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoiteMan"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteManFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteManFac->label; ?> (<?php echo $boiteManFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteManFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteManFac->label; ?> (<?php echo $boiteManFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteManFac->label; ?> (<?php echo $boiteManFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteManFac->image ??
                                                             ""; ?>"> <br>
@@ -6046,7 +6450,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6055,7 +6459,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6064,11 +6468,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6082,7 +6486,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6091,7 +6495,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6100,11 +6504,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6118,7 +6522,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6127,7 +6531,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6136,11 +6540,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6149,7 +6553,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6158,7 +6562,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6167,7 +6571,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteManFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6180,14 +6584,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_VC ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $boite_vitesse_VC; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6227,10 +6631,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoiteVc"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteVcFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteVcFac->label; ?> (<?php echo $boiteVcFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteVcFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteVcFac->label; ?> (<?php echo $boiteVcFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteVcFac->label; ?> (<?php echo $boiteVcFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteVcFac->image ??
                                                             ""; ?>"> <br>
@@ -6245,7 +6660,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6254,7 +6669,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6263,11 +6678,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6279,7 +6694,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6288,7 +6703,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6297,11 +6712,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6313,7 +6728,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6322,7 +6737,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6331,11 +6746,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6344,7 +6759,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6353,7 +6768,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6362,7 +6777,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $boiteVcFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6375,14 +6790,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $clim ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $clim; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6425,10 +6840,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizClimatisation"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $climatisationFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $climatisationFac->label; ?> (<?php echo $climatisationFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $climatisationFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $climatisationFac->label; ?> (<?php echo $climatisationFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $climatisationFac->label; ?> (<?php echo $climatisationFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $climatisationFac->image ??
                                                             ""; ?>"> <br>
@@ -6446,7 +6872,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6456,7 +6882,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6466,11 +6892,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6485,7 +6911,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6495,7 +6921,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6505,11 +6931,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6524,7 +6950,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6534,7 +6960,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6544,11 +6970,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6558,7 +6984,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6568,7 +6994,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6578,7 +7004,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $climatisationFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6591,14 +7017,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $demi ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $demi; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6639,10 +7065,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizDemi"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $demiFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $demiFac->label; ?> (<?php echo $demiFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $demiFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $demiFac->label; ?> (<?php echo $demiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $demiFac->label; ?> (<?php echo $demiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $demiFac->image ??
                                                             ""; ?>"> <br>
@@ -6658,7 +7095,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6668,7 +7105,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6678,11 +7115,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6695,7 +7132,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6705,7 +7142,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6715,11 +7152,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6732,7 +7169,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6742,7 +7179,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6752,11 +7189,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6766,7 +7203,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6776,7 +7213,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6786,7 +7223,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $demiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -6799,14 +7236,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $direction ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $direction; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6847,10 +7284,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizDirection"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $directionFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $directionFac->label; ?> (<?php echo $directionFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $directionFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $directionFac->label; ?> (<?php echo $directionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $directionFac->label; ?> (<?php echo $directionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $directionFac->image ??
                                                             ""; ?>"> <br>
@@ -6868,7 +7316,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6878,7 +7326,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6888,11 +7336,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6907,7 +7355,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6917,7 +7365,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6927,11 +7375,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -6946,7 +7394,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6956,7 +7404,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6966,11 +7414,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -6980,7 +7428,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -6990,7 +7438,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7000,7 +7448,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $directionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7013,14 +7461,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $electricite ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $electricite; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7063,10 +7511,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizElectricite"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $electriciteFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $electriciteFac->label; ?> (<?php echo $electriciteFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $electriciteFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $electriciteFac->label; ?> (<?php echo $electriciteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $electriciteFac->label; ?> (<?php echo $electriciteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $electriciteFac->image ??
                                                             ""; ?>"> <br>
@@ -7084,7 +7543,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7094,7 +7553,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7104,11 +7563,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7123,7 +7582,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7133,7 +7592,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7143,11 +7602,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7162,7 +7621,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7172,7 +7631,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7182,11 +7641,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7196,7 +7655,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7206,7 +7665,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7216,7 +7675,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $electriciteFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7229,14 +7688,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinage ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinage; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7277,10 +7736,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizFrei"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freiFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freiFac->label; ?> (<?php echo $freiFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freiFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freiFac->label; ?> (<?php echo $freiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freiFac->label; ?> (<?php echo $freiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freiFac->image ??
                                                             ""; ?>"> <br>
@@ -7296,7 +7766,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7306,7 +7776,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7316,11 +7786,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7333,7 +7803,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7343,7 +7813,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7353,11 +7823,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7370,7 +7840,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7380,7 +7850,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7390,11 +7860,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7404,7 +7874,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7414,7 +7884,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7424,7 +7894,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freiFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7437,14 +7907,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageElec ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinageElec; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7487,10 +7957,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizFreinageElec"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinageElecFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freinageElecFac->label; ?> (<?php echo $freinageElecFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageElecFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageElecFac->label; ?> (<?php echo $freinageElecFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freinageElecFac->label; ?> (<?php echo $freinageElecFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freinageElecFac->image ??
                                                             ""; ?>"> <br>
@@ -7508,7 +7989,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7518,7 +7999,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7528,11 +8009,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7547,7 +8028,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7557,7 +8038,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7567,11 +8048,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7586,7 +8067,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7596,7 +8077,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7606,11 +8087,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7620,7 +8101,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7630,7 +8111,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7640,7 +8121,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7653,14 +8134,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageHydro ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinageHydro; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7701,10 +8182,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizFreinage"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinageFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freinageFac->label; ?> (<?php echo $freinageFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageFac->label; ?> (<?php echo $freinageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freinageFac->label; ?> (<?php echo $freinageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freinageFac->image ??
                                                             ""; ?>"> <br>
@@ -7722,7 +8214,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7732,7 +8224,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7742,11 +8234,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7761,7 +8253,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7771,7 +8263,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7781,11 +8273,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7800,7 +8292,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7810,7 +8302,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7820,11 +8312,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                           <?php echo $jai_jamais_fait ?>
+                                                           <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -7834,7 +8326,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7844,7 +8336,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7854,7 +8346,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $freinageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -7867,14 +8359,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinagePneu ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $freinagePneu; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7914,10 +8406,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizFrein"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freinFac->label; ?> (<?php echo $freinFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinFac->label; ?> (<?php echo $freinFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freinFac->label; ?> (<?php echo $freinFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freinFac->image ??
                                                             ""; ?>"> <br>
@@ -7932,7 +8435,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7941,7 +8444,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7950,11 +8453,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -7966,7 +8469,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7975,7 +8478,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -7984,11 +8487,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8000,7 +8503,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8009,7 +8512,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8018,11 +8521,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8031,7 +8534,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8040,7 +8543,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8049,7 +8552,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $freinFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8062,14 +8565,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $hydraulique ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $hydraulique; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8112,10 +8615,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizHydraulique"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $hydrauliqueFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $hydrauliqueFac->label; ?> (<?php echo $hydrauliqueFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $hydrauliqueFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $hydrauliqueFac->label; ?> (<?php echo $hydrauliqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $hydrauliqueFac->label; ?> (<?php echo $hydrauliqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $hydrauliqueFac->image ??
                                                             ""; ?>"> <br>
@@ -8133,7 +8647,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8143,7 +8657,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8153,11 +8667,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8172,7 +8686,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8182,7 +8696,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8192,11 +8706,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8211,7 +8725,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8221,7 +8735,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8231,11 +8745,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8245,7 +8759,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8255,7 +8769,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8265,7 +8779,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $hydrauliqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8278,14 +8792,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurDiesel ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurDiesel; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8328,10 +8842,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteurDiesel"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurDieselFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurDieselFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $moteurDieselFac->image ??
                                                             ""; ?>"> <br>
@@ -8349,7 +8874,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8359,7 +8884,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8369,11 +8894,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8388,7 +8913,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8398,7 +8923,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8408,11 +8933,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8427,7 +8952,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8437,7 +8962,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8447,11 +8972,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8461,7 +8986,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8471,7 +8996,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8481,7 +9006,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurDieselFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8494,14 +9019,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurElectrique ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurElectrique; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8542,10 +9067,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteurElec"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurElecFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurElecFac->label; ?> (<?php echo $moteurElecFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurDieselFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $moteurElecFac->image ??
                                                             ""; ?>"> <br>
@@ -8563,7 +9099,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8573,7 +9109,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8583,11 +9119,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8602,7 +9138,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8612,7 +9148,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8622,11 +9158,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8641,7 +9177,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8651,7 +9187,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8661,11 +9197,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8675,7 +9211,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8685,7 +9221,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8695,7 +9231,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurElecFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8708,14 +9244,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurEssence ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurEssence; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8758,10 +9294,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteurEssence"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurEssenceFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurEssenceFac->label; ?> (<?php echo $moteurEssenceFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurEssenceFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurEssenceFac->label; ?> (<?php echo $moteurEssenceFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurEssenceFac->label; ?> (<?php echo $moteurEssenceFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $moteurEssenceFac->image ??
                                                             ""; ?>"> <br>
@@ -8779,7 +9326,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8789,7 +9336,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8799,11 +9346,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8818,7 +9365,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8828,7 +9375,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8838,11 +9385,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -8857,7 +9404,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8867,7 +9414,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8877,11 +9424,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -8891,7 +9438,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8901,7 +9448,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -8911,7 +9458,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurEssenceFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -8924,14 +9471,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurThermique ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $moteurThermique; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8972,10 +9519,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteur"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurFac->label; ?> (<?php echo $moteurFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurFac->label; ?> (<?php echo $moteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurFac->label; ?> (<?php echo $moteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $question->image ??
                                                             ""; ?>"> <br>
@@ -8991,7 +9549,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9001,7 +9559,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9011,11 +9569,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9028,7 +9586,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9038,7 +9596,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9048,11 +9606,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9065,7 +9623,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9075,7 +9633,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9085,11 +9643,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9099,7 +9657,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9109,7 +9667,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9119,7 +9677,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $moteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9132,14 +9690,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $multiplexage ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $multiplexage; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9182,10 +9740,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMultiplexage"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $multiplexageFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $multiplexageFac->label; ?> (<?php echo $multiplexageFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $multiplexageFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $multiplexageFac->label; ?> (<?php echo $multiplexageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $multiplexageFac->label; ?> (<?php echo $multiplexageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $multiplexageFac->image ??
                                                             ""; ?>"> <br>
@@ -9203,7 +9772,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9213,7 +9782,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9223,11 +9792,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9242,7 +9811,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9252,7 +9821,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9262,11 +9831,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9281,7 +9850,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9291,7 +9860,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9301,11 +9870,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9315,7 +9884,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9325,7 +9894,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9335,7 +9904,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $multiplexageFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9348,14 +9917,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pont ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $pont; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9395,10 +9964,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizPont"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $pontFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $pontFac->label; ?> (<?php echo $pontFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pontFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pontFac->label; ?> (<?php echo $pontFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $pontFac->label; ?> (<?php echo $pontFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $pontFac->image ??
                                                             ""; ?>"> <br>
@@ -9413,7 +9993,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9422,7 +10002,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9431,11 +10011,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9447,7 +10027,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9456,7 +10036,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9465,11 +10045,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9481,7 +10061,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9490,7 +10070,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9499,11 +10079,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" checked />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9512,7 +10092,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9521,7 +10101,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9530,7 +10110,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pontFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9543,14 +10123,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pneu ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $pneu; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9593,10 +10173,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizPneumatique"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $pneumatiqueFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $pneumatiqueFac->label; ?> (<?php echo $pneumatiqueFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pneumatiqueFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pneumatiqueFac->label; ?> (<?php echo $pneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $pneumatiqueFac->label; ?> (<?php echo $pneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $pneumatiqueFac->image ??
                                                             ""; ?>"> <br>
@@ -9613,7 +10204,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9622,7 +10213,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9631,11 +10222,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9649,7 +10240,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9658,7 +10249,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                           <?php echo $je_ne_maitrise_pas ?>
+                                                           <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9667,11 +10258,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9685,7 +10276,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9694,7 +10285,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9703,11 +10294,11 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9716,7 +10307,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9725,7 +10316,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9734,7 +10325,7 @@ if (!isset($_SESSION["id"])) {
                                                                 1; ?>" value="<?php echo $pneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9747,14 +10338,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $reducteur ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $reducteur; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9795,10 +10386,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizReducteur"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $reducteurFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $reducteurFac->label; ?> (<?php echo $reducteurFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $reducteurFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $reducteurFac->label; ?> (<?php echo $reducteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $reducteurFac->label; ?> (<?php echo $reducteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $reducteurFac->image ??
                                                             ""; ?>"> <br>
@@ -9816,7 +10418,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9826,7 +10428,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9836,11 +10438,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9855,7 +10457,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9865,7 +10467,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9875,11 +10477,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -9894,7 +10496,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9904,7 +10506,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9914,11 +10516,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -9928,7 +10530,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9938,7 +10540,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -9948,7 +10550,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $reducteurFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -9961,14 +10563,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspension ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspension; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10009,10 +10611,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspension"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionFac->label; ?> (<?php echo $suspensionFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionFac->label; ?> (<?php echo $suspensionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionFac->label; ?> (<?php echo $suspensionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionFac->image ??
                                                             ""; ?>"> <br>
@@ -10030,7 +10643,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10040,7 +10653,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10050,11 +10663,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10069,7 +10682,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10079,7 +10692,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10089,11 +10702,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10108,7 +10721,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10118,7 +10731,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10128,11 +10741,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10142,7 +10755,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10152,7 +10765,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10162,7 +10775,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10175,14 +10788,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionLame ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspensionLame; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10225,10 +10838,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspensionLame"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionLameFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionLameFac->label; ?> (<?php echo $suspensionLameFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionLameFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionLameFac->label; ?> (<?php echo $suspensionLameFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionLameFac->label; ?> (<?php echo $suspensionLameFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionLameFac->image ??
                                                             ""; ?>"> <br>
@@ -10246,7 +10870,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10256,7 +10880,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10266,11 +10890,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10285,7 +10909,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10295,7 +10919,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10305,11 +10929,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10324,7 +10948,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10334,7 +10958,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10344,11 +10968,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10358,7 +10982,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10368,7 +10992,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10378,7 +11002,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionLameFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10391,14 +11015,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionRessort ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspensionRessort; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10441,10 +11065,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspensionRessort"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionRessortFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionRessortFac->label; ?> (<?php echo $suspensionRessortFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionRessortFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionRessortFac->label; ?> (<?php echo $suspensionRessortFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionRessortFac->label; ?> (<?php echo $suspensionRessortFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionRessortFac->image ??
                                                             ""; ?>"> <br>
@@ -10462,7 +11097,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10472,7 +11107,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10482,11 +11117,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10501,7 +11136,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10511,7 +11146,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10521,11 +11156,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10540,7 +11175,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10550,7 +11185,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10560,11 +11195,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10574,7 +11209,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10584,7 +11219,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10594,7 +11229,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionRessortFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10607,14 +11242,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionPneu ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $suspensionPneu; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10657,10 +11292,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspensionPneumatique"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionPneumatiqueFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionPneumatiqueFac->label; ?> (<?php echo $suspensionPneumatiqueFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionPneumatiqueFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionPneumatiqueFac->label; ?> (<?php echo $suspensionPneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionPneumatiqueFac->label; ?> (<?php echo $suspensionPneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionPneumatiqueFac->image ??
                                                             ""; ?>"> <br>
@@ -10678,7 +11324,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10688,7 +11334,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10698,7 +11344,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10712,7 +11358,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10727,7 +11373,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10737,7 +11383,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10747,11 +11393,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10766,7 +11412,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10776,7 +11422,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10786,11 +11432,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -10800,7 +11446,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10810,7 +11456,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10820,7 +11466,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $suspensionPneumatiqueFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -10833,14 +11479,14 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transversale ?></h1>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel; ?> <?php echo $transversale; ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10883,10 +11529,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizTransversale"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $transversaleFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $transversaleFac->label; ?> (<?php echo $transversaleFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transversaleFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transversaleFac->label; ?> (<?php echo $transversaleFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $transversaleFac->label; ?> (<?php echo $transversaleFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $transversaleFac->image ??
                                                             ""; ?>"> <br>
@@ -10904,7 +11561,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10914,7 +11571,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10924,11 +11581,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10943,7 +11600,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10953,7 +11610,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10963,11 +11620,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } elseif (
                                                         $exam["answers"][$j] ==
@@ -10982,7 +11639,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -10992,7 +11649,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -11002,11 +11659,11 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" checked/>
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>
                                                     <?php } else { ?>
                                                     <label class="quiz-form__ans">
@@ -11016,7 +11673,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal1; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_maitrise ?>
+                                                            <?php echo $je_maitrise; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -11026,7 +11683,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal2; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $je_ne_maitrise_pas ?>
+                                                            <?php echo $je_ne_maitrise_pas; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans">
@@ -11036,7 +11693,7 @@ if (!isset($_SESSION["id"])) {
                                                             value="<?php echo $transversaleFac->proposal3; ?>" />
                                                         <span class="design"></span>
                                                         <span class="text">
-                                                            <?php echo $jai_jamais_fait ?>
+                                                            <?php echo $jai_jamais_fait; ?>
                                                         </span>
                                                     </label>
                                                     <label class="quiz-form__ans" hidden>
@@ -11049,7 +11706,7 @@ if (!isset($_SESSION["id"])) {
                                                         </span>
                                                     </label>
                                                     <div >
-                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
+                                                        <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider; ?></button>
                                                     </div>        
                             <?php } ?>
                             <?php }
@@ -11059,7 +11716,7 @@ if (!isset($_SESSION["id"])) {
                             <?php } ?>
                             <div style="margin-top: 70px; align-items: center; justify-content: space-evenly; display: flex;">
                                 <!-- <button type="submit" class="btn btn-secondary btn-lg" name="back">Retour</button> -->
-                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid"><?php echo $next ?></button>
+                                <button type="submit" id="button" class="btn btn-primary btn-lg" name="valid"><?php echo $next; ?></button>
                             </div>
                         </div>
                     </form>

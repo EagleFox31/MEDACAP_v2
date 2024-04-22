@@ -2561,10 +2561,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizAssistance" value="<?php echo $assistanceDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -2645,10 +2656,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizArbre" value="<?php echo $arbreDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -2728,10 +2750,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizTransfert" value="<?php echo $transfertDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -2811,10 +2844,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizBoite" value="<?php echo $boiteDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -2894,10 +2938,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizBoiteAuto" value="<?php echo $boiteAutoDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -2977,10 +3032,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizBoiteMan" value="<?php echo $boiteManDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3063,10 +3129,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizBoiteVc" value="<?php echo $boiteVcDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3147,10 +3224,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizClimatisation"
                     value="<?php echo $climatisationDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3230,10 +3318,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizDemi" value="<?php echo $demiDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3313,10 +3412,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizDirection" value="<?php echo $directionDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3396,10 +3506,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizElectricite" value="<?php echo $electriciteDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3479,10 +3600,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizFrei" value="<?php echo $freiDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3562,10 +3694,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizFreinageElec" value="<?php echo $freinageElecDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3645,10 +3788,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizFreinage" value="<?php echo $freinageDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3728,10 +3882,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizFrein" value="<?php echo $freinDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3811,10 +3976,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizHydraulique" value="<?php echo $hydrauliqueDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3895,10 +4071,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizMoteurDiesel"
                     value="<?php echo $moteurDieselDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -3978,10 +4165,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizMoteurElec" value="<?php echo $moteurElecDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4062,10 +4260,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizMoteurEssence"
                     value="<?php echo $moteurEssenceDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4146,10 +4355,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizMoteur"
                     value="<?php echo $moteurThermiqueDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4230,10 +4450,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizMultiplexage"
                     value="<?php echo $multiplexageDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4313,10 +4544,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizPont" value="<?php echo $pontDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4396,10 +4638,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizPneumatique" value="<?php echo $pneumatiqueDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4479,10 +4732,21 @@ if (!isset($_SESSION["id"])) {
                     ]); ?>
                 <input class="hidden" type="text" name="quizReducteur" value="<?php echo $reducteurDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4565,10 +4829,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizSuspension"
                     value="<?php echo $suspensionDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4649,10 +4924,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizSuspensionLame"
                     value="<?php echo $suspensionLameDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4733,10 +5019,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizSuspensionRessort"
                     value="<?php echo $suspensionRessortDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4818,10 +5115,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizSuspensionPneumatique"
                     value="<?php echo $suspensionPneumatiqueDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4902,10 +5210,21 @@ if (!isset($_SESSION["id"])) {
                 <input class="hidden" type="text" name="quizTransversale"
                     value="<?php echo $transversaleDecla->_id; ?>" />
                 <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $question->_id; ?>" />
-                <p class="quiz-form__question fw-bold" id="question"
-                    style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                    <?php echo $k++; ?> - <?php echo $question->label; ?>
-                </p>
+                <?php if ($level == "Expert") { ?>
+                    <p class="fw-bold"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->title; ?>
+                    </p>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } else { ?>
+                    <p class="quiz-form__question fw-bold" id="question"
+                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                        <?php echo $k++; ?> - <?php echo $question->label; ?> (<?php echo $question->ref; ?>)
+                    </p>
+                <?php } ?>
                 <label class="quiz-form__ans">
                     <input type="radio" id="proposal<?php echo $i +
                         1; ?>" onclick="checkedRadio()"
@@ -4982,10 +5301,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizAssistance"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $assistanceFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $assistanceFac->label; ?> (<?php echo $assistanceFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $assistanceFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $assistanceFac->label; ?> (<?php echo $assistanceFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $assistanceFac->label; ?> (<?php echo $assistanceFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $assistanceFac->image ??
                                                             ""; ?>"> <br>
@@ -5187,10 +5517,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizArbre"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $arbreFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $arbreFac->label; ?> (<?php echo $arbreFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $arbreFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $arbreFac->label; ?> (<?php echo $arbreFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $arbreFac->label; ?> (<?php echo $arbreFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $arbreFac->image ??
                                                             ""; ?>"> <br>
@@ -5383,10 +5724,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizTransfert"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $transfertFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $transfertFac->label; ?> (<?php echo $transfertFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transfertFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transfertFac->label; ?> (<?php echo $transfertFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $transfertFac->label; ?> (<?php echo $transfertFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $transfertFac->image ??
                                                             ""; ?>"> <br>
@@ -5593,10 +5945,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoite"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteFac->label; ?> (<?php echo $boiteFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteFac->label; ?> (<?php echo $boiteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteFac->label; ?> (<?php echo $boiteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteFac->image ??
                                                             ""; ?>"> <br>
@@ -5789,10 +6152,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoiteAuto"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteAutoFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteAutoFac->label; ?> (<?php echo $boiteAutoFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteAutoFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteAutoFac->label; ?> (<?php echo $boiteAutoFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteAutoFac->label; ?> (<?php echo $boiteAutoFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteAutoFac->image ??
                                                             ""; ?>"> <br>
@@ -5990,10 +6364,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoiteMan"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteManFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteManFac->label; ?> (<?php echo $boiteManFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteManFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteManFac->label; ?> (<?php echo $boiteManFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteManFac->label; ?> (<?php echo $boiteManFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteManFac->image ??
                                                             ""; ?>"> <br>
@@ -6191,10 +6576,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizBoiteVc"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $boiteVcFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $boiteVcFac->label; ?> (<?php echo $boiteVcFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteVcFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $boiteVcFac->label; ?> (<?php echo $boiteVcFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $boiteVcFac->label; ?> (<?php echo $boiteVcFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $boiteVcFac->image ??
                                                             ""; ?>"> <br>
@@ -6389,10 +6785,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizClimatisation"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $climatisationFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $climatisationFac->label; ?> (<?php echo $climatisationFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $climatisationFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $climatisationFac->label; ?> (<?php echo $climatisationFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $climatisationFac->label; ?> (<?php echo $climatisationFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $climatisationFac->image ??
                                                             ""; ?>"> <br>
@@ -6603,10 +7010,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizDemi"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $demiFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $demiFac->label; ?> (<?php echo $demiFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $demiFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $demiFac->label; ?> (<?php echo $demiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $demiFac->label; ?> (<?php echo $demiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $demiFac->image ??
                                                             ""; ?>"> <br>
@@ -6811,10 +7229,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizDirection"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $directionFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $directionFac->label; ?> (<?php echo $directionFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $directionFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $directionFac->label; ?> (<?php echo $directionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $directionFac->label; ?> (<?php echo $directionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $directionFac->image ??
                                                             ""; ?>"> <br>
@@ -7027,10 +7456,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizElectricite"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $electriciteFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $electriciteFac->label; ?> (<?php echo $electriciteFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $electriciteFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $electriciteFac->label; ?> (<?php echo $electriciteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $electriciteFac->label; ?> (<?php echo $electriciteFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $electriciteFac->image ??
                                                             ""; ?>"> <br>
@@ -7241,10 +7681,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizFrei"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freiFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freiFac->label; ?> (<?php echo $freiFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freiFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freiFac->label; ?> (<?php echo $freiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freiFac->label; ?> (<?php echo $freiFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freiFac->image ??
                                                             ""; ?>"> <br>
@@ -7451,10 +7902,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizFreinageElec"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinageElecFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freinageElecFac->label; ?> (<?php echo $freinageElecFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageElecFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageElecFac->label; ?> (<?php echo $freinageElecFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freinageElecFac->label; ?> (<?php echo $freinageElecFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freinageElecFac->image ??
                                                             ""; ?>"> <br>
@@ -7665,10 +8127,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizFreinage"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinageFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freinageFac->label; ?> (<?php echo $freinageFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinageFac->label; ?> (<?php echo $freinageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freinageFac->label; ?> (<?php echo $freinageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freinageFac->image ??
                                                             ""; ?>"> <br>
@@ -7878,10 +8351,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizFrein"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $freinFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $freinFac->label; ?> (<?php echo $freinFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $freinFac->label; ?> (<?php echo $freinFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $freinFac->label; ?> (<?php echo $freinFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $freinFac->image ??
                                                             ""; ?>"> <br>
@@ -8076,10 +8560,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizHydraulique"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $hydrauliqueFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $hydrauliqueFac->label; ?> (<?php echo $hydrauliqueFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $hydrauliqueFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $hydrauliqueFac->label; ?> (<?php echo $hydrauliqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $hydrauliqueFac->label; ?> (<?php echo $hydrauliqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $hydrauliqueFac->image ??
                                                             ""; ?>"> <br>
@@ -8292,10 +8787,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteurDiesel"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurDieselFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurDieselFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurDieselFac->label; ?> (<?php echo $moteurDieselFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $moteurDieselFac->image ??
                                                             ""; ?>"> <br>
@@ -8506,10 +9012,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteurElec"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurElecFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurElecFac->label; ?> (<?php echo $moteurElecFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurElecFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurElecFac->label; ?> (<?php echo $moteurElecFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurElecFac->label; ?> (<?php echo $moteurElecFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $moteurElecFac->image ??
                                                             ""; ?>"> <br>
@@ -8722,10 +9239,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteurEssence"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurEssenceFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurEssenceFac->label; ?> (<?php echo $moteurEssenceFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurEssenceFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurEssenceFac->label; ?> (<?php echo $moteurEssenceFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurEssenceFac->label; ?> (<?php echo $moteurEssenceFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $moteurEssenceFac->image ??
                                                             ""; ?>"> <br>
@@ -8936,10 +9464,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMoteur"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $moteurFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $moteurFac->label; ?> (<?php echo $moteurFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $moteurFac->label; ?> (<?php echo $moteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $moteurFac->label; ?> (<?php echo $moteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $question->image ??
                                                             ""; ?>"> <br>
@@ -9146,10 +9685,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizMultiplexage"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $multiplexageFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $multiplexageFac->label; ?> (<?php echo $multiplexageFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $multiplexageFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $multiplexageFac->label; ?> (<?php echo $multiplexageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $multiplexageFac->label; ?> (<?php echo $multiplexageFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $multiplexageFac->image ??
                                                             ""; ?>"> <br>
@@ -9359,10 +9909,21 @@ if (!isset($_SESSION["id"])) {
                                                         "quizPont"
                                                     ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $pontFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $pontFac->label; ?> (<?php echo $pontFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pontFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pontFac->label; ?> (<?php echo $pontFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $pontFac->label; ?> (<?php echo $pontFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $pontFac->image ??
                                                             ""; ?>"> <br>
@@ -9557,10 +10118,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizPneumatique"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $pneumatiqueFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $pneumatiqueFac->label; ?> (<?php echo $pneumatiqueFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pneumatiqueFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $pneumatiqueFac->label; ?> (<?php echo $pneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $pneumatiqueFac->label; ?> (<?php echo $pneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $pneumatiqueFac->image ??
                                                             ""; ?>"> <br>
@@ -9759,10 +10331,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizReducteur"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $reducteurFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $reducteurFac->label; ?> (<?php echo $reducteurFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $reducteurFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $reducteurFac->label; ?> (<?php echo $reducteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $reducteurFac->label; ?> (<?php echo $reducteurFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $reducteurFac->image ??
                                                             ""; ?>"> <br>
@@ -9973,10 +10556,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspension"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionFac->label; ?> (<?php echo $suspensionFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionFac->label; ?> (<?php echo $suspensionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionFac->label; ?> (<?php echo $suspensionFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionFac->image ??
                                                             ""; ?>"> <br>
@@ -10189,10 +10783,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspensionLame"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionLameFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionLameFac->label; ?> (<?php echo $suspensionLameFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionLameFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionLameFac->label; ?> (<?php echo $suspensionLameFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionLameFac->label; ?> (<?php echo $suspensionLameFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionLameFac->image ??
                                                             ""; ?>"> <br>
@@ -10405,10 +11010,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspensionRessort"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionRessortFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionRessortFac->label; ?> (<?php echo $suspensionRessortFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionRessortFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionRessortFac->label; ?> (<?php echo $suspensionRessortFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionRessortFac->label; ?> (<?php echo $suspensionRessortFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionRessortFac->image ??
                                                             ""; ?>"> <br>
@@ -10621,10 +11237,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizSuspensionPneumatique"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $suspensionPneumatiqueFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $suspensionPneumatiqueFac->label; ?> (<?php echo $suspensionPneumatiqueFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionPneumatiqueFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $suspensionPneumatiqueFac->label; ?> (<?php echo $suspensionPneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $suspensionPneumatiqueFac->label; ?> (<?php echo $suspensionPneumatiqueFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $suspensionPneumatiqueFac->image ??
                                                             ""; ?>"> <br>
@@ -10847,10 +11474,21 @@ if (!isset($_SESSION["id"])) {
                                                             "quizTransversale"
                                                         ]; ?>" />
                                                     <input class="hidden" type="text" name="questionsTag[]" value="<?php echo $transversaleFac->_id; ?>" />
-                                                    <p class="quiz-form__question fw-bold" id="question"
-                                                        style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
-                                                        <?php echo $k++; ?> - <?php echo $transversaleFac->label; ?> (<?php echo $transversaleFac->ref; ?>)
-                                                    </p>
+                                                    <?php if ($level == "Expert") { ?>
+                                                        <p class="fw-bold"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transversaleFac->title; ?>
+                                                        </p>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $transversaleFac->label; ?> (<?php echo $transversaleFac->ref; ?>)
+                                                        </p>
+                                                    <?php } else { ?>
+                                                        <p class="quiz-form__question fw-bold" id="question"
+                                                            style="margin-top: 50px; font-size: large; margin-bottom: 20px;">
+                                                            <?php echo $k++; ?> - <?php echo $transversaleFac->label; ?> (<?php echo $transversaleFac->ref; ?>)
+                                                        </p>
+                                                    <?php } ?>
                                                     <div style="margin-top: 30px; display: flex; justify-content: center;">
                                                         <img id="image" alt="" src="../public/files/<?php echo $transversaleFac->image ??
                                                             ""; ?>"> <br>
