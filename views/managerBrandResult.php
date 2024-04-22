@@ -2128,7 +2128,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Info-->
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
-                <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
+                <h1 class="text-dark fw-bold my-1" style="font-size: 30px;">
                     <?php echo $result_by_brand ?>
                     <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>

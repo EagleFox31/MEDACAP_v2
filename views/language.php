@@ -330,5 +330,6 @@ $cfao_senegal = "CFAO MOTORS SENEGAL";
 $cfao_tchad = "CFAO MOTORS TCHAD";
 $cfao_togo = "CFAO MOTORS TOGO";
 $cfao_cmda = "COMPAGNIE MAURITANIENNE DE DISTRIBUTION AUTOMOBILE";
+$recherche = "Recherche...";
 
 include_once "language.php";

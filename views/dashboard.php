@@ -176,17 +176,10 @@ if (!isset($_SESSION["profile"])) {
         <div class=" container-xxl ">
             <!--begin::Layout Builder Notice-->
             <div class="card mb-10">
-                <?php if ($_SESSION["department"] == "Motors") { ?>
                 <!--begin::Illustration-->
                 <div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-150px min-h-lg-350px" style="background-image: url(../public/images/IMG-20230627-WA0084.jpg)">
                 </div>
                 <!--end::Illustration-->
-                <?php } else { ?>
-                <!--begin::Illustration-->
-                <div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-150px min-h-lg-350px" style="background-image: url(../public/images/IMG_20240326_134909_294.jpg)">
-                </div>
-                <!--end::Illustration-->
-                <?php } ?>
             </div>
             <!--end::Layout Builder Notice-->
         </div>
@@ -249,17 +242,10 @@ if (!isset($_SESSION["profile"])) {
         <div class=" container-xxl ">
             <!--begin::Layout Builder Notice-->
             <div class="card mb-10">
-                <?php if ($_SESSION["department"] == "Motors") { ?>
                 <!--begin::Illustration-->
                 <div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-150px min-h-lg-350px" style="background-image: url(../public/images/IMG-20230627-WA0093.jpg)">
                 </div>
                 <!--end::Illustration-->
-                <?php } else { ?>
-                <!--begin::Illustration-->
-                <div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-150px min-h-lg-350px" style="background-image: url(../public/images/1713436729250.jpg)">
-                </div>
-                <!--end::Illustration-->
-                <?php } ?>
             </div>
             <!--end::Layout Builder Notice-->
         </div>

@@ -2457,6 +2457,7 @@ if (!isset($_SESSION["id"])) {
                             if ($assistanceDecla) {
                                 $arrQuestions =
                                     $assistanceDecla["questions"]; ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $assistanceConduite ?></h1>
                     <?php for ($i = 0; $i < count($arrQuestions); ++$i) {
                         $question = $questions->findone([
                             '$and' => [
@@ -2521,6 +2522,7 @@ if (!isset($_SESSION["id"])) {
                             <?php
                         }
                         ?>
+                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $arbre ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $arbreDecla = $quizzes->findOne([
@@ -2607,6 +2609,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transfert ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $transfertDecla = $quizzes->findOne([
@@ -2692,6 +2695,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteDecla = $quizzes->findOne([
@@ -2775,6 +2779,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_auto ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteAutoDecla = $quizzes->findOne([
@@ -2862,6 +2867,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_meca ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteManDecla = $quizzes->findOne([
@@ -2949,6 +2955,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_VC ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $boiteVcDecla = $quizzes->findOne([
@@ -3036,6 +3043,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $clim ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $climatisationDecla = $quizzes->findOne([
@@ -3125,6 +3133,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $demi ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $demiDecla = $quizzes->findOne([
@@ -3209,6 +3218,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $direction ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $directionDecla = $quizzes->findOne([
@@ -3294,6 +3304,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $electricite ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $electriciteDecla = $quizzes->findOne([
@@ -3386,6 +3397,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinage ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freiDecla = $quizzes->findOne([
@@ -3470,6 +3482,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageElec ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freinageElecDecla = $quizzes->findOne([
@@ -3562,6 +3575,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageHydro ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freinageDecla = $quizzes->findOne([
@@ -3650,6 +3664,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinagePneu ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $freinDecla = $quizzes->findOne([
@@ -3736,6 +3751,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $hydraulique ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $hydrauliqueDecla = $quizzes->findOne([
@@ -3825,6 +3841,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurDiesel ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurDieselDecla = $quizzes->findOne([
@@ -3914,6 +3931,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurElectrique ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurElecDecla = $quizzes->findOne([
@@ -3999,6 +4017,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurEssence ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurEssenceDecla = $quizzes->findOne([
@@ -4088,6 +4107,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurThermique ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $moteurDecla = $quizzes->findOne([
@@ -4173,6 +4193,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $multiplexage ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $MultiplexageDecla = $quizzes->findOne([
@@ -4258,6 +4279,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pont ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $pontDecla = $quizzes->findOne([
@@ -4341,6 +4363,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pneu ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $pneumatiqueDecla = $quizzes->findOne([
@@ -4426,6 +4449,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $reducteur ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $reducteurDecla = $quizzes->findOne([
@@ -4511,6 +4535,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspension ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionDecla = $quizzes->findOne([
@@ -4598,6 +4623,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionLame ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionLameDecla = $quizzes->findOne([
@@ -4687,6 +4713,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionRessort ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionRessortDecla = $quizzes->findOne([
@@ -4776,6 +4803,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionPneu ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $suspensionPneumatiqueDecla = $quizzes->findOne(
@@ -4872,6 +4900,7 @@ if (!isset($_SESSION["id"])) {
                                 ?>
                             <?php
                             } ?>
+                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transversale ?></h1>
                             <?php for ($j = 0; $j < count($deQuizs); ++$j) {
 
                                 $transversaleDecla = $quizzes->findOne([
@@ -4964,8 +4993,9 @@ if (!isset($_SESSION["id"])) {
                             <?php } elseif (isset($exam)) { ?>
                         <?php
                         $questionExam = $exam["questions"];
-                        $k = 1;
-                        for ($j = 0; $j < count($questionExam); ++$j) {
+                        $k = 1; ?>
+                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $assistanceConduite ?></h1>
+                        <?php for ($j = 0; $j < count($questionExam); ++$j) {
                             $assistanceFac = $questions->findOne([
                                 '$and' => [
                                     [
@@ -5153,6 +5183,7 @@ if (!isset($_SESSION["id"])) {
                                                     <?php }}
                         }
                         ?>
+                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $arbre ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5347,6 +5378,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transfert ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5557,6 +5589,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5752,6 +5785,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_auto ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5952,6 +5986,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_meca ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6152,6 +6187,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_VC ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6346,6 +6382,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $clim ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6561,6 +6598,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $demi ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6768,6 +6806,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $direction ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6981,6 +7020,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $electricite ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7196,6 +7236,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinage ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7403,6 +7444,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageElec ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7618,6 +7660,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageHydro ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7831,6 +7874,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinagePneu ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8025,6 +8069,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $hydraulique ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8240,6 +8285,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurDiesel ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8455,6 +8501,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurElectrique ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8668,6 +8715,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurEssence ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8883,6 +8931,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurThermique ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9090,6 +9139,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $multiplexage ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9305,6 +9355,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pont ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9499,6 +9550,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pneu ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9702,6 +9754,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $reducteur ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9915,6 +9968,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspension ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10128,6 +10182,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionLame ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10343,6 +10398,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionRessort ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10558,6 +10614,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionPneu ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10783,7 +10840,7 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                        
+                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transversale ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <

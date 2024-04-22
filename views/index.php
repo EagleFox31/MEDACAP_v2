@@ -227,28 +227,6 @@ if (isset($_POST["login"])) {
                 <div class="row g-3">
                     <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
                         <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="../public/images/1713437002306.jpg" alt="">
-                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
-                            </div>
-                            <div
-                                class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                <?php echo $formation_sodecoton ?></div>
-                        </a>
-                    </div>
-                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                        <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="../public/images/1713437002315.jpg" alt="">
-                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
-                            </div>
-                            <div
-                                class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                <?php echo $formation_sodecoton ?></div>
-                        </a>
-                    </div>
-                </div>
-                <div class="row g-3">
-                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                        <a class="position-relative d-block overflow-hidden" href="">
                             <img class="img-fluid" src="../public/images/IMG_9092.JPG" alt="">
                             <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                             </div>
@@ -259,7 +237,7 @@ if (isset($_POST["login"])) {
                     </div>
                     <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
                         <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="../public/images/IMG_20240326_134909_294.jpg" alt="">
+                            <img class="img-fluid" src="../public/images/IMG_20240328_161007_342.jpg" alt="">
                             <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                             </div>
                             <div
