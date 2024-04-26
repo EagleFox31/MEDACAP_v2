@@ -20,6 +20,7 @@ if (!isset($_SESSION["id"])) {
     $vehicles = $academy->vehicles;
     $allocations = $academy->allocations;
     $tests = $academy->tests;
+    $results = $academy->results;
 
     if (isset($_POST["submit"])) {
         $technician = $_POST["technician"];
@@ -34,22 +35,41 @@ if (!isset($_SESSION["id"])) {
                 ],
             ]);
 
-            $allocate = $allocations->find([
+            $allocateFac = $allocations->findOne([
                 '$and' => [
                     ["user" => new MongoDB\BSON\ObjectId($technician)],
+                    ["type" => "Factuel"],
                     ["active" => true],
                 ],
             ]);
-            foreach ($allocate as $allocate) {
-                $allocations->updateOne(
-                    ["_id" => new MongoDB\BSON\ObjectId($technician)],
-                    [
-                        '$set' => [
-                            "active" => false
-                        ],
-                    ]
-                );
-            }
+
+            $allocateDecla = $allocations->findOne([
+                '$and' => [
+                    ["user" => new MongoDB\BSON\ObjectId($technician)],
+                    ["type" => "Declaratif"],
+                    ["active" => true],
+                ],
+            ]);
+
+            $allocations->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($allocateDecla["_id"])],
+                [
+                    '$set' => [
+                        "activeManager" => false,
+                        "active" => false
+                    ],
+                ]
+            );
+            
+            $allocations->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($allocateFac["_id"])],
+                [
+                    '$set' => [
+                        "active" => false
+                    ],
+                ]
+            );
+
             $result = $results->find([
                 '$and' => [
                     ["user" => new MongoDB\BSON\ObjectId($technician)],

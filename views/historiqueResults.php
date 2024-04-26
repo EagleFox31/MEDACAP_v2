@@ -26,7 +26,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
-                    "active" => false
+                    "active" => false,
                 ],
             ],
         ])
@@ -39,7 +39,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
-                    "active" => false
+                    "active" => false,
                 ],
             ],
         ])
@@ -51,7 +51,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
-                    "active" => false
+                    "active" => false,
                 ],
             ],
         ])
@@ -64,7 +64,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
-                    "active" => false
+                    "active" => false,
                 ],
             ],
         ])
@@ -76,7 +76,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
-                    "active" => false
+                    "active" => false,
                 ],
             ],
         ])
@@ -88,7 +88,81 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
-                    "active" => false
+                    "active" => false,
+                ],
+            ],
+        ])
+        ->toArray();
+
+    $resultDeclaJuTech = $results
+        ->find([
+            '$and' => [
+                [
+                    "level" => "Junior",
+                    "type" => "Declaratif",
+                    "typeR" => "Techniciens",
+                    "active" => false,
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaSeTech = $results
+        ->find([
+            '$and' => [
+                [
+                    "level" => "Senior",
+                    "type" => "Declaratif",
+                    "typeR" => "Techniciens",
+                    "active" => false,
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaExTech = $results
+        ->find([
+            '$and' => [
+                [
+                    "level" => "Expert",
+                    "type" => "Declaratif",
+                    "typeR" => "Techniciens",
+                    "active" => false,
+                ],
+            ],
+        ])
+        ->toArray();
+
+    $resultDeclaJuMa = $results
+        ->find([
+            '$and' => [
+                [
+                    "level" => "Junior",
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                    "active" => false,
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaSeMa = $results
+        ->find([
+            '$and' => [
+                [
+                    "level" => "Senior",
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                    "active" => false,
+                ],
+            ],
+        ])
+        ->toArray();
+    $resultDeclaExMa = $results
+        ->find([
+            '$and' => [
+                [
+                    "level" => "Expert",
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                    "active" => false,
                 ],
             ],
         ])
@@ -96,7 +170,7 @@ if (!isset($_SESSION["id"])) {
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title><?php echo $list_result ?> | CFAO Mobility Academy</title>
+<title><?php echo $histo_result ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -109,7 +183,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    <?php echo $list_result ?> </h1>
+                    <?php echo $histo_result ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -198,17 +272,17 @@ if (!isset($_SESSION["id"])) {
                                             style="width: 125px;">Departement
                                         </th> -->
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             <?php echo $level ?> <?php echo $junior ?></th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             <?php echo $level ?> <?php echo $senior ?></th>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" colspan="3"
+                                            aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
                                             <?php echo $level ?> <?php echo $expert ?></th>
@@ -222,7 +296,12 @@ if (!isset($_SESSION["id"])) {
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro ?></th>
+                                            <?php echo $tache_pro_tech ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_manager ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
@@ -237,7 +316,12 @@ if (!isset($_SESSION["id"])) {
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro ?></th>
+                                            <?php echo $tache_pro_tech ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_manager ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
@@ -252,7 +336,12 @@ if (!isset($_SESSION["id"])) {
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro ?></th>
+                                            <?php echo $tache_pro_tech ?></th>
+                                        <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $tache_pro_manager ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
@@ -281,51 +370,99 @@ if (!isset($_SESSION["id"])) {
                                                 ],
                                             ]);
                                             $percentageFacJu =
-                                                round(($resultFacJu[$i]["score"] *
+                                                ceil(($resultFacJu[$i]["score"] *
                                                     100) /
-                                                $resultFacJu[$i]["total"], 0);
+                                                $resultFacJu[$i]["total"]);
                                             if ($resultDeclaJu) {
                                                 $percentageDeclaJu =
-                                                    round(($resultDeclaJu[$i][
+                                                    ceil(($resultDeclaJu[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaJu[$i]["total"], 0);
+                                                    $resultDeclaJu[$i]["total"]);
+                                            }
+                                            if ($resultDeclaJuTech) {
+                                                $percentageDeclaJuTech =
+                                                    ceil(($resultDeclaJuTech[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaJuTech[$i]["total"]);
+                                            }
+                                            if ($resultDeclaJuMa) {
+                                                $percentageDeclaJuMa =
+                                                    ceil(($resultDeclaJuMa[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaJuMa[$i]["total"]);
                                             }
                                             if ($resultFacSe) {
                                                 $percentageFacSe =
-                                                    round(($resultFacSe[$i]["score"] *
+                                                    ceil(($resultFacSe[$i]["score"] *
                                                         100) /
-                                                    $resultFacSe[$i]["total"], 0);
+                                                    $resultFacSe[$i]["total"]);
                                             }
                                             if ($resultDeclaSe) {
                                                 $percentageDeclaSe =
-                                                    round(($resultDeclaSe[$i][
+                                                    ceil(($resultDeclaSe[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaSe[$i]["total"], 0);
+                                                    $resultDeclaSe[$i]["total"]);
+                                            }
+                                            if ($resultDeclaSeTech) {
+                                                $percentageDeclaSeTech =
+                                                    ceil(($resultDeclaSeTech[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaSeTech[$i]["total"]);
+                                            }
+                                            if ($resultDeclaSeMa) {
+                                                $percentageDeclaSeMa =
+                                                    ceil(($resultDeclaSeMa[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaSeMa[$i]["total"]);
                                             }
                                             if ($resultFacEx) {
                                                 $percentageFacEx =
-                                                    round(($resultFacEx[$i]["score"] *
+                                                    ceil(($resultFacEx[$i]["score"] *
                                                         100) /
-                                                    $resultFacEx[$i]["total"], 0);
+                                                    $resultFacEx[$i]["total"]);
                                             }
                                             if ($resultDeclaEx) {
                                                 $percentageDeclaEx =
-                                                    round(($resultDeclaEx[$i][
+                                                    ceil(($resultDeclaEx[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaEx[$i]["total"], 0);
+                                                    $resultDeclaEx[$i]["total"]);
                                             }
-                                            $junior = round(($percentageFacJu + $percentageDeclaJu) / 2, 0);
+                                            if ($resultDeclaExTech) {
+                                                $percentageDeclaExTech =
+                                                    ceil(($resultDeclaExTech[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaExTech[$i]["total"]);
+                                            }
+                                            if ($resultDeclaExMa) {
+                                                $percentageDeclaExMa =
+                                                    ceil(($resultDeclaExMa[$i][
+                                                        "score"
+                                                    ] *
+                                                        100) /
+                                                    $resultDeclaExMa[$i]["total"]);
+                                            }
+                                            $junior = ceil(($percentageFacJu + $percentageDeclaJu) / 2);
                                             if ($resultDeclaSe && $resultFacSe) {
-                                                $senior = round(($percentageFacSe + $percentageDeclaSe) / 2, 0);
+                                                $senior = ceil(($percentageFacSe + $percentageDeclaSe) / 2);
                                             }
                                             if ($resultDeclaEx && $resultFacEx) {
-                                                $expert = round(($percentageFacEx + $percentageDeclaEx) / 2, 0);
+                                                $expert = ceil(($percentageFacEx + $percentageDeclaEx) / 2);
                                             }
                                             ?>
                                     <tr class="odd">
@@ -336,12 +473,6 @@ if (!isset($_SESSION["id"])) {
                                                 "lastName"
                                             ]; ?>
                                         </td>
-                                        <!-- <td class="text-center">
-                                            <?php echo $user["subsidiary"]; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php echo $user["department"]; ?>
-                                        </td> -->
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacJu."%" ?>
@@ -349,11 +480,16 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaJu."%" ?>
+                                                <?php echo $percentageDeclaJuTech."%" ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="./historiqueResult.php?level=Junior&user=<?php echo $user->_id; ?>"
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $percentageDeclaJuMa."%" ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="./historiqueResult.php?numberTest=<?php echo $resultFacJu[$i]["numberTest"] ?>&level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -368,11 +504,16 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaSe."%" ?>
+                                                <?php echo $percentageDeclaSeTech."%" ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="./historiqueResult.php?level=Senior&user=<?php echo $user->_id; ?>"
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $percentageDeclaSeMa."%" ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="./historiqueResult.php?numberTest=<?php echo $resultFacSe[$i]["numberTest"] ?>&level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -380,6 +521,11 @@ if (!isset($_SESSION["id"])) {
                                             </a>
                                         </td>
                                         <?php } else { ?>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $non_disponible ?>
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>
@@ -404,11 +550,16 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaEx."%" ?>
+                                                <?php echo $percentageDeclaExTech."%" ?>
                                             </span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="./historiqueResult.php?level=Expert&user=<?php echo $user->_id; ?>"
+                                            <span class="badge badge-light-success fs-7 m-1">
+                                                <?php echo $percentageDeclaExMa."%" ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="./historiqueResult.php?numberTest=<?php echo $resultFacEx[$i]["numberTest"] ?>&level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -417,6 +568,11 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } else {
                                              ?>
+                                        <td class="text-center">
+                                            <span class="badge badge-light-danger fs-7 m-1">
+                                                <?php echo $non_disponible ?>
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-light-danger fs-7 m-1">
                                                 <?php echo $non_disponible ?>

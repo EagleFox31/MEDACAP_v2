@@ -217,7 +217,7 @@ $exams = $academy->exams;
                                         </td>
                                         <td class="text-center">
                                             <?php if ($allocateDeclaJu) { ?>
-                                            <?php if ($examJuDecla) { ?>
+                                        <?php if ($examJuDecla) { ?>
                                                     <a href="./userQuizDeclaratif.php?test=<?php echo $allocateDeclaJu[
                                                         "test"
                                                     ]; ?>&level=<?php echo $allocateDeclaJu[

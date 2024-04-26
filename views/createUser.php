@@ -35,7 +35,6 @@ if (!isset($_SESSION["id"])) {
         $profile = $_POST["profile"];
         $agency = $_POST["agency"];
         $sex = $_POST["gender"];
-        $passWord = $_POST["password"];
         $pays = $_POST["country"];
         $certificate = $_POST["certificate"];
         $specialitySenior = $_POST["specialitySenior"];
@@ -53,7 +52,12 @@ if (!isset($_SESSION["id"])) {
         if (isset($_POST["brandEx"])) {
           $brandExpert = $_POST["brandEx"];
         }
+        
+        $fn = ucfirst(substr($firstName, 2));
+        $ln = ucfirst(substr($lastName, 2));
+        $ma = substr($matriculation, -3);
 
+        $passWord = $ln.$ma.$fn;
         $techs = [];
 
         $password_hash = sha1($passWord);
@@ -77,11 +81,11 @@ if (!isset($_SESSION["id"])) {
             empty($level) ||
             empty($brandJunior) ||
             !filter_var($emailAddress, FILTER_VALIDATE_EMAIL) ||
-            preg_match('/^[\D]{15}$/', $phone) ||
-            preg_match(
-                '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
-                $passWord
-            )
+            preg_match('/^[\D]{15}$/', $phone) 
+            // preg_match(
+            //     '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
+            //     $passWord
+            // )
         ) {
             $error = $champ_obligatoire;
             $email_error = $email_invalid;
@@ -117,6 +121,7 @@ if (!isset($_SESSION["id"])) {
                         "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
+                        "visiblePassword" => $passWord,
                         "manager" => new MongoDB\BSON\ObjectId($managerId),
                         "active" => true,
                         "created" => date("d-m-Y"),
@@ -158,6 +163,7 @@ if (!isset($_SESSION["id"])) {
                         "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
+                        "visiblePassword" => $passWord,
                         "manager" => "",
                         "active" => true,
                         "created" => date("d-m-Y"),
@@ -1148,6 +1154,7 @@ if (!isset($_SESSION["id"])) {
                         "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
+                        "visiblePassword" => $passWord,
                         "manager" => new MongoDB\BSON\ObjectId($managerId),
                         "active" => true,
                         "created" => date("d-m-Y"),
@@ -1189,6 +1196,7 @@ if (!isset($_SESSION["id"])) {
                         "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
+                        "visiblePassword" => $passWord,
                         "manager" => "",
                         "active" => true,
                         "created" => date("d-m-Y"),
@@ -2175,6 +2183,7 @@ if (!isset($_SESSION["id"])) {
                     "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($fonction),
                     "password" => $password_hash,
+                    "visiblePassword" => $passWord,
                     "active" => true,
                     "created" => date("d-m-Y"),
                 ];
@@ -2202,6 +2211,7 @@ if (!isset($_SESSION["id"])) {
                     "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($fonction),
                     "password" => $password_hash,
+                    "visiblePassword" => $passWord,
                     "active" => true,
                     "created" => date("d-m-Y"),
                 ];
@@ -2693,6 +2703,136 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $levelTech ?></span>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Junior" id="junior">
+                <label class="form-check-label text-black">
+                  <?php echo $junior ?> (<?php echo $maintenance ?>)
+                </label>
+              </div>
+            <!--begin::Input group-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Senior" id="senior">
+                <label class="form-check-label text-black">
+                  <?php echo $senior ?> (<?php echo $reparation ?>)
+                </label>
+              </div>
+            <!--begin::Input group-->
+              <div class="form-check" style="margin-top: 10px">
+                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Expert" id="expert">
+                <label class="form-check-label text-black">
+                  <?php echo $expert ?> (<?php echo $diagnostic ?>)
+                </label>
+              </div>
+            </div> 
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
+                <span class="required"><?php echo $filiale ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="<?php echo $select_subsidiary ?>">
+                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                </span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <select name="subsidiary" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_subsidiary ?>" class="form-select form-select-solid fw-bold">
+                <option value=""><?php echo $select_subsidiary ?></option>
+                <option value="CAMEROON MOTORS INDUSTRIES">
+                  <?php echo $cami ?>
+                </option>
+                <option value="CFAO MOTORS BENIN">
+                  <?php echo $cfao_benin ?>
+                </option>
+                <option value="CFAO MOTORS BURKINA">
+                  <?php echo $cfao_burkina ?>
+                </option>
+                <option value="CFAO MOTORS CENTRAFRIQUE">
+                  <?php echo $cfao_centrafrique ?>
+                </option>
+                <option value="CFAO MOTORS CONGO">
+                  <?php echo $cfao_congo ?>
+                </option>
+                <option value="CFAO MOTORS COTE D'IVOIRE">
+                  <?php echo $cfao_cote_divoire ?>
+                </option>
+                <option value="CFAO MOTORS GABON">
+                  <?php echo $cfao_gabon ?>
+                </option>
+                <option value="CFAO (GAMBIA) LIMITED">
+                  <?php echo $cfao_gambia ?>
+                </option>
+                <option value="CFAO MOTORS GHANA">
+                  <?php echo $cfao_ghana ?>
+                </option>
+                <option value="CFAO MOTORS GUINEE">
+                  <?php echo $cfao_guinee ?>
+                </option>
+                <option value="CFAO MOTORS GUINEE BISSAU">
+                  <?php echo $cfao_guinee_bissau ?>
+                </option>
+                <option value="CFAO MOTORS GUINEA EQUATORIAL">
+                  <?php echo $cfao_guinee_equatorial ?>
+                </option>
+                <option value="CFAO MOTORS MADAGASCAR">
+                  <?php echo $cfao_madagascar ?>
+                </option>
+                <option value="CFAO MOTORS MALI">
+                  <?php echo $cfao_mali ?>
+                </option>
+                <option value="CFAO MOTORS NIGER">
+                  <?php echo $cfao_niger ?>
+                </option>
+                <option value="CFAO MOTORS NIGERIA">
+                  <?php echo $cfao_nigeria ?>
+                </option>
+                <option value="CFAO MOTORS RDC">
+                  <?php echo $cfao_rdc ?>
+                </option>
+                <option value="CFAO MOTORS SENEGAL">
+                  <?php echo $cfao_senegal ?>
+                </option>
+                <option value="CFAO MOTORS TCHAD">
+                  <?php echo $cfao_tchad ?>
+                </option>
+                <option value="CFAO MOTORS TOGO">
+                  <?php echo $cfao_togo ?>
+                </option>
+                <option value="COMPAGNIE MAURITANIENNE DE DISTRIBUTION AUTOMOBILE">
+                  <?php echo $cfao_cmda ?>
+                </option>
+              </select>
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="fv-row mb-7">
+              <!--begin::Label-->
+              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $agence ?></label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <input type="text" class="form-control form-control-solid" name="agency" />
+              <!--end::Input-->
+              <?php if (isset($error)) { ?>
+              <span class='text-danger'>
+                <?php echo $error; ?>
+              </span>
+              <?php } ?>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-7 fv-row">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6">
                 <span class="required"><?php echo $department ?></span>
                 </span>
               </label>
@@ -2716,21 +2856,7 @@ if (!isset($_SESSION["id"])) {
               </span>
               <?php } ?>
             </div>
-            <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row">
-              <!--begin::Label-->
-              <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $levelTech ?></span>
-                </span>
-              </label>
-              <!--end::Label-->
-              <!--begin::Input-->
-              <div class="form-check" style="margin-top: 10px">
-                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Junior" id="junior">
-                <label class="form-check-label text-black">
-                  <?php echo $junior ?> (<?php echo $maintenance ?>)
-                </label>
-              </div>
+            <!--end::Input group-->
             <!--begin::Input group-->
             <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentJu">
               <!--begin::Label-->
@@ -2906,17 +3032,10 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-              <div class="form-check" style="margin-top: 10px">
-                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Senior" id="senior">
-                <label class="form-check-label text-black">
-                  <?php echo $senior ?> (<?php echo $reparation ?>)
-                </label>
-              </div>
-            <!--begin::Input group-->
             <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentSe">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $brand ?></span>
+                <span class="required"><?php echo $brand ?> <?php echo $senior ?></span>
                 </span>
               </label>
               <!--end::Label-->
@@ -3121,15 +3240,6 @@ if (!isset($_SESSION["id"])) {
               </span>
               <?php } ?>
             </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-              <div class="form-check" style="margin-top: 10px">
-                <input class="form-check-input" onclick="checkedRa()" type="radio" name="level" value="Expert" id="expert">
-                <label class="form-check-label text-black">
-                  <?php echo $expert ?> (<?php echo $diagnostic ?>)
-                </label>
-              </div>
-            </div> 
             <!--end::Input group-->
             <!--begin::Input group-->
             <div class="d-flex flex-column mb-7 fv-row d-none" style="margin-top: 10px" id="brandEquipmentEx">
@@ -3357,105 +3467,6 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="d-flex flex-column mb-7 fv-row">
-              <!--begin::Label-->
-              <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $filiale ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="<?php echo $select_subsidiary ?>">
-                  <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                </span>
-              </label>
-              <!--end::Label-->
-              <!--begin::Input-->
-              <select name="subsidiary" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_subsidiary ?>" class="form-select form-select-solid fw-bold">
-                <option value=""><?php echo $select_subsidiary ?></option>
-                <option value="CAMEROON MOTORS INDUSTRIES">
-                  <?php echo $cami ?>
-                </option>
-                <option value="CFAO MOTORS BENIN">
-                  <?php echo $cfao_benin ?>
-                </option>
-                <option value="CFAO MOTORS BURKINA">
-                  <?php echo $cfao_burkina ?>
-                </option>
-                <option value="CFAO MOTORS CENTRAFRIQUE">
-                  <?php echo $cfao_centrafrique ?>
-                </option>
-                <option value="CFAO MOTORS CONGO">
-                  <?php echo $cfao_congo ?>
-                </option>
-                <option value="CFAO MOTORS COTE D'IVOIRE">
-                  <?php echo $cfao_cote_divoire ?>
-                </option>
-                <option value="CFAO MOTORS GABON">
-                  <?php echo $cfao_gabon ?>
-                </option>
-                <option value="CFAO (GAMBIA) LIMITED">
-                  <?php echo $cfao_gambia ?>
-                </option>
-                <option value="CFAO MOTORS GHANA">
-                  <?php echo $cfao_ghana ?>
-                </option>
-                <option value="CFAO MOTORS GUINEE">
-                  <?php echo $cfao_guinee ?>
-                </option>
-                <option value="CFAO MOTORS GUINEE BISSAU">
-                  <?php echo $cfao_guinee_bissau ?>
-                </option>
-                <option value="CFAO MOTORS GUINEA EQUATORIAL">
-                  <?php echo $cfao_guinee_equatorial ?>
-                </option>
-                <option value="CFAO MOTORS MADAGASCAR">
-                  <?php echo $cfao_madagascar ?>
-                </option>
-                <option value="CFAO MOTORS MALI">
-                  <?php echo $cfao_mali ?>
-                </option>
-                <option value="CFAO MOTORS NIGER">
-                  <?php echo $cfao_niger ?>
-                </option>
-                <option value="CFAO MOTORS NIGERIA">
-                  <?php echo $cfao_nigeria ?>
-                </option>
-                <option value="CFAO MOTORS RDC">
-                  <?php echo $cfao_rdc ?>
-                </option>
-                <option value="CFAO MOTORS SENEGAL">
-                  <?php echo $cfao_senegal ?>
-                </option>
-                <option value="CFAO MOTORS TCHAD">
-                  <?php echo $cfao_tchad ?>
-                </option>
-                <option value="CFAO MOTORS TOGO">
-                  <?php echo $cfao_togo ?>
-                </option>
-                <option value="COMPAGNIE MAURITANIENNE DE DISTRIBUTION AUTOMOBILE">
-                  <?php echo $cfao_cmda ?>
-                </option>
-              </select>
-              <!--end::Input-->
-              <?php if (isset($error)) { ?>
-              <span class='text-danger'>
-                <?php echo $error; ?>
-              </span>
-              <?php } ?>
-            </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-            <div class="fv-row mb-7">
-              <!--begin::Label-->
-              <label class="required form-label fw-bolder text-dark fs-6"><?php echo $agence ?></label>
-              <!--end::Label-->
-              <!--begin::Input-->
-              <input type="text" class="form-control form-control-solid" name="agency" />
-              <!--end::Input-->
-              <?php if (isset($error)) { ?>
-              <span class='text-danger'>
-                <?php echo $error; ?>
-              </span>
-              <?php } ?>
-            </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
             <div class="fv-row mb-7">
               <!--begin::Label-->
               <label class="required form-label fw-bolder text-dark fs-6"><?php echo $role ?></label>
@@ -3486,18 +3497,18 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Input group-->
             <!--begin::Input group-->
-            <div class="mb-10 fv-row" data-kt-password-meter="true">
+            <!-- <div class="mb-10 fv-row" data-kt-password-meter="true"> -->
               <!--begin::Wrapper-->
-              <div class="mb-1">
+              <!-- <div class="mb-1"> -->
                 <!--begin::Label-->
-                <label class="required form-label fw-bolder text-dark fs-6"><?php echo $password ?></label>
+                <!-- <label class="required form-label fw-bolder text-dark fs-6"><?php echo $password ?></label> -->
                 <!--end::Label-->
                 <!--begin::Input wrapper-->
-                <div class="position-relative mb-3">
+                <!-- <div class="position-relative mb-3">
                   <input class="form-control form-control-solid" type="password" name="password" autocomplete="off" />
-                </div>
+                </div> -->
                 <!--end::Input wrapper-->
-                <?php if (isset($password_error)) { ?>
+                <!-- <?php if (isset($password_error)) { ?>
                 <span class="text-danger">
                   <?php echo $password_error; ?>
                 </span>
@@ -3506,9 +3517,9 @@ if (!isset($_SESSION["id"])) {
                 <span class='text-danger'>
                   <?php echo $error; ?>
                 </span>
-                <?php } ?>
+                <?php } ?> -->
                 <!--begin::Meter-->
-                <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+                <!-- <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
                   <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2">
                   </div>
                   <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2">
@@ -3517,14 +3528,14 @@ if (!isset($_SESSION["id"])) {
                   </div>
                   <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px">
                   </div>
-                </div>
+                </div> -->
                 <!--end::Meter-->
-              </div>
+              <!-- </div> -->
               <!--end::Wrapper-->
               <!--begin::Hint-->
-              <div class="text-muted"><?php echo $password_text ?></div>
+              <!-- <div class="text-muted"><?php echo $password_text ?></div> -->
               <!--end::Input group-->
-            </div>
+            <!-- </div> -->
             <!--end::Input group-->
             <!--begin::Input group-->
             <div class="d-flex flex-column mb-7 fv-row">
@@ -3587,28 +3598,28 @@ if (!isset($_SESSION["id"])) {
 ?>
 
 <script>
-  var metierSe = document.querySelector('#metierSe');
-  var metierEx = document.querySelector('#metierEx');
-  var brandMotorsJu = document.querySelector('#brandMotorsJu');
-  var brandEquipmentJu = document.querySelector('#brandEquipmentJu');
-  var brandEqMoJu = document.querySelector('#brandEqMoJu');
-  var brandMotorsSe = document.querySelector('#brandMotorsSe');
-  var brandEquipmentSe = document.querySelector('#brandEquipmentSe');
-  var brandEqMoSe = document.querySelector('#brandEqMoSe');
-  var brandMotorsEx = document.querySelector('#brandMotorsEx');
-  var brandEquipmentEx = document.querySelector('#brandEquipmentEx');
-  var brandEqMoEx = document.querySelector('#brandEqMoEx');
-
   function enableBrand(answer) {
     checkedRa(answer.value);
   }
 
   function checkedRa(departValue) {
+    var metierSe = document.querySelector('#metierSe');
+    var metierEx = document.querySelector('#metierEx');
+    var brandMotorsJu = document.querySelector('#brandMotorsJu');
+    var brandEquipmentJu = document.querySelector('#brandEquipmentJu');
+    var brandEqMoJu = document.querySelector('#brandEqMoJu');
+    var brandMotorsSe = document.querySelector('#brandMotorsSe');
+    var brandEquipmentSe = document.querySelector('#brandEquipmentSe');
+    var brandEqMoSe = document.querySelector('#brandEqMoSe');
+    var brandMotorsEx = document.querySelector('#brandMotorsEx');
+    var brandEquipmentEx = document.querySelector('#brandEquipmentEx');
+    var brandEqMoEx = document.querySelector('#brandEqMoEx');
+
     var junior = document.querySelector('#junior');
     var senior = document.querySelector('#senior');
     var expert = document.querySelector('#expert');
-    if(departValue == 'Motors') {
-      if(junior.checked) {
+    if(junior.checked) {
+      if(departValue == 'Motors') {
         brandMotorsJu.classList.remove('d-none');
         brandEquipmentJu.classList.add('d-none');
         brandEqMoJu.classList.add('d-none');
@@ -3618,29 +3629,7 @@ if (!isset($_SESSION["id"])) {
         brandMotorsEx.classList.add('d-none');
         brandEquipmentEx.classList.add('d-none');
         brandEqMoEx.classList.add('d-none');
-      } else if(senior.checked) {
-        brandMotorsJu.classList.remove('d-none');
-        brandEquipmentJu.classList.add('d-none');
-        brandEqMoJu.classList.add('d-none');
-        brandMotorsSe.classList.remove('d-none');
-        brandEquipmentSe.classList.add('d-none');
-        brandEqMoSe.classList.add('d-none');
-        brandMotorsEx.classList.add('d-none');
-        brandEquipmentEx.classList.add('d-none');
-        brandEqMoEx.classList.add('d-none');
-      } else if(expert.checked) {
-        brandMotorsJu.classList.remove('d-none');
-        brandEquipmentJu.classList.add('d-none');
-        brandEqMoJu.classList.add('d-none');
-        brandMotorsSe.classList.remove('d-none');
-        brandEquipmentSe.classList.add('d-none');
-        brandEqMoSe.classList.add('d-none');
-        brandMotorsEx.classList.remove('d-none');
-        brandEquipmentEx.classList.add('d-none');
-        brandEqMoEx.classList.add('d-none');
-      }
-    } else if(departValue == 'Equipment') {
-      if(junior.checked) {
+      } else if(departValue == 'Equipment') {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.remove('d-none');
         brandEqMoJu.classList.add('d-none');
@@ -3650,29 +3639,7 @@ if (!isset($_SESSION["id"])) {
         brandMotorsEx.classList.add('d-none');
         brandEquipmentEx.classList.add('d-none');
         brandEqMoEx.classList.add('d-none');
-      } else if(senior.checked) {
-        brandMotorsJu.classList.add('d-none');
-        brandEquipmentJu.classList.remove('d-none');
-        brandEqMoJu.classList.add('d-none');
-        brandMotorsSe.classList.add('d-none');
-        brandEquipmentSe.classList.remove('d-none');
-        brandEqMoSe.classList.add('d-none');
-        brandMotorsEx.classList.add('d-none');
-        brandEquipmentEx.classList.add('d-none');
-        brandEqMoEx.classList.add('d-none');
-      } else if(expert.checked) {
-        brandMotorsJu.classList.add('d-none');
-        brandEquipmentJu.classList.remove('d-none');
-        brandEqMoJu.classList.add('d-none');
-        brandMotorsSe.classList.add('d-none');
-        brandEquipmentSe.classList.remove('d-none');
-        brandEqMoSe.classList.add('d-none');
-        brandMotorsEx.classList.add('d-none');
-        brandEquipmentEx.classList.remove('d-none');
-        brandEqMoEx.classList.add('d-none');
-      }
-    } else if(departValue == 'Equipment, Motors') {
-      if(junior.checked) {
+      } else if(departValue == 'Equipment, Motors') {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.add('d-none');
         brandEqMoJu.classList.remove('d-none');
@@ -3682,7 +3649,29 @@ if (!isset($_SESSION["id"])) {
         brandMotorsEx.classList.add('d-none');
         brandEquipmentEx.classList.add('d-none');
         brandEqMoEx.classList.add('d-none');
-      } else if(senior.checked) {
+      }
+    } else if(senior.checked) {
+      if(departValue == 'Motors') {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.remove('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(departValue == 'Equipment') {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.remove('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(departValue == 'Equipment, Motors') {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.add('d-none');
         brandEqMoJu.classList.remove('d-none');
@@ -3692,7 +3681,29 @@ if (!isset($_SESSION["id"])) {
         brandMotorsEx.classList.add('d-none');
         brandEquipmentEx.classList.add('d-none');
         brandEqMoEx.classList.add('d-none');
-      } else if(expert.checked) {
+      }
+    } else if(expert.checked) {
+      if(departValue == 'Motors') {
+        brandMotorsJu.classList.remove('d-none');
+        brandEquipmentJu.classList.add('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.remove('d-none');
+        brandEquipmentSe.classList.add('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.remove('d-none');
+        brandEquipmentEx.classList.add('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(departValue == 'Equipment') {
+        brandMotorsJu.classList.add('d-none');
+        brandEquipmentJu.classList.remove('d-none');
+        brandEqMoJu.classList.add('d-none');
+        brandMotorsSe.classList.add('d-none');
+        brandEquipmentSe.classList.remove('d-none');
+        brandEqMoSe.classList.add('d-none');
+        brandMotorsEx.classList.add('d-none');
+        brandEquipmentEx.classList.remove('d-none');
+        brandEqMoEx.classList.add('d-none');
+      } else if(departValue == 'Equipment, Motors') {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.add('d-none');
         brandEqMoJu.classList.remove('d-none');
@@ -3708,8 +3719,11 @@ if (!isset($_SESSION["id"])) {
       metierSe.classList.remove('d-none');
       metierEx.classList.add('d-none');
     } else if(expert.checked){
-      metierSe.classList.add('d-none');
+      metierSe.classList.remove('d-none');
       metierEx.classList.remove('d-none');
+    } else {
+      metierSe.classList.add('d-none');
+      metierEx.classList.add('d-none');
     }
   }
 

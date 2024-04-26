@@ -19,9 +19,13 @@ if (!isset($_SESSION["id"])) {
     $users = $academy->users;
     $questions = $academy->questions;
     $results = $academy->results;
+    $validations = $academy->validations;
 
     $id = $_GET["id"];
     $level = $_GET["level"];
+    $numberTest = $_GET["numberTest"];
+
+    $validate = $validations->findOne([ "active" => true ]);
 
     $technician = $users->findOne([
         '$and' => [
@@ -81,8 +85,8 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Info-->
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
-                <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    Résultats Détaillés de 
+                <h1 class="text-dark fw-bold my-1" style="font-size: 30px;">
+                    <?php echo $result_detail ?> 
                     <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>
                 <!--end::Title-->
@@ -110,7 +114,7 @@ if (!isset($_SESSION["id"])) {
                         <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
                             data-bs-target="#kt_customers_export_modal">
                             <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span
-                                    class="path2"></span></i><?php echo $excel ?>
+                                    class="path2"></span></i> <?php echo $excel ?> 
                         </button>
                         <!--end::Export-->
                     </div>
@@ -198,6 +202,7 @@ if (!isset($_SESSION["id"])) {
                                         ["type" => "Factuel"],
                                         ["typeR" => "Technicien"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => false],
                                     ],
                                 ]);
@@ -211,6 +216,7 @@ if (!isset($_SESSION["id"])) {
                                         ["type" => "Declaratif"],
                                         ["typeR" => "Techniciens"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => false],
                                     ],
                                 ]);
@@ -228,6 +234,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["typeR" => "Managers"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => false],
                                     ],
                                 ]);
@@ -245,6 +252,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["typeR" => "Technicien - Manager"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => false],
                                     ],
                                 ]);
@@ -863,7 +871,7 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo $result ?></th>
+                                        <?php echo $result?></th>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
@@ -883,11 +891,9 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeFac->score * 100) /
-                                                $groupeFac->total,
-                                            0
-                                        ); ?>%
+                                                $groupeFac->total); ?>%
                                     </th>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -898,31 +904,25 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeDecla->score * 100) /
-                                                $groupeDecla->total,
-                                            0
-                                        ); ?>%
+                                                $groupeDecla->total); ?>%
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeMa->score * 100) /
-                                                $groupeMa->total,
-                                            0
-                                        ); ?>%
+                                                $groupeMa->total); ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeTechMa->score * 100) /
-                                                $groupeTechMa->total,
-                                            0
-                                        ); ?>%
+                                                $groupeTechMa->total); ?>%
                                     </th>
                                     <th id="result-synt"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -1016,11 +1016,25 @@ const percentSavoirFaire = ((maitriseSavoirFaire.length * 100) / tdSavoirFaire.l
 const percentN = ((ouiN.length * 100) / tdN.length).toFixed(0)
 const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
 
+var level = '<?php echo $level ?>';
+if (level == 'Junior') {
+    var a = '<?php echo $validate['tacheJunior'] ?>%';
+    var b = '<?php echo $validate['qcmJunior'] ?>%';
+}
+if (level == 'Senior') {
+    var a = '<?php echo $validate['tacheSenior'] ?>%';
+    var b = '<?php echo $validate['qcmSenior'] ?>%';
+}
+if (level == 'Expert') {
+    var a = '<?php echo $validate['tacheExpert'] ?>%';
+    var b = '<?php echo $validate['qcmExpert'] ?>%';
+}
+
 // resultSavoir.innerHTML = percentSavoir + "%";
-if (percentSavoirFaire >= 80) {
+if (percentSavoirFaire >= a && percentSavoir >= b) {
     resultSynt.innerHTML = "Maitrisé";
 }
-if (percentSavoirFaire < 80) {
+if (percentSavoirFaire < a && percentSavoir < b) {
     resultSynt.innerHTML = "Non maitrisé";
 }
 // resultSavoirFaire.innerHTML = percentSavoirFaire + "%";

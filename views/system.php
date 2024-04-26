@@ -23,6 +23,7 @@ if (!isset($_SESSION["id"])) {
     $user = $_GET["user"];
     $level = $_GET["level"];
     $speciality = $_GET["speciality"];
+    $numberTest = $_GET["numberTest"];
 
     $technician = $users->findOne([
         '$and' => [
@@ -189,6 +190,8 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => $speciality],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
+                                        ["active" => true],
                                     ],
                                 ]);
                                 $groupeDecla = $results->findOne([
@@ -201,6 +204,8 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => $speciality],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
+                                        ["active" => true],
                                     ],
                                 ]);
                                 $groupeMa = $results->findOne([
@@ -217,6 +222,8 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => $speciality],
+                                        ["numberTest" => +$numberTest],
+                                        ["active" => true],
                                     ],
                                 ]);
                                 ?>
@@ -452,10 +459,9 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeFac->score * 100) /
-                                                $groupeFac->total,
-                                            0
+                                                $groupeFac->total
                                         ); ?>%
                                     </th>
                                     <th id=""
@@ -467,20 +473,18 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeDecla->score * 100) /
-                                                $groupeDecla->total,
-                                            0
+                                                $groupeDecla->total
                                         ); ?>%
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeMa->score * 100) /
-                                                $groupeMa->total,
-                                            0
+                                                $groupeMa->total
                                         ); ?>%
                                     </th>
                                     <th id="result-savoir-faire"

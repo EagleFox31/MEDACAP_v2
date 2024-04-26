@@ -23,6 +23,7 @@ if (!isset($_SESSION["id"])) {
 
     $id = $_GET["id"];
     $level = $_GET["level"];
+    $numberTest = $_GET["numberTest"];
 
     $validate = $validations->findOne([ "active" => true ]);
 
@@ -201,6 +202,7 @@ if (!isset($_SESSION["id"])) {
                                         ["type" => "Factuel"],
                                         ["typeR" => "Technicien"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -214,6 +216,7 @@ if (!isset($_SESSION["id"])) {
                                         ["type" => "Declaratif"],
                                         ["typeR" => "Techniciens"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -231,6 +234,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["typeR" => "Managers"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -248,6 +252,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["typeR" => "Technicien - Manager"],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -886,11 +891,9 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeFac->score * 100) /
-                                                $groupeFac->total,
-                                            0
-                                        ); ?>%
+                                                $groupeFac->total); ?>%
                                     </th>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -901,31 +904,25 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeDecla->score * 100) /
-                                                $groupeDecla->total,
-                                            0
-                                        ); ?>%
+                                                $groupeDecla->total); ?>%
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeMa->score * 100) /
-                                                $groupeMa->total,
-                                            0
-                                        ); ?>%
+                                                $groupeMa->total); ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeTechMa->score * 100) /
-                                                $groupeTechMa->total,
-                                            0
-                                        ); ?>%
+                                                $groupeTechMa->total); ?>%
                                     </th>
                                     <th id="result-synt"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -1021,20 +1018,23 @@ const percentN1 = ((ouiN1.length * 100) / tdN1.length).toFixed(0)
 
 var level = '<?php echo $level ?>';
 if (level == 'Junior') {
-    var b = <?php echo $validate['junior'] ?>;
+    var a = '<?php echo $validate['tacheJunior'] ?>%';
+    var b = '<?php echo $validate['qcmJunior'] ?>%';
 }
 if (level == 'Senior') {
-    var b = <?php echo $validate['senior'] ?>;
+    var a = '<?php echo $validate['tacheSenior'] ?>%';
+    var b = '<?php echo $validate['qcmSenior'] ?>%';
 }
 if (level == 'Expert') {
-    var b = <?php echo $validate['expert'] ?>;
+    var a = '<?php echo $validate['tacheExpert'] ?>%';
+    var b = '<?php echo $validate['qcmExpert'] ?>%';
 }
 
 // resultSavoir.innerHTML = percentSavoir + "%";
-if (percentSavoirFaire >= b && percentSavoir >= b) {
+if (percentSavoirFaire >= a && percentSavoir >= b) {
     resultSynt.innerHTML = "Maitrisé";
 }
-if (percentSavoirFaire < b && percentSavoir < b) {
+if (percentSavoirFaire < a && percentSavoir < b) {
     resultSynt.innerHTML = "Non maitrisé";
 }
 // resultSavoirFaire.innerHTML = percentSavoirFaire + "%";

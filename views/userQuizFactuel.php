@@ -1131,13 +1131,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizAssistance->type,
                             "total" => count($quizQuestionAssistance),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizAssistance->speciality],
+                        ["type" => $quizAssistance->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionAssistance,
+                        "answers" => $answersAssistance,
+                        "quiz" => new MongoDB\BSON\ObjectId($assistanceID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreAss,
+                        "speciality" => $quizAssistance->speciality,
+                        "level" => $level,
+                        "type" => $quizAssistance->type,
+                        "total" => count($quizQuestionAssistance),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizArbre"])) {
                 $arbreID = $_POST["quizArbre"];
@@ -1186,13 +1213,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizArbre->type,
                             "total" => count($quizQuestionArbre),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizArbre->speciality],
+                        ["type" => $quizArbre->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionArbre,
+                        "answers" => $answersArbre,
+                        "quiz" => new MongoDB\BSON\ObjectId($arbreID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreAr,
+                        "speciality" => $quizArbre->speciality,
+                        "level" => $level,
+                        "type" => $quizArbre->type,
+                        "total" => count($quizQuestionArbre),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizTransfert"])) {
                 $transfertID = $_POST["quizTransfert"];
@@ -1242,13 +1296,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizTransfert->type,
                             "total" => count($quizQuestionTransfert),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizTransfert->speciality],
+                        ["type" => $quizTransfert->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionTransfert,
+                        "answers" => $answersTransfert,
+                        "quiz" => new MongoDB\BSON\ObjectId($transfertID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreBoT,
+                        "speciality" => $quizTransfert->speciality,
+                        "level" => $level,
+                        "type" => $quizTransfert->type,
+                        "total" => count($quizQuestionTransfert),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizBoite"])) {
                 $boiteID = $_POST["quizBoite"];
@@ -1298,13 +1379,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizBoite->type,
                             "total" => count($quizQuestionBoite),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizBoite->speciality],
+                        ["type" => $quizBoite->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionBoite,
+                        "answers" => $answersBoite,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreBoi,
+                        "speciality" => $quizBoite->speciality,
+                        "level" => $level,
+                        "type" => $quizBoite->type,
+                        "total" => count($quizQuestionBoite),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizBoiteAuto"])) {
                 $boiteAutoID = $_POST["quizBoiteAuto"];
@@ -1357,13 +1465,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizBoiteAuto->type,
                             "total" => count($quizQuestionBoiteAuto),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizBoiteAuto->speciality],
+                        ["type" => $quizBoiteAuto->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionBoiteAuto,
+                        "answers" => $answersBoiteAuto,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteAutoID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreBoiA,
+                        "speciality" => $quizBoiteAuto->speciality,
+                        "level" => $level,
+                        "type" => $quizBoiteAuto->type,
+                        "total" => count($quizQuestionBoiteAuto),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizBoiteMan"])) {
                 $boiteManID = $_POST["quizBoiteMan"];
@@ -1416,13 +1551,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizBoiteMan->type,
                             "total" => count($quizQuestionBoiteMan),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizBoiteMan->speciality],
+                        ["type" => $quizBoiteMan->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionBoiteMan,
+                        "answers" => $answersBoiteMan,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteManID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreBoiM,
+                        "speciality" => $quizBoiteMan->speciality,
+                        "level" => $level,
+                        "type" => $quizBoiteMan->type,
+                        "total" => count($quizQuestionBoiteMan),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizBoiteVc"])) {
                 $boiteVcID = $_POST["quizBoiteVc"];
@@ -1475,13 +1637,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizBoiteVc->type,
                             "total" => count($quizQuestionBoiteVc),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizBoiteVc->speciality],
+                        ["type" => $quizBoiteVc->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionBoiteVc,
+                        "answers" => $answersBoiteVc,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteVcID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreBoiV,
+                        "speciality" => $quizBoiteVc->speciality,
+                        "level" => $level,
+                        "type" => $quizBoiteVc->type,
+                        "total" => count($quizQuestionBoiteVc),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizClimatisation"])) {
                 $climatisationID = $_POST["quizClimatisation"];
@@ -1539,13 +1728,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizClimatisation->type,
                             "total" => count($quizQuestionClimatisation),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizClimatisation->speciality],
+                        ["type" => $quizClimatisation->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionClimatisation,
+                        "answers" => $answersClimatisation,
+                        "quiz" => new MongoDB\BSON\ObjectId($climatisationID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreClim,
+                        "speciality" => $quizClimatisation->speciality,
+                        "level" => $level,
+                        "type" => $quizClimatisation->type,
+                        "total" => count($quizQuestionClimatisation),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizDirection"])) {
                 $directionID = $_POST["quizDirection"];
@@ -1595,13 +1811,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizDirection->type,
                             "total" => count($quizQuestionDirection),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizDirection->speciality],
+                        ["type" => $quizDirection->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionDirection,
+                        "answers" => $answersDirection,
+                        "quiz" => new MongoDB\BSON\ObjectId($directionID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreDir,
+                        "speciality" => $quizDirection->speciality,
+                        "level" => $level,
+                        "type" => $quizDirection->type,
+                        "total" => count($quizQuestionDirection),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizDemi"])) {
                 $demiID = $_POST["quizDemi"];
@@ -1651,13 +1894,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizDemi->type,
                             "total" => count($quizQuestionDemi),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizDemi->speciality],
+                        ["type" => $quizDemi->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionDemi,
+                        "answers" => $answersDemi,
+                        "quiz" => new MongoDB\BSON\ObjectId($demiID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreDe,
+                        "speciality" => $quizDemi->speciality,
+                        "level" => $level,
+                        "type" => $quizDemi->type,
+                        "total" => count($quizQuestionDemi),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizElectricite"])) {
                 $electriciteID = $_POST["quizElectricite"];
@@ -1712,13 +1982,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizElectricite->type,
                             "total" => count($quizQuestionElectricite),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizElectricite->speciality],
+                        ["type" => $quizElectricite->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionElectricite,
+                        "answers" => $answersElectricite,
+                        "quiz" => new MongoDB\BSON\ObjectId($electriciteID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreElec,
+                        "speciality" => $quizElectricite->speciality,
+                        "level" => $level,
+                        "type" => $quizElectricite->type,
+                        "total" => count($quizQuestionElectricite),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizFrei"])) {
                 $freiID = $_POST["quizFrei"];
@@ -1767,13 +2064,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizFrei->type,
                             "total" => count($quizQuestionFrei),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizFrei->speciality],
+                        ["type" => $quizFrei->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionFrei,
+                        "answers" => $answersFrei,
+                        "quiz" => new MongoDB\BSON\ObjectId($freiID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreFrei,
+                        "speciality" => $quizFrei->speciality,
+                        "level" => $level,
+                        "type" => $quizFrei->type,
+                        "total" => count($quizQuestionFrei),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizFreinageElec"])) {
                 $freinageElecID = $_POST["quizFreinageElec"];
@@ -1806,7 +2130,7 @@ if (!isset($_SESSION["id"])) {
                             $score += 1;
                             $proposal = "Maitrisé";
                         } else {
-                            $scoreFreiH += 0;
+                            $scoreFreiE += 0;
                             $proposalFreinageElec = "Non maitrisé";
                             $score += 0;
                             $proposal = "Non maitrisé";
@@ -1830,13 +2154,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizFreinageElec->type,
                             "total" => count($quizQuestionFreinageElec),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizFreinageElec->speciality],
+                        ["type" => $quizFreinageElec->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionFreinageElec,
+                        "answers" => $answersFreinageElec,
+                        "quiz" => new MongoDB\BSON\ObjectId($freinageElecID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreFreiE,
+                        "speciality" => $quizFreinageElec->speciality,
+                        "level" => $level,
+                        "type" => $quizFreinageElec->type,
+                        "total" => count($quizQuestionFreinageElec),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizFreinage"])) {
                 $freinageID = $_POST["quizFreinage"];
@@ -1885,13 +2236,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizFreinage->type,
                             "total" => count($quizQuestionFreinage),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizFreinage->speciality],
+                        ["type" => $quizFreinage->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionFreinage,
+                        "answers" => $answersFreinage,
+                        "quiz" => new MongoDB\BSON\ObjectId($freinageElecID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreFreiH,
+                        "speciality" => $quizFreinage->speciality,
+                        "level" => $level,
+                        "type" => $quizFreinage->type,
+                        "total" => count($quizQuestionFreinage),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizFrein"])) {
                 $freinID = $_POST["quizFrein"];
@@ -1940,13 +2318,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizFrein->type,
                             "total" => count($quizQuestionFrein),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizFrein->speciality],
+                        ["type" => $quizFrein->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionFrein,
+                        "answers" => $answersFrein,
+                        "quiz" => new MongoDB\BSON\ObjectId($freinID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreFreiP,
+                        "speciality" => $quizFrein->speciality,
+                        "level" => $level,
+                        "type" => $quizFrein->type,
+                        "total" => count($quizQuestionFrein),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizHydraulique"])) {
                 $hydrauliqueID = $_POST["quizHydraulique"];
@@ -1998,13 +2403,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizHydraulique->type,
                             "total" => count($quizQuestionHydraulique),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizHydraulique->speciality],
+                        ["type" => $quizHydraulique->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionHydraulique,
+                        "answers" => $answersHydraulique,
+                        "quiz" => new MongoDB\BSON\ObjectId($hydrauliqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreHyd,
+                        "speciality" => $quizHydraulique->speciality,
+                        "level" => $level,
+                        "type" => $quizHydraulique->type,
+                        "total" => count($quizQuestionHydraulique),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizMoteurDiesel"])) {
                 $moteurDieselID = $_POST["quizMoteurDiesel"];
@@ -2058,13 +2490,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizMoteurDiesel->type,
                             "total" => count($quizQuestionMoteurDiesel),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizMoteurDiesel->speciality],
+                        ["type" => $quizMoteurDiesel->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionMoteurDiesel,
+                        "answers" => $answersMoteurDiesel,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurDieselID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreMoD,
+                        "speciality" => $quizMoteurDiesel->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurDiesel->type,
+                        "total" => count($quizQuestionMoteurDiesel),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizMoteurElec"])) {
                 $moteurElecID = $_POST["quizMoteurElec"];
@@ -2116,13 +2575,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizMoteurElec->type,
                             "total" => count($quizQuestionMoteurElec),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizMoteurElec->speciality],
+                        ["type" => $quizMoteurElec->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionMoteurElec,
+                        "answers" => $answersMoteurElec,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurElecID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreMoEl,
+                        "speciality" => $quizMoteurElec->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurElec->type,
+                        "total" => count($quizQuestionMoteurElec),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizMoteurEssence"])) {
                 $moteurEssenceID = $_POST["quizMoteurEssence"];
@@ -2179,13 +2665,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizMoteurEssence->type,
                             "total" => count($quizQuestionMoteurEssence),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizMoteurEssence->speciality],
+                        ["type" => $quizMoteurEssence->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionMoteurEssence,
+                        "answers" => $answersMoteurEssence,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurEssenceID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreMoE,
+                        "speciality" => $quizMoteurEssence->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurEssence->type,
+                        "total" => count($quizQuestionMoteurEssence),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizMoteur"])) {
                 $moteurThermiqueID = $_POST["quizMoteur"];
@@ -2246,13 +2759,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizMoteurThermique->type,
                             "total" => count($quizQuestionMoteurThermique),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizMoteurThermique->speciality],
+                        ["type" => $quizMoteurThermique->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionMoteurThermique,
+                        "answers" => $answersMoteurThermique,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurThermiqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreMoT,
+                        "speciality" => $quizMoteurThermique->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurThermique->type,
+                        "total" => count($quizQuestionMoteurThermique),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizMultiplexage"])) {
                 $multiplexageID = $_POST["quizMultiplexage"];
@@ -2306,13 +2846,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizMultiplexage->type,
                             "total" => count($quizQuestionMultiplexage),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizMultiplexage->speciality],
+                        ["type" => $quizMultiplexage->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionMultiplexage,
+                        "answers" => $answersMultiplexage,
+                        "quiz" => new MongoDB\BSON\ObjectId($multiplexageID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreMulti,
+                        "speciality" => $quizMultiplexage->speciality,
+                        "level" => $level,
+                        "type" => $quizMultiplexage->type,
+                        "total" => count($quizQuestionMultiplexage),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizPont"])) {
                 $pontID = $_POST["quizPont"];
@@ -2361,13 +2928,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizPont->type,
                             "total" => count($quizQuestionPont),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizPont->speciality],
+                        ["type" => $quizPont->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionPont,
+                        "answers" => $answersPont,
+                        "quiz" => new MongoDB\BSON\ObjectId($pontID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scorePont,
+                        "speciality" => $quizPont->speciality,
+                        "level" => $level,
+                        "type" => $quizPont->type,
+                        "total" => count($quizQuestionPont),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizPneumatique"])) {
                 $pneumatiqueID = $_POST["quizPneumatique"];
@@ -2416,13 +3010,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizPneumatique->type,
                             "total" => count($quizQuestionPneu),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizPneumatique->speciality],
+                        ["type" => $quizPneumatique->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionPneu,
+                        "answers" => $answersPneu,
+                        "quiz" => new MongoDB\BSON\ObjectId($pneumatiqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scorePneu,
+                        "speciality" => $quizPneumatique->speciality,
+                        "level" => $level,
+                        "type" => $quizPneumatique->type,
+                        "total" => count($quizQuestionPneu),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizReducteur"])) {
                 $reducteurID = $_POST["quizReducteur"];
@@ -2471,13 +3092,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizReducteur->type,
                             "total" => count($quizQuestionReducteur),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizReducteur->speciality],
+                        ["type" => $quizReducteur->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionReducteur,
+                        "answers" => $answersReducteur,
+                        "quiz" => new MongoDB\BSON\ObjectId($reducteurID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreRed,
+                        "speciality" => $quizReducteur->speciality,
+                        "level" => $level,
+                        "type" => $quizReducteur->type,
+                        "total" => count($quizQuestionReducteur),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizSuspension"])) {
                 $suspensionID = $_POST["quizSuspension"];
@@ -2529,13 +3177,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizSuspension->type,
                             "total" => count($quizQuestionSuspension),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizSuspension->speciality],
+                        ["type" => $quizSuspension->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionSuspension,
+                        "answers" => $answersSuspension,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreSus,
+                        "speciality" => $quizSuspension->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspension->type,
+                        "total" => count($quizQuestionSuspension),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizSuspensionLame"])) {
                 $suspensionLameID = $_POST["quizSuspensionLame"];
@@ -2592,13 +3267,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizSuspensionLame->type,
                             "total" => count($quizQuestionSuspensionLame),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizSuspensionLame->speciality],
+                        ["type" => $quizSuspensionLame->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionSuspensionLame,
+                        "answers" => $answersSuspensionLame,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionLameID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreSusL,
+                        "speciality" => $quizSuspensionLame->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspensionLame->type,
+                        "total" => count($quizQuestionSuspensionLame),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizSuspensionRessort"])) {
                 $suspensionRessortID = $_POST["quizSuspensionRessort"];
@@ -2659,13 +3361,40 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizSuspensionRessort->type,
                             "total" => count($quizQuestionSuspensionRessort),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizSuspensionRessort->speciality],
+                        ["type" => $quizSuspensionRessort->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionSuspensionRessort,
+                        "answers" => $answersSuspensionRessort,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionRessortID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreSusR,
+                        "speciality" => $quizSuspensionRessort->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspensionRessort->type,
+                        "total" => count($quizQuestionSuspensionRessort),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizSuspensionPneumatique"])) {
                 $suspensionPneumatiqueID = $_POST["quizSuspensionPneumatique"];
@@ -2731,13 +3460,40 @@ if (!isset($_SESSION["id"])) {
                             "total" => count(
                                 $quizQuestionSuspensionPneumatique
                             ),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizSuspensionPneumatique->speciality],
+                        ["type" => $quizSuspensionPneumatique->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionSuspensionPneumatique,
+                        "answers" => $answersSuspensionPneumatique,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionPneumatiqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreSusP,
+                        "speciality" => $quizSuspensionPneumatique->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspensionPneumatique->type,
+                        "total" => count($quizQuestionSuspensionPneumatique),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
             if (isset($_POST["quizTransversale"])) {
                 $transversaleID = $_POST["quizTransversale"];
@@ -2791,31 +3547,87 @@ if (!isset($_SESSION["id"])) {
                             "level" => $level,
                             "type" => $quizTransversale->type,
                             "total" => count($quizQuestionTransversale),
+                            "numberTest" => 1,
                             "time" => $time,
                             "active" => true,
                             "created" => date("d-m-y"),
                         ];
                     }
                 }
-                $insertedResult = $results->insertOne($newResult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["speciality" => $quizTransversale->speciality],
+                        ["type" => $quizTransversale->type],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "questions" => $quizQuestionTransversale,
+                        "answers" => $answersTransversale,
+                        "quiz" => new MongoDB\BSON\ObjectId($transversaleID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "score" => $scoreTran,
+                        "speciality" => $quizTransversale->speciality,
+                        "level" => $level,
+                        "type" => $quizTransversale->type,
+                        "total" => count($quizQuestionTransversale),
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($newResult1);
+                } else {
+                    $insertedResult = $results->insertOne($newResult);
+                }
             }
 
-            $newResult = [
-                "questions" => $questionsTag,
-                "answers" => $answers,
-                "userAnswers" => $userAnswer,
-                "user" => new MongoDB\BSON\ObjectId($id),
-                "test" => new MongoDB\BSON\ObjectId($test),
-                "score" => $score,
-                "level" => $level,
-                "type" => "Factuel",
-                "typeR" => "Technicien",
-                "total" => count($questionsTag),
-                "time" => $time,
-                "active" => true,
-                "created" => date("d-m-y"),
-            ];
-            $result = $results->insertOne($newResult);
+            $exist = $results->find([
+                '$and' => [
+                    ["user" => new MongoDB\BSON\ObjectId($id)],
+                    ["test" => new MongoDB\BSON\ObjectId($test)],
+                    ["type" => "Factuel"],
+                ],
+            ])->toArray();
+
+            if ($exist) {
+                $newResult1 = [
+                    "questions" => $questionsTag,
+                    "answers" => $answers,
+                    "userAnswers" => $userAnswer,
+                    "user" => new MongoDB\BSON\ObjectId($id),
+                    "test" => new MongoDB\BSON\ObjectId($test),
+                    "score" => $score,
+                    "level" => $level,
+                    "type" => "Factuel",
+                    "typeR" => "Technicien",
+                    "total" => count($questionsTag),
+                    "numberTest" => count($exist) + 1,
+                    "time" => $time,
+                    "active" => true,
+                    "created" => date("d-m-y"),
+                ];
+                $result = $results->insertOne($newResult1);
+            } else {
+                $newResult = [
+                    "questions" => $questionsTag,
+                    "answers" => $answers,
+                    "userAnswers" => $userAnswer,
+                    "user" => new MongoDB\BSON\ObjectId($id),
+                    "test" => new MongoDB\BSON\ObjectId($test),
+                    "score" => $score,
+                    "level" => $level,
+                    "type" => "Factuel",
+                    "typeR" => "Technicien",
+                    "total" => count($questionsTag),
+                    "numberTest" => 1,
+                    "time" => $time,
+                    "active" => true,
+                    "created" => date("d-m-y"),
+                ];
+                $result = $results->insertOne($newResult);
+            }
 
             $allocationData = $allocations->findOne([
                 '$and' => [
@@ -9199,7 +10011,6 @@ if (!isset($_SESSION["id"])) {
                                                     </label>
                                                     <div >
                                                         <button type="submit" class="btn btn-success btn-lg" name="save"><?php echo $valider ?></button>
-                                                    </div>
                                                     </div>
                                                     <?php } ?>
                                                     <?php }

@@ -510,6 +510,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizAssistance->type,
                                 "typeR" => "Manager",
                                 "total" => $quizAssistance->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -517,7 +518,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizAssistance->speciality],
+                        ["type" => $quizAssistance->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizAssistance->questions,
+                        "answers" => $proposalAssistance,
+                        "quiz" => new MongoDB\BSON\ObjectId($assistanceID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreAss),
+                        "speciality" => $quizAssistance->speciality,
+                        "level" => $level,
+                        "type" => $quizAssistance->type,
+                        "typeR" => "Manager",
+                        "total" => $quizAssistance->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizArbre"])) {
                 $arbreID = $_POST["quizArbre"];
@@ -579,6 +610,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizArbre->type,
                                 "typeR" => "Manager",
                                 "total" => $quizArbre->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -586,7 +618,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizArbre->speciality],
+                        ["type" => $quizArbre->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizArbre->questions,
+                        "answers" => $proposalArbre,
+                        "quiz" => new MongoDB\BSON\ObjectId($arbreID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreAr),
+                        "speciality" => $quizArbre->speciality,
+                        "level" => $level,
+                        "type" => $quizArbre->type,
+                        "typeR" => "Manager",
+                        "total" => $quizArbre->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizTransfert"])) {
                 $transfertID = $_POST["quizTransfert"];
@@ -649,6 +711,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizTransfert->type,
                                 "typeR" => "Manager",
                                 "total" => $quizTransfert->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -656,7 +719,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizTransfert->speciality],
+                        ["type" => $quizTransfert->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizTransfert->questions,
+                        "answers" => $proposalTransfert,
+                        "quiz" => new MongoDB\BSON\ObjectId($transfertID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreBoT),
+                        "speciality" => $quizTransfert->speciality,
+                        "level" => $level,
+                        "type" => $quizTransfert->type,
+                        "typeR" => "Manager",
+                        "total" => $quizTransfert->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizBoite"])) {
                 $boiteID = $_POST["quizBoite"];
@@ -715,6 +808,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizBoite->type,
                                 "typeR" => "Manager",
                                 "total" => $quizBoite->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -722,7 +816,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizBoite->speciality],
+                        ["type" => $quizBoite->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizBoite->questions,
+                        "answers" => $proposalBoite,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreBoi),
+                        "speciality" => $quizBoite->speciality,
+                        "level" => $level,
+                        "type" => $quizBoite->type,
+                        "typeR" => "Manager",
+                        "total" => $quizBoite->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizBoiteAuto"])) {
                 $boiteAutoID = $_POST["quizBoiteAuto"];
@@ -748,7 +872,7 @@ if (!isset($_SESSION["id"])) {
                         ) {
                             if (
                                 $userAnswer[$i] ==
-                                "1-Boite de Vitesse-" .
+                                "1-Boite de Vitesse Automatique-" .
                                     $questionsData->level .
                                     "-" .
                                     $questionsData->label .
@@ -786,6 +910,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizBoiteAuto->type,
                                 "typeR" => "Manager",
                                 "total" => $quizBoiteAuto->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -793,7 +918,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizBoiteAuto->speciality],
+                        ["type" => $quizBoiteAuto->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizBoiteAuto->questions,
+                        "answers" => $proposalBoiteAuto,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteAutoID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreBoiA),
+                        "speciality" => $quizBoiteAuto->speciality,
+                        "level" => $level,
+                        "type" => $quizBoiteAuto->type,
+                        "typeR" => "Manager",
+                        "total" => $quizBoiteAuto->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizBoiteMan"])) {
                 $boiteManID = $_POST["quizBoiteMan"];
@@ -857,6 +1012,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizBoiteMan->type,
                                 "typeR" => "Manager",
                                 "total" => $quizBoiteMan->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -864,7 +1020,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizBoiteMan->speciality],
+                        ["type" => $quizBoiteMan->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizBoiteMan->questions,
+                        "answers" => $proposalBoiteMan,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteManID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreBoiM),
+                        "speciality" => $quizBoiteMan->speciality,
+                        "level" => $level,
+                        "type" => $quizBoiteMan->type,
+                        "typeR" => "Manager",
+                        "total" => $quizBoiteMan->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizBoiteVc"])) {
                 $boiteVcID = $_POST["quizBoiteVc"];
@@ -926,6 +1112,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizBoiteVc->type,
                                 "typeR" => "Manager",
                                 "total" => $quizBoiteVc->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -933,7 +1120,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizBoiteVc->speciality],
+                        ["type" => $quizBoiteVc->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizBoiteVc->questions,
+                        "answers" => $proposalBoiteVc,
+                        "quiz" => new MongoDB\BSON\ObjectId($boiteVcID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreBoiV),
+                        "speciality" => $quizBoiteVc->speciality,
+                        "level" => $level,
+                        "type" => $quizBoiteVc->type,
+                        "typeR" => "Manager",
+                        "total" => $quizBoiteVc->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizClimatisation"])) {
                 $climatisationID = $_POST["quizClimatisation"];
@@ -994,6 +1211,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizClimatisation->type,
                                 "typeR" => "Manager",
                                 "total" => $quizClimatisation->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1001,7 +1219,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizClimatisation->speciality],
+                        ["type" => $quizClimatisation->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizClimatisation->questions,
+                        "answers" => $proposalClimatisation,
+                        "quiz" => new MongoDB\BSON\ObjectId($climatisationID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreClim),
+                        "speciality" => $quizClimatisation->speciality,
+                        "level" => $level,
+                        "type" => $quizClimatisation->type,
+                        "typeR" => "Manager",
+                        "total" => $quizClimatisation->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizDemi"])) {
                 $demiID = $_POST["quizDemi"];
@@ -1059,6 +1307,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizDemi->type,
                                 "typeR" => "Manager",
                                 "total" => $quizDemi->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1066,7 +1315,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizDemi->speciality],
+                        ["type" => $quizDemi->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizDemi->questions,
+                        "answers" => $proposalDemi,
+                        "quiz" => new MongoDB\BSON\ObjectId($demiID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreDe),
+                        "speciality" => $quizDemi->speciality,
+                        "level" => $level,
+                        "type" => $quizDemi->type,
+                        "typeR" => "Manager",
+                        "total" => $quizDemi->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizDirection"])) {
                 $directionID = $_POST["quizDirection"];
@@ -1124,6 +1403,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizDirection->type,
                                 "typeR" => "Manager",
                                 "total" => $quizDirection->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1131,7 +1411,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizDirection->speciality],
+                        ["type" => $quizDirection->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizDirection->questions,
+                        "answers" => $proposalDirection,
+                        "quiz" => new MongoDB\BSON\ObjectId($directionID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreDir),
+                        "speciality" => $quizDirection->speciality,
+                        "level" => $level,
+                        "type" => $quizDirection->type,
+                        "typeR" => "Manager",
+                        "total" => $quizDirection->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizElectricite"])) {
                 $electriciteID = $_POST["quizElectricite"];
@@ -1192,6 +1502,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizElectricite->type,
                                 "typeR" => "Manager",
                                 "total" => $quizElectricite->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1199,7 +1510,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizElectricite->speciality],
+                        ["type" => $quizElectricite->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizElectricite->questions,
+                        "answers" => $proposalElectricite,
+                        "quiz" => new MongoDB\BSON\ObjectId($electriciteID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreElec),
+                        "speciality" => $quizElectricite->speciality,
+                        "level" => $level,
+                        "type" => $quizElectricite->type,
+                        "typeR" => "Manager",
+                        "total" => $quizElectricite->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizFrei"])) {
                 $freiID = $_POST["quizFrei"];
@@ -1255,6 +1596,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizFrei->type,
                                 "typeR" => "Manager",
                                 "total" => $quizFrei->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1262,7 +1604,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizFrei->speciality],
+                        ["type" => $quizFrei->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizFrei->questions,
+                        "answers" => $proposalFrei,
+                        "quiz" => new MongoDB\BSON\ObjectId($freiID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreFrei),
+                        "speciality" => $quizFrei->speciality,
+                        "level" => $level,
+                        "type" => $quizFrei->type,
+                        "typeR" => "Manager",
+                        "total" => $quizFrei->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizFreinageElec"])) {
                 $freinageElecID = $_POST["quizFreinageElec"];
@@ -1323,6 +1695,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizFreinageElec->type,
                                 "typeR" => "Manager",
                                 "total" => $quizFreinageElec->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1330,7 +1703,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizFreinageElec->speciality],
+                        ["type" => $quizFreinageElec->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizFreinageElec->questions,
+                        "answers" => $proposalFreinageElec,
+                        "quiz" => new MongoDB\BSON\ObjectId($freinageElecID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreFreiE),
+                        "speciality" => $quizFreinageElec->speciality,
+                        "level" => $level,
+                        "type" => $quizFreinageElec->type,
+                        "typeR" => "Manager",
+                        "total" => $quizFreinageElec->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizFreinage"])) {
                 $freinageID = $_POST["quizFreinage"];
@@ -1390,6 +1793,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizFreinage->type,
                                 "typeR" => "Manager",
                                 "total" => $quizFreinage->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1397,7 +1801,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizFreinage->speciality],
+                        ["type" => $quizFreinage->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizFreinage->questions,
+                        "answers" => $proposalFreinage,
+                        "quiz" => new MongoDB\BSON\ObjectId($freinageID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreFreiH),
+                        "speciality" => $quizFreinage->speciality,
+                        "level" => $level,
+                        "type" => $quizFreinage->type,
+                        "typeR" => "Manager",
+                        "total" => $quizFreinage->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizFrein"])) {
                 $freinID = $_POST["quizFrein"];
@@ -1455,6 +1889,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizFrein->type,
                                 "typeR" => "Manager",
                                 "total" => $quizFrein->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1462,7 +1897,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizFrein->speciality],
+                        ["type" => $quizFrein->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizFrein->questions,
+                        "answers" => $proposalFrein,
+                        "quiz" => new MongoDB\BSON\ObjectId($freinID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreFreiP),
+                        "speciality" => $quizFrein->speciality,
+                        "level" => $level,
+                        "type" => $quizFrein->type,
+                        "typeR" => "Manager",
+                        "total" => $quizFrein->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizHydraulique"])) {
                 $hydrauliqueID = $_POST["quizHydraulique"];
@@ -1520,6 +1985,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizHydraulique->type,
                                 "typeR" => "Manager",
                                 "total" => $quizHydraulique->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1527,7 +1993,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizHydraulique->speciality],
+                        ["type" => $quizHydraulique->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizHydraulique->questions,
+                        "answers" => $proposalHydraulique,
+                        "quiz" => new MongoDB\BSON\ObjectId($hydrauliqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreHyd),
+                        "speciality" => $quizHydraulique->speciality,
+                        "level" => $level,
+                        "type" => $quizHydraulique->type,
+                        "typeR" => "Manager",
+                        "total" => $quizHydraulique->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizMoteurDiesel"])) {
                 $moteurDieselID = $_POST["quizMoteurDiesel"];
@@ -1585,6 +2081,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizMoteurDiesel->type,
                                 "typeR" => "Manager",
                                 "total" => $quizMoteurDiesel->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1592,7 +2089,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizMoteurDiesel->speciality],
+                        ["type" => $quizMoteurDiesel->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizMoteurDiesel->questions,
+                        "answers" => $proposalMoteurDiesel,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurDieselID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreMoD),
+                        "speciality" => $quizMoteurDiesel->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurDiesel->type,
+                        "typeR" => "Manager",
+                        "total" => $quizMoteurDiesel->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizMoteurElec"])) {
                 $moteurElecID = $_POST["quizMoteurElec"];
@@ -1650,6 +2177,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizMoteurElec->type,
                                 "typeR" => "Manager",
                                 "total" => $quizMoteurElec->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1657,7 +2185,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizMoteurElec->speciality],
+                        ["type" => $quizMoteurElec->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizMoteurElec->questions,
+                        "answers" => $proposalMoteurElec,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurElecID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreMoEl),
+                        "speciality" => $quizMoteurElec->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurElec->type,
+                        "typeR" => "Manager",
+                        "total" => $quizMoteurElec->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizMoteurEssence"])) {
                 $moteurEssenceID = $_POST["quizMoteurEssence"];
@@ -1715,6 +2273,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizMoteurEssence->type,
                                 "typeR" => "Manager",
                                 "total" => $quizMoteurEssence->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1722,7 +2281,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizMoteurEssence->speciality],
+                        ["type" => $quizMoteurEssence->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizMoteurEssence->questions,
+                        "answers" => $proposalMoteurEssence,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurEssenceID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreMoE),
+                        "speciality" => $quizMoteurEssence->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurEssence->type,
+                        "typeR" => "Manager",
+                        "total" => $quizMoteurEssence->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizMoteur"])) {
                 $moteurThermiqueID = $_POST["quizMoteur"];
@@ -1781,6 +2370,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizMoteurThermique->type,
                                 "typeR" => "Manager",
                                 "total" => $quizMoteurThermique->total,
+                                "numberTest" => 1,
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1788,7 +2378,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizMoteurThermique->speciality],
+                        ["type" => $quizMoteurThermique->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizMoteurThermique->questions,
+                        "answers" => $proposalMoteurThermique,
+                        "quiz" => new MongoDB\BSON\ObjectId($moteurThermiqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreMoT),
+                        "speciality" => $quizMoteurThermique->speciality,
+                        "level" => $level,
+                        "type" => $quizMoteurThermique->type,
+                        "typeR" => "Manager",
+                        "total" => $quizMoteurThermique->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                }
             }
             if (isset($_POST["quizMultiplexage"])) {
                 $multiplexageID = $_POST["quizMultiplexage"];
@@ -1846,6 +2466,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizMultiplexage->type,
                                 "typeR" => "Manager",
                                 "total" => $quizMultiplexage->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1853,7 +2474,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizMultiplexage->speciality],
+                        ["type" => $quizMultiplexage->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizMultiplexage->questions,
+                        "answers" => $proposalMultiplexage,
+                        "quiz" => new MongoDB\BSON\ObjectId($multiplexageID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreMulti),
+                        "speciality" => $quizMultiplexage->speciality,
+                        "level" => $level,
+                        "type" => $quizMultiplexage->type,
+                        "typeR" => "Manager",
+                        "total" => $quizMultiplexage->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizPont"])) {
                 $pontID = $_POST["quizPont"];
@@ -1909,6 +2560,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizPont->type,
                                 "typeR" => "Manager",
                                 "total" => $quizPont->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1916,7 +2568,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizPont->speciality],
+                        ["type" => $quizPont->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizPont->questions,
+                        "answers" => $proposalPont,
+                        "quiz" => new MongoDB\BSON\ObjectId($pontID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scorePont),
+                        "speciality" => $quizPont->speciality,
+                        "level" => $level,
+                        "type" => $quizPont->type,
+                        "typeR" => "Manager",
+                        "total" => $quizPont->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizPneumatique"])) {
                 $pneumatiqueID = $_POST["quizPneumatique"];
@@ -1974,6 +2656,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizPneumatique->type,
                                 "typeR" => "Manager",
                                 "total" => $quizPneumatique->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -1981,7 +2664,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizPneumatique->speciality],
+                        ["type" => $quizPneumatique->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizPneumatique->questions,
+                        "answers" => $proposalPneu,
+                        "quiz" => new MongoDB\BSON\ObjectId($pneumatiqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scorePneu),
+                        "speciality" => $quizPneumatique->speciality,
+                        "level" => $level,
+                        "type" => $quizPneumatique->type,
+                        "typeR" => "Manager",
+                        "total" => $quizPneumatique->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizReducteur"])) {
                 $reducteurID = $_POST["quizReducteur"];
@@ -2008,24 +2721,24 @@ if (!isset($_SESSION["id"])) {
                                     "-1"
                             ) {
                                 array_push(
-                                    $scorePneu,
+                                    $scoreRe,
                                     "Il maitrise (le technicien réalise cette tâche professionnelle)"
                                 );
-                                array_push($proposalPneu, "Oui");
+                                array_push($proposalReducteur, "Oui");
                                 array_push(
                                     $score,
                                     "Il maitrise (le technicien réalise cette tâche professionnelle)"
                                 );
                                 array_push($proposal, "Oui");
                             } else {
-                                array_push($proposalPneu, "Non");
+                                array_push($proposalReducteur, "Non");
                                 array_push($proposal, "Non");
                             }
 
                             array_push($quizQuestion, $questionsData->_id);
                             $result = [
                                 "questions" => $quizReducteur->questions,
-                                "answers" => $proposalPneu,
+                                "answers" => $proposalReducteur,
                                 "quiz" => new MongoDB\BSON\ObjectId(
                                     $reducteurID
                                 ),
@@ -2033,12 +2746,13 @@ if (!isset($_SESSION["id"])) {
                                 "manager" => new MongoDB\BSON\ObjectId(
                                     $manager
                                 ),
-                                "score" => count($scorePneu),
+                                "score" => count($scoreRe),
                                 "speciality" => $quizReducteur->speciality,
                                 "level" => $level,
                                 "type" => $quizReducteur->type,
                                 "typeR" => "Manager",
                                 "total" => $quizReducteur->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -2046,7 +2760,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizReducteur->speciality],
+                        ["type" => $quizReducteur->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizReducteur->questions,
+                        "answers" => $proposalReducteur,
+                        "quiz" => new MongoDB\BSON\ObjectId($reducteurID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreRe),
+                        "speciality" => $quizReducteur->speciality,
+                        "level" => $level,
+                        "type" => $quizReducteur->type,
+                        "typeR" => "Manager",
+                        "total" => $quizReducteur->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizSuspension"])) {
                 $suspensionID = $_POST["quizSuspension"];
@@ -2104,6 +2848,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizSuspension->type,
                                 "typeR" => "Manager",
                                 "total" => $quizSuspension->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -2111,7 +2856,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizSuspension->speciality],
+                        ["type" => $quizSuspension->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizSuspension->questions,
+                        "answers" => $proposalSuspension,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreSus),
+                        "speciality" => $quizSuspension->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspension->type,
+                        "typeR" => "Manager",
+                        "total" => $quizSuspension->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizSuspensionLame"])) {
                 $suspensionLameID = $_POST["quizSuspensionLame"];
@@ -2169,6 +2944,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizSuspensionLame->type,
                                 "typeR" => "Manager",
                                 "total" => $quizSuspensionLame->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -2176,7 +2952,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizSuspensionLame->speciality],
+                        ["type" => $quizSuspensionLame->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizSuspensionLame->questions,
+                        "answers" => $proposalSuspensionLame,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionLameID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreSusL),
+                        "speciality" => $quizSuspensionLame->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspensionLame->type,
+                        "typeR" => "Manager",
+                        "total" => $quizSuspensionLame->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizSuspensionRessort"])) {
                 $suspensionRessortID = $_POST["quizSuspensionRessort"];
@@ -2238,6 +3044,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizSuspensionRessort->type,
                                 "typeR" => "Manager",
                                 "total" => $quizSuspensionRessort->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -2245,7 +3052,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizSuspensionRessort->speciality],
+                        ["type" => $quizSuspensionRessort->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizSuspensionRessort->questions,
+                        "answers" => $proposalSuspensionRessort,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionRessortID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreSusR),
+                        "speciality" => $quizSuspensionRessort->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspensionRessort->type,
+                        "typeR" => "Manager",
+                        "total" => $quizSuspensionRessort->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizSuspensionPneumatique"])) {
                 $suspensionPneumatiqueID = $_POST["quizSuspensionPneumatique"];
@@ -2316,6 +3153,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizSuspensionPneumatique->type,
                                 "typeR" => "Manager",
                                 "total" => $quizSuspensionPneumatique->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -2323,7 +3161,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizSuspensionPneumatique->speciality],
+                        ["type" => $quizSuspensionPneumatique->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizSuspensionPneumatique->questions,
+                        "answers" => $proposalSuspensionPneumatique,
+                        "quiz" => new MongoDB\BSON\ObjectId($suspensionPneumatiqueID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreSusP),
+                        "speciality" => $quizSuspensionPneumatique->speciality,
+                        "level" => $level,
+                        "type" => $quizSuspensionPneumatique->type,
+                        "typeR" => "Manager",
+                        "total" => $quizSuspensionPneumatique->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             if (isset($_POST["quizTransversale"])) {
                 $transversaleID = $_POST["quizTransversale"];
@@ -2381,6 +3249,7 @@ if (!isset($_SESSION["id"])) {
                                 "type" => $quizTransversale->type,
                                 "typeR" => "Manager",
                                 "total" => $quizTransversale->total,
+                                "numberTest" => 1, 
                                 "time" => $time,
                                 "active" => true,
                                 "created" => date("d-m-y"),
@@ -2388,7 +3257,37 @@ if (!isset($_SESSION["id"])) {
                         }
                     }
                 }
-                $insertedResult = $results->insertOne($result);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["speciality" => $quizTransversale->speciality],
+                        ["type" => $quizTransversale->type],
+                        ["typeR" => "Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $result1 = [
+                        "questions" => $quizTransversale->questions,
+                        "answers" => $proposalTransversale,
+                        "quiz" => new MongoDB\BSON\ObjectId($transversaleID),
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "score" => count($scoreTran),
+                        "speciality" => $quizTransversale->speciality,
+                        "level" => $level,
+                        "type" => $quizTransversale->type,
+                        "typeR" => "Manager",
+                        "total" => $quizTransversale->total,
+                        "numberTest" => count($exist) + 1,
+                        "time" => $time,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insertedResult = $results->insertOne($result1);
+                } else {
+                    $insertedResult = $results->insertOne($result);
+                } 
             }
             $managerAnswer = [];
             for ($i = 0; $i < count($userAnswer); ++$i) {
@@ -2404,23 +3303,60 @@ if (!isset($_SESSION["id"])) {
                     array_push($managerAnswer, $userAnswer[$i]);
                 }
             }
-            $newResult = [
-                "questions" => $quizQuestion,
-                "answers" => $proposal,
-                "managerAnswers" => $managerAnswer,
-                "user" => new MongoDB\BSON\ObjectId($id),
-                "test" => new MongoDB\BSON\ObjectId($test),
-                "manager" => new MongoDB\BSON\ObjectId($manager),
-                "score" => count($score),
-                "level" => $level,
-                "type" => "Declaratif",
-                "typeR" => "Managers",
-                "total" => count($quizQuestion),
-                "time" => $time,
-                "active" => true,
-                "created" => date("d-m-y"),
-            ];
-            $result = $results->insertOne($newResult);
+            $exist = $results->find([
+            '$and' => [
+                ["user" => new MongoDB\BSON\ObjectId($id)],
+                ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                ["test" => new MongoDB\BSON\ObjectId($test)],
+                ["typeR" => "Managers"],
+            ],
+            ])->toArray();
+            if ($exist) {
+                $newResult1 = [
+                    "questions" => $quizQuestion,
+                    "answers" => $proposal,
+                    "managerAnswers" => $managerAnswer,
+                    "user" => new MongoDB\BSON\ObjectId($id),
+                    "test" => new MongoDB\BSON\ObjectId($test),
+                    "manager" => new MongoDB\BSON\ObjectId($manager),
+                    "score" => count($score),
+                    "level" => $level,
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                    "total" => count($quizQuestion),
+                    "numberTest" => count($exist) + 1,
+                    "time" => $time,
+                    "active" => true,
+                    "created" => date("d-m-y"),
+                ];
+                $resultM = $results->insertOne($newResult1);
+            } else {
+                $newResult = [
+                    "questions" => $quizQuestion,
+                    "answers" => $proposal,
+                    "managerAnswers" => $managerAnswer,
+                    "user" => new MongoDB\BSON\ObjectId($id),
+                    "test" => new MongoDB\BSON\ObjectId($test),
+                    "manager" => new MongoDB\BSON\ObjectId($manager),
+                    "score" => count($score),
+                    "level" => $level,
+                    "type" => "Declaratif",
+                    "typeR" => "Managers",
+                    "total" => count($quizQuestion),
+                    "numberTest" => 1,
+                    "time" => $time,
+                    "active" => true,
+                    "created" => date("d-m-y"),
+                ];
+                $resultM = $results->insertOne($newResult);
+            } 
+
+            $manaResult = $results->findOne([
+                '$and' => [
+                    ["_id" => new MongoDB\BSON\ObjectId($resultM->getInsertedId())],
+                    ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                ],
+            ]);
 
             $allocationData = $allocations->findOne([
                 '$and' => [
@@ -2450,6 +3386,7 @@ if (!isset($_SESSION["id"])) {
                 '$and' => [
                     ["user" => new MongoDB\BSON\ObjectId($id)],
                     ["typeR" => "Techniciens"],
+                    ["numberTest" => $manaResult->numberTest],
                 ],
             ]);
 
@@ -2463,7 +3400,7 @@ if (!isset($_SESSION["id"])) {
                     } else {
                         $scoreF += 0;
                     }
-                    $newresult = [
+                    $newResult = [
                         "user" => new MongoDB\BSON\ObjectId($id),
                         "manager" => new MongoDB\BSON\ObjectId($manager),
                         "test" => new MongoDB\BSON\ObjectId($test),
@@ -2472,11 +3409,37 @@ if (!isset($_SESSION["id"])) {
                         "type" => "Declaratif",
                         "typeR" => "Technicien - Manager",
                         "total" => count($quizQuestion),
+                        "numberTest" => 1,
                         "active" => true,
                         "created" => date("d-m-y"),
                     ];
                 }
-                $insert = $results->insertOne($newresult);
+                $exist = $results->find([
+                    '$and' => [
+                        ["user" => new MongoDB\BSON\ObjectId($id)],
+                        ["manager" => new MongoDB\BSON\ObjectId($manager)],
+                        ["test" => new MongoDB\BSON\ObjectId($test)],
+                        ["typeR" => "Technicien - Manager"],
+                    ],
+                ])->toArray();
+                if ($exist) {
+                    $newResult1 = [
+                        "user" => new MongoDB\BSON\ObjectId($id),
+                        "manager" => new MongoDB\BSON\ObjectId($manager),
+                        "test" => new MongoDB\BSON\ObjectId($test),
+                        "score" => $scoreF,
+                        "level" => $level,
+                        "type" => "Declaratif",
+                        "typeR" => "Technicien - Manager",
+                        "total" => count($quizQuestion),
+                        "numberTest" => $manaResult->numberTest,
+                        "active" => true,
+                        "created" => date("d-m-y"),
+                    ];
+                    $insert = $results->insertOne($newResult1);
+                } else {
+                    $insert = $results->insertOne($newResult);
+                } 
             }
 
             header("Location: ./congrat.php");
@@ -2490,7 +3453,16 @@ if (!isset($_SESSION["id"])) {
 
 <link href="https://fonts.googleapis.com/css2?famIly=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
 <link href="../public/css/userQuiz.css" rel="stylesheet" type="text/css" />
-<div class="container">
+<link href="../public/css/userQuiz.css" rel="stylesheet" type="text/css" />
+
+<!--begin::Body-->
+<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
+    data-select2-id="select2-data-kt_content">
+    <!--begin::Post-->
+    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
+        <!--begin::Container-->
+        <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
+            <div class="container">
     <form class="quiz-form" method="POST">
             <center class="center" style="margin-top: -100px;">
                 <div class="timer" style="margin-right: 400px;">
@@ -5274,10 +6246,12 @@ if (!isset($_SESSION["id"])) {
                 <?php
                 } ?>
                             <?php } elseif (isset($exam)) { ?>
+                                <php if ($assistanceDecla) { ?>
+                                <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $assistanceConduite ?></h1>
+                                <php } ?>
                         <?php
                         $questionExam = $exam["questions"];
                         $k = 1; ?>
-                        <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $assistanceConduite ?></h1>
                         <?php for ($j = 0; $j < count($questionExam); ++$j) {
                             $assistanceFac = $questions->findOne([
                                 '$and' => [
@@ -5477,7 +6451,9 @@ if (!isset($_SESSION["id"])) {
                                                     <?php }}
                         }
                         ?>
+                        <php if ($arbreDecla) { ?>
                         <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $arbre ?></h1>
+                        <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5683,7 +6659,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <php if ($transfertDecla) { ?>
                                                     <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transfert ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -5905,7 +6883,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
+                                                    <php if ($boiteDecla) { ?>
                                                     <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6112,7 +7092,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_auto ?></h1>
+                                                    <php if ($boiteAutoDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_auto ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6324,7 +7306,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_meca ?></h1>
+                                                    <php if ($boiteManDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_meca ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6536,7 +7520,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_VC ?></h1>
+                                                    <php if ($boiteVcDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $boite_vitesse_VC ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6742,7 +7728,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $clim ?></h1>
+                                                    <php if ($climatisationDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $clim ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -6969,7 +7957,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $demi ?></h1>
+                                                    <php if ($demiDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $demi ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7188,7 +8178,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $direction ?></h1>
+                                                    <php if ($directionDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $direction ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7413,7 +8405,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $electricite ?></h1>
+                                                    <php if ($electriciteDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $electricite ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7640,7 +8634,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinage ?></h1>
+                                                    <php if ($freiDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinage ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -7859,7 +8855,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageElec ?></h1>
+                                                    <php if ($freinageElecDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageElec ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8086,7 +9084,6 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinageHydro ?></h1>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8311,7 +9308,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinagePneu ?></h1>
+                                                    <php if ($freinDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $freinagePneu ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8517,7 +9516,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $hydraulique ?></h1>
+                                                    <php if ($hydrauliqueDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $hydraulique ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8744,7 +9745,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurDiesel ?></h1>
+                                                    <php if ($moteurDieselDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurDiesel ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -8971,7 +9974,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurElectrique ?></h1>
+                                                    <php if ($moteurElecDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurElectrique ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9196,7 +10201,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurEssence ?></h1>
+                                                    <php if ($moteurEssenceDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurEssence ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9423,7 +10430,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurThermique ?></h1>
+                                                    <php if ($moteurDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $moteurThermique ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9642,7 +10651,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $multiplexage ?></h1>
+                                                    <php if ($multiplexageDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $multiplexage ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -9869,7 +10880,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pont ?></h1>
+                                                    <php if ($pontDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pont ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10075,7 +11088,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pneu ?></h1>
+                                                    <php if ($pneumatiqueDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $pneu ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10290,7 +11305,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $reducteur ?></h1>
+                                                    <php if ($reducteurDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $reducteur ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10515,7 +11532,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspension ?></h1>
+                                                    <php if ($suspensionDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspension ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10740,7 +11759,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionLame ?></h1>
+                                                    <php if ($suspensionLameDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionLame ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -10967,7 +11988,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionRessort ?></h1>
+                                                    <php if ($suspensionRessortDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionRessort ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -11194,7 +12217,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionPneu ?></h1>
+                                                    <php if ($suspensionPneumatiqueDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $suspensionPneu ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <
@@ -11431,7 +12456,9 @@ if (!isset($_SESSION["id"])) {
                                                         ?>
                                                     <?php
                                                     } ?>
-                                                    <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transversale ?></h1>
+                                                    <php if ($transversaleDecla) { ?>
+                                                            <h1 class="fw-bold"  style="margin-top: 30px"><?php echo $groupe_fonctionnel ?> <?php echo $transversale ?></h1>
+                                                    <php } ?>
                                                     <?php for (
                                                         $j = 0;
                                                         $j <

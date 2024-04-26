@@ -23,6 +23,7 @@ if (!isset($_SESSION["id"])) {
     $user = $_GET["user"];
     $level = $_GET["level"];
     $speciality = $_GET["speciality"];
+    $numberTest = $_GET["numberTest"];
 
     $technician = $users->findOne([
         '$and' => [
@@ -33,7 +34,7 @@ if (!isset($_SESSION["id"])) {
         ],
     ]);
     ?>
-<title><?php echo $result_tech ?> | CFAO Mobility Academy</title>
+<title><?php echo $result_tech; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
 <link href="../public/images/logo-cfao.png" rel="icon">
@@ -82,8 +83,8 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Info-->
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
-                <h1 class="text-dark fw-bold my-1" style="font-size: 50px;">
-                    <?php echo $result ?>
+                <h1 class="text-dark fw-bold my-1" style="font-size: 30px;">
+                    <?php echo $result_to ?>
                     <?php echo $technician->firstName; ?> <?php echo $technician->lastName; ?>
                 </h1>
                 <!--end::Title-->
@@ -149,7 +150,7 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-800px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table" colspan="4"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    <?php echo $taches_pro ?></th>
+                                    <?php echo $tache_pro ?></th>
                                 <tr></tr>
                                 <th class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
@@ -174,7 +175,7 @@ if (!isset($_SESSION["id"])) {
                                 <th class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                     tabindex="0" aria-controls="kt_customers_table"
                                     aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                    <?php echo $question ?></th>
+                                    <?php echo $result ?></th>
                                 <tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600" id="table">
@@ -189,6 +190,8 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => $speciality],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $groupeDecla = $results->findOne([
@@ -201,6 +204,8 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => $speciality],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 $groupeMa = $results->findOne([
@@ -217,6 +222,8 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["speciality" => $speciality],
+                                        ["numberTest" => +$numberTest],
+                                        ["active" => false],
                                     ],
                                 ]);
                                 ?>
@@ -278,7 +285,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $maitrise?>
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -286,7 +293,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $non_maitrise?>
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -294,7 +301,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $non_maitrise?>
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                 </tr>
@@ -347,7 +354,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $maitrise?>
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -355,7 +362,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $non_maitrise?>
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -363,7 +370,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $non_maitrise?>
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php } else { ?>
@@ -418,7 +425,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Oui"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $maitrise?>
+                                        <?php echo $maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -426,7 +433,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i] == "Non"
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $non_maitrise?>
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                     <?php if (
@@ -434,7 +441,7 @@ if (!isset($_SESSION["id"])) {
                                         $groupeMa->answers[$i]
                                     ) { ?>
                                     <td class="text-center" name="savoirs-faire">
-                                        <?php echo $non_maitrise?>
+                                        <?php echo $non_maitrise ?>
                                     </td>
                                     <?php } ?>
                                 </tr>
@@ -452,11 +459,9 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeFac->score * 100) /
-                                                $groupeFac->total,
-                                            0
-                                        ); ?>%
+                                                $groupeFac->total); ?>%
                                     </th>
                                     <th id=""
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -467,21 +472,17 @@ if (!isset($_SESSION["id"])) {
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeDecla->score * 100) /
-                                                $groupeDecla->total,
-                                            0
-                                        ); ?>%
+                                                $groupeDecla->total); ?>%
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-120px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($groupeMa->score * 100) /
-                                                $groupeMa->total,
-                                            0
-                                        ); ?>%
+                                                $groupeMa->total); ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"

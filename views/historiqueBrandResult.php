@@ -105,7 +105,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transmissionDecla = $results->findOne([
@@ -122,7 +122,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transmissionMa = $results->findOne([
@@ -143,7 +143,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Arbre de Transmission",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $assistanceConduiteFac = $results->findOne([
@@ -160,7 +160,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $assistanceConduiteDecla = $results->findOne([
@@ -177,7 +177,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $assistanceConduiteMa = $results->findOne([
@@ -198,7 +198,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Assistance à la Conduite",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transfertFac = $results->findOne([
@@ -212,7 +212,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Boite de Transfert"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transfertDecla = $results->findOne([
@@ -226,7 +226,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Boite de Transfert"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transfertMa = $results->findOne([
@@ -244,7 +244,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Boite de Transfert"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteFac = $results->findOne([
@@ -258,7 +258,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Boite de Vitesse"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteDecla = $results->findOne([
@@ -272,7 +272,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Boite de Vitesse"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteMa = $results->findOne([
@@ -290,7 +290,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Boite de Vitesse"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteManFac = $results->findOne([
@@ -307,7 +307,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteManDecla = $results->findOne([
@@ -324,7 +324,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteManMa = $results->findOne([
@@ -345,7 +345,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Boite de Vitesse Mécanique",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteAutoFac = $results->findOne([
@@ -362,7 +362,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteAutoDecla = $results->findOne([
@@ -379,7 +379,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteAutoMa = $results->findOne([
@@ -400,7 +400,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Boite de Vitesse Automatique",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteVaCoFac = $results->findOne([
@@ -417,7 +417,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteVaCoDecla = $results->findOne([
@@ -434,7 +434,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $boiteVaCoMa = $results->findOne([
@@ -455,7 +455,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Boite de Vitesse à Variation Continue",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $climatisationFac = $results->findOne([
@@ -469,7 +469,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Climatisation"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $climatisationDecla = $results->findOne([
@@ -483,7 +483,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Climatisation"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $climatisationMa = $results->findOne([
@@ -501,7 +501,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Climatisation"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $demiFac = $results->findOne([
@@ -515,7 +515,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Demi Arbre de Roue"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $demiDecla = $results->findOne([
@@ -529,7 +529,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Demi Arbre de Roue"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $demiMa = $results->findOne([
@@ -547,7 +547,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Demi Arbre de Roue"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $directionFac = $results->findOne([
@@ -561,7 +561,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Direction"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $directionDecla = $results->findOne([
@@ -575,7 +575,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Direction"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $directionMa = $results->findOne([
@@ -593,7 +593,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Direction"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $electriciteFac = $results->findOne([
@@ -610,7 +610,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $electriciteDecla = $results->findOne([
@@ -627,7 +627,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $electriciteMa = $results->findOne([
@@ -648,7 +648,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Electricité et Electronique",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freiFac = $results->findOne([
@@ -662,7 +662,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Freinage"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freiDecla = $results->findOne([
@@ -676,7 +676,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Freinage"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freiMa = $results->findOne([
@@ -694,7 +694,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Freinage"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinageElecFac = $results->findOne([
@@ -711,7 +711,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinageElecDecla = $results->findOne([
@@ -728,7 +728,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinageElecMa = $results->findOne([
@@ -749,7 +749,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Freinage Electromagnétique",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinageFac = $results->findOne([
@@ -766,7 +766,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinageDecla = $results->findOne([
@@ -783,7 +783,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinageMa = $results->findOne([
@@ -804,7 +804,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Freinage Hydraulique",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinFac = $results->findOne([
@@ -821,7 +821,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinDecla = $results->findOne([
@@ -838,7 +838,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $freinMa = $results->findOne([
@@ -859,7 +859,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Freinage Pneumatique",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $hydrauliqueFac = $results->findOne([
@@ -873,7 +873,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Hydraulique"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $hydrauliqueDecla = $results->findOne([
@@ -887,7 +887,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Hydraulique"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $hydrauliqueMa = $results->findOne([
@@ -905,7 +905,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Hydraulique"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurDieselFac = $results->findOne([
@@ -919,7 +919,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Diesel"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurDieselDecla = $results->findOne([
@@ -933,7 +933,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Diesel"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurDieselMa = $results->findOne([
@@ -951,7 +951,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Moteur Diesel"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurElecFac = $results->findOne([
@@ -965,7 +965,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Electrique"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurElecDecla = $results->findOne([
@@ -979,7 +979,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Electrique"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurElecMa = $results->findOne([
@@ -997,7 +997,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Moteur Electrique"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurEssenceFac = $results->findOne([
@@ -1011,7 +1011,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Essence"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurEssenceDecla = $results->findOne([
@@ -1025,7 +1025,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Essence"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurEssenceMa = $results->findOne([
@@ -1043,7 +1043,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Moteur Essence"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurThermiqueFac = $results->findOne([
@@ -1057,7 +1057,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Thermique"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurThermiqueDecla = $results->findOne([
@@ -1071,7 +1071,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Moteur Thermique"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $moteurThermiqueMa = $results->findOne([
@@ -1089,7 +1089,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Moteur Thermique"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $multiplexageFac = $results->findOne([
@@ -1103,7 +1103,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Multiplexage"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $multiplexageDecla = $results->findOne([
@@ -1117,7 +1117,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Multiplexage"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $multiplexageMa = $results->findOne([
@@ -1135,7 +1135,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Multiplexage"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $pneuFac = $results->findOne([
@@ -1149,7 +1149,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Pneumatique"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $pneuDecla = $results->findOne([
@@ -1163,7 +1163,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Pneumatique"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $pneuMa = $results->findOne([
@@ -1181,7 +1181,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Pneumatique"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $pontFac = $results->findOne([
@@ -1195,7 +1195,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Pont"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $pontDecla = $results->findOne([
@@ -1209,7 +1209,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Pont"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $pontMa = $results->findOne([
@@ -1227,7 +1227,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Pont"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $reducteurFac = $results->findOne([
@@ -1241,7 +1241,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Réducteur"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $reducteurDecla = $results->findOne([
@@ -1255,7 +1255,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Réducteur"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $reducteurMa = $results->findOne([
@@ -1273,7 +1273,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Réducteur"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionFac = $results->findOne([
@@ -1287,7 +1287,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Suspension"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionDecla = $results->findOne([
@@ -1301,7 +1301,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Suspension"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionMa = $results->findOne([
@@ -1319,7 +1319,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Suspension"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionLameFac = $results->findOne([
@@ -1333,7 +1333,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Suspension à Lame"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionLameDecla = $results->findOne([
@@ -1347,7 +1347,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Suspension à Lame"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionLameMa = $results->findOne([
@@ -1365,7 +1365,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Suspension à Lame"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionRessortFac = $results->findOne([
@@ -1379,7 +1379,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Suspension Ressort"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionRessortDecla = $results->findOne([
@@ -1393,7 +1393,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Suspension Ressort"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionRessortMa = $results->findOne([
@@ -1411,7 +1411,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Suspension Ressort"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionPneumatiqueFac = $results->findOne([
@@ -1428,7 +1428,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $suspensionPneumatiqueDecla = $results->findOne(
@@ -1446,7 +1446,7 @@ if (!isset($_SESSION["id"])) {
                 ],
                 ["type" => "Declaratif"],
                 ["numberTest" => +$numberTest],
-                ["active" => true],
+                ["active" => false],
             ],
         ]
     );
@@ -1468,7 +1468,7 @@ if (!isset($_SESSION["id"])) {
                 "speciality" =>
                     "Suspension Pneumatique",
             ],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transversaleFac = $results->findOne([
@@ -1482,7 +1482,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Transversale"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transversaleDecla = $results->findOne([
@@ -1496,7 +1496,7 @@ if (!isset($_SESSION["id"])) {
             ["speciality" => "Transversale"],
             ["type" => "Declaratif"],
             ["numberTest" => +$numberTest],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transversaleMa = $results->findOne([
@@ -1514,7 +1514,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["level" => $level],
             ["speciality" => "Transversale"],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $resultFac = $results->findOne([
@@ -1524,7 +1524,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["typeR" => "Technicien"],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $resultDecla = $results->findOne([
@@ -1534,7 +1534,7 @@ if (!isset($_SESSION["id"])) {
             ["numberTest" => +$numberTest],
             ["typeR" => "Techniciens"],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $resultMa = $results->findOne([
@@ -1544,7 +1544,7 @@ if (!isset($_SESSION["id"])) {
             ["typeR" => "Managers"],
             ["numberTest" => +$numberTest],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $resultTechMa = $results->findOne([
@@ -1554,7 +1554,7 @@ if (!isset($_SESSION["id"])) {
             ["typeR" => "Technicien - Manager"],
             ["numberTest" => +$numberTest],
             ["level" => $level],
-            ["active" => true],
+            ["active" => false],
         ],
     ]);
     $transmissionTotalFac = $transmissionFac->total ?? 0;

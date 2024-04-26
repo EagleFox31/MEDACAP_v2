@@ -22,6 +22,7 @@ if (!isset($_SESSION["id"])) {
 
     $user = $_GET["user"];
     $level = $_GET["level"];
+    $numberTest = $_GET["numberTest"];
 
     $validate = $validations->findOne([ "active" => true ]);
 
@@ -49,6 +50,7 @@ if (!isset($_SESSION["id"])) {
             ["type" => "Factuel"],
             ["typeR" => "Technicien"],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["active" => true],
         ],
     ]);
@@ -58,6 +60,7 @@ if (!isset($_SESSION["id"])) {
             ["type" => "Declaratif"],
             ["typeR" => "Techniciens"],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["active" => true],
         ],
     ]);
@@ -67,6 +70,7 @@ if (!isset($_SESSION["id"])) {
             ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
             ["typeR" => "Managers"],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["active" => true],
         ],
     ]);
@@ -76,6 +80,7 @@ if (!isset($_SESSION["id"])) {
             ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
             ["typeR" => "Technicien - Manager"],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["active" => true],
         ],
     ]);
@@ -156,7 +161,7 @@ if (!isset($_SESSION["id"])) {
                         <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
                             <div class="d-flex justify-content-end align-items-center">
                                 <a class="btn btn-primary"
-                                    href="./detail.php?id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
+                                    href="./detail.php?numberTest=<?php echo $numberTest; ?>&id=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
                                     <?php echo $result_detaillé ?>
                                 </a>
                             </div>
@@ -164,7 +169,7 @@ if (!isset($_SESSION["id"])) {
                         <div class="d-flex align-items-center flex-nowrap text-nowrap py-1" style="margin-left: 10px" >
                             <div class="d-flex justify-content-end align-items-center">
                                 <a class="btn btn-primary"
-                                    href="./brandResult.php?user=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
+                                    href="./brandResult.php?numberTest=<?php echo $numberTest; ?>&user=<?php echo $technician->_id; ?>&level=<?php echo $level; ?>" role="button">
                                     <?php echo $result_brand ?>
                                 </a>
                             </div>
@@ -250,6 +255,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Arbre de Transmission",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -266,6 +272,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Arbre de Transmission",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -282,6 +289,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Arbre de Transmission",
@@ -300,7 +308,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transmissionFac->speciality; ?>&level=<?php echo $transmissionFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $transmissionFac->speciality; ?>&level=<?php echo $transmissionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -308,11 +316,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transmissionFac->score * 100) /
-                                                $transmissionFac->total,
-                                            0
-                                        ); ?>%
+                                                $transmissionFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($transmissionFac->score * 100) /
@@ -333,18 +339,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transmissionDecla->score * 100) /
-                                                $transmissionDecla->total,
-                                            0
-                                        ); ?>%
+                                                $transmissionDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transmissionMa->score * 100) /
-                                                $transmissionMa->total,
-                                            0
-                                        ); ?>%
+                                                $transmissionMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -405,6 +407,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Assistance à la Conduite",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -421,6 +424,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Assistance à la Conduite",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -437,6 +441,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Assistance à la Conduite",
@@ -455,7 +460,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $assistanceConduiteFac->speciality; ?>&level=<?php echo $assistanceConduiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $assistanceConduiteFac->speciality; ?>&level=<?php echo $assistanceConduiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -463,12 +468,10 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($assistanceConduiteFac->score *
                                                 100) /
-                                                $assistanceConduiteFac->total,
-                                            0
-                                        ); ?>%
+                                                $assistanceConduiteFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($assistanceConduiteFac->score * 100) /
@@ -489,20 +492,16 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($assistanceConduiteDecla->score *
                                                 100) /
-                                                $assistanceConduiteDecla->total,
-                                            0
-                                        ); ?>%
+                                                $assistanceConduiteDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($assistanceConduiteMa->score *
                                                 100) /
-                                                $assistanceConduiteMa->total,
-                                            0
-                                        ); ?>%
+                                                $assistanceConduiteMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -564,6 +563,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Transfert"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -577,6 +577,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Transfert"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -593,6 +594,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Boite de Transfert"],
                                         ["active" => true],
                                     ],
@@ -608,7 +610,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transfertFac->speciality; ?>&level=<?php echo $transfertFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $transfertFac->speciality; ?>&level=<?php echo $transfertFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -616,11 +618,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transfertFac->score * 100) /
-                                                $transfertFac->total,
-                                            0
-                                        ); ?>%
+                                                $transfertFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($transfertFac->score * 100) /
@@ -641,18 +641,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transfertDecla->score * 100) /
-                                                $transfertDecla->total,
-                                            0
-                                        ); ?>%
+                                                $transfertDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transfertMa->score * 100) /
-                                                $transfertMa->total,
-                                            0
-                                        ); ?>%
+                                                $transfertMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -706,6 +702,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Vitesse"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -719,6 +716,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Boite de Vitesse"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -735,6 +733,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Boite de Vitesse"],
                                         ["active" => true],
                                     ],
@@ -750,7 +749,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteFac->speciality; ?>&level=<?php echo $boiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteFac->speciality; ?>&level=<?php echo $boiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -758,11 +757,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteFac->score * 100) /
-                                                $boiteFac->total,
-                                            0
-                                        ); ?>%
+                                                $boiteFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($boiteFac->score * 100) /
@@ -783,18 +780,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteDecla->score * 100) /
-                                                $boiteDecla->total,
-                                            0
-                                        ); ?>%
+                                                $boiteDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteMa->score * 100) /
-                                                $boiteMa->total,
-                                            0
-                                        ); ?>%
+                                                $boiteMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -852,6 +845,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Automatique",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -868,6 +862,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Automatique",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -884,6 +879,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Boite de Vitesse Automatique",
@@ -902,7 +898,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteAutoFac->speciality; ?>&level=<?php echo $boiteAutoFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteAutoFac->speciality; ?>&level=<?php echo $boiteAutoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -910,11 +906,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteAutoFac->score * 100) /
-                                                $boiteAutoFac->total,
-                                            0
-                                        ); ?>%
+                                                $boiteAutoFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($boiteAutoFac->score * 100) /
@@ -935,18 +929,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteAutoDecla->score * 100) /
-                                                $boiteAutoDecla->total,
-                                            0
-                                        ); ?>%
+                                                $boiteAutoDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteAutoMa->score * 100) /
-                                                $boiteAutoMa->total,
-                                            0
-                                        ); ?>%
+                                                $boiteAutoMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -1004,6 +994,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Mécanique",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1020,6 +1011,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse Mécanique",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1036,6 +1028,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Boite de Vitesse Mécanique",
@@ -1054,7 +1047,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteManFac->speciality; ?>&level=<?php echo $boiteManFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteManFac->speciality; ?>&level=<?php echo $boiteManFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1062,11 +1055,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteManFac->score * 100) /
-                                                $boiteManFac->total,
-                                            0
-                                        ); ?>%
+                                                $boiteManFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($boiteManFac->score * 100) /
@@ -1087,18 +1078,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteManDecla->score * 100) /
-                                                $boiteManDecla->total,
-                                            0
-                                        ); ?>%
+                                                $boiteManDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteManMa->score * 100) /
-                                                $boiteManMa->total,
-                                            0
-                                        ); ?>%
+                                                $boiteManMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -1156,6 +1143,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse à Variation Continue",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1172,6 +1160,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Boite de Vitesse à Variation Continue",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1188,6 +1177,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Boite de Vitesse à Variation Continue",
@@ -1206,7 +1196,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $boiteVaCoFac->speciality; ?>&level=<?php echo $boiteVaCoFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteVaCoFac->speciality; ?>&level=<?php echo $boiteVaCoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1214,11 +1204,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteVaCoFac->score * 100) /
-                                                $boiteVaCoFac->total,
-                                            0
-                                        ); ?>%
+                                                $boiteVaCoFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($boiteVaCoFac->score * 100) /
@@ -1239,18 +1227,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteVaCoDecla->score * 100) /
-                                                $boiteVaCoDecla->total,
-                                            0
-                                        ); ?>%
+                                                $boiteVaCoDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($boiteVaCoMa->score * 100) /
-                                                $boiteVaCoMa->total,
-                                            0
-                                        ); ?>%
+                                                $boiteVaCoMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -1305,6 +1289,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Climatisation"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1318,6 +1303,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Climatisation"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1334,6 +1320,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Climatisation"],
                                         ["active" => true],
                                     ],
@@ -1349,7 +1336,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $climatisationFac->speciality; ?>&level=<?php echo $climatisationFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $climatisationFac->speciality; ?>&level=<?php echo $climatisationFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1357,11 +1344,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($climatisationFac->score * 100) /
-                                                $climatisationFac->total,
-                                            0
-                                        ); ?>%
+                                                $climatisationFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($climatisationFac->score * 100) /
@@ -1382,18 +1367,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($climatisationDecla->score * 100) /
-                                                $climatisationDecla->total,
-                                            0
-                                        ); ?>%
+                                                $climatisationDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($climatisationMa->score * 100) /
-                                                $climatisationMa->total,
-                                            0
-                                        ); ?>%
+                                                $climatisationMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -1451,6 +1432,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Demi Arbre de Roue"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1464,6 +1446,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Demi Arbre de Roue"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1480,6 +1463,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Demi Arbre de Roue"],
                                         ["active" => true],
                                     ],
@@ -1495,7 +1479,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $demiFac->speciality; ?>&level=<?php echo $demiFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $demiFac->speciality; ?>&level=<?php echo $demiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1503,11 +1487,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($demiFac->score * 100) /
-                                                $demiFac->total,
-                                            0
-                                        ); ?>%
+                                                $demiFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($demiFac->score * 100) /
@@ -1528,18 +1510,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($demiDecla->score * 100) /
-                                                $demiDecla->total,
-                                            0
-                                        ); ?>%
+                                                $demiDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($demiMa->score * 100) /
-                                                $demiMa->total,
-                                            0
-                                        ); ?>%
+                                                $demiMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -1594,6 +1572,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Direction"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1607,6 +1586,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Direction"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1623,6 +1603,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Direction"],
                                         ["active" => true],
                                     ],
@@ -1638,7 +1619,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $directionFac->speciality; ?>&level=<?php echo $directionFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $directionFac->speciality; ?>&level=<?php echo $directionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1646,11 +1627,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($directionFac->score * 100) /
-                                                $directionFac->total,
-                                            0
-                                        ); ?>%
+                                                $directionFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($directionFac->score * 100) /
@@ -1671,18 +1650,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($directionDecla->score * 100) /
-                                                $directionDecla->total,
-                                            0
-                                        ); ?>%
+                                                $directionDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($directionMa->score * 100) /
-                                                $directionMa->total,
-                                            0
-                                        ); ?>%
+                                                $directionMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -1740,6 +1715,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Electricité et Electronique",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1756,6 +1732,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Electricité et Electronique",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1772,6 +1749,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Electricité et Electronique",
@@ -1790,7 +1768,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $electriciteFac->speciality; ?>&level=<?php echo $electriciteFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $electriciteFac->speciality; ?>&level=<?php echo $electriciteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1798,11 +1776,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($electriciteFac->score * 100) /
-                                                $electriciteFac->total,
-                                            0
-                                        ); ?>%
+                                                $electriciteFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($electriciteFac->score * 100) /
@@ -1823,18 +1799,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($electriciteDecla->score * 100) /
-                                                $electriciteDecla->total,
-                                            0
-                                        ); ?>%
+                                                $electriciteDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($electriciteMa->score * 100) /
-                                                $electriciteMa->total,
-                                            0
-                                        ); ?>%
+                                                $electriciteMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -1892,6 +1864,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Freinage"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1905,6 +1878,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Freinage"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -1921,6 +1895,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Freinage"],
                                         ["active" => true],
                                     ],
@@ -1936,7 +1911,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freiFac->speciality; ?>&level=<?php echo $freiFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freiFac->speciality; ?>&level=<?php echo $freiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -1944,11 +1919,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freiFac->score * 100) /
-                                                $freiFac->total,
-                                            0
-                                        ); ?>%
+                                                $freiFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($freiFac->score * 100) /
@@ -1969,18 +1942,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freiDecla->score * 100) /
-                                                $freiDecla->total,
-                                            0
-                                        ); ?>%
+                                                $freiDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freiMa->score * 100) /
-                                                $freiMa->total,
-                                            0
-                                        ); ?>%
+                                                $freiMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -2038,6 +2007,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Electromagnétique",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2054,6 +2024,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Electromagnétique",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2070,6 +2041,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Freinage Electromagnétique",
@@ -2088,7 +2060,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinageElecFac->speciality; ?>&level=<?php echo $freinageElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freinageElecFac->speciality; ?>&level=<?php echo $freinageElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2096,11 +2068,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinageElecFac->score * 100) /
-                                                $freinageElecFac->total,
-                                            0
-                                        ); ?>%
+                                                $freinageElecFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($freinageElecFac->score * 100) /
@@ -2121,18 +2091,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinageElecDecla->score * 100) /
-                                                $freinageElecDecla->total,
-                                            0
-                                        ); ?>%
+                                                $freinageElecDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinageElecMa->score * 100) /
-                                                $freinageElecMa->total,
-                                            0
-                                        ); ?>%
+                                                $freinageElecMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -2193,6 +2159,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Hydraulique",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2209,6 +2176,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Hydraulique",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2225,6 +2193,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Freinage Hydraulique",
@@ -2243,7 +2212,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinageFac->speciality; ?>&level=<?php echo $freinageFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freinageFac->speciality; ?>&level=<?php echo $freinageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2251,11 +2220,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinageFac->score * 100) /
-                                                $freinageFac->total,
-                                            0
-                                        ); ?>%
+                                                $freinageFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($freinageFac->score * 100) /
@@ -2276,18 +2243,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinageDecla->score * 100) /
-                                                $freinageDecla->total,
-                                            0
-                                        ); ?>%
+                                                $freinageDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinageMa->score * 100) /
-                                                $freinageMa->total,
-                                            0
-                                        ); ?>%
+                                                $freinageMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -2345,6 +2308,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Pneumatique",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2361,6 +2325,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Freinage Pneumatique",
                                         ],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2377,6 +2342,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         [
                                             "speciality" =>
                                                 "Freinage Pneumatique",
@@ -2395,7 +2361,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $freinFac->speciality; ?>&level=<?php echo $freinFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freinFac->speciality; ?>&level=<?php echo $freinFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2403,11 +2369,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinFac->score * 100) /
-                                                $freinFac->total,
-                                            0
-                                        ); ?>%
+                                                $freinFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($freinFac->score * 100) /
@@ -2428,18 +2392,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinDecla->score * 100) /
-                                                $freinDecla->total,
-                                            0
-                                        ); ?>%
+                                                $freinDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($freinMa->score * 100) /
-                                                $freinMa->total,
-                                            0
-                                        ); ?>%
+                                                $freinMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -2494,6 +2454,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Hydraulique"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2507,6 +2468,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Hydraulique"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2523,6 +2485,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Hydraulique"],
                                         ["active" => true],
                                     ],
@@ -2538,7 +2501,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $hydrauliqueFac->speciality; ?>&level=<?php echo $hydrauliqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $hydrauliqueFac->speciality; ?>&level=<?php echo $hydrauliqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2546,11 +2509,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($hydrauliqueFac->score * 100) /
-                                                $hydrauliqueFac->total,
-                                            0
-                                        ); ?>%
+                                                $hydrauliqueFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($hydrauliqueFac->score * 100) /
@@ -2571,18 +2532,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($hydrauliqueDecla->score * 100) /
-                                                $hydrauliqueDecla->total,
-                                            0
-                                        ); ?>%
+                                                $hydrauliqueDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($hydrauliqueMa->score * 100) /
-                                                $hydrauliqueMa->total,
-                                            0
-                                        ); ?>%
+                                                $hydrauliqueMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -2640,6 +2597,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Diesel"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2653,6 +2611,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Diesel"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2669,6 +2628,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Moteur Diesel"],
                                         ["active" => true],
                                     ],
@@ -2684,7 +2644,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurDieselFac->speciality; ?>&level=<?php echo $moteurDieselFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurDieselFac->speciality; ?>&level=<?php echo $moteurDieselFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2692,11 +2652,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurDieselFac->score * 100) /
-                                                $moteurDieselFac->total,
-                                            0
-                                        ); ?>%
+                                                $moteurDieselFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($moteurDieselFac->score * 100) /
@@ -2717,18 +2675,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurDieselDecla->score * 100) /
-                                                $moteurDieselDecla->total,
-                                            0
-                                        ); ?>%
+                                                $moteurDieselDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurDieselMa->score * 100) /
-                                                $moteurDieselMa->total,
-                                            0
-                                        ); ?>%
+                                                $moteurDieselMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -2786,6 +2740,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Electrique"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2799,6 +2754,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Electrique"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2815,6 +2771,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Moteur Electrique"],
                                         ["active" => true],
                                     ],
@@ -2830,7 +2787,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurElecFac->speciality; ?>&level=<?php echo $moteurElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurElecFac->speciality; ?>&level=<?php echo $moteurElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2838,11 +2795,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurElecFac->score * 100) /
-                                                $moteurElecFac->total,
-                                            0
-                                        ); ?>%
+                                                $moteurElecFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($moteurElecFac->score * 100) /
@@ -2863,18 +2818,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurElecDecla->score * 100) /
-                                                $moteurElecDecla->total,
-                                            0
-                                        ); ?>%
+                                                $moteurElecDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurElecMa->score * 100) /
-                                                $moteurElecMa->total,
-                                            0
-                                        ); ?>%
+                                                $moteurElecMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -2931,6 +2882,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Essence"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2944,6 +2896,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Essence"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -2960,6 +2913,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Moteur Essence"],
                                         ["active" => true],
                                     ],
@@ -2975,7 +2929,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurEssenceFac->speciality; ?>&level=<?php echo $moteurEssenceFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurEssenceFac->speciality; ?>&level=<?php echo $moteurEssenceFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -2983,11 +2937,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurEssenceFac->score * 100) /
-                                                $moteurEssenceFac->total,
-                                            0
-                                        ); ?>%
+                                                $moteurEssenceFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($moteurEssenceFac->score * 100) /
@@ -3008,18 +2960,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurEssenceDecla->score * 100) /
-                                                $moteurEssenceDecla->total,
-                                            0
-                                        ); ?>%
+                                                $moteurEssenceDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurEssenceMa->score * 100) /
-                                                $moteurEssenceMa->total,
-                                            0
-                                        ); ?>%
+                                                $moteurEssenceMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -3077,6 +3025,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Thermique"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3090,6 +3039,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Moteur Thermique"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3106,6 +3056,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Moteur Thermique"],
                                         ["active" => true],
                                     ],
@@ -3121,7 +3072,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $moteurThermiqueFac->speciality; ?>&level=<?php echo $moteurThermiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurThermiqueFac->speciality; ?>&level=<?php echo $moteurThermiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3129,11 +3080,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurThermiqueFac->score * 100) /
-                                                $moteurThermiqueFac->total,
-                                            0
-                                        ); ?>%
+                                                $moteurThermiqueFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($moteurThermiqueFac->score * 100) /
@@ -3154,19 +3103,15 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurThermiqueDecla->score *
                                                 100) /
-                                                $moteurThermiqueDecla->total,
-                                            0
-                                        ); ?>%
+                                                $moteurThermiqueDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($moteurThermiqueMa->score * 100) /
-                                                $moteurThermiqueMa->total,
-                                            0
-                                        ); ?>%
+                                                $moteurThermiqueMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -3224,6 +3169,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Multiplexage"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3237,6 +3183,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Multiplexage"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3253,6 +3200,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Multiplexage"],
                                         ["active" => true],
                                     ],
@@ -3268,7 +3216,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $multiplexageFac->speciality; ?>&level=<?php echo $multiplexageFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $multiplexageFac->speciality; ?>&level=<?php echo $multiplexageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3276,11 +3224,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($multiplexageFac->score * 100) /
-                                                $multiplexageFac->total,
-                                            0
-                                        ); ?>%
+                                                $multiplexageFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($multiplexageFac->score * 100) /
@@ -3301,18 +3247,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($multiplexageDecla->score * 100) /
-                                                $multiplexageDecla->total,
-                                            0
-                                        ); ?>%
+                                                $multiplexageDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($multiplexageMa->score * 100) /
-                                                $multiplexageMa->total,
-                                            0
-                                        ); ?>%
+                                                $multiplexageMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -3370,6 +3312,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pneumatique"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3383,6 +3326,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pneumatique"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3399,6 +3343,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Pneumatique"],
                                         ["active" => true],
                                     ],
@@ -3414,7 +3359,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $pneuFac->speciality; ?>&level=<?php echo $pneuFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $pneuFac->speciality; ?>&level=<?php echo $pneuFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3422,11 +3367,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($pneuFac->score * 100) /
-                                                $pneuFac->total,
-                                            0
-                                        ); ?>%
+                                                $pneuFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($pneuFac->score * 100) /
@@ -3447,18 +3390,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($pneuDecla->score * 100) /
-                                                $pneuDecla->total,
-                                            0
-                                        ); ?>%
+                                                $pneuDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($pneuMa->score * 100) /
-                                                $pneuMa->total,
-                                            0
-                                        ); ?>%
+                                                $pneuMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -3513,6 +3452,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pont"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3526,6 +3466,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Pont"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3542,6 +3483,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Pont"],
                                         ["active" => true],
                                     ],
@@ -3557,7 +3499,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $pontFac->speciality; ?>&level=<?php echo $pontFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $pontFac->speciality; ?>&level=<?php echo $pontFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3565,11 +3507,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($pontFac->score * 100) /
-                                                $pontFac->total,
-                                            0
-                                        ); ?>%
+                                                $pontFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($pontFac->score * 100) /
@@ -3590,18 +3530,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($pontDecla->score * 100) /
-                                                $pontDecla->total,
-                                            0
-                                        ); ?>%
+                                                $pontDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($pontMa->score * 100) /
-                                                $pontMa->total,
-                                            0
-                                        ); ?>%
+                                                $pontMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -3656,6 +3592,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Réducteur"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3669,6 +3606,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Réducteur"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3685,6 +3623,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Réducteur"],
                                         ["active" => true],
                                     ],
@@ -3700,7 +3639,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $reducteurFac->speciality; ?>&level=<?php echo $reducteurFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $reducteurFac->speciality; ?>&level=<?php echo $reducteurFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3708,11 +3647,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($reducteurFac->score * 100) /
-                                                $reducteurFac->total,
-                                            0
-                                        ); ?>%
+                                                $reducteurFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($reducteurFac->score * 100) /
@@ -3733,18 +3670,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($reducteurDecla->score * 100) /
-                                                $reducteurDecla->total,
-                                            0
-                                        ); ?>%
+                                                $reducteurDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($reducteurMa->score * 100) /
-                                                $reducteurMa->total,
-                                            0
-                                        ); ?>%
+                                                $reducteurMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -3799,6 +3732,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3812,6 +3746,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3828,6 +3763,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Suspension"],
                                         ["active" => true],
                                     ],
@@ -3843,7 +3779,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionFac->speciality; ?>&level=<?php echo $suspensionFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionFac->speciality; ?>&level=<?php echo $suspensionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3851,11 +3787,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionFac->score * 100) /
-                                                $suspensionFac->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($suspensionFac->score * 100) /
@@ -3876,18 +3810,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionDecla->score * 100) /
-                                                $suspensionDecla->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionMa->score * 100) /
-                                                $suspensionMa->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -3944,6 +3874,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension à Lame"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3957,6 +3888,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension à Lame"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -3973,6 +3905,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Suspension à Lame"],
                                         ["active" => true],
                                     ],
@@ -3988,7 +3921,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -3996,11 +3929,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionLameFac->score * 100) /
-                                                $suspensionLameFac->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionLameFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($suspensionLameFac->score * 100) /
@@ -4021,19 +3952,15 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionLameDecla->score *
                                                 100) /
-                                                $suspensionLameDecla->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionLameDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionLameMa->score * 100) /
-                                                $suspensionLameMa->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionLameMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -4091,6 +4018,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension Ressort"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -4104,6 +4032,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Suspension Ressort"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -4120,6 +4049,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Suspension Ressort"],
                                         ["active" => true],
                                     ],
@@ -4135,7 +4065,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionRessortFac->speciality; ?>&level=<?php echo $suspensionRessortFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionRessortFac->speciality; ?>&level=<?php echo $suspensionRessortFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -4143,12 +4073,10 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionRessortFac->score *
                                                 100) /
-                                                $suspensionRessortFac->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionRessortFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($suspensionRessortFac->score * 100) /
@@ -4169,20 +4097,16 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionRessortDecla->score *
                                                 100) /
-                                                $suspensionRessortDecla->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionRessortDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionRessortMa->score *
                                                 100) /
-                                                $suspensionRessortMa->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionRessortMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -4247,6 +4171,7 @@ if (!isset($_SESSION["id"])) {
                                                 "Suspension Pneumatique",
                                         ],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -4264,7 +4189,8 @@ if (!isset($_SESSION["id"])) {
                                                     "Suspension Pneumatique",
                                             ],
                                             ["type" => "Declaratif"],
-                                        ["active" => true],
+                                            ["numberTest" => +$numberTest],
+                                            ["active" => true],
                                         ],
                                     ]
                                 );
@@ -4285,6 +4211,7 @@ if (!isset($_SESSION["id"])) {
                                             "speciality" =>
                                                 "Suspension Pneumatique",
                                         ],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -4299,7 +4226,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $suspensionPneumatiqueFac->speciality; ?>&level=<?php echo $suspensionPneumatiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionPneumatiqueFac->speciality; ?>&level=<?php echo $suspensionPneumatiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -4307,12 +4234,10 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionPneumatiqueFac->score *
                                                 100) /
-                                                $suspensionPneumatiqueFac->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionPneumatiqueFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($suspensionPneumatiqueFac->score *
@@ -4335,20 +4260,16 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionPneumatiqueDecla->score *
                                                 100) /
-                                                $suspensionPneumatiqueDecla->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionPneumatiqueDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($suspensionPneumatiqueMa->score *
                                                 100) /
-                                                $suspensionPneumatiqueMa->total,
-                                            0
-                                        ); ?>%
+                                                $suspensionPneumatiqueMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -4414,6 +4335,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Transversale"],
                                         ["type" => "Factuel"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -4427,6 +4349,7 @@ if (!isset($_SESSION["id"])) {
                                         ["level" => $level],
                                         ["speciality" => "Transversale"],
                                         ["type" => "Declaratif"],
+                                        ["numberTest" => +$numberTest],
                                         ["active" => true],
                                     ],
                                 ]);
@@ -4443,6 +4366,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
+                                        ["numberTest" => +$numberTest],
                                         ["speciality" => "Transversale"],
                                         ["active" => true],
                                     ],
@@ -4458,7 +4382,7 @@ if (!isset($_SESSION["id"])) {
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
                                         style="width: 155.266px; background-color: #a3f1ff;">
-                                        <a href="./system.php?speciality=<?php echo $transversaleFac->speciality; ?>&level=<?php echo $transversaleFac->level; ?>&user=<?php echo $technician->_id; ?>"
+                                        <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $transversaleFac->speciality; ?>&level=<?php echo $transversaleFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -4466,11 +4390,9 @@ if (!isset($_SESSION["id"])) {
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transversaleFac->score * 100) /
-                                                $transversaleFac->total,
-                                            0
-                                        ); ?>%
+                                                $transversaleFac->total); ?>%
                                     </td>
                                     <?php if (
                                         ($transversaleFac->score * 100) /
@@ -4491,18 +4413,14 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <?php } ?>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transversaleDecla->score * 100) /
-                                                $transversaleDecla->total,
-                                            0
-                                        ); ?>%
+                                                $transversaleDecla->total); ?>%
                                     </td>
                                     <td class="text-center">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($transversaleMa->score * 100) /
-                                                $transversaleMa->total,
-                                            0
-                                        ); ?>%
+                                                $transversaleMa->total); ?>%
                                     </td>
                                     <?php for (
                                         $i = 0;
@@ -4561,9 +4479,7 @@ if (!isset($_SESSION["id"])) {
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                         <?php echo round(
                                             ($resultFac->score * 100) /
-                                                $resultFac->total,
-                                            0
-                                        ); ?>%
+                                                $resultFac->total); ?>%
 
                                     </th>
                                     <th id="decision-savoir"
@@ -4574,34 +4490,28 @@ if (!isset($_SESSION["id"])) {
                                     <th id="result-n1"
                                         class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
                                         style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($resultDecla->score * 100) /
                                                 $resultDecla->total ??
-                                                "0",
-                                            0
-                                        ); ?>%
+                                                "0"); ?>%
                                     </th>
                                     <th id="result-n1"
                                         class="min-w-125px sorting bg-primary text-black text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($resultMa->score * 100) /
                                                 $resultMa->total ??
-                                                "0",
-                                            0
-                                        ); ?>%
+                                                "0"); ?>%
                                     </th>
                                     <th id="result-savoir-faire"
                                         class="min-w-125px sorting text-white text-center table-light fw-bold text-uppercase gs-0"
                                         tabindex="0" colspan="1" aria-controls="kt_customers_table" style="background-color: #007bff;"
                                         aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($resultTechMa->score * 100) /
                                                 $resultTechMa->total ??
-                                                "0",
-                                            0
-                                        ); ?>%
+                                                "0"); ?>%
                                     </th>
                                     <th id="decision-savoir-faire"
                                         class="min-w-125px sorting bg-primary text-white text-center table-light fw-bold text-uppercase gs-0"
@@ -4649,22 +4559,18 @@ if (!isset($_SESSION["id"])) {
                                         rowspan="1" colspan="1" style="background-color: #a3f1ff;"
                                         aria-label="Created Date: activate to sort column ascending"
                                         style="width: 152.719px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($resultFac->score * 100) /
-                                                $resultFac->total,
-                                            0
-                                        ); ?>%
+                                                $resultFac->total); ?>%
                                     </th>
                                     <th class="min-w-125px sorting  text-white fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
                                         rowspan="1" colspan="1" style="background-color: #a3f1ff;"
                                         aria-label="Created Date: activate to sort column ascending"
                                         style="width: 152.719px;">
-                                        <?php echo round(
+                                        <?php echo ceil(
                                             ($resultTechMa->score * 100) /
                                                 $resultTechMa->total ??
-                                                "0",
-                                            0
-                                        ); ?>%
+                                                "0"); ?>%
                                     </th>
                                     <tr></tr>
                                     <th class="min-w-125px bg-primary sorting text-black fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
@@ -4676,10 +4582,8 @@ if (!isset($_SESSION["id"])) {
                                         colspan="3" style="background-color: #a3f1ff;"
                                         aria-label="Created Date: activate to sort column ascending"
                                         style="width: 152.719px;">
-                                        <?php echo round(
-                                            ($percentageFac + $percentageTechMa) / 2,
-                                            0
-                                        ); ?>%
+                                        <?php echo ceil(
+                                            ($percentageFac + $percentageTechMa) / 2); ?>%
                                     </th>
                                 </tr>
                             </thead>

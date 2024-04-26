@@ -30,6 +30,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
+                    "active" => true,
                 ],
             ],
         ])
@@ -43,6 +44,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
+                    "active" => true,
                 ],
             ],
         ])
@@ -55,6 +57,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
+                    "active" => true,
                 ],
             ],
         ])
@@ -68,6 +71,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
+                    "active" => true,
                 ],
             ],
         ])
@@ -80,6 +84,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
+                    "active" => true,
                 ],
             ],
         ])
@@ -92,6 +97,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
+                    "active" => true,
                 ],
             ],
         ])
@@ -105,6 +111,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Declaratif",
                     "typeR" => "Techniciens",
+                    "active" => true,
                 ],
             ],
         ])
@@ -117,6 +124,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Declaratif",
                     "typeR" => "Techniciens",
+                    "active" => true,
                 ],
             ],
         ])
@@ -129,6 +137,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Declaratif",
                     "typeR" => "Techniciens",
+                    "active" => true,
                 ],
             ],
         ])
@@ -142,6 +151,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Declaratif",
                     "typeR" => "Managers",
+                    "active" => true,
                 ],
             ],
         ])
@@ -154,6 +164,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Declaratif",
                     "typeR" => "Managers",
+                    "active" => true,
                 ],
             ],
         ])
@@ -166,6 +177,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Declaratif",
                     "typeR" => "Managers",
+                    "active" => true,
                 ],
             ],
         ])
@@ -343,7 +355,7 @@ if (!isset($_SESSION["id"])) {
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
-                                    <?php if ($resultFacJu && $resultDeclaJu) {
+                                    <?php if (isset($resultFacJuTech) && isset($resultDeclaJuMa)) {
                                         for (
                                             $i = 0;
                                             $i < count($resultFacJu);

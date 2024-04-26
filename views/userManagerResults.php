@@ -30,6 +30,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
+                    "active" => true,
                 ],
             ],
         ])
@@ -43,6 +44,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
+                    "active" => true,
                 ],
             ],
         ])
@@ -55,6 +57,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Factuel",
                     "typeR" => "Technicien",
+                    "active" => true,
                 ],
             ],
         ])
@@ -68,6 +71,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
+                    "active" => true,
                 ],
             ],
         ])
@@ -80,6 +84,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
+                    "active" => true,
                 ],
             ],
         ])
@@ -92,6 +97,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Declaratif",
                     "typeR" => "Technicien - Manager",
+                    "active" => true,
                 ],
             ],
         ])
@@ -105,6 +111,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Declaratif",
                     "typeR" => "Techniciens",
+                    "active" => true,
                 ],
             ],
         ])
@@ -117,6 +124,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Declaratif",
                     "typeR" => "Techniciens",
+                    "active" => true,
                 ],
             ],
         ])
@@ -129,6 +137,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Declaratif",
                     "typeR" => "Techniciens",
+                    "active" => true,
                 ],
             ],
         ])
@@ -142,6 +151,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "type" => "Declaratif",
                     "typeR" => "Managers",
+                    "active" => true,
                 ],
             ],
         ])
@@ -154,6 +164,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "type" => "Declaratif",
                     "typeR" => "Managers",
+                    "active" => true,
                 ],
             ],
         ])
@@ -166,6 +177,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "type" => "Declaratif",
                     "typeR" => "Managers",
+                    "active" => true,
                 ],
             ],
         ])
@@ -302,99 +314,99 @@ if (!isset($_SESSION["id"])) {
                                                 ],
                                             ]);
                                             $percentageFacJu =
-                                                round(($resultFacJu[$i]["score"] *
+                                                ceil(($resultFacJu[$i]["score"] *
                                                     100) /
-                                                $resultFacJu[$i]["total"], 0);
+                                                $resultFacJu[$i]["total"]);
                                             if ($resultDeclaJu) {
                                                 $percentageDeclaJu =
-                                                    round(($resultDeclaJu[$i][
+                                                    ceil(($resultDeclaJu[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaJu[$i]["total"], 0);
+                                                    $resultDeclaJu[$i]["total"]);
                                             }
                                             if ($resultDeclaJuTech) {
                                                 $percentageDeclaJuTech =
-                                                    round(($resultDeclaJuTech[$i][
+                                                    ceil(($resultDeclaJuTech[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaJuTech[$i]["total"], 0);
+                                                    $resultDeclaJuTech[$i]["total"]);
                                             }
                                             if ($resultDeclaJuMa) {
                                                 $percentageDeclaJuMa =
-                                                    round(($resultDeclaJuMa[$i][
+                                                    ceil(($resultDeclaJuMa[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaJuMa[$i]["total"], 0);
+                                                    $resultDeclaJuMa[$i]["total"]);
                                             }
                                             if ($resultFacSe) {
                                                 $percentageFacSe =
-                                                    round(($resultFacSe[$i]["score"] *
+                                                    ceil(($resultFacSe[$i]["score"] *
                                                         100) /
-                                                    $resultFacSe[$i]["total"], 0);
+                                                    $resultFacSe[$i]["total"]);
                                             }
                                             if ($resultDeclaSe) {
                                                 $percentageDeclaSe =
-                                                    round(($resultDeclaSe[$i][
+                                                    ceil(($resultDeclaSe[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaSe[$i]["total"], 0);
+                                                    $resultDeclaSe[$i]["total"]);
                                             }
                                             if ($resultDeclaSeTech) {
                                                 $percentageDeclaSeTech =
-                                                    round(($resultDeclaSeTech[$i][
+                                                    ceil(($resultDeclaSeTech[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaSeTech[$i]["total"], 0);
+                                                    $resultDeclaSeTech[$i]["total"]);
                                             }
                                             if ($resultDeclaSeMa) {
                                                 $percentageDeclaSeMa =
-                                                    round(($resultDeclaSeMa[$i][
+                                                    ceil(($resultDeclaSeMa[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaSeMa[$i]["total"], 0);
+                                                    $resultDeclaSeMa[$i]["total"]);
                                             }
                                             if ($resultFacEx) {
                                                 $percentageFacEx =
-                                                    round(($resultFacEx[$i]["score"] *
+                                                    ceil(($resultFacEx[$i]["score"] *
                                                         100) /
-                                                    $resultFacEx[$i]["total"], 0);
+                                                    $resultFacEx[$i]["total"]);
                                             }
                                             if ($resultDeclaEx) {
                                                 $percentageDeclaEx =
-                                                    round(($resultDeclaEx[$i][
+                                                    ceil(($resultDeclaEx[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaEx[$i]["total"], 0);
+                                                    $resultDeclaEx[$i]["total"]);
                                             }
                                             if ($resultDeclaExTech) {
                                                 $percentageDeclaExTech =
-                                                    round(($resultDeclaExTech[$i][
+                                                    ceil(($resultDeclaExTech[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaExTech[$i]["total"], 0);
+                                                    $resultDeclaExTech[$i]["total"]);
                                             }
                                             if ($resultDeclaExMa) {
                                                 $percentageDeclaExMa =
-                                                    round(($resultDeclaExMa[$i][
+                                                    ceil(($resultDeclaExMa[$i][
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaExMa[$i]["total"], 0);
+                                                    $resultDeclaExMa[$i]["total"]);
                                             }
-                                            $junior = round(($percentageFacJu + $percentageDeclaJu) / 2, 0);
+                                            $junior = ceil(($percentageFacJu + $percentageDeclaJu) / 2);
                                             if ($resultDeclaSe && $resultFacSe) {
-                                                $senior = round(($percentageFacSe + $percentageDeclaSe) / 2, 0);
+                                                $senior = ceil(($percentageFacSe + $percentageDeclaSe) / 2);
                                             }
                                             if ($resultDeclaEx && $resultFacEx) {
-                                                $expert = round(($percentageFacEx + $percentageDeclaEx) / 2, 0);
+                                                $expert = ceil(($percentageFacEx + $percentageDeclaEx) / 2);
                                             }
                                             ?>
                                     <tr class="odd">
