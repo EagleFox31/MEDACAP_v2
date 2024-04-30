@@ -3450,7 +3450,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div style='padding-bottom: 30px; font-size: 17px;'>
                                                     Bonjour<strong>".$_SESSION["firstName"]." ".$_SESSION["lastName"]."</strong>,
                                                     </div>
-                                                    <div style='padding-bottom: 30px'>Félicitations! Vous avez terminé l'évaluation de votre collaborateur".$user["firstName"]." ".$user["lastName"].". Il vous ai desormais possible de visualiser les résultats de ce collaborateur.</div>
+                                                    <div style='padding-bottom: 30px'>Félicitations! Vous avez terminé l'évaluation de votre collaborateur <strong>".$user["firstName"]." ".$user["lastName"]."</strong>. Il vous ai desormais possible de visualiser les résultats de ce collaborateur.</div>
                                                     <!--end:Email content-->
                                                     <div style='padding-bottom: 10px'>Merci de votre temps et de votre participation,
                                                     <br><br>L'équipe CFAO Mobility Academy. <br><br>

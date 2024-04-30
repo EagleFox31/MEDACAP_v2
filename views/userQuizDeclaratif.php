@@ -3294,7 +3294,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div style='padding-bottom: 30px; font-size: 17px;'>
                                                     Bonjour<strong>".$technician["firstName"]." ".$technician["lastName"]."</strong>,
                                                     </div>
-                                                    <div style='padding-bottom: 30px'>Félicitations! Vous avez terminé votre test des tâches professionnelles du niveau ".$level.". Vos résultats seront traités et analysés dans les brefs delai. 
+                                                    <div style='padding-bottom: 30px'>Félicitations! Vous avez terminé votre test des tâches professionnelles du niveau <strong>".$level."</strong>. Vos résultats seront traités et analysés dans les brefs delai. 
                                                     Nous reviendrons vers vous pour vous proposer un programme de formation qui vous aidera dans l'amélioration de votre expertise professionnelle.</div>
                                                     <!--end:Email content-->
                                                     <div style='padding-bottom: 10px'>Merci de votre temps et de votre participation,
@@ -3332,7 +3332,7 @@ if (!isset($_SESSION["id"])) {
                                                     <div style='padding-bottom: 30px; font-size: 17px;'>
                                                     Bonjour<strong>".$manager["firstName"]." ".$manager["lastName"]."</strong>,
                                                     </div>
-                                                    <div style='padding-bottom: 30px'>Nous vous informons que votre collaborateur".$technician["firstName"]." ".$technician["lastName"].", vient de terminer son test des tâches professionnelles. 
+                                                    <div style='padding-bottom: 30px'>Nous vous informons que votre collaborateur <strong>".$technician["firstName"]." ".$technician["lastName"]."</strong>, vient de terminer son test des tâches professionnelles. 
                                                     Veuillez vous connecter et faire son évaluation sur la mesure de ses tâches professionnelles si vous ne l'avez pas encore éffectué.</div>
                                                     <!--end:Email content-->
                                                     <div style='padding-bottom: 10px'>Merci de votre temps et de votre participation,
