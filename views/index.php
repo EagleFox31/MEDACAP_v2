@@ -2,7 +2,7 @@
 session_start();
 include_once "language.php";
 
-require_once "../vendor/autoload.php";
+require_once "vendor/autoload.php";
 
 // Create connection
 $conn = new MongoDB\Client("mongodb://localhost:27017");
@@ -36,7 +36,7 @@ if (isset($_POST["login"])) {
         $_SESSION["id"] = $login["_id"];
         $_SESSION["subsidiary"] = $login["subsidiary"];
         $_SESSION["department"] = $login["department"];
-        header("Location: ./dashboard.php");
+        header("Location: views/dashboard.php");
     }
 }
 ?>
@@ -51,7 +51,7 @@ if (isset($_POST["login"])) {
     <meta content="" name="keywords">
     <meta content="" name="description">
     <!-- Favicon -->
-    <link href="../public/images/logo-cfao.png" rel="icon">
+    <link href="public/images/logo-cfao.png" rel="icon">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,13 +62,13 @@ if (isset($_POST["login"])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Libraries Stylesheet -->
-    <link href="../public/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../public/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="public/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="public/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
     <!-- Template Stylesheet -->
-    <link href="../public/css/style.css" rel="stylesheet">
+    <link href="public/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -84,7 +84,7 @@ if (isset($_POST["login"])) {
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
-                <img class="fa fa-map-marker-alt me-3" src="../public/images/logo.png" alt="Logo">
+                <img class="fa fa-map-marker-alt me-3" src="public/images/logo.png" alt="Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
@@ -139,7 +139,7 @@ if (isset($_POST["login"])) {
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 450px;">
                     <div class="position-relative h-100">
                         <img class="img-fluid position-absolute w-100 h-100"
-                            src="../public/images/1713436729177.jpg" alt="" style="object-fit: cover;">
+                            src="public/images/1713436729177.jpg" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: 120px;">
@@ -184,7 +184,7 @@ if (isset($_POST["login"])) {
                     <div class="row g-3">
                         <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../public/images/Cami montage.png" alt="">
+                                <img class="img-fluid" src="public/images/Cami montage.png" alt="">
                                 <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                                 </div>
                                 <div
@@ -194,7 +194,7 @@ if (isset($_POST["login"])) {
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../public/images/IMG_20220916_175932_369.jpg" alt="">
+                                <img class="img-fluid" src="public/images/IMG_20220916_175932_369.jpg" alt="">
                                 <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                                 </div>
                                 <div
@@ -204,7 +204,7 @@ if (isset($_POST["login"])) {
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="../public/images/IMG_20221123_153828_683.jpg" alt="">
+                                <img class="img-fluid" src="public/images/IMG_20221123_153828_683.jpg" alt="">
                                 <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                                 </div>
                                 <div
@@ -217,7 +217,7 @@ if (isset($_POST["login"])) {
                 <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
                     <a class="position-relative d-block h-100 overflow-hidden" href="">
                         <img class="img-fluid position-absolute w-100 h-100"
-                            src="../public/images/IMG_20230309_100343_936.jpg" alt="" style="object-fit: cover;">
+                            src="public/images/IMG_20230309_100343_936.jpg" alt="" style="object-fit: cover;">
                         <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                         </div>
                         <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
@@ -227,7 +227,7 @@ if (isset($_POST["login"])) {
                 <div class="row g-3">
                     <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
                         <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="../public/images/IMG_9092.JPG" alt="">
+                            <img class="img-fluid" src="public/images/IMG_9092.JPG" alt="">
                             <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                             </div>
                             <div
@@ -237,7 +237,7 @@ if (isset($_POST["login"])) {
                     </div>
                     <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
                         <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="../public/images/IMG_20240328_161007_342.jpg" alt="">
+                            <img class="img-fluid" src="public/images/IMG_20240328_161007_342.jpg" alt="">
                             <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
                             </div>
                             <div
@@ -274,18 +274,18 @@ if (isset($_POST["login"])) {
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js">
     </script>
-    <script src="../public/lib/wow/wow.min.js"></script>
-    <script src="../public/lib/easing/easing.min.js"></script>
-    <script src="../public/lib/waypoints/waypoints.min.js"></script>
-    <script src="../public/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../public/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="../public/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="../public/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js">
+    <script src="public/lib/wow/wow.min.js"></script>
+    <script src="public/lib/easing/easing.min.js"></script>
+    <script src="public/lib/waypoints/waypoints.min.js"></script>
+    <script src="public/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="public/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="public/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="public/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js">
     </script>
     <!--begin::Custom Javascript(used for this page only)-->
-    <script src="../public/assets/js/custom/authentication/sign-up/free-trial.js"></script>
+    <script src="public/assets/js/custom/authentication/sign-up/free-trial.js"></script>
     <!-- Template Javascript -->
-    <script src="../public/js/main.js"></script>
+    <script src="public/js/main.js"></script>
 </body>
 
 </html>

@@ -1,19 +1,13 @@
 <?php
 session_start();
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
     header("Location: ./index.php");
     exit();
 } else {
-    
-    require '../phpmailer/src/Exception.php';
-    require '../phpmailer/src/PHPMailer.php';
-    require '../phpmailer/src/SMTP.php';
-
     require_once "../vendor/autoload.php";
+    require "sendMail.php";
 
     // Create connection
     $conn = new MongoDB\Client("mongodb://localhost:27017");
@@ -40,6 +34,13 @@ if (!isset($_SESSION["id"])) {
     $technician = $users->findOne([
         '$and' => [
             ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ["active" => true],
+        ],
+    ]);
+
+    $manager = $users->findOne([
+        '$and' => [
+            ["_id" => new MongoDB\BSON\ObjectId($technician['manager'])],
             ["active" => true],
         ],
     ]);
@@ -3659,17 +3660,7 @@ if (!isset($_SESSION["id"])) {
             $examData->active = false;
             $exams->updateOne(["_id" => $examData->_id], ['$set' => $examData]);
 
-            $mail = new PHPMailer(true);
-        
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'locafasta@gmail.com';
-            $mail->Password = 'yaphyinrhxjxbdhx';
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465;
-        
-            $html = "<style>html,body { padding: 0; margin:0; }</style>
+            $message_tech = "<style>html,body { padding: 0; margin:0; }</style>
             <div style='font-family:Arial,Helvetica,sans-serif; line-height: 1.5; font-weight: normal; font-size: 15px; color: #2F3044; min-height: 100%; margin:0; padding:0; width:100%; background-color:#edf2f7'>
                 <table align='center' border='0' cellpadding='0' cellspacing='0' width='100%' style='border-collapse:collapse;margin:0 auto; padding:0; max-width:600px'>
                     <tbody>
@@ -3682,12 +3673,14 @@ if (!isset($_SESSION["id"])) {
                                                 <div style='text-align:left; margin: 0 20px; padding: 40px; background-color:#ffffff; border-radius: 6px'>
                                                     <!--begin:Email content-->
                                                     <div style='padding-bottom: 30px; font-size: 17px;'>
-                                                    <center><strong>Bienvenue sur CFAO MOBILITY ACADEMY!</strong></center>
+                                                    Bonjour<strong>".$technician["firstName"]." ".$technician["lastName"]."</strong>,
                                                     </div>
-                                                    <div style='padding-bottom: 30px'>Hello, Thank you for sending a message to us about, we just confirm you that we received your message, after reading your message, we'll answer you as soon as possible.</div>
+                                                    <div style='padding-bottom: 30px'>Félicitations! Vous avez terminé votre test des connaissances du niveau ".$level.". Vos résultats seront traités et analysés dans les brefs delai. 
+                                                    Nous reviendrons vers vous pour vous proposer un programme de formation qui vous aidera dans l'amélioration de votre expertise professionnelle.</div>
                                                     <!--end:Email content-->
-                                                    <div style='padding-bottom: 10px'>Kind regards,
-                                                    <br>G.M.S/C Team. 
+                                                    <div style='padding-bottom: 10px'>Merci de votre temps et de votre participation,
+                                                    <br><br>L'équipe CFAO Mobility Academy. <br><br>
+                                                    --- Ceci est un message automatique, merci de ne pas y répondre ---
                                                     <tr>
                                                         <td align='center' valign='center' style='font-size: 13px; text-align:center;padding: 20px; color: #6d6e7c;'>
                                                             <p>Douala, Cameroon.</p>
@@ -3705,18 +3698,46 @@ if (!isset($_SESSION["id"])) {
                     </tbody>
                 </table>
             </div>";
-        
-            $mail->setFrom($technician["email"], $technician["firstName"]);
-            $mail->addAddress('yannesonwa@yahoo.com');
-            // $mail->addReply($technician["email"], $technician["firstName"]);
-            $mail->addCC('myamindo@cfao.com');
-            
-            $mail->isHTML(true);
-
-            $mail->Subject = "Confirmation de soumission du test";
-            $mail->Body = $html;
-            
-            $mail->send();
+            $message_man = "<style>html,body { padding: 0; margin:0; }</style>
+            <div style='font-family:Arial,Helvetica,sans-serif; line-height: 1.5; font-weight: normal; font-size: 15px; color: #2F3044; min-height: 100%; margin:0; padding:0; width:100%; background-color:#edf2f7'>
+                <table align='center' border='0' cellpadding='0' cellspacing='0' width='100%' style='border-collapse:collapse;margin:0 auto; padding:0; max-width:600px'>
+                    <tbody>
+                        <tr>
+                            <td align='center' valign='center' style='text-align:center; padding: 40px'>
+                                <a href='' rel='noopener' target='_blank'>
+                                    <!--<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ncwbb1I0HBoDNWUtosWs97VOioxDNG3Dv0-GowlcLQ&s' style='height: 40px' alt='logo'>-->
+                                        <tr>
+                                            <td align=left' valign='center'>
+                                                <div style='text-align:left; margin: 0 20px; padding: 40px; background-color:#ffffff; border-radius: 6px'>
+                                                    <!--begin:Email content-->
+                                                    <div style='padding-bottom: 30px; font-size: 17px;'>
+                                                    Bonjour<strong>".$manager["firstName"]." ".$manager["lastName"]."</strong>,
+                                                    </div>
+                                                    <div style='padding-bottom: 30px'>Nous vous informons que votre collaborateur".$technician["firstName"]." ".$technician["lastName"].", vient de terminer son test des connaissances. 
+                                                    Veuillez vous connecter et faire son évaluation sur la mesure de ses tâches professionnelles si vous ne l'avez pas encore éffectué.</div>
+                                                    <!--end:Email content-->
+                                                    <div style='padding-bottom: 10px'>Merci de votre temps et de votre participation,
+                                                    <br><br>L'équipe CFAO Mobility Academy. <br><br>
+                                                    --- Ceci est un message automatique, merci de ne pas y répondre ---
+                                                    <tr>
+                                                        <td align='center' valign='center' style='font-size: 13px; text-align:center;padding: 20px; color: #6d6e7c;'>
+                                                            <p>Douala, Cameroon.</p>
+                                                            <p>Copyright 2024© 
+                                                            <a href='' rel='noopener' target='_blank'>CFAO MOBILITY ACADEMY</a>.</p>
+                                                        </td>
+                                                    </tr></br></div>
+                                                    </div>
+                                            </td>
+                                        </tr>
+                                    </img>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>";
+            sendMail($technician['email'], "Confirmation de reception du test", $message_tech);
+            sendMail($technician['email'], "Confirmation de soumission de test", $message_man);
 
             header("Location: ./congrat.php");
         }

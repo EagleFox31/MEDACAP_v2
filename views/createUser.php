@@ -2160,7 +2160,7 @@ if (!isset($_SESSION["id"])) {
 
                     $success_msg = $success_tech;
                 }
-            } elseif ($profile == "Manager (non évalué)") {
+            } elseif ($profile == "Manager") {
                 $personM = [
                     "users" => [],
                     "username" => $userName,
@@ -2681,10 +2681,7 @@ if (!isset($_SESSION["id"])) {
                   <?php echo $admin ?>
                 </option>
               <?php } ?>
-                <!-- <option value="Manager (à évaluer)">
-                  Manager (à évaluer)
-                </option> -->
-                <option value="Manager (non évalué)">
+                <option value="Manager">
                   <?php echo $manager ?>
                 </option>
                 <option value="Technicien">
