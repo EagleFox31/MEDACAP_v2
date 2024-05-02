@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
     require_once "../vendor/autoload.php";
@@ -33,6 +33,13 @@ if (!isset($_SESSION["id"])) {
     $technician = $users->findOne([
         '$and' => [
             ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ["active" => true],
+        ],
+    ]);
+
+    $manager = $users->findOne([
+        '$and' => [
+            ["_id" => new MongoDB\BSON\ObjectId($technician['manager'])],
             ["active" => true],
         ],
     ]);
@@ -3215,7 +3222,7 @@ if (!isset($_SESSION["id"])) {
             $managerResult = $results->findOne([
                 '$and' => [
                     ["user" => new MongoDB\BSON\ObjectId($id)],
-                    ["manager" => new MongoDB\BSON\ObjectId($managerResult->manager)],
+                    ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
                     ["test" => new MongoDB\BSON\ObjectId($test)],
                     ["type" => "Declaratif"],
                     ["typeR" => "Managers"],
@@ -3292,7 +3299,7 @@ if (!isset($_SESSION["id"])) {
                                                 <div style='text-align:left; margin: 0 20px; padding: 40px; background-color:#ffffff; border-radius: 6px'>
                                                     <!--begin:Email content-->
                                                     <div style='padding-bottom: 30px; font-size: 17px;'>
-                                                    Bonjour<strong>".$technician["firstName"]." ".$technician["lastName"]."</strong>,
+                                                    Bonjour <strong>".$technician["firstName"]." ".$technician["lastName"]."</strong>,
                                                     </div>
                                                     <div style='padding-bottom: 30px'>Félicitations! Vous avez terminé votre test des tâches professionnelles du niveau <strong>".$level."</strong>. Vos résultats seront traités et analysés dans les brefs delai. 
                                                     Nous reviendrons vers vous pour vous proposer un programme de formation qui vous aidera dans l'amélioration de votre expertise professionnelle.</div>
@@ -3330,7 +3337,7 @@ if (!isset($_SESSION["id"])) {
                                                 <div style='text-align:left; margin: 0 20px; padding: 40px; background-color:#ffffff; border-radius: 6px'>
                                                     <!--begin:Email content-->
                                                     <div style='padding-bottom: 30px; font-size: 17px;'>
-                                                    Bonjour<strong>".$manager["firstName"]." ".$manager["lastName"]."</strong>,
+                                                    Bonjour <strong>".$manager["firstName"]." ".$manager["lastName"]."</strong>,
                                                     </div>
                                                     <div style='padding-bottom: 30px'>Nous vous informons que votre collaborateur <strong>".$technician["firstName"]." ".$technician["lastName"]."</strong>, vient de terminer son test des tâches professionnelles. 
                                                     Veuillez vous connecter et faire son évaluation sur la mesure de ses tâches professionnelles si vous ne l'avez pas encore éffectué.</div>
@@ -3356,9 +3363,7 @@ if (!isset($_SESSION["id"])) {
                 </table>
             </div>";
             sendMail($technician['email'], "Confirmation de reception du test", $message_tech);
-            sendMail($technician['email'], "Confirmation de soumission de test", $message_man);
-
-            header("Location: ./congrat.php");
+            sendMail($manager['email'], "Confirmation de soumission de test", $message_man);
         }
     }
     ?>

@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["profile"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
 

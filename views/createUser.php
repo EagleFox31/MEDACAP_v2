@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
 
@@ -79,7 +79,6 @@ if (!isset($_SESSION["id"])) {
             empty($agency) ||
             empty($sex) ||
             empty($level) ||
-            empty($brandJunior) ||
             !filter_var($emailAddress, FILTER_VALIDATE_EMAIL) ||
             preg_match('/^[\D]{15}$/', $phone) 
             // preg_match(
@@ -117,8 +116,8 @@ if (!isset($_SESSION["id"])) {
                         "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "specialitySenior" => $specialitySenior,
-                        "specialityExpert" => $specialityExpert,
+                        "specialitySenior" => $specialitySenior ?? "",
+                        "specialityExpert" => $specialityExpert ?? "",
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "visiblePassword" => $passWord,
@@ -156,11 +155,11 @@ if (!isset($_SESSION["id"])) {
                         "subsidiary" => ucfirst($subsidiary),
                         "agency" => ucfirst($agency),
                         "department" => ucfirst($departement),
-                        "brandJunior" => $brandJunior,
+                        "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "specialitySenior" => $specialitySenior,
-                        "specialityExpert" => $specialityExpert,
+                        "specialitySenior" => $specialitySenior ?? "",
+                        "specialityExpert" => $specialityExpert ?? "",
                         "role" => ucfirst($fonction),
                         "password" => $password_hash,
                         "visiblePassword" => $passWord,
@@ -2158,7 +2157,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = $success_tech;
+                    $success_msg = $success_manager;
                 }
             } elseif ($profile == "Manager") {
                 $personM = [
@@ -2179,15 +2178,16 @@ if (!isset($_SESSION["id"])) {
                     "subsidiary" => ucfirst($subsidiary),
                     "agency" => ucfirst($agency),
                     "department" => ucfirst($departement),
-                    "specialitySenior" => $specialitySenior,
-                    "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($fonction),
                     "password" => $password_hash,
                     "visiblePassword" => $passWord,
+                    "test" => false,
                     "active" => true,
                     "created" => date("d-m-Y"),
                 ];
                 $user = $users->insertOne($personM);
+
+                $success_msg = $success_manager;
             } elseif ($profile == "Admin") {
                 $personA = [
                     "users" => [],
@@ -2207,8 +2207,6 @@ if (!isset($_SESSION["id"])) {
                     "subsidiary" => ucfirst($subsidiary),
                     "agency" => ucfirst($agency),
                     "department" => ucfirst($departement),
-                    "specialitySenior" => $specialitySenior,
-                    "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($fonction),
                     "password" => $password_hash,
                     "visiblePassword" => $passWord,

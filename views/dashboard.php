@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["profile"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
 
@@ -24,11 +24,32 @@ if (!isset($_SESSION["profile"])) {
     $results = $academy->results;
     $allocations = $academy->allocations;
 
-    $countUser = $users->find(["profile" => "Technicien"])->toArray();
+    $countUser = $users->find([
+        '$and' => [
+            [
+                "profile" => "Technicien",
+                "active" => true,
+            ],
+        ],
+    ])->toArray();
     $countUsers = count($countUser);
-    $countManager = $users->find(["profile" => "Manager"])->toArray();
+    $countManager = $users->find([
+        '$and' => [
+            [
+                "profile" => "Manager",
+                "active" => true,
+            ],
+        ],
+    ])->toArray();
     $countManagers = count($countManager);
-    $countAdmin = $users->find(["profile" => "Admin"])->toArray();
+    $countAdmin = $users->find([
+        '$and' => [
+            [
+                "profile" => "Admin",
+                "active" => true,
+            ],
+        ],
+    ])->toArray();
     $countAdmins = count($countAdmin);
     $countVehicle = $vehicles->find()->toArray();
     $countVehicles = count($countVehicle);
@@ -378,7 +399,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    <?php echo $vehicle ?> </div>
+                                    <?php echo $vehiculesss ?> </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>

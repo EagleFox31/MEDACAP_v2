@@ -139,7 +139,7 @@ if (isset($_POST["login"])) {
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 450px;">
                     <div class="position-relative h-100">
                         <img class="img-fluid position-absolute w-100 h-100"
-                            src="public/images/1713436729177.jpg" alt="" style="object-fit: cover;">
+                            src="public/images/vue_face.png" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: 120px;">

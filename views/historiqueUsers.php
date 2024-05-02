@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["profile"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
      ?>
@@ -16,9 +16,7 @@ $users = $academy->users;
 $allocations = $academy->allocations;
 if (isset($_POST["active"])) {
     $id = $_POST["userID"];
-    $member = $users->findOne([
-        '$and' => ["_id" => new MongoDB\BSON\ObjectId($id), "active" => false],
-    ]);
+    $member = $users->findOne([ "_id" => new MongoDB\BSON\ObjectId($id) ]);
     $member["active"] = true;
     $users->updateOne(
         ["_id" => new MongoDB\BSON\ObjectId($id)],

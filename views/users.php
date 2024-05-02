@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 if (!isset($_SESSION["profile"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
      ?>

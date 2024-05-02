@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
      ?>
@@ -21,6 +21,10 @@ if (isset($_POST["submit"])) {
     $filePath = $_FILES["excel"]["tmp_name"];
     $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
     $data = $spreadsheet->getActiveSheet()->toArray();
+    
+    // remove header
+    unset($data[0]);
+
     foreach ($data as $row) {
         $level = ucfirst($row["0"]);
         $speciality = ucfirst($row["1"]);

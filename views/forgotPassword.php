@@ -163,7 +163,7 @@ License: For each use you must have a valid license purchased only from above li
                     <!--begin::Content-->
                     <div class="d-flex flex-column">
                         <!--begin::Logo-->
-                        <a href="./index.php" class="mb-15">
+                        <a href="../" class="mb-15">
                             <img alt="Logo" src="../public/images/logo.png" class="h-150px" />
                         </a>
                         <!--end::Logo-->

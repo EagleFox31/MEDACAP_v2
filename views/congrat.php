@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
     include_once "partials/header.php"; ?>

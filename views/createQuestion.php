@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
 
@@ -5527,7 +5527,7 @@ if (!isset($_SESSION["id"])) {
                                 <option value="Pont">
                                     <?php echo $pont; ?>
                                 </option>
-                                <option value="Réducteur">
+                                <option value="Reducteur">
                                     <?php echo $reducteur; ?>
                                 </option>
                                 <option value="Suspension">

@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
     require_once "../vendor/autoload.php";
@@ -3737,9 +3737,7 @@ if (!isset($_SESSION["id"])) {
                 </table>
             </div>";
             sendMail($technician['email'], "Confirmation de reception du test", $message_tech);
-            sendMail($technician['email'], "Confirmation de soumission de test", $message_man);
-
-            header("Location: ./congrat.php");
+            sendMail($manager['email'], "Confirmation de soumission de test", $message_man);
         }
     }
     ?>

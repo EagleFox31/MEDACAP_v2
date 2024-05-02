@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 if (!isset($_SESSION["profile"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
      ?>
@@ -1577,19 +1577,6 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="speciality"
-                                                                        value="<?php echo $user->speciality; ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2"><?php echo $country ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -1889,6 +1876,32 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?> <?php echo $senior ?></label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="specialitySenior"
+                                                                        value="<?php echo $user->specialitySenior; ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?> <?php echo $expert ?></label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="specialityExpert"
+                                                                        value="<?php echo $user->specialityExpert; ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
                                                                 <?php } ?>
                                                                 <?php if ($user["profile"] == "Manager" && $user["test"] == true) { ?>
                                                                 <!--begin::Input group-->
@@ -2139,6 +2152,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                         value="********" />
                                                                     <!--end::Input-->
                                                                 </div>
+                                                                <?php if ($user->profile == "Technicien") { ?>
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
@@ -2177,6 +2191,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   </select>
                                                                   <!--end::Input-->
                                                                 </div>
+                                                                <?php } ?>
                                                                 <!--end::Input group-->
                                                             </div>
                                                             <!--end::User form-->

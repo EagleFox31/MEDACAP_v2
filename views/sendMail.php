@@ -15,20 +15,27 @@ function sendMail($email, $subject, $message) {
         
     $mail->isSMTP();
     $mail->SMTPAuth = true;
-    $mail->Host = "smtp.gmail.com";
-    $mail->Username = "locafasta@gmail.com";
-    $mail->Password = "yaphyinrhxjxbdhx";
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Username = 'locafasta@gmail.com';
+    $mail->Password = 'yaphyinrhxjxbdhx';
+    $mail->SMTPSecure = 'ssl';
     $mail->Port = 465;
     
-    $mail->setFrom("no-reoly@cfao.com", "CFAO Mobility Academy");
+    $mail->setFrom('no-reply@cfao.com', 'CFAO Mobility Academy');
     $mail->addAddress($email);
-    $mail->addCC("myamindo@cfao.com");
+    $mail->addCC('myamindo@cfao.com');
     
     $mail->isHTML(true);
-
+    
+    $mail->CharSet = 'UTF-8'; 
     $mail->Subject = $subject;
     $mail->Body = $message;
 
     $mail->send();
+    
+    if (!$mail->send()) {
+        header("Location: ./congrat.php");
+    } else {    
+        header("Location: ./congrat.php");
+    }
 }

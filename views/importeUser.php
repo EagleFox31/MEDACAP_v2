@@ -3,7 +3,7 @@ session_start();
 include_once "language.php";
 
 if (!isset($_SESSION["id"])) {
-    header("Location: ./index.php");
+    header("Location: ../");
     exit();
 } else {
 
@@ -272,7 +272,7 @@ if (!isset($_SESSION["id"])) {
                         "specialityExpert" => $specialityExpert,
                         "role" => ucfirst($role),
                         "password" => $password,
-                        "visiblePassword" => $_POST["18"],
+                        "visiblePassword" => $_POST["19"],
                         "manager" => new MongoDB\BSON\ObjectId($manager->_id),
                         "active" => true,
                         "created" => date("d-m-Y"),
@@ -2328,8 +2328,6 @@ if (!isset($_SESSION["id"])) {
                     "certificate" => ucfirst($certificate),
                     "subsidiary" => ucfirst($subsidiary),
                     "department" => ucfirst($department),
-                    "specialitySenior" => $specialitySenior,
-                    "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($role),
                     "password" => $password,
                     "visiblePassword" => $_POST["18"],
@@ -2355,8 +2353,6 @@ if (!isset($_SESSION["id"])) {
                     "certificate" => ucfirst($certificate),
                     "subsidiary" => ucfirst($subsidiary),
                     "department" => ucfirst($department),
-                    "specialitySenior" => $specialitySenior,
-                    "specialityExpert" => $specialityExpert,
                     "role" => ucfirst($role),
                     "password" => $password,
                     "visiblePassword" => $_POST["18"],

@@ -174,7 +174,7 @@
 
 /*** Hero Header ***/
 .hero-header {
-    background: linear-gradient(rgba(28, 28, 31, 0.7), rgba(28, 28, 31, 0.7)), url(../images/20230310_173722.jpg);
+    background: linear-gradient(rgba(28, 28, 31, 0.7), rgba(28, 28, 31, 0.7)), url(../images/vue_face.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
