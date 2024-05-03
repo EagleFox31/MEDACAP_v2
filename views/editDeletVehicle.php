@@ -73,12 +73,12 @@ if (!isset($_SESSION["id"])) {
     }
 
     if (isset($_POST["retire-quiz-vehicle"])) {
-        $quiz = $_POST["quizID"];
+        $quizID = $_POST["quizID"];
         $vehicle = $_POST["vehicleID"];
 
         $membre = $vehicles->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($vehicle)],
-            ['$pull' => ["quizzes" => new MongoDB\BSON\ObjectId($quiz)]]
+            ['$pull' => ["quizzes" => new MongoDB\BSON\ObjectId($quizID)]]
         );
 
         $success_msg = "Questionnaire retiré avec succès.";
@@ -90,7 +90,7 @@ if (!isset($_SESSION["id"])) {
 
         $allocate = $allocations->findOne([
             '$and' => [
-                ["quiz" => new MongoDB\BSON\ObjectId($quiz)],
+                ["quiz" => new MongoDB\BSON\ObjectId($quizID)],
                 ["user" => new MongoDB\BSON\ObjectId($user)],
             ],
         ]);
@@ -102,7 +102,7 @@ if (!isset($_SESSION["id"])) {
         );
 
         $quizzes->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($quiz)],
+            ["_id" => new MongoDB\BSON\ObjectId($quizID)],
             ['$pull' => ["users" => new MongoDB\BSON\ObjectId($user)]]
         );
 
@@ -551,7 +551,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label
-                                                                        class="fs-6 fw-bold mb-2"><?php echo $quiz ?></label>
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $quizLabel ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -606,7 +606,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                     <!--begin::Label-->
                                                                     <label class="form-label fw-bolder text-dark fs-6">
-                                                                        <span><?php echo $quiz ?>s</span>
+                                                                        <span><?php echo $quizs ?></span>
                                                                         <span class="ms-1" data-bs-toggle="tooltip"
                                                                             title="Choississez les questionnaires">
                                                                             <i class="ki-duotone ki-information fs-7"><span
@@ -628,6 +628,10 @@ if (!isset($_SESSION["id"])) {
                                                                                     [
                                                                                         "type" =>
                                                                                             $vehicle->type,
+                                                                                    ],
+                                                                                    [
+                                                                                        "level" =>
+                                                                                            $vehicle->level,
                                                                                     ],
                                                                                     [
                                                                                         "active" => true,

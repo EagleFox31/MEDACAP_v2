@@ -36,7 +36,6 @@ if (isset($_POST["update"])) {
     $country = $_POST["country"];
     $level = $_POST["level"];
     $certificate = $_POST["certificate"];
-    $speciality = $_POST["speciality"];
     $birthdate = date("d-m-Y", strtotime($_POST["birthdate"]));
     $recrutmentDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
     $person = [
@@ -53,7 +52,6 @@ if (isset($_POST["update"])) {
         "recrutmentDate" => $recrutmentDate,
         "certificate" => ucfirst($certificate),
         "subsidiary" => ucfirst($subsidiary),
-        "speciality" => ucfirst($speciality),
         "role" => ucfirst($role),
         "updated" => date("d-m-Y"),
     ];
@@ -962,20 +960,20 @@ if (isset($_POST["excel"])) {
 if (isset($_POST["password"])) {
     // Password modification
     $id = $_POST["userID"];
-    $password = $_POST["password"]; // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
+    $passWord = $_POST["password"]; // Check if the password contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.
     if (
         preg_match(
             '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
-            $password
+            $passWord
         )
     ) {
         $error =
             "Le mot de passe doit être au moins de six caractères contenir au moins un chiffre, une lettre majiscule";
     } else {
-        $password_hash = sha1($password);
+        $password_hash = sha1($passWord);
         $users->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($id)],
-            ['$set' => ["password" => $password_hash, "updated" => date("d-m-Y")]]
+            ['$set' => ["password" => $password_hash, "updated" => date("d-m-Y"), "visiblePassword" => $passWord]]
         );
         $success_msg = $success_user_edit;
     }
@@ -1024,7 +1022,7 @@ if (isset($_POST["retire-technician-manager"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    <?php echo $title_edit_sup_question ?> </h1>
+                    <?php echo $title_edit_sup_user ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -1212,28 +1210,35 @@ if (isset($_POST["retire-technician-manager"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $levelTech ?>
+                                            style="width: 152.719px;"><?php echo $profil ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $certificat ?>
+                                            style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
                                             <?php echo $department ?></th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">
+                                            <?php echo $password ?></th>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
                                             <?php echo $edit ?></th>
+                                        <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
                                             <?php echo $delet ?></th>
+                                        <?php } ?>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -1265,23 +1270,30 @@ if (isset($_POST["retire-technician-manager"])) {
                                             <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level; ?>
+                                            <?php echo $user->profile; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate; ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
+                                        </td>
+                                        <td data-order="department">
+                                            <?php echo $user->visiblePassword; ?>
                                         </td>
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
                                                 <i class="fas fa-edit fs-5"></i></button>
                                         </td>
+                                    <?php if (
+                                        $_SESSION["profile"] == "Super Admin"
+                                    ) { ?>
                                         <td>
                                             <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $user->_id; ?>">
                                                 <i class="fas fa-trash fs-5"></i></button>
                                         </td>
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                     <?php } ?>
                                     <?php if (
@@ -1308,23 +1320,30 @@ if (isset($_POST["retire-technician-manager"])) {
                                             <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level; ?>
+                                            <?php echo $user->profile; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate; ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
+                                        </td>
+                                        <td data-order="department">
+                                            <?php echo $user->visiblePassword; ?>
                                         </td>
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
                                                 <i class="fas fa-edit fs-5"></i></button>
                                         </td>
+                                    <?php if (
+                                        $_SESSION["profile"] == "Super Admin"
+                                    ) { ?>
                                         <td>
                                             <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $user->_id; ?>">
                                                 <i class="fas fa-trash fs-5"></i></button>
                                         </td>
                                     </tr>
+                                    <?php } ?>
                                     <?php } ?>
                                     <?php } ?>
                                     <!-- begin:: Modal - Confirm suspend -->

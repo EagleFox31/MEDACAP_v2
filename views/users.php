@@ -44,7 +44,8 @@ if (isset($_POST["excel"])) {
     $activeSheet->setCellValue("P1", "Département");
     $activeSheet->setCellValue("Q1", "Fonction");
     $activeSheet->setCellValue("R1", "Date de recrutement");
-    $activeSheet->setCellValue("S1", "Manager");
+    $activeSheet->setCellValue("S1", "Mot de Passe");
+    $activeSheet->setCellValue("T1", "Manager");
     $myObj = $users->find();
     $i = 2;
     foreach ($myObj as $row) {
@@ -68,8 +69,9 @@ if (isset($_POST["excel"])) {
             $activeSheet->setCellValue("P" . $i, $row->department);
             $activeSheet->setCellValue("Q" . $i, $row->role);
             $activeSheet->setCellValue("R" . $i, $row->recrutmentDate);
+            $activeSheet->setCellValue("S" . $i, $row->visiblePassword);
             $activeSheet->setCellValue(
-                "S" . $i,
+                "T" . $i,
                 $manager->firstName . " " . $manager->lastName
             );
             $i++;
@@ -92,7 +94,8 @@ if (isset($_POST["excel"])) {
             $activeSheet->setCellValue("P" . $i, $row->department);
             $activeSheet->setCellValue("Q" . $i, $row->role);
             $activeSheet->setCellValue("R" . $i, $row->recrutmentDate);
-            $activeSheet->setCellValue("S" . $i, "Pas de manager");
+            $activeSheet->setCellValue("S" . $i, $row->visiblePassword);
+            $activeSheet->setCellValue("T" . $i, "Pas de manager");
             $i++;
         }
     }
@@ -307,18 +310,23 @@ if (isset($_POST["excel"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $levelTech ?>
+                                            style="width: 152.719px;"><?php echo $profil ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $certificat ?>
+                                            style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
                                             <?php echo $department ?></th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;">
+                                            <?php echo $password ?></th>
                                         <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -355,13 +363,16 @@ if (isset($_POST["excel"])) {
                                             <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level; ?>
+                                            <?php echo $user->profile; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate; ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
+                                        </td>
+                                        <td data-order="department">
+                                            <?php echo $user->visiblePassword; ?>
                                         </td>
                                         <?php if (
                                             $user["profile"] == "Manager"
@@ -402,13 +413,16 @@ if (isset($_POST["excel"])) {
                                             <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level; ?>
+                                            <?php echo $user->profile; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate; ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
+                                        </td>
+                                        <td data-order="department">
+                                            <?php echo $user->visiblePassword; ?>
                                         </td>
                                         <?php if (
                                             $user["profile"] == "Manager"

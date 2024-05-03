@@ -3472,8 +3472,9 @@ if (!isset($_SESSION["id"])) {
                     </tbody>
                 </table>
             </div>";
-            sendMail($user['email'], "Confirmation de reception de test", $message);
+            // sendMail($user['email'], "Confirmation de reception de test", $message);
         }
+        header("Location: ./congrat.php");
     }
     ?>
 <?php include_once "partials/header.php"; ?>

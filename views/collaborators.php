@@ -292,12 +292,12 @@ if (isset($_POST["excel"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $levelTech ?>
+                                            style="width: 152.719px;"><?php echo $profil ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $certificat ?>
+                                            style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -347,10 +347,10 @@ if (isset($_POST["excel"])) {
                                             <?php echo $user->phone; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->level; ?>
+                                            <?php echo $user->profile; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->certificate; ?>
+                                            <?php echo $user->level; ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department; ?>

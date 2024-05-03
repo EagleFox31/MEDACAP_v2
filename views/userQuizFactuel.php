@@ -3736,9 +3736,10 @@ if (!isset($_SESSION["id"])) {
                     </tbody>
                 </table>
             </div>";
-            sendMail($technician['email'], "Confirmation de reception du test", $message_tech);
-            sendMail($manager['email'], "Confirmation de soumission de test", $message_man);
+            // sendMail($technician['email'], "Confirmation de reception du test", $message_tech);
+            // sendMail($manager['email'], "Confirmation de soumission de test", $message_man);
         }
+        header("Location: ./congrat.php");
     }
     ?>
 <?php include_once "partials/header.php"; ?>
@@ -7949,7 +7950,7 @@ if (!isset($_SESSION["id"])) {
                                                                     [
                                                                         '$match' => [
                                                                             "_id" => new MongoDB\BSON\ObjectId(
-                                                                                $ReducteurFac->_id
+                                                                                $reducteurFac->_id
                                                                             ),
                                                                         ],
                                                                     ],
@@ -7990,7 +7991,7 @@ if (!isset($_SESSION["id"])) {
                                                                 $quizzReducteur
                                                             );
                                                             $arrQuestions =
-                                                                $arrQuizzreducteur[0][
+                                                                $arrQuizzReducteur[0][
                                                                     "questions"
                                                                 ];
                                                             ?>

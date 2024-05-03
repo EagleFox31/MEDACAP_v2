@@ -70,7 +70,6 @@ if (!isset($_SESSION["id"])) {
             empty($fonction) ||
             empty($userName) ||
             empty($matriculation) ||
-            empty($birthDate) ||
             empty($certificate) ||
             empty($subsidiary) ||
             empty($departement) ||
@@ -78,7 +77,6 @@ if (!isset($_SESSION["id"])) {
             empty($pays) ||
             empty($agency) ||
             empty($sex) ||
-            empty($level) ||
             !filter_var($emailAddress, FILTER_VALIDATE_EMAIL) ||
             preg_match('/^[\D]{15}$/', $phone) 
             // preg_match(
@@ -2387,7 +2385,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Input group-->
             <div class='fv-row mb-15'>
               <!--begin::Label-->
-              <label class='required form-label fw-bolder text-dark fs-6'><?php echo $birthdate ?></label>
+              <label class='form-label fw-bolder text-dark fs-6'><?php echo $birthdate ?></label>
               <!--end::Label-->
               <!--begin::Input-->
               <input type='date' class='form-control form-control-solid' name='birthdate' />
@@ -3536,7 +3534,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column mb-7 fv-row">
               <!--begin::Label-->
               <label class="form-label fw-bolder text-dark fs-6">
-                <span class="required"><?php echo $manager ?></span>
+                <span class=""><?php echo $manager ?></span>
                 <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le manager de cet technicien et uniquement quand le profil est technicien">
                   <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>

@@ -226,7 +226,7 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $vehicle ?>
+                                            style="width: 125px;"><?php echo $vehiculesss ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"

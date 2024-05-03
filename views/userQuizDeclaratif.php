@@ -3362,9 +3362,10 @@ if (!isset($_SESSION["id"])) {
                     </tbody>
                 </table>
             </div>";
-            sendMail($technician['email'], "Confirmation de reception du test", $message_tech);
-            sendMail($manager['email'], "Confirmation de soumission de test", $message_man);
+            // sendMail($technician['email'], "Confirmation de reception du test", $message_tech);
+            // sendMail($manager['email'], "Confirmation de soumission de test", $message_man);
         }
+        header("Location: ./congrat.php");
     }
     ?>
 <?php include_once "partials/header.php"; ?>
