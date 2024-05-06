@@ -27,7 +27,7 @@ if (isset($_POST["update"])) {
     $type = $_POST["type"];
     $speciality = $_POST["speciality"];
     $level = $_POST["level"];
-    $image = $_FILES["image"]["name"];
+    $picture = $_FILES["image"]["name"];
     $question = [
         "ref" => $ref,
         "label" => ucfirst($label),
@@ -41,9 +41,9 @@ if (isset($_POST["update"])) {
         "answer" => ucfirst($answer),
         "updated" => date("d-m-Y"),
     ]; // If there is a file, update the question data with the image URL
-    if (!empty($image)) {
+    if (!empty($picture)) {
         $tmp_name = $_FILES["image"]["tmp_name"];
-        $folder = "../public/files/" . $image;
+        $folder = "../public/files/" . $picture;
         move_uploaded_file($tmp_name, $folder);
         $questions->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($id)],
@@ -59,7 +59,7 @@ if (isset($_POST["update"])) {
                     "speciality" => ucfirst($speciality),
                     "level" => ucfirst($level),
                     "answer" => ucfirst($answer),
-                    "image" => $image,
+                    "image" => $picture,
                     "updated" => date("d-m-Y"),
                 ],
             ]
@@ -252,30 +252,30 @@ if (isset($_POST["delet"])) {
                                         <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $ref ?>
+                                            style="width: 125px;"><?php echo $Ref ?>
                                         </th>
                                         <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $questions ?>
+                                            style="width: 125px;"><?php echo $questionType ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;"><?php echo $answer ?>
+                                            style="width: 134.188px;"><?php echo $Answer ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $type ?></th>
+                                            style="width: 126.516px;"><?php echo $Type ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $level ?></th>
+                                            style="width: 126.516px;"><?php echo $Level ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $speciality ?></th>
+                                            style="width: 126.516px;"><?php echo $Speciality ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
@@ -495,7 +495,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $ref ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Ref ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -534,7 +534,7 @@ if (isset($_POST["delet"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $type ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Type ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -606,7 +606,7 @@ if (isset($_POST["delet"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $speciality ?></span>
+                                                                        <span><?php echo $Speciality ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -621,7 +621,7 @@ if (isset($_POST["delet"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $level ?></span>
+                                                                        <span><?php echo $Level ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -636,7 +636,7 @@ if (isset($_POST["delet"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $answer ?></span>
+                                                                        <span><?php echo $Answer ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -720,6 +720,18 @@ if (isset($_POST["delet"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

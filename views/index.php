@@ -13,11 +13,11 @@ $academy = $conn->academy;
 // Connecting in collections
 $users = $academy->users;
 if (isset($_POST["login"])) {
-    $username = $_POST["username"];
+    $userName = $_POST["username"];
     $password = sha1($_POST["password"]);
 
     $data = [
-        "username" => $username,
+        "username" => $userName,
         "password" => $password,
     ];
 
@@ -156,7 +156,7 @@ if (isset($_POST["login"])) {
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="subject" name="password"
                                         placeholder="Password">
-                                    <label for="subject"><?php echo $password ?></label>
+                                    <label for="subject"><?php echo $Password ?></label>
                                 </div>
                             </div>
                             <div></div><br><br>
@@ -286,6 +286,18 @@ if (isset($_POST["login"])) {
     <script src="public/assets/js/custom/authentication/sign-up/free-trial.js"></script>
     <!-- Template Javascript -->
     <script src="public/js/main.js"></script>
+    <script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

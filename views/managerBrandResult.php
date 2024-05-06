@@ -20,6 +20,7 @@ if (!isset($_SESSION["id"])) {
 
     $user = $_GET["user"];
     $level = $_GET["level"];
+    $numberTest = $_GET["numberTest"];
 
     $technician = $users->findOne([
         '$and' => [
@@ -98,6 +99,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Arbre de Transmission",
@@ -114,6 +116,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Arbre de Transmission",
@@ -135,6 +138,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Arbre de Transmission",
@@ -150,6 +154,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Assistance à la Conduite",
@@ -166,6 +171,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Assistance à la Conduite",
@@ -187,6 +193,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Assistance à la Conduite",
@@ -202,6 +209,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Boite de Transfert"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -215,6 +223,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Boite de Transfert"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -233,6 +242,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Boite de Transfert"],
             ["active" => true],
         ],
@@ -245,6 +255,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Boite de Vitesse"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -258,6 +269,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Boite de Vitesse"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -276,6 +288,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Boite de Vitesse"],
             ["active" => true],
         ],
@@ -288,6 +301,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse Mécanique",
@@ -304,6 +318,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse Mécanique",
@@ -325,6 +340,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse Mécanique",
@@ -340,6 +356,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse Automatique",
@@ -356,6 +373,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse Automatique",
@@ -377,6 +395,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse Automatique",
@@ -392,6 +411,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse à Variation Continue",
@@ -408,6 +428,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse à Variation Continue",
@@ -429,6 +450,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Boite de Vitesse à Variation Continue",
@@ -444,6 +466,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Climatisation"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -457,6 +480,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Climatisation"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -475,6 +499,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Climatisation"],
             ["active" => true],
         ],
@@ -487,6 +512,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Demi Arbre de Roue"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -500,6 +526,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Demi Arbre de Roue"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -518,6 +545,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Demi Arbre de Roue"],
             ["active" => true],
         ],
@@ -530,6 +558,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Direction"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -543,6 +572,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Direction"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -561,6 +591,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Direction"],
             ["active" => true],
         ],
@@ -573,6 +604,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Electricité et Electronique",
@@ -589,6 +621,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Electricité et Electronique",
@@ -610,6 +643,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Electricité et Electronique",
@@ -625,6 +659,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Freinage"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -638,6 +673,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Freinage"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -656,6 +692,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Freinage"],
             ["active" => true],
         ],
@@ -668,6 +705,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Electromagnétique",
@@ -684,6 +722,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Electromagnétique",
@@ -705,6 +744,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Electromagnétique",
@@ -720,6 +760,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Hydraulique",
@@ -736,6 +777,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Hydraulique",
@@ -757,6 +799,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Hydraulique",
@@ -772,6 +815,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Pneumatique",
@@ -788,6 +832,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Pneumatique",
@@ -809,6 +854,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Freinage Pneumatique",
@@ -824,6 +870,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Hydraulique"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -837,6 +884,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Hydraulique"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -855,6 +903,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Hydraulique"],
             ["active" => true],
         ],
@@ -867,6 +916,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Diesel"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -880,6 +930,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Diesel"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -898,6 +949,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Diesel"],
             ["active" => true],
         ],
@@ -910,6 +962,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Electrique"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -923,6 +976,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Electrique"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -941,6 +995,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Electrique"],
             ["active" => true],
         ],
@@ -953,6 +1008,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Essence"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -966,6 +1022,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Essence"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -984,6 +1041,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Essence"],
             ["active" => true],
         ],
@@ -996,6 +1054,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Thermique"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1009,6 +1068,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Thermique"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1027,6 +1087,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Moteur Thermique"],
             ["active" => true],
         ],
@@ -1039,6 +1100,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Multiplexage"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1052,6 +1114,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Multiplexage"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1070,6 +1133,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Multiplexage"],
             ["active" => true],
         ],
@@ -1082,6 +1146,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Pneumatique"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1095,6 +1160,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Pneumatique"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1113,6 +1179,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Pneumatique"],
             ["active" => true],
         ],
@@ -1125,6 +1192,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Pont"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1138,6 +1206,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Pont"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1156,6 +1225,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Pont"],
             ["active" => true],
         ],
@@ -1168,6 +1238,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Réducteur"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1181,6 +1252,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Réducteur"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1199,6 +1271,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Réducteur"],
             ["active" => true],
         ],
@@ -1211,6 +1284,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1224,6 +1298,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1242,6 +1317,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension"],
             ["active" => true],
         ],
@@ -1254,6 +1330,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension à Lame"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1267,6 +1344,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension à Lame"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1285,6 +1363,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension à Lame"],
             ["active" => true],
         ],
@@ -1297,6 +1376,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension Ressort"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1310,6 +1390,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension Ressort"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1328,6 +1409,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Suspension Ressort"],
             ["active" => true],
         ],
@@ -1340,6 +1422,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Suspension Pneumatique",
@@ -1357,6 +1440,7 @@ if (!isset($_SESSION["id"])) {
                     ),
                 ],
                 ["level" => $level],
+                ["numberTest" => +$numberTest],
                 [
                     "speciality" =>
                         "Suspension Pneumatique",
@@ -1379,6 +1463,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             [
                 "speciality" =>
                     "Suspension Pneumatique",
@@ -1394,6 +1479,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Transversale"],
             ["type" => "Factuel"],
             ["active" => true],
@@ -1407,6 +1493,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Transversale"],
             ["type" => "Declaratif"],
             ["active" => true],
@@ -1425,6 +1512,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
+            ["numberTest" => +$numberTest],
             ["speciality" => "Transversale"],
             ["active" => true],
         ],
@@ -1434,6 +1522,7 @@ if (!isset($_SESSION["id"])) {
             ["user" => new MongoDB\BSON\ObjectId($user)],
             ["type" => "Factuel"],
             ["typeR" => "Technicien"],
+            ["numberTest" => +$numberTest],
             ["level" => $level],
             ["active" => true],
         ],
@@ -1443,6 +1532,7 @@ if (!isset($_SESSION["id"])) {
             ["user" => new MongoDB\BSON\ObjectId($user)],
             ["type" => "Declaratif"],
             ["typeR" => "Techniciens"],
+            ["numberTest" => +$numberTest],
             ["level" => $level],
             ["active" => true],
         ],
@@ -1452,6 +1542,7 @@ if (!isset($_SESSION["id"])) {
             ["user" => new MongoDB\BSON\ObjectId($user)],
             ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
             ["typeR" => "Managers"],
+            ["numberTest" => +$numberTest],
             ["level" => $level],
             ["active" => true],
         ],
@@ -1461,6 +1552,7 @@ if (!isset($_SESSION["id"])) {
             ["user" => new MongoDB\BSON\ObjectId($user)],
             ["manager" => new MongoDB\BSON\ObjectId($technician->manager)],
             ["typeR" => "Technicien - Manager"],
+            ["numberTest" => +$numberTest],
             ["level" => $level],
             ["active" => true],
         ],

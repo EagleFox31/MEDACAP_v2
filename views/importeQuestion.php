@@ -2071,7 +2071,7 @@ if (isset($_POST["submit"])) {
                             );
                         }
                     }
-                    foreach ($chariots as $chariots) {
+                    foreach ($voitures as $voitures) {
                         if ($voitures) {
                             $voitures["total"]++;
                             $vehicles->updateOne(
@@ -4718,7 +4718,7 @@ if (isset($_POST["submit"])) {
                             );
                         }
                     }
-                    foreach ($chariots as $chariots) {
+                    foreach ($voitures as $voitures) {
                         if ($voitures) {
                             $voitures["total"]++;
                             $vehicles->updateOne(
@@ -5398,7 +5398,18 @@ if (isset($_POST["submit"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
-
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

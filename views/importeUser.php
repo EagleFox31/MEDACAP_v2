@@ -33,6 +33,9 @@ if (!isset($_SESSION["id"])) {
             $brandJunior = [];
             $brandSenior = [];
             $brandExpert = [];
+            
+            $specialitySenior = [];
+            $specialityExpert = [];
 
             $username = $row["0"];
             $matricule = $row["1"];
@@ -45,185 +48,219 @@ if (!isset($_SESSION["id"])) {
             $level = $row["8"];
             $country = $row["9"];
             $profile = $row["10"];
-            $specialitySenior = $row["11"];
-            $specialityExpert = $row["12"];
-            $certificate = $row["13"];
-            $subsidiary = $row["14"];
-            $department = $row["15"];
-            $role = $row["16"];
-            $recrutmentDate = date($row["17"]);
-            $usernameManager = $row["18"];
-            $password = sha1($row["19"]);
+            $certificate = $row["11"];
+            $subsidiary = $row["12"];
+            $agency = $row["13"];
+            $department = $row["14"];
+            $role = $row["15"];
+            $recrutmentDate = date($row["16"]);
+            $usernameManager = $row["17"];
+            $password = sha1($row["18"]);
 
-            if (isset($row["20"]) != "") {
-                $subBrand1 = strtoupper($row["20"]);
+            if (isset($row["19"]) != "") {
+                $subBrand1 = strtoupper($row["19"]);
                 array_push($brandJunior, $subBrand1);
             }
-            if (isset($row["21"]) != "") {
-                $subBrand2 = strtoupper($row["21"]);
+            if (isset($row["20"]) != "") {
+                $subBrand2 = strtoupper($row["20"]);
                 array_push($brandJunior, $subBrand2);
             }
-            if (isset($row["22"]) != "") {
-                $subBrand3 = strtoupper($row["22"]);
+            if (isset($row["21"]) != "") {
+                $subBrand3 = strtoupper($row["21"]);
                 array_push($brandJunior, $subBrand3);
             }
-            if (isset($row["23"]) != "") {
-                $subBrand4 = strtoupper($row["23"]);
+            if (isset($row["22"]) != "") {
+                $subBrand4 = strtoupper($row["22"]);
                 array_push($brandJunior, $subBrand4);
             }
-            if (isset($row["24"]) != "") {
-                $subBrand5 = strtoupper($row["24"]);
+            if (isset($row["23"]) != "") {
+                $subBrand5 = strtoupper($row["23"]);
                 array_push($brandJunior, $subBrand5);
             }
-            if (isset($row["25"]) != "") {
-                $subBrand6 = strtoupper($row["25"]);
+            if (isset($row["24"]) != "") {
+                $subBrand6 = strtoupper($row["24"]);
                 array_push($brandJunior, $subBrand6);
             }
-            if (isset($row["26"]) != "") {
-                $subBrand7 = strtoupper($row["26"]);
+            if (isset($row["25"]) != "") {
+                $subBrand7 = strtoupper($row["25"]);
                 array_push($brandJunior, $subBrand7);
             }
-            if (isset($row["27"]) != "") {
-                $subBrand8 = strtoupper($row["27"]);
+            if (isset($row["26"]) != "") {
+                $subBrand8 = strtoupper($row["26"]);
                 array_push($brandJunior, $subBrand8);
             }
-            if (isset($row["28"]) != "") {
-                $subBrand9 = strtoupper($row["28"]);
+            if (isset($row["27"]) != "") {
+                $subBrand9 = strtoupper($row["27"]);
                 array_push($brandJunior, $subBrand9);
             }
-            if (isset($row["29"]) != "") {
-                $subBrand10 = strtoupper($row["29"]);
+            if (isset($row["28"]) != "") {
+                $subBrand10 = strtoupper($row["28"]);
                 array_push($brandJunior, $subBrand10);
             }
-            if (isset($row["30"]) != "") {
-                $subBrand11 = strtoupper($row["30"]);
+            if (isset($row["29"]) != "") {
+                $subBrand11 = strtoupper($row["29"]);
                 array_push($brandJunior, $subBrand11);
             }
-            if (isset($row["31"]) != "") {
-                $subBrand12 = strtoupper($row["31"]);
+            if (isset($row["30"]) != "") {
+                $subBrand12 = strtoupper($row["30"]);
                 array_push($brandJunior, $subBrand12);
             }
-            if (isset($row["32"]) != "") {
-                $subBrand13 = strtoupper($row["32"]);
+            if (isset($row["31"]) != "") {
+                $subBrand13 = strtoupper($row["31"]);
                 array_push($brandJunior, $subBrand13);
             }
-            if (isset($row["33"]) != "") {
-                $subBrand14 = strtoupper($row["33"]);
+            if (isset($row["32"]) != "") {
+                $subBrand14 = strtoupper($row["32"]);
                 array_push($brandJunior, $subBrand14);
             }
 
-            if (isset($row["34"]) != "") {
-                $subBrand1 = strtoupper($row["34"]);
+            if (isset($row["33"]) != "") {
+                $subBrand1 = strtoupper($row["33"]);
                 array_push($brandSenior, $subBrand1);
             }
-            if (isset($row["35"]) != "") {
-                $subBrand2 = strtoupper($row["35"]);
+            if (isset($row["34"]) != "") {
+                $subBrand2 = strtoupper($row["34"]);
                 array_push($brandSenior, $subBrand2);
             }
-            if (isset($row["36"]) != "") {
-                $subBrand3 = strtoupper($row["36"]);
+            if (isset($row["35"]) != "") {
+                $subBrand3 = strtoupper($row["35"]);
                 array_push($brandSenior, $subBrand3);
             }
-            if (isset($row["37"]) != "") {
-                $subBrand4 = strtoupper($row["37"]);
+            if (isset($row["36"]) != "") {
+                $subBrand4 = strtoupper($row["36"]);
                 array_push($brandSenior, $subBrand4);
             }
-            if (isset($row["38"]) != "") {
-                $subBrand5 = strtoupper($row["38"]);
+            if (isset($row["37"]) != "") {
+                $subBrand5 = strtoupper($row["37"]);
                 array_push($brandSenior, $subBrand5);
             }
-            if (isset($row["39"]) != "") {
-                $subBrand6 = strtoupper($row["39"]);
+            if (isset($row["38"]) != "") {
+                $subBrand6 = strtoupper($row["38"]);
                 array_push($brandSenior, $subBrand6);
             }
-            if (isset($row["40"]) != "") {
-                $subBrand7 = strtoupper($row["40"]);
+            if (isset($row["39"]) != "") {
+                $subBrand7 = strtoupper($row["39"]);
                 array_push($brandSenior, $subBrand7);
             }
-            if (isset($row["41"]) != "") {
-                $subBrand8 = strtoupper($row["41"]);
+            if (isset($row["40"]) != "") {
+                $subBrand8 = strtoupper($row["40"]);
                 array_push($brandSenior, $subBrand8);
             }
-            if (isset($row["42"]) != "") {
-                $subBrand9 = strtoupper($row["42"]);
+            if (isset($row["41"]) != "") {
+                $subBrand9 = strtoupper($row["41"]);
                 array_push($brandSenior, $subBrand9);
             }
-            if (isset($row["43"]) != "") {
-                $subBrand10 = strtoupper($row["43"]);
+            if (isset($row["42"]) != "") {
+                $subBrand10 = strtoupper($row["42"]);
                 array_push($brandSenior, $subBrand10);
             }
-            if (isset($row["44"]) != "") {
-                $subBrand11 = strtoupper($row["44"]);
+            if (isset($row["43"]) != "") {
+                $subBrand11 = strtoupper($row["43"]);
                 array_push($brandSenior, $subBrand11);
             }
-            if (isset($row["45"]) != "") {
-                $subBrand12 = strtoupper($row["45"]);
+            if (isset($row["44"]) != "") {
+                $subBrand12 = strtoupper($row["44"]);
                 array_push($brandSenior, $subBrand12);
             }
-            if (isset($row["46"]) != "") {
-                $subBrand13 = strtoupper($row["46"]);
+            if (isset($row["45"]) != "") {
+                $subBrand13 = strtoupper($row["45"]);
                 array_push($brandSenior, $subBrand13);
             }
-            if (isset($row["47"]) != "") {
-                $subBrand14 = strtoupper($row["47"]);
+            if (isset($row["46"]) != "") {
+                $subBrand14 = strtoupper($row["46"]);
                 array_push($brandSenior, $subBrand14);
             }
 
-            if (isset($row["48"]) != "") {
-                $subBrand1 = strtoupper($row["48"]);
+            if (isset($row["47"]) != "") {
+                $subBrand1 = strtoupper($row["47"]);
                 array_push($brandExpert, $subBrand1);
             }
-            if (isset($row["49"]) != "") {
-                $subBrand2 = strtoupper($row["49"]);
+            if (isset($row["48"]) != "") {
+                $subBrand2 = strtoupper($row["48"]);
                 array_push($brandExpert, $subBrand2);
             }
-            if (isset($row["50"]) != "") {
-                $subBrand3 = strtoupper($row["50"]);
+            if (isset($row["49"]) != "") {
+                $subBrand3 = strtoupper($row["49"]);
                 array_push($brandExpert, $subBrand3);
             }
-            if (isset($row["51"]) != "") {
-                $subBrand4 = strtoupper($row["51"]);
+            if (isset($row["50"]) != "") {
+                $subBrand4 = strtoupper($row["50"]);
                 array_push($brandExpert, $subBrand4);
             }
-            if (isset($row["52"]) != "") {
-                $subBrand5 = strtoupper($row["52"]);
+            if (isset($row["51"]) != "") {
+                $subBrand5 = strtoupper($row["51"]);
                 array_push($brandExpert, $subBrand5);
             }
-            if (isset($row["53"]) != "") {
-                $subBrand6 = strtoupper($row["53"]);
+            if (isset($row["52"]) != "") {
+                $subBrand6 = strtoupper($row["52"]);
                 array_push($brandExpert, $subBrand6);
             }
-            if (isset($row["54"]) != "") {
-                $subBrand7 = strtoupper($row["54"]);
+            if (isset($row["53"]) != "") {
+                $subBrand7 = strtoupper($row["53"]);
                 array_push($brandExpert, $subBrand7);
             }
-            if (isset($row["55"]) != "") {
-                $subBrand8 = strtoupper($row["55"]);
+            if (isset($row["54"]) != "") {
+                $subBrand8 = strtoupper($row["54"]);
                 array_push($brandExpert, $subBrand8);
             }
-            if (isset($row["56"]) != "") {
-                $subBrand9 = strtoupper($row["56"]);
+            if (isset($row["55"]) != "") {
+                $subBrand9 = strtoupper($row["55"]);
                 array_push($brandExpert, $subBrand9);
             }
-            if (isset($row["57"]) != "") {
-                $subBrand10 = strtoupper($row["57"]);
+            if (isset($row["56"]) != "") {
+                $subBrand10 = strtoupper($row["56"]);
                 array_push($brandExpert, $subBrand10);
             }
-            if (isset($row["58"]) != "") {
-                $subBrand11 = strtoupper($row["58"]);
+            if (isset($row["57"]) != "") {
+                $subBrand11 = strtoupper($row["57"]);
                 array_push($brandExpert, $subBrand11);
             }
-            if (isset($row["59"]) != "") {
-                $subBrand12 = strtoupper($row["59"]);
+            if (isset($row["58"]) != "") {
+                $subBrand12 = strtoupper($row["58"]);
                 array_push($brandExpert, $subBrand12);
             }
-            if (isset($row["60"]) != "") {
-                $subBrand13 = strtoupper($row["60"]);
+            if (isset($row["59"]) != "") {
+                $subBrand13 = strtoupper($row["59"]);
                 array_push($brandExpert, $subBrand13);
             }
-            if (isset($row["61"]) != "") {
-                $subBrand14 = strtoupper($row["61"]);
+            if (isset($row["60"]) != "") {
+                $subBrand14 = strtoupper($row["60"]);
                 array_push($brandExpert, $subBrand14);
+            }
+
+            
+            if (isset($row["61"]) != "") {
+                $specialitySenior1 = ucfirst($row["61"]);
+                array_push($specialitySenior, $specialitySenior1);
+            }
+            if (isset($row["62"]) != "") {
+                $specialitySenior2 = ucfirst($row["62"]);
+                array_push($specialitySenior, $specialitySenior2);
+            }
+            if (isset($row["63"]) != "") {
+                $specialitySenior3 = ucfirst($row["63"]);
+                array_push($specialitySenior, $specialitySenior3);
+            }
+            if (isset($row["64"]) != "") {
+                $specialitySenior4 = ucfirst($row["64"]);
+                array_push($specialitySenior, $specialitySenior4);
+            }
+
+            if (isset($row["65"]) != "") {
+                $specialityExpert1 = ucfirst($row["65"]);
+                array_push($specialityExpert, $specialityExpert1);
+            }
+            if (isset($row["66"]) != "") {
+                $specialityExpert2 = ucfirst($row["66"]);
+                array_push($specialityExpert, $specialityExpert2);
+            }
+            if (isset($row["67"]) != "") {
+                $specialityExpert3 = ucfirst($row["67"]);
+                array_push($specialityExpert, $specialityExpert3);
+            }
+            if (isset($row["68"]) != "") {
+                $specialityExpert4 = ucfirst($row["68"]);
+                array_push($specialityExpert, $specialityExpert4);
             }
 
             $member = $users->findOne([
@@ -253,7 +290,7 @@ if (!isset($_SESSION["id"])) {
                         "username" => $username,
                         "matricule" => $matricule,
                         "firstName" => ucfirst($firstName),
-                        "lastName" => ucfirst($lastName),
+                        "lastName" => strtoupper($lastName),
                         "email" => $email,
                         "phone" => +$phone,
                         "gender" => $gender,
@@ -264,12 +301,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutmentDate,
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($department),
                         "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "specialitySenior" => $specialitySenior,
-                        "specialityExpert" => $specialityExpert,
+                        "specialitySenior" => $specialitySenior ?? [],
+                        "specialityExpert" => $specialityExpert ?? [],
                         "role" => ucfirst($role),
                         "password" => $password,
                         "visiblePassword" => $row["19"],
@@ -295,7 +333,7 @@ if (!isset($_SESSION["id"])) {
                         "username" => $username,
                         "matricule" => $matricule,
                         "firstName" => ucfirst($firstName),
-                        "lastName" => ucfirst($lastName),
+                        "lastName" => strtoupper($lastName),
                         "email" => $email,
                         "phone" => +$phone,
                         "gender" => $gender,
@@ -306,12 +344,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutmentDate,
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($department),
                         "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "specialitySenior" => $specialitySenior,
-                        "specialityExpert" => $specialityExpert,
+                        "specialitySenior" => $specialitySenior ?? [],
+                        "specialityExpert" => $specialityExpert ?? [],
                         "role" => ucfirst($role),
                         "password" => $password,
                         "visiblePassword" => $_POST["18"],
@@ -321,7 +360,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $user = $users->insertOne($person);
                 }
-                if (isset($_POST["brandEx"])) {
+                if (isset($brandExpert)) {
                     for ($i = 0; $i < count($brandExpert); $i++) {
                         $users->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
@@ -341,7 +380,7 @@ if (!isset($_SESSION["id"])) {
                         );
                     }
                 }
-                if (isset($_POST["brandSe"])) {
+                if (isset($brandSenior)) {
                     for ($i = 0; $i < count($brandSenior); $i++) {
                         $users->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
@@ -1278,14 +1317,14 @@ if (!isset($_SESSION["id"])) {
 
                     $success_msg = $success_tech;
                 }
-            } elseif ($profile == "Manager (à évaluer)") {
+            } elseif ($profile == "Manager & Technicien") {
                 if ($usernameManager) {
                     $personM = [
                         "users" => [],
                         "username" => $username,
                         "matricule" => $matricule,
                         "firstName" => ucfirst($firstName),
-                        "lastName" => ucfirst($lastName),
+                        "lastName" => strtoupper($lastName),
                         "email" => $email,
                         "phone" => +$phone,
                         "gender" => $gender,
@@ -1296,12 +1335,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutmentDate,
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($department),
                         "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "specialitySenior" => $specialitySenior,
-                        "specialityExpert" => $specialityExpert,
+                        "specialitySenior" => $specialitySenior ?? [],
+                        "specialityExpert" => $specialityExpert ?? [],
                         "role" => ucfirst($role),
                         "password" => $password,
                         "visiblePassword" => $row["18"],
@@ -1327,7 +1367,7 @@ if (!isset($_SESSION["id"])) {
                         "username" => $username,
                         "matricule" => $matricule,
                         "firstName" => ucfirst($firstName),
-                        "lastName" => ucfirst($lastName),
+                        "lastName" => strtoupper($lastName),
                         "email" => $email,
                         "phone" => +$phone,
                         "gender" => $gender,
@@ -1338,12 +1378,13 @@ if (!isset($_SESSION["id"])) {
                         "recrutmentDate" => $recrutmentDate,
                         "certificate" => ucfirst($certificate),
                         "subsidiary" => ucfirst($subsidiary),
+                        "agency" => ucfirst($agency),
                         "department" => ucfirst($department),
                         "brandJunior" => $brandJunior ?? [],
                         "brandSenior" => $brandSenior ?? [],
                         "brandExpert" => $brandExpert ?? [],
-                        "specialitySenior" => $specialitySenior,
-                        "specialityExpert" => $specialityExpert,
+                        "specialitySenior" => $specialitySenior ?? [],
+                        "specialityExpert" => $specialityExpert ?? [],
                         "role" => ucfirst($role),
                         "password" => $password,
                         "visiblePassword" => $row["18"],
@@ -1354,7 +1395,7 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $user = $users->insertOne($personM);
                 }
-                if (isset($_POST["brandEx"])) {
+                if (isset($brandExpert)) {
                     for ($i = 0; $i < count($brandExpert); $i++) {
                         $users->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
@@ -1374,7 +1415,7 @@ if (!isset($_SESSION["id"])) {
                         );
                     }
                 }
-                if (isset($_POST["brandSe"])) {
+                if (isset($brandSenior)) {
                     for ($i = 0; $i < count($brandSenior); $i++) {
                         $users->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($user->getInsertedId())],
@@ -2309,14 +2350,15 @@ if (!isset($_SESSION["id"])) {
                     ];
                     $allocations->insertOne($allocateExDecla);
 
-                    $success_msg = $success_tech;
+                    $success_msg = $success_manager;
                 }
             } elseif ($profile == "Manager") {
                 $personM = [
+                    "users" => [],
                     "username" => $username,
                     "matricule" => $matricule,
                     "firstName" => ucfirst($firstName),
-                    "lastName" => ucfirst($lastName),
+                    "lastName" => strtoupper($lastName),
                     "email" => $email,
                     "phone" => +$phone,
                     "gender" => $gender,
@@ -2327,6 +2369,7 @@ if (!isset($_SESSION["id"])) {
                     "recrutmentDate" => $recrutmentDate,
                     "certificate" => ucfirst($certificate),
                     "subsidiary" => ucfirst($subsidiary),
+                    "agency" => ucfirst($agency),
                     "department" => ucfirst($department),
                     "role" => ucfirst($role),
                     "password" => $password,
@@ -2336,12 +2379,13 @@ if (!isset($_SESSION["id"])) {
                     "created" => date("d-m-Y"),
                 ];
                 $user = $users->insertOne($personM);
+                $success_msg = $success_manager;
             } elseif ($profile == "Admin") {
                 $personA = [
                     "username" => $username,
                     "matricule" => $matricule,
                     "firstName" => ucfirst($firstName),
-                    "lastName" => ucfirst($lastName),
+                    "lastName" => strtoupper($lastName),
                     "email" => $email,
                     "phone" => +$phone,
                     "gender" => $gender,
@@ -2352,6 +2396,7 @@ if (!isset($_SESSION["id"])) {
                     "recrutmentDate" => $recrutmentDate,
                     "certificate" => ucfirst($certificate),
                     "subsidiary" => ucfirst($subsidiary),
+                    "agency" => ucfirst($agency),
                     "department" => ucfirst($department),
                     "role" => ucfirst($role),
                     "password" => $password,
@@ -2435,7 +2480,18 @@ if (!isset($_SESSION["id"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
-
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

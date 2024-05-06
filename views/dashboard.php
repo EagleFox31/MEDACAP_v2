@@ -82,7 +82,7 @@ if (!isset($_SESSION["profile"])) {
             '$and' => [
                 [
                     "type" => "Declaratif",
-                    "active" => true,
+                    "activeManager" => true,
                 ],
             ],
         ])
@@ -94,7 +94,7 @@ if (!isset($_SESSION["profile"])) {
             '$and' => [
                 [
                     "type" => "Declaratif",
-                    "activeManager" => true,
+                    "active" => true,
                 ],
             ],
         ])
@@ -299,10 +299,11 @@ if (!isset($_SESSION["profile"])) {
         <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
             <!--begin::Container-->
             <div class=" container-xxl ">
+                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                 <!--begin::Row-->
                 <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
                     <!--begin::Col-->
-                    <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-md-6 col-lg-4 col-xl-4">
                         <!--begin::Card-->
                         <div class="card h-100 ">
                             <!--begin::Card body-->
@@ -318,7 +319,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    <?php echo $technicien ?>s </div>
+                                    <?php echo $technicienss ?> </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>
@@ -328,7 +329,7 @@ if (!isset($_SESSION["profile"])) {
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-md-6 col-lg-4 col-xl-4">
                         <!--begin::Card-->
                         <div class="card h-100 ">
                             <!--begin::Card body-->
@@ -344,7 +345,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    <?php echo $manager ?>s </div>
+                                    <?php echo $manageur ?> </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
                             </div>
@@ -353,9 +354,8 @@ if (!isset($_SESSION["profile"])) {
                         <!--end::Card-->
                     </div>
                     <!--end::Col-->
-                    <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                     <!--begin::Col-->
-                    <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-md-6 col-lg-4 col-xl-4">
                         <!--begin::Card-->
                         <div class="card h-100 ">
                             <!--begin::Card body-->
@@ -371,7 +371,7 @@ if (!isset($_SESSION["profile"])) {
                                 <!--end::Animation-->
                                 <!--begin::Title-->
                                 <div class="fs-5 fw-bold mb-2">
-                                    <?php echo $admin ?>s
+                                    <?php echo $adminss ?>
                                 </div>
                                 <!--end::Title-->
                                 <!--end::Name-->
@@ -381,35 +381,35 @@ if (!isset($_SESSION["profile"])) {
                         <!--end::Card-->
                     </div>
                     <!--end::Col-->
-                    <?php } ?>
                     <!--begin::Col-->
-                    <div class="col-md-6 col-lg-4 col-xl-3">
+                    <!-- <div class="col-md-6 col-lg-4 col-xl-3"> -->
                         <!--begin::Card-->
-                        <div class="card h-100 ">
+                        <!-- <div class="card h-100 "> -->
                             <!--begin::Card body-->
-                            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                            <!-- <div class="card-body d-flex justify-content-center text-center flex-column p-8"> -->
                                 <!--begin::Name-->
                                 <!--begin::Animation-->
-                                <div
+                                <!-- <div
                                     class="fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                     <div class="min-w-70px" data-kt-countup="true"
                                         data-kt-countup-value="<?php echo $countVehicles; ?>">
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--end::Animation-->
                                 <!--begin::Title-->
-                                <div class="fs-5 fw-bold mb-2">
-                                    <?php echo $vehiculesss ?> </div>
+                                <!-- <div class="fs-5 fw-bold mb-2">
+                                    <?php echo $vehiculesss ?> </div> -->
                                 <!--end::Title-->
                                 <!--end::Name-->
-                            </div>
+                            <!-- </div> -->
                             <!--end::Card body-->
-                        </div>
+                        <!-- </div> -->
                         <!--end::Card-->
-                    </div>
+                    <!-- </div> -->
                     <!--end::Col-->
                 </div>
                 <!--end:Row-->
+                <?php } ?>
                 <!-- begin::Row -->
                 <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
                     <!--begin::Container-->

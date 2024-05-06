@@ -12348,16 +12348,6 @@ if (!isset($_SESSION["id"])) {
                                                             <?php echo $il_na_jamais_fait ?>
                                                         </span>
                                                     </label>
-                                                    <label class="quiz-form__ans">
-                                                        <input type="radio" onclick="checkedRadio()"
-                                                            name="answerSuspensionPneumatique<?php echo $j +
-                                                                1; ?>"
-                                                            value="<?php echo $suspensionPneumatiqueFac->proposal4; ?>" />
-                                                        <span class="design"></span>
-                                                        <span class="text">
-                                                            <?php echo $suspensionPneumatiqueFac->proposal4; ?>
-                                                        </span>
-                                                    </label>
                                                     <div >
                                                         <button type="submit" class="btn btn-secondary btn-lg" name="save"><?php echo $valider ?></button>
                                                     </div>

@@ -36,7 +36,7 @@ if (!isset($_SESSION["id"])) {
         $vehicle = [
             "quizzes" => $quize,
             "label" => ucfirst($label),
-            "brand" => ucfirst($brand),
+            "brand" => strtoupper($brand),
             "type" => $type,
             "level" => ucfirst($level),
             "total" => count($quize),
@@ -59,7 +59,7 @@ if (!isset($_SESSION["id"])) {
 
         $vehicle = [
             "label" => ucfirst($label),
-            "brand" => ucfirst($brand),
+            "brand" => strtoupper($brand),
             "type" => $type,
             "level" => ucfirst($level),
             "updated" => date("d-m-Y"),
@@ -328,17 +328,22 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;"><?php echo $type ?>
+                                            style="width: 134.188px;"><?php echo $Type ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $brand ?>
+                                            style="width: 126.516px;"><?php echo $Brand ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $level ?>
+                                            style="width: 152.719px;"><?php echo $Level ?>
+                                        </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;"><?php echo $total_quiz ?>
                                         </th>
                                         <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -551,7 +556,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label
-                                                                        class="fs-6 fw-bold mb-2"><?php echo $quizLabel ?></label>
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $vehiculesss ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -564,7 +569,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $type ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Type ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -578,7 +583,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $brand ?></span>
+                                                                        <span><?php echo $Brand ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -592,7 +597,7 @@ if (!isset($_SESSION["id"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $level ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Level ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -724,6 +729,18 @@ if (!isset($_SESSION["id"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

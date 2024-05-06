@@ -87,7 +87,7 @@ if (!isset($_SESSION["id"])) {
     $percentageFac = ($resultFac['score'] * 100) / $resultFac['total'];
     $percentageTechMa = ($resultTechMa['score'] * 100) / $resultTechMa['total'];
     ?>
-<title>Résultat Technicien | CFAO Mobility Academy</title>
+<title><?php echo $result_tech; ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 <!-- Favicon -->
 <link href="../public/images/logo-cfao.png" rel="icon">

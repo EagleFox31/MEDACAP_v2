@@ -35,11 +35,17 @@ if (!isset($_SESSION["id"])) {
         $sex = $_POST["gender"];
         $agency = $_POST["agency"];
         $certificate = $_POST["certificate"];
-        $specialitySenior = $_POST["specialitySenior"];
-        $specialityExpert = $_POST["specialityExpert"];
         $birthDate = date("d-m-Y", strtotime($_POST["birthdate"]));
         $recrutementDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
-        $level = $_POST["level"];
+        if (isset($_POST["level"])) {
+          $level = $_POST["level"];
+        }
+        if (isset($_POST["specialitySenior"])) {
+          $specialitySenior = $_POST["specialitySenior"];
+        }
+        if (isset($_POST["specialityExpert"])) {
+          $specialityExpert = $_POST["specialityExpert"];
+        }
         if (isset($_POST["brandJu"])) {
           $brandJunior = $_POST["brandJu"];
         }
@@ -50,8 +56,8 @@ if (!isset($_SESSION["id"])) {
           $brandExpert = $_POST["brandEx"];
         }
 
-        $fn = ucfirst(substr($firstName, 2));
-        $ln = ucfirst(substr($lastName, 2));
+        $fn = substr($firstName, -2);
+        $ln = substr($lastName,0, 2);
         $ma = substr($matriculation, -3);
 
         $passWord = $ln.$ma.$fn;
@@ -1750,7 +1756,7 @@ if (!isset($_SESSION["id"])) {
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="specialitySenior" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+              <select name="specialitySenior[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
                 <option value=""><?php echo $select_speciality ?></option>
                 <option value="Boite de Vitesse">
                   <?php echo $boite_vitesse ?>
@@ -1960,7 +1966,7 @@ if (!isset($_SESSION["id"])) {
               </label>
               <!--end::Label-->
               <!--begin::Input-->
-              <select name="specialityExpert" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+              <select name="specialityExpert[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
                 <option value=""><?php echo $select_speciality ?></option>
                 <option value="Boite de Vitesse">
                   <?php echo $boite_vitesse ?>
@@ -2232,4 +2238,14 @@ if (!isset($_SESSION["id"])) {
       metierEx.classList.add('d-none');
     }
   }
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
 </script>

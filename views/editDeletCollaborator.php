@@ -32,14 +32,15 @@ if (isset($_POST["update"])) {
     $country = $_POST["country"];
     $level = $_POST["level"];
     $certificate = $_POST["certificate"];
-    $speciality = $_POST["speciality"];
+    $specialitySenior = $_POST["specialitySenior"];
+    $specialityExpert = $_POST["specialityExpert"];
     $birthdate = date("d-m-Y", strtotime($_POST["birthdate"]));
     $recrutmentDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
     $person = [
         "username" => $username,
         "matricule" => $matricule,
         "firstName" => ucfirst($firstName),
-        "lastName" => ucfirst($lastName),
+        "lastName" => strtoupper($lastName),
         "email" => $email,
         "phone" => $phone,
         "gender" => $gender,
@@ -49,7 +50,8 @@ if (isset($_POST["update"])) {
         "recrutmentDate" => $recrutmentDate,
         "certificate" => ucfirst($certificate),
         "subsidiary" => ucfirst($subsidiary),
-        "speciality" => ucfirst($speciality),
+        "specialitySenior" => ucfirst($specialitySenior),
+        "specialityExpert" => ucfirst($specialityExpert),
         "role" => ucfirst($role),
         "updated" => date("d-m-Y"),
     ];
@@ -1176,7 +1178,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;"><?php echo $email ?></th>
+                                            style="width: 155.266px;"><?php echo $Email ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -1196,7 +1198,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            <?php echo $department ?></th>
+                                            <?php echo $Department ?></th>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -1517,13 +1519,26 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Speciality ?> <?php echo $senior ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="speciality"
-                                                                        value="<?php echo $user->speciality; ?>" />
+                                                                        placeholder="" name="specialitySenior"
+                                                                        value="<?php echo $user->specialitySenior; ?>" />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Speciality ?> <?php echo $expert ?></label>
+                                                                    <!--end::Label-->
+                                                                    <!--begin::Input-->
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="" name="specialityExpert"
+                                                                        value="<?php echo $user->specialityExpert; ?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -1570,7 +1585,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
-                                                                    <span><?php echo $department ?></span>
+                                                                    <span><?php echo $Department ?></span>
                                                                     <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
@@ -2070,7 +2085,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $password ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Password ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="password"
@@ -2255,6 +2270,18 @@ if (isset($_POST["retire-technician-manager"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

@@ -168,6 +168,9 @@
                             data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
                             <!--begin:Menu item-->
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+                                <?php if (
+                                    $_SESSION["profile"] == "Super Admin"
+                                ) { ?>
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
@@ -183,6 +186,26 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu link-->
+                                <?php } ?>
+                                <?php if (
+                                    $_SESSION["profile"] == "Admin"
+                                ) { ?>
+                                <!--begin:Menu link-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./dashboard.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-element-11 fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                            </i></span><span class="menu-title"><?php echo $intro ?></span>
+                                        </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu link-->
+                                <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
@@ -214,6 +237,20 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php if ($_SESSION["profile"] == "Admin") { ?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $title_edit_user ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php } ?>
+                                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./editDeletUser.php"><span
@@ -225,7 +262,6 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./importeUser.php"><span

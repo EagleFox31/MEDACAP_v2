@@ -5294,7 +5294,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class='fv-row mb-7'>
                         <!--begin::Label-->
-                        <label class='required form-label fw-bolder text-dark fs-6'><?php echo $ref; ?></label>
+                        <label class='required form-label fw-bolder text-dark fs-6'><?php echo $Ref; ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='text' class='form-control form-control-solid' placeholder='' name='ref' />
@@ -5625,6 +5625,16 @@ function selectif() {
         answer.classList.remove('hidden')
     }
 }
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
 </script>
 
 <?php include_once "partials/footer.php"; ?>

@@ -18,155 +18,29 @@ if (!isset($_SESSION["id"])) {
     // Connecting in collections
     $users = $academy->users;
     $results = $academy->results;
+    $allocations = $academy->allocations;
 
-    $resultFacJu = $results
-        ->find([
+    if ($_SESSION['profile'] == "Admin") {
+        $tech = $users->find([
             '$and' => [
                 [
-                    "level" => "Junior",
-                    "type" => "Factuel",
-                    "typeR" => "Technicien",
+                    "subsidiary" => $_SESSION['subsidiary'],
+                    "profile" => "Technicien",
                     "active" => true,
                 ],
             ],
-        ])
-        ->toArray();
-
-    $resultFacSe = $results
-        ->find([
+        ])->toArray();
+    }
+    if ($_SESSION['profile'] == "Super Admin") {
+        $tech = $users->find([
             '$and' => [
                 [
-                    "level" => "Senior",
-                    "type" => "Factuel",
-                    "typeR" => "Technicien",
+                    "profile" => "Technicien",
                     "active" => true,
                 ],
             ],
-        ])
-        ->toArray();
-    $resultFacEx = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Expert",
-                    "type" => "Factuel",
-                    "typeR" => "Technicien",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-
-    $resultDeclaJu = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Junior",
-                    "type" => "Declaratif",
-                    "typeR" => "Technicien - Manager",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-    $resultDeclaSe = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Senior",
-                    "type" => "Declaratif",
-                    "typeR" => "Technicien - Manager",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-    $resultDeclaEx = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Expert",
-                    "type" => "Declaratif",
-                    "typeR" => "Technicien - Manager",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-
-    $resultDeclaJuTech = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Junior",
-                    "type" => "Declaratif",
-                    "typeR" => "Techniciens",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-    $resultDeclaSeTech = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Senior",
-                    "type" => "Declaratif",
-                    "typeR" => "Techniciens",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-    $resultDeclaExTech = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Expert",
-                    "type" => "Declaratif",
-                    "typeR" => "Techniciens",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-
-    $resultDeclaJuMa = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Junior",
-                    "type" => "Declaratif",
-                    "typeR" => "Managers",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-    $resultDeclaSeMa = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Senior",
-                    "type" => "Declaratif",
-                    "typeR" => "Managers",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
-    $resultDeclaExMa = $results
-        ->find([
-            '$and' => [
-                [
-                    "level" => "Expert",
-                    "type" => "Declaratif",
-                    "typeR" => "Managers",
-                    "active" => true,
-                ],
-            ],
-        ])
-        ->toArray();
+        ])->toArray();
+    }
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
@@ -350,118 +224,332 @@ if (!isset($_SESSION["id"])) {
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
-                                    <?php if ($resultFacJu && $resultDeclaJu) {
+                                    <?php // if ($resultFacJu && $resultDeclaJu) {
                                         for (
                                             $i = 0;
-                                            $i < count($resultFacJu);
+                                            $i < count($tech);
                                             $i++
                                         ) {
-
-                                            $user = $users->findone([
+                                            $user = $users->findOne([
                                                 '$and' => [
                                                     [
-                                                        "_id" => new MongoDB\BSON\ObjectId(
-                                                            $resultFacJu[$i][
-                                                                "user"
-                                                            ]
-                                                        ),
+                                                        "_id" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
                                                         "active" => true,
                                                     ],
                                                 ],
                                             ]);
-                                            $percentageFacJu =
-                                                ceil(($resultFacJu[$i]["score"] *
-                                                    100) /
-                                                $resultFacJu[$i]["total"]);
-                                            if ($resultDeclaJu) {
+
+                                            $allocateFacJu = $allocations
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Factuel",
+                                                        ],
+                                                    ],
+                                                ]);
+                                        
+                                            $allocateFacSe = $allocations
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Factuel",
+                                                        ],
+                                                    ],
+                                                ]);
+                                        
+                                            $allocateFacEx = $allocations
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Factuel",
+                                                        ],
+                                                    ],
+                                                ]);
+                                                
+                                            $allocateDeclaJu = $allocations
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Declaratif",
+                                                        ],
+                                                    ],
+                                                ]);
+                                                
+                                            $allocateDeclaSe = $allocations
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Declaratif",
+                                                        ],
+                                                    ],
+                                                ]);
+                                        
+                                            $allocateDeclaEx = $allocations
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Declaratif",
+                                                        ],
+                                                    ],
+                                                ]);
+
+                                            $resultFacJu = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Factuel",
+                                                            "typeR" => "Technicien",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                        
+                                            $resultFacSe = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Factuel",
+                                                            "typeR" => "Technicien",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $resultFacEx = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Factuel",
+                                                            "typeR" => "Technicien",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                        
+                                            $resultDeclaJu = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Technicien - Manager",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $resultDeclaSe = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Technicien - Manager",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $resultDeclaEx = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Technicien - Manager",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                        
+                                            $resultDeclaJuTech = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Techniciens",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $resultDeclaSeTech = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Techniciens",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $resultDeclaExTech = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Techniciens",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                        
+                                            $resultDeclaJuMa = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Managers",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $resultDeclaSeMa = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Managers",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $resultDeclaExMa = $results
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Declaratif",
+                                                            "typeR" => "Managers",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                             if (isset($resultFacJu)) {
+                                                 $percentageFacJu =
+                                                     ceil(($resultFacJu["score"] *
+                                                         100) /
+                                                    $resultFacJu["total"]);
+                                             }
+                                            if (isset($resultDeclaJu)) {
                                                 $percentageDeclaJu =
-                                                    ceil(($resultDeclaJu[$i][
+                                                    ceil(($resultDeclaJu[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaJu[$i]["total"]);
+                                                    $resultDeclaJu["total"]);
                                             }
-                                            if ($resultDeclaJuTech) {
+                                            if (isset($resultDeclaJuTech)) {
                                                 $percentageDeclaJuTech =
-                                                    ceil(($resultDeclaJuTech[$i][
+                                                    ceil(($resultDeclaJuTech[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaJuTech[$i]["total"]);
+                                                    $resultDeclaJuTech["total"]);
                                             }
-                                            if ($resultDeclaJuMa) {
+                                            if (isset($resultDeclaJuMa)) {
                                                 $percentageDeclaJuMa =
-                                                    ceil(($resultDeclaJuMa[$i][
+                                                    ceil(($resultDeclaJuMa[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaJuMa[$i]["total"]);
+                                                    $resultDeclaJuMa["total"]);
                                             }
-                                            if ($resultFacSe) {
+                                            if (isset($resultFacSe)) {
                                                 $percentageFacSe =
-                                                    ceil(($resultFacSe[$i]["score"] *
+                                                    ceil(($resultFacSe["score"] *
                                                         100) /
-                                                    $resultFacSe[$i]["total"]);
+                                                    $resultFacSe["total"]);
                                             }
-                                            if ($resultDeclaSe) {
+                                            if (isset($resultDeclaSe)) {
                                                 $percentageDeclaSe =
-                                                    ceil(($resultDeclaSe[$i][
+                                                    ceil(($resultDeclaSe[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaSe[$i]["total"]);
+                                                    $resultDeclaSe["total"]);
                                             }
-                                            if ($resultDeclaSeTech) {
+                                            if (isset($resultDeclaSeTech)) {
                                                 $percentageDeclaSeTech =
-                                                    ceil(($resultDeclaSeTech[$i][
+                                                    ceil(($resultDeclaSeTech[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaSeTech[$i]["total"]);
+                                                    $resultDeclaSeTech["total"]);
                                             }
-                                            if ($resultDeclaSeMa) {
+                                            if (isset($resultDeclaSeMa)) {
                                                 $percentageDeclaSeMa =
-                                                    ceil(($resultDeclaSeMa[$i][
+                                                    ceil(($resultDeclaSeMa[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaSeMa[$i]["total"]);
+                                                    $resultDeclaSeMa["total"]);
                                             }
-                                            if ($resultFacEx) {
+                                            if (isset($resultFacEx)) {
                                                 $percentageFacEx =
-                                                    ceil(($resultFacEx[$i]["score"] *
+                                                    ceil(($resultFacEx["score"] *
                                                         100) /
-                                                    $resultFacEx[$i]["total"]);
+                                                    $resultFacEx["total"]);
                                             }
-                                            if ($resultDeclaEx) {
+                                            if (isset($resultDeclaEx)) {
                                                 $percentageDeclaEx =
-                                                    ceil(($resultDeclaEx[$i][
+                                                    ceil(($resultDeclaEx[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaEx[$i]["total"]);
+                                                    $resultDeclaEx["total"]);
                                             }
-                                            if ($resultDeclaExTech) {
+                                            if (isset($resultDeclaExTech)) {
                                                 $percentageDeclaExTech =
-                                                    ceil(($resultDeclaExTech[$i][
+                                                    ceil(($resultDeclaExTech[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaExTech[$i]["total"]);
+                                                    $resultDeclaExTech["total"]);
                                             }
-                                            if ($resultDeclaExMa) {
+                                            if (isset($resultDeclaExMa)) {
                                                 $percentageDeclaExMa =
-                                                    ceil(($resultDeclaExMa[$i][
+                                                    ceil(($resultDeclaExMa[
                                                         "score"
                                                     ] *
                                                         100) /
-                                                    $resultDeclaExMa[$i]["total"]);
+                                                    $resultDeclaExMa["total"]);
                                             }
-                                            $junior = ceil(($percentageFacJu + $percentageDeclaJu) / 2);
-                                            if ($resultDeclaSe && $resultFacSe) {
+                                            if (isset($resultDeclaJu) && isset($resultFacJu)) {
+                                                $junior = ceil(($percentageFacJu + $percentageDeclaJu) / 2);
+                                            }
+                                            if (isset($resultDeclaSe) && isset($resultFacSe)) {
                                                 $senior = ceil(($percentageFacSe + $percentageDeclaSe) / 2);
                                             }
-                                            if ($resultDeclaEx && $resultFacEx) {
+                                            if (isset($resultDeclaEx) && isset($resultFacEx)) {
                                                 $expert = ceil(($percentageFacEx + $percentageDeclaEx) / 2);
                                             }
                                             ?>
@@ -473,47 +561,90 @@ if (!isset($_SESSION["id"])) {
                                                 "lastName"
                                             ]; ?>
                                         </td>
+                                        <?php if($allocateFacJu['active'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacJu."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
+                                        <td class="text-center">
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaJu['active'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaJuTech."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
+                                        <td class="text-center">
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaJu['activeManager'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaJuMa."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?numberTest=<?php echo $resultFacJu[$i]["numberTest"] ?>&level=Junior&user=<?php echo $user->_id; ?>"
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaJu['activeManager'] == true && $allocateDeclaJu['active'] == true && $allocateFacJu['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?numberTest=<?php echo $resultFacJu["numberTest"] ?>&level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 <?php echo $junior."%" ?>
                                             </a>
                                         </td>
-                                        <?php if ($resultFacSe) { ?>
+                                        <?php } else { ?>
+                                        <td class="text-center">
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if (isset($allocateFacSe) && isset($allocateDeclaSe)) { ?>
+                                        <?php if($allocateFacSe['active'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacSe."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
+                                        <td class="text-center">
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaSe['active'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaSeTech."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
+                                        <td class="text-center">
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaSe['activeManager'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaSeMa."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?numberTest=<?php echo $resultFacSe[$i]["numberTest"] ?>&level=Senior&user=<?php echo $user->_id; ?>"
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaSe['activeManager'] == true && $allocateDeclaSe['active'] == true && $allocateFacSe['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?numberTest=<?php echo $resultFacSe["numberTest"] ?>&level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -522,79 +653,81 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } else { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
+                                                -
                                         </td>
                                         <?php } ?>
-                                        <?php if ($resultFacEx) { ?>
+                                        <?php } else { ?>
+                                        <td class="text-center" style="background-color: #7c8181;">
+                                        </td>
+                                        <td class="text-center" style="background-color: #7c8181;">
+                                        </td>
+                                        <td class="text-center" style="background-color: #7c8181;">
+                                        </td>
+                                        <td class="text-center" style="background-color: #7c8181;">
+                                        </td>
+                                        <?php } ?>
+                                        <?php if (isset($allocateFacEx) && isset($allocateDeclaEx)) { ?>
+                                        <?php if($allocateFacEx['active'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacEx."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
+                                        <td class="text-center">
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaEx['active'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaExTech."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
+                                        <td class="text-center">
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaEx['activeManager'] == true) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageDeclaExMa."%" ?>
                                             </span>
                                         </td>
+                                        <?php } else { ?>
                                         <td class="text-center">
-                                            <a href="./result.php?numberTest=<?php echo $resultFacEx[$i]["numberTest"] ?>&level=Expert&user=<?php echo $user->_id; ?>"
+                                                -
+                                        </td>
+                                        <?php } ?>
+                                        <?php if($allocateDeclaEx['activeManager'] == true && $allocateDeclaEx['active'] == true && $allocateFacEx['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <a href="./result.php?numberTest=<?php echo $resultFacEx["numberTest"] ?>&level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 <?php echo $expert."%" ?>
                                             </a>
                                         </td>
-                                        <?php } else {
-                                             ?>
+                                        <?php } else { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
+                                                -
                                         </td>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
+                                        <?php } ?>
+                                        <?php } else { ?>
+                                        <td class="text-center" style="background-color: #7c8181;">
                                         </td>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
+                                        <td class="text-center" style="background-color: #7c8181;">
                                         </td>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $non_disponible ?>
-                                            </span>
+                                        <td class="text-center" style="background-color: #7c8181;">
                                         </td>
-                                        <?php
-                                        } ?>
+                                        <td class="text-center" style="background-color: #7c8181;">
+                                        </td>
+                                        <?php } ?>
                                         <!--end::Menu-->
                                     </tr>
                                     <?php
-                                        }
-                                    } ?>
+                                        } ?>
                                 </tbody>
                             </table>
                         </div>

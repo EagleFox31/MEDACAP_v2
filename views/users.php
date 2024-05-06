@@ -326,7 +326,7 @@ if (isset($_POST["excel"])) {
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            <?php echo $password ?></th>
+                                            <?php echo $Password ?></th>
                                         <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"

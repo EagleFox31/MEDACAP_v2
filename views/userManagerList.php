@@ -205,21 +205,23 @@ if (!isset($_SESSION["id"])) {
                                                 ["activeTest" => true],
                                             ],
                                         ]);
-                                        $examJu = $exams->findOne([
-                                            '$and' => [
-                                                [
-                                                    "user" => new MongoDB\BSON\ObjectId(
-                                                        $_SESSION["id"]
-                                                    ),
+                                        if (isset($allocateJu)) {
+                                            $examJu = $exams->findOne([
+                                                '$and' => [
+                                                    [
+                                                        "user" => new MongoDB\BSON\ObjectId(
+                                                            $_SESSION["id"]
+                                                        ),
+                                                    ],
+                                                    [
+                                                        "test" => new MongoDB\BSON\ObjectId(
+                                                            $allocateJu["test"]
+                                                        ),
+                                                    ],
+                                                    ["active" => true],
                                                 ],
-                                                [
-                                                    "test" => new MongoDB\BSON\ObjectId(
-                                                        $allocateJu["test"]
-                                                    ),
-                                                ],
-                                                ["active" => true],
-                                            ],
-                                        ]);
+                                            ]);
+                                        }
                                         if (isset($allocateSe)) {
                                             $examSe = $exams->findOne([
                                                 '$and' => [

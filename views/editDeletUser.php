@@ -28,31 +28,31 @@ if (isset($_POST["update"])) {
     $lastName = $_POST["lastName"];
     $email = $_POST["email"];
     $phone = $_POST["phone"];
-    $matricule = $_POST["matricule"];
-    $username = $_POST["username"];
+    $matriculation = $_POST["matricule"];
+    $userName = $_POST["username"];
     $subsidiary = $_POST["subsidiary"];
-    $role = $_POST["role"];
-    $gender = $_POST["gender"];
-    $country = $_POST["country"];
+    $fonction = $_POST["role"];
+    $sex = $_POST["gender"];
+    $pays = $_POST["country"];
     $level = $_POST["level"];
     $certificate = $_POST["certificate"];
-    $birthdate = date("d-m-Y", strtotime($_POST["birthdate"]));
-    $recrutmentDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
+    $birthDate = date("d-m-Y", strtotime($_POST["birthdate"]));
+    $recrutementDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
     $person = [
-        "username" => $username,
-        "matricule" => $matricule,
+        "username" => $userName,
+        "matricule" => $matriculation,
         "firstName" => ucfirst($firstName),
-        "lastName" => ucfirst($lastName),
+        "lastName" => strtoupper($lastName),
         "email" => $email,
         "phone" => $phone,
-        "gender" => $gender,
+        "gender" => $sex,
         "level" => $level,
-        "country" => $country,
-        "birthdate" => $birthdate,
-        "recrutmentDate" => $recrutmentDate,
+        "country" => $pays,
+        "birthdate" => $birthDate,
+        "recrutmentDate" => $recrutementDate,
         "certificate" => ucfirst($certificate),
         "subsidiary" => ucfirst($subsidiary),
-        "role" => ucfirst($role),
+        "role" => ucfirst($fonction),
         "updated" => date("d-m-Y"),
     ];
     $users->updateOne(
@@ -61,6 +61,7 @@ if (isset($_POST["update"])) {
     );
     $success_msg = $success_user_edit;
 }
+
 if (isset($_POST["department"])) {
 $id = $_POST["userID"];
 $department = $_POST["department"];
@@ -71,6 +72,7 @@ $users->updateOne(
 );
 $success_msg = $success_user_edit;
 }
+
 if (isset($_POST["manager"])) {
   $id = $_POST["userID"];
   $manager = $_POST["manager"];
@@ -1009,8 +1011,14 @@ if (isset($_POST["retire-technician-manager"])) {
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
+<?php if ($_SESSION["profile"] == "Admin") { ?>
+<title><?php echo $title_edit_user?> | CFAO Mobility Academy</title>
+<!--end::Title-->
+<?php } ?>
+<?php if ($_SESSION["profile"] == "Super Admin") { ?>
 <title><?php echo $title_edit_sup_user?> | CFAO Mobility Academy</title>
 <!--end::Title-->
+<?php } ?>
 
 <!--begin::Body-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
@@ -1020,10 +1028,18 @@ if (isset($_POST["retire-technician-manager"])) {
         <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
             <!--begin::Info-->
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
+                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
                     <?php echo $title_edit_sup_user ?> </h1>
                 <!--end::Title-->
+                <?php } ?>
+                <?php if ($_SESSION["profile"] == "Admin") { ?>
+                <!--begin::Title-->
+                <h1 class="text-dark fw-bold my-1 fs-2">
+                    <?php echo $title_edit_user ?> </h1>
+                <!--end::Title-->
+                <?php } ?>
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
@@ -1202,7 +1218,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;"><?php echo $email ?></th>
+                                            style="width: 155.266px;"><?php echo $Email ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -1221,12 +1237,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            <?php echo $department ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">
-                                            <?php echo $password ?></th>
+                                            <?php echo $Department ?></th>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -1278,9 +1289,6 @@ if (isset($_POST["retire-technician-manager"])) {
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
                                         </td>
-                                        <td data-order="department">
-                                            <?php echo $user->visiblePassword; ?>
-                                        </td>
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
                                                 <i class="fas fa-edit fs-5"></i></button>
@@ -1327,9 +1335,6 @@ if (isset($_POST["retire-technician-manager"])) {
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->department; ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->visiblePassword; ?>
                                         </td>
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
@@ -1528,7 +1533,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $email ?></span>
+                                                                        <span><?php echo $Email ?></span>
                                                                     </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
@@ -1636,7 +1641,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <div class="d-flex flex-column mb-7 fv-row">
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
-                                                                    <span><?php echo $department ?></span>
+                                                                    <span><?php echo $Department ?></span>
                                                                     <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
@@ -1644,7 +1649,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
                                                                   <select name="department" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_department ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value=""><?php echo $select_department ?></option>
+                                                                    <option value="<?php echo $user->department; ?>"><?php echo $select_department ?></option>
                                                                     <option value="Equipment">
                                                                       Equipment
                                                                     </option>
@@ -1898,7 +1903,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?> <?php echo $senior ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Speciality ?> <?php echo $senior ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -1911,7 +1916,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $speciality ?> <?php echo $expert ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Speciality ?> <?php echo $expert ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
@@ -2162,13 +2167,12 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $password ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Password ?></label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="password"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="password"
-                                                                        value="********" />
+                                                                        placeholder="" name="password"  value="<?php echo $user->visiblePassword; ?>"/>
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <?php if ($user->profile == "Technicien") { ?>
@@ -2387,6 +2391,18 @@ if (isset($_POST["retire-technician-manager"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

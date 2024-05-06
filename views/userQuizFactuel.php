@@ -101,7 +101,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($assistanceFac) {
+        if (isset($assistanceFac)) {
             $number1 = round(
                 ($assistanceFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -117,7 +117,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($arbreFac) {
+        if (isset($arbreFac)) {
             $number2 = round(
                 ($arbreFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -133,7 +133,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($transfertFac) {
+        if (isset($transfertFac)) {
             $number3 = round(
                 ($transfertFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -149,7 +149,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($boiteFac) {
+        if (isset($boiteFac)) {
             $number4 = round(
                 ($boiteFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -165,7 +165,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($boiteAutoFac) {
+        if (isset($boiteAutoFac)) {
             $number5 = round(
                 ($boiteAutoFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -181,7 +181,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($boiteManFac) {
+        if (isset($boiteManFac)) {
             $number6 = round(
                 ($boiteManFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -197,7 +197,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($boiteVcFac) {
+        if (isset($boiteVcFac)) {
             $number7 = round(
                 ($boiteVcFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -213,7 +213,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($climatisationFac) {
+        if (isset($climatisationFac)) {
             $number8 = round(
                 ($climatisationFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -229,7 +229,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($demiFac) {
+        if (isset($demiFac)) {
             $number9 = round(
                 ($demiFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -245,7 +245,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($directionFac) {
+        if (isset($directionFac)) {
             $number10 = round(
                 ($directionFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -261,7 +261,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($electriciteFac) {
+        if (isset($electriciteFac)) {
             $number111 = round(
                 ($electriciteFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -277,7 +277,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($freiFac) {
+        if (isset($freiFac)) {
             $number12 = round(
                 ($freiFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -293,7 +293,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($freinageElecFac) {
+        if (isset($freinageElecFac)) {
             $number13 = round(
                 ($freinageElecFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -309,7 +309,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($freinageFac) {
+        if (isset($freinageFac)) {
             $number14 = round(
                 ($freinageFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -325,7 +325,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($freinFac) {
+        if (isset($freinFac)) {
             $number15 = round(
                 ($freinFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -341,7 +341,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($hydrauliqueFac) {
+        if (isset($hydrauliqueFac)) {
             $number16 = round(
                 ($hydrauliqueFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -357,12 +357,12 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($moteurDieselFac) {
-            $number17 = round(
+        if (isset($moteurDieselFac)) {
+            $number117 = round(
                 ($moteurDieselFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
             );
-            $number += $number17;
+            $number += $number117;
         }
         $moteurElecFac = $quizzes->findOne([
             '$and' => [
@@ -373,7 +373,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($moteurElecFac) {
+        if (isset($moteurElecFac)) {
             $number18 = round(
                 ($moteurElecFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -389,7 +389,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($moteurEssenceFac) {
+        if (isset($moteurEssenceFac)) {
             $number19 = round(
                 ($moteurEssenceFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -405,7 +405,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($moteurFac) {
+        if (isset($moteurFac)) {
             $number200 = round(
                 ($moteurFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -421,7 +421,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($multiplexageFac) {
+        if (isset($multiplexageFac)) {
             $number21 = round(
                 ($multiplexageFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -437,7 +437,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($pontFac) {
+        if (isset($pontFac)) {
             $number22 = round(
                 ($pontFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -453,7 +453,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($pneumatiqueFac) {
+        if (isset($pneumatiqueFac)) {
             $number23 = round(
                 ($pneumatiqueFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -469,7 +469,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($reducteurFac) {
+        if (isset($reducteurFac)) {
             $number24 = round(
                 ($reducteurFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -485,7 +485,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($suspensionFac) {
+        if (isset($suspensionFac)) {
             $number25 = round(
                 ($suspensionFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -501,7 +501,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($suspensionLameFac) {
+        if (isset($suspensionLameFac)) {
             $number26 = round(
                 ($suspensionLameFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -517,7 +517,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($suspensionRessortFac) {
+        if (isset($suspensionRessortFac)) {
             $number27 = round(
                 ($suspensionRessortFac["total"] * 100) /
                     $quizTest[0]["sumTotal"],
@@ -534,7 +534,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($suspensionPneumatiqueFac) {
+        if (isset($suspensionPneumatiqueFac)) {
             $number28 = round(
                 ($suspensionPneumatiqueFac["total"] * 100) /
                     $quizTest[0]["sumTotal"],
@@ -551,7 +551,7 @@ if (!isset($_SESSION["id"])) {
                 ["active" => true],
             ],
         ]);
-        if ($transversaleFac) {
+        if (isset($transversaleFac)) {
             $number290 = round(
                 ($transversaleFac["total"] * 100) / $quizTest[0]["sumTotal"],
                 0
@@ -559,91 +559,221 @@ if (!isset($_SESSION["id"])) {
             $number += $number290;
         }
     }
-    if ($number > 100) {
-        $totalNumber = $number - 100;
-        if ($totalNumber == 1) {
-            $number29 = $number290 - $totalNumber;
-            $number11 = $number111;
-            $number20 = $number200;
-        } elseif ($totalNumber == 2) {
-            $number29 = $number290 - 1;
-            $number20 = $number200 - 1;
-            $number11 = $number111;
-        } elseif ($totalNumber == 3) {
-            $number29 = $number290 - 1;
-            $number20 = $number200 - 1;
-            $number11 = $number111 - 1;
-        } elseif ($totalNumber == 4) {
-            $number29 = $number290 - 2;
-            $number20 = $number200 - 1;
-            $number11 = $number111 - 1;
-        } elseif ($totalNumber == 5) {
-            $number29 = $number290 - 2;
-            $number20 = $number200 - 2;
-            $number11 = $number111 - 1;
-        } elseif ($totalNumber == 6) {
-            $number29 = $number290 - 2;
-            $number20 = $number200 - 2;
-            $number11 = $number111 - 2;
-        } elseif ($totalNumber == 7) {
-            $number29 = $number290 - 3;
-            $number20 = $number200 - 2;
-            $number11 = $number111 - 2;
-        } elseif ($totalNumber == 8) {
-            $number29 = $number290 - 3;
-            $number20 = $number200 - 3;
-            $number11 = $number111 - 2;
-        } elseif ($totalNumber == 9) {
-            $number29 = $number290 - 3;
-            $number20 = $number200 - 3;
-            $number11 = $number111 - 3;
-        } elseif ($totalNumber == 10) {
-            $number29 = $number290 - 4;
-            $number20 = $number200 - 3;
-            $number11 = $number111 - 3;
+    if ($level == "Junior") {
+        if ($number > 100) {
+            $totalNumber = $number - 100;
+            if ($totalNumber == 1) {
+                $number29 = $number290 - $totalNumber;
+                $number11 = $number111;
+                $number20 = $number200;
+                $number17 = $number117;
+            } elseif ($totalNumber == 2) {
+                $number29 = $number290 - 1;
+                $number20 = $number200 - 1;
+                $number11 = $number111;
+                $number17 = $number117;
+            } elseif ($totalNumber == 3) {
+                $number29 = $number290 - 1;
+                $number20 = $number200 - 1;
+                $number11 = $number111 - 1;
+                $number17 = $number117;
+            } elseif ($totalNumber == 4) {
+                $number29 = $number290 - 2;
+                $number20 = $number200 - 1;
+                $number11 = $number111 - 1;
+                $number17 = $number117;
+            } elseif ($totalNumber == 5) {
+                $number29 = $number290 - 2;
+                $number20 = $number200 - 2;
+                $number11 = $number111 - 1;
+                $number17 = $number117;
+            } elseif ($totalNumber == 6) {
+                $number29 = $number290 - 2;
+                $number20 = $number200 - 2;
+                $number11 = $number111 - 2;
+                $number17 = $number117;
+            } elseif ($totalNumber == 7) {
+                $number29 = $number290 - 3;
+                $number20 = $number200 - 2;
+                $number11 = $number111 - 2;
+                $number17 = $number117;
+            } elseif ($totalNumber == 8) {
+                $number29 = $number290 - 3;
+                $number20 = $number200 - 3;
+                $number11 = $number111 - 2;
+                $number17 = $number117;
+            } elseif ($totalNumber == 9) {
+                $number29 = $number290 - 3;
+                $number20 = $number200 - 3;
+                $number11 = $number111 - 3;
+                $number17 = $number117;
+            } elseif ($totalNumber == 10) {
+                $number29 = $number290 - 4;
+                $number20 = $number200 - 3;
+                $number11 = $number111 - 3;
+                $number17 = $number117;
+            }
+        } else {
+            $totalNumber = 100 - $number;
+            if ($totalNumber == 1) {
+                $number29 = $number290 + $totalNumber;
+                $number11 = $number111;
+                $number20 = $number200;
+                $number17 = $number117;
+            } elseif ($totalNumber == 2) {
+                $number29 = $number290 + 1;
+                $number20 = $number200 + 1;
+                $number11 = $number111;
+                $number17 = $number117;
+            } elseif ($totalNumber == 3) {
+                $number29 = $number290 + 1;
+                $number20 = $number200 + 1;
+                $number11 = $number111 + 1;
+                $number17 = $number117;
+            } elseif ($totalNumber == 4) {
+                $number29 = $number290 + 2;
+                $number20 = $number200 + 1;
+                $number11 = $number111 + 1;
+                $number17 = $number117;
+            } elseif ($totalNumber == 5) {
+                $number29 = $number290 + 2;
+                $number20 = $number200 + 2;
+                $number11 = $number111 + 1;
+                $number17 = $number117;
+            } elseif ($totalNumber == 6) {
+                $number29 = $number290 + 2;
+                $number20 = $number200 + 2;
+                $number11 = $number111 + 2;
+                $number17 = $number117;
+            } elseif ($totalNumber == 7) {
+                $number29 = $number290 + 3;
+                $number20 = $number200 + 2;
+                $number11 = $number111 + 2;
+                $number17 = $number117;
+            } elseif ($totalNumber == 8) {
+                $number29 = $number290 + 3;
+                $number20 = $number200 + 3;
+                $number11 = $number111 + 2;
+                $number17 = $number117;
+            } elseif ($totalNumber == 9) {
+                $number29 = $number290 + 3;
+                $number20 = $number200 + 3;
+                $number11 = $number111 + 3;
+                $number17 = $number117;
+            } elseif ($totalNumber == 10) {
+                $number29 = $number290 + 4;
+                $number20 = $number200 + 3;
+                $number11 = $number111 + 3;
+                $number17 = $number117;
+            }
         }
-    } else {
-        $totalNumber = 100 - $number;
-        if ($totalNumber == 1) {
-            $number29 = $number290 + $totalNumber;
-            $number11 = $number111;
-            $number20 = $number200;
-        } elseif ($totalNumber == 2) {
-            $number29 = $number290 + 1;
-            $number20 = $number200 + 1;
-            $number11 = $number111;
-        } elseif ($totalNumber == 3) {
-            $number29 = $number290 + 1;
-            $number20 = $number200 + 1;
-            $number11 = $number111 + 1;
-        } elseif ($totalNumber == 4) {
-            $number29 = $number290 + 2;
-            $number20 = $number200 + 1;
-            $number11 = $number111 + 1;
-        } elseif ($totalNumber == 5) {
-            $number29 = $number290 + 2;
-            $number20 = $number200 + 2;
-            $number11 = $number111 + 1;
-        } elseif ($totalNumber == 6) {
-            $number29 = $number290 + 2;
-            $number20 = $number200 + 2;
-            $number11 = $number111 + 2;
-        } elseif ($totalNumber == 7) {
-            $number29 = $number290 + 3;
-            $number20 = $number200 + 2;
-            $number11 = $number111 + 2;
-        } elseif ($totalNumber == 8) {
-            $number29 = $number290 + 3;
-            $number20 = $number200 + 3;
-            $number11 = $number111 + 2;
-        } elseif ($totalNumber == 9) {
-            $number29 = $number290 + 3;
-            $number20 = $number200 + 3;
-            $number11 = $number111 + 3;
-        } elseif ($totalNumber == 10) {
-            $number29 = $number290 + 4;
-            $number20 = $number200 + 3;
-            $number11 = $number111 + 3;
+    } elseif ($level == "Senior") {
+        if ($number > 100) {
+            $totalNumber = $number - 100;
+            if ($totalNumber == 1) {
+                $number29 = $number290;
+                $number11 = $number111;
+                $number20 = $number200;
+                $number17 = $number117 - $totalNumber;
+            } elseif ($totalNumber == 2) {
+                $number29 = $number290 ;
+                $number20 = $number200;
+                $number11 = $number111 - 1;
+                $number17 = $number117- 1;
+            } elseif ($totalNumber == 3) {
+                $number29 = $number290;
+                $number20 = $number200 - 1;
+                $number11 = $number111 - 1;
+                $number17 = $number117 - 1;
+            } elseif ($totalNumber == 4) {
+                $number29 = $number290;
+                $number20 = $number200 - 1;
+                $number11 = $number111 - 1;
+                $number17 = $number117 - 2;
+            } elseif ($totalNumber == 5) {
+                $number29 = $number290;
+                $number20 = $number200 - 1;
+                $number11 = $number111 - 2;
+                $number17 = $number117 - 2;
+            } elseif ($totalNumber == 6) {
+                $number29 = $number290;
+                $number20 = $number200 - 2;
+                $number11 = $number111 - 2;
+                $number17 = $number117 - 2;
+            } elseif ($totalNumber == 7) {
+                $number29 = $number290;
+                $number20 = $number200 - 2;
+                $number11 = $number111 - 2;
+                $number17 = $number117 - 3;
+            } elseif ($totalNumber == 8) {
+                $number29 = $number290;
+                $number20 = $number200 - 2;
+                $number11 = $number111 - 3;
+                $number17 = $number117 - 3;
+            } elseif ($totalNumber == 9) {
+                $number29 = $number290;
+                $number20 = $number200 - 3;
+                $number11 = $number111 - 3;
+                $number17 = $number117 - 3;
+            } elseif ($totalNumber == 10) {
+                $number29 = $number290;
+                $number20 = $number200 - 3;
+                $number11 = $number111 - 3;
+                $number17 = $number117 - 4;
+            }
+        } else {
+            $totalNumber = 100 - $number;
+            if ($totalNumber == 1) {
+                $number29 = $number290;
+                $number11 = $number111;
+                $number20 = $number200;
+                $number17 = $number117 + $totalNumber;
+            } elseif ($totalNumber == 2) {
+                $number29 = $number290;
+                $number20 = $number200;
+                $number11 = $number111 + 1;
+                $number17 = $number117 + 1;
+            } elseif ($totalNumber == 3) {
+                $number29 = $number290 + 1;
+                $number20 = $number200 + 1;
+                $number11 = $number111 + 1;
+                $number17 = $number117;
+            } elseif ($totalNumber == 4) {
+                $number29 = $number290;
+                $number20 = $number200 + 1;
+                $number11 = $number111 + 1;
+                $number17 = $number117 + 2;
+            } elseif ($totalNumber == 5) {
+                $number29 = $number290;
+                $number20 = $number200 + 1;
+                $number11 = $number111 + 2;
+                $number17 = $number117 + 2;
+            } elseif ($totalNumber == 6) {
+                $number29 = $number290;
+                $number20 = $number200 + 2;
+                $number11 = $number111 + 2;
+                $number17 = $number117 + 2;
+            } elseif ($totalNumber == 7) {
+                $number29 = $number290;
+                $number20 = $number200 + 2;
+                $number11 = $number111 + 2;
+                $number17 = $number117 + 3;
+            } elseif ($totalNumber == 8) {
+                $number29 = $number290;
+                $number20 = $number200 + 2;
+                $number11 = $number111 + 3;
+                $number17 = $number117 + 3;
+            } elseif ($totalNumber == 9) {
+                $number29 = $number290;
+                $number20 = $number200 + 3;
+                $number11 = $number111 + 3;
+                $number17 = $number117 + 3;
+            } elseif ($totalNumber == 10) {
+                $number29 = $number290;
+                $number20 = $number200 + 3;
+                $number11 = $number111 + 3;
+                $number17 = $number117 + 4;
+            }
         }
     }
 

@@ -255,7 +255,7 @@ if (!isset($_SESSION["id"])) {
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                                <select name="label" multiple aria-label="Select a Country" data-control="select2"
+                                <select name="label" aria-label="Select a Country" data-control="select2"
                                     data-placeholder="<?php echo $select_vehicle ?>"
                                     class="form-select form-select-solid fw-bold">
                                     <option><?php echo $select_vehicle ?></option>
@@ -441,6 +441,18 @@ if (!isset($_SESSION["id"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>
